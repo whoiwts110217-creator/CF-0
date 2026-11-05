@@ -30,7 +30,9 @@ function Invoke-Bridge([string] $Command) {
         $bstr = [Runtime.InteropServices.Marshal]::SecureStringToBSTR($secret)
         $env:CF_BRIDGE_TOKEN = [Runtime.InteropServices.Marshal]::PtrToStringBSTR($bstr)
         $env:CF_BRIDGE_REPO = [string]$config.repo
-        & py -3 $BridgeScript $Command --state-dir $StateDir
+        $bridgeArgs = @($BridgeScript, $Command, '--state-dir', $StateDir)
+        if ($config.sidecar) { $bridgeArgs += @('--sidecar', [string]$config.sidecar) }
+        & py -3 @bridgeArgs
         if ($LASTEXITCODE -ne 0) { throw "Bridge $Command failed (exit $LASTEXITCODE)." }
     }
     finally {
@@ -45,18 +47,38 @@ function Invoke-Bridge([string] $Command) {
 switch ($Mode) {
     'configure' {
         New-Item -ItemType Directory -Path $StateDir -Force | Out-Null
-        Write-Host 'Create a separate PRIVATE GitHub repository first (for example YOUR-USER/CF-private-mailbox).'
-        Write-Host 'Do NOT use public CF-0 as a mailbox.'
+        Write-Host 'Use a separate PRIVATE GitHub repository, not public CF-0.'
         $repo = Read-Host 'Private repository (owner/repo)'
         if ($repo -notmatch '^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$') { throw 'Invalid owner/repo.' }
-        $token = Read-Host 'Fine-grained GitHub token scoped ONLY to this private repo (Contents Read/Write)' -AsSecureString
+        $token = Read-Host 'Fine-grained token scoped ONLY to this private repo (Contents Read/Write)' -AsSecureString
         if ($token.Length -lt 8) { throw 'Token missing or too short.' }
-        # DPAPI user-bound encryption: only this Windows user on this machine can decrypt.
+        # Test the CANDIDATE credential before replacing a working local setup.
+        # The token is never written to console, CLI arguments, GitHub or config.
+        $bstr = [IntPtr]::Zero
+        try {
+            $bstr = [Runtime.InteropServices.Marshal]::SecureStringToBSTR($token)
+            $env:CF_BRIDGE_TOKEN = [Runtime.InteropServices.Marshal]::PtrToStringBSTR($bstr)
+            $env:CF_BRIDGE_REPO = $repo
+            & py -3 $BridgeScript doctor --repo $repo --state-dir $StateDir
+            if ($LASTEXITCODE -ne 0) { throw 'Private repository connection failed. Prior saved configuration was preserved.' }
+        }
+        finally {
+            Remove-Item Env:CF_BRIDGE_TOKEN -ErrorAction SilentlyContinue
+            Remove-Item Env:CF_BRIDGE_REPO -ErrorAction SilentlyContinue
+            if ($bstr -ne [IntPtr]::Zero) { [Runtime.InteropServices.Marshal]::ZeroFreeBSTR($bstr) }
+        }
+        $sidecar = Read-Host 'Optional original Sidecar folder containing domino.py (Enter to skip)'
+        if ($sidecar) {
+            $sidecar = [string](Resolve-Path -LiteralPath $sidecar -ErrorAction Stop)
+            if (-not (Test-Path -LiteralPath (Join-Path $sidecar 'domino.py') -PathType Leaf)) {
+                throw 'Sidecar path does not contain domino.py. Prior configuration preserved.'
+            }
+        }
+        # Save only after repository privacy, token access and optional local path
+        # have all been validated. DPAPI encryption is bound to this Windows user.
         $token | ConvertFrom-SecureString | Set-Content -LiteralPath $SecretPath -Encoding UTF8
-        @{repo=$repo; version=1} | ConvertTo-Json | Set-Content -LiteralPath $ConfigPath -Encoding UTF8
-        Write-Host 'Encrypted token saved to your Windows user profile; it is NOT written to GitHub.'
-        Invoke-Bridge 'doctor' # Verifies the repository really is private before scheduling.
-        Write-Host 'Private mailbox connection verified. Use installer to schedule.'
+        @{repo=$repo; sidecar=$sidecar; version=2} | ConvertTo-Json | Set-Content -LiteralPath $ConfigPath -Encoding UTF8
+        Write-Host 'Private connection validated. Encrypted token saved for this Windows user.'
     }
     'doctor' { Invoke-Bridge 'doctor' }
     'once' { Invoke-Bridge 'once' }

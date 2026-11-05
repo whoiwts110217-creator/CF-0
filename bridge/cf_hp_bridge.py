@@ -28,13 +28,14 @@ from urllib.parse import quote
 from urllib.request import Request, urlopen
 import uuid
 
-VERSION = "0.2.1"
+VERSION = "0.3.0"
 REPO_RE = re.compile(r"^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$")
 UUID_RE = re.compile(r"^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$")
 ALLOWED_ACTIONS = {"ping", "sidecar_verify"}
 API = "https://api.github.com"
 MAX_RESPONSE = 1024 * 1024
 MAX_JOBS_PER_RUN = 10
+MAX_SCAN_PER_RUN = 40  # Bound GitHub API reads even when queue records are malformed.
 MAX_QUEUE_ENTRIES = 999  # GitHub Contents API directory listing has a 1,000 item limit.
 
 class BridgeError(Exception):
@@ -93,7 +94,7 @@ class GitHubMailbox:
                       headers={"Accept": "application/vnd.github+json",
                                "Authorization": "Bearer " + self.token,
                                "X-GitHub-Api-Version": "2022-11-28",
-                               "User-Agent": "caveman-focus-hp-bridge/0.1",
+                               "User-Agent": "caveman-focus-hp-bridge/0.3",
                                **({"Content-Type": "application/json"} if data is not None else {})})
         try:
             with urlopen(req, timeout=15) as resp:
@@ -181,6 +182,8 @@ class LocalLedger:
             conn.execute("PRAGMA journal_mode=WAL")
             conn.execute("CREATE TABLE IF NOT EXISTS jobs (id TEXT PRIMARY KEY, digest TEXT NOT NULL, "
                          "status TEXT NOT NULL, reply TEXT, created_at INTEGER NOT NULL)")
+            # Separate metadata table: upgrade-compatible with existing local ledgers.
+            conn.execute("CREATE TABLE IF NOT EXISTS bridge_meta (key TEXT PRIMARY KEY, value TEXT NOT NULL)")
             conn.commit()
 
     def connection(self):
@@ -223,6 +226,20 @@ class LocalLedger:
         with self.connection() as conn:
             return dict(conn.execute("SELECT status, COUNT(*) FROM jobs GROUP BY status").fetchall())
 
+    def scan_cursor(self) -> str:
+        with self.connection() as conn:
+            row = conn.execute("SELECT value FROM bridge_meta WHERE key='scan_cursor'").fetchone()
+        return row[0] if row else ""
+
+    def set_scan_cursor(self, filename: str) -> None:
+        # Only public UUID filenames are saved. No token or raw job content.
+        if not filename.endswith(".json") or not UUID_RE.fullmatch(filename[:-5]):
+            raise BridgeError("invalid_scan_cursor")
+        with self.connection() as conn:
+            conn.execute("INSERT INTO bridge_meta(key,value) VALUES('scan_cursor',?) "
+                         "ON CONFLICT(key) DO UPDATE SET value=excluded.value", (filename,))
+            conn.commit()
+
 def execute_job(job: dict, sidecar: Path | None) -> dict:
     if job["action"] == "ping":
         return {"bridge_version": VERSION, "ping": "pong"}
@@ -247,20 +264,35 @@ def execute_job(job: dict, sidecar: Path | None) -> dict:
     raise BridgeError("unsupported_action")
 
 
+def rotate_unpublished(names: list[str], published: set[str], cursor: str) -> tuple[list[str], int]:
+    """Walk lexicographically after the last scanned file; wrap to the beginning.
+
+    Request identifiers are UUIDs, so no chronology is inferred from sort order.
+    The cursor is persisted, preventing one invalid/stale prefix from starving
+    all later jobs across scheduled runs. Skips never discard GitHub source data.
+    """
+    remaining = [name for name in names if name[:-5] not in published]
+    later = [name for name in remaining if name > cursor]
+    earlier = [name for name in remaining if name <= cursor]
+    return later + earlier, len(names) - len(remaining)
+
+
 def run_once(mailbox: GitHubMailbox, ledger: LocalLedger, sidecar: Path | None = None) -> dict:
     mailbox.require_private()
-    summary = {"observed": 0, "executed": 0, "replied": 0, "skipped": 0,
-               "already_published": 0, "pending": 0, "errors": []}
+    summary = {"observed": 0, "scanned": 0, "executed": 0, "replied": 0,
+               "skipped": 0, "already_published": 0, "pending": 0, "errors": []}
     published = ledger.published_ids()
     names = mailbox.list_jobs()
-    for filename in names:
-        jid = filename[:-5]
-        if jid in published:
-            summary["already_published"] += 1
-            continue
-        if summary["observed"] >= MAX_JOBS_PER_RUN:
-            summary["pending"] += 1
-            continue
+    ordered, summary["already_published"] = rotate_unpublished(
+        names, published, ledger.scan_cursor())
+    completed_this_run = 0
+    for filename in ordered:
+        if summary["scanned"] >= MAX_SCAN_PER_RUN or completed_this_run >= MAX_JOBS_PER_RUN:
+            break
+        summary["scanned"] += 1
+        # Persist movement even for a malformed or expired request. It remains
+        # visible to the owner in the queue; no implicit deletion or execution.
+        ledger.set_scan_cursor(filename)
         summary["observed"] += 1
         try:
             raw = mailbox.load_job(filename)
@@ -272,6 +304,7 @@ def run_once(mailbox: GitHubMailbox, ledger: LocalLedger, sidecar: Path | None =
                     mailbox.publish(job["id"], prior["reply"])
                     ledger.mark_published(job["id"])
                     summary["replied"] += 1
+                    completed_this_run += 1
                 else:
                     summary["skipped"] += 1  # in progress: uncertain outcome, no blind retry
                 continue
@@ -283,11 +316,16 @@ def run_once(mailbox: GitHubMailbox, ledger: LocalLedger, sidecar: Path | None =
                      "status": "completed", "result": result}
             ledger.finish(job["id"], reply)
             summary["executed"] += 1
+            completed_this_run += 1
             mailbox.publish(job["id"], reply)
             ledger.mark_published(job["id"])
             summary["replied"] += 1
         except BridgeError as exc:
             summary["errors"].append({"job": filename, "error": str(exc)})
+    # Pending counts all queue entries without a locally published receipt,
+    # including errors and undecidable in-flight tasks. It is *not* a count of
+    # valid executable jobs (those have to be fetched and validated).
+    summary["pending"] = max(0, len(ordered) - summary["replied"])
     return summary
 
 def demo(home: Path) -> dict:
@@ -337,7 +375,7 @@ def main(argv=None) -> int:
         ledger = LocalLedger(state / "bridge.sqlite3")
         if args.command in ("init", "status"):
             print(json.dumps({"version": VERSION, "local_state": str(state), "counts": ledger.counts(),
-                              "remote_connected": False, "repo": args.repo or None}))
+                              "scan_cursor": ledger.scan_cursor(), "remote_connected": False, "repo": args.repo or None}))
             return 0
         token = os.environ.get("CF_BRIDGE_TOKEN") or os.environ.get("GITHUB_TOKEN")
         if not args.repo or not token:
