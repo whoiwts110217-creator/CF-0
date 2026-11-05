@@ -10,6 +10,7 @@ from __future__ import annotations
 
 import argparse
 import base64
+from contextlib import closing
 import hashlib
 import json
 import os
@@ -27,7 +28,7 @@ from urllib.parse import quote
 from urllib.request import Request, urlopen
 import uuid
 
-VERSION = "0.2.0"
+VERSION = "0.2.1"
 REPO_RE = re.compile(r"^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$")
 UUID_RE = re.compile(r"^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$")
 ALLOWED_ACTIONS = {"ping", "sidecar_verify"}
@@ -172,16 +173,22 @@ class GitHubMailbox:
 
 
 class LocalLedger:
+    """Short-lived SQLite connections avoid stale file locks after process restarts."""
     def __init__(self, path: Path):
         path.parent.mkdir(parents=True, exist_ok=True)
-        self.conn = sqlite3.connect(str(path))
-        self.conn.execute("PRAGMA journal_mode=WAL")
-        self.conn.execute("CREATE TABLE IF NOT EXISTS jobs (id TEXT PRIMARY KEY, digest TEXT NOT NULL, "
-                          "status TEXT NOT NULL, reply TEXT, created_at INTEGER NOT NULL)")
-        self.conn.commit()
+        self.path = path
+        with closing(sqlite3.connect(str(path), timeout=15)) as conn:
+            conn.execute("PRAGMA journal_mode=WAL")
+            conn.execute("CREATE TABLE IF NOT EXISTS jobs (id TEXT PRIMARY KEY, digest TEXT NOT NULL, "
+                         "status TEXT NOT NULL, reply TEXT, created_at INTEGER NOT NULL)")
+            conn.commit()
+
+    def connection(self):
+        return closing(sqlite3.connect(str(self.path), timeout=15))
 
     def inspect(self, jid: str, digest: str):
-        row = self.conn.execute("SELECT digest, status, reply FROM jobs WHERE id=?", (jid,)).fetchone()
+        with self.connection() as conn:
+            row = conn.execute("SELECT digest, status, reply FROM jobs WHERE id=?", (jid,)).fetchone()
         if row is None:
             return None
         if row[0] != digest:
@@ -189,28 +196,32 @@ class LocalLedger:
         return {"status": row[1], "reply": json.loads(row[2]) if row[2] else None}
 
     def begin(self, jid: str, digest: str) -> bool:
-        try:
-            self.conn.execute("INSERT INTO jobs VALUES(?,?,?,NULL,?)", (jid, digest, "processing", int(time.time())))
-            self.conn.commit()
-            return True
-        except sqlite3.IntegrityError:
-            return False
+        with self.connection() as conn:
+            try:
+                conn.execute("INSERT INTO jobs VALUES(?,?,?,NULL,?)", (jid, digest, "processing", int(time.time())))
+                conn.commit()
+                return True
+            except sqlite3.IntegrityError:
+                return False
 
     def finish(self, jid: str, reply: dict):
-        self.conn.execute("UPDATE jobs SET status='done', reply=? WHERE id=? AND status='processing'",
-                          (canonical(reply).decode("utf-8"), jid))
-        self.conn.commit()
+        with self.connection() as conn:
+            conn.execute("UPDATE jobs SET status='done', reply=? WHERE id=? AND status='processing'",
+                         (canonical(reply).decode("utf-8"), jid))
+            conn.commit()
 
     def mark_published(self, jid: str):
-        self.conn.execute("UPDATE jobs SET status='published' WHERE id=? AND status='done'", (jid,))
-        self.conn.commit()
+        with self.connection() as conn:
+            conn.execute("UPDATE jobs SET status='published' WHERE id=? AND status='done'", (jid,))
+            conn.commit()
 
     def published_ids(self) -> set[str]:
-        return {row[0] for row in self.conn.execute("SELECT id FROM jobs WHERE status='published'")}
+        with self.connection() as conn:
+            return {row[0] for row in conn.execute("SELECT id FROM jobs WHERE status='published'")}
 
     def counts(self):
-        return dict(self.conn.execute("SELECT status, COUNT(*) FROM jobs GROUP BY status").fetchall())
-
+        with self.connection() as conn:
+            return dict(conn.execute("SELECT status, COUNT(*) FROM jobs GROUP BY status").fetchall())
 
 def execute_job(job: dict, sidecar: Path | None) -> dict:
     if job["action"] == "ping":

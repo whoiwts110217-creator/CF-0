@@ -1,4 +1,4 @@
-# HP Bridge v0.2 — Private mailbox pilot
+# HP Bridge v0.2.1 — Private mailbox pilot
 
 **Creator:** Kiara Lynn Rose Smith's Caveman Focus. This is the transport *pilot*, not remote control of Windows or a ChatGPT API connection. The existing public CF-0 repository contains code only.
 
@@ -33,3 +33,5 @@ Anything else is rejected. No Python, shell, webpage, private chat or JSON job c
 v0.1 only saw the first ten sorted job files, and fresh jobs could be starved. v0.2 lists the queue up to the GitHub Contents directory limit and skips locally published request IDs before applying the ten-action-per-run cap. A 26-job local simulation drained 10 / 10 / 6 without duplicates. A lost reply acknowledgment can be handled by re-publishing a saved result without rerunning the job. Published IDs remain in GitHub queue history unless an authorized archival step is implemented; if a directory reaches GitHub's 1,000-item limit, the worker deliberately stops rather than silently losing jobs. No blind retries of interrupted local operations.
 
 All code is Python standard-library only. GitHub mailbox visibility and delivery use authenticated HTTPS; local tests used a fake mailbox. No owner Windows credential or private GitHub repo has yet been configured in this chat.
+
+**v0.2.1 Windows correction:** the demo and local ledger now close SQLite database handles after each operation, so Windows can delete temporary directories cleanly. Linux unit tests and authentic original Sidecar inspection passed locally; Windows GitHub CI must independently confirm.
