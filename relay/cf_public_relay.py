@@ -98,8 +98,15 @@ class HttpRepo:
         path=f'/repos/{self.repo}/contents/command_queue/receipts/{job_id}.json'
         previous=self.request('GET',path+'?ref=main')
         if previous is not None:
-            if previous.get('encoding')!='base64':raise RelayError('receipt_conflict')
-            old=json.loads(base64.b64decode(''.join(previous['content'].split())))
+            # Remote receipts are untrusted; reject malformed or conflicting data.
+            if not isinstance(previous, dict) or previous.get('encoding') != 'base64':
+                raise RelayError('receipt_conflict')
+            try:
+                encoded = previous['content']
+                if not isinstance(encoded, str): raise ValueError('invalid content type')
+                old = json.loads(base64.b64decode(''.join(encoded.split()), validate=True))
+            except (KeyError, ValueError, TypeError, UnicodeDecodeError) as exc:
+                raise RelayError('receipt_unreadable') from exc
             if old != receipt: raise RelayError('receipt_conflict')
             return True
         self.request('PUT',path,{'message':f'HP public relay receipt {job_id}', 'branch':'main',

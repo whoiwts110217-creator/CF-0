@@ -126,4 +126,58 @@ class Tests(unittest.TestCase):
         finally:
             server.shutdown();thread.join(timeout=3);server.server_close()
 
+
+    def test_exact_four_actions_per_tick_restarts(self):
+        jobs=[r.make_job('ping') for _ in range(15)]
+        inbox=FakeRepo(jobs)
+        with tempfile.TemporaryDirectory() as td:
+            database=pathlib.Path(td)/'relay.sqlite3'
+            first=r.tick(inbox,r.State(database))
+            self.assertEqual(first['executed'],4)
+            counts=[r.tick(inbox,r.State(database))['executed'] for _ in range(4)]
+            self.assertEqual(counts,[4,4,3,0])
+            self.assertEqual(r.State(database).count(),15)
+            self.assertEqual(len(inbox.sent),15)
+
+    def test_spoofed_uuid_filename_is_inert(self):
+        supplied=r.make_job('ping');fake=r.make_job('ping')
+        class Swapped(FakeRepo):
+            def files(self):return [fake['id']+'.json']
+            def load(self,name):return supplied
+        with tempfile.TemporaryDirectory() as td:
+            state=r.State(pathlib.Path(td)/'ledger.sqlite3')
+            result=r.tick(Swapped([supplied]),state)
+            self.assertEqual(result['executed'],0)
+            self.assertEqual(result['errors'][0]['error'],'bad_id')
+            self.assertEqual(state.count(),0)
+
+    def test_remote_existing_receipt_forgery_and_malformed_data_rejected(self):
+        job=r.make_job('ping');jid=job['id'];expected={'id':jid,'status':'completed'}
+        mailbox=r.HttpRepo(repo=r.REPO,token='local-demo')
+        calls=[]
+        def pretend(method,path,payload=None):
+            calls.append(method)
+            return {'encoding':'base64','content':base64.b64encode(r.dump({'id':jid,'status':'forged'})).decode()}
+        mailbox.request=pretend
+        with self.assertRaisesRegex(r.RelayError,'receipt_conflict'):
+            mailbox.publish(jid,expected)
+        self.assertEqual(calls,['GET'])
+        for invalid in ([], {'encoding':'base64'}, {'encoding':'base64','content':'NOT-BASE64!'},
+                        {'encoding':'base64','content':123}):
+            calls.clear()
+            mailbox.request=lambda method,path,payload=None,bad=invalid: calls.append(method) or bad
+            with self.assertRaises(r.RelayError):mailbox.publish(jid,expected)
+            self.assertEqual(calls,['GET'])
+
+    def test_result_isolation_rejects_remote_shell_and_personal_fields(self):
+        job=r.make_job('ping')
+        for illegal in ({'cmd':'powershell'}, {'read_private_files':True}):
+            modified=dict(job,args=illegal)
+            with self.assertRaisesRegex(r.RelayError,'invalid_arguments'):
+                r.validate(modified,job['id']+'.json')
+        status=r.execute(r.make_job('hp_status'))
+        receipt=r.dump(status).decode()
+        for forbidden in ('C:\\Users', 'hostname', 'user_name', 'bank', 'token', 'private_file'):
+            self.assertNotIn(forbidden,receipt)
+
 if __name__=='__main__':unittest.main()
