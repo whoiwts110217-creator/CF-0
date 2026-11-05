@@ -3,7 +3,7 @@
   "owner": "Kiara Lynn Rose Smith",
   "project": "Caveman Focus",
   "target": 200,
-  "completed": 4,
+  "completed": 8,
   "checkpoint_every": 4,
   "status": "WORK_IN_PROGRESS",
   "note": "A planned item is not a completed task. Physical HP outcomes require owner-HP evidence.",
@@ -66,8 +66,8 @@
       "depends_on": [
         "CF-004"
       ],
-      "status": "planned",
-      "evidence": null,
+      "status": "verified",
+      "evidence": "19/19 local relay tests, including payload validation, expired job, duplicate and filename cases, source and public ping in CF-0",
       "authority": "existing-source-tests",
       "physical_hp_required": false
     },
@@ -79,8 +79,8 @@
       "depends_on": [
         "CF-005"
       ],
-      "status": "planned",
-      "evidence": null,
+      "status": "verified",
+      "evidence": "19/19 local relay tests, including payload validation, expired job, duplicate and filename cases, source and public ping in CF-0",
       "authority": "existing-source-tests",
       "physical_hp_required": false
     },
@@ -92,8 +92,8 @@
       "depends_on": [
         "CF-006"
       ],
-      "status": "planned",
-      "evidence": null,
+      "status": "verified",
+      "evidence": "19/19 local relay tests, including payload validation, expired job, duplicate and filename cases, source and public ping in CF-0",
       "authority": "existing-source-tests",
       "physical_hp_required": false
     },
@@ -105,8 +105,8 @@
       "depends_on": [
         "CF-007"
       ],
-      "status": "planned",
-      "evidence": null,
+      "status": "verified",
+      "evidence": "19/19 local relay tests, including payload validation, expired job, duplicate and filename cases, source and public ping in CF-0",
       "authority": "existing-source-tests",
       "physical_hp_required": false
     },
@@ -436,7 +436,8 @@
     {
       "id": "CF-034",
       "stream": "hp_install",
-      "title": "Verify local SQLite directory permissions",      "priority": 1,
+      "title": "Verify local SQLite directory permissions",
+      "priority": 1,
       "depends_on": [
         "CF-033"
       ],
@@ -461,8 +462,7 @@
     {
       "id": "CF-036",
       "stream": "hp_install",
-      "title": "Verify installer does not touch Sidecar",
-      "priority": 1,
+      "title": "Verify installer does not touch Sidecar",      "priority": 1,
       "depends_on": [
         "CF-035"
       ],
@@ -1235,7 +1235,8 @@
     {
       "id": "CF-096",
       "stream": "security",
-      "title": "Bound network timeout",      "priority": 1,
+      "title": "Bound network timeout",
+      "priority": 1,
       "depends_on": [
         "CF-095"
       ],
@@ -1260,8 +1261,7 @@
     {
       "id": "CF-098",
       "stream": "security",
-      "title": "Restrict worker to local user rights",
-      "priority": 1,
+      "title": "Restrict worker to local user rights",      "priority": 1,
       "depends_on": [
         "CF-097"
       ],
@@ -2034,7 +2034,8 @@
     {
       "id": "CF-158",
       "stream": "archive",
-      "title": "Index historic funding proposals",      "priority": 4,
+      "title": "Index historic funding proposals",
+      "priority": 4,
       "depends_on": [
         "CF-157"
       ],
@@ -2059,8 +2060,7 @@
     {
       "id": "CF-160",
       "stream": "archive",
-      "title": "Validate source link accessibility",
-      "priority": 4,
+      "title": "Validate source link accessibility",      "priority": 4,
       "depends_on": [
         "CF-159"
       ],

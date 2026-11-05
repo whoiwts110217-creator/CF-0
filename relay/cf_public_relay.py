@@ -113,7 +113,13 @@ class State:
         with self.conn() as con:
             con.execute('CREATE TABLE IF NOT EXISTS receipts(id TEXT PRIMARY KEY, digest TEXT NOT NULL, receipt TEXT NOT NULL)')
             con.execute('CREATE TABLE IF NOT EXISTS meta(k TEXT PRIMARY KEY, value TEXT NOT NULL)')
-    def conn(self):return sqlite3.connect(self.db,timeout=12)
+    @contextlib.contextmanager
+    def conn(self):
+        # SQLite connection context manager commits but does not close; this
+        # explicit close is necessary for Windows temporary-directory cleanup.
+        with contextlib.closing(sqlite3.connect(self.db,timeout=12)) as con:
+            with con:
+                yield con
     def receipt(self,jid):
         with self.conn() as con:
             x=con.execute('SELECT digest,receipt FROM receipts WHERE id=?',(jid,)).fetchone()

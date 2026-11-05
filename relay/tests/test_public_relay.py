@@ -54,4 +54,76 @@ class Tests(unittest.TestCase):
             (root/'domino.py').write_text('import json\nprint(json.dumps({"valid":True,"events":3},indent=2))\n')
             self.assertEqual(r.execute(r.make_job('sidecar_verify'),root),{'verified':True,'events':3})
 
+
+    def test_oversized_job_file_rejected(self):
+        x=r.make_job('ping')
+        x['junk']='A'*(r.MAX_JOB_BYTES+1)
+        with self.assertRaises(r.RelayError):r.validate(x,x['id']+'.json')
+
+    def test_json_expired_not_executed(self):
+        x=r.make_job('ping',now=1000)
+        class BadRepo(FakeRepo):
+            pass
+        # Expired request is examined but does not create a ledger receipt.
+        with tempfile.TemporaryDirectory() as td:
+            state=r.State(pathlib.Path(td)/'db')
+            status=r.tick(BadRepo([x]),state)
+            self.assertEqual(status['executed'],0)
+            self.assertEqual(state.count(),0)
+            self.assertEqual(status['errors'][0]['error'],'expired_or_future')
+
+    def test_state_connection_closed_after_tick(self):
+        x=r.make_job('ping')
+        with tempfile.TemporaryDirectory() as td:
+            home=pathlib.Path(td)
+            db=home/'state.sqlite3'
+            state=r.State(db)
+            self.assertEqual(r.tick(FakeRepo([x]),state)['executed'],1)
+            # Windows would fail this rename if the SQLite database were still open.
+            db.rename(home/'renamed.sqlite3')
+            self.assertTrue((home/'renamed.sqlite3').exists())
+
+    def test_http_transport_integration(self):
+        import threading,urllib.parse,base64
+        from http.server import BaseHTTPRequestHandler,ThreadingHTTPServer
+        job=r.make_job('ping')
+        repo=r.REPO
+        state={'writes':{},'reads':0}
+        class Handler(BaseHTTPRequestHandler):
+            def log_message(self,*args):pass
+            def respond(self,status,payload):
+                data=json.dumps(payload).encode()
+                self.send_response(status)
+                self.send_header('Content-Length',str(len(data)))
+                self.end_headers();self.wfile.write(data)
+            def do_GET(self):
+                state['reads']+=1
+                path=urllib.parse.urlparse(self.path).path
+                pre='/repos/'+repo+'/contents/command_queue/'
+                if path==pre+'inbox':self.respond(200,[{'name':job['id']+'.json','type':'file'}])
+                elif path==pre+'inbox/'+job['id']+'.json':
+                    self.respond(200,{'encoding':'base64','content':base64.b64encode(r.dump(job)).decode()})
+                elif path==pre+'receipts/'+job['id']+'.json':self.respond(404,{'message':'no receipt'})
+                else:self.respond(404,{'message':'missing'})
+            def do_PUT(self):
+                data=json.loads(self.rfile.read(int(self.headers['Content-Length'])))
+                state['writes'][self.path]=json.loads(base64.b64decode(data['content']))
+                self.respond(201,{'content':{'sha':'demo'}})
+        server=ThreadingHTTPServer(('127.0.0.1',0),Handler)
+        thread=threading.Thread(target=server.serve_forever,daemon=True);thread.start()
+        try:
+            with tempfile.TemporaryDirectory() as td:
+                mb=r.HttpRepo(api=f'http://127.0.0.1:{server.server_port}',token='local-test')
+                local=r.State(pathlib.Path(td)/'state.sqlite3')
+                one=r.tick(mb,local)
+                two=r.tick(mb,local)
+                self.assertEqual((one['executed'],two['executed']),(1,0))
+                self.assertEqual(one['public_receipts'],1)
+                self.assertEqual(len(state['writes']),1)
+                saved=next(iter(state['writes'].values()))
+                self.assertEqual(saved['request_sha256'],r.sha(job))
+                self.assertTrue(saved['result']['pong'])
+        finally:
+            server.shutdown();thread.join(timeout=3);server.server_close()
+
 if __name__=='__main__':unittest.main()

@@ -2,3 +2,7 @@
 {"evidence": "Local Python relay source and unittest 15/15; publish in CF-0 checkpoint #1", "recorded_at": "2026-11-05T15:56:39.669386+00:00", "status": "verified", "task": "CF-002"}
 {"evidence": "Local Python relay source and unittest 15/15; publish in CF-0 checkpoint #1", "recorded_at": "2026-11-05T15:56:39.669389+00:00", "status": "verified", "task": "CF-003"}
 {"evidence": "Local Python relay source and unittest 15/15; publish in CF-0 checkpoint #1", "recorded_at": "2026-11-05T15:56:39.669391+00:00", "status": "verified", "task": "CF-004"}
+{"evidence": "19/19 local relay tests, including payload validation, expired job, duplicate and filename cases, source and public ping in CF-0", "recorded_at": "2026-11-05T16:01:02.113410+00:00", "status": "verified", "task": "CF-005"}
+{"evidence": "19/19 local relay tests, including payload validation, expired job, duplicate and filename cases, source and public ping in CF-0", "recorded_at": "2026-11-05T16:01:02.113431+00:00", "status": "verified", "task": "CF-006"}
+{"evidence": "19/19 local relay tests, including payload validation, expired job, duplicate and filename cases, source and public ping in CF-0", "recorded_at": "2026-11-05T16:01:02.113433+00:00", "status": "verified", "task": "CF-007"}
+{"evidence": "19/19 local relay tests, including payload validation, expired job, duplicate and filename cases, source and public ping in CF-0", "recorded_at": "2026-11-05T16:01:02.113435+00:00", "status": "verified", "task": "CF-008"}
