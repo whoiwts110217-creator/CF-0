@@ -1,0 +1,13 @@
+{
+  "completed": 4,
+  "target": 200,
+  "pending": 196,
+  "evidence_ids": [
+    "CF-001",
+    "CF-002",
+    "CF-003",
+    "CF-004"
+  ],
+  "registry_sha256": "e4b78203dec18a8ecc1369165cfc3a00f70ad923a66240044f47e65a23711e04",
+  "warning": "Checkpoint is source-level task progress, not proof of HP installation."
+}

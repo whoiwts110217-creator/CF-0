@@ -1,0 +1,2589 @@
+{
+  "schema": "CF200.1",
+  "owner": "Kiara Lynn Rose Smith",
+  "project": "Caveman Focus",
+  "target": 200,
+  "completed": 4,
+  "checkpoint_every": 4,
+  "status": "WORK_IN_PROGRESS",
+  "note": "A planned item is not a completed task. Physical HP outcomes require owner-HP evidence.",
+  "tasks": [
+    {
+      "id": "CF-001",
+      "stream": "chat_command",
+      "title": "Publish minimal command protocol",
+      "priority": 1,
+      "depends_on": [],
+      "status": "verified",
+      "evidence": "Local Python relay source and unittest 15/15; publish in CF-0 checkpoint #1",
+      "authority": "existing-source-tests",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-002",
+      "stream": "chat_command",
+      "title": "Write public GitHub inbox worker",
+      "priority": 1,
+      "depends_on": [
+        "CF-001"
+      ],
+      "status": "verified",
+      "evidence": "Local Python relay source and unittest 15/15; publish in CF-0 checkpoint #1",
+      "authority": "existing-source-tests",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-003",
+      "stream": "chat_command",
+      "title": "Define exact schema and expiration",
+      "priority": 1,
+      "depends_on": [
+        "CF-002"
+      ],
+      "status": "verified",
+      "evidence": "Local Python relay source and unittest 15/15; publish in CF-0 checkpoint #1",
+      "authority": "existing-source-tests",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-004",
+      "stream": "chat_command",
+      "title": "Test command allowlist",
+      "priority": 1,
+      "depends_on": [
+        "CF-003"
+      ],
+      "status": "verified",
+      "evidence": "Local Python relay source and unittest 15/15; publish in CF-0 checkpoint #1",
+      "authority": "existing-source-tests",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-005",
+      "stream": "chat_command",
+      "title": "Check content byte-size limit",
+      "priority": 1,
+      "depends_on": [
+        "CF-004"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "existing-source-tests",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-006",
+      "stream": "chat_command",
+      "title": "Test duplicate request handling",
+      "priority": 1,
+      "depends_on": [
+        "CF-005"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "existing-source-tests",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-007",
+      "stream": "chat_command",
+      "title": "Test request filename identity",
+      "priority": 1,
+      "depends_on": [
+        "CF-006"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "existing-source-tests",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-008",
+      "stream": "chat_command",
+      "title": "Test expired request rejection",
+      "priority": 1,
+      "depends_on": [
+        "CF-007"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "existing-source-tests",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-009",
+      "stream": "chat_command",
+      "title": "Test future-dated request rejection",
+      "priority": 1,
+      "depends_on": [
+        "CF-008"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "existing-source-tests",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-010",
+      "stream": "chat_command",
+      "title": "Test injected arguments rejection",
+      "priority": 1,
+      "depends_on": [
+        "CF-009"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "existing-source-tests",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-011",
+      "stream": "chat_command",
+      "title": "Test unknown job rejection",
+      "priority": 1,
+      "depends_on": [
+        "CF-010"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "existing-source-tests",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-012",
+      "stream": "chat_command",
+      "title": "Build command generator",
+      "priority": 1,
+      "depends_on": [
+        "CF-011"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "existing-source-tests",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-013",
+      "stream": "chat_command",
+      "title": "Add owner-attributed comment",
+      "priority": 1,
+      "depends_on": [
+        "CF-012"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "existing-source-tests",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-014",
+      "stream": "chat_command",
+      "title": "Document chat submission steps",
+      "priority": 1,
+      "depends_on": [
+        "CF-013"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "existing-source-tests",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-015",
+      "stream": "chat_command",
+      "title": "Verify GitHub Contents URL",
+      "priority": 1,
+      "depends_on": [
+        "CF-014"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "existing-source-tests",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-016",
+      "stream": "chat_command",
+      "title": "Test fair queue rotation",
+      "priority": 1,
+      "depends_on": [
+        "CF-015"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "existing-source-tests",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-017",
+      "stream": "chat_command",
+      "title": "Test max four commands per tick",
+      "priority": 1,
+      "depends_on": [
+        "CF-016"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "existing-source-tests",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-018",
+      "stream": "chat_command",
+      "title": "Test spoofed job filename",
+      "priority": 1,
+      "depends_on": [
+        "CF-017"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "existing-source-tests",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-019",
+      "stream": "chat_command",
+      "title": "Test untrusted result isolation",
+      "priority": 1,
+      "depends_on": [
+        "CF-018"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "existing-source-tests",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-020",
+      "stream": "chat_command",
+      "title": "Queue owner-authorized first ping",
+      "priority": 1,
+      "depends_on": [
+        "CF-019"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "existing-source-tests",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-021",
+      "stream": "hp_install",
+      "title": "Write Windows token-free single-poll launcher",
+      "priority": 1,
+      "depends_on": [],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-022",
+      "stream": "hp_install",
+      "title": "Write signed-in account scheduled-task installer",
+      "priority": 1,
+      "depends_on": [
+        "CF-021"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-023",
+      "stream": "hp_install",
+      "title": "Write schedule stop switch",
+      "priority": 1,
+      "depends_on": [
+        "CF-022"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-024",
+      "stream": "hp_install",
+      "title": "Write local HP status command",
+      "priority": 1,
+      "depends_on": [
+        "CF-023"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-025",
+      "stream": "hp_install",
+      "title": "Confirm Python launcher availability",
+      "priority": 1,
+      "depends_on": [
+        "CF-024"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-026",
+      "stream": "hp_install",
+      "title": "Test working folder with spaces",
+      "priority": 1,
+      "depends_on": [
+        "CF-025"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-027",
+      "stream": "hp_install",
+      "title": "Test non-admin user installation",
+      "priority": 1,
+      "depends_on": [
+        "CF-026"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-028",
+      "stream": "hp_install",
+      "title": "Test five-minute schedule setup",
+      "priority": 1,
+      "depends_on": [
+        "CF-027"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-029",
+      "stream": "hp_install",
+      "title": "Confirm Task Scheduler exit code",
+      "priority": 1,
+      "depends_on": [
+        "CF-028"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-030",
+      "stream": "hp_install",
+      "title": "Confirm task does not overlap",
+      "priority": 1,
+      "depends_on": [
+        "CF-029"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-031",
+      "stream": "hp_install",
+      "title": "Confirm reboot recovery behavior",
+      "priority": 1,
+      "depends_on": [
+        "CF-030"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-032",
+      "stream": "hp_install",
+      "title": "Test offline queue retry",
+      "priority": 1,
+      "depends_on": [
+        "CF-031"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-033",
+      "stream": "hp_install",
+      "title": "Test rate-limited GitHub error",
+      "priority": 1,
+      "depends_on": [
+        "CF-032"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-034",
+      "stream": "hp_install",
+      "title": "Verify local SQLite directory permissions",      "priority": 1,
+      "depends_on": [
+        "CF-033"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-035",
+      "stream": "hp_install",
+      "title": "Check RAM and disk floor",
+      "priority": 1,
+      "depends_on": [
+        "CF-034"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": true
+    },
+    {
+      "id": "CF-036",
+      "stream": "hp_install",
+      "title": "Verify installer does not touch Sidecar",
+      "priority": 1,
+      "depends_on": [
+        "CF-035"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": true
+    },
+    {
+      "id": "CF-037",
+      "stream": "hp_install",
+      "title": "Confirm command execution on physical HP",
+      "priority": 1,
+      "depends_on": [
+        "CF-036"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": true
+    },
+    {
+      "id": "CF-038",
+      "stream": "hp_install",
+      "title": "Collect HP local result digest",
+      "priority": 1,
+      "depends_on": [
+        "CF-037"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": true
+    },
+    {
+      "id": "CF-039",
+      "stream": "hp_install",
+      "title": "Verify scheduled run without console",
+      "priority": 1,
+      "depends_on": [
+        "CF-038"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": true
+    },
+    {
+      "id": "CF-040",
+      "stream": "hp_install",
+      "title": "Document safe uninstall",
+      "priority": 1,
+      "depends_on": [
+        "CF-039"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": true
+    },
+    {
+      "id": "CF-041",
+      "stream": "sidecar",
+      "title": "Recover Sidecar v0.2 primary source",
+      "priority": 1,
+      "depends_on": [],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-042",
+      "stream": "sidecar",
+      "title": "Back up existing Domino_Data",
+      "priority": 1,
+      "depends_on": [
+        "CF-041"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-043",
+      "stream": "sidecar",
+      "title": "Check Sidecar hash-chain integrity",
+      "priority": 1,
+      "depends_on": [
+        "CF-042"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-044",
+      "stream": "sidecar",
+      "title": "Run independent Sidecar verify",
+      "priority": 1,
+      "depends_on": [
+        "CF-043"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-045",
+      "stream": "sidecar",
+      "title": "Run read-only Sidecar version check",
+      "priority": 1,
+      "depends_on": [
+        "CF-044"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-046",
+      "stream": "sidecar",
+      "title": "Verify sidecar stdout multiline JSON",
+      "priority": 1,
+      "depends_on": [
+        "CF-045"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-047",
+      "stream": "sidecar",
+      "title": "Test Sidecar absent case",
+      "priority": 1,
+      "depends_on": [
+        "CF-046"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-048",
+      "stream": "sidecar",
+      "title": "Test Sidecar timeout handling",
+      "priority": 1,
+      "depends_on": [
+        "CF-047"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-049",
+      "stream": "sidecar",
+      "title": "Test Sidecar nonzero exit",
+      "priority": 1,
+      "depends_on": [
+        "CF-048"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-050",
+      "stream": "sidecar",
+      "title": "Test Sidecar invalid JSON output",
+      "priority": 1,
+      "depends_on": [
+        "CF-049"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-051",
+      "stream": "sidecar",
+      "title": "Record audited event count",
+      "priority": 1,
+      "depends_on": [
+        "CF-050"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-052",
+      "stream": "sidecar",
+      "title": "Test untouched original ledger",
+      "priority": 1,
+      "depends_on": [
+        "CF-051"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-053",
+      "stream": "sidecar",
+      "title": "Test unchanged-input deduplication",
+      "priority": 1,
+      "depends_on": [
+        "CF-052"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-054",
+      "stream": "sidecar",
+      "title": "Check Sidecar queue status",
+      "priority": 1,
+      "depends_on": [
+        "CF-053"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-055",
+      "stream": "sidecar",
+      "title": "Inspect alternate task categories",
+      "priority": 1,
+      "depends_on": [
+        "CF-054"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-056",
+      "stream": "sidecar",
+      "title": "Verify operations task category",
+      "priority": 1,
+      "depends_on": [
+        "CF-055"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-057",
+      "stream": "sidecar",
+      "title": "Confirm task ownership source",
+      "priority": 1,
+      "depends_on": [
+        "CF-056"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-058",
+      "stream": "sidecar",
+      "title": "Reconcile all installed copies",
+      "priority": 1,
+      "depends_on": [
+        "CF-057"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-059",
+      "stream": "sidecar",
+      "title": "Test concurrent Sidecar lock",
+      "priority": 1,
+      "depends_on": [
+        "CF-058"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-060",
+      "stream": "sidecar",
+      "title": "Document rollback to known good",
+      "priority": 1,
+      "depends_on": [
+        "CF-059"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-061",
+      "stream": "receipt",
+      "title": "Design local request digest",
+      "priority": 1,
+      "depends_on": [],
+      "status": "planned",
+      "evidence": null,
+      "authority": "existing-source-tests",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-062",
+      "stream": "receipt",
+      "title": "Add SQLite receipt table",
+      "priority": 1,
+      "depends_on": [
+        "CF-061"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "existing-source-tests",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-063",
+      "stream": "receipt",
+      "title": "Implement atomic completed result",
+      "priority": 1,
+      "depends_on": [
+        "CF-062"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "existing-source-tests",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-064",
+      "stream": "receipt",
+      "title": "Test same-id replay suppression",
+      "priority": 1,
+      "depends_on": [
+        "CF-063"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "existing-source-tests",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-065",
+      "stream": "receipt",
+      "title": "Handle ambiguous remote receipt post",
+      "priority": 1,
+      "depends_on": [
+        "CF-064"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "existing-source-tests",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-066",
+      "stream": "receipt",
+      "title": "Verify GitHub existing receipt equality",
+      "priority": 1,
+      "depends_on": [
+        "CF-065"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "existing-source-tests",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-067",
+      "stream": "receipt",
+      "title": "Test mismatch conflict refusal",
+      "priority": 1,
+      "depends_on": [
+        "CF-066"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "existing-source-tests",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-068",
+      "stream": "receipt",
+      "title": "Test interrupted worker restart",
+      "priority": 1,
+      "depends_on": [
+        "CF-067"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "existing-source-tests",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-069",
+      "stream": "receipt",
+      "title": "Preserve unknown in-progress status",
+      "priority": 1,
+      "depends_on": [
+        "CF-068"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "existing-source-tests",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-070",
+      "stream": "receipt",
+      "title": "Test 200-command queue capacity",
+      "priority": 1,
+      "depends_on": [
+        "CF-069"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "existing-source-tests",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-071",
+      "stream": "receipt",
+      "title": "Test public-safe status redaction",
+      "priority": 1,
+      "depends_on": [
+        "CF-070"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "existing-source-tests",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-072",
+      "stream": "receipt",
+      "title": "Add response SHA256 validation",
+      "priority": 1,
+      "depends_on": [
+        "CF-071"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "existing-source-tests",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-073",
+      "stream": "receipt",
+      "title": "Check long-lived archive threshold",
+      "priority": 1,
+      "depends_on": [
+        "CF-072"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "existing-source-tests",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-074",
+      "stream": "receipt",
+      "title": "Define queue pruning with approval",
+      "priority": 1,
+      "depends_on": [
+        "CF-073"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "existing-source-tests",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-075",
+      "stream": "receipt",
+      "title": "Test malformed base64 result",
+      "priority": 1,
+      "depends_on": [
+        "CF-074"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "existing-source-tests",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-076",
+      "stream": "receipt",
+      "title": "Test duplicate receipt id",
+      "priority": 1,
+      "depends_on": [
+        "CF-075"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "existing-source-tests",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-077",
+      "stream": "receipt",
+      "title": "Prove successful HP receipt upload",
+      "priority": 1,
+      "depends_on": [
+        "CF-076"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "existing-source-tests",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-078",
+      "stream": "receipt",
+      "title": "Read receipt from ChatGPT account",
+      "priority": 1,
+      "depends_on": [
+        "CF-077"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "existing-source-tests",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-079",
+      "stream": "receipt",
+      "title": "Correlate command to original message",
+      "priority": 1,
+      "depends_on": [
+        "CF-078"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "existing-source-tests",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-080",
+      "stream": "receipt",
+      "title": "Document delivery confirmation boundaries",
+      "priority": 1,
+      "depends_on": [
+        "CF-079"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "existing-source-tests",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-081",
+      "stream": "security",
+      "title": "Freeze public action allowlist",
+      "priority": 1,
+      "depends_on": [],
+      "status": "planned",
+      "evidence": null,
+      "authority": "existing-source-tests",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-082",
+      "stream": "security",
+      "title": "Reject shell execution",
+      "priority": 1,
+      "depends_on": [
+        "CF-081"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "existing-source-tests",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-083",
+      "stream": "security",
+      "title": "Reject dynamic Python evaluation",
+      "priority": 1,
+      "depends_on": [
+        "CF-082"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "existing-source-tests",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-084",
+      "stream": "security",
+      "title": "Reject file-write remote commands",
+      "priority": 1,
+      "depends_on": [
+        "CF-083"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "existing-source-tests",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-085",
+      "stream": "security",
+      "title": "Reject browser execution from queue",
+      "priority": 1,
+      "depends_on": [
+        "CF-084"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "existing-source-tests",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-086",
+      "stream": "security",
+      "title": "Reject unknown JSON fields",
+      "priority": 1,
+      "depends_on": [
+        "CF-085"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "existing-source-tests",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-087",
+      "stream": "security",
+      "title": "Reject unexpected action parameters",
+      "priority": 1,
+      "depends_on": [
+        "CF-086"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "existing-source-tests",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-088",
+      "stream": "security",
+      "title": "Check GitHub repository identity",
+      "priority": 1,
+      "depends_on": [
+        "CF-087"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "existing-source-tests",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-089",
+      "stream": "security",
+      "title": "Check write permissions of command issuer",
+      "priority": 1,
+      "depends_on": [
+        "CF-088"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "existing-source-tests",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-090",
+      "stream": "security",
+      "title": "Test command TTL",
+      "priority": 1,
+      "depends_on": [
+        "CF-089"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "existing-source-tests",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-091",
+      "stream": "security",
+      "title": "Avoid local secret in logs",
+      "priority": 1,
+      "depends_on": [
+        "CF-090"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "existing-source-tests",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-092",
+      "stream": "security",
+      "title": "Avoid private path in receipts",
+      "priority": 1,
+      "depends_on": [
+        "CF-091"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "existing-source-tests",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-093",
+      "stream": "security",
+      "title": "Avoid user identity leak",
+      "priority": 1,
+      "depends_on": [
+        "CF-092"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "existing-source-tests",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-094",
+      "stream": "security",
+      "title": "Avoid arbitrary repo override",
+      "priority": 1,
+      "depends_on": [
+        "CF-093"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "existing-source-tests",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-095",
+      "stream": "security",
+      "title": "Bound HTTP response length",
+      "priority": 1,
+      "depends_on": [
+        "CF-094"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "existing-source-tests",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-096",
+      "stream": "security",
+      "title": "Bound network timeout",      "priority": 1,
+      "depends_on": [
+        "CF-095"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "existing-source-tests",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-097",
+      "stream": "security",
+      "title": "Bound poll process work",
+      "priority": 1,
+      "depends_on": [
+        "CF-096"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "existing-source-tests",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-098",
+      "stream": "security",
+      "title": "Restrict worker to local user rights",
+      "priority": 1,
+      "depends_on": [
+        "CF-097"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "existing-source-tests",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-099",
+      "stream": "security",
+      "title": "Document urgent stop operation",
+      "priority": 1,
+      "depends_on": [
+        "CF-098"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "existing-source-tests",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-100",
+      "stream": "security",
+      "title": "Design second-phase private operator gate",
+      "priority": 1,
+      "depends_on": [
+        "CF-099"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "existing-source-tests",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-101",
+      "stream": "priority_logic",
+      "title": "Register current owner priority hierarchy",
+      "priority": 2,
+      "depends_on": [],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-102",
+      "stream": "priority_logic",
+      "title": "Separate automation from research",
+      "priority": 2,
+      "depends_on": [
+        "CF-101"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-103",
+      "stream": "priority_logic",
+      "title": "Represent task dependencies",
+      "priority": 2,
+      "depends_on": [
+        "CF-102"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-104",
+      "stream": "priority_logic",
+      "title": "Represent blocking permission",
+      "priority": 2,
+      "depends_on": [
+        "CF-103"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-105",
+      "stream": "priority_logic",
+      "title": "Store verified task status",
+      "priority": 2,
+      "depends_on": [
+        "CF-104"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-106",
+      "stream": "priority_logic",
+      "title": "Store source and evidence",
+      "priority": 2,
+      "depends_on": [
+        "CF-105"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-107",
+      "stream": "priority_logic",
+      "title": "Separate planned from completed",
+      "priority": 2,
+      "depends_on": [
+        "CF-106"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-108",
+      "stream": "priority_logic",
+      "title": "Implement batch checkpoint after four",
+      "priority": 2,
+      "depends_on": [
+        "CF-107"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-109",
+      "stream": "priority_logic",
+      "title": "Test deterministic task ranking",
+      "priority": 2,
+      "depends_on": [
+        "CF-108"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-110",
+      "stream": "priority_logic",
+      "title": "Test blocked high-priority task handling",
+      "priority": 2,
+      "depends_on": [
+        "CF-109"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-111",
+      "stream": "priority_logic",
+      "title": "Keep finance below automation",
+      "priority": 2,
+      "depends_on": [
+        "CF-110"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-112",
+      "stream": "priority_logic",
+      "title": "Allow concurrent independent tasks",
+      "priority": 2,
+      "depends_on": [
+        "CF-111"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-113",
+      "stream": "priority_logic",
+      "title": "Prevent silent owner-policy mutation",
+      "priority": 2,
+      "depends_on": [
+        "CF-112"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-114",
+      "stream": "priority_logic",
+      "title": "Provide policy-diff report",
+      "priority": 2,
+      "depends_on": [
+        "CF-113"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-115",
+      "stream": "priority_logic",
+      "title": "Test conflicting owner instructions",
+      "priority": 2,
+      "depends_on": [
+        "CF-114"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-116",
+      "stream": "priority_logic",
+      "title": "Add task context expiry",
+      "priority": 2,
+      "depends_on": [
+        "CF-115"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-117",
+      "stream": "priority_logic",
+      "title": "Add next-unblocking-task selection",
+      "priority": 2,
+      "depends_on": [
+        "CF-116"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-118",
+      "stream": "priority_logic",
+      "title": "Add failure retries with ceiling",
+      "priority": 2,
+      "depends_on": [
+        "CF-117"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-119",
+      "stream": "priority_logic",
+      "title": "Add HP authority proof gate",
+      "priority": 2,
+      "depends_on": [
+        "CF-118"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-120",
+      "stream": "priority_logic",
+      "title": "Publish full 200-task registry",
+      "priority": 2,
+      "depends_on": [
+        "CF-119"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-121",
+      "stream": "public_finance",
+      "title": "Publish public-by-default direction",
+      "priority": 3,
+      "depends_on": [],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-122",
+      "stream": "public_finance",
+      "title": "Publish verified financial checkpoint",
+      "priority": 3,
+      "depends_on": [
+        "CF-121"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-123",
+      "stream": "public_finance",
+      "title": "Separate donations from purchases",
+      "priority": 3,
+      "depends_on": [
+        "CF-122"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-124",
+      "stream": "public_finance",
+      "title": "Separate proposed prices from sales",
+      "priority": 3,
+      "depends_on": [
+        "CF-123"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-125",
+      "stream": "public_finance",
+      "title": "Label unknown bank balances",
+      "priority": 3,
+      "depends_on": [
+        "CF-124"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-126",
+      "stream": "public_finance",
+      "title": "Label unknown monthly operating costs",
+      "priority": 3,
+      "depends_on": [
+        "CF-125"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-127",
+      "stream": "public_finance",
+      "title": "Preserve campaign $50 goal as target",
+      "priority": 3,
+      "depends_on": [
+        "CF-126"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-128",
+      "stream": "public_finance",
+      "title": "Preserve $5 pilot as proposal",
+      "priority": 3,
+      "depends_on": [
+        "CF-127"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-129",
+      "stream": "public_finance",
+      "title": "Preserve $49 offer as proposal",
+      "priority": 3,
+      "depends_on": [
+        "CF-128"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-130",
+      "stream": "public_finance",
+      "title": "Identify legitimate payment destination",
+      "priority": 3,
+      "depends_on": [
+        "CF-129"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-131",
+      "stream": "public_finance",
+      "title": "Screen third-party payer details",
+      "priority": 3,
+      "depends_on": [
+        "CF-130"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-132",
+      "stream": "public_finance",
+      "title": "Design aggregate receipt register",
+      "priority": 3,
+      "depends_on": [
+        "CF-131"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-133",
+      "stream": "public_finance",
+      "title": "Create restricted-fund column",
+      "priority": 3,
+      "depends_on": [
+        "CF-132"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-134",
+      "stream": "public_finance",
+      "title": "Create refund/chargeback column",
+      "priority": 3,
+      "depends_on": [
+        "CF-133"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-135",
+      "stream": "public_finance",
+      "title": "Create actual expense evidence column",
+      "priority": 3,
+      "depends_on": [
+        "CF-134"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-136",
+      "stream": "public_finance",
+      "title": "Test double-counted income defense",
+      "priority": 3,
+      "depends_on": [
+        "CF-135"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-137",
+      "stream": "public_finance",
+      "title": "Summarize fundraising grants status",
+      "priority": 3,
+      "depends_on": [
+        "CF-136"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-138",
+      "stream": "public_finance",
+      "title": "Link operations audit dates",
+      "priority": 3,
+      "depends_on": [
+        "CF-137"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-139",
+      "stream": "public_finance",
+      "title": "Review public disclosure without secrets",
+      "priority": 3,
+      "depends_on": [
+        "CF-138"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-140",
+      "stream": "public_finance",
+      "title": "Set next verifiable income milestone",
+      "priority": 3,
+      "depends_on": [
+        "CF-139"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-141",
+      "stream": "archive",
+      "title": "Publish master project index",
+      "priority": 4,
+      "depends_on": [],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-142",
+      "stream": "archive",
+      "title": "Preserve original approx 37-project gap",
+      "priority": 4,
+      "depends_on": [
+        "CF-141"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-143",
+      "stream": "archive",
+      "title": "Attach source provenance labels",
+      "priority": 4,
+      "depends_on": [
+        "CF-142"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-144",
+      "stream": "archive",
+      "title": "Publish primary SN experiment script",
+      "priority": 4,
+      "depends_on": [
+        "CF-143"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-145",
+      "stream": "archive",
+      "title": "Publish primary RH experiment script",
+      "priority": 4,
+      "depends_on": [
+        "CF-144"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-146",
+      "stream": "archive",
+      "title": "Publish SN formula atlas",
+      "priority": 4,
+      "depends_on": [
+        "CF-145"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-147",
+      "stream": "archive",
+      "title": "Publish SN art thumbnail",
+      "priority": 4,
+      "depends_on": [
+        "CF-146"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-148",
+      "stream": "archive",
+      "title": "Record distinct SN state tuples",
+      "priority": 4,
+      "depends_on": [
+        "CF-147"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-149",
+      "stream": "archive",
+      "title": "Record RH unresolved status",
+      "priority": 4,
+      "depends_on": [
+        "CF-148"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-150",
+      "stream": "archive",
+      "title": "Record founder credit",
+      "priority": 4,
+      "depends_on": [
+        "CF-149"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-151",
+      "stream": "archive",
+      "title": "Encode reversible attribution comment",
+      "priority": 4,
+      "depends_on": [
+        "CF-150"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-152",
+      "stream": "archive",
+      "title": "Keep original code unchanged",
+      "priority": 4,
+      "depends_on": [
+        "CF-151"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-153",
+      "stream": "archive",
+      "title": "Record donor campaign version",
+      "priority": 4,
+      "depends_on": [
+        "CF-152"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-154",
+      "stream": "archive",
+      "title": "Record Sidecar version map",
+      "priority": 4,
+      "depends_on": [
+        "CF-153"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-155",
+      "stream": "archive",
+      "title": "Record cloud trial caveats",
+      "priority": 4,
+      "depends_on": [
+        "CF-154"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-156",
+      "stream": "archive",
+      "title": "Record Windows caveats",
+      "priority": 4,
+      "depends_on": [
+        "CF-155"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-157",
+      "stream": "archive",
+      "title": "Record inactive automation tasks",
+      "priority": 4,
+      "depends_on": [
+        "CF-156"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-158",
+      "stream": "archive",
+      "title": "Index historic funding proposals",      "priority": 4,
+      "depends_on": [
+        "CF-157"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-159",
+      "stream": "archive",
+      "title": "Build private archive import design",
+      "priority": 4,
+      "depends_on": [
+        "CF-158"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-160",
+      "stream": "archive",
+      "title": "Validate source link accessibility",
+      "priority": 4,
+      "depends_on": [
+        "CF-159"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-161",
+      "stream": "research",
+      "title": "Preserve guess-hypothesis-evidence-proof rule",
+      "priority": 4,
+      "depends_on": [],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-162",
+      "stream": "research",
+      "title": "Preserve RH nontrivial zero target",
+      "priority": 4,
+      "depends_on": [
+        "CF-161"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-163",
+      "stream": "research",
+      "title": "Record finite-to-global gap",
+      "priority": 4,
+      "depends_on": [
+        "CF-162"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-164",
+      "stream": "research",
+      "title": "Record skeptical proof impossibility claims",
+      "priority": 4,
+      "depends_on": [
+        "CF-163"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-165",
+      "stream": "research",
+      "title": "Preserve SN experimental vs fiction separation",
+      "priority": 4,
+      "depends_on": [
+        "CF-164"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-166",
+      "stream": "research",
+      "title": "Record failed F-204 prediction",
+      "priority": 4,
+      "depends_on": [
+        "CF-165"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-167",
+      "stream": "research",
+      "title": "Preserve Gaussian quartet diagnostic caveat",
+      "priority": 4,
+      "depends_on": [
+        "CF-166"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-168",
+      "stream": "research",
+      "title": "Preserve Li coefficients context",
+      "priority": 4,
+      "depends_on": [
+        "CF-167"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-169",
+      "stream": "research",
+      "title": "Keep original stone metaphor accurate",
+      "priority": 4,
+      "depends_on": [
+        "CF-168"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-170",
+      "stream": "research",
+      "title": "Record magician discovery conditions",
+      "priority": 4,
+      "depends_on": [
+        "CF-169"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-171",
+      "stream": "research",
+      "title": "Define invention claim metric",
+      "priority": 4,
+      "depends_on": [
+        "CF-170"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-172",
+      "stream": "research",
+      "title": "Separate task efficiency from capability",
+      "priority": 4,
+      "depends_on": [
+        "CF-171"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-173",
+      "stream": "research",
+      "title": "Record structural reachability bound",
+      "priority": 4,
+      "depends_on": [
+        "CF-172"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-174",
+      "stream": "research",
+      "title": "Record informational frontier bound",
+      "priority": 4,
+      "depends_on": [
+        "CF-173"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-175",
+      "stream": "research",
+      "title": "Record resource frontier bound",
+      "priority": 4,
+      "depends_on": [
+        "CF-174"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-176",
+      "stream": "research",
+      "title": "Preserve v1.2 hidden-state experiment",
+      "priority": 4,
+      "depends_on": [
+        "CF-175"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-177",
+      "stream": "research",
+      "title": "Avoid novel-science certification",
+      "priority": 4,
+      "depends_on": [
+        "CF-176"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-178",
+      "stream": "research",
+      "title": "Record limitations of prototype",
+      "priority": 4,
+      "depends_on": [
+        "CF-177"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-179",
+      "stream": "research",
+      "title": "Add future independent replication criteria",
+      "priority": 4,
+      "depends_on": [
+        "CF-178"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-180",
+      "stream": "research",
+      "title": "Publish research safely by default",
+      "priority": 4,
+      "depends_on": [
+        "CF-179"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-181",
+      "stream": "real_operations",
+      "title": "Define HP-originated ping acceptance",
+      "priority": 4,
+      "depends_on": [],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-182",
+      "stream": "real_operations",
+      "title": "Test Python request/receipt loopback",
+      "priority": 4,
+      "depends_on": [
+        "CF-181"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-183",
+      "stream": "real_operations",
+      "title": "Verify GitHub CLI-free transport",
+      "priority": 4,
+      "depends_on": [
+        "CF-182"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-184",
+      "stream": "real_operations",
+      "title": "Measure poll delay",
+      "priority": 4,
+      "depends_on": [
+        "CF-183"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-185",
+      "stream": "real_operations",
+      "title": "Measure resource cost",
+      "priority": 4,
+      "depends_on": [
+        "CF-184"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-186",
+      "stream": "real_operations",
+      "title": "Test 100 stale inbox entries",
+      "priority": 4,
+      "depends_on": [
+        "CF-185"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-187",
+      "stream": "real_operations",
+      "title": "Test 200 mixed inbox entries",
+      "priority": 4,
+      "depends_on": [
+        "CF-186"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-188",
+      "stream": "real_operations",
+      "title": "Test 1,000 entry fail-closed",
+      "priority": 4,
+      "depends_on": [
+        "CF-187"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-189",
+      "stream": "real_operations",
+      "title": "Prove no duplicate work across restart",
+      "priority": 4,
+      "depends_on": [
+        "CF-188"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-190",
+      "stream": "real_operations",
+      "title": "Add live HP status read",
+      "priority": 4,
+      "depends_on": [
+        "CF-189"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-191",
+      "stream": "real_operations",
+      "title": "Add authorized local automation status",
+      "priority": 4,
+      "depends_on": [
+        "CF-190"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-192",
+      "stream": "real_operations",
+      "title": "Add status-only research inventory",
+      "priority": 4,
+      "depends_on": [
+        "CF-191"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-193",
+      "stream": "real_operations",
+      "title": "Add codebase integrity check action",
+      "priority": 4,
+      "depends_on": [
+        "CF-192"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-194",
+      "stream": "real_operations",
+      "title": "Add task scheduler health monitor",
+      "priority": 4,
+      "depends_on": [
+        "CF-193"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": false
+    },
+    {
+      "id": "CF-195",
+      "stream": "real_operations",
+      "title": "Integrate approved queue next-work command",
+      "priority": 4,
+      "depends_on": [
+        "CF-194"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": true
+    },
+    {
+      "id": "CF-196",
+      "stream": "real_operations",
+      "title": "Integrate owner policy selector",
+      "priority": 4,
+      "depends_on": [
+        "CF-195"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": true
+    },
+    {
+      "id": "CF-197",
+      "stream": "real_operations",
+      "title": "Integrate permitted public report generation",
+      "priority": 4,
+      "depends_on": [
+        "CF-196"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": true
+    },
+    {
+      "id": "CF-198",
+      "stream": "real_operations",
+      "title": "Integrate safe file organization",
+      "priority": 4,
+      "depends_on": [
+        "CF-197"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": true
+    },
+    {
+      "id": "CF-199",
+      "stream": "real_operations",
+      "title": "Validate self-maintaining daily routine",
+      "priority": 4,
+      "depends_on": [
+        "CF-198"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": true
+    },
+    {
+      "id": "CF-200",
+      "stream": "real_operations",
+      "title": "Demonstrate weeklong bounded operation",
+      "priority": 4,
+      "depends_on": [
+        "CF-199"
+      ],
+      "status": "planned",
+      "evidence": null,
+      "authority": "owner-reviewed",
+      "physical_hp_required": true
+    }
+  ]
+}

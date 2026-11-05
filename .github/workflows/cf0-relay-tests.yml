@@ -1,0 +1,31 @@
+name: CF-0 Public Relay Windows Tests
+on:
+  push:
+    paths:
+      - 'relay/**'
+      - 'automation_200/**'
+      - '.github/workflows/cf0-relay-tests.yml'
+  workflow_dispatch:
+jobs:
+  relay:
+    runs-on: windows-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Offline single-message test
+        run: python relay/cf_public_relay.py ping-demo
+      - name: Relay regression suite
+        run: python -m unittest discover -s relay/tests -v
+      - name: Verify 200-item queue without pretending they're complete
+        run: python automation_200/checkpoints.py validate
+      - name: Parse Windows scheduler source
+        shell: pwsh
+        run: |
+          $tokens = $null
+          $errors = $null
+          [System.Management.Automation.Language.Parser]::ParseFile((Resolve-Path relay/install_task.ps1).Path, [ref]$tokens, [ref]$errors) | Out-Null
+          if ($errors.Count -ne 0) { $errors | Format-List; exit 1 }
