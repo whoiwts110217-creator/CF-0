@@ -27,13 +27,14 @@ from urllib.parse import quote
 from urllib.request import Request, urlopen
 import uuid
 
-VERSION = "0.1.0"
+VERSION = "0.2.0"
 REPO_RE = re.compile(r"^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$")
 UUID_RE = re.compile(r"^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$")
 ALLOWED_ACTIONS = {"ping", "sidecar_verify"}
 API = "https://api.github.com"
 MAX_RESPONSE = 1024 * 1024
 MAX_JOBS_PER_RUN = 10
+MAX_QUEUE_ENTRIES = 999  # GitHub Contents API directory listing has a 1,000 item limit.
 
 class BridgeError(Exception):
     pass
@@ -56,13 +57,13 @@ def parse_job(raw: dict, filename: str, now: int | None = None) -> dict:
     jid = raw["id"]
     if not isinstance(jid, str) or not UUID_RE.fullmatch(jid) or filename != f"{jid}.json":
         raise BridgeError("invalid_job_identity")
-    if raw["action"] not in ALLOWED_ACTIONS:
+    if not isinstance(raw["action"], str) or raw["action"] not in ALLOWED_ACTIONS:
         raise BridgeError("action_not_allowlisted")
     if not isinstance(raw["params"], dict) or raw["params"]:
         raise BridgeError("unexpected_parameters")
     ts = raw["issued_at"]
     exp = raw["expires_at"]
-    if type(ts) is not int or type(exp) is not int or not (ts - 120 <= now <= exp) or exp - ts > 48 * 3600:
+    if type(ts) is not int or type(exp) is not int or not (ts - 120 <= now <= exp) or not (0 < exp - ts <= 48 * 3600):
         raise BridgeError("expired_or_invalid_window")
     return raw
 
@@ -98,7 +99,10 @@ class GitHubMailbox:
                 data = resp.read(MAX_RESPONSE + 1)
                 if len(data) > MAX_RESPONSE:
                     raise BridgeError("oversized_response")
-                return json.loads(data)
+                try:
+                    return json.loads(data)
+                except (UnicodeDecodeError, ValueError) as exc:
+                    raise BridgeError("invalid_github_json") from exc
         except HTTPError as exc:
             if exc.code == 404 and method == "GET":
                 return {"not_found": True}
@@ -119,13 +123,18 @@ class GitHubMailbox:
             return []
         if not isinstance(items, list):
             raise BridgeError("invalid_queue_listing")
+        # Refuse an apparently full listing: GitHub would silently omit additional jobs.
+        if len(items) > MAX_QUEUE_ENTRIES:
+            raise BridgeError("queue_directory_full_archive_old_jobs")
         names = []
         for item in items:
             if isinstance(item, dict) and item.get("type") == "file":
                 name = item.get("name", "")
                 if isinstance(name, str) and name.endswith(".json") and UUID_RE.fullmatch(name[:-5]):
                     names.append(name)
-        return sorted(set(names))[:MAX_JOBS_PER_RUN]
+        # The run limit belongs in run_once, after local published receipts are
+        # filtered out. Otherwise the oldest ten filenames starve every new job.
+        return sorted(set(names))
 
     def load_job(self, filename: str) -> dict:
         if not UUID_RE.fullmatch(filename[:-5]) or not filename.endswith(".json"):
@@ -134,7 +143,11 @@ class GitHubMailbox:
         if not isinstance(result, dict) or result.get("encoding") != "base64":
             raise BridgeError("invalid_job_content")
         try:
-            payload = base64.b64decode(result["content"], validate=False)
+            encoded = result["content"]
+            if not isinstance(encoded, str):
+                raise ValueError("content not base64 text")
+            # GitHub's base64 representation contains line breaks.
+            payload = base64.b64decode("".join(encoded.split()), validate=True)
             if len(payload) > 8192:
                 raise BridgeError("job_too_large")
             return json.loads(payload)
@@ -188,6 +201,13 @@ class LocalLedger:
                           (canonical(reply).decode("utf-8"), jid))
         self.conn.commit()
 
+    def mark_published(self, jid: str):
+        self.conn.execute("UPDATE jobs SET status='published' WHERE id=? AND status='done'", (jid,))
+        self.conn.commit()
+
+    def published_ids(self) -> set[str]:
+        return {row[0] for row in self.conn.execute("SELECT id FROM jobs WHERE status='published'")}
+
     def counts(self):
         return dict(self.conn.execute("SELECT status, COUNT(*) FROM jobs GROUP BY status").fetchall())
 
@@ -205,8 +225,8 @@ def execute_job(job: dict, sidecar: Path | None) -> dict:
             p = subprocess.run([sys.executable, str(script), "verify"], cwd=str(sidecar),
                                capture_output=True, text=True, timeout=20, check=False)
             try:
-                summary = json.loads(p.stdout.splitlines()[-1])
-            except (ValueError, IndexError):
+                summary = json.loads(p.stdout)
+            except ValueError:
                 summary = {}
             if p.returncode == 0 and summary.get("valid") is True:
                 return {"verification": "valid", "events": summary.get("events") if type(summary.get("events")) is int else None}
@@ -218,8 +238,18 @@ def execute_job(job: dict, sidecar: Path | None) -> dict:
 
 def run_once(mailbox: GitHubMailbox, ledger: LocalLedger, sidecar: Path | None = None) -> dict:
     mailbox.require_private()
-    summary = {"observed": 0, "executed": 0, "replied": 0, "skipped": 0, "errors": []}
-    for filename in mailbox.list_jobs():
+    summary = {"observed": 0, "executed": 0, "replied": 0, "skipped": 0,
+               "already_published": 0, "pending": 0, "errors": []}
+    published = ledger.published_ids()
+    names = mailbox.list_jobs()
+    for filename in names:
+        jid = filename[:-5]
+        if jid in published:
+            summary["already_published"] += 1
+            continue
+        if summary["observed"] >= MAX_JOBS_PER_RUN:
+            summary["pending"] += 1
+            continue
         summary["observed"] += 1
         try:
             raw = mailbox.load_job(filename)
@@ -229,9 +259,10 @@ def run_once(mailbox: GitHubMailbox, ledger: LocalLedger, sidecar: Path | None =
             if prior is not None:
                 if prior["status"] == "done":
                     mailbox.publish(job["id"], prior["reply"])
+                    ledger.mark_published(job["id"])
                     summary["replied"] += 1
                 else:
-                    summary["skipped"] += 1  # interrupted; never execute again automatically
+                    summary["skipped"] += 1  # in progress: uncertain outcome, no blind retry
                 continue
             if not ledger.begin(job["id"], digest):
                 summary["skipped"] += 1
@@ -242,11 +273,11 @@ def run_once(mailbox: GitHubMailbox, ledger: LocalLedger, sidecar: Path | None =
             ledger.finish(job["id"], reply)
             summary["executed"] += 1
             mailbox.publish(job["id"], reply)
+            ledger.mark_published(job["id"])
             summary["replied"] += 1
         except BridgeError as exc:
             summary["errors"].append({"job": filename, "error": str(exc)})
     return summary
-
 
 def demo(home: Path) -> dict:
     now = int(time.time())
@@ -263,7 +294,7 @@ def demo(home: Path) -> dict:
     second = run_once(m, ledger)
     return {"first": first, "second": second, "receipt": m.reply,
             "pass": first["executed"] == 1 and second["executed"] == 0
-                    and second["replied"] == 1 and m.reply["result"]["ping"] == "pong"}
+                    and second["already_published"] == 1 and m.reply["result"]["ping"] == "pong"}
 
 
 def get_state_dir(value: str | None) -> Path:
@@ -274,7 +305,7 @@ def get_state_dir(value: str | None) -> Path:
 
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description="Caveman Focus HP Bridge — minimal approved GitHub mailbox")
-    parser.add_argument("command", choices=["demo", "init", "status", "once", "watch", "make-job"])
+    parser.add_argument("command", choices=["demo", "init", "status", "doctor", "once", "watch", "make-job"])
     parser.add_argument("--repo", default=os.environ.get("CF_BRIDGE_REPO", ""))
     parser.add_argument("--branch", default="main")
     parser.add_argument("--state-dir", default=os.environ.get("CF_BRIDGE_STATE_DIR"))
@@ -303,6 +334,11 @@ def main(argv=None) -> int:
         if args.interval < 60:
             raise BridgeError("minimum_interval_60_seconds")
         mailbox = GitHubMailbox(args.repo, token, args.branch)
+        if args.command == "doctor":
+            mailbox.require_private()
+            print(json.dumps({"version": VERSION, "private_mailbox_verified": True,
+                              "queue_entries": len(mailbox.list_jobs()), "counts": ledger.counts()}))
+            return 0
         if args.command == "once":
             result = run_once(mailbox, ledger, Path(args.sidecar) if args.sidecar else None)
             print(json.dumps(result, sort_keys=True))
