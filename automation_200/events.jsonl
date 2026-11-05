@@ -6,3 +6,7 @@
 {"evidence": "19/19 local relay tests, including payload validation, expired job, duplicate and filename cases, source and public ping in CF-0", "recorded_at": "2026-11-05T16:01:02.113431+00:00", "status": "verified", "task": "CF-006"}
 {"evidence": "19/19 local relay tests, including payload validation, expired job, duplicate and filename cases, source and public ping in CF-0", "recorded_at": "2026-11-05T16:01:02.113433+00:00", "status": "verified", "task": "CF-007"}
 {"evidence": "19/19 local relay tests, including payload validation, expired job, duplicate and filename cases, source and public ping in CF-0", "recorded_at": "2026-11-05T16:01:02.113435+00:00", "status": "verified", "task": "CF-008"}
+{"evidence": "Source validate/make_job and specific future/input/unsupported/schema tests; 19 out of 19 local tests pass.", "recorded_at": "2026-11-05T16:03:10.443650+00:00", "status": "verified", "task": "CF-009"}
+{"evidence": "Source validate/make_job and specific future/input/unsupported/schema tests; 19 out of 19 local tests pass.", "recorded_at": "2026-11-05T16:03:10.443668+00:00", "status": "verified", "task": "CF-010"}
+{"evidence": "Source validate/make_job and specific future/input/unsupported/schema tests; 19 out of 19 local tests pass.", "recorded_at": "2026-11-05T16:03:10.443671+00:00", "status": "verified", "task": "CF-011"}
+{"evidence": "Source validate/make_job and specific future/input/unsupported/schema tests; 19 out of 19 local tests pass.", "recorded_at": "2026-11-05T16:03:10.443673+00:00", "status": "verified", "task": "CF-012"}

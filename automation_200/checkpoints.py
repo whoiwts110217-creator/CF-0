@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # cf.attr.v1=Q0FWRU1BTiBGT0NVU3xLSUFSQSBMWU5OLVJPU0UuIFNNSVRI
 """Evidence-only 200-task checkpoint keeper: complete four → create reviewable artifact."""
-import argparse, hashlib, json, pathlib, sys, datetime
+import argparse, hashlib, json, pathlib, sys, datetime, subprocess
 ROOT=pathlib.Path(__file__).parent
 SRC=ROOT/'registry.json'
 EVENTS=ROOT/'events.jsonl'
@@ -41,12 +41,35 @@ def checkpoint():
  path.write_text(json.dumps(snap,indent=2)+'\n')
  print(path)
 
+def git_checkpoint(push=False):
+    """Commit one four-item verified checkpoint in a real Git checkout.
+
+    No network or write credentials are required for the local commit;
+    --push is explicit, and depends on preconfigured owner Git authorization.
+    """
+    r=verify();n=r['completed']
+    if n==0 or n%4!=0:raise ValueError('git checkpoint requires 4 verified tasks since prior checkpoint')
+    checkpoint()
+    root=ROOT.parent
+    names=['automation_200/registry.json','automation_200/events.jsonl',
+           f'automation_200/checkpoints/checkpoint_{n:03d}.json']
+    def call(*args):
+        result=subprocess.run(['git',*args],cwd=root,check=True,capture_output=True,text=True,timeout=40)
+        return result.stdout.strip()
+    if call('rev-parse','--is-inside-work-tree')!='true':raise ValueError('not a Git checkout')
+    call('add','--',*names)
+    if call('diff','--cached','--name-only'):
+        call('commit','-m',f'CF200 verified checkpoint {n:03d}/200')
+    if push:call('push','origin','HEAD')
+    print(json.dumps({'saved_git':True,'verified':n,'pushed':push}))
+
 def main():
- p=argparse.ArgumentParser();p.add_argument('action',choices=('status','complete','checkpoint','validate'))
- p.add_argument('ids',nargs='*');p.add_argument('--evidence',default='')
+ p=argparse.ArgumentParser();p.add_argument('action',choices=('status','complete','checkpoint','validate','git-checkpoint'))
+ p.add_argument('ids',nargs='*');p.add_argument('--evidence',default='');p.add_argument('--push',action='store_true')
  a=p.parse_args()
  if a.action=='complete':r=complete(a.ids,a.evidence)
  else:r=verify()
- if a.action=='checkpoint':checkpoint()
+ if a.action=='git-checkpoint':git_checkpoint(a.push)
+ elif a.action=='checkpoint':checkpoint()
  else:print(json.dumps({'verified':r['completed'],'target':len(r['tasks']),'planned':200-r['completed']}))
 if __name__=='__main__':main()

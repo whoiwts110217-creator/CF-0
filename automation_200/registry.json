@@ -3,7 +3,7 @@
   "owner": "Kiara Lynn Rose Smith",
   "project": "Caveman Focus",
   "target": 200,
-  "completed": 8,
+  "completed": 12,
   "checkpoint_every": 4,
   "status": "WORK_IN_PROGRESS",
   "note": "A planned item is not a completed task. Physical HP outcomes require owner-HP evidence.",
@@ -118,8 +118,8 @@
       "depends_on": [
         "CF-008"
       ],
-      "status": "planned",
-      "evidence": null,
+      "status": "verified",
+      "evidence": "Source validate/make_job and specific future/input/unsupported/schema tests; 19 out of 19 local tests pass.",
       "authority": "existing-source-tests",
       "physical_hp_required": false
     },
@@ -131,8 +131,8 @@
       "depends_on": [
         "CF-009"
       ],
-      "status": "planned",
-      "evidence": null,
+      "status": "verified",
+      "evidence": "Source validate/make_job and specific future/input/unsupported/schema tests; 19 out of 19 local tests pass.",
       "authority": "existing-source-tests",
       "physical_hp_required": false
     },
@@ -144,8 +144,8 @@
       "depends_on": [
         "CF-010"
       ],
-      "status": "planned",
-      "evidence": null,
+      "status": "verified",
+      "evidence": "Source validate/make_job and specific future/input/unsupported/schema tests; 19 out of 19 local tests pass.",
       "authority": "existing-source-tests",
       "physical_hp_required": false
     },
@@ -157,8 +157,8 @@
       "depends_on": [
         "CF-011"
       ],
-      "status": "planned",
-      "evidence": null,
+      "status": "verified",
+      "evidence": "Source validate/make_job and specific future/input/unsupported/schema tests; 19 out of 19 local tests pass.",
       "authority": "existing-source-tests",
       "physical_hp_required": false
     },
@@ -462,7 +462,8 @@
     {
       "id": "CF-036",
       "stream": "hp_install",
-      "title": "Verify installer does not touch Sidecar",      "priority": 1,
+      "title": "Verify installer does not touch Sidecar",
+      "priority": 1,
       "depends_on": [
         "CF-035"
       ],
@@ -717,8 +718,7 @@
       "physical_hp_required": false
     },
     {
-      "id": "CF-056",
-      "stream": "sidecar",
+      "id": "CF-056",      "stream": "sidecar",
       "title": "Verify operations task category",
       "priority": 1,
       "depends_on": [
@@ -1261,7 +1261,8 @@
     {
       "id": "CF-098",
       "stream": "security",
-      "title": "Restrict worker to local user rights",      "priority": 1,
+      "title": "Restrict worker to local user rights",
+      "priority": 1,
       "depends_on": [
         "CF-097"
       ],
@@ -1516,8 +1517,7 @@
       "physical_hp_required": false
     },
     {
-      "id": "CF-118",
-      "stream": "priority_logic",
+      "id": "CF-118",      "stream": "priority_logic",
       "title": "Add failure retries with ceiling",
       "priority": 2,
       "depends_on": [
@@ -2060,7 +2060,8 @@
     {
       "id": "CF-160",
       "stream": "archive",
-      "title": "Validate source link accessibility",      "priority": 4,
+      "title": "Validate source link accessibility",
+      "priority": 4,
       "depends_on": [
         "CF-159"
       ],
@@ -2315,8 +2316,7 @@
       "physical_hp_required": false
     },
     {
-      "id": "CF-180",
-      "stream": "research",
+      "id": "CF-180",      "stream": "research",
       "title": "Publish research safely by default",
       "priority": 4,
       "depends_on": [
