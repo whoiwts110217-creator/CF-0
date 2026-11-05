@@ -180,4 +180,31 @@ class Tests(unittest.TestCase):
         for forbidden in ('C:\\Users', 'hostname', 'user_name', 'bank', 'token', 'private_file'):
             self.assertNotIn(forbidden,receipt)
 
+
+    def test_reject_dynamic_python_evaluation_action(self):
+        for action in ('eval', 'exec', 'python_eval'):
+            x=r.make_job('ping');x['action']=action
+            with self.assertRaisesRegex(r.RelayError,'action_not_allowed'):
+                r.validate(x,x['id']+'.json')
+
+    def test_reject_remote_file_write_action(self):
+        x=r.make_job('ping');x['action']='file_write'
+        with self.assertRaisesRegex(r.RelayError,'action_not_allowed'):
+            r.validate(x,x['id']+'.json')
+        x=r.make_job('ping');x['args']={'path':'anything','content':'test'}
+        with self.assertRaisesRegex(r.RelayError,'invalid_arguments'):
+            r.validate(x,x['id']+'.json')
+
+    def test_reject_browser_execution_action(self):
+        for action in ('browser','browser_open','chrome'):
+            x=r.make_job('ping');x['action']=action
+            with self.assertRaisesRegex(r.RelayError,'action_not_allowed'):
+                r.validate(x,x['id']+'.json')
+
+    def test_reject_unknown_json_keys_even_if_allowlisted(self):
+        for field in ('command','path','url','python','browser'):
+            x=r.make_job('ping');x[field]='inert'
+            with self.assertRaisesRegex(r.RelayError,'invalid_schema'):
+                r.validate(x,x['id']+'.json')
+
 if __name__=='__main__':unittest.main()
