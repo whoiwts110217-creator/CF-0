@@ -21,6 +21,15 @@ class ReadWriteSetupTests(unittest.TestCase):
         self.assertNotIn("ghp_" ,s)
         self.assertNotIn("shell=True",s)
 
+    def test_encrypted_token_reader_normalizes_file_newline(self):
+        s=(ROOT/"relay/cf_public_relay_rw.ps1").read_text()
+        self.assertIn("function Unprotect-TokenFromFile",s)
+        self.assertIn("(Get-Content -LiteralPath $Path -Raw -Encoding UTF8).Trim()",s)
+        self.assertIn("ConvertTo-SecureString -String $encryptedText",s)
+        self.assertIn("$stored=Unprotect-TokenFromFile $SecretFile",s)
+        self.assertIn("DPAPI_TOKEN_ROUNDTRIP=PASSED",s)
+        self.assertNotIn("Get-Content -LiteralPath $SecretFile -Raw -Encoding UTF8 | ConvertTo-SecureString",s)
+
     def test_actual_write_proof_before_schedule_change(self):
         s=(ROOT/"relay/cf_public_relay_rw.ps1").read_text()
         self.assertIn("Invoke-RestMethod -Method Put",s)

@@ -1,7 +1,7 @@
 # cf.attr.v1=Q0FWRU1BTiBGT0NVU3xLSUFSQSBMWU5OLVJPU0UuIFNNSVRI
 # CF-0 READ/WRITE: use the existing public-safe relay, no new command interpreter.
 # A private fine-grained GitHub token is DPAPI-encrypted for this Windows user.
-param([ValidateSet('enable','once','status','disable')][string]$Mode='enable')
+param([ValidateSet('enable','once','status','disable','selftest')][string]$Mode='enable')
 $ErrorActionPreference='Stop'
 $RepoName='whoiwts110217-creator/CF-0'
 $TaskName='CavemanFocusCF0Relay'
@@ -20,6 +20,22 @@ function Plaintext([Security.SecureString] $Secret) {
         if ($ptr -ne [IntPtr]::Zero) { [Runtime.InteropServices.Marshal]::ZeroFreeBSTR($ptr) }
     }
 }
+# Set-Content adds a line ending to the encrypted DPAPI text. Passing the
+# -Raw value directly to ConvertTo-SecureString can raise FormatException.
+# Normalize file-text line endings; never trim or log the decrypted token.
+function Unprotect-TokenFromFile([string] $Path) {
+    $encryptedText=(Get-Content -LiteralPath $Path -Raw -Encoding UTF8).Trim()
+    if ([string]::IsNullOrWhiteSpace($encryptedText)) {
+        throw 'Saved encrypted GitHub token is empty. Re-run ENABLE_CF0_READ_WRITE.bat under the same Windows account.'
+    }
+    try {
+        return ConvertTo-SecureString -String $encryptedText -ErrorAction Stop
+    }
+    catch {
+        throw 'Saved encrypted GitHub token cannot be decrypted by this Windows account. Re-run ENABLE_CF0_READ_WRITE.bat locally; never share the token.'
+    }
+}
+
 function New-WriteProbe([Security.SecureString] $Secret) {
     $plain=Plaintext $Secret
     try {
@@ -53,7 +69,7 @@ function Invoke-Worker {
         throw 'Writeback not configured. Run ENABLE_CF0_READ_WRITE.bat first.'
     }
     if (-not (Test-Path -LiteralPath $Worker)) { throw 'Missing Python relay.' }
-    $stored=Get-Content -LiteralPath $SecretFile -Raw -Encoding UTF8 | ConvertTo-SecureString
+    $stored=Unprotect-TokenFromFile $SecretFile
     $plain=Plaintext $stored
     try {
         $env:CF_RELAY_GITHUB_TOKEN=$plain
@@ -65,6 +81,25 @@ function Invoke-Worker {
         Remove-Item Env:CF_RELAY_GITHUB_TOKEN -ErrorAction SilentlyContinue
         $plain=$null
     }
+}
+# Self-test is fully offline and uses a disposable dummy string.
+# It exercises the same DPAPI save/read path used by the scheduled worker.
+if ($Mode -eq 'selftest') {
+    $testPath=Join-Path ([IO.Path]::GetTempPath()) ('cf0-secret-roundtrip-'+[guid]::NewGuid().ToString('N')+'.txt')
+    try {
+        $dummy=ConvertTo-SecureString 'CF0DummySecretForOfflineRoundTrip' -AsPlainText -Force
+        $cipher=$dummy | ConvertFrom-SecureString
+        Set-Content -LiteralPath $testPath -Value $cipher -Encoding UTF8
+        $readBack=Unprotect-TokenFromFile $testPath
+        if ((Plaintext $readBack) -cne 'CF0DummySecretForOfflineRoundTrip') {
+            throw 'Encrypted credential round-trip returned unexpected data.'
+        }
+        Write-Host 'DPAPI_TOKEN_ROUNDTRIP=PASSED (offline test with disposable dummy data)'
+    }
+    finally {
+        if (Test-Path -LiteralPath $testPath) { Remove-Item -LiteralPath $testPath -Force }
+    }
+    exit 0
 }
 if ($Mode -eq 'status') {
     $task=Get-ScheduledTask -TaskName $TaskName -ErrorAction SilentlyContinue

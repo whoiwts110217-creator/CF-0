@@ -11,3 +11,9 @@ Founder: **Kiara Lynn Rose Smith's Caveman Focus**.
 This is a **diagnostic**, not a remote Windows shell. The public worker executes only allowlisted ping, hp_status and configured read-only sidecar_verify, and publishes no confidential machine data. The script uses the existing task and ledger; it never registers a schedule, installs services, purchases anything, reads your account password, changes original Sidecar data, or sends private files. Its -OfflineOnly switch runs a local Python ping without network access and is suitable for CI; -RunPoll checks the real queue once.
 
 **Known limitations:** The public CF-0 repository is not appropriate for personal documents or secrets. A separate private GitHub mailbox with explicit authorization is the planned route to broader but still controlled HP workflows. A scheduled task requires the HP to be on and its Windows user signed in. If GitHub writeback is not configured, the relay only saves results locally.
+
+## Windows encrypted-token read fix (November 5, 2026)
+
+Earlier versions read the encrypted DPAPI file with `Get-Content -Raw` and passed its trailing newline into `ConvertTo-SecureString`, which can cause `FormatException`. The updated reader trims only encrypted **file text** before decryption; it does not change, reveal, or trim the actual GitHub token. An offline self-test verifies a disposable dummy token can be encrypted and read back under the same Windows user.
+
+If you see **ConvertTo-SecureString: Input string was not in a correct format**, download the updated CF-0 ZIP, extract to a new folder, and run `RUN_HP_TAKEOVER_CHECK.bat` from the new folder. Do not re-enter or regenerate the token unless the new reader specifically reports an undecryptable/empty credential. The encrypted token remains in your Windows user profile and the task name is unchanged.
