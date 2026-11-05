@@ -92,11 +92,13 @@ class FairnessTests(unittest.TestCase):
 
     def test_old_ledger_schema_upgrades_without_losing_jobs(self):
         import sqlite3
+        from contextlib import closing
         with tempfile.TemporaryDirectory() as td:
             path=Path(td)/'db.sqlite3'
-            with sqlite3.connect(str(path)) as conn:
+            with closing(sqlite3.connect(str(path))) as conn:
                 conn.execute('CREATE TABLE jobs(id TEXT PRIMARY KEY, digest TEXT NOT NULL, status TEXT NOT NULL, reply TEXT, created_at INTEGER NOT NULL)')
                 conn.execute("INSERT INTO jobs VALUES('old', 'abc', 'published', '{}', 1)")
+                conn.commit()
             led=bridge.LocalLedger(path)
             self.assertEqual(led.counts(), {'published':1})
             self.assertEqual(led.scan_cursor(),'')
