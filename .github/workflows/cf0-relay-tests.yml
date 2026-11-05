@@ -4,6 +4,8 @@ on:
     paths:
       - 'relay/**'
       - '*CF0*.bat'
+      - 'RUN_HP_TAKEOVER_CHECK.bat'
+      - 'HP_TAKEOVER_README.md'
       - 'automation_200/**'
       - '.github/workflows/cf0-relay-tests.yml'
   workflow_dispatch:
@@ -26,13 +28,18 @@ jobs:
       - name: Parse Windows PowerShell scripts
         shell: pwsh
         run: |
-          $paths=@('relay/install_task.ps1','relay/cf_public_relay_rw.ps1')
+          $paths=@('relay/install_task.ps1','relay/cf_public_relay_rw.ps1','relay/hp_takeover_check.ps1')
           foreach($path in $paths) {
             $tokens = $null
             $errors = $null
             [System.Management.Automation.Language.Parser]::ParseFile((Resolve-Path $path).Path, [ref]$tokens, [ref]$errors) | Out-Null
             if ($errors.Count -ne 0) { $errors | Format-List; exit 1 }
           }
+      - name: Offline Windows HP diagnostic
+        shell: pwsh
+        run: |
+          & powershell.exe -NoProfile -ExecutionPolicy Bypass -File relay/hp_takeover_check.ps1 -OfflineOnly
+          if ($LASTEXITCODE -ne 0) { throw 'Offline HP diagnostic failed' }
       - name: External Windows read-only relay smoke test
         shell: pwsh
         run: |
