@@ -29,3 +29,9 @@ jobs:
           $errors = $null
           [System.Management.Automation.Language.Parser]::ParseFile((Resolve-Path relay/install_task.ps1).Path, [ref]$tokens, [ref]$errors) | Out-Null
           if ($errors.Count -ne 0) { $errors | Format-List; exit 1 }
+      - name: Public CF-0 queue read from external Windows runner (no secrets)
+        shell: pwsh
+        run: |
+          python relay/cf_public_relay.py once --state-dir "$env:RUNNER_TEMP/cf0_public_relay_probe"
+          if ($LASTEXITCODE -ne 0) { throw 'Public relay poll failed' }
+          python relay/cf_public_relay.py status --state-dir "$env:RUNNER_TEMP/cf0_public_relay_probe"

@@ -3,7 +3,7 @@
   "owner": "Kiara Lynn Rose Smith",
   "project": "Caveman Focus",
   "target": 200,
-  "completed": 16,
+  "completed": 20,
   "checkpoint_every": 4,
   "status": "WORK_IN_PROGRESS",
   "note": "A planned item is not a completed task. Physical HP outcomes require owner-HP evidence.",
@@ -170,8 +170,8 @@
       "depends_on": [
         "CF-012"
       ],
-      "status": "planned",
-      "evidence": null,
+      "status": "verified",
+      "evidence": "Owner attribution comment present; command docs in CF-0; public GitHub file b51eb955-973a-4cb7-9bf9-04e1430c44ed fetched through connected GitHub; test_batch_limit 4/4/4/0 and 23/23 unit tests pass.",
       "authority": "existing-source-tests",
       "physical_hp_required": false
     },
@@ -183,8 +183,8 @@
       "depends_on": [
         "CF-013"
       ],
-      "status": "planned",
-      "evidence": null,
+      "status": "verified",
+      "evidence": "Owner attribution comment present; command docs in CF-0; public GitHub file b51eb955-973a-4cb7-9bf9-04e1430c44ed fetched through connected GitHub; test_batch_limit 4/4/4/0 and 23/23 unit tests pass.",
       "authority": "existing-source-tests",
       "physical_hp_required": false
     },
@@ -196,8 +196,8 @@
       "depends_on": [
         "CF-014"
       ],
-      "status": "planned",
-      "evidence": null,
+      "status": "verified",
+      "evidence": "Owner attribution comment present; command docs in CF-0; public GitHub file b51eb955-973a-4cb7-9bf9-04e1430c44ed fetched through connected GitHub; test_batch_limit 4/4/4/0 and 23/23 unit tests pass.",
       "authority": "existing-source-tests",
       "physical_hp_required": false
     },
@@ -209,8 +209,8 @@
       "depends_on": [
         "CF-015"
       ],
-      "status": "planned",
-      "evidence": null,
+      "status": "verified",
+      "evidence": "Owner attribution comment present; command docs in CF-0; public GitHub file b51eb955-973a-4cb7-9bf9-04e1430c44ed fetched through connected GitHub; test_batch_limit 4/4/4/0 and 23/23 unit tests pass.",
       "authority": "existing-source-tests",
       "physical_hp_required": false
     },
@@ -756,8 +756,8 @@
       "authority": "owner-reviewed",
       "physical_hp_required": false
     },
-    {
-      "id": "CF-059",      "stream": "sidecar",
+    {      "id": "CF-059",
+      "stream": "sidecar",
       "title": "Test concurrent Sidecar lock",
       "priority": 1,
       "depends_on": [
@@ -1555,8 +1555,8 @@
       "authority": "owner-reviewed",
       "physical_hp_required": false
     },
-    {
-      "id": "CF-121",      "stream": "public_finance",
+    {      "id": "CF-121",
+      "stream": "public_finance",
       "title": "Publish public-by-default direction",
       "priority": 3,
       "depends_on": [],
@@ -2354,8 +2354,8 @@
     },
     {
       "id": "CF-183",
-      "stream": "real_operations",
-      "title": "Verify GitHub CLI-free transport",      "priority": 4,
+      "stream": "real_operations",      "title": "Verify GitHub CLI-free transport",
+      "priority": 4,
       "depends_on": [
         "CF-182"
       ],
