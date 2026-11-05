@@ -3,6 +3,7 @@ on:
   push:
     paths:
       - 'relay/**'
+      - '*CF0*.bat'
       - 'automation_200/**'
       - '.github/workflows/cf0-relay-tests.yml'
   workflow_dispatch:
@@ -20,16 +21,19 @@ jobs:
         run: python relay/cf_public_relay.py ping-demo
       - name: Relay regression suite
         run: python -m unittest discover -s relay/tests -v
-      - name: Verify 200-item queue without pretending they're complete
+      - name: Verify 200-item ledger
         run: python automation_200/checkpoints.py validate
-      - name: Parse Windows scheduler source
+      - name: Parse Windows PowerShell scripts
         shell: pwsh
         run: |
-          $tokens = $null
-          $errors = $null
-          [System.Management.Automation.Language.Parser]::ParseFile((Resolve-Path relay/install_task.ps1).Path, [ref]$tokens, [ref]$errors) | Out-Null
-          if ($errors.Count -ne 0) { $errors | Format-List; exit 1 }
-      - name: Public CF-0 queue read from external Windows runner (no secrets)
+          $paths=@('relay/install_task.ps1','relay/cf_public_relay_rw.ps1')
+          foreach($path in $paths) {
+            $tokens = $null
+            $errors = $null
+            [System.Management.Automation.Language.Parser]::ParseFile((Resolve-Path $path).Path, [ref]$tokens, [ref]$errors) | Out-Null
+            if ($errors.Count -ne 0) { $errors | Format-List; exit 1 }
+          }
+      - name: External Windows read-only relay smoke test
         shell: pwsh
         run: |
           python relay/cf_public_relay.py once --state-dir "$env:RUNNER_TEMP/cf0_public_relay_probe"
