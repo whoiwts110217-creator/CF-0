@@ -3,7 +3,7 @@
   "owner": "Kiara Lynn Rose Smith",
   "project": "Caveman Focus",
   "target": 200,
-  "completed": 25,
+  "completed": 29,
   "checkpoint_every": 4,
   "status": "WORK_IN_PROGRESS",
   "note": "A planned item is not a completed task. Physical HP outcomes require owner-HP evidence.",
@@ -337,8 +337,8 @@
       "depends_on": [
         "CF-025"
       ],
-      "status": "planned",
-      "evidence": null,
+      "status": "verified",
+      "evidence": "relay/tests/test_windows_installer_gates.py::test_cf026_spaces_in_python_path; Windows GitHub Actions run 42074418183 job 127410672836: passing; uses a temporary spaced path. Source/CI validation only, not installation on owner HP.",
       "authority": "owner-reviewed",
       "physical_hp_required": false
     },
@@ -788,8 +788,8 @@
       "title": "Design local request digest",
       "priority": 1,
       "depends_on": [],
-      "status": "planned",
-      "evidence": null,
+      "status": "verified",
+      "evidence": "relay/cf_public_relay.py::sha() computes canonical SHA-256 request digest; relay/tests/test_public_relay.py::test_http_transport_integration checks receipt digest matches request; passing Windows run 42074418183.",
       "authority": "existing-source-tests",
       "physical_hp_required": false
     },
@@ -1046,8 +1046,8 @@
       "title": "Freeze public action allowlist",
       "priority": 1,
       "depends_on": [],
-      "status": "planned",
-      "evidence": null,
+      "status": "verified",
+      "evidence": "relay/cf_public_relay.py::ALLOWED and validate(); relay/tests/test_public_relay.py::test_reject_arbitrary_shell, test_no_arguments, test_result_isolation_rejects_remote_shell_and_personal_fields; passing Windows run 42074418183. Public allowlist frozen to ping, hp_status, sidecar_verify.",
       "authority": "existing-source-tests",
       "physical_hp_required": false
     },
@@ -1304,8 +1304,8 @@
       "title": "Register current owner priority hierarchy",
       "priority": 2,
       "depends_on": [],
-      "status": "planned",
-      "evidence": null,
+      "status": "verified",
+      "evidence": "Owner-approved hierarchy in docs/OPERATIONS.md and automation_200/README.md: Automation > Priority Intelligence > Financial Operations > Other Concurrent Work. Documentary task, no owner HP deployment claimed.",
       "authority": "owner-reviewed",
       "physical_hp_required": false
     },
