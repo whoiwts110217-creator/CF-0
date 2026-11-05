@@ -6,4 +6,4 @@ Historical branches: Donation Growth campaign v1.4; Cash App/storefront and $5 p
 
 **A proposed $49 price is not a paid sale. A functioning payment link is not a payment. A grant draft is not a grant award.** Earlier archive review reported zero newly verified cash receipts from inspected records; that was not a live bank review or a present-day balance claim.
 
-Private recipients, accounts, payment handles, transactions and contributor records are excluded from public CF-0.
+Project finance aggregates, operating budgets, support goals and verified project receipts are public by default. Protect credentials, personal account identifiers and private contributor transaction details. See [finance/README.md](../finance/README.md).

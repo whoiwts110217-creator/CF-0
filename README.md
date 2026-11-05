@@ -15,12 +15,12 @@
 | Original recovered code | [Experiments](experiments/README.md) |
 | RH and Single-Dot | [RH](docs/RH.md), [SN](docs/SINGLE_DOT.md) |
 | Research/invention | [Research](docs/RESEARCH.md), [30 ideas](docs/INVENTIONS.md) |
-| Business | [Business](docs/BUSINESS.md) |
+| Business and project finances | [Business](docs/BUSINESS.md), [Public finance](finance/README.md) |
 | Original fiction | [Creative](docs/CREATIVE.md) |
 | AR / business game | [Reality Game](docs/REALITY_GAME.md) |
 | Roadmaps | [Roadmaps](docs/ROADMAPS.md) |
-| Chronology and gaps | [Timeline](docs/TIMELINE.md), [Provenance](docs/PROVENANCE.md) |
+| Chronology, gaps, public-release rule | [Timeline](docs/TIMELINE.md), [Provenance](docs/PROVENANCE.md), [Publication policy](docs/PUBLICATION_POLICY.md) |
 | Original SN illustration | [Assets](assets/README.md) |
-| HP Python bridge | [Bridge](bridge/README.md) |
+| HP Python bridge and phone control | [Bridge](bridge/README.md), [Phone → ChatGPT → HP](docs/HP_CHAT_CONTROL.md) |
 
-**Scope:** Curated, public-safe, reconstructed historical index—not a complete export of all conversations. The original approximately 37-project list remains unrecovered. No verified new scientific law, RH proof, fully connected HP control, or real income is claimed here. This repository is **PUBLIC**; keep private conversation exports, credentials and financial data elsewhere.
+**Scope:** Curated, public-safe, reconstructed historical index—not a complete export of all conversations. The original approximately 37-project list remains unrecovered. No verified new scientific law, RH proof, fully connected HP control, or real income is claimed here. This repository is **PUBLIC**; publish non-sensitive work and aggregate project finances by default; keep credentials, private account details and nonconsenting third-party records outside public GitHub.

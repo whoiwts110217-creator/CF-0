@@ -17,3 +17,9 @@ Declare a previously unreachable modeled goal → find missing observation/opera
 
 ## 6. Living RPG
 Map audited real work to quest events; create engaging UI; test user experience; then optional mixed-reality layer, without buying hardware prematurely.
+
+## 7. Conversation-driven HP operator — top operational objective
+Owner uses phone voice/text through their usual ChatGPT account; assistant dispatches structured jobs via an authorized private GitHub mailbox to the HP's Python worker, which records receipts. Avoid unsolicited discussion. Verify actual phone-originated dispatch, HP execution, duplicate suppression, returned evidence and scheduling before claiming a complete connection. See [design](HP_CHAT_CONTROL.md).
+
+## 8. Public-by-default evidence releases
+Publish source-coded experiments, negative results, public project-level finances, approved creative source and the master registry. Keep confidential credentials and third-party private material out of public GitHub. See [policy](PUBLICATION_POLICY.md).
