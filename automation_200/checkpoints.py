@@ -10,10 +10,8 @@ CHECKPOINTS=ROOT/'checkpoints'
 def load():return json.loads(SRC.read_text(encoding='utf-8'))
 def canonical(obj):return json.dumps(obj,sort_keys=True,separators=(',',':'),ensure_ascii=False).encode()
 def verify():
- r=load();assert len(r['tasks'])==200
- ids=[t['id'] for t in r['tasks']];assert len(set(ids))==len(ids)
- actual=sum(t['status']=='verified' for t in r['tasks']);assert r['completed']==actual
- assert all(t['evidence'] for t in r['tasks'] if t['status']=='verified')
+ from validate_registry import check_registry
+ r=load();check_registry(r)
  return r
 
 def complete(ids,proof):
