@@ -3,7 +3,7 @@
   "owner": "Kiara Lynn Rose Smith",
   "project": "Caveman Focus",
   "target": 200,
-  "completed": 37,
+  "completed": 40,
   "checkpoint_every": 4,
   "status": "WORK_IN_PROGRESS",
   "note": "A planned item is not a completed task. Physical HP outcomes require owner-HP evidence.",
@@ -840,8 +840,8 @@
       "depends_on": [
         "CF-064"
       ],
-      "status": "planned",
-      "evidence": null,
+      "status": "verified",
+      "evidence": "relay/cf_public_relay.py: State.save occurs before HttpRepo.publish; on retry tick loads stored receipt and republishes without executing. test_idempotence and test_http_transport_integration passed in Windows CI run 42074418183. Source-level ambiguous post retry design, not real network fault attestation.",
       "authority": "existing-source-tests",
       "physical_hp_required": false
     },
@@ -853,8 +853,8 @@
       "depends_on": [
         "CF-065"
       ],
-      "status": "planned",
-      "evidence": null,
+      "status": "verified",
+      "evidence": "relay/cf_public_relay.py: HttpRepo.publish GETs existing receipt, strictly base64-decodes JSON and requires old == receipt before returning True; test_http_transport_integration and test_remote_existing_receipt_forgery_and_malformed_data_rejected passed in Windows CI run 42074418183.",
       "authority": "existing-source-tests",
       "physical_hp_required": false
     },
@@ -866,8 +866,8 @@
       "depends_on": [
         "CF-066"
       ],
-      "status": "planned",
-      "evidence": null,
+      "status": "verified",
+      "evidence": "relay/cf_public_relay.py: HttpRepo.publish raises receipt_conflict for nonmatching existing receipt; test_remote_existing_receipt_forgery_and_malformed_data_rejected asserts no PUT on mismatch and malformed existing receipt; Windows CI run 42074418183.",
       "authority": "existing-source-tests",
       "physical_hp_required": false
     },
