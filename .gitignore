@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+*.sqlite*
+*.db
+.env
+.env.*
+state/
+private/
+bridge/results/
+bridge/queue/
+Domino_Data/
