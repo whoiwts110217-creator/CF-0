@@ -64,3 +64,15 @@ The `ingest` and `import-chatgpt` commands return a precise `source_id`. The exa
 `python -m unittest discover -s continuity/tests -v`
 
 All tests use **synthetic**, disposable content and a temporary SQLite store. No external network, GitHub writes or HP operations.
+## CF-200 work-order ↔ project graph bridge (source-level)
+
+`workorder_bridge.py` can privately import a reviewed copy of the complete public CF-200 `registry.json` as an immutable versioned snapshot. It checks task IDs and verified-status counts, keeps exact work-order status and source-evidence digests, and records an event without modifying the original 200-task registry or its event ledger. A newer snapshot is stored separately; differences are flagged for review.
+
+```powershell
+py -3 -m continuity.workorder_bridge import-registry "C:\\CF-0\\automation_200\\registry.json" --origin "Reviewed CF-0 main commit"
+py -3 -m continuity.workorder_bridge suggest-links sha256:<EXACT_SOURCE_ID>
+py -3 -m continuity.workorder_bridge link-workorder sha256:<EXACT_SOURCE_ID> CF-001 AUTO-03 --relation supports --reason "Reviewed original task and project intent"
+py -3 -m continuity.workorder_bridge audit
+```
+
+Suggestions are explicitly **not approved links**. Only unambiguous stream classifications are suggested; ambiguous workstreams remain unmapped. An explicit `link-workorder` call keeps an event but **never changes project completion**. The current private eight-source backup has **not yet been populated with the public CF-200 registry** by this change; it is preserved unchanged until the exact live registry can be ingested and the snapshot re-backed-up and tested.

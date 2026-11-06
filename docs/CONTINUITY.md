@@ -58,3 +58,7 @@ An **offline private** continuity store was constructed from **eight accessible 
 - **Sustainability:** verify actual earned/received cash, recurring margins and rights/succession documentation without treating hopes as outcomes.
 
 The purpose of this page is *continuity of meaning and execution*. It is not a replacement for the private master or permission to publish it.
+
+## Project/task integration source (2026-11-06)
+
+[The local-first work-order/project bridge](../continuity/workorder_bridge.py) adds versioned, **private** snapshots of the public CF-200 registry and explicitly reviewed project-to-task links, with conservative proposal-only relationship suggestions. This is executable source plus synthetic tests, **not** proof that the earlier private archive was automatically updated or that a work-order verification completed any parent project. No HP command, public capability, original project ID or legacy work-order ledger was altered.
