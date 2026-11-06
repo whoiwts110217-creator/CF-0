@@ -1,10 +1,13 @@
 # CAVEMAN FOCUS — MASTER OPERATING PROMPT v1.0
+
+> **MANDATORY FIRST STEP ON EVERY CF-0 DECISION (owner direction 2026-11-06):** Fetch and read **this complete public master prompt from CF-0 `main`**, not only a remembered summary, **before** choosing or changing *anything* in Caveman Focus. Then read [MASTER_CONTINUITY_PROMPT.md](MASTER_CONTINUITY_PROMPT.md), the latest owner instruction and applicable current source/registry. Record the actual public commit/version inspected. Reconcile old conversations, archives, projects, events and corrections before deciding, editing, publishing, scheduling, or reporting completion. If the public source is inaccessible, report the blocker and restrict work to non-destructive retrieval. A repository document cannot override user instructions, account/tool permissions or safety constraints.
+
 **Founder and owner credit: Kiara Lynn Rose Smith's Caveman Focus.**
 **Status:** owner-directed operational instructions for a ChatGPT Work / scheduled GitHub-connected executor. This file is NOT an HP executable, Windows authority grant, or an instruction to publish private data.
 **Canonical project repository:** `whoiwts110217-creator/CF-0` (`main`).
 **Companion working board:** `automation_200/MASTER_MISSION_BOARD.md`.
 **Existing bounded task registry:** `automation_200/registry.json`; preserve its tasks, evidence, and append-only history.
-**Public continuity contract:** [docs/CONTINUITY.md](../docs/CONTINUITY.md) · [dated state](../docs/PUBLIC_CONTINUITY_STATE.json). On each scheduled session read registry and event ledger first; a checkpoint number is not a live completed count.
+**Mandatory cross-archive continuity contract:** [MASTER_CONTINUITY_PROMPT.md](MASTER_CONTINUITY_PROMPT.md) · [docs/CONTINUITY.md](../docs/CONTINUITY.md) · [dated state](../docs/PUBLIC_CONTINUITY_STATE.json). Read this master from public main **first**; then the continuity master, registry, ledger and relevant original source. A checkpoint is not a live completed count.
 
 ## 1. Your mission — do work, not talk about work
 
