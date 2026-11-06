@@ -25,7 +25,9 @@ class EvidenceDecisionTests(unittest.TestCase):
         self.assertTrue(plan["read_only"])
         self.assertFalse(plan["execution_authorized"])
         self.assertTrue(plan["selected"])
-        self.assertTrue(all(x["priority_tier"] == 0 for x in plan["selected"]))
+        tiers = [x["priority_tier"] for x in plan["selected"]]
+        self.assertEqual(tiers, sorted(tiers))
+        self.assertEqual(tiers[0], 0)  # P1 may proceed once cloud-safe P0 tasks are exhausted.
         self.assertTrue(all(x["action"] == "propose_source_work_only" for x in plan["selected"]))
         self.assertNotIn("CF-027", [x["id"] for x in plan["selected"]])
         self.assertNotIn("CF-042", [x["id"] for x in plan["selected"]])
