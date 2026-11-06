@@ -21,26 +21,41 @@ REQUIRED_IDS = frozenset({
 })
 PRIORITY = ["automation", "owner_priority_policy", "legitimate_finance", "parallel_other_projects"]
 
+# Minimum source capabilities from the last verified owner-facing contract.
+# Changes to these expectations are governance changes; CI alone is not consent.
+REQUIRED_ACTIVE_SOURCE = {
+    "public_relay_ping": ("command", "ping", "relay/cf_public_relay.py"),
+    "public_relay_status": ("command", "hp_status", "relay/cf_public_relay.py"),
+    "public_relay_sidecar_verify": ("command", "sidecar_verify", "relay/cf_public_relay.py"),
+    "hp_health_monitor": ("source", "relay/health_watch.py", "relay/health_watch.py"),
+    "founder_decision_engine": ("source", "automation_200/decision_engine.py", "automation_200/decision_engine.py"),
+    "relay_unknown_attempt_recovery": ("source", "relay/UNKNOWN_ATTEMPTS.md", "relay/UNKNOWN_ATTEMPTS.md"),
+}
+
+
 
 def _relay_commands(source: str) -> frozenset[str]:
     tree = ast.parse(source)
-    for node in tree.body:
-        if isinstance(node, ast.Assign) and any(
-            isinstance(target, ast.Name) and target.id == "ALLOWED"
-            for target in node.targets
-        ):
-            value = node.value
-            if (not isinstance(value, ast.Call)
-                    or not isinstance(value.func, ast.Name)
-                    or value.func.id != "frozenset"
-                    or len(value.args) != 1 or value.keywords):
-                raise ValueError("relay_allowlist_is_not_static")
-            literal = ast.literal_eval(value.args[0])
-            if (not isinstance(literal, (tuple, list, set, frozenset))
-                    or any(type(name) is not str for name in literal)):
-                raise ValueError("invalid_relay_allowlist")
-            return frozenset(literal)
-    raise ValueError("relay_allowlist_missing")
+    assignments = [
+        node for node in tree.body
+        if isinstance(node, (ast.Assign, ast.AnnAssign, ast.AugAssign))
+        and any(isinstance(target, ast.Name) and target.id == "ALLOWED"
+                for target in (node.targets if isinstance(node, ast.Assign)
+                               else [node.target]))
+    ]
+    if len(assignments) != 1:
+        raise ValueError("relay_allowlist_missing_or_ambiguous")
+    value = assignments[0].value
+    if (not isinstance(value, ast.Call)
+            or not isinstance(value.func, ast.Name)
+            or value.func.id != "frozenset"
+            or len(value.args) != 1 or value.keywords):
+        raise ValueError("relay_allowlist_is_not_static")
+    literal = ast.literal_eval(value.args[0])
+    if (not isinstance(literal, (tuple, list, set, frozenset))
+            or any(type(name) is not str for name in literal)):
+        raise ValueError("invalid_relay_allowlist")
+    return frozenset(literal)
 
 
 def check(contract: dict, relay_source: str, *, root: Path = ROOT) -> dict:
@@ -65,6 +80,12 @@ def check(contract: dict, relay_source: str, *, root: Path = ROOT) -> dict:
     if len(names) != len(set(names)) or not REQUIRED_IDS <= set(names):
         raise ValueError("capability_removed_or_duplicated")
     map_ = {c["id"]: c for c in caps}
+    for cid, (kind, value, source) in REQUIRED_ACTIVE_SOURCE.items():
+        record = map_[cid]
+        if record.get("status") != "active_source":
+            raise ValueError("approved_capability_silently_disabled:" + cid)
+        if record.get(kind) != value or record.get("source", record.get("evidence")) != source:
+            raise ValueError("approved_capability_evidence_replaced:" + cid)
     commands = _relay_commands(relay_source)
     active = {
         map_[key]["command"] for key in (
@@ -73,13 +94,18 @@ def check(contract: dict, relay_source: str, *, root: Path = ROOT) -> dict:
     }
     if active != EXPECTED_COMMANDS or not active <= commands:
         raise ValueError("previously_active_command_removed")
+    # Commands cannot be introduced just by changing relay code without
+    # updating the owner-reviewed source contract and tests.
+    if commands - EXPECTED_COMMANDS:
+        if "open_notepad" in commands and map_["notepad_owner_launch"].get("status") == "regression_open":
+            raise ValueError("notepad_source_enabled_but_contract_not_updated")
+        raise ValueError("unlisted_command_exposed")
     notepad = map_["notepad_owner_launch"]
     if notepad.get("previously_owner_approved") is not True or notepad.get("command") != "open_notepad":
         raise ValueError("historical_notepad_approval_erased")
     if notepad.get("status") not in ("regression_open", "active_source"):
         raise ValueError("notepad_regression_silently_retired")
-    if notepad["status"] == "regression_open" and "open_notepad" in commands:
-        raise ValueError("notepad_source_enabled_but_contract_not_updated")
+
     if notepad["status"] == "active_source" and "open_notepad" not in commands:
         raise ValueError("notepad_claimed_active_without_source")
     if not isinstance(notepad.get("last_known_issue"), str) or not notepad["last_known_issue"]:
@@ -90,9 +116,10 @@ def check(contract: dict, relay_source: str, *, root: Path = ROOT) -> dict:
             if not isinstance(source, str) or not source or not (root / source).is_file():
                 raise ValueError("active_capability_without_source:" + cap["id"])
     docs = contract.get("critical_documents")
-    if (not isinstance(docs, dict) or "Master Records" not in docs.get("private_master_library_path", "")
-            or "Project_Atlas" not in docs.get("private_reconstructed_project_atlas", "")):
-        raise ValueError("private_master_reference_missing")
+    if (not isinstance(docs, dict)
+            or docs.get("private_master_library_path") != "/Caveman Focus/Master Records/Caveman_Focus_Integrated_Master_Record_2026-11-06_R2.docx"
+            or docs.get("private_reconstructed_project_atlas") != "/Caveman Focus/Master Records/Caveman_Focus_Reconstructed_Project_Atlas_2026-11-06.json"):
+        raise ValueError("current_private_master_reference_missing")
     return {
         "guard": "cf0.owner_capability_source_guard.v1",
         "creator": contract["creator"],
