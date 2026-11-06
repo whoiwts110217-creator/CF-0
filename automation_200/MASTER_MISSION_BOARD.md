@@ -111,3 +111,7 @@ The unattended ping above still had no matching receipt at review. The next usef
 - Registry remains **52/200**; append-only events and numbered checkpoints unchanged.
 
 **Next three executable steps:** (1) verify Windows CI for the new waiting-cycle module and correct any failures; (2) inspect scheduled probe receipt and correlate any result with Windows scheduler evidence; (3) test explicit state write/read round-trip and owner preference persistence without granting new execution authority.
+
+## Watchdog testing workaround
+
+The hourly public channel watchdog now runs priority selector and waiting-cycle tests plus a read-only CLI check. Commit 3a7131a6. This bypasses reliance on local HP for source validation; it does not establish unattended HP execution. GitHub has not yet returned a workflow run for this commit. CF-200 remains 52/200. Next: inspect watchdog outcome, reconcile HP scheduled ping, and preserve priority state evidence.
