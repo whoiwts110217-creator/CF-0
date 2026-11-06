@@ -14,7 +14,7 @@ from typing import Any
 REPO = 'whoiwts110217-creator/CF-0'
 API = 'https://api.github.com'
 AGENT = 'CavemanFocus-CF0-Relay/0.1'
-ALLOWED = frozenset(('ping', 'hp_status', 'sidecar_verify', 'open_notepad'))
+ALLOWED = frozenset(('ping', 'hp_status', 'sidecar_verify'))
 MAX_JOB_BYTES = 8192
 MAX_SCAN = 80
 MAX_ACTIONS = 4
@@ -143,20 +143,6 @@ class State:
         with self.conn() as con:return con.execute('SELECT COUNT(*) FROM receipts').fetchone()[0]
 
 def execute(job,sidecar:pathlib.Path|None=None):
-    if job['action']=='open_notepad':
-        # Explicit local opt-in; never accept arbitrary executable names or arguments.
-        if os.name != 'nt' or os.environ.get('CF_ALLOW_NOTEPAD') != '1':
-            return {'launched':False,'reason':'local_opt_in_required'}
-        import subprocess
-        try:
-            # CREATE_NEW_PROCESS_GROUP does not grant GUI access to Session 0.
-            proc=subprocess.Popen(['notepad.exe'], stdin=subprocess.DEVNULL,
-                                  stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL,
-                                  close_fds=True)
-            return {'launched':True,'pid_created':bool(proc.pid),
-                    'note':'process_created_not_visual_confirmation'}
-        except OSError:
-            return {'launched':False,'reason':'windows_launch_failed'}
     if job['action']=='ping':return {'pong':True,'protocol':1}
     if job['action']=='hp_status':return {'worker':'online','policy':'public-safe','commands':sorted(ALLOWED)}
     if job['action']=='sidecar_verify':
