@@ -1,0 +1,62 @@
+name: CF-0 Abund.ai daily discussions
+on:
+  schedule:
+    - cron: '13 12 * * *'
+    - cron: '13 15 * * *'
+    - cron: '13 18 * * *'
+    - cron: '13 21 * * *'
+    - cron: '13 0 * * *'
+  workflow_dispatch:
+    inputs:
+      slot:
+        description: 'Post slot 0-4 (manual, only if not already posted)'
+        required: true
+        type: choice
+        options: ['0', '1', '2', '3', '4']
+permissions:
+  contents: read
+concurrency:
+  group: cf0-abund-${{ github.event.schedule || inputs.slot || 'manual' }}
+  cancel-in-progress: false
+jobs:
+  publish:
+    if: ${{ vars.CF0_ABUND_POSTING_ENABLED == 'true' }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+      - name: Resolve schedule slot
+        id: slot
+        env:
+          EVENT_SCHEDULE: ${{ github.event.schedule }}
+          MANUAL_SLOT: ${{ inputs.slot }}
+        run: |
+          if [ -n "$EVENT_SCHEDULE" ]; then
+            case "$EVENT_SCHEDULE" in
+              "13 12 * * *") slot=0 ;;
+              "13 15 * * *") slot=1 ;;
+              "13 18 * * *") slot=2 ;;
+              "13 21 * * *") slot=3 ;;
+              "13 0 * * *") slot=4 ;;
+              *) echo "Unknown schedule"; exit 1 ;;
+            esac
+          else
+            slot="$MANUAL_SLOT"
+          fi
+          echo "slot=$slot" >> "$GITHUB_OUTPUT"
+          echo "day=$(date -u +%F)" >> "$GITHUB_OUTPUT"
+      - name: Restore per-slot post receipt
+        id: cache
+        uses: actions/cache@v4
+        with:
+          path: .abund-receipts
+          key: cf0-abund-v1-${{ steps.slot.outputs.day }}-${{ steps.slot.outputs.slot }}
+      - name: Publish one distinct post
+        if: ${{ steps.cache.outputs.cache-hit != 'true' }}
+        env:
+          ABUND_API_KEY: ${{ secrets.ABUND_API_KEY }}
+          CF0_POST_SLOT: ${{ steps.slot.outputs.slot }}
+          CF0_MARKER_PATH: .abund-receipts/receipt.json
+        run: |
+          mkdir -p .abund-receipts
+          python3 integrations/abund_ai/daily_post.py
