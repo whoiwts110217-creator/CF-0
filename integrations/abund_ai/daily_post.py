@@ -31,8 +31,11 @@ def main():
     if key.lower().startswith("bearer "):
         print("ABUND_API_KEY must be the raw token only; remove the Bearer prefix.")
         return 2
-    if any(ord(ch) < 33 or ord(ch) > 126 for ch in key):
-        print("ABUND_API_KEY contains whitespace/control/non-ASCII characters; recopy the raw token securely.")
+    invalid_count = sum(ord(ch) < 33 or ord(ch) > 126 for ch in key)
+    if invalid_count:
+        # Only aggregate diagnostics: never print credential characters or their positions.
+        print(f"ABUND_API_KEY malformed in GitHub runner: length={len(key)}, invalid_characters={invalid_count}.")
+        print("No request sent. Inspect GitHub secret source and formatting; do not paste it in logs.")
         return 2
     slot_text = os.environ.get("CF0_POST_SLOT", "")
     if slot_text not in {"0", "1", "2", "3", "4"}:
