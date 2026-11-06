@@ -1,5 +1,6 @@
 """Offline tests for the privacy-minimized, read-only HP health collector."""
 import json
+import contextlib
 import pathlib
 import sqlite3
 import sys
@@ -24,13 +25,14 @@ class HPHealthSnapshotTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as home:
             folder = pathlib.Path(home) / ".caveman_focus_relay"
             folder.mkdir()
-            with sqlite3.connect(folder / "relay.sqlite3") as db:
+            with contextlib.closing(sqlite3.connect(folder / "relay.sqlite3")) as db:
                 db.execute("CREATE TABLE receipts (receipt TEXT)")
                 db.execute("INSERT INTO receipts VALUES (?)", (json.dumps({
                     "status": "completed", "result": {"pong": True, "protocol": 1},
                     "private_token": "must-not-appear"}),))
                 db.execute("INSERT INTO receipts VALUES (?)", (json.dumps({
                     "status": "failed", "result": {"error": "internal"}}),))
+                db.commit()
             report = snapshot(home)
             self.assertEqual(report["receipt_count"], 2)
             self.assertEqual(report["ping_receipt_count"], 1)
@@ -60,8 +62,9 @@ class HPHealthSnapshotTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as home:
             folder = pathlib.Path(home) / ".caveman_focus_relay"
             folder.mkdir()
-            with sqlite3.connect(folder / "relay.sqlite3") as db:
+            with contextlib.closing(sqlite3.connect(folder / "relay.sqlite3")) as db:
                 db.execute("CREATE TABLE unrelated (id INTEGER)")
+                db.commit()
             report = snapshot(home)
             self.assertEqual(report["error"], "state_unavailable")
             self.assertNotIn(str(folder), json.dumps(report))
