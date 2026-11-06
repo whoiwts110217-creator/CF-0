@@ -16,7 +16,9 @@
     "last_numbered_checkpoint": 52,
     "next_numbered_checkpoint": 56,
     "evidence": "https://github.com/whoiwts110217-creator/CF-0/commit/93d1928b17897a41a094cdb98c96cc881c535090",
-    "meaning": "Verified source-level work orders with individual evidence; not percentage of finished product or HP uptime"
+    "meaning": "Verified source-level work orders with individual evidence; not percentage of finished product or HP uptime",
+    "registry_git_blob_sha1": "6d4d5d1206294ade727cad9e95f4a5b2da900d66",
+    "registry_exact_raw_bytes_imported_into_private_store": false
   },
   "hp": {
     "public_ping_request_id": "aeccc8a2-217f-4786-aaaf-19b2fc9ff35a",
@@ -50,14 +52,24 @@
       "source_code": "continuity/local_index.py",
       "test_suite": "continuity/tests/test_local_index.py",
       "snapshot_evidence_scope": "private_user_library_documents_preserved_and_restored_in_assistant_workspace_not_HP",
-      "source_files_preserved": 8,
+      "source_files_preserved": 18,
       "reconstructed_projects": 62,
       "external_source_reference_links": 98,
       "full_original_chat_exports_indexed": 0,
       "private_backup_verified": true,
       "installed_on_owner_HP": false,
       "other_account_access_proven": false,
-      "original_37_project_list_recovered": false
+      "original_37_project_list_recovered": false,
+      "private_project_source_links": 134,
+      "private_event_chain_length": 91,
+      "new_original_library_artifacts_since_v1": 10,
+      "private_backup_version": "v2",
+      "previous_backup_preserved": true,
+      "private_backup_sha256": "42f0626d5379788b231aad227626571c8d6532f7298654d6c3a0ad39594a59d4",
+      "restore_verified_on_separate_private_directory": true,
+      "private_original_conversation_exports_indexed": 0,
+      "original_project_membership_still_unverified": true,
+      "full_git_registry_snapshot_imported_into_private_store": false
     }
   },
   "finance": {
