@@ -28,6 +28,20 @@ class WorkorderBridgeTests(unittest.TestCase):
                                                completed=int(status=="verified"))))
         return workorder_bridge.import_registry(self.db, self.state, self.source)
 
+    def test_rejects_noncanonical_or_missing_ids_before_ingestion(self):
+        # Two tasks with valid-looking but noncanonical IDs must not enter
+        # the private evidence store, even if counts and statuses agree.
+        for ids in (("CF-001", "CF-003"), ("CF-001", "CF-999"),
+                    ("CF-000", "CF-002"), ("CF-1", "CF-002")):
+            with self.subTest(ids=ids):
+                items = [dict(id=ident, stream="research", title=ident,
+                              status="planned", evidence="") for ident in ids]
+                self.source.write_text(json.dumps(
+                    {"tasks": items, "target": 2, "completed": 0}), encoding="utf-8")
+                with self.assertRaisesRegex(ValueError, "noncanonical_or_missing"):
+                    workorder_bridge.import_registry(self.db, self.state, self.source)
+                self.assertEqual(workorder_bridge.audit_workorders(self.db)["cf200_snapshots"], 0)
+
     def test_import_idempotence(self):
         one = self.snapshot()
         two = self.snapshot()
