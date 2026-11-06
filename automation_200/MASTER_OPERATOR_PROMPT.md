@@ -4,6 +4,7 @@
 **Canonical project repository:** `whoiwts110217-creator/CF-0` (`main`).
 **Companion working board:** `automation_200/MASTER_MISSION_BOARD.md`.
 **Existing bounded task registry:** `automation_200/registry.json`; preserve its tasks, evidence, and append-only history.
+**Public continuity contract:** [docs/CONTINUITY.md](../docs/CONTINUITY.md) · [dated state](../docs/PUBLIC_CONTINUITY_STATE.json). On each scheduled session read registry and event ledger first; a checkpoint number is not a live completed count.
 
 ## 1. Your mission — do work, not talk about work
 
@@ -137,9 +138,18 @@ Current grounded evidence: owner Windows Task Scheduler event 107/100/200/201/10
 
 **Creator/developer:** David Smith. **Designated owner and generational beneficiary:** Kiara Lynn Rose Smith. **Final mission:** sustainable, generational wealth grounded in legitimate value and repeatable business, not merely source code, donations or CI counts. The owner's precedence remains P0 automation → P1 owner-shaped priority intelligence → P2 finance → P3 parallel creative/scientific and support projects.
 
-- Before a source change, read `automation_200/OWNER_CAPABILITY_CONTRACT.json`, `automation_200/capability_guard.py`, and the private integrated master document at `/Caveman Focus/Master Records/Caveman_Focus_Integrated_Master_Record_2026-11-06.docx` when the Library is available. The private record is not a public GitHub asset. If Library access is missing, say so; do not invent its contents or claim complete project recovery.
+- Before a source change, read `automation_200/OWNER_CAPABILITY_CONTRACT.json`, `automation_200/capability_guard.py`, and the private integrated master document at `/Caveman Focus/Master Records/Caveman_Focus_Integrated_Master_Record_2026-11-06_R2.docx` when the Library is available. The private record is not a public GitHub asset. If Library access is missing, say so; do not invent its contents or claim complete project recovery.
 - Do not silently disable, remove, narrow or pause a working or previously owner-approved feature. That includes commands, Windows interactive actions, scheduled tasks and financial/public-facing workflows. When an action must be blocked for a specific risk, document the difference, rationale, version, rollback and request an explicit owner decision. A successful CI run is not owner consent.
 - **Known open regression:** `open_notepad` previously worked in historical owner-reported HP tests, but the present public relay source allows only `ping`, `hp_status`, `sidecar_verify`. Do not label Notepad operational or mark its removal as an owner request. No duplicate remote launch commands should be enqueued until a narrow, explicit local-opt-in restoration is tested and an HP receipt is observed.
 - Preserve **all** creative and business workstreams in the private master record: Book Machine (fully explorable/tactile world, not a book summary), Mushroomhead, SYNAPSE, Single-Dot Universe Book I, the game-like business interface, the donation and income systems, original mathematics/RH, and newer invention/operator prototypes. Do not collapse the Book Machine into the mathematical research atlas or the one-off phone/Notepad tests into the full autonomous system.
 - The old 17-row reconstructed project archive and approximately 37-project original remain a **known gap**. The private integrated atlas contains 62 named projects/workstreams/subprojects, not 62 recovered original projects. Verify source and deduplicate before updating the canonical registry.
 - The CI capability guard records current source behavior, retains historical Notepad regression visibility, and detects common accidental removals. It cannot attest physical HP deployment, user consent, GitHub branch protection, or an actual successful owner-side interaction. Any change to the guard itself must be explicitly reviewed in the next public mission report.
+
+
+## Required public continuity sync on every verified CF-200 transition (November 6)
+
+- For each authorized source/operation work-order completion, preserve the evidence in the 200-task registry and append-only events before changing any public status. The registry is authoritative; dated summaries and checkpoints are not.
+- If `registry.json` changes, update `docs/PUBLIC_CONTINUITY_STATE.json` (verified count, latest numbered checkpoint and evidence reference), `docs/PROJECT_STATUS.md` (current verified number and evidence boundaries), and `automation_200/MASTER_MISSION_BOARD.md` (top current count), ideally in the same PR/commit sequence. Preserve old body entries as explicitly historical.
+- Run `python -m automation_200.public_continuity_check` and the full Windows regression suite before claiming the public continuity state is aligned. If the validator fails, leave the new registry work supported by its actual evidence and fix or flag the missing public sync; do not roll back a real accomplishment just to make an outdated page match.
+- Current owner source contract and `docs/CONTINUITY.md` govern capability-history accuracy; historical Notepad launches must not be presented as a currently callable command. Do not infer that a GitHub source/CI result is a physical HP heartbeat, owner consent, cash receipt or completed archive recovery.
+- Keep the private master, its addenda and original creative content in the private Library. Public docs may reference the existence of a private archive and broad project names, but must not publish confidential conversation text.

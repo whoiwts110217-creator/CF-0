@@ -1,0 +1,56 @@
+{
+  "schema": "cf0.public_continuity.v1",
+  "as_of_date_et": "2026-11-06",
+  "record_type": "dated_source_evidence_not_live_hp_heartbeat",
+  "mission": "sustainable_generational_wealth",
+  "priority_order": [
+    "automation",
+    "owner_priority_policy",
+    "legitimate_finance",
+    "parallel_other_projects"
+  ],
+  "cf200": {
+    "registry_path": "automation_200/registry.json",
+    "verified": 54,
+    "target": 200,
+    "last_numbered_checkpoint": 52,
+    "next_numbered_checkpoint": 56,
+    "evidence": "https://github.com/whoiwts110217-creator/CF-0/commit/93d1928b17897a41a094cdb98c96cc881c535090",
+    "meaning": "Verified source-level work orders with individual evidence; not percentage of finished product or HP uptime"
+  },
+  "hp": {
+    "public_ping_request_id": "aeccc8a2-217f-4786-aaaf-19b2fc9ff35a",
+    "public_ping_result": "completed_matched_request_sha256",
+    "physical_device_and_scheduler_correlation": "unverified",
+    "optional_public_health_latest": "not_published_at_last_check",
+    "fully_unattended_7_days": "unverified"
+  },
+  "notepad": {
+    "historical_owner_observed_launches": true,
+    "current_relay": "not_supported",
+    "source_contract_state": "regression_open",
+    "current_installer": "read_only_refusal_exit_2",
+    "real_hp_restore": "unverified"
+  },
+  "governance": {
+    "source_regression_ci": "passing_on_merged_main",
+    "owner_review_enforced_by_github": "unverified",
+    "github_review_setting_access": "unavailable_to_current_integration",
+    "evidence": "https://github.com/whoiwts110217-creator/CF-0/actions/runs/42262753198"
+  },
+  "archive": {
+    "historical_named_rows": 17,
+    "historical_18_summary_discrepancy": "open",
+    "original_approximately_37_list": "not_recovered",
+    "private_reconstruction_index_entries": 62,
+    "original_project_count_proven": false,
+    "public_index": "docs/PROJECTS.md",
+    "private_documents": "retained_outside_public_repository"
+  },
+  "finance": {
+    "verified_revenue_from_inspected_records": "not_established",
+    "verified_donations_from_inspected_records": "not_established",
+    "generational_wealth_operationally_achieved": false
+  },
+  "change_rule": "Refresh this record and public summary as a single verified change whenever the authoritative count or materially observed state changes. Preserve previous dated evidence in Git history."
+}

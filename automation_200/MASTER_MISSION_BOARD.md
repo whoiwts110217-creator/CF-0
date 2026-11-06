@@ -2,7 +2,9 @@
 **Owner:** Kiara Lynn Rose Smith's Caveman Focus  
 **Control prompt:** [MASTER_OPERATOR_PROMPT.md](MASTER_OPERATOR_PROMPT.md)  
 **System of record:** [registry.json](registry.json) · [events.jsonl](events.jsonl) · [checkpoints/](checkpoints/)  
-**Current checkpoint:** 2026-11-05, [52 of 200 verified](checkpoints/checkpoint_052.json).
+**Current source registry:** **54/200 verified** as of November 6, 2026; [registry.json](registry.json) is authoritative.  
+**Last numbered checkpoint:** [052](checkpoints/checkpoint_052.json) (next numbered checkpoint 056, not yet due).  
+**Public continuity handoff:** [docs/CONTINUITY.md](../docs/CONTINUITY.md) · [dated state](../docs/PUBLIC_CONTINUITY_STATE.json). Historical counts in the entries below remain snapshots, not live status.
 
 ## Owner-defined strategy
 

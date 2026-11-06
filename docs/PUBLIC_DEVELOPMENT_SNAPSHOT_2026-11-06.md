@@ -2,6 +2,8 @@
 
 **Status: PUBLIC DEVELOPMENT SNAPSHOT — NOT A STABLE OR FULLY VERIFIED RELEASE.**
 
+**Continuity correction (November 6):** the [authoritative CF-200 registry](../automation_200/registry.json) now records **54/200 verified work orders**. The last numbered checkpoint is 052; the earlier 52 count is a historical snapshot. The **current** public relay does not implement remote `open_notepad`, despite historical owner-observed Notepad launches. [Public continuity handoff](CONTINUITY.md) · [machine-readable dated state](PUBLIC_CONTINUITY_STATE.json) · [current status](PROJECT_STATUS.md).
+
 This document is the public entry point to the work available today. It does **not** claim all modules are production-ready, that the HP can run unattended for seven days, or that revenue has been generated. Repository files may change after this snapshot; use the linked commit history to inspect changes.
 
 ## Start here

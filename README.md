@@ -8,6 +8,8 @@
 
 **Project stage: public developer preview (November 6, 2026).** The source is available, but there is no stable, independently reproduced end-user release yet.
 
+**Continuity snapshot:** [54/200 verified source/operations work orders](docs/PROJECT_STATUS.md), with the [latest public handoff and evidence boundaries](docs/CONTINUITY.md). The currently checked-in relay **does not support remote Notepad launch**; previously observed Windows Notepad launches are historical, and restoration remains open. The optional HP heartbeat and independent scheduler correlation are still unverified.
+
 **[What works](#what-works-today)** · **[Try the source](#explore-or-test)** · **[Current status and evidence](docs/PROJECT_STATUS.md)** · **[Full project index](docs/PUBLIC_DEVELOPMENT_SNAPSHOT_2026-11-06.md)**
 
 ## The operating-environment thesis
@@ -18,9 +20,9 @@ The AI supplies reasoning; the environment supplies continuity, permissions, act
 
 ## What works today
 
-The owner has demonstrated a bounded **ChatGPT → GitHub queue → Windows HP relay → public-safe receipt** pathway, including owner-observed Notepad launches. The Windows Task Scheduler has also been observed launching the relay automatically. The system records receipts in SQLite and has tests for parts of the protocol.
+The owner previously observed a bounded **ChatGPT → GitHub queue → Windows HP relay → public-safe receipt** pathway, including Notepad launches in the original November 5 milestone. Owner-provided Windows scheduler evidence also documents task starts. A later source regression removed `open_notepad`; the **current** public Python relay allows only `ping`, `hp_status`, and `sidecar_verify`. The legacy installer now refuses to claim that Notepad is working.
 
-**What this proves:** specific allowlisted commands can be transported, executed and recorded on the owner's HP. **What it does not prove:** arbitrary computer control, a complete unattended workday, a seven-day autonomous run, or that a particular scheduled invocation generated a particular public receipt.
+**Current supported evidence:** public matching ping request/receipt hashes, SQLite/source-level idempotence tests, and passing cloud Windows CI. **Not established:** physical HP-origin attestation for a given public ping, automatic health publication, current Notepad control, arbitrary computer control or seven-day autonomous operation. The [dated continuity record](docs/CONTINUITY.md) separates those states.
 
 [See the November 5 HP demonstration and evidence](docs/CF0_FAST_LANE_MILESTONE_2026-11-05.md) · [See the November 6 continuity audit](automation_200/MASTER_MISSION_BOARD.md)
 

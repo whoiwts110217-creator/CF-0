@@ -1,5 +1,19 @@
 # Caveman Focus — Current public status
 
+**Source-verified snapshot: November 6, 2026 (Eastern).** This is a dated source/document check, **not** a live HP heartbeat. For stable handoffs, use the [public continuity record](CONTINUITY.md) and [machine-readable status](PUBLIC_CONTINUITY_STATE.json).
+
+**Verified CF-200 work orders: 54/200.** The [authoritative registry](../automation_200/registry.json) records 54 verified source/operation work orders. The latest numbered checkpoint remains [052](../automation_200/checkpoints/checkpoint_052.json), with the next numbered checkpoint due at 056. The [CF-070 Windows regression](../relay/tests/test_queue_capacity_200.py) validated 200 offline queue requests; these counts are not a product-readiness percentage, HP uptime or customer income.
+
+**Current Notepad behavior:** historical owner-observed launches and matching receipts are documented in the [November 5 milestone](CF0_FAST_LANE_MILESTONE_2026-11-05.md), but the **current public relay source does not support** `open_notepad`. It only allows `ping`, `hp_status`, and `sidecar_verify`. The earlier installer is now a **read-only refusal**, not an installation success; Notepad restoration remains a documented open regression. Do not claim the old Windows installation has been overwritten or verified.
+
+**Verified public ping:** request `aeccc8a2-217f-4786-aaaf-19b2fc9ff35a` has a matching [public receipt](../command_queue/receipts/aeccc8a2-217f-4786-aaaf-19b2fc9ff35a.json) and digest. This does **not** independently attest which physical HP process produced the receipt or prove its scheduled behavior. The optional health report was not published at the last check.
+
+**Source regression prevention:** [PR #9](https://github.com/whoiwts110217-creator/CF-0/pull/9) passed [merged-main Windows CI](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42262753198); it detects several silent capability changes. **Mandatory owner review and GitHub rules are still unverified**; a CI pass is not owner consent. See [change controls](OWNER_CHANGE_CONTROL.md).
+
+**Caveman Focus continuity:** P0 automation → P1 owner-directed priority intelligence → P2 legitimate income → P3 other projects in parallel, toward sustainable generational wealth. Original ~37-project list remains unrecovered. The private 62-entry reconstructed atlas is a mixed workstream index and is not the lost original list. No live payment, seven-day unattended HP operation or general-purpose remote control is verified by this snapshot.
+
+## Earlier checkpoint — retained as historical observations, not the current status
+
 **Evidence checkpoint: November 6, 2026.** This is a dated, manually curated status record, **not** an automatically refreshed HP heartbeat. A later GitHub commit does not prove a later HP execution.
 
 ## Confirmed observations
