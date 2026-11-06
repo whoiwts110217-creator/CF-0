@@ -345,3 +345,12 @@ The hourly public channel watchdog now runs priority selector and waiting-cycle 
 - Prior main Windows CI [42277269113](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42277269113) and watchdog [42281741883](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42281741883) passed, preceding this test.
 
 **Next three:** (1) verify Windows CI for `88cbea9` and fix failures; (2) privately import exact registry into a new continuity state and restore-test v3 only when v2 is accessible; (3) inspect existing HP health/scheduler evidence without adding commands or requesting repeated manual diagnostics.
+
+## Continuity bridge evidence-revision regression — 2026-11-06
+
+- Mandatory preflight read from public main: MASTER_OPERATOR_PROMPT.md v1.0 (blob `67ce4bf6d176a4fde9d35b050a9959f4da1994da`) and MASTER_CONTINUITY_PROMPT.md v1.0 (blob `291a4836f26f6dd3b8664092adba777bee1f1f54`).
+- [Evidence-only snapshot regression](https://github.com/whoiwts110217-creator/CF-0/commit/e55007a0b76c18b1a3cc8f50827a5b0fff397181): synthetic test checks that changing verification evidence while retaining `verified` status creates a separately preserved snapshot, produces a review-required difference, does not create project links, and retains the private event hash chain. **CI not yet confirmed**; no private archive was imported.
+- Authoritative [registry](registry.json) remains **54/200**; existing CF-200 events and checkpoint 052 are unchanged. The public HP health report `relay/health/latest.json` was absent at this read. Historical matching ping is not independently correlated to a Windows scheduled run. No HP Notepad launch or permissions change.
+- The private v2 continuity archive is not a public repository asset; no new original chat export or private v3 restoration is claimed.
+
+**Next three executable tasks:** (1) verify Windows CI for the evidence-revision regression and repair any failure; (2) when the exact public registry and private v2 backup are available together in an authorized private workspace, perform a non-destructive v3 import and full restore/hash audit; (3) continue public-safe source/CI health improvements while independently scheduled HP evidence remains unavailable.
