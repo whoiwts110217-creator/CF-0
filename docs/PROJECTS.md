@@ -2,6 +2,10 @@
 
 Original approximately **37-project list is missing**. This index is reconstructed from accessible dated snapshots and histories, not guaranteed complete.
 
+**Continuity first:** consult [the current public continuity handoff](CONTINUITY.md) and [status evidence](PROJECT_STATUS.md) before interpreting these group names as current, deployed products. The private master contains a reconstructed **62-entry mixture of projects and subprojects** with a separate provenance addendum; it is not a recovered original list, and private source material has not been published here.
+
+**Shared objective:** reliable automation → owner-directed priorities → legitimate income → parallel creative and research projects, supporting sustainable generational wealth. The Book Machine's historical idea involves worlds described by books becoming explorable/tactile; it is not merely a book-summary app. The creative and business workstreams remain distinct while sharing the overall execution and evidence system.
+
 | Project / group | Status |
 |---|---|
 | Core Caveman Focus method / proposed mathematics | Framework preserved; original operators incomplete |
