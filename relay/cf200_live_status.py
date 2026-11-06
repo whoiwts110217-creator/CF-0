@@ -11,11 +11,28 @@ REPO = "whoiwts110217-creator/CF-0"
 BASE = "https://raw.githubusercontent.com/" + REPO + "/main/"
 API = "https://api.github.com/repos/" + REPO
 INTERVAL_MS = 30000
+PROBE_ID = "1bd3a644-9b80-4d05-8cb1-7043c7853d54"
+PROBE_DIGEST = "bdd1b0e1c0b45e1b1618c16e814fc9a606e6530bf2419978ee9c510055f8ce16"
 
 def fetch_json(url):
     req = urllib.request.Request(url, headers={"User-Agent": "CF200-Local-Status/1.0"})
     with urllib.request.urlopen(req, timeout=12) as response:
         return json.load(response)
+
+def probe_summary(fetch=None):
+    """Public receipt evidence is not unattended scheduler evidence."""
+    reader = fetch or fetch_json
+    try:
+        receipt = reader(BASE + "command_queue/receipts/" + PROBE_ID + ".json")
+    except Exception:
+        return "HP ping receipt: unavailable"
+    valid = (isinstance(receipt, dict) and receipt.get("id") == PROBE_ID
+             and receipt.get("request_sha256") == PROBE_DIGEST
+             and receipt.get("status") == "completed"
+             and receipt.get("result") == {"pong": True, "protocol": 1})
+    return ("HP ping receipt: matching completed ping; scheduler origin UNVERIFIED"
+            if valid else "HP ping receipt: mismatched or invalid")
+
 
 def snapshot():
     registry = fetch_json(BASE + "automation_200/registry.json")
@@ -31,7 +48,8 @@ def snapshot():
             + "Registry: " + str(registry["status"]) + "\n"
             + "Latest commit: " + sha + " — " + message + "\n"
             + "Source: https://github.com/" + REPO + "\n\n"
-            + "HP unattended schedule: NOT VERIFIED by public GitHub data\n"
+            + probe_summary() + "\n"
+            + "HP unattended schedule: NOT VERIFIED without Windows scheduler evidence\n"
             + "This window runs on your Windows desktop only after local launch.\n"
             + "Public commit metadata does not prove CI passed or HP ran.\n")
 
