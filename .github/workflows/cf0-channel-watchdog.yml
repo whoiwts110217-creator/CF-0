@@ -9,6 +9,8 @@ on:
       - 'automation_200/waiting_cycles.py'
       - 'automation_200/tests/test_waiting_cycles.py'
       - 'automation_200/priority_selector.py'
+      - 'automation_200/decision_engine.py'
+      - 'automation_200/tests/test_decision_engine.py'
       - 'automation_200/tests/test_priority_selector.py'
       - 'relay/tests/test_channel_audit.py'
       - 'relay/tests/test_hp_health_snapshot.py'
@@ -45,6 +47,8 @@ jobs:
           python -m unittest discover -s automation_200/tests -p 'test_priority_selector.py' -v
           python -m unittest discover -s automation_200/tests -p 'test_waiting_cycles.py' -v
           python automation_200/waiting_cycles.py --state /tmp/cf200-ci-waiting.json --limit 4
+      - name: Test founder decision engine without changing owner state
+        run: python -m unittest discover -s automation_200/tests -p 'test_decision_engine.py' -v
       - name: Select founder-priority ready work (read-only)
         run: |
           python automation_200/validate_registry.py
@@ -57,3 +61,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: python relay/health_watch.py --live
+      - name: Propose next source-only work under founder policy
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python -m automation_200.decision_engine --live --limit 4
