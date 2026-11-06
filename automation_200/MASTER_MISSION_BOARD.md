@@ -75,3 +75,9 @@
 - [Windows CI run 42142632665](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42142632665) **passed**, including the repository's `automation_200/tests` suite with the new task-selector regression tests.
 - [Public cloud watchdog run 42142725732](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42142725732) **passed** the added founder-priority selection step and returned 48 verified / 152 planned, with a selection of ready tasks. Its live read-only relay audit found 8 matching execution receipts, 2 expired requests, 0 currently pending, and 1 separate setup probe.
 - These are **verified GitHub Actions outcomes**, not an independent test of the HP's five-minute Windows Task Scheduler or proof of autonomous ChatGPT-generated commits on a future hourly trigger.
+
+## Unattended HP verification probe
+
+- [Fresh allowlisted ping](../command_queue/inbox/1bd3a644-9b80-4d05-8cb1-7043c7853d54.json) · canonical SHA-256 `bdd1b0e1c0b45e1b1618c16e814fc9a606e6530bf2419978ee9c510055f8ce16`. Let the existing Windows schedule pick it up without a manual diagnostic poll. This request expires at Unix time `1793935125`.
+- Acceptance requires a completed matching receipt with `pong=true` and `protocol=1`, correlated to a successful scheduled Windows task instance during the request window. A public receipt alone establishes a round trip but cannot distinguish a manual poll from a scheduled poll.
+- Keep HP scheduling open if scheduler evidence is unavailable. Check this request before sending another. Keep archive transcript recovery private.
