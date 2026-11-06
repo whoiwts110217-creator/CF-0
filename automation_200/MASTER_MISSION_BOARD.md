@@ -308,3 +308,11 @@ The hourly public channel watchdog now runs priority selector and waiting-cycle 
 - No verified income, HP deployment, or expanded public relay actions established.
 
 **Next three:** (1) inspect Windows CI on the 200-request regression and fix any failure; if acceptance passes, evaluate CF-070 evidence and update registry/append-only events under existing validator, (2) validate read-only health publisher and owner-local viewer only after actual HP opt-in, (3) correlate the completed ping to a scheduled Task Scheduler run and wrapper outcome without asking for repetitive manual diagnostics.
+
+### CF-070 verified after independent Windows CI (same November 6 cycle)
+
+- [Windows relay CI 42258803582](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42258803582) **passed** the complete `python -m unittest discover -s relay/tests -v` suite on capacity-test commit `a9838e34`; [cloud watchdog 42258872255](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42258872255) also passed for that head. The test file is part of the relay test discovery.
+- The acceptance-specific 200-request test is now independently covered by Windows CI. Marked **CF-070 verified** in [registry](registry.json) commit [5dfedaab](https://github.com/whoiwts110217-creator/CF-0/commit/5dfedaabfe1454afa9375322f612f6f93f3913c5), and appended its one [ledger event](events.jsonl) in [4748dd7d](https://github.com/whoiwts110217-creator/CF-0/commit/4748dd7d703b2c244aa6eb16fa3548585ced7d49). **54/200 verified**; next numbered checkpoint only at 56, so none created. Registry/ledger-write CI results require a separate check; the capacity-test CI pass does not attest later commits.
+- This is **offline source-level** capacity evidence. It does not demonstrate HP deployment, unattended Windows scheduling, Notepad launch or real-world revenue.
+
+**Next three:** (1) verify registry/ledger validation CI after the 54-count change and fix any failure, (2) advance the next eligible P0 acceptance-specific test without altering HP authority, (3) await a genuinely HP-origin health report and correlate receipt with Windows Task Scheduler evidence after owner-local opt-in.
