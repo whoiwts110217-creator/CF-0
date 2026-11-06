@@ -48,6 +48,14 @@ After that, develop an owner-controlled priority engine, then legitimate financi
 
 [Autonomous Operations Rulebook](CAVEMAN_FOCUS_RULEBOOK_v0.1.md) · [Master Operator Prompt](automation_200/MASTER_OPERATOR_PROMPT.md) · [Public release policy](docs/PUBLICATION_POLICY.md)
 
+## Finances and voluntary support
+
+Caveman Focus is developing legitimate, low-cost ways to sustain its automation and public work. **No sales, donations, or profit are claimed as verified here.** See [business plans](docs/BUSINESS.md) and [public finance records](finance/README.md) for context.
+
+**[Support Caveman Focus — donation campaign](https://caveman-focus-support.whoiwts110217.chatgpt.site)** · [Direct optional support through Cash App](https://cash.app/$LAZYBLACKBEAN)
+
+Contributions are voluntary support for an independent project, **not** tax-deductible charitable donations, purchases, or investments. No financial return is promised. The campaign was confirmed publicly accessible when published November 3, 2026; **its present live accessibility has not been independently reverified**.
+
 ## Important boundaries
 
 This is a public, curated project archive—not a complete conversation export. The original approximately 37-project list remains unrecovered. No verified RH proof, new scientific law, seven-day independent HP operation, general-purpose desktop controller, or real income is claimed. Public GitHub is **not** a place for credentials, private account data, private creative source or other people's personal information. Review repository licensing before reuse; source visibility alone is not permission to redistribute.
