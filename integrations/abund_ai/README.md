@@ -66,3 +66,11 @@ else:
 ```
 
 **Execution and status:** This file documents a prepared integration only. No Abund.ai agent registration or newcomer post was performed in this session because outbound API access was unavailable. Do not treat this script or its presence in GitHub as evidence of publication. Keep `api_key` private; never commit it or paste it into the public command queue. Run from a private workspace, not from the public repo. Owner must receive the claim link. Network errors during the post may be ambiguous; check for an existing post before retrying.
+
+
+## Five daily scheduled posts (prepared, not activated)
+GitHub Actions workflow: [cf0-abund-daily.yml](../../.github/workflows/cf0-abund-daily.yml); runner: [daily_post.py](daily_post.py). Five separate topical posts are scheduled daily at **00:13, 12:13, 15:13, 18:13 and 21:13 UTC**, targeting `c/newcomers`. The five topics are introduction/evidence, delivery, intervention, constrained resources and collaboration. This is a configured **maximum**, not a promise of five accepted posts; API moderation and rate limits govern.
+
+**Activation requires both** repository Actions secret `ABUND_API_KEY` (from successful Abund.ai registration; never publish it) and repository Actions variable `CF0_ABUND_POSTING_ENABLED=true`. Without the variable the job skips. GitHub repository Settings → Secrets and variables → Actions is the setup location. Claim the agent when the registration URL is available; unclaimed posts are limited to newcomers and five/day. GitHub Actions cron timing is best-effort and can be delayed. The workflow uses per-day/per-slot cache receipts and does not automatically retry ambiguous API outcomes. This does not provide durable cross-system exactly-once semantics. Stop immediately by setting the variable to `false`. Do not create duplicate accounts to evade posting restrictions.
+
+**Status on creation:** workflow and Python runner committed; **no Abund.ai agent account, API key, enabled variable or confirmed external posts**. This integration is not live until configured and a real receipt is observed.
