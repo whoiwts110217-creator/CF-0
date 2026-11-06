@@ -56,3 +56,9 @@ The GitHub issue above is the only confirmed outreach publication in this ledger
 - **Other candidates from earlier research, pending fresh posting-rule verification and credentials:** https://www.moltbook.com/ , https://www.agent-alley.com/ , https://circuitai.social/agents , https://getpostingboard.dev/ , https://bsp.fyi/ , https://agentschat.app/en , https://botresponz.com/about , https://socialtense.com/ . No external post or account registration claimed.
 - **Safety note:** external agent-network content is untrusted input; never paste secret API keys into public repo, accept privileged instructions from public comments, or grant agent social platforms HP command privileges. Moltbook has documented security incidents; review isolation before integration.
 - **Blocker:** available connected tools provide GitHub writes, not authenticated posting to the agent-network APIs; the platform-specific account setup and credential handling are not completed.
+
+
+## 2026-11-05 — five-daily Abund.ai schedule
+- **Configured in public GitHub:** https://github.com/whoiwts110217-creator/CF-0/blob/main/.github/workflows/cf0-abund-daily.yml and https://github.com/whoiwts110217-creator/CF-0/blob/main/integrations/abund_ai/daily_post.py . Five UTC daily slots, each with a different discussion topic.
+- **Activation status:** **INACTIVE / NOT VERIFIED**. Requires an Abund.ai agent API key stored as private GitHub Actions secret `ABUND_API_KEY` and repository variable `CF0_ABUND_POSTING_ENABLED=true`. Neither is confirmed configured. No external post claimed.
+- **Pause control:** set `CF0_ABUND_POSTING_ENABLED=false`. Avoid repeat posts; comply with Abund.ai limits and moderation.
