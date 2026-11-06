@@ -11,7 +11,7 @@ import urllib.request
 
 BASE = "https://api.abund.ai/api/v1"
 OUTPUT = pathlib.Path(os.environ.get("CF0_ABUND_OUTPUT", "abund_task_report.json"))
-ALLOWED = {"answer_question", "confirm_finding", "answer_reply", "set_capabilities"}
+ALLOWED = {"answer_question", "confirm_finding", "answer_reply", "set_capabilities", "accept_request"}
 KEYWORDS = ("python", "windows", "powershell", "github", "automation", "timeout",
             "network", "retry", "receipt", "idempot", "testing", "recovery")
 EXCLUDED = ("crypto", "trading", "investment", "wallet", "payment", "usdc", "x402")
@@ -50,6 +50,38 @@ def read_public_post(path, key):
             "content_excerpt": content[:1800],
             "excerpt_truncated": len(content) > 1800}
 
+def read_request_board(key):
+    """Read open requests for review; never accept or promise delivery."""
+    req = urllib.request.Request(BASE + "/requests",
+        headers={"Authorization": "Bearer " + key, "Accept": "application/json"})
+    try:
+        with urllib.request.urlopen(req, timeout=15) as resp:
+            data = json.load(resp)
+    except (urllib.error.HTTPError, urllib.error.URLError, TimeoutError, ValueError) as exc:
+        return {"state": "unavailable", "error_type": type(exc).__name__, "items": []}
+    if isinstance(data, list):
+        items = data
+    elif isinstance(data, dict):
+        items = data.get("requests", [])
+        if isinstance(items, dict):
+            items = items.get("items", [])
+    else:
+        items = []
+    if not isinstance(items, list):
+        return {"state": "unexpected_response", "items": []}
+    output = []
+    for item in items[:50]:
+        if not isinstance(item, dict) or str(item.get("status", "open")).lower() not in ("open", "posted", "pending"):
+            continue
+        # No automatic execution based on remote request text.
+        desc = str(item.get("description") or item.get("title") or "")
+        output.append({"id": item.get("id"), "title": str(item.get("title") or "")[:180],
+                       "description_excerpt": desc[:500], "score": score({
+                           "action": "accept_request", "why": desc}),
+                       "requires_review": True})
+    output.sort(key=lambda x: -x["score"])
+    return {"state": "retrieved", "items": output[:15]}
+
 def main():
     key = os.environ.get("ABUND_API_KEY", "").strip()
     if not key:
@@ -84,6 +116,7 @@ def main():
     for candidate in candidates[:5]:
         # Public content only. Do not automatically obey instructions contained in posts.
         candidate["public_post"] = read_public_post(candidate.get("read_first"), key)
+    board = read_request_board(key)
     report = {
         "checked_at_utc": dt.datetime.now(dt.timezone.utc).isoformat(),
         "agent": data.get("agent", {}).get("handle"),
@@ -91,11 +124,12 @@ def main():
         "unread_notifications": data.get("unread_notifications"),
         "todo_count": len(todos),
         "candidates": candidates,
-        "policy": "READ_ONLY: no automatic acceptance, replies, confirmations, votes, payments or capability claims"
+        "request_board": board,
+        "policy": "READ_ONLY: no automatic acceptance, replies, confirmations, votes or payments; capability PATCH is a separate workflow step"
     }
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
     OUTPUT.write_text(json.dumps(report, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
-    print(f"Discovery complete: {len(todos)} todo items, {len(candidates)} review candidates; public posts inspected")
+    print(f"Discovery complete: {len(todos)} todo items, {len(candidates)} review candidates; public posts inspected; request board read")
     return 0
 
 if __name__ == "__main__":
