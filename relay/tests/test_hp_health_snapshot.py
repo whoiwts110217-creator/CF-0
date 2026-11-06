@@ -38,6 +38,24 @@ class HPHealthSnapshotTests(unittest.TestCase):
             self.assertNotIn("must-not-appear", json.dumps(report))
             self.assertNotIn(str(folder), json.dumps(report))
 
+    def test_snapshot_releases_database_handle(self):
+        # A leaked read-only handle prevents rename/cleanup on Windows.
+        with tempfile.TemporaryDirectory() as home:
+            folder = pathlib.Path(home) / ".caveman_focus_relay"
+            folder.mkdir()
+            db_path = folder / "relay.sqlite3"
+            con = sqlite3.connect(db_path)
+            try:
+                con.execute("CREATE TABLE receipts (receipt TEXT)")
+                con.commit()
+            finally:
+                con.close()
+            report = snapshot(home)
+            self.assertIsNone(report["error"])
+            renamed = folder / "relay-renamed.sqlite3"
+            db_path.rename(renamed)
+            self.assertTrue(renamed.exists())
+
     def test_unreadable_schema_returns_generic_error(self):
         with tempfile.TemporaryDirectory() as home:
             folder = pathlib.Path(home) / ".caveman_focus_relay"
