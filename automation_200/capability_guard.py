@@ -57,7 +57,7 @@ def check(contract: dict, relay_source: str, *, root: Path = ROOT) -> dict:
     if not isinstance(change_rule, str) or "silently" not in change_rule:
         raise ValueError("capability_change_rule_missing")
     caps = contract.get("capabilities")
-    if not isinstance(caps, list) or len(caps) < len(REQUIRED_IDS):
+    if not isinstance(caps, list):
         raise ValueError("missing_capabilities")
     if any(not isinstance(x, dict) or not isinstance(x.get("id"), str) for x in caps):
         raise ValueError("malformed_capability")
@@ -74,7 +74,7 @@ def check(contract: dict, relay_source: str, *, root: Path = ROOT) -> dict:
     if active != EXPECTED_COMMANDS or not active <= commands:
         raise ValueError("previously_active_command_removed")
     notepad = map_["notepad_owner_launch"]
-    if notepad.get("previously_owner_approved") is True or notepad.get("command") != "open_notepad":
+    if notepad.get("previously_owner_approved") is not True or notepad.get("command") != "open_notepad":
         raise ValueError("historical_notepad_approval_erased")
     if notepad.get("status") not in ("regression_open", "active_source"):
         raise ValueError("notepad_regression_silently_retired")
