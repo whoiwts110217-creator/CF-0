@@ -1,13 +1,16 @@
 """CF-200 recovery tests: source simulation only, never physical HP evidence."""
 import importlib.util
+import json
 import pathlib
+import subprocess
+import sys
 import tempfile
 import unittest
+from unittest.mock import patch
 
 ROOT = pathlib.Path(__file__).resolve().parent
 spec = importlib.util.spec_from_file_location("cf_public_relay", ROOT / "cf_public_relay.py")
 relay = importlib.util.module_from_spec(spec)
-import sys
 sys.modules[spec.name] = relay
 spec.loader.exec_module(relay)
 
@@ -32,6 +35,41 @@ class MemoryRepo:
         return True
 
 class RecoveryTests(unittest.TestCase):
+    def test_process_exit_after_local_save_replays_without_execution(self):
+        job = relay.make_job("ping")
+        child = """
+import json
+import os
+import pathlib
+import sys
+from test_cf200_recovery import MemoryRepo, relay
+
+repo = MemoryRepo(json.loads(sys.argv[1]))
+repo.publish = lambda *_: os._exit(17)
+relay.tick(repo, relay.State(pathlib.Path(sys.argv[2])))
+"""
+        with tempfile.TemporaryDirectory() as folder:
+            db = pathlib.Path(folder) / "relay.sqlite3"
+            exited = subprocess.run(
+                [sys.executable, "-c", child, json.dumps(job), str(db)],
+                cwd=ROOT, capture_output=True, text=True, timeout=15,
+            )
+            self.assertEqual(exited.returncode, 17, exited.stderr)
+
+            restarted = relay.State(db)
+            digest, receipt = restarted.receipt(job["id"])
+            self.assertEqual(digest, relay.sha(job))
+            self.assertEqual(restarted.cursor(), job["id"] + ".json")
+            repo = MemoryRepo(job)
+            repo.fail_publish = False
+            with patch.object(relay, "execute") as execute:
+                result = relay.tick(repo, restarted)
+                execute.assert_not_called()
+            self.assertEqual(result["errors"], [])
+            self.assertEqual((result["executed"], result["replayed"], result["public_receipts"]), (0, 1, 1))
+            self.assertEqual(repo.receipts, {job["id"]: receipt})
+            self.assertEqual(restarted.count(), 1)
+
     def test_interrupted_receipt_upload_does_not_reexecute(self):
         job = relay.make_job("ping")
         repo = MemoryRepo(job)

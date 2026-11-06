@@ -2,6 +2,12 @@
 # cf.attr.v1=Q0FWRU1BTiBGT0NVU3xLSUFSQSBMWU5OLVJPU0UuIFNNSVRI
 """Evidence-only 200-task checkpoint keeper: complete four → create reviewable artifact."""
 import argparse, hashlib, json, pathlib, sys, datetime, subprocess
+
+if __package__:
+    from .validate_registry import check_registry
+else:
+    from validate_registry import check_registry
+
 ROOT=pathlib.Path(__file__).parent
 SRC=ROOT/'registry.json'
 EVENTS=ROOT/'events.jsonl'
@@ -10,25 +16,36 @@ CHECKPOINTS=ROOT/'checkpoints'
 def load():return json.loads(SRC.read_text(encoding='utf-8'))
 def canonical(obj):return json.dumps(obj,sort_keys=True,separators=(',',':'),ensure_ascii=False).encode()
 def verify():
- from validate_registry import check_registry
  r=load();check_registry(r)
  return r
 
 def complete(ids,proof):
- if not proof or len(proof)<12:raise ValueError('specific evidence reference required')
- r=verify(); found=set(ids)
- if not 1<=len(found)<=4:raise ValueError('complete 1-4 distinct items')
- for t in r['tasks']:
-  if t['id'] in found:
-   if t['status']!='planned':raise ValueError('already completed')
-   t['status']='verified';t['evidence']=proof
- if sum(t['status']=='verified' for t in r['tasks'])!=r['completed']+len(found):raise ValueError('unknown id')
- r['completed']+=len(found)
- SRC.write_text(json.dumps(r,indent=2,ensure_ascii=False)+'\n',encoding='utf-8')
- events=[{'task':id,'status':'verified','evidence':proof,'recorded_at':datetime.datetime.now(datetime.timezone.utc).isoformat()} for id in ids]
- with EVENTS.open('a',encoding='utf-8') as f:
-  for e in events:f.write(json.dumps(e,sort_keys=True)+'\n')
- return r
+    if not isinstance(proof, str) or len(proof.strip()) < 12:
+        raise ValueError('specific evidence reference required')
+    ids = tuple(ids)
+    if not 1 <= len(ids) <= 4 or len(set(ids)) != len(ids):
+        raise ValueError('complete 1-4 distinct items')
+
+    registry = verify()
+    tasks = {task['id']: task for task in registry['tasks']}
+    for task_id in ids:
+        if task_id not in tasks:
+            raise ValueError('unknown id')
+        task = tasks[task_id]
+        if task['status'] != 'planned':
+            raise ValueError('already completed')
+        task['status'] = 'verified'
+        task['evidence'] = proof
+    registry['completed'] += len(ids)
+    check_registry(registry)
+
+    SRC.write_text(json.dumps(registry, indent=2, ensure_ascii=False) + '\n', encoding='utf-8')
+    recorded_at = datetime.datetime.now(datetime.timezone.utc).isoformat()
+    with EVENTS.open('a', encoding='utf-8') as log:
+        for task_id in ids:
+            event = {'task': task_id, 'status': 'verified', 'evidence': proof, 'recorded_at': recorded_at}
+            log.write(json.dumps(event, sort_keys=True) + '\n')
+    return registry
 
 def checkpoint():
  r=verify();n=r['completed'];CHECKPOINTS.mkdir(exist_ok=True)

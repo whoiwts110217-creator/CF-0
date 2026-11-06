@@ -38,6 +38,21 @@ class ChannelAuditTests(unittest.TestCase):
         self.assertEqual(report["mismatched_receipts"], 1)
         self.assertEqual(report["matching_execution_receipts"], 0)
 
+    def test_ping_requires_successful_result(self):
+        for result in ({}, {"pong": False, "protocol": 1}, {"pong": 1, "protocol": 1},
+                       {"pong": True, "protocol": 2}, {"pong": True, "protocol": True}):
+            with self.subTest(result=result):
+                receipt = {**self.good, "result": result}
+                report = summarize({self.name: self.job}, {self.name: receipt}, self.issued)
+                self.assertEqual(report["mismatched_receipts"], 1)
+                self.assertEqual(report["matching_execution_receipts"], 0)
+
+    def test_present_null_receipt_is_mismatched(self):
+        report = summarize({self.name: self.job}, {self.name: None}, self.issued)
+        self.assertEqual(report["mismatched_receipts"], 1)
+        self.assertEqual(report["pending_requests"], 0)
+        self.assertEqual(report["orphan_receipts"], 0)
+
     def test_expired_and_orphan(self):
         report = summarize({self.name: self.job}, {"unrelated.json": {"status": "completed"}},
                            self.job["expires"] + 10)

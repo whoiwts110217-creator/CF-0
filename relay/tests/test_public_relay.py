@@ -84,11 +84,19 @@ class Tests(unittest.TestCase):
             self.assertTrue((home/'renamed.sqlite3').exists())
 
     def test_http_transport_integration(self):
-        import threading,urllib.parse,base64
+        import hashlib
+        import threading
+        from urllib.parse import urlparse
         from http.server import BaseHTTPRequestHandler,ThreadingHTTPServer
         job=r.make_job('ping')
-        repo=r.REPO
-        state={'writes':{},'reads':0}
+        root = f"/repos/{r.REPO}/contents/command_queue"
+        filename = job["id"] + ".json"
+        receipt_path = f"{root}/receipts/{filename}"
+        writes = []
+
+        def contents(value):
+            return {"encoding": "base64", "content": base64.b64encode(json.dumps(value).encode()).decode()}
+
         class Handler(BaseHTTPRequestHandler):
             def log_message(self,*args):pass
             def respond(self,status,payload):
@@ -97,32 +105,44 @@ class Tests(unittest.TestCase):
                 self.send_header('Content-Length',str(len(data)))
                 self.end_headers();self.wfile.write(data)
             def do_GET(self):
-                state['reads']+=1
-                path=urllib.parse.urlparse(self.path).path
-                pre='/repos/'+repo+'/contents/command_queue/'
-                if path==pre+'inbox':self.respond(200,[{'name':job['id']+'.json','type':'file'}])
-                elif path==pre+'inbox/'+job['id']+'.json':
-                    self.respond(200,{'encoding':'base64','content':base64.b64encode(r.dump(job)).decode()})
-                elif path==pre+'receipts/'+job['id']+'.json':self.respond(404,{'message':'no receipt'})
-                else:self.respond(404,{'message':'missing'})
+                url = urlparse(self.path)
+                if url.query != "ref=main":
+                    self.respond(404, {"message": "wrong ref"})
+                elif url.path == f"{root}/inbox":
+                    self.respond(200, [{"name": filename, "type": "file"}])
+                elif url.path == f"{root}/inbox/{filename}":
+                    self.respond(200, contents(job))
+                elif url.path == receipt_path and writes:
+                    self.respond(200, contents(writes[-1]))
+                else:
+                    self.respond(404, {"message": "missing"})
             def do_PUT(self):
-                data=json.loads(self.rfile.read(int(self.headers['Content-Length'])))
-                state['writes'][self.path]=json.loads(base64.b64decode(data['content']))
-                self.respond(201,{'content':{'sha':'demo'}})
+                data = json.loads(self.rfile.read(int(self.headers["Content-Length"])))
+                if self.path != receipt_path or data.get("branch") != "main":
+                    self.respond(404, {"message": "wrong write target"})
+                    return
+                writes.append(json.loads(base64.b64decode(data["content"])))
+                self.respond(201, {"content": {"sha": "demo"}})
         server=ThreadingHTTPServer(('127.0.0.1',0),Handler)
         thread=threading.Thread(target=server.serve_forever,daemon=True);thread.start()
         try:
             with tempfile.TemporaryDirectory() as td:
                 mb=r.HttpRepo(api=f'http://127.0.0.1:{server.server_port}',token='local-test')
-                local=r.State(pathlib.Path(td)/'state.sqlite3')
-                one=r.tick(mb,local)
-                two=r.tick(mb,local)
-                self.assertEqual((one['executed'],two['executed']),(1,0))
-                self.assertEqual(one['public_receipts'],1)
-                self.assertEqual(len(state['writes']),1)
-                saved=next(iter(state['writes'].values()))
-                self.assertEqual(saved['request_sha256'],r.sha(job))
-                self.assertTrue(saved['result']['pong'])
+                database = pathlib.Path(td) / "state.sqlite3"
+                first = r.tick(mb, r.State(database))
+                replay = r.tick(mb, r.State(database))
+                self.assertEqual((first["executed"], replay["executed"]), (1, 0))
+                self.assertEqual((first["public_receipts"], replay["public_receipts"]), (1, 1))
+                self.assertEqual(replay["replayed"], 1)
+                self.assertEqual(first["errors"] + replay["errors"], [])
+                canonical = json.dumps(job, sort_keys=True, separators=(",", ":")).encode()
+                self.assertEqual(writes, [{
+                    "v": 1,
+                    "id": job["id"],
+                    "request_sha256": hashlib.sha256(canonical).hexdigest(),
+                    "status": "completed",
+                    "result": {"pong": True, "protocol": 1},
+                }])
         finally:
             server.shutdown();thread.join(timeout=3);server.server_close()
 

@@ -33,6 +33,8 @@ def check_registry(data):
             verified+=1
             if not isinstance(t.get('evidence'),str) or len(t['evidence'].strip())<12:
                 raise RegistryValidationError('missing_evidence:'+ident)
+            if any(mapping[dep].get('status') != 'verified' for dep in deps):
+                raise RegistryValidationError('unverified_dependency:'+ident)
     color={}
     def visit(ident):
         if color.get(ident)==1:raise RegistryValidationError('dependency_cycle:'+ident)

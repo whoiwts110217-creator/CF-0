@@ -41,19 +41,20 @@ def summarize(inbox: dict, receipts: dict, now: int) -> dict:
             counts["invalid_requests"] += 1
             continue
         name = job["id"] + ".json"
-        receipt = receipts.get(name)
-        if receipt is None:
+        if name not in receipts:
             key = "pending_requests" if job["issued"] - 180 <= now <= job["expires"] else "expired_without_receipt"
             counts[key] += 1
             continue
         matched_ids.add(name)
+        receipt = receipts[name]
         if (isinstance(receipt, dict)
                 and set(receipt) == {"v", "id", "request_sha256", "status", "result"}
                 and type(receipt["v"]) is int and receipt["v"] == 1
                 and receipt["id"] == job["id"]
                 and receipt["request_sha256"] == sha(job)
                 and receipt["status"] == "completed"
-                and isinstance(receipt["result"], dict)):
+                and isinstance(receipt["result"], dict)
+                and (job["action"] != "ping" or successful_ping(receipt["result"]))):
             counts["matching_execution_receipts"] += 1
         else:
             counts["mismatched_receipts"] += 1
@@ -75,6 +76,11 @@ def summarize(inbox: dict, receipts: dict, now: int) -> dict:
         "No matching execution receipt; a setup probe or CI pass is not HP execution evidence."
     )
     return counts
+
+def successful_ping(result: dict) -> bool:
+    return (result.get("pong") is True
+            and type(result.get("protocol")) is int
+            and result["protocol"] == 1)
 
 def github_json(url: str) -> object:
     headers = {"Accept": "application/vnd.github+json",
