@@ -158,3 +158,11 @@ The hourly public channel watchdog now runs priority selector and waiting-cycle 
 - Independently checked historical [Windows CI run 42145009219](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42145009219): relay job completed successfully. This does not establish CI outcome for today's viewer patch.
 
 **Next three:** (1) inspect latest CI for viewer changes and fix failures; (2) correlate owner HP scheduled-run history and wrapper result to the existing receipt; (3) test the opt-in auto-refresh viewer on the HP desktop without changing the public relay allowlist.
+
+## Continuity audit — November 6, 2026 (owner evidence and public source)
+
+- Owner supplied Windows Task Scheduler event 107 (time trigger), 100/200 (start), 201/102 (successful finish) for `CavemanFocusCF0Relay` at 01:11:53 and 01:16:53 ET, with return code 0. This verifies unattended **scheduler launches**, not per-command origin or seven-day autonomy.
+- Owner's read-only SQLite inspection at `~/.caveman_focus_relay/relay.sqlite3` reported **28 persisted receipts**, with ten recent completed Notepad process-creation results matching the owner's earlier ten-launch request. Do not label them rogue or repeat them. A public ping receipt exists but is not definitively correlated to a scheduled instance.
+- `CavemanFocusSupervisor` was disabled by owner; `CavemanFocusCF0Relay` remains scheduled. Research is not P0. Founder explicitly elevated **eliminate the manual copy/paste loop** as the next P0 deliverable. The [operator directive](MASTER_OPERATOR_PROMPT.md) and [read-only collector source](../relay/cf_hp_health_snapshot.py) are committed; automatic report publication and physical HP deployment remain unverified.
+- Public README had a stale 2026-11-05 update label despite November 6 commits. README and START_HERE were corrected in this continuity pass. Earlier historical sections remain unchanged as time-stamped records; latest status must not be inferred from them.
+- Authoritative registry still records **52/200 verified**. Do not mark tasks complete solely for documentation edits. No verified revenue or seven-day independent operation.
