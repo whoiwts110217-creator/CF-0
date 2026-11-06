@@ -2,7 +2,7 @@
 **Owner:** Kiara Lynn Rose Smith's Caveman Focus  
 **Control prompt:** [MASTER_OPERATOR_PROMPT.md](MASTER_OPERATOR_PROMPT.md)  
 **System of record:** [registry.json](registry.json) · [events.jsonl](events.jsonl) · [checkpoints/](checkpoints/)  
-**Status baseline:** 2026-11-05, source-verified registry 48/200; not a claim of further task completions.
+**Current checkpoint:** 2026-11-05, [52 of 200 verified](checkpoints/checkpoint_052.json).
 
 ## Owner-defined strategy
 
@@ -21,18 +21,17 @@
 | CF-200 work registry | `48/200` flagged verified on repository inspection | Unverified tasks stay planned; do not count these new planning files as task completions |
 | Income | No verified income is established by the inspected public repository | Payment links, campaign materials and prices are NOT receipts |
 
-## NEXT: runnable task queue
+## Next work orders
 
-| Rank | ID / workstream | Concrete output | Acceptance / boundary |
-|---|---|---|---|
-| 1 | CF-068 · receipt | Re-run/test restart recovery and replay behavior with actual CI evidence | Test proves source-level idempotence; not a new physical HP validation |
-| 2 | CF-182 · real operations | Python local request/receipt loopback test, without external HP impersonation | Input UUID/hash and result match and CI passes |
-| 3 | CF-107 · priority logic | Formal difference between `planned` and `verified` in executor decisions | Deterministic test and no counting blocked work as complete |
-| 4 | CF-141 · archive | Master project index pointing to existing canonical source instead of duplicates | Source provenance, missing original ~37-project caveat |
-| 5 | CF-109 · priority logic | Deterministic owner-adjustable task ranking and dependency test (after prerequisites) | Owner override + blocker skip + no unapproved schedule changes |
-| 6 | P2 financial drafting | One genuine low-cost product/donation offer and fulfillment checklist from current approved source | Truthful draft, no invented sales or unauthorized publication |
+| Rank | ID | Output and acceptance |
+|---|---|---|
+| 1 | CF-069 | Preserve uncertainty when a worker stops before a durable receipt. Use a controlled interruption and check what can be recovered. |
+| 2 | CF-088 | Verify repository identity against GitHub metadata and the relay configuration. |
+| 3 | CF-183 | Verify the real Python transport entry point without the GitHub CLI. |
+| 4 | CF-108 | Validate four-item checkpoint creation and preservation under repeated runs. |
+| 5 | CF-141 | Link existing public project sources from the master index and keep the original list gap visible. |
 
-**Execution selection:** Recheck every dependency and the latest registry before completing any ID. An ID in this queue is NOT approval to mark it verified. If the most important work requires on-HP participation, do a safe unblocked task instead of reporting nothing.
+CF-027 still needs a non-admin Windows installation test. CF-042 needs a backup of the existing Domino data on the owner HP. Advance other eligible work while these checks are blocked.
 
 ## Creative work inventory for concurrent safe drafting
 
@@ -81,3 +80,16 @@
 - [Fresh allowlisted ping](../command_queue/inbox/1bd3a644-9b80-4d05-8cb1-7043c7853d54.json) · canonical SHA-256 `bdd1b0e1c0b45e1b1618c16e814fc9a606e6530bf2419978ee9c510055f8ce16`. Let the existing Windows schedule pick it up without a manual diagnostic poll. This request expires at Unix time `1793935125`.
 - Acceptance requires a completed matching receipt with `pong=true` and `protocol=1`, correlated to a successful scheduled Windows task instance during the request window. A public receipt alone establishes a round trip but cannot distinguish a manual poll from a scheduled poll.
 - Keep HP scheduling open if scheduler evidence is unavailable. Check this request before sending another. Keep archive transcript recovery private.
+
+## Checkpoint 052 (November 5, 2026 ET)
+
+| ID | Verified result |
+|---|---|
+| CF-041 | Recovered the original Domino Sidecar v0.2 archive and matched all 10 member hashes against its manifest. The package documents manual account handoff. |
+| CF-068 | A forced worker-process exit after SQLite saved the result left a durable receipt. Restart republished it and performed zero duplicate actions. |
+| CF-107 | The completion command now rejects unverified dependencies and duplicate task IDs before writing the registry or event log. |
+| CF-182 | A localhost Python HTTP test verified the ping UUID, canonical digest, result and branch. Reading the existing receipt on replay avoided a second upload. |
+
+The [Windows CI run](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42145009219) passed 48 relay, 5 restart/recovery and 13 registry/priority tests. The [cloud watchdog](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42145009213) passed its stricter ping-result checks. Its live snapshot counted eight matching execution receipts, one pending request, two expired unanswered requests and one separate setup probe.
+
+The unattended ping above still had no matching receipt at review. The next useful HP evidence is the existing `READ_WRITE_STATUS_CF0.bat` output with wrapper status, last run time and last task result. That status check leaves the scheduled ping available for the scheduler. CI covers the published source and Windows runner, while the owner HP has its own acceptance gate.

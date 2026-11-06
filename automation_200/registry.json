@@ -3,7 +3,7 @@
   "owner": "Kiara Lynn Rose Smith",
   "project": "Caveman Focus",
   "target": 200,
-  "completed": 48,
+  "completed": 52,
   "checkpoint_every": 4,
   "status": "WORK_IN_PROGRESS",
   "note": "A planned item is not a completed task. Physical HP outcomes require owner-HP evidence.",
@@ -530,8 +530,8 @@
       "title": "Recover Sidecar v0.2 primary source",
       "priority": 1,
       "depends_on": [],
-      "status": "planned",
-      "evidence": null,
+      "status": "verified",
+      "evidence": "Recovered original Caveman_Focus_Domino_Sidecar_v0_2.zip. ZIP CRC and all 10 file hashes in SHA256_MANIFEST.json match. Archive SHA-256 3299f0d634c3f35f8703f7234c6073380d62856211f0d889078d6abca2fb2adc; primary domino.py SHA-256 d9594d043d0b65e00e835f302cb494de284e49a8d64f5bad5be1958deed01c69. Source recovery only.",
       "authority": "owner-reviewed",
       "physical_hp_required": false
     },
@@ -879,8 +879,8 @@
       "depends_on": [
         "CF-067"
       ],
-      "status": "planned",
-      "evidence": null,
+      "status": "verified",
+      "evidence": "relay/test_cf200_recovery.py::test_process_exit_after_local_save_replays_without_execution at 62ed3ccc433f20120f5cb041b76d37f04dae0ed0. Child process exits after the SQLite commit and before publication. Restart republishes the original receipt with zero re-executions. Windows CI https://github.com/whoiwts110217-creator/CF-0/actions/runs/42145009219.",
       "authority": "existing-source-tests",
       "physical_hp_required": false
     },
@@ -1382,8 +1382,8 @@
       "depends_on": [
         "CF-106"
       ],
-      "status": "planned",
-      "evidence": null,
+      "status": "verified",
+      "evidence": "automation_200/validate_registry.py and checkpoints.py at 62ed3ccc433f20120f5cb041b76d37f04dae0ed0. The selector excludes verified work and the completion command validates the candidate before writing. test_complete_rejects_unverified_dependency_without_writing rejects a planned parent and duplicate IDs and preserves the files. Windows CI https://github.com/whoiwts110217-creator/CF-0/actions/runs/42145009219.",
       "authority": "owner-reviewed",
       "physical_hp_required": false
     },
@@ -2349,8 +2349,8 @@
       "depends_on": [
         "CF-181"
       ],
-      "status": "planned",
-      "evidence": null,
+      "status": "verified",
+      "evidence": "relay/tests/test_public_relay.py::test_http_transport_integration at 62ed3ccc433f20120f5cb041b76d37f04dae0ed0. Localhost HTTP round trip matches UUID, independently computed request SHA-256, completed ping payload and main branch. Replay reads the existing receipt without a second PUT. Windows CI https://github.com/whoiwts110217-creator/CF-0/actions/runs/42145009219.",
       "authority": "owner-reviewed",
       "physical_hp_required": false
     },
