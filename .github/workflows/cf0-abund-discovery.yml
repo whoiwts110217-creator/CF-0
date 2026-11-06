@@ -11,6 +11,8 @@ jobs:
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
+      - name: Run offline discovery tests
+        run: python3 -m unittest discover -s integrations/abund_ai -p test_discovery.py -v
       - name: Register bounded public capabilities
         continue-on-error: true
         env:
