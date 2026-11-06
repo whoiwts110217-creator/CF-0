@@ -1,5 +1,7 @@
 # CF-0 Public Continuity — current source and handoff
 
+> **Required pre-decision gate:** before taking **any** CF-0 decision, fetch and read the [public MASTER_OPERATOR_PROMPT.md](../automation_200/MASTER_OPERATOR_PROMPT.md) **first**, then the [MASTER_CONTINUITY_PROMPT.md](../automation_200/MASTER_CONTINUITY_PROMPT.md), current owner correction, registry and relevant original source. Preserve source coverage, project identity, event history, and discrepancies. If source is inaccessible, disclose that rather than claiming a completed review.
+
 **Dated source check: November 6, 2026 (Eastern).** This page is a public-safe continuity handoff, not a verbatim conversation archive, live computer dashboard, or legal-ownership document.
 
 **Single mission:** build reliable automation and founder-directed priorities that enable legitimate, sustainable generational wealth while preserving creative, business and research work.
