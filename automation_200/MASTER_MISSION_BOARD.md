@@ -122,3 +122,9 @@ The hourly public channel watchdog now runs priority selector and waiting-cycle 
 - This is source-only delivery, **not deployed or launched on the HP**. The available GitHub connection cannot open a physical HP desktop. The live auto-refresh window is used instead of relying on Notepad, which may not reload an externally modified text file. Local PowerShell/Windows GUI runtime validation remains outstanding.
 - Single scheduled-poll probe `1bd3a644-9b80-4d05-8cb1-7043c7853d54` still has no matching public receipt at this review. No evidence of unattended Windows Task Scheduler execution; 52/200 verified unchanged.
 - Next three: (1) test viewer on actual HP and optionally add owner-approved Notepad launch; (2) inspect five-minute cloud watchdog/Windows CI results; (3) reconcile scheduled-poll receipt with Windows task history and wrapper result.
+
+## Manual executor loop: HP live status viewer (2026-11-05/06)
+
+- Published opt-in local Windows viewer [cf200_live_status.py](../relay/cf200_live_status.py) and [OPEN_CF200_LIVE_STATUS.bat](../relay/OPEN_CF200_LIVE_STATUS.bat). The Python Tkinter window refreshes public CF-200 registry and latest commit every 30 seconds without depending on Notepad's external-file reload behavior. No credentials or remote command capabilities.
+- GitHub source commits: `497b36fd2cb0a26d4d61d6e43b2f31a9cc73569e`, `f9bce63643a4ea4fefe4e21c857a980ce2b6b32d`. Desktop deployment and Windows execution are NOT verified; owner must launch the BAT locally from a current checkout. Public source is not evidence of physical HP scheduler operation.
+- Registry unchanged at 52/200. Next: run local viewer on HP; validate UI/network handling and add tests; correlate independent scheduled HP run with Task Scheduler logs and matching receipt.
