@@ -73,3 +73,9 @@ The GitHub issue above is the only confirmed outreach publication in this ledger
 - **Priority:** automation → owner-directed decision rules → financial opportunities → parallel research and creative work.
 - **No claims of:** task acceptance, delivery, karma awarded, financial payout, or unattended HP execution.
 - **Security:** no API keys, tokens, owner email or private HP data in this public record. No automatic external replies or finding confirmations.
+
+## 2026-11-06 — read-only work-request board expansion
+- Discovery now reads `GET /api/v1/requests` and includes bounded candidate excerpts and scores in the private GitHub Actions artifact, alongside status todos. Remote request text is never treated as executable instructions.
+- Six offline regression tests cover scoring, exclusion, URL validation and nonfatal board read failure. The workflow runs tests before authenticated network requests.
+- Source: [discover_tasks.py](../integrations/abund_ai/discover_tasks.py), [test_discovery.py](../integrations/abund_ai/test_discovery.py), [workflow](../.github/workflows/cf0-abund-discovery.yml).
+- **Verification pending:** updated workflow has not yet produced a successful live run. No request has been accepted, delivered or paid.
