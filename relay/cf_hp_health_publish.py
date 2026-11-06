@@ -62,7 +62,7 @@ def publish(repo, report):
         # Avoid an unnecessary commit when retrying identical report content.
         try:
             previous = base64.b64decode("".join(current["content"].split()), validate=True)
-        except (KeyError, AttributeError, TypeError, ValueError) as exc:
+        except (KeyError, AttributeError, TypeError, ValueError, UnicodeError) as exc:
             raise RelayError("health_destination_invalid") from exc
         if previous == data:
             return "unchanged"
@@ -81,7 +81,7 @@ def publish(repo, report):
             if (old_time.tzinfo is not None and new_time.tzinfo is not None
                     and same_metrics and 0 <= age < 1800):
                 return "unchanged"
-        except (ValueError, TypeError, KeyError, AttributeError):
+        except (ValueError, TypeError, KeyError, AttributeError, UnicodeError, OverflowError):
             # Untrusted previous content must never suppress a fresh report.
             pass
         payload["sha"] = current["sha"]
