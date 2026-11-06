@@ -202,3 +202,13 @@ The hourly public channel watchdog now runs priority selector and waiting-cycle 
 - HP health publication remains local opt-in and not deployed; no direct HP desktop interface was available. No Notepad window was opened. Public relay command allowlist, registry, event log and checkpoints were not changed. The cloud repository cannot itself attest to the owner HP's scheduled run.
 
 **Next three:** (1) inspect the Windows CI job for the new handle-release regression and repair failures; (2) prepare/validate a single owner-approved local HP activation and rollback for the existing health publisher and live viewer; (3) correlate a health report and Task Scheduler wrapper timestamp to the existing ping receipt before closing unattended verification.
+
+
+## P0 health publication cadence — November 6, 2026, 05:42 ET
+
+- Re-read operator prompt, board, authoritative registry (**52/200 verified**), existing collector/publisher/tests, Windows wrapper and the outstanding ping. Request `1bd3a644-9b80-4d05-8cb1-7043c7853d54` and public receipt match UUID and recorded canonical digest `bdd1b0e1c0b45e1b1618c16e814fc9a606e6530bf2419978ee9c510055f8ce16`; result completed pong/protocol 1. No independent correlation of this receipt with a specific unattended Windows scheduled run.
+- [Publisher cadence patch](https://github.com/whoiwts110217-creator/CF-0/commit/966a8d7c880db1f9e1c6f3d9f1c03977d1a704d3): unchanged health metrics now avoid redundant public commits within 30 minutes; changes to counts/status/errors publish immediately, with a heartbeat at 30 minutes. Invalid prior timestamps fail open to publication. This reduces GitHub API writes and public history churn on the existing five-minute poll.
+- [Four added offline tests](https://github.com/whoiwts110217-creator/CF-0/commit/3f65c1173f6386d2a0f9fde4fb5f1950bf68ec47) cover cadence, heartbeat, immediate changes and malformed prior timestamps. **CI outcome not confirmed**; source commit alone is not a passing test.
+- The HP-local opt-in flag remains absent from verified evidence; code is **not deployed or activated** on HP. No GUI/Notepad control was performed, no new public command was issued, and the relay allowlist and registry/events/checkpoints remain unchanged. No verified income is claimed.
+
+**Next three:** (1) check the current GitHub Actions run for health collector/publisher tests and repair failures; (2) prepare and validate a single owner-approved HP checkout/opt-in/rollback path without clipboard diagnostics; (3) validate a genuine health report and live viewer on HP, then correlate a scheduled wrapper execution to the outstanding probe.
