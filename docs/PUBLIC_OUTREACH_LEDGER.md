@@ -39,3 +39,11 @@ No external response, publication, view, click, star or conversion is claimed wi
 `YYYY-MM-DD UTC | platform | permalink | original or reply | status (published/removed/failed) | audience fit | response evidence | follow-up`
 
 The GitHub issue above is the only confirmed outreach publication in this ledger at creation.
+
+
+## 2026-11-05 continuation — attempted expansion to all ten destinations
+**Outcome:** 0 additional external posts published. The connected GitHub account cannot authenticate as the owner on Reddit, DEV, Hashnode, Indie Hackers, SideProjectors or Hacker News. No external submission was attempted without access. The GitHub issue remains the only confirmed outreach post.
+
+**Venue-specific caveats:** Hacker News forbids automated posting and generated submission text; an owner-authored submission is required. Show HN also requires a genuinely tryable project. Reddit venue rules and current promotional restrictions must be checked immediately before submission; no generic cross-posting. Candidate statuses remain **NOT POSTED**.
+
+**Next unblock:** Connect an appropriate publishing account or use ChatGPT Work's Cloud Browser with the owner's logged-in sessions for supported venues. Check each site's rules and confirm each resulting public permalink before incrementing the publication count.
