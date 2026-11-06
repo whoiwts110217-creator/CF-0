@@ -78,6 +78,16 @@ function Invoke-Worker {
         $py=Get-Command py.exe -ErrorAction Stop
         & $py.Source -3 $Worker once
         if ($LASTEXITCODE -ne 0) { throw 'Relay process failed.' }
+        # Explicit local opt-in only. This never changes the command allowlist.
+        # Health failures do not prevent a successful core relay poll.
+        $healthFlag=Join-Path $StateDir 'allow_health_report.flag'
+        $healthScript=Join-Path $PSScriptRoot 'cf_hp_health_publish.py'
+        if ((Test-Path -LiteralPath $healthFlag) -and (Test-Path -LiteralPath $healthScript)) {
+            & $py.Source -3 $healthScript
+            if ($LASTEXITCODE -ne 0) {
+                Write-Warning 'Optional public-safe health report failed; core relay poll succeeded.'
+            }
+        }
     }
     finally {
         Remove-Item Env:CF_RELAY_GITHUB_TOKEN -ErrorAction SilentlyContinue
