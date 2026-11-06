@@ -29,6 +29,9 @@ HEALTH_STATES = frozenset({
 RETRY_LIMIT = 3
 RETRY_BASE_SECONDS = 300
 MAX_ATTEMPT_AGE = 10**12
+# The registry currently marks certain owner-local acceptance tasks as HP-free.
+# Explicitly hold these by ID rather than guessing from public task titles.
+OWNER_LOCAL_EVIDENCE_IDS = frozenset({"CF-042", "CF-190", "CF-191", "CF-194"})
 
 
 def _attempts_valid(registry, attempts):
@@ -80,6 +83,8 @@ def propose(registry, *, health_state="unavailable", now=None, limit=4,
             reasons[tid] = "physical_hp_required"
         elif task["stream"] == "hp_install":
             reasons[tid] = "hp_install_needs_local_review"
+        elif tid in OWNER_LOCAL_EVIDENCE_IDS:
+            reasons[tid] = "owner_local_evidence_required"
         elif not all(status.get(d) == "verified" for d in task["depends_on"]):
             reasons[tid] = "dependencies_unverified"
         elif tid in attempts:
@@ -111,7 +116,7 @@ def propose(registry, *, health_state="unavailable", now=None, limit=4,
         "held_examples": held_examples,
         "selected_count": len(selected),
         "policy_note": (
-            "Cloud-only proposals: HP installation and physical-HP tasks are held "
+            "Cloud-only proposals: HP installation, owner-local evidence, and physical-HP tasks are held "
             "regardless of public heartbeat freshness. Failure retry state is input, "
             "not automatically inferred or persisted."
         ),
