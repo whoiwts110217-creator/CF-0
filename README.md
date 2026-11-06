@@ -6,6 +6,13 @@
 
 **[START HERE](docs/START_HERE.md)**
 
+## Public development release — November 6, 2026
+
+**[Browse the public development snapshot](docs/PUBLIC_DEVELOPMENT_SNAPSHOT_2026-11-06.md)** · **[Master plan and workflow chart](docs/CAVEMAN_FOCUS_MASTER_PLAN.md)**
+
+The current public-safe source and documentation are available for inspection and testing **as unfinished development work**. This is not a tagged stable release, a verified seven-day unattended system, or proof of income. Credentials, private records and sensitive account details are excluded. The intended next milestone is a verified, reproducible public automation release, followed by the documented Day-One business follow-along.
+
+
 ## New: HP remote-control milestone and autonomy rules
 
 - **[Autonomous Operations Rulebook v0.1](CAVEMAN_FOCUS_RULEBOOK_v0.1.md)** — owner authority, intervention-based autonomy, priority order, bounded capability expansion, evidence standards and roadmap.
