@@ -73,11 +73,12 @@ def main():
             def work():
                 try:
                     result = snapshot()
-                    state["last"] = result
                 except Exception as exc:
                     result = state["last"] + "\nREFRESH FAILED: " + type(exc).__name__ + "\n" if state["last"] else "REFRESH FAILED: " + type(exc).__name__
                 def done():
                     state["busy"] = False
+                    if not result.startswith("REFRESH FAILED:") and "\\nREFRESH FAILED:" not in result:
+                        state["last"] = result
                     display(result)
                 try:
                     root.after(0, done)
