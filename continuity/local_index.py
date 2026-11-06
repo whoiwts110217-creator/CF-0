@@ -616,6 +616,8 @@ def backup_private(conn: sqlite3.Connection, state: Path, archive: Path) -> dict
         raise ValueError("backup_must_be_outside_public_repo_and_private_store")
     if not output.parent.is_dir():
         raise ValueError("backup_destination_parent_missing")
+    if output.exists():
+        raise ValueError("backup_destination_exists_use_versioned_name")
     audit(conn, full_hash=True)
     with tempfile.TemporaryDirectory(prefix="cf0-backup-snapshot-") as temp:
         snapshot = Path(temp) / "continuity.sqlite3"
@@ -643,6 +645,8 @@ def backup_private(conn: sqlite3.Connection, state: Path, archive: Path) -> dict
             with zipfile.ZipFile(tmp,"w",compression=zipfile.ZIP_DEFLATED,compresslevel=6) as z:
                 for name,path in sorted(files.items()):z.write(path,arcname=name)
                 z.writestr("manifest.json",canonical(manifest))
+            if output.exists():
+                raise ValueError("backup_destination_created_concurrently")
             os.replace(tmp,output)
         finally:
             if os.path.exists(tmp):os.unlink(tmp)
@@ -671,6 +675,8 @@ def restore_private(archive: Path, state: Path) -> dict:
             if (info.is_dir() or name.is_absolute() or '..' in name.parts
                     or '\\' in info.filename or stat.S_ISLNK(info.external_attr >> 16)):
                 raise ValueError("unsafe_backup_entry")
+        if z.getinfo("manifest.json").file_size > 2_000_000:
+            raise ValueError("backup_manifest_too_large")
         manifest=json.loads(z.read("manifest.json"))
         if manifest.get("schema")!="cf0.private_continuity_backup.v1":
             raise ValueError("unsupported_backup_schema")
