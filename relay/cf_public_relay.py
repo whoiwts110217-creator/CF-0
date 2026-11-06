@@ -191,15 +191,18 @@ def tick(repo:HttpRepo, state:State,sidecar=None):
                 result['replayed']+=1
                 if repo.publish(jid,stored[1]):result['public_receipts']+=1
                 continue
-            job=validate(repo.load(n),n)
-            digest=sha(job)
+            raw=repo.load(n)
             previous=state.attempt(jid)
             if previous is not None:
-                if previous[0]!=digest:raise RelayError('attempt_conflict')
+                # Even after TTL expiry, the durable unknown remains unknown.
+                # Match the exact original request digest before reporting it.
+                if previous[0]!=sha(raw):raise RelayError('attempt_conflict')
                 # No durable completed receipt. Could have executed before
                 # crash; do not retry and do not publish a completed receipt.
                 result['uncertain']+=1
                 continue
+            job=validate(raw,n)
+            digest=sha(job)
             if not state.begin(jid,digest):
                 result['uncertain']+=1
                 continue
