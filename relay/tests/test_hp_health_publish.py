@@ -50,6 +50,37 @@ class PublisherTests(unittest.TestCase):
             publish(repo, sample())
         self.assertEqual(len(repo.calls), 1)
 
+    def test_unchanged_metrics_within_30_minutes_skip_commit(self):
+        old = sample()
+        repo = Repo(dict(sha="old", content=base64.b64encode(sanitized(old)).decode()))
+        new = sample()
+        new["collected_utc"] = "2026-11-06T12:05:00+00:00"
+        self.assertEqual(publish(repo, new), "unchanged")
+        self.assertEqual(len(repo.calls), 1)
+
+    def test_heartbeat_after_30_minutes_publishes(self):
+        old = sample()
+        repo = Repo(dict(sha="old", content=base64.b64encode(sanitized(old)).decode()))
+        new = sample()
+        new["collected_utc"] = "2026-11-06T12:30:00+00:00"
+        self.assertEqual(publish(repo, new), "published")
+        self.assertEqual(repo.calls[1][2]["sha"], "old")
+
+    def test_changed_metrics_publish_immediately(self):
+        old = sample()
+        repo = Repo(dict(sha="old", content=base64.b64encode(sanitized(old)).decode()))
+        new = sample()
+        new["receipt_count"] += 1
+        new["collected_utc"] = "2026-11-06T12:01:00+00:00"
+        self.assertEqual(publish(repo, new), "published")
+
+    def test_invalid_previous_timestamp_cannot_suppress(self):
+        old = sample()
+        old["collected_utc"] = "invalid"
+        repo = Repo(dict(sha="old", content=base64.b64encode(
+            __import__("json").dumps(old).encode()).decode()))
+        self.assertEqual(publish(repo, sample()), "published")
+
     def test_invalid_count_rejected(self):
         data = sample()
         data["receipt_count"] = -1
