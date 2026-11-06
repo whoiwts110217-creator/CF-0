@@ -42,12 +42,23 @@ def snapshot():
     head = commits[0]
     sha = head["sha"][:12]
     message = head["commit"]["message"].splitlines()[0][:140]
+    runs = fetch_json(API + "/actions/runs?per_page=1")
+    recent = runs.get("workflow_runs", []) if isinstance(runs, dict) else []
+    if recent:
+        run = recent[0]
+        ci = (str(run.get("name", "Workflow"))[:70] + ": "
+              + str(run.get("conclusion") or run.get("status") or "unknown")
+              + " (" + str(run.get("html_url", "")) + ")")
+    else:
+        ci = "No recent workflow result available"
     return ("CAVEMAN FOCUS — LIVE STATUS\n"
             + "Updated locally: " + datetime.now().astimezone().isoformat(timespec="seconds") + "\n"
             + "Verified: " + str(registry["completed"]) + " / " + str(registry["target"]) + "\n"
             + "Registry: " + str(registry["status"]) + "\n"
             + "Latest commit: " + sha + " — " + message + "\n"
-            + "Source: https://github.com/" + REPO + "\n\n"
+            + "Source: https://github.com/" + REPO + "\n"
+            + "Latest GitHub Actions: " + ci + "\n"
+            + "Next HP verification: correlate Windows scheduled run and wrapper outcome with ping receipt.\n\n"
             + probe_summary() + "\n"
             + "HP unattended schedule: NOT VERIFIED without Windows scheduler evidence\n"
             + "This window runs on your Windows desktop only after local launch.\n"
