@@ -52,6 +52,19 @@ class OwnerPriorityTests(unittest.TestCase):
         self.assertEqual(select_tasks(sample,owner_preference_ids=["F"])[0]["id"], "F")
         self.assertEqual(json.dumps(sample,sort_keys=True),before)
 
+    def test_waiting_cycles_fairness_is_within_tier(self):
+        sample={"tasks":[task("A","receipt"),task("B","receipt"),
+                         task("F","public_finance"),task("H","receipt",hp=True)]}
+        chosen=select_tasks(sample,limit=4,waiting_cycles={"B":12,"F":100,"H":100})
+        self.assertEqual([t["id"] for t in chosen],["B","A","F"])
+        self.assertEqual(select_tasks(sample,owner_preference_ids=["A"],waiting_cycles={"B":12})[0]["id"],"A")
+
+    def test_waiting_cycles_rejects_untrusted_inputs(self):
+        sample={"tasks":[task("A","receipt")]}
+        for bad in ({"A":-1},{"A":True},{"A":100001},{"Z":2},[],{"A":"5"}):
+            with self.subTest(bad=bad), self.assertRaises(ValueError):
+                select_tasks(sample,waiting_cycles=bad)
+
     def test_invalid_preferences_and_limit_fail_closed(self):
         sample={"tasks":[task("X","receipt")]}
         for kw in ({"limit":0},{"limit":21},{"owner_preference_ids":["none"]},
