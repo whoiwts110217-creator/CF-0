@@ -4,6 +4,14 @@ Updated: 2026-11-06
 ## Mission and ownership
 Caveman Focus is a practical simplification, experimentation and automation framework intended to help everyday businesses, create sustainable income and build generational wealth. Its creator is the parent of Kiara Lynn Rose Smith; the creator intends ownership for their daughter Kiara Lynn Rose Smith. This document does not claim a completed legal transfer.
 
+## Operating-environment thesis
+
+Caveman Focus does **not** require inventing a new AI reasoning model. Its engineering hypothesis is that existing AI reasoning becomes more practically useful when supported by a persistent, owner-controlled environment: durable context and task state, authority and priorities, bounded executable tools, trustworthy observations, result verification, and recovery. The intended cycle is **reason → select authorized action → execute → observe → verify → revise → repeat**.
+
+This distinguishes **model capability** (reasoning and proposing actions) from **environment capability** (keeping the loop running with real-world feedback). An execution receipt does not by itself prove a useful result, and a working relay does not prove that the AI automatically evaluated the receipt and made the next decision. The full closed loop remains an engineering objective, not a verified feature.
+
+**Ownership and attribution note:** The public project name and attribution are **“Kiara Lynn Rose Smith's Caveman Focus.”** The creator's stated intention is that their daughter, Kiara Lynn Rose Smith, own the project; this is an intended ownership arrangement, not a claim of completed legal transfer. Public attribution must not be read as proof of a completed transfer or as erasing the creator's role. Keep these separate until ownership documentation establishes otherwise.
+
 ## Binding priority order
 1. **Automation infrastructure first:** complete and verify scheduling, execution, receipts, recovery, public-safe logging, and low-resource HP integration.
 2. **Priority-setting engine second:** implement a transparent policy for ranking work according to creator-approved preferences, dependencies, urgency, risk and evidence. Human instructions override inferred priorities.
@@ -30,7 +38,7 @@ flowchart TD
     I --> J{"Verified outcome?"}
     J -- No --> K["Retry within limits / repair / report blocker"]
     K --> D
-    J -- Yes --> L["Public-safe progress board"]
+    J -- Yes --> L["Public-safe progress board"]\n    L --> V["AI evaluates evidence and revises next decision (target loop; not verified end-to-end)"]\n    V --> C
     L --> M{"Release gates all passed?"}
     M -- No --> N["Tests, recovery, docs, security, outsider install"]
     N --> D
