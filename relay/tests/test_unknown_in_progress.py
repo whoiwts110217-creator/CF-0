@@ -65,6 +65,7 @@ relay.tick(Repo(),relay.State(pathlib.Path(sys.argv[2])))
             self.assertEqual(result["errors"], [])
             self.assertEqual(queue.published, [])
             self.assertEqual(state.count(), 0)
+            self.assertEqual(state.unknown_count(), 1)
 
     def test_normal_action_transitions_to_completed_atomically(self):
         job = relay.make_job("ping")
@@ -74,6 +75,7 @@ relay.tick(Repo(),relay.State(pathlib.Path(sys.argv[2])))
             self.assertEqual((first["executed"], first["uncertain"]), (1, 0))
             self.assertEqual(state.attempt(job["id"]), (relay.sha(job), "completed"))
             self.assertEqual(state.receipt(job["id"])[1]["status"], "completed")
+            self.assertEqual(state.unknown_count(), 0)
             with patch.object(relay, "execute") as execute:
                 second = relay.tick(Queue(job), relay.State(state.db))
                 execute.assert_not_called()
