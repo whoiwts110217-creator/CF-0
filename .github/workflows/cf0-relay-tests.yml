@@ -8,6 +8,7 @@ on:
       - 'HP_TAKEOVER_README.md'
       - 'automation_200/**'
       - '.github/workflows/cf0-relay-tests.yml'
+  pull_request:
   workflow_dispatch:
 jobs:
   relay:
@@ -36,13 +37,21 @@ jobs:
       - name: Parse Windows PowerShell scripts
         shell: pwsh
         run: |
-          $paths=@('relay/install_task.ps1','relay/cf_public_relay_rw.ps1','relay/hp_takeover_check.ps1','relay/configure_health_reporting.ps1')
+          $paths=@('relay/install_task.ps1','relay/cf_public_relay_rw.ps1','relay/hp_takeover_check.ps1','relay/configure_health_reporting.ps1','relay/INSTALL_NOTEPAD_CONTROL.ps1')
           foreach($path in $paths) {
             $tokens = $null
             $errors = $null
             [System.Management.Automation.Language.Parser]::ParseFile((Resolve-Path $path).Path, [ref]$tokens, [ref]$errors) | Out-Null
             if ($errors.Count -ne 0) { $errors | Format-List; exit 1 }
           }
+      - name: Refuse false Notepad installation without changing HP state
+        shell: pwsh
+        run: |
+          $result = @(& powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File relay/INSTALL_NOTEPAD_CONTROL.ps1)
+          if ($LASTEXITCODE -ne 2) { throw 'Legacy Notepad installer must refuse with exit code 2 until restoration is verified' }
+          if (($result -join ' ') -notmatch 'NOTEPAD_ACTION=BLOCKED_NOT_SUPPORTED') { throw 'Missing truthful Notepad status' }
+          if (($result -join ' ') -notmatch 'LOCAL_CHANGES=NONE') { throw 'Missing no-side-effects assertion' }
+          if (($result -join ' ') -match 'NOTEPAD_ACTION=INSTALLED_AND_OPTED_IN') { throw 'False Notepad success report' }
       - name: DPAPI encrypted credential round-trip on Windows
         shell: pwsh
         run: |
