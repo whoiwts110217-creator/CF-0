@@ -60,6 +60,22 @@ class PublicContinuityTests(unittest.TestCase):
         with self.assertRaisesRegex(ContinuityError, "public_work_order_count_stale"):
             check(root)
 
+    def test_same_completed_count_but_modified_task_fails_source_fingerprint(self):
+        root = self.prepare()
+        p = root / "automation_200/registry.json"
+        registry = json.loads(p.read_text(encoding="utf-8"))
+        registry["tasks"][0]["title"] += " modified-without-public-update"
+        p.write_text(json.dumps(registry, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+        with self.assertRaisesRegex(ContinuityError, "public_cf200_registry_source_fingerprint_stale"):
+            check(root)
+
+    def test_current_public_fingerprint_matches_git_blob(self):
+        import hashlib
+        blob = (ROOT / "automation_200/registry.json").read_bytes()
+        digest = hashlib.sha1(b"blob " + str(len(blob)).encode("ascii") + b"\0" + blob).hexdigest()
+        status = json.loads((ROOT / "docs/PUBLIC_CONTINUITY_STATE.json").read_text(encoding="utf-8"))
+        self.assertEqual(status["cf200"]["registry_git_blob_sha1"], digest)
+
     def test_old_public_board_heading_is_rejected(self):
         root = self.prepare()
         p = root / "automation_200/MASTER_MISSION_BOARD.md"
