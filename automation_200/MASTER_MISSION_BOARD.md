@@ -102,3 +102,12 @@ The unattended ping above still had no matching receipt at review. The next usef
 - No verified income, physical HP scheduled-run proof, or new unrestricted automation capability claimed.
 
 **Next three executable steps:** (1) inspect CI outcome and fix priority-selector regressions; (2) reconcile the outstanding probe and correlate any receipt to Windows scheduled-task evidence before changing HP status; (3) implement a bounded, auditable persistence format for founder waiting-cycle inputs and test it without changing the registry's task evidence.
+
+## Upgrade — 2026-11-05, priority waiting-cycle persistence
+
+- Added [waiting_cycles.py](waiting_cycles.py) in commit [c2831ef](https://github.com/whoiwts110217-creator/CF-0/commit/c2831ef1ba56f1e8799e3be69dd9604e1ce92900). It provides an explicit opt-in `--write` for bounded per-task waiting-cycle JSON; normal invocation previews next state without writing. Eligible selected tasks reset to zero, other eligible tasks age by one (capped at 100000); blocked, HP-only and completed tasks are excluded. No registry, task authority, or HP mutation.
+- Added [offline regressions](tests/test_waiting_cycles.py) in commit [c4a6f55](https://github.com/whoiwts110217-creator/CF-0/commit/c4a6f5563a8a1ff4b5fd0b720da2f5537099f805) for reset, bounded aging, blocked/HP exclusion, malicious inputs, and no mutation. CI outcome is **not yet confirmed**; do not mark a registry task verified from these source commits alone.
+- The single unattended probe `1bd3a644-9b80-4d05-8cb1-7043c7853d54` still has no receipt at this check. Do not conflate a public writeback or manual poll with Windows Task Scheduler success.
+- Registry remains **52/200**; append-only events and numbered checkpoints unchanged.
+
+**Next three executable steps:** (1) verify Windows CI for the new waiting-cycle module and correct any failures; (2) inspect scheduled probe receipt and correlate any result with Windows scheduler evidence; (3) test explicit state write/read round-trip and owner preference persistence without granting new execution authority.
