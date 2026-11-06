@@ -76,3 +76,9 @@ py -3 -m continuity.workorder_bridge audit
 ```
 
 Suggestions are explicitly **not approved links**. Only unambiguous stream classifications are suggested; ambiguous workstreams remain unmapped. An explicit `link-workorder` call keeps an event but **never changes project completion**. The current private eight-source backup has **not yet been populated with the public CF-200 registry** by this change; it is preserved unchanged until the exact live registry can be ingested and the snapshot re-backed-up and tested.
+
+## Latest verified private recovery — v2 (2026-11-06)
+
+The existing owner Library archive was restored, ten additional original *artifact files* were ingested privately, then a **new** complete v2 ZIP was restored in an independent directory and audited. The private store contains 18 original source files, 62 reconstructed/unverified project identities, 134 project-source associations, 98 existing external references, and 91 hash-linked events. Both v1 and v2 remain saved privately under `/Caveman Focus/Master Records/`. No full original conversations.json exports have been indexed. The original approximately 37-project list is still not recovered.
+
+A dedicated CI smoke test at [tests/test_actual_cf200_registry.py](tests/test_actual_cf200_registry.py) imports the byte-exact **current checked-in** 200-task registry into a disposable source-test store and verifies task count, evidence, fingerprint and idempotence. That test does **not** populate the owner's private v2 backup. Until a subsequent separate private import and new backup occur, the owner's project-to-work-order links remain unreviewed and the private CF-200 snapshot is missing.
