@@ -47,11 +47,14 @@ jobs:
       - name: Refuse false Notepad installation without changing HP state
         shell: pwsh
         run: |
+          # A controlled exit code 2 means 'blocked', not an unhandled CI error.
+          $PSNativeCommandUseErrorActionPreference = $false
           $result = @(& powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File relay/INSTALL_NOTEPAD_CONTROL.ps1)
           if ($LASTEXITCODE -ne 2) { throw 'Legacy Notepad installer must refuse with exit code 2 until restoration is verified' }
           if (($result -join ' ') -notmatch 'NOTEPAD_ACTION=BLOCKED_NOT_SUPPORTED') { throw 'Missing truthful Notepad status' }
           if (($result -join ' ') -notmatch 'LOCAL_CHANGES=NONE') { throw 'Missing no-side-effects assertion' }
           if (($result -join ' ') -match 'NOTEPAD_ACTION=INSTALLED_AND_OPTED_IN') { throw 'False Notepad success report' }
+          $global:LASTEXITCODE = 0 # Avoid propagating the expected child exit code to the workflow wrapper.
       - name: DPAPI encrypted credential round-trip on Windows
         shell: pwsh
         run: |
