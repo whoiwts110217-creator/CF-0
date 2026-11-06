@@ -15,3 +15,7 @@ See [publication policy](PUBLICATION_POLICY.md). This repository is a partial pu
 ## Required source-recovery rule (November 6, 2026)
 
 [Read the public master operating prompt](../automation_200/MASTER_OPERATOR_PROMPT.md) **before CF-0 decisions**, followed by [the cross-archive continuity master](../automation_200/MASTER_CONTINUITY_PROMPT.md). Both require original-source coverage, stable project/event IDs, reversible merges, explicit unresolved contradictions and private/public separation. Published project-level summaries are not an authorization to release private chats, creative originals or personal data. Full retrieval cannot be claimed from partial snippets or secondary summaries.
+
+## Implemented private archive source indexing (source only, 2026-11-06)
+
+The [continuity engine](../continuity/README.md) preserves source bytes by digest and distinct origins; it can index a supplied ChatGPT conversations.json/ZIP privately, link original project IDs and flag contradictory claims as pending review. Its tests use only synthetic data. This is **not** proof that all original chats have been accessed, nor consent to upload the private index or any transcripts. The separate existing CF-200 event ledger remains authoritative only for its 200 work orders.

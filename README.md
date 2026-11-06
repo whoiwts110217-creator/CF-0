@@ -8,6 +8,8 @@
 
 **Project stage: public developer preview (November 6, 2026).** The source is available, but there is no stable, independently reproduced end-user release yet.
 
+**Executable archive continuity (source-only):** [local-first conversation and project index](continuity/README.md) now has an offline Python/SQLite importer, duplicate source origins, proposed claims and conflicting-claim detection. It is **not installed on the HP** and does **not** auto-retrieve other account histories. Originals and searchable chat text stay outside this public repo.
+
 **Master continuity order:** [Read the public master operating prompt first](automation_200/MASTER_OPERATOR_PROMPT.md), then the [cross-archive, project and event continuity prompt](automation_200/MASTER_CONTINUITY_PROMPT.md) **before CF-0 decisions**. The public prompt describes how to recover and reconcile prior conversations, archives and workstreams without publishing private originals.
 
 **Continuity snapshot:** [54/200 verified source/operations work orders](docs/PROJECT_STATUS.md), with the [latest public handoff and evidence boundaries](docs/CONTINUITY.md). The currently checked-in relay **does not support remote Notepad launch**; previously observed Windows Notepad launches are historical, and restoration remains open. The optional HP heartbeat and independent scheduler correlation are still unverified.

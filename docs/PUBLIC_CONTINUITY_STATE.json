@@ -45,7 +45,20 @@
     "private_reconstruction_index_entries": 62,
     "original_project_count_proven": false,
     "public_index": "docs/PROJECTS.md",
-    "private_documents": "retained_outside_public_repository"
+    "private_documents": "retained_outside_public_repository",
+    "local_continuity_store": {
+      "source_code": "continuity/local_index.py",
+      "test_suite": "continuity/tests/test_local_index.py",
+      "snapshot_evidence_scope": "private_user_library_documents_preserved_and_restored_in_assistant_workspace_not_HP",
+      "source_files_preserved": 8,
+      "reconstructed_projects": 62,
+      "external_source_reference_links": 98,
+      "full_original_chat_exports_indexed": 0,
+      "private_backup_verified": true,
+      "installed_on_owner_HP": false,
+      "other_account_access_proven": false,
+      "original_37_project_list_recovered": false
+    }
   },
   "finance": {
     "verified_revenue_from_inspected_records": "not_established",
