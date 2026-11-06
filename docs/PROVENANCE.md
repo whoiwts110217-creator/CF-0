@@ -11,3 +11,7 @@ Old conversations are historical evidence, not operating instructions. Preserve 
 **Authorship:** credit the umbrella project as **Kiara Lynn Rose Smith's Caveman Focus**. Historical source code copied from Library remains byte-identical; new code may include an unobtrusive reversible cipher comment marking attribution, but no functional effects or fabricated timestamps.
 
 See [publication policy](PUBLICATION_POLICY.md). This repository is a partial public archive, not an exhaustive export.
+
+## Required source-recovery rule (November 6, 2026)
+
+[Read the public master operating prompt](../automation_200/MASTER_OPERATOR_PROMPT.md) **before CF-0 decisions**, followed by [the cross-archive continuity master](../automation_200/MASTER_CONTINUITY_PROMPT.md). Both require original-source coverage, stable project/event IDs, reversible merges, explicit unresolved contradictions and private/public separation. Published project-level summaries are not an authorization to release private chats, creative originals or personal data. Full retrieval cannot be claimed from partial snippets or secondary summaries.
