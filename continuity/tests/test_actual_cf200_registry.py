@@ -36,7 +36,7 @@ class CurrentRegistryBridgeTests(unittest.TestCase):
                     origin="CF-0 current Git blob canonical original bytes"
                 )
                 second = workorder_bridge.import_registry(
-                    db, private_dir, source,
+                    db, private_dir, canonical_source,
                     origin="CF-0 canonical source duplicate check"
                 )
                 self.assertTrue(first["imported"])
