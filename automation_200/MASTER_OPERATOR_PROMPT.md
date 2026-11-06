@@ -122,3 +122,12 @@ Current grounded evidence: owner Windows Task Scheduler event 107/100/200/201/10
 - If the report is **missing**, **late**, **stale**, **invalid** or **unavailable**, record that exact uncertainty and select another authorized P0 source/CI task rather than requesting repeated owner PowerShell transcripts, restarting the separate disabled supervisor, or claiming the machine is offline.
 - A **fresh_public_report** is still only public self-reported evidence. It does not verify HP identity, Windows Task Scheduler origin, a command's scheduled provenance, continuous ChatGPT execution, or seven-day autonomy. For the unattended acceptance gate, separate the HP-local time-triggered Windows events from the independently matched public command receipt and time-correlate them.
 - Source tests can run without this report and must never mark HP-only registry items verified because of a healthy CI check or public heartbeat alone. The on-HP opt-in remains owner-local and reversible; never enable it remotely.
+
+
+## Founder-governed, evidence-gated cloud decisions — 2026-11-06
+
+- On a run with the GitHub-connected repository, consult [decision_engine.py](decision_engine.py) and [DECISION_ENGINE.md](DECISION_ENGINE.md) before choosing a CF-200 work order. Its read-only `--live` output is an **ordered proposal**, not an instruction to act or evidence that any task was completed.
+- It carries forward the owner's priority order and excludes tasks with unverified dependencies, owner-supplied blocks, known retry ceilings, and hardware/local-data requirements. Existing CF-042 (owner Domino_Data backup) and physical HP scheduling/status work need owner-local evidence even where older registry metadata suggests otherwise.
+- Never interpret `fresh_public_report` as authority to execute HP tasks; only an owner-reviewed local run can satisfy the relevant device acceptance gate. Do not copy a `proposed` task into the verified ledger without independently completing and citing that task's actual acceptance criteria.
+- For a failed task, a separately verified and **public-safe** attempt ledger may later supply explicit failure counts/timestamps. Until such durable state exists, the selector's cooldown logic is a tested option, **not** proof of persistent autonomous retries.
+- When an eligible P0 task cannot be executed in the available environment, record the reason and choose the next eligible P0 source task; keep P1/P2 drafting available rather than repeatedly probing the same HP endpoint.
