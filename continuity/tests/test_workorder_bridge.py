@@ -73,6 +73,23 @@ class WorkorderBridgeTests(unittest.TestCase):
         self.assertEqual(first["event_id"], again["event_id"])
         self.assertEqual(workorder_bridge.audit_workorders(self.db)["explicit_project_links"], 1)
 
+    def test_evidence_revision_same_status_requires_review_and_preserves_prior_snapshot(self):
+        first = self.snapshot("verified", "Synthetic evidence version one")["source_id"]
+        second = self.snapshot("verified", "Synthetic evidence version two")["source_id"]
+        self.assertNotEqual(first, second)
+        diff = workorder_bridge.snapshot_diff(self.db, first, second)
+        self.assertEqual(diff["missing_tasks"], [])
+        self.assertEqual(diff["new_tasks"], [])
+        self.assertEqual(len(diff["changed"]), 1)
+        self.assertEqual(diff["changed"][0]["task_id"], "CF-001")
+        self.assertEqual(diff["changed"][0]["before"], "verified")
+        self.assertEqual(diff["changed"][0]["after"], "verified")
+        self.assertTrue(diff["changed"][0]["evidence_changed"])
+        self.assertTrue(diff["changed"][0]["review_required"])
+        self.assertEqual(workorder_bridge.audit_workorders(self.db)["cf200_snapshots"], 2)
+        self.assertEqual(workorder_bridge.audit_workorders(self.db)["explicit_project_links"], 0)
+        self.assertTrue(local_index.audit(self.db, full_hash=True)["chain_valid"])
+
     def test_snapshot_difference_requires_review(self):
         before = self.snapshot()["source_id"]
         after = self.snapshot("verified", "Synthetic test evidence")["source_id"]
