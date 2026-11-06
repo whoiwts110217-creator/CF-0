@@ -27,20 +27,22 @@ class CurrentRegistryBridgeTests(unittest.TestCase):
 
         with tempfile.TemporaryDirectory(prefix="cf0-actual-registry-test-") as folder:
             private_dir = Path(folder) / "private-synthetic-only"
+            canonical_source = Path(folder) / "cf200-git-canonical.json"
+            canonical_source.write_bytes(canonical_git_bytes)
             with local_index.open_db(private_dir) as db:
                 first = workorder_bridge.import_registry(
-                    db, private_dir, source,
-                    origin="CF-0 current checkout public authoritative raw bytes"
+                    db, private_dir, canonical_source,
+                    origin="CF-0 current Git blob canonical original bytes"
                 )
                 second = workorder_bridge.import_registry(
                     db, private_dir, source,
-                    origin="CF-0 current checkout duplicate check"
+                    origin="CF-0 canonical source duplicate check"
                 )
                 self.assertTrue(first["imported"])
                 self.assertFalse(second["imported"])
                 self.assertEqual(first["orders"], 200)
                 self.assertEqual(first["verified_source_statuses"], state["cf200"]["verified"])
-                self.assertEqual(first["source_id"], "sha256:" + hashlib.sha256(original_bytes).hexdigest())
+                self.assertEqual(first["source_id"], "sha256:" + hashlib.sha256(canonical_git_bytes).hexdigest())
                 summary = workorder_bridge.audit_workorders(db)
                 self.assertEqual(summary["cf200_snapshots"], 1)
                 self.assertEqual(summary["cf200_order_versions"], 200)
