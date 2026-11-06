@@ -30,7 +30,8 @@ def require(condition: bool, message: str) -> None:
 
 def check(root: Path = ROOT) -> dict:
     state = json.loads((root / "docs/PUBLIC_CONTINUITY_STATE.json").read_text(encoding="utf-8"))
-    registry = json.loads((root / "automation_200/registry.json").read_text(encoding="utf-8"))
+    registry_bytes = (root / "automation_200/registry.json").read_bytes()
+    registry = json.loads(registry_bytes.decode("utf-8"))
     owner = json.loads((root / "automation_200/OWNER_CAPABILITY_CONTRACT.json").read_text(encoding="utf-8"))
     relay = (root / "relay/cf_public_relay.py").read_text(encoding="utf-8")
     installer = (root / "relay/INSTALL_NOTEPAD_CONTROL.ps1").read_text(encoding="utf-8")
@@ -50,6 +51,12 @@ def check(root: Path = ROOT) -> dict:
     require(verified == len([task for task in registry["tasks"] if task["status"] == "verified"]), "registry_ledger_count")
     require(state["cf200"]["verified"] == verified, "public_work_order_count_stale")
     require(state["cf200"]["target"] == registry["target"] == 200, "public_work_order_target")
+    # Byte-exact Git blob fingerprint guards against unreported changes to
+    # evidence, task titles, dependencies or other fields even when 54/200 stays
+    # constant. A recorded SHA1 is only source identity, not device attestation.
+    blob = b"blob " + str(len(registry_bytes)).encode("ascii") + b"\0" + registry_bytes
+    require(state["cf200"].get("registry_git_blob_sha1") == hashlib.sha1(blob).hexdigest(),
+            "public_cf200_registry_source_fingerprint_stale")
     checkpoints = [int(p.stem.rsplit("_", 1)[1])
                    for p in (root / "automation_200/checkpoints").glob("checkpoint_*.json")
                    if p.stem.rsplit("_", 1)[-1].isdigit()]
@@ -107,6 +114,15 @@ def check(root: Path = ROOT) -> dict:
             "false_original_archive_completion")
     require(state["archive"]["original_project_count_proven"] is False,
             "false_original_project_count_claim")
+    # Private recovery counts are self-reported from a separate restored
+    # workspace: enforce no false claims of complete transcript/HP recovery.
+    private = state["archive"].get("local_continuity_store", {})
+    require(private.get("source_files_preserved", 0) >= 8
+            and private.get("reconstructed_projects") == 62
+            and private.get("full_original_chat_exports_indexed") == 0
+            and private.get("full_git_registry_snapshot_imported_into_private_store") is False
+            and private.get("installed_on_owner_HP") is False,
+            "private_continuity_evidence_overclaim")
 
     for text, term in (
         (readme, "docs/CONTINUITY.md"),
