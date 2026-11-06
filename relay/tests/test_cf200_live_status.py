@@ -1,9 +1,16 @@
 """Offline receipt interpretation tests; no network or Windows GUI required."""
 import unittest
+import hashlib
+import json
 from relay.cf200_live_status import PROBE_ID, PROBE_DIGEST, probe_summary
 
 
 class ReceiptSummaryTests(unittest.TestCase):
+    def test_probe_digest_matches_canonical_inbox(self):
+        request = {"v": 1, "id": PROBE_ID, "action": "ping", "issued": 1793978096, "expires": 1793985296, "args": {}}
+        canonical = json.dumps(request, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
+        self.assertEqual(hashlib.sha256(canonical).hexdigest(), PROBE_DIGEST)
+
     def setUp(self):
         self.receipt = {
             "id": PROBE_ID, "request_sha256": PROBE_DIGEST,
