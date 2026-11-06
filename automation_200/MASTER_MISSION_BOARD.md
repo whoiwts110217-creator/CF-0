@@ -147,3 +147,14 @@ The hourly public channel watchdog now runs priority selector and waiting-cycle 
 - Separately, Abund.ai read-only discovery [run 42168115882](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42168115882) passed with ten todos and five review candidates; this is not a CF-200 verified task or paid work. An earlier failed posting run must not be confused with the later successful registration/post evidence.
 
 **Next three executable steps:** (1) run/inspect Windows CI for live-viewer tests and fix regressions; (2) correlate the existing HP probe with Task Scheduler last-run timestamp and wrapper exit status without issuing another command; (3) validate the local viewer on the physical HP and keep its public data read-only.
+
+
+## Scheduled run — 2026-11-06 01:19 ET
+
+- Owner confirmed `CavemanFocusSupervisor` is **Disabled** while `CavemanFocusCF0Relay` was **Running** in Windows Task Scheduler. Keep redundant research planning paused; do not confuse the research queue with the CF-0 command relay.
+- Registry remains **52/200**; no acceptance-specific verification, event, or checkpoint was added.
+- Re-read the single scheduled probe `1bd3a644-9b80-4d05-8cb1-7043c7853d54` and its receipt: matching request digest `bdd1b0e1c0b45e1b1618c16e814fc9a606e6530bf2419978ee9c510055f8ce16`, completed `pong=true`, protocol 1. Independent HP Task Scheduler timestamp and wrapper outcome still absent; unattended execution remains unverified. No additional ping issued.
+- Improved the existing opt-in [Python live status viewer](../relay/cf200_live_status.py) to show the latest GitHub Actions outcome and an explicit next HP evidence step, in [commit a7e2de4](https://github.com/whoiwts110217-creator/CF-0/commit/a7e2de412618fd91b8b996b570aea18e184a37ad). Extended [offline tests](../tests/test_cf200_live_status.py) for these fields, [commit 8db7bce](https://github.com/whoiwts110217-creator/CF-0/commit/8db7bceea840ab6aaede855e7434490a2b75fc20). New CI and physical Windows GUI validation are pending; no launch or deployment on the HP is claimed.
+- Independently checked historical [Windows CI run 42145009219](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42145009219): relay job completed successfully. This does not establish CI outcome for today's viewer patch.
+
+**Next three:** (1) inspect latest CI for viewer changes and fix failures; (2) correlate owner HP scheduled-run history and wrapper result to the existing receipt; (3) test the opt-in auto-refresh viewer on the HP desktop without changing the public relay allowlist.
