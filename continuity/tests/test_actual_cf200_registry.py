@@ -1,6 +1,7 @@
 """Exact-current-source CF-200 import smoke test; no private user sources."""
 from pathlib import Path
 import hashlib
+import contextlib
 import json
 import tempfile
 import unittest
@@ -29,7 +30,7 @@ class CurrentRegistryBridgeTests(unittest.TestCase):
             private_dir = Path(folder) / "private-synthetic-only"
             canonical_source = Path(folder) / "cf200-git-canonical.json"
             canonical_source.write_bytes(canonical_git_bytes)
-            with local_index.open_db(private_dir) as db:
+            with contextlib.closing(local_index.open_db(private_dir)) as db:
                 first = workorder_bridge.import_registry(
                     db, private_dir, canonical_source,
                     origin="CF-0 current Git blob canonical original bytes"
