@@ -1,5 +1,10 @@
 """Pure offline tests for waiting-cycle persistence semantics."""
 import unittest
+import json
+import subprocess
+import sys
+import tempfile
+from pathlib import Path
 from automation_200.waiting_cycles import advance
 
 def t(i, status="planned", dep=(), hp=False):
@@ -29,6 +34,23 @@ class WaitingCycleTests(unittest.TestCase):
         advance(r,before,["B"])
         self.assertEqual(before,{"A":4})
         self.assertEqual(r["tasks"][0]["status"],"planned")
+
+    def test_cli_preview_then_explicit_write_and_reload(self):
+        script=Path(__file__).resolve().parents[1]/"waiting_cycles.py"
+        with tempfile.TemporaryDirectory() as tmp:
+            state=Path(tmp)/"wait.json"
+            command=[sys.executable,str(script),"--state",str(state),"--limit","2"]
+            preview=subprocess.run(command,capture_output=True,text=True,timeout=15)
+            self.assertEqual(preview.returncode,0,preview.stderr)
+            self.assertFalse(state.exists())
+            result=subprocess.run(command+["--write"],capture_output=True,text=True,timeout=15)
+            self.assertEqual(result.returncode,0,result.stderr)
+            self.assertTrue(state.exists())
+            saved=json.loads(state.read_text(encoding="utf-8"))
+            self.assertEqual(saved,json.loads(result.stdout)["next_waiting_cycles"])
+            again=subprocess.run(command,capture_output=True,text=True,timeout=15)
+            self.assertEqual(again.returncode,0,again.stderr)
+            self.assertFalse(json.loads(again.stdout)["persisted"])
 
 if __name__=="__main__":
     unittest.main()
