@@ -1,0 +1,29 @@
+{
+  "schema": "cf0.owner_capability_contract.v1",
+  "creator": "David Smith",
+  "designated_owner": "Kiara Lynn Rose Smith",
+  "mission": "Sustainable generational wealth through reliable automation, genuine commercial value, preserved creative and scientific projects, and owner-controlled decisions.",
+  "priority_order": ["automation", "owner_priority_policy", "legitimate_finance", "parallel_other_projects"],
+  "change_rule": "No approved or previously functioning capability may be silently removed, paused, downgraded, disabled, or renamed. Any intended subtraction requires a separately recorded explicit owner authorization, impact explanation, and rollback plan.",
+  "capabilities": [
+    {"id": "public_relay_ping", "status": "active_source", "command": "ping", "evidence": "relay/cf_public_relay.py"},
+    {"id": "public_relay_status", "status": "active_source", "command": "hp_status", "evidence": "relay/cf_public_relay.py"},
+    {"id": "public_relay_sidecar_verify", "status": "active_source", "command": "sidecar_verify", "evidence": "relay/cf_public_relay.py"},
+    {"id": "hp_health_monitor", "status": "active_source", "source": "relay/health_watch.py"},
+    {"id": "founder_decision_engine", "status": "active_source", "source": "automation_200/decision_engine.py"},
+    {"id": "relay_unknown_attempt_recovery", "status": "active_source", "source": "relay/UNKNOWN_ATTEMPTS.md"},
+    {"id": "notepad_owner_launch", "status": "regression_open", "command": "open_notepad", "previously_owner_approved": true, "last_known_issue": "Removed from public relay action allowlist during security hardening. Earlier owner reports described successful launches. Current cloud-to-HP launch must not be claimed operational.", "restore_requires": "Owner-local explicit opt-in, narrow Notepad-only handler, interactive-session verification, successful HP receipt and regression test.", "evidence": "relay/INSTALL_NOTEPAD_CONTROL.ps1"}
+  ],
+  "critical_documents": {
+    "private_master_library_path": "/Caveman Focus/Master Records/Caveman_Focus_Integrated_Master_Record_2026-11-06.docx",
+    "private_reconstructed_project_atlas": "/Caveman Focus/Master Records/Caveman_Focus_Reconstructed_Project_Atlas_2026-11-06.json",
+    "public_mission_board": "automation_200/MASTER_MISSION_BOARD.md"
+  },
+  "not_proven": [
+    "physical_HP_matches_current_cloud_source",
+    "Notepad_launch_currently_operational",
+    "continuous_seven_day_account_operation",
+    "live_payment_observer_or_bank_transfer",
+    "verified_generational_wealth"
+  ]
+}

@@ -25,6 +25,8 @@ jobs:
         run: python -m unittest discover -s relay/tests -v
       - name: CF-200 crash/recovery regression suite
         run: python -m unittest discover -s relay -p test_cf200_recovery.py -v
+      - name: Enforce owner capability/source contract (never silently retire Notepad)
+        run: python -m automation_200.capability_guard
       - name: Validate CF-200 dependency and evidence invariants
         run: |
           python automation_200/validate_registry.py
