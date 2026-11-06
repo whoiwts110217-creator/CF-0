@@ -71,3 +71,5 @@ This is a public, curated project archive—not a complete conversation export. 
 ### Optional HP health reporting
 
 A local, reversible opt-in is available for the existing HP relay: [one-click HP health reporting](relay/HEALTH_ONE_CLICK.md). This is source-only until the owner updates and activates it on the physical HP; CI is not HP evidence.
+
+**Cross-project continuity:** The [private local continuity store](continuity/README.md) now has an offline [CF-200 work-order bridge](continuity/workorder_bridge.py) that can link source-verified task IDs to existing project records only after explicit review. Code/tests are public; private data, owner approval, live HP deployment and automatic cross-account source recovery are separate unfinished milestones.
