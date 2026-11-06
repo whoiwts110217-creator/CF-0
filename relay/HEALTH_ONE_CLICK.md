@@ -27,3 +27,22 @@ Verify a **freshly created** public `relay/health/latest.json` before claiming a
 Activation refuses to proceed if the current checkout is not the same wrapper targeted by the existing task, writeback has not been configured, the Python collector or publisher is missing, or the collector preflight fails. It does not request or inspect the actual token. A stale, invalid, or revoked token can still prevent publication. Read the brief error shown by the launcher; the rollback is independent.
 
 **No one should place a GitHub token or HP-private details into this public repository or a chat.** The optional fine-grained token used by the existing wrapper grants write access to the whole CF-0 repository, not only the health file.
+
+## Automatic cloud-side evidence classification
+
+The existing [CF-0 Channel Evidence Watchdog](https://github.com/whoiwts110217-creator/CF-0/actions/workflows/cf0-channel-watchdog.yml) runs every five minutes and now also executes the read-only `relay/health_watch.py --live` monitor. It fetches only the fixed public report file, does not contact the HP, and never writes to the repository or uses credentials beyond the workflow's normal read-only GitHub token.
+
+The monitor's JSON `state` is:
+
+- `not_published`: no public health file; this is **not** an assertion that the HP is off.
+- `fresh_public_report`: the report claims a UTC collection time no more than 45 minutes old, with no error or missing local DB indicated.
+- `reported_problem`: report is recent but self-reports a DB or collection problem.
+- `late`: last claimed collection was more than 45 minutes, up to two hours ago.
+- `stale`: older than two hours.
+- `future_timestamp`: reported clock is more than five minutes into the future.
+- `invalid`: public file does not match the strictly allowed seven-field report schema or encoding.
+- `unavailable`: public GitHub API could not be read; don't mistake that for an HP failure.
+
+Even a `fresh_public_report` only proves that *publicly accessible data reports fresh metrics*. It cannot independently establish the physical HP's identity, Windows Task Scheduler origin, or continuous seven-day operation. The monitor enforces 1 KiB decoded report size, known field names, UTC timestamps, integer counters and fixed enumerated status/error values; it never echoes arbitrary content. A missing HP report is recorded in workflow output rather than causing source CI to fail.
+
+If the monitor reports `not_published`, continue eligible source-level automation work without repeatedly asking the owner for terminal output. After one-time on-HP update/activation, inspect a fresh report, then corroborate its run times with Windows scheduler evidence before closing an unattended-HP work order.
