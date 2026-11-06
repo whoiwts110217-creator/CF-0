@@ -3,7 +3,7 @@
   "owner": "Kiara Lynn Rose Smith",
   "project": "Caveman Focus",
   "target": 200,
-  "completed": 53,
+  "completed": 54,
   "checkpoint_every": 4,
   "status": "WORK_IN_PROGRESS",
   "note": "A planned item is not a completed task. Physical HP outcomes require owner-HP evidence.",
@@ -905,8 +905,8 @@
       "depends_on": [
         "CF-069"
       ],
-      "status": "planned",
-      "evidence": null,
+      "status": "verified",
+      "evidence": "relay/tests/test_queue_capacity_200.py at a9838e34c220ef71e19e5c7e54749879cd4bc6a5: 200 distinct allowlisted ping jobs over 50 fresh worker instances, four actions per tick, 200 durable canonical receipts, no duplicate replay; Windows CI https://github.com/whoiwts110217-creator/CF-0/actions/runs/42258803582 passed Relay regression suite on this commit. Offline/source-only, not HP scheduling.",
       "authority": "existing-source-tests",
       "physical_hp_required": false
     },
