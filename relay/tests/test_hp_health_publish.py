@@ -34,6 +34,22 @@ class PublisherTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             publish(repo, data)
         self.assertEqual(repo.calls, [])
+    def test_existing_report_change_uses_sha(self):
+        original = sample()
+        existing = dict(sha="known-content-sha", content=base64.b64encode(sanitized(original)).decode())
+        repo = Repo(existing)
+        updated = sample()
+        updated["receipt_count"] = 13
+        self.assertEqual(publish(repo, updated), "published")
+        self.assertEqual(repo.calls[1][2]["sha"], "known-content-sha")
+
+    def test_malformed_destination_rejected(self):
+        from cf_public_relay import RelayError
+        repo = Repo(dict(sha="known-content-sha", content="not base64!!"))
+        with self.assertRaises(RelayError):
+            publish(repo, sample())
+        self.assertEqual(len(repo.calls), 1)
+
     def test_invalid_count_rejected(self):
         data = sample()
         data["receipt_count"] = -1
