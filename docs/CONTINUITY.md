@@ -43,6 +43,12 @@
 
 [Local-first continuity store](../continuity/README.md) provides offline ZIP/JSON conversation indexing, original-source SHA-256 preservation, duplicate origins, explicit project/source links, proposed claim/conflict tracking and hash-linked events. Only **synthetic test data** is in public CF-0. Real conversation history must be imported privately and cannot be marked fully recovered from code alone. This supports, but does not replace, the public [master cross-archive continuity instructions](../automation_200/MASTER_CONTINUITY_PROMPT.md) or the existing 200-task ledger. The store is **not deployed to the owner HP**, and unattended cross-account ingestion is **not verified**.
 
+## Private continuity source snapshot — November 6 (not public raw data)
+
+An **offline private** continuity store was constructed from **eight accessible Library archive documents**, including the paired 62-entry reconstructed atlas/provenance addendum. The code [`continuity/local_index.py`](../continuity/local_index.py) registered **62 explicitly unverified reconstructed project IDs**, preserved **98 typed external project-source references**, and recorded **71 local hash-linked events**. A complete private ZIP backup was restored to another directory; every preserved original file digest and the event chain were checked.
+
+**No full original ChatGPT conversation export was indexed in that snapshot.** The original approximately 37-project inventory remains missing; there is no real-time cross-account data feed, no installed continuity store on the HP, and no continuous unattended system demonstrated. The source artifacts and backup contain private work and remain in the owner-controlled Library, not public CF-0. [Code, import instructions, limits and tests](../continuity/README.md) · [dated machine-readable counts](PUBLIC_CONTINUITY_STATE.json).
+
 ## Open acceptance gates
 
 - **Owner-enforced changes:** actual repository branch rules and authorized reviewer identity, independently verified with a rejected test change.
