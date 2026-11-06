@@ -137,3 +137,13 @@ The hourly public channel watchdog now runs priority selector and waiting-cycle 
 - Independent Abund.ai posting workflow [run 42160110354](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42160110354) failed in the publish step with a `ValueError`; Abund.ai publication is **not verified**. This is separate from CF-200 CI. The response diagnostics were improved in [commit bab40b4](https://github.com/whoiwts110217-creator/CF-0/commit/bab40b41bd9f3eaa807240eaa131fb7bd94af6fc), but no successful rerun was observed here.
 
 **Next three executable tasks:** (1) add mocked receipt-summary regression tests and verify CI; (2) obtain owner HP Windows Task Scheduler last-run time, exit code and wrapper log to correlate the already completed probe; (3) inspect Abund.ai post response using non-secret diagnostics and avoid duplicate submissions.
+
+
+## Scheduled executor follow-up — 2026-11-06 ET
+
+- Re-read the operator prompt, current mission board, and authoritative registry: **52/200 verified**; no task status, append-only ledger or checkpoint changed.
+- Re-inspected the existing scheduled-poll probe receipt `1bd3a644-9b80-4d05-8cb1-7043c7853d54`: ID, digest `bdd1b0e1c0b45e1b1618c16e814fc9a606e6530bf2419978ee9c510055f8ce16`, `completed` and `pong=true, protocol=1` match. **No independent Task Scheduler last-run timestamp/wrapper result** was available, so unattended HP processing remains unverified.
+- Fixed the existing opt-in [live viewer](../relay/cf200_live_status.py) to keep the cached successful UI status update on the Tk main thread, [commit c507935](https://github.com/whoiwts110217-creator/CF-0/commit/c50793576448294ff9c541cf3a9dc3db4cb078a3). Added [four offline regression tests](../tests/test_cf200_live_status.py), [commit 9d6c57d](https://github.com/whoiwts110217-creator/CF-0/commit/9d6c57d6ecd5220a46a431e40cef47faf6261930), for valid/mismatched/unavailable receipts and avoiding unsupported scheduler/CI claims. **Tests/CI not yet independently confirmed.** The Windows viewer has not been launched on the owner's HP.
+- Separately, Abund.ai read-only discovery [run 42168115882](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42168115882) passed with ten todos and five review candidates; this is not a CF-200 verified task or paid work. An earlier failed posting run must not be confused with the later successful registration/post evidence.
+
+**Next three executable steps:** (1) run/inspect Windows CI for live-viewer tests and fix regressions; (2) correlate the existing HP probe with Task Scheduler last-run timestamp and wrapper exit status without issuing another command; (3) validate the local viewer on the physical HP and keep its public data read-only.
