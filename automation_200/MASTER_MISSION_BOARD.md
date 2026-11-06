@@ -115,3 +115,10 @@ The unattended ping above still had no matching receipt at review. The next usef
 ## Watchdog testing workaround
 
 The hourly public channel watchdog now runs priority selector and waiting-cycle tests plus a read-only CLI check. Commit 3a7131a6. This bypasses reliance on local HP for source validation; it does not establish unattended HP execution. GitHub has not yet returned a workflow run for this commit. CF-200 remains 52/200. Next: inspect watchdog outcome, reconcile HP scheduled ping, and preserve priority state evidence.
+
+## Owner-local live status viewer — 2026-11-05 22:00 ET
+
+- Added [relay/CF200_LIVE_STATUS.ps1](../relay/CF200_LIVE_STATUS.ps1), commit `1a9fed1c16a77210e985ff40106c187784d569db`. An opt-in PowerShell/Windows Forms status window refreshes public CF-0 registry, latest commit, recent GitHub Actions, and pending probe status every 30 seconds; writes a UTF-8 status text file in the owner's local AppData. It does not need a token, install a service, alter the existing relay allowlist, or execute remote commands.
+- This is source-only delivery, **not deployed or launched on the HP**. The available GitHub connection cannot open a physical HP desktop. The live auto-refresh window is used instead of relying on Notepad, which may not reload an externally modified text file. Local PowerShell/Windows GUI runtime validation remains outstanding.
+- Single scheduled-poll probe `1bd3a644-9b80-4d05-8cb1-7043c7853d54` still has no matching public receipt at this review. No evidence of unattended Windows Task Scheduler execution; 52/200 verified unchanged.
+- Next three: (1) test viewer on actual HP and optionally add owner-approved Notepad launch; (2) inspect five-minute cloud watchdog/Windows CI results; (3) reconcile scheduled-poll receipt with Windows task history and wrapper result.
