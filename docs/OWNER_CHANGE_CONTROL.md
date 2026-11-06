@@ -1,0 +1,80 @@
+# CF-0 owner-change controls — source tests vs enforceable protection
+
+**Mission:** keep Caveman Focus's previously approved abilities, assets and projects
+available under the designated owner's decisions. Short-term CI and revenue
+metrics must not replace sustainable generational wealth or the master archive.
+
+**Creator/developer:** David Smith. **Designated owner/beneficiary:** Kiara Lynn
+Rose Smith. Neither phrase proves legal title or that a GitHub login represents
+either person.
+
+## Current actual status
+
+- **Source checks implemented:** `automation_200/capability_guard.py` fails on
+  missing baseline capabilities, changes to their expected status/source,
+  untracked relay actions, false Notepad restoration, mission/priority changes,
+  and stale R1 Library pointer. The Windows CI also checks a fail-closed legacy
+  Notepad installer. It runs on pull requests as well as selected pushes.
+- **Owner review NOT enforced:** branch-protection/ruleset settings are unknown
+  to this connector (403). A committer with direct `main` write permission
+  could still replace a file and workflow. Tests run after a push do not undo
+  that change. Even a PR with green checks does not prove owner consent.
+- **Notepad NOT restored:** current public relay accepts `ping`,
+  `hp_status`, `sidecar_verify` only. The old Notepad installer could print
+  successful installation while leaving an unusable command path. The revised
+  legacy installer is an explicit **no-side-effects refusal** with exit code 2;
+  Git history preserves the original. This changes its misleading behavior, not
+  the already-missing Notepad relay capability.
+- **Real HP status:** a public ping has a matching receipt; the independent
+  Windows task origin, installed script version and optional health publisher
+  are still not attested by that receipt.
+- **Private provenance:** the 62-entry reconstructed project atlas in ChatGPT
+  Library contains mixed projects/subprojects and lacks per-item original
+  source references. It does not replace the missing original ~37-project list.
+
+## Required owner-controlled settings (not performed by ChatGPT)
+
+An authorized GitHub repository administrator, together with the designated
+owner or her explicitly appointed representative, must confirm the **actual**
+GitHub handle of the person empowered to review and approve. Do not infer
+that authorization from the repository's username.
+
+Then, in **GitHub repository Settings → Rules → Rulesets** (or the supported
+branch-protection UI):
+
+1. Create/enable a branch ruleset targeting `main`. Require a pull request
+   before merging, a review from the verified authorized approver, and the
+   status check `CF-0 Public Relay Windows Tests / relay` (verify the exact
+   check label presented by GitHub). Require conversation resolution and block
+   force pushes/deletion. Ensure the ruleset is active.
+2. Restrict direct pushes and bypass privileges as far as the plan/permissions
+   allow; explicitly verify whether automation accounts can bypass. If
+   unavailable on the current plan, document this as an **open blocker**
+   rather than pretending enforcement exists.
+3. For any change to `relay/**`, `automation_200/**`, scheduled workflows,
+   finance channels or owner-controlled files, require a PR impact statement:
+   baseline capability → new behavior, owner decision/date/source, risk,
+   previous behavior regression tests, and rollback commit.
+4. If a change removes/pauses capability, do not merge without a separate,
+   explicit owner-approved decision. If safety requires immediate suspension,
+   disclose it, limit blast radius, and seek owner review; do not quietly
+   label the capability obsolete.
+5. Verify with a **real test PR** attempting to remove an approved command:
+   CI should fail and repository permissions should prevent merging without
+   the authorized review. Record its URL and outcome.
+
+Until those five steps are observed, record `OWNER_ENFORCEMENT=UNVERIFIED`.
+
+## Recommended Notepad restoration acceptance
+
+- Separate owner-local explicit opt-in; default deny.
+- Fixed `open_notepad` handler, no general shell or arbitrary command args.
+- Pinned, reviewed source file hash and rollback copy before modifying HP.
+- Bounded launch count (1–3), fresh signed-in interactive session.
+- Unique command IDs, receipts and no reruns after ambiguous execution.
+- Windows CI tests **and** a genuine on-HP visible launch/receipt proof.
+- Explicitly record the current working source baseline before each deploy.
+
+The protected capability contract itself and its guard are public-source
+documents; neither is an immutable root of trust. This is a documented limit,
+not an invitation to reinterpret a passing source test as consent.
