@@ -1,0 +1,28 @@
+name: CF-0 public release gate audit
+on:
+  push:
+    paths:
+      - 'automation_200/release_gate.py'
+      - 'automation_200/tests/test_release_gate.py'
+      - '.github/workflows/cf0-release-gate.yml'
+  workflow_dispatch:
+  schedule:
+    - cron: '17 9 * * *'
+permissions:
+  contents: read
+jobs:
+  audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run release gate tests
+        run: python3 -m unittest discover -s automation_200/tests -p test_release_gate.py -v
+      - name: Generate conservative release status
+        run: python3 automation_200/release_gate.py --output release_readiness.json
+      - name: Upload public-safe release report
+        uses: actions/upload-artifact@v4
+        with:
+          name: cf0-release-readiness
+          path: release_readiness.json
+          retention-days: 30
