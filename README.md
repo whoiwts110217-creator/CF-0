@@ -8,6 +8,8 @@
 
 **Project stage: public developer preview (November 6, 2026).** The source is available, but there is no stable, independently reproduced end-user release yet.
 
+**Master continuity order:** [Read the public master operating prompt first](automation_200/MASTER_OPERATOR_PROMPT.md), then the [cross-archive, project and event continuity prompt](automation_200/MASTER_CONTINUITY_PROMPT.md) **before CF-0 decisions**. The public prompt describes how to recover and reconcile prior conversations, archives and workstreams without publishing private originals.
+
 **Continuity snapshot:** [54/200 verified source/operations work orders](docs/PROJECT_STATUS.md), with the [latest public handoff and evidence boundaries](docs/CONTINUITY.md). The currently checked-in relay **does not support remote Notepad launch**; previously observed Windows Notepad launches are historical, and restoration remains open. The optional HP heartbeat and independent scheduler correlation are still unverified.
 
 **[What works](#what-works-today)** · **[Try the source](#explore-or-test)** · **[Current status and evidence](docs/PROJECT_STATUS.md)** · **[Full project index](docs/PUBLIC_DEVELOPMENT_SNAPSHOT_2026-11-06.md)**
