@@ -8,7 +8,10 @@ from __future__ import annotations
 import argparse
 import json
 from pathlib import Path
-from automation_200.priority_selector import eligible_tasks, select_tasks
+try:
+    from automation_200.priority_selector import eligible_tasks, select_tasks
+except ModuleNotFoundError:
+    from priority_selector import eligible_tasks, select_tasks
 
 MAX_WAIT = 100000
 
