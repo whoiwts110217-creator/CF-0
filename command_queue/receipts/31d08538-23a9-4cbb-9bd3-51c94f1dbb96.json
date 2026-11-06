@@ -1,0 +1,1 @@
+{"id":"31d08538-23a9-4cbb-9bd3-51c94f1dbb96","request_sha256":"ea0c65a5d5a69b3c87e79e3071a5fe9e7abe36d5b5fdef215fbf6338122d8992","result":{"commands":["hp_status","ping","sidecar_verify"],"policy":"public-safe","worker":"online"},"status":"completed","v":1}
