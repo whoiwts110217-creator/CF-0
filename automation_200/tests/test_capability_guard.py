@@ -74,8 +74,41 @@ class CapabilityGuardTests(unittest.TestCase):
             check(BASE, changed)
 
     def test_active_capability_missing_source_rejected(self):
-        with self.assertRaisesRegex(ValueError, "active_capability_without_source"):
+        with self.assertRaisesRegex(ValueError, "approved_capability_evidence_replaced"):
             check(altered("hp_health_monitor", source="missing.py"), RELAY)
+
+    def test_silently_inactivating_any_approved_source_capability_fails(self):
+        for cid in (
+            "public_relay_ping", "public_relay_status", "public_relay_sidecar_verify",
+            "hp_health_monitor", "founder_decision_engine",
+            "relay_unknown_attempt_recovery",
+        ):
+            with self.subTest(capability=cid):
+                with self.assertRaisesRegex(ValueError, "approved_capability_silently_disabled:" + cid):
+                    check(altered(cid, status="disabled"), RELAY)
+
+    def test_source_path_swapping_to_other_existing_file_fails(self):
+        with self.assertRaisesRegex(ValueError, "approved_capability_evidence_replaced"):
+            check(altered("founder_decision_engine", source="relay/health_watch.py"), RELAY)
+
+    def test_unlisted_new_command_cannot_be_silently_exposed(self):
+        relay = RELAY.replace("'ping', 'hp_status', 'sidecar_verify'",
+                              "'ping', 'hp_status', 'sidecar_verify', 'delete_data'", 1)
+        with self.assertRaisesRegex(ValueError, "unlisted_command_exposed"):
+            check(BASE, relay)
+
+    def test_repeated_allowlist_assignment_is_not_trusted(self):
+        relay = RELAY + "\nALLOWED = frozenset(('ping', 'hp_status'))\n"
+        with self.assertRaisesRegex(ValueError, "relay_allowlist_missing_or_ambiguous"):
+            check(BASE, relay)
+
+    def test_old_private_master_pointer_is_rejected(self):
+        docs = {**BASE["critical_documents"],
+                "private_master_library_path":
+                    "/Caveman Focus/Master Records/Caveman_Focus_Integrated_Master_Record_2026-11-06.docx"}
+        with self.assertRaisesRegex(ValueError, "current_private_master_reference_missing"):
+            check({**BASE, "critical_documents": docs}, RELAY)
+
 
 
 if __name__ == "__main__":
