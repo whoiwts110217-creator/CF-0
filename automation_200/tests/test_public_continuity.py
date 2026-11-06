@@ -71,7 +71,7 @@ class PublicContinuityTests(unittest.TestCase):
 
     def test_current_public_fingerprint_matches_git_blob(self):
         import hashlib
-        blob = (ROOT / "automation_200/registry.json").read_bytes()
+        blob = (ROOT / "automation_200/registry.json").read_bytes().replace(b"\r\n", b"\n")
         digest = hashlib.sha1(b"blob " + str(len(blob)).encode("ascii") + b"\0" + blob).hexdigest()
         status = json.loads((ROOT / "docs/PUBLIC_CONTINUITY_STATE.json").read_text(encoding="utf-8"))
         self.assertEqual(status["cf200"]["registry_git_blob_sha1"], digest)
