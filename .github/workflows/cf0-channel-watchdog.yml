@@ -3,6 +3,13 @@ on:
   schedule:
     - cron: '17 * * * *'
   workflow_dispatch:
+  push:
+    paths:
+      - 'relay/channel_audit.py'
+      - 'relay/tests/test_channel_audit.py'
+      - 'command_queue/inbox/**'
+      - 'command_queue/receipts/**'
+      - '.github/workflows/cf0-channel-watchdog.yml'
 permissions:
   contents: read
 jobs:
