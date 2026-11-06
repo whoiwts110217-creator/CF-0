@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Owner-launched, read-only CF-200 live desktop status. No remote command channel."""
 import json
+import queue
 import threading
 import tkinter as tk
 import urllib.request
@@ -73,6 +74,7 @@ def main():
     view.insert("1.0", "Connecting to public CF-0...\n")
     view.configure(state="disabled")
     state = {"busy": False, "last": ""}
+    results = queue.SimpleQueue()
     def display(message):
         view.configure(state="normal")
         view.delete("1.0", "end")
@@ -86,17 +88,22 @@ def main():
                     result = snapshot()
                 except Exception as exc:
                     result = state["last"] + "\nREFRESH FAILED: " + type(exc).__name__ + "\n" if state["last"] else "REFRESH FAILED: " + type(exc).__name__
-                def done():
-                    state["busy"] = False
-                    if not result.startswith("REFRESH FAILED:") and "\\nREFRESH FAILED:" not in result:
-                        state["last"] = result
-                    display(result)
-                try:
-                    root.after(0, done)
-                except RuntimeError:
-                    pass
+                # Worker never touches Tk; main thread consumes completed results.
+                results.put(result)
             threading.Thread(target=work, daemon=True).start()
         root.after(INTERVAL_MS, refresh)
+    def drain_results():
+        try:
+            while True:
+                result = results.get_nowait()
+                state["busy"] = False
+                if "REFRESH FAILED:" not in result:
+                    state["last"] = result
+                display(result)
+        except queue.Empty:
+            pass
+        root.after(200, drain_results)
+    root.after(200, drain_results)
     refresh()
     root.mainloop()
 
