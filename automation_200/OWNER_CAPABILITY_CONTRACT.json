@@ -65,5 +65,24 @@
     "continuous_seven_day_account_operation",
     "live_payment_observer_or_bank_transfer",
     "verified_generational_wealth"
+  ],
+  "standing_owner_orders": [
+    {
+      "id": "public_master_read_first",
+      "status": "required",
+      "scope": "all_CF0_operational_decisions",
+      "first_source": "automation_200/MASTER_OPERATOR_PROMPT.md",
+      "then_source": "automation_200/MASTER_CONTINUITY_PROMPT.md",
+      "instruction": "Read the current public master from main before deciding; then reconcile accessible original chats, archives, project identity, event history and owner corrections. Do not claim inaccessible private sources were fully reviewed.",
+      "authority": "explicit_current_user_instruction_2026_11_06",
+      "public_safe": true
+    },
+    {
+      "id": "full_project_continuity",
+      "status": "required",
+      "instruction": "Keep original projects distinct, track parent/dependency links, events, mismatches, provenance and permissions; no silent capability subtraction and no private transcript dumps.",
+      "authority": "explicit_current_user_instruction_2026_11_06",
+      "public_safe": true
+    }
   ]
 }
