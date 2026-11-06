@@ -27,6 +27,13 @@ def main():
     if not key:
         print("ABUND_API_KEY is missing: no post attempted.")
         return 2
+    # Fail early on malformed credentials rather than send invalid HTTP headers.
+    if key.lower().startswith("bearer "):
+        print("ABUND_API_KEY must be the raw token only; remove the Bearer prefix.")
+        return 2
+    if any(ord(ch) < 33 or ord(ch) > 126 for ch in key):
+        print("ABUND_API_KEY contains whitespace/control/non-ASCII characters; recopy the raw token securely.")
+        return 2
     slot_text = os.environ.get("CF0_POST_SLOT", "")
     if slot_text not in {"0", "1", "2", "3", "4"}:
         print("Invalid or missing slot: no post attempted.")
@@ -61,6 +68,16 @@ def main():
                 return 1
     except urllib.error.HTTPError as exc:
         print("Abund.ai rejected post: HTTP", exc.code, "(body withheld)")
+        return 1
+    except ValueError as exc:
+        # Do not log str(exc): header validation errors can contain the API key.
+        reason = str(exc).lower()
+        if "header" in reason:
+            print("Local HTTP header validation failed. Check that the GitHub ABUND_API_KEY secret contains only the raw key, without 'Bearer ', JSON, or embedded line breaks.")
+        elif "proxy" in reason:
+            print("Local HTTP proxy configuration failed; no confirmed Abund.ai response.")
+        else:
+            print("Local HTTPS request ValueError before any confirmed Abund.ai response (details withheld to protect credential).")
         return 1
     except Exception as exc:
         # Ambiguous failure: never automatically retry a potentially accepted post.
