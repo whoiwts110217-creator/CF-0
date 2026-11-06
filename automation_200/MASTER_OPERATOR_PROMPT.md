@@ -149,6 +149,10 @@ Current grounded evidence: owner Windows Task Scheduler event 107/100/200/201/10
 - The CI capability guard records current source behavior, retains historical Notepad regression visibility, and detects common accidental removals. It cannot attest physical HP deployment, user consent, GitHub branch protection, or an actual successful owner-side interaction. Any change to the guard itself must be explicitly reviewed in the next public mission report.
 
 
+## Cross-archive local continuity source — implementation boundary (2026-11-06)
+
+The [local-first continuity store](../continuity/README.md) is an **offline, private-by-default Python/SQLite component** for owner-supplied ChatGPT ZIP/JSON exports and other archives, duplicate SHA sources, project identity links and unresolved claim conflicts. Read its documentation and tests before using it. It is **code only** until genuine source files are safely indexed in an authorized private environment. Never upload user transcripts or its SQLite files to public GitHub; do not equate its events with the existing CF-200 verified-task ledger. Do not infer it can read other ChatGPT accounts without a real accessible export or tool connection. Preserve the original 17/18/~37/62 provenance gaps until each original is recovered and source-cited.
+
 ## Required public continuity sync on every verified CF-200 transition (November 6)
 
 - For each authorized source/operation work-order completion, preserve the evidence in the 200-task registry and append-only events before changing any public status. The registry is authoritative; dated summaries and checkpoints are not.
