@@ -152,6 +152,90 @@ class LocalContinuityTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError,"trailing_comma"):
             list(c.iter_json_array(io.StringIO('[{},]')))
 
+    def _create_seeded_fixture(self):
+        atlas={"schema":"caveman_focus.project_atlas.v1","original_37_list_recovered":False,
+               "items":[{"id":"CF-BOOK","title":"Book Machine","working_summary":"Tactile worlds"},
+                        {"id":"CF-SN","title":"Single Dot","working_summary":"Novel and science"}]}
+        atlas_file=self.file("atlas.json",json.dumps(atlas))
+        addendum={"schema":"caveman_focus.project_atlas.provenance.v2",
+                  "source_json_sha256":__import__("hashlib").sha256(atlas_file.read_bytes()).hexdigest(),
+                  "original_37_list_recovered":False,
+                  "source_catalog":{"ARCHIVE-A":{"type":"secondary_summary","locator":"Library: prior summary","limit":"not original"}},
+                  "items":[{"id":it["id"],"title":it["title"],"working_summary":it["working_summary"],
+                            "historical_original_transcript_found":False,"original_37_membership":"not_established",
+                            "group":"creative","source_coverage":"only_secondary_reconstruction",
+                            "source_references":[{"source_id":"ARCHIVE-A","source_type":"secondary_summary"}]}
+                           for it in atlas["items"]]}
+        add_file=self.file("addendum.json",json.dumps(addendum))
+        first=c.seed_reconstructed_atlas(self.conn,self.state,atlas_file,add_file)
+        second=c.seed_reconstructed_atlas(self.conn,self.state,atlas_file,add_file)
+        self.assertEqual(first["new_projects"],2)
+        self.assertEqual(second["new_projects"],0)
+        stats=c.audit(self.conn,full_hash=True)
+        self.assertEqual(stats["reconstructed_unverified"],2)
+        self.assertEqual(stats["project_external_refs"],2)
+        self.assertEqual(stats["projects"],2)
+        self.assertEqual(self.conn.execute("SELECT state FROM projects WHERE id='CF-BOOK'").fetchone()[0],
+                         "reconstructed_unverified")
+        self.assertIn("original user wording unverified",self.conn.execute("SELECT original_intent FROM projects WHERE id='CF-BOOK'").fetchone()[0])
+        return atlas_file,add_file
+
+    def test_seed_reconstructed_atlas_idempotent_with_source_refs(self):
+        self._create_seeded_fixture()
+
+    def test_seed_atlas_refuses_incompatible_original_hash(self):
+        atlas_file,add_file=self._create_seeded_fixture()
+        j=json.loads(add_file.read_text())
+        j["source_json_sha256"]="0"*64
+        add_file.write_text(json.dumps(j))
+        before=c.audit(self.conn)["events"]
+        with self.assertRaisesRegex(ValueError,"provenance_addendum_atlas_hash_mismatch"):
+            c.seed_reconstructed_atlas(self.conn,self.state,atlas_file,add_file)
+        self.assertEqual(c.audit(self.conn)["events"],before)
+
+    def test_backup_restore_portable_verifies_private_originals(self):
+        src=self.file("archive.md", "Private reconstruction source for portability test")
+        r=c.ingest(self.conn,self.state,src,"summary")
+        c.add_project(self.conn,"CF-BOOK","Book Machine","Explorable worlds")
+        c.link_source(self.conn,"CF-BOOK",r["source_id"],"secondary")
+        archive=self.root / "private-continuity-backup.zip"
+        created=c.backup_private(self.conn,self.state,archive)
+        self.assertTrue(archive.exists())
+        self.assertTrue(created["full_hash_audit"])
+        restored=self.root / "other-private-location"
+        out=c.restore_private(archive,restored)
+        self.assertEqual(out["audit"]["projects"],1)
+        self.assertTrue(out["audit"]["chain_valid"])
+        with contextlib.closing(c.open_db(restored)) as reopened:
+            self.assertEqual(c.audit(reopened,full_hash=True)["sources"],1)
+        with self.assertRaisesRegex(ValueError,"restore_target_must_not_exist"):
+            c.restore_private(archive,restored)
+
+    def test_restore_rejects_manifest_digest_tampering_and_zip_traversal(self):
+        import hashlib
+        src=self.file("archive.txt","Secret owner text")
+        c.ingest(self.conn,self.state,src,"private")
+        good=self.root/"good.zip"
+        c.backup_private(self.conn,self.state,good)
+        tampered=self.root/"tampered.zip"
+        with zipfile.ZipFile(good) as z, zipfile.ZipFile(tampered,"w") as out:
+            for info in z.infolist():
+                data=z.read(info.filename)
+                if info.filename=="manifest.json":
+                    manifest=json.loads(data)
+                    manifest["files"]["continuity.sqlite3"]["sha256"]="0"*64
+                    data=json.dumps(manifest).encode()
+                out.writestr(info.filename,data)
+        with self.assertRaisesRegex(ValueError,"backup_entry_digest_mismatch"):
+            c.restore_private(tampered,self.root/"invalid-restored")
+        traversal=self.root/"traversal.zip"
+        with zipfile.ZipFile(traversal,"w") as z:
+            z.writestr("../escape","file contents")
+            z.writestr("manifest.json","{}")
+        with self.assertRaisesRegex(ValueError,"unsafe_backup_entry"):
+            c.restore_private(traversal,self.root/"unsafe-restored")
+        self.assertFalse((self.root/"escape").exists())
+
     def test_source_state_path_rejects_public_source_tree(self):
         with self.assertRaisesRegex(ValueError,"private_state_must_be_outside_public_repo"):
             c.safe_state(c.ROOT / "example_private_state")
