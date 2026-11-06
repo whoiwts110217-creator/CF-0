@@ -71,6 +71,23 @@ def check(contract: dict, relay_source: str, *, root: Path = ROOT) -> dict:
     change_rule = contract.get("change_rule")
     if not isinstance(change_rule, str) or "silently" not in change_rule:
         raise ValueError("capability_change_rule_missing")
+    # Standing owner-directed continuity preflight; this source test detects
+    # deletion of the rule, but cannot prove a model actually read the file.
+    orders = contract.get("standing_owner_orders")
+    if not isinstance(orders, list):
+        raise ValueError("missing_owner_continuity_orders")
+    order_map = {o.get("id"): o for o in orders if isinstance(o, dict)}
+    first = order_map.get("public_master_read_first")
+    merged = order_map.get("full_project_continuity")
+    if (not isinstance(first, dict) or first.get("status") != "required"
+            or first.get("scope") != "all_CF0_operational_decisions"
+            or first.get("first_source") != "automation_200/MASTER_OPERATOR_PROMPT.md"
+            or first.get("then_source") != "automation_200/MASTER_CONTINUITY_PROMPT.md"
+            or not (root / first["first_source"]).is_file()
+            or not (root / first["then_source"]).is_file()):
+        raise ValueError("public_master_first_order_removed")
+    if not isinstance(merged, dict) or merged.get("status") != "required":
+        raise ValueError("whole_system_continuity_order_removed")
     caps = contract.get("capabilities")
     if not isinstance(caps, list):
         raise ValueError("missing_capabilities")
