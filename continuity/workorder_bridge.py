@@ -91,6 +91,9 @@ def validate_registry(value: object) -> dict:
             raise ValueError("verified_cf200_task_without_evidence")
         task_ids.add(identifier)
         count += status == "verified"
+    expected_ids = {f"CF-{n:03d}" for n in range(1, target + 1)}
+    if task_ids != expected_ids:
+        raise ValueError("cf200_noncanonical_or_missing_task_ids")
     if count != completed:
         raise ValueError("cf200_completed_count_mismatch")
     return {"tasks":tasks,"target":target,"completed":count}
