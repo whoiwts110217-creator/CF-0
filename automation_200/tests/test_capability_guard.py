@@ -102,6 +102,28 @@ class CapabilityGuardTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "relay_allowlist_missing_or_ambiguous"):
             check(BASE, relay)
 
+    def test_standing_owner_public_master_order_cannot_be_quietly_removed(self):
+        x = copy.deepcopy(BASE)
+        x.pop("standing_owner_orders")
+        with self.assertRaisesRegex(ValueError, "missing_owner_continuity_orders"):
+            check(x, RELAY)
+
+    def test_standing_owner_public_master_order_cannot_be_retired(self):
+        x = copy.deepcopy(BASE)
+        for order in x["standing_owner_orders"]:
+            if order["id"] == "public_master_read_first":
+                order["status"] = "retired"
+        with self.assertRaisesRegex(ValueError, "public_master_first_order_removed"):
+            check(x, RELAY)
+
+    def test_standing_owner_whole_system_continuity_cannot_be_retired(self):
+        x = copy.deepcopy(BASE)
+        for order in x["standing_owner_orders"]:
+            if order["id"] == "full_project_continuity":
+                order["status"] = "retired"
+        with self.assertRaisesRegex(ValueError, "whole_system_continuity_order_removed"):
+            check(x, RELAY)
+
     def test_old_private_master_pointer_is_rejected(self):
         docs = {**BASE["critical_documents"],
                 "private_master_library_path":
