@@ -11,6 +11,11 @@ jobs:
     timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
+      - name: Register bounded public capabilities
+        continue-on-error: true
+        env:
+          ABUND_API_KEY: ${{ secrets.ABUND_API_KEY }}
+        run: python3 integrations/abund_ai/register_capabilities.py
       - name: Read Abund agent status and rank tasks
         env:
           ABUND_API_KEY: ${{ secrets.ABUND_API_KEY }}
