@@ -56,6 +56,23 @@ class WorkorderBridgeTests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "without_evidence"):
             self.snapshot(status="verified")
 
+    def test_link_requires_a_known_project_and_preserves_existing_link(self):
+        source = self.snapshot()["source_id"]
+        with self.assertRaisesRegex(ValueError, "unknown_project"):
+            workorder_bridge.link_workorder(
+                self.db, source, "CF-001", "UNKNOWN-PROJECT", "related",
+                reason="Reviewed a proposed relation to an unknown project")
+        first = workorder_bridge.link_workorder(
+            self.db, source, "CF-001", "AUTO-03", "supports",
+            reason="Reviewed matching relay project and task descriptions")
+        again = workorder_bridge.link_workorder(
+            self.db, source, "CF-001", "AUTO-03", "supports",
+            reason="Reviewed matching relay project and task descriptions")
+        self.assertTrue(first["linked"])
+        self.assertFalse(again["linked"])
+        self.assertEqual(first["event_id"], again["event_id"])
+        self.assertEqual(workorder_bridge.audit_workorders(self.db)["explicit_project_links"], 1)
+
     def test_snapshot_difference_requires_review(self):
         before = self.snapshot()["source_id"]
         after = self.snapshot("verified", "Synthetic test evidence")["source_id"]
