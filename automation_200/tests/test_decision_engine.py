@@ -28,7 +28,9 @@ class EvidenceDecisionTests(unittest.TestCase):
         self.assertTrue(all(x["priority_tier"] == 0 for x in plan["selected"]))
         self.assertTrue(all(x["action"] == "propose_source_work_only" for x in plan["selected"]))
         self.assertNotIn("CF-027", [x["id"] for x in plan["selected"]])
+        self.assertNotIn("CF-042", [x["id"] for x in plan["selected"]])
         self.assertGreater(plan["held_counts"].get("hp_install_needs_local_review", 0), 0)
+        self.assertGreater(plan["held_counts"].get("owner_local_evidence_required", 0), 0)
 
     def test_heartbeat_cannot_authorize_hp_or_installation(self):
         sample = {"tasks": [task("HP", "hp_install"),
@@ -42,6 +44,14 @@ class EvidenceDecisionTests(unittest.TestCase):
                 self.assertFalse(report["hp_identity_attested"])
                 self.assertIn("hp_install_needs_local_review", report["held_counts"])
                 self.assertIn("physical_hp_required", report["held_counts"])
+
+    def test_misflagged_owner_local_work_is_never_cloud_eligible(self):
+        sample = {"tasks": [task("CF-042", "sidecar"),
+                            task("CF-190", "real_operations"),
+                            task("SRC", "receipt")]}
+        result = propose(sample, health_state="fresh_public_report", now=100)
+        self.assertEqual([x["id"] for x in result["selected"]], ["SRC"])
+        self.assertEqual(result["held_counts"]["owner_local_evidence_required"], 2)
 
     def test_dependency_block_and_explicit_owner_override(self):
         sample = {"tasks": [task("P0", "receipt"),
