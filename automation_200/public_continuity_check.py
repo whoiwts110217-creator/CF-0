@@ -78,7 +78,7 @@ def check(root: Path = ROOT) -> dict:
     require("NOTEPAD_ACTION=BLOCKED_NOT_SUPPORTED" in installer
             and "LOCAL_CHANGES=NONE" in installer and "exit 2" in installer,
             "installer_claim_drift")
-    require("Notepad" in project_status and "not supported" in project_status.lower(),
+    require("Notepad" in project_status and ("not supported" in project_status.lower() or "does not support" in project_status.lower()),
             "notepad_status_not_visible")
     require("Notepad" in readme and "currently" in readme.lower(), "readme_notepad_status_missing")
 
