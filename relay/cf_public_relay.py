@@ -120,6 +120,10 @@ class State:
         with self.conn() as con:
             con.execute('CREATE TABLE IF NOT EXISTS receipts(id TEXT PRIMARY KEY, digest TEXT NOT NULL, receipt TEXT NOT NULL)')
             con.execute('CREATE TABLE IF NOT EXISTS meta(k TEXT PRIMARY KEY, value TEXT NOT NULL)')
+            # Durable at-most-once start marker: if the process disappears
+            # after starting an action but before saving a receipt, an unknown
+            # outcome must never be silently treated as safe to re-execute.
+            con.execute('CREATE TABLE IF NOT EXISTS attempts(id TEXT PRIMARY KEY, digest TEXT NOT NULL, state TEXT NOT NULL)')
     @contextlib.contextmanager
     def conn(self):
         # SQLite connection context manager commits but does not close; this
@@ -131,9 +135,26 @@ class State:
         with self.conn() as con:
             x=con.execute('SELECT digest,receipt FROM receipts WHERE id=?',(jid,)).fetchone()
         return (x[0],json.loads(x[1])) if x else None
+    def attempt(self,jid):
+        with self.conn() as con:
+            x=con.execute('SELECT digest,state FROM attempts WHERE id=?',(jid,)).fetchone()
+        return (x[0],x[1]) if x else None
+    def begin(self,jid,digest):
+        # SQLite commits the marker BEFORE executing the allowlisted action.
+        # Never re-run if a prior attempt for this UUID is already recorded.
+        with self.conn() as con:
+            existing=con.execute('SELECT digest FROM attempts WHERE id=?',(jid,)).fetchone()
+            if existing is not None:
+                if existing[0]!=digest:raise RelayError('attempt_conflict')
+                return False
+            con.execute('INSERT INTO attempts VALUES(?,?,?)',(jid,digest,'in_progress'))
+        return True
     def save(self,jid,digest,receipt):
         with self.conn() as con:
             con.execute('INSERT INTO receipts VALUES(?,?,?)',(jid,digest,dump(receipt).decode()))
+            # Atomic with the completed receipt. A failed save leaves the
+            # original in_progress marker, not a fabricated success.
+            con.execute("UPDATE attempts SET state='completed' WHERE id=? AND digest=?",(jid,digest))
     def cursor(self):
         with self.conn() as con:r=con.execute("SELECT value FROM meta WHERE k='cursor'").fetchone()
         return r[0] if r else ''
@@ -141,6 +162,12 @@ class State:
         with self.conn() as con:con.execute("INSERT INTO meta VALUES('cursor',?) ON CONFLICT(k) DO UPDATE SET value=excluded.value",(name,))
     def count(self):
         with self.conn() as con:return con.execute('SELECT COUNT(*) FROM receipts').fetchone()[0]
+    def unknown_count(self):
+        # Aggregate only: do not publish local request IDs or private paths.
+        with self.conn() as con:
+            row=con.execute("SELECT COUNT(*) FROM attempts AS a WHERE a.state='in_progress' "
+                            "AND NOT EXISTS(SELECT 1 FROM receipts AS r WHERE r.id=a.id)").fetchone()
+        return row[0]
 
 def execute(job,sidecar:pathlib.Path|None=None):
     if job['action']=='ping':return {'pong':True,'protocol':1}
@@ -161,7 +188,7 @@ def execute(job,sidecar:pathlib.Path|None=None):
 def tick(repo:HttpRepo, state:State,sidecar=None):
     names=repo.files();cur=state.cursor()
     ordered=[n for n in names if n>cur]+[n for n in names if n<=cur]
-    result={'scanned':0,'executed':0,'replayed':0,'public_receipts':0,'errors':[]}
+    result={'scanned':0,'executed':0,'replayed':0,'uncertain':0,'public_receipts':0,'errors':[]}
     for n in ordered[:MAX_SCAN]:
         state.set_cursor(n);result['scanned']+=1
         jid=n[:-5];stored=state.receipt(jid)
@@ -170,8 +197,21 @@ def tick(repo:HttpRepo, state:State,sidecar=None):
                 result['replayed']+=1
                 if repo.publish(jid,stored[1]):result['public_receipts']+=1
                 continue
-            job=validate(repo.load(n),n)
+            raw=repo.load(n)
+            previous=state.attempt(jid)
+            if previous is not None:
+                # Even after TTL expiry, the durable unknown remains unknown.
+                # Match the exact original request digest before reporting it.
+                if previous[0]!=sha(raw):raise RelayError('attempt_conflict')
+                # No durable completed receipt. Could have executed before
+                # crash; do not retry and do not publish a completed receipt.
+                result['uncertain']+=1
+                continue
+            job=validate(raw,n)
             digest=sha(job)
+            if not state.begin(jid,digest):
+                result['uncertain']+=1
+                continue
             value=execute(job,sidecar)
             receipt={'v':1,'id':jid,'request_sha256':digest,'status':'completed','result':value}
             state.save(jid,digest,receipt)
@@ -194,7 +234,7 @@ def main(argv=None):
     if args.command=='ping-demo':
         job=make_job('ping');print(json.dumps({'validated':validate(job,job['id']+'.json')['action'],'result':execute(job)}));return 0
     state=State(pathlib.Path(args.state_dir)/'relay.sqlite3')
-    if args.command=='status':print(json.dumps({'processed':state.count(),'queue':REPO,'tokenless_read':True}));return 0
+    if args.command=='status':print(json.dumps({'processed':state.count(),'uncertain':state.unknown_count(),'queue':REPO,'tokenless_read':True}));return 0
     repo=HttpRepo(token=os.environ.get('CF_RELAY_GITHUB_TOKEN'))
     if args.command=='once':print(json.dumps(tick(repo,state,pathlib.Path(args.sidecar) if args.sidecar else None)));return 0
     if args.interval<30:p.error('minimum interval 30s')
