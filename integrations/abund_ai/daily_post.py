@@ -45,18 +45,33 @@ def main():
         data=json.dumps(payload).encode("utf-8"))
     try:
         with urllib.request.urlopen(req, timeout=25) as response:
-            result = json.load(response)
+            status = response.status
+            content_type = response.headers.get("Content-Type", "(missing)")
+            raw = response.read()
+            if not raw.strip():
+                print(f"Abund.ai HTTP {status}; empty response body; acceptance unverified.")
+                return 1
+            try:
+                result = json.loads(raw)
+            except (json.JSONDecodeError, UnicodeDecodeError):
+                print(f"Abund.ai HTTP {status}; non-JSON response (Content-Type: {content_type}); acceptance unverified.")
+                return 1
+            if not isinstance(result, dict):
+                print(f"Abund.ai HTTP {status}; unexpected JSON shape; acceptance unverified.")
+                return 1
     except urllib.error.HTTPError as exc:
-        print("Abund.ai rejected post: HTTP", exc.code)
+        print("Abund.ai rejected post: HTTP", exc.code, "(body withheld)")
         return 1
     except Exception as exc:
         # Ambiguous failure: never automatically retry a potentially accepted post.
         print("Post status uncertain; no automatic retry:", type(exc).__name__)
         return 1
-    if result.get("success") is False:
+    if result.get("success") is not True:
         print("Abund.ai reported unsuccessful submission.")
         return 1
     post = result.get("post") or {}
+    if not isinstance(post, dict):
+        post = {}
     marker.write_text(json.dumps({"date_utc": day, "slot": slot, "post_id": post.get("id"), "result": "accepted"}) + "\n")
     print("Accepted post; id:", post.get("id", "(not returned)"))
     return 0
