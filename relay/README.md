@@ -22,6 +22,15 @@ Download the full GitHub repo ZIP, extract it to a permanent folder; double-clic
 - A GitHub CI pass is not proof of deployment on the owner HP. Live HP proof requires a fresh command ID and the actual HP ledger/receipt.
 - GitHub's Contents API max 1,000 entries means the queue requires archive/rotation before heavy sustained usage. This is a proof-of-control channel, **not yet general AI remote access**.
 
+
+## Automated cloud-side channel watchdog (November 5, 2026)
+
+The read-only `relay/channel_audit.py` compares public request IDs and canonical SHA-256 digests against public execution receipts. It counts pending/expired requests, invalid requests, mismatched receipts, orphan receipts, and setup probes. It **does not** treat a setup probe, CI pass, or matching public content as cryptographic proof of the physical HP's identity.
+
+The [CF-0 Channel Evidence Watchdog](https://github.com/whoiwts110217-creator/CF-0/actions/workflows/cf0-channel-watchdog.yml) runs hourly and on changes to the public inbox, receipts, or audit code. Open a run's **Inspect live public queue and receipts (read-only)** step to see the JSON counts. The workflow has `contents: read` permission and requires no credential changes or new HP installation.
+
+To run the same check in a local repository checkout, use `py -3 relay\channel_audit.py --live`. It makes GitHub HTTPS **GET** requests only. To run offline classification tests, use `py -3 -m unittest discover -s relay\tests -p test_channel_audit.py -v`. Unanswered commands remain pending or expired until a genuine matching execution receipt is independently observed; this watchdog never simulates one.
+
 ## Test locally
 
 `py -3 relay\cf_public_relay.py ping-demo`
