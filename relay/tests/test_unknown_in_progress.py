@@ -116,6 +116,18 @@ relay.tick(Repo(),relay.State(pathlib.Path(sys.argv[2])))
             self.assertEqual(result["uncertain"], 0)
             self.assertEqual(state.attempt(job["id"])[0], relay.sha(job))
 
+    def test_expired_prior_attempt_stays_uncertain_not_reexecuted(self):
+        job = relay.make_job("ping", now=100)
+        with tempfile.TemporaryDirectory() as folder:
+            state = relay.State(pathlib.Path(folder) / "state.sqlite3")
+            self.assertTrue(state.begin(job["id"], relay.sha(job)))
+            with patch.object(relay, "execute") as execute:
+                result = relay.tick(Queue(job), relay.State(state.db))
+                execute.assert_not_called()
+            self.assertEqual(result["uncertain"], 1)
+            self.assertEqual(result["errors"], [])
+            self.assertEqual(state.attempt(job["id"])[1], "in_progress")
+
     def test_existing_sqlite_receipt_migrates_without_reexecution(self):
         job = relay.make_job("ping")
         receipt = {"v": 1, "id": job["id"], "request_sha256": relay.sha(job),
