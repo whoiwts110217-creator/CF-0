@@ -12,8 +12,8 @@ REPO = "whoiwts110217-creator/CF-0"
 BASE = "https://raw.githubusercontent.com/" + REPO + "/main/"
 API = "https://api.github.com/repos/" + REPO
 INTERVAL_MS = 30000
-PROBE_ID = "1bd3a644-9b80-4d05-8cb1-7043c7853d54"
-PROBE_DIGEST = "bdd1b0e1c0b45e1b1618c16e814fc9a606e6530bf2419978ee9c510055f8ce16"
+PROBE_ID = "aeccc8a2-217f-4786-aaaf-19b2fc9ff35a"
+PROBE_DIGEST = "f669747a15956dd273c00afc3d84e543196ff6d5347cf861a0c4f9802275b2db"
 
 def fetch_json(url):
     req = urllib.request.Request(url, headers={"User-Agent": "CF200-Local-Status/1.0"})
