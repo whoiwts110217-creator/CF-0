@@ -38,8 +38,15 @@ class ProvenanceBackupTests(unittest.TestCase):
                 ))
                 self.assertEqual([row["label"] for row in origins],
                                  ["first origin", "second origin"])
-                self.assertEqual({row["source_path"] for row in origins},
-                                 {str(first), str(second)})
+                # Windows Temp may use an 8.3 alias (RUNNER~1) for the same
+                # directory recorded via its canonical long path (runneradmin).
+                # Verify that both distinct source identities remain present
+                # and point to actual originals, independent of that alias.
+                self.assertEqual(
+                    {(Path(row["source_path"]).parent.name, row["label"]) for row in origins},
+                    {("archive_one", "first origin"), ("archive_two", "second origin")}
+                )
+                self.assertTrue(all(Path(row["source_path"]).is_file() for row in origins))
 
 
 if __name__ == "__main__":
