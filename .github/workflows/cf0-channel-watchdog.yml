@@ -13,6 +13,8 @@ on:
       - 'relay/tests/test_channel_audit.py'
       - 'relay/tests/test_hp_health_snapshot.py'
       - 'relay/cf_hp_health_snapshot.py'
+      - 'relay/cf_hp_health_publish.py'
+      - 'relay/tests/test_hp_health_publish.py'
       - 'command_queue/inbox/**'
       - 'command_queue/receipts/**'
       - '.github/workflows/cf0-channel-watchdog.yml'
@@ -31,6 +33,8 @@ jobs:
         run: python -m unittest discover -s relay/tests -p test_channel_audit.py -v
       - name: Test HP snapshot privacy and read-only behavior
         run: python -m unittest discover -s relay/tests -p test_hp_health_snapshot.py -v
+      - name: Test fixed-path HP health publication offline
+        run: python -m unittest discover -s relay/tests -p test_hp_health_publish.py -v
       - name: Test priority persistence and CLI without touching owner state
         run: |
           python -m unittest discover -s automation_200/tests -p 'test_priority_selector.py' -v
