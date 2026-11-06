@@ -54,7 +54,11 @@ def check(root: Path = ROOT) -> dict:
     # Byte-exact Git blob fingerprint guards against unreported changes to
     # evidence, task titles, dependencies or other fields even when 54/200 stays
     # constant. A recorded SHA1 is only source identity, not device attestation.
-    blob = b"blob " + str(len(registry_bytes)).encode("ascii") + b"\0" + registry_bytes
+    # Git checkout may materialize CRLF on Windows (core.autocrlf).
+    # Compute the blob identity from its canonical LF representation.
+    # JSON registry schema is UTF-8 text; Git stores this source with LF.
+    git_registry_bytes = registry_bytes.replace(b"\r\n", b"\n")
+    blob = b"blob " + str(len(git_registry_bytes)).encode("ascii") + b"\0" + git_registry_bytes
     require(state["cf200"].get("registry_git_blob_sha1") == hashlib.sha1(blob).hexdigest(),
             "public_cf200_registry_source_fingerprint_stale")
     checkpoints = [int(p.stem.rsplit("_", 1)[1])
