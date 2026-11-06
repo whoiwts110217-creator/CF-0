@@ -1,4 +1,5 @@
 """CF-069: preserve uncertainty across relay interruptions, without HP access."""
+import contextlib
 import json
 import os
 import pathlib
@@ -134,10 +135,11 @@ relay.tick(Repo(),relay.State(pathlib.Path(sys.argv[2])))
                    "status": "completed", "result": {"pong": True, "protocol": 1}}
         with tempfile.TemporaryDirectory() as folder:
             db = pathlib.Path(folder) / "relay.sqlite3"
-            with sqlite3.connect(db) as con:
-                con.execute("CREATE TABLE receipts(id TEXT PRIMARY KEY, digest TEXT NOT NULL, receipt TEXT NOT NULL)")
-                con.execute("INSERT INTO receipts VALUES(?,?,?)",
-                            (job["id"], relay.sha(job), relay.dump(receipt).decode()))
+            with contextlib.closing(sqlite3.connect(db)) as con:
+                with con:
+                    con.execute("CREATE TABLE receipts(id TEXT PRIMARY KEY, digest TEXT NOT NULL, receipt TEXT NOT NULL)")
+                    con.execute("INSERT INTO receipts VALUES(?,?,?)",
+                                (job["id"], relay.sha(job), relay.dump(receipt).decode()))
             state = relay.State(db)
             self.assertEqual(state.count(), 1)
             self.assertIsNone(state.attempt(job["id"]))
