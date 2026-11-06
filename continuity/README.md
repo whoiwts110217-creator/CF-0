@@ -8,9 +8,10 @@
 
 - Imports any explicitly provided source file into a **private**, content-addressed originals store, indexed by SHA-256. Identical bytes deduplicate without losing the individual paths/labels where the material was found.
 - Indexes ChatGPT's `conversations.json` **or a ZIP containing one `conversations.json`**. Parses conversation titles, roles and plain-text message content into a private searchable SQLite database using a bounded-memory streaming JSON decoder. Unknown content, other modalities and their full originals remain preserved without invented text.
-- Registers distinct project IDs and parent relationships **only on explicit local invocation**. Connects them to source IDs; linking a source does not automatically prove its claims.
+- Registers distinct project IDs and parent relationships **only on explicit local invocation**. Connects them to source IDs; linking a source does not automatically prove its claims. Also provides an explicit `seed-atlas` operation for a paired, hash-verified *reconstructed* project atlas and provenance addendum, preserving each entry as `reconstructed_unverified` and retaining its individual external source references.
 - Records source-linked, **proposed** claims. When two different values appear for the same project and predicate, it opens a reviewable contradiction instead of silently deciding which claim wins.
 - Writes a SQLite append-only, SHA-256 linked event trail for ingestion, indexing, project registrations, links, claims and conflicts. Read-only audit verifies the chain and source existence, with an option to re-hash all originals.
+- Creates **portable private ZIP backups** using a consistent SQLite snapshot, SHA-256 file manifest and all preserved originals. Restore verifies every member and refuses to overwrite existing state; no private data is published by this action.
 - Works offline with Python 3.10+ standard library and SQLite. No API keys, subscriptions, local AI, GitHub access, payment/account connections or unrestricted desktop automation.
 
 ## Private storage and safe use
@@ -29,7 +30,10 @@ py -3 -m continuity.local_index ingest "C:\path\to\my-old-archive.md" --kind ori
 py -3 -m continuity.local_index add-project CF-BOOK "Book Machine" --intent "A book becomes an explorable and potentially tactile world"
 py -3 -m continuity.local_index link-source CF-BOOK sha256:<64-character-sha256> --relation primary
 py -3 -m continuity.local_index add-claim CF-BOOK current_state concept --source sha256:<64-character-sha256>
+py -3 -m continuity.local_index seed-atlas "C:\path\to\Reconstructed_Project_Atlas.json" "C:\path\to\Atlas_Provenance_Addendum.json"
 py -3 -m continuity.local_index audit --full-hash
+py -3 -m continuity.local_index backup "C:\private-backups\CF0-Continuity-Backup.zip"
+py -3 -m continuity.local_index --state-dir "C:\new-private-restore" restore "C:\private-backups\CF0-Continuity-Backup.zip"
 ```
 
 The `ingest` and `import-chatgpt` commands return a precise `source_id`. The example ID placeholder **must** be replaced with the actual ID; no project-to-source or conversation-to-project link is guessed. Use `--state-dir` for a private test instance.
@@ -42,6 +46,8 @@ The `ingest` and `import-chatgpt` commands return a precise `source_id`. The exa
 | Chat export indexed | Searchable text extracted from accessible conversations | All historical chats, other accounts or image/audio contents recovered |
 | Duplicate SHA | Identical source bytes found again | Different titles/projects are duplicates |
 | Project linked | Explicit link from project to source evidence | All claims in the source are correct |
+| Reconstructed atlas seeded | Named entries and reference types from a hash-matched atlas/addendum | Original missing conversations, complete project recovery, operational status or legal rights |
+| Private backup restored | Snapshot contents and original bytes match the SHA-256 manifest | HP deployment or automatic future synchronization |
 | Conflict opened | Two recorded claims differ | Which claim is true or authorized |
 | Event chain passes | Locally stored event rows were not silently edited by ordinary SQLite operations | External timestamp attestation or protection against an attacker rewriting the entire DB |
 | CI green | Synthetic source-level behavior works | Installed HP operation or weeklong autonomous ChatGPT execution |
@@ -51,7 +57,7 @@ The `ingest` and `import-chatgpt` commands return a precise `source_id`. The exa
 1. Use already accessible private Library archives and authentic exported conversations to populate a **private** continuity store, with source-by-source coverage receipts (no source recovery claims from snippets). Where the agent cannot directly access an export, record that gap explicitly instead of inventing content.
 2. Build an owner-reviewed reconciliation interface for accepting or rejecting proposed project aliases, identity merges, and claim resolutions. Preserve exact original records and prior interpretations.
 3. Link the private project graph to CF-200 work orders by stable IDs without altering the existing task ledger or publishing private data. Emit only a separately approved, sanitized aggregate status to the public continuity board.
-4. Add explicit local backup/restore + migration tests before calling the database durable across machines. Importing sources on this model's temporary workspace is not equivalent to deploying the store to the HP.
+4. Add migration, concurrent-writer, and owner-HP deployment tests. Even a verified portable backup in this model's temporary workspace is not equivalent to installing or scheduling the store on the HP.
 
 ## Tests
 
