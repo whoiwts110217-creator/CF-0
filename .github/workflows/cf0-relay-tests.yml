@@ -7,6 +7,7 @@ on:
       - 'RUN_HP_TAKEOVER_CHECK.bat'
       - 'HP_TAKEOVER_README.md'
       - 'automation_200/**'
+      - 'continuity/**'
       - 'docs/PROJECT_STATUS.md'
       - 'docs/CONTINUITY.md'
       - 'docs/PUBLIC_CONTINUITY_STATE.json'
@@ -40,6 +41,8 @@ jobs:
           python -m unittest discover -s automation_200/tests -v
       - name: Verify public CF-0 continuity matches the authoritative work order and receipt evidence
         run: python -m automation_200.public_continuity_check
+      - name: Test private-local continuity engine using synthetic-only archives
+        run: python -m unittest discover -s continuity/tests -v
       - name: Verify 200-item ledger
         run: python automation_200/checkpoints.py validate
       - name: Parse Windows PowerShell scripts
