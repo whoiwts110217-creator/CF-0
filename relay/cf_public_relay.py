@@ -162,6 +162,12 @@ class State:
         with self.conn() as con:con.execute("INSERT INTO meta VALUES('cursor',?) ON CONFLICT(k) DO UPDATE SET value=excluded.value",(name,))
     def count(self):
         with self.conn() as con:return con.execute('SELECT COUNT(*) FROM receipts').fetchone()[0]
+    def unknown_count(self):
+        # Aggregate only: do not publish local request IDs or private paths.
+        with self.conn() as con:
+            row=con.execute("SELECT COUNT(*) FROM attempts AS a WHERE a.state='in_progress' "
+                            "AND NOT EXISTS(SELECT 1 FROM receipts AS r WHERE r.id=a.id)").fetchone()
+        return row[0]
 
 def execute(job,sidecar:pathlib.Path|None=None):
     if job['action']=='ping':return {'pong':True,'protocol':1}
@@ -228,7 +234,7 @@ def main(argv=None):
     if args.command=='ping-demo':
         job=make_job('ping');print(json.dumps({'validated':validate(job,job['id']+'.json')['action'],'result':execute(job)}));return 0
     state=State(pathlib.Path(args.state_dir)/'relay.sqlite3')
-    if args.command=='status':print(json.dumps({'processed':state.count(),'queue':REPO,'tokenless_read':True}));return 0
+    if args.command=='status':print(json.dumps({'processed':state.count(),'uncertain':state.unknown_count(),'queue':REPO,'tokenless_read':True}));return 0
     repo=HttpRepo(token=os.environ.get('CF_RELAY_GITHUB_TOKEN'))
     if args.command=='once':print(json.dumps(tick(repo,state,pathlib.Path(args.sidecar) if args.sidecar else None)));return 0
     if args.interval<30:p.error('minimum interval 30s')
