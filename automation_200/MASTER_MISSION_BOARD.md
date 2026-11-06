@@ -335,3 +335,13 @@ The hourly public channel watchdog now runs priority selector and waiting-cycle 
 - **Evidence boundary:** File fetched back from public main. Test execution/Windows CI **not yet verified**. No CF-200 acceptance advanced: **54/200** verified, checkpoint **052**, CF-200 events unchanged. The public `relay/health/latest.json` is absent; no HP scheduler correlation or Notepad deployment proven.
 - **Private continuity:** Library contains a separately versioned v2 private backup and recovery report recording 18 preserved sources and 91 events, but **zero original full conversation exports**. The report explicitly says the exact 54/200 registry bytes were not imported into that private snapshot. Existing v1/v2 backups were not changed; private bridge import is blocked on byte-exact source transfer to an authorized private runtime, not on a need for founder clipboard work.
 - **Next three executable tasks:** (1) inspect/run continuity tests including restore failure-safety and fix failures; (2) implement a source-safe, byte-exact CF-200 registry private import with source SHA and new non-overwriting backup once the runtime can access both artifacts; (3) continue public HP heartbeat/CI checks and obtain real scheduled Windows correlation only when supported evidence appears. Keep relay allowlist unchanged.
+
+
+## Continuity integrity regression — 2026-11-06
+
+- Preflight read: public operating prompt v1.0 and continuity prompt v1.0 on main at head `acca36ca7387929cc2cd40f5101ce4c7ed35a8f5` before edits.
+- Added [private snapshot integrity regressions](../continuity/tests/test_registry_snapshot_integrity.py) in [commit 88cbea9](https://github.com/whoiwts110217-creator/CF-0/commit/88cbea9549ebbb8fb57767c6de64f022f12525ce): reject mismatched verified counts and missing verified evidence before ingestion; prevent update/deletion of imported snapshot records. Synthetic data only. New CI pending confirmation.
+- Registry remains **54/200**; no new acceptance condition satisfied. The exact raw registry is not yet imported into private v2; preserve v1/v2. Physical HP scheduled origin and public health report remain unverified. No relay permission, Notepad deployment or finance changes.
+- Prior main Windows CI [42277269113](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42277269113) and watchdog [42281741883](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42281741883) passed, preceding this test.
+
+**Next three:** (1) verify Windows CI for `88cbea9` and fix failures; (2) privately import exact registry into a new continuity state and restore-test v3 only when v2 is accessible; (3) inspect existing HP health/scheduler evidence without adding commands or requesting repeated manual diagnostics.
