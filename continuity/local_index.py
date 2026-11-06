@@ -16,6 +16,7 @@ import os
 from pathlib import Path
 import re
 import shutil
+import stat
 import sqlite3
 import sys
 import tempfile
@@ -114,6 +115,23 @@ def open_db(state: Path) -> sqlite3.Connection:
             status TEXT NOT NULL DEFAULT 'open', opened_at TEXT NOT NULL,
             UNIQUE(first_claim_id, second_claim_id)
         );
+        CREATE TABLE IF NOT EXISTS external_references (
+            id TEXT PRIMARY KEY, source_type TEXT NOT NULL,
+            locator TEXT NOT NULL, limitation TEXT NOT NULL
+        );
+        CREATE TABLE IF NOT EXISTS project_external_refs (
+            project_id TEXT NOT NULL REFERENCES projects(id),
+            reference_id TEXT NOT NULL REFERENCES external_references(id),
+            evidence_grade TEXT NOT NULL,
+            PRIMARY KEY(project_id, reference_id)
+        );
+        CREATE TABLE IF NOT EXISTS project_reconstruction (
+            project_id TEXT PRIMARY KEY REFERENCES projects(id),
+            archive_group TEXT NOT NULL, source_coverage TEXT NOT NULL,
+            original_37_membership TEXT NOT NULL,
+            original_transcript_found INTEGER NOT NULL,
+            verification_owed TEXT NOT NULL
+        );
         CREATE TABLE IF NOT EXISTS events (
             seq INTEGER PRIMARY KEY AUTOINCREMENT, event_id TEXT NOT NULL UNIQUE,
             occurred_at TEXT NOT NULL, kind TEXT NOT NULL, actor TEXT NOT NULL,
@@ -154,7 +172,8 @@ def append_event(conn: sqlite3.Connection, kind: str, payload: dict,
     return event_id
 
 
-def ingest(conn: sqlite3.Connection, state: Path, source: Path, kind: str, label: str = "") -> dict:
+def ingest(conn: sqlite3.Connection, state: Path, source: Path, kind: str,
+           label: str = "", origin_ref: str | None = None) -> dict:
     source = source.expanduser().resolve(strict=True)
     if not source.is_file():
         raise ValueError("source_must_be_a_regular_file")
@@ -185,10 +204,10 @@ def ingest(conn: sqlite3.Connection, state: Path, source: Path, kind: str, label
             existing = conn.execute("SELECT sha256 FROM sources WHERE id=?", (sid,)).fetchone()
             if existing is None:
                 conn.execute("INSERT INTO sources VALUES(?,?,?,?,?,?)",
-                             (sid, digest, n, kind, utc(), str(destination)))
+                             (sid, digest, n, kind, utc(), str(destination.relative_to(safe_state(state)))))
                 append_event(conn, "source_recovered", {"source_id":sid, "kind":kind, "bytes":n})
             conn.execute("INSERT OR IGNORE INTO source_origins(source_id,source_path,label,observed_at) VALUES(?,?,?,?)",
-                         (sid, str(source), label, utc()))
+                         (sid, origin_ref or str(source), label, utc()))
         return dict(source_id=sid, sha256=digest, bytes=n,
                     duplicate=existing is not None, private_original=str(destination))
     finally:
@@ -374,6 +393,99 @@ def import_conversations(conn: sqlite3.Connection, state: Path, export_file: Pat
         raise
 
 
+def seed_reconstructed_atlas(conn: sqlite3.Connection, state: Path,
+                             atlas_path: Path, addendum_path: Path,
+                             atlas_origin: str | None = None,
+                             addendum_origin: str | None = None) -> dict:
+    """Create *unverified* project/source links from a two-file private reconstruction.
+
+    This deliberately does not convert second-hand reconstructions into original
+    conversation proof, owner-approved decisions, verified deployments or revenue.
+    The two source files must describe exactly the same item IDs, titles and hash.
+    Existing project identities are never overwritten.
+    """
+    atlas = json.loads(atlas_path.read_text(encoding="utf-8"))
+    addendum = json.loads(addendum_path.read_text(encoding="utf-8"))
+    if (atlas.get("schema") != "caveman_focus.project_atlas.v1"
+            or addendum.get("schema") != "caveman_focus.project_atlas.provenance.v2"):
+        raise ValueError("unsupported_reconstructed_atlas_schema")
+    raw_sha = hashlib.sha256(atlas_path.read_bytes()).hexdigest()
+    if addendum.get("source_json_sha256") != raw_sha:
+        raise ValueError("provenance_addendum_atlas_hash_mismatch")
+    if atlas.get("original_37_list_recovered") is not False or addendum.get("original_37_list_recovered") is not False:
+        raise ValueError("original_archive_recovery_status_unverified")
+    originals = atlas.get("items")
+    covered = addendum.get("items")
+    catalog = addendum.get("source_catalog")
+    if not isinstance(originals, list) or not isinstance(covered, list) or not isinstance(catalog, dict):
+        raise ValueError("invalid_reconstruction_source_shape")
+    base = {item.get("id"):item for item in originals if isinstance(item,dict)}
+    seen = {item.get("id"):item for item in covered if isinstance(item,dict)}
+    if (len(base)!=len(originals) or len(seen)!=len(covered) or set(base)!=set(seen)
+            or not all(isinstance(i,str) and PROJECT_ID.fullmatch(i) for i in base)):
+        raise ValueError("reconstruction_ids_missing_or_duplicated")
+    for identifier, item in seen.items():
+        orig = base[identifier]
+        if not isinstance(item.get("title"),str) or item["title"] != orig.get("title"):
+            raise ValueError("reconstruction_title_mismatch:"+identifier)
+        if item.get("historical_original_transcript_found") is not False or item.get("original_37_membership") != "not_established":
+            raise ValueError("reconstruction_false_original_evidence:"+identifier)
+        if (not isinstance(item.get("working_summary"),str)
+                or not item["working_summary"].strip()
+                or not isinstance(item.get("source_references"),list)):
+            raise ValueError("reconstruction_missing_source_details:"+identifier)
+        for ref in item["source_references"]:
+            if not isinstance(ref,dict) or ref.get("source_id") not in catalog:
+                raise ValueError("reconstruction_unknown_external_source:"+identifier)
+    for identifier, item in seen.items():
+        prior = conn.execute("SELECT title,original_intent FROM projects WHERE id=?", (identifier,)).fetchone()
+        if prior and prior["title"] != item["title"]:
+            raise ValueError("existing_project_identity_mismatch:"+identifier)
+
+    # Preserve source bytes before indexing references; these are explicitly
+    # *secondary* records, not an automatic privilege or ownership grant.
+    atlas_source = ingest(conn,state,atlas_path,"secondary_reconstructed_atlas",origin_ref=atlas_origin)
+    addendum_source = ingest(conn,state,addendum_path,"derived_provenance_addendum",origin_ref=addendum_origin)
+    registered,linked,ref_links = 0,0,0
+    with conn:
+        for ref_id, ref in catalog.items():
+            if not isinstance(ref_id,str) or not isinstance(ref,dict):
+                raise ValueError("invalid_source_catalog_entry")
+            row=conn.execute("INSERT OR IGNORE INTO external_references VALUES(?,?,?,?)",
+                             (ref_id,str(ref.get("type","unknown")),str(ref.get("locator","unknown")),str(ref.get("limit","not established"))))
+        for identifier, item in seen.items():
+            existing=conn.execute("SELECT id FROM projects WHERE id=?",(identifier,)).fetchone()
+            if existing is None:
+                desc="[RECONSTRUCTED WORKING SUMMARY; original user wording unverified] " + item["working_summary"]
+                conn.execute("INSERT INTO projects(id,title,original_intent,parent_id,state,created_at) VALUES(?,?,?,?,?,?)",
+                             (identifier,item["title"],desc,None,"reconstructed_unverified",utc()))
+                append_event(conn,"project_reconstructed",{"project_id":identifier,
+                            "source_id":atlas_source["source_id"],"verified_original":False},
+                             actor="private_atlas_ingest",authority="secondary_reconstruction_not_owner_approval")
+                registered+=1
+            for source_id in (atlas_source["source_id"],addendum_source["source_id"]):
+                row=conn.execute("INSERT OR IGNORE INTO project_sources(project_id,source_id,relation) VALUES(?,?,?)",
+                                 (identifier,source_id,"secondary"))
+                linked+=int(bool(row.rowcount))
+            row=conn.execute("INSERT OR IGNORE INTO project_reconstruction VALUES(?,?,?,?,?,?)",
+                             (identifier,item.get("group","uncategorized"),
+                              item.get("source_coverage","unknown"),
+                              "not_established",0,item.get("verification_owed","original verification pending")))
+            for ref in item["source_references"]:
+                row=conn.execute("INSERT OR IGNORE INTO project_external_refs VALUES(?,?,?)",
+                                 (identifier,ref["source_id"],ref.get("source_type","unknown")))
+                ref_links+=int(bool(row.rowcount))
+        if registered or linked or ref_links:
+            append_event(conn,"reconstruction_seeded",{"project_count":len(seen),
+                        "new_projects":registered,"external_source_references":ref_links,
+                        "atlas_sha256":raw_sha,"original_37_recovered":False},
+                         actor="private_atlas_ingest",authority="reconstruction_only")
+    return dict(projects_seen=len(seen),new_projects=registered,private_source_links=linked,
+                external_source_links=ref_links,external_catalog=len(catalog),
+                atlas_source_id=atlas_source["source_id"],addendum_source_id=addendum_source["source_id"],
+                source_coverage="mixed_secondary_and_metadata; original_37_not_recovered")
+
+
 def add_project(conn: sqlite3.Connection, identifier: str, title: str, intent: str, parent: str | None = None) -> dict:
     if not PROJECT_ID.fullmatch(identifier):
         raise ValueError("invalid_project_id")
@@ -469,6 +581,8 @@ def audit(conn: sqlite3.Connection, *, full_hash: bool=False) -> dict:
     all_sources=conn.execute("SELECT * FROM sources").fetchall()
     for s in all_sources:
         path=Path(s["archive_path"])
+        if not path.is_absolute():
+            path = Path(conn.execute("PRAGMA database_list").fetchone()[2]).parent / path
         if not path.is_file():
             raise ValueError("missing_private_original_"+s["id"])
         if full_hash:
@@ -482,9 +596,119 @@ def audit(conn: sqlite3.Connection, *, full_hash: bool=False) -> dict:
     return dict(sources=count("sources"),origins=count("source_origins"),
                 conversations=count("conversations"),messages=count("messages"),
                 projects=count("projects"),project_source_links=count("project_sources"),
+                project_external_refs=count("project_external_refs"),
+                reconstructed_unverified=count("project_reconstruction"),
+                external_source_catalog=count("external_references"),
                 claims=count("claims"),open_conflicts=conn.execute("SELECT COUNT(*) FROM conflicts WHERE status='open'").fetchone()[0],
                 events=count("events"),chain_valid=True,originals_present=True,
                 original_hashes_checked=full_hash,scope="private_local_only")
+
+
+def backup_private(conn: sqlite3.Connection, state: Path, archive: Path) -> dict:
+    """Create a consistent portable private snapshot with hash manifest.
+
+    Unlike publishing a public report, this archive contains complete private
+    original sources and searchable chat text. It is NEVER auto-uploaded.
+    """
+    state = safe_state(state)
+    output = archive.expanduser().resolve()
+    if output == ROOT or ROOT in output.parents or state == output or state in output.parents:
+        raise ValueError("backup_must_be_outside_public_repo_and_private_store")
+    if not output.parent.is_dir():
+        raise ValueError("backup_destination_parent_missing")
+    audit(conn, full_hash=True)
+    with tempfile.TemporaryDirectory(prefix="cf0-backup-snapshot-") as temp:
+        snapshot = Path(temp) / "continuity.sqlite3"
+        with contextlib.closing(sqlite3.connect(snapshot)) as copy:
+            conn.backup(copy)
+        files = {"continuity.sqlite3":snapshot}
+        for row in conn.execute("SELECT archive_path FROM sources"):
+            relative=Path(row["archive_path"])
+            if relative.is_absolute():
+                raise ValueError("legacy_absolute_original_path_requires_migration")
+            path=(state / relative).resolve()
+            if state not in path.parents or not path.is_file():
+                raise ValueError("source_original_outside_private_store")
+            files[relative.as_posix()] = path
+        manifest={"schema":"cf0.private_continuity_backup.v1","created_at":utc(),
+                  "file_count":len(files),"files":{}}
+        for name,path in sorted(files.items()):
+            h=hashlib.sha256()
+            with path.open("rb") as f:
+                while data:=f.read(CHUNK):h.update(data)
+            manifest["files"][name]={"size":path.stat().st_size,"sha256":h.hexdigest()}
+        fd,tmp=tempfile.mkstemp(prefix=".cf0-private-backup-",suffix=".zip",dir=output.parent)
+        os.close(fd)
+        try:
+            with zipfile.ZipFile(tmp,"w",compression=zipfile.ZIP_DEFLATED,compresslevel=6) as z:
+                for name,path in sorted(files.items()):z.write(path,arcname=name)
+                z.writestr("manifest.json",canonical(manifest))
+            os.replace(tmp,output)
+        finally:
+            if os.path.exists(tmp):os.unlink(tmp)
+    return {"backup_created":str(output),"files":len(files),
+            "full_hash_audit":True,"scope":"private_complete_originals_not_public"}
+
+
+def restore_private(archive: Path, state: Path) -> dict:
+    """Restore a verified snapshot to a NEW private directory; never overwrite."""
+    state=safe_state(state)
+    if state.exists():
+        raise ValueError("restore_target_must_not_exist")
+    _private_dir(state.parent)
+    archive=archive.expanduser().resolve(strict=True)
+    if not zipfile.is_zipfile(archive):
+        raise ValueError("not_a_backup_zip")
+    with zipfile.ZipFile(archive) as z:
+        infos=z.infolist()
+        if len(infos)>MAX_ZIP_MEMBERS:
+            raise ValueError("backup_member_limit")
+        names=[info.filename for info in infos]
+        if len(names)!=len(set(names)) or "manifest.json" not in names:
+            raise ValueError("invalid_backup_members")
+        for info in infos:
+            name=Path(info.filename.replace("\\","/"))
+            if (info.is_dir() or name.is_absolute() or '..' in name.parts
+                    or '\\' in info.filename or stat.S_ISLNK(info.external_attr >> 16)):
+                raise ValueError("unsafe_backup_entry")
+        manifest=json.loads(z.read("manifest.json"))
+        if manifest.get("schema")!="cf0.private_continuity_backup.v1":
+            raise ValueError("unsupported_backup_schema")
+        expected=manifest.get("files")
+        if (not isinstance(expected,dict) or set(expected)!=(set(names)-{"manifest.json"})
+                or "continuity.sqlite3" not in expected):
+            raise ValueError("backup_manifest_file_mismatch")
+        if sum(int(e.get("size",0)) for e in expected.values())>2_147_483_648:
+            raise ValueError("backup_size_limit")
+        temp=Path(tempfile.mkdtemp(prefix="cf0-restore-",dir=state.parent))
+        try:
+            for name,metadata in expected.items():
+                info=z.getinfo(name)
+                if info.file_size>MAX_SOURCE_BYTES or info.file_size!=metadata.get("size"):
+                    raise ValueError("backup_entry_size_mismatch")
+                target=temp / name
+                target.parent.mkdir(parents=True,exist_ok=True)
+                h=hashlib.sha256()
+                with z.open(info) as src, target.open("wb") as out:
+                    n=0
+                    while data:=src.read(CHUNK):
+                        n+=len(data)
+                        if n>info.file_size:raise ValueError("backup_entry_size_mismatch")
+                        h.update(data);out.write(data)
+                if n!=info.file_size or h.hexdigest()!=metadata.get("sha256"):
+                    raise ValueError("backup_entry_digest_mismatch")
+            with contextlib.closing(sqlite3.connect(temp/"continuity.sqlite3")) as recovered:
+                recovered.row_factory=sqlite3.Row
+                recovered.execute("PRAGMA foreign_keys=ON")
+                validation=audit(recovered,full_hash=True)
+            if state.exists():
+                raise ValueError("restore_target_created_concurrently")
+            os.replace(temp,state)
+            temp=None
+        finally:
+            if temp is not None and temp.exists():shutil.rmtree(temp)
+    return {"restored_to":str(state),"verified_manifest":True,
+            "full_originals_hash_checked":True,"audit":validation}
 
 
 def main(argv: list[str] | None=None) -> int:
@@ -492,30 +716,43 @@ def main(argv: list[str] | None=None) -> int:
     parser.add_argument("--state-dir",type=Path,default=default_state(),help="PRIVATE local directory outside public git repo")
     sub=parser.add_subparsers(dest="action",required=True)
     sub.add_parser("init")
-    s=sub.add_parser("ingest");s.add_argument("path",type=Path);s.add_argument("--kind",default="source_file");s.add_argument("--label",default="")
+    s=sub.add_parser("ingest");s.add_argument("path",type=Path);s.add_argument("--kind",default="source_file");s.add_argument("--label",default="");s.add_argument("--origin",default=None)
     s=sub.add_parser("import-chatgpt");s.add_argument("path",type=Path)
     s=sub.add_parser("search");s.add_argument("phrase");s.add_argument("--limit",type=int,default=15)
+    s=sub.add_parser("seed-atlas");s.add_argument("atlas",type=Path);s.add_argument("addendum",type=Path);s.add_argument("--atlas-origin");s.add_argument("--addendum-origin")
     s=sub.add_parser("add-project");s.add_argument("id");s.add_argument("title");s.add_argument("--intent",required=True);s.add_argument("--parent")
     s=sub.add_parser("link-source");s.add_argument("project_id");s.add_argument("source_id");s.add_argument("--relation",choices=["primary","secondary","related","historical"],default="primary")
     s=sub.add_parser("add-claim");s.add_argument("project_id");s.add_argument("predicate");s.add_argument("value");s.add_argument("--source",required=True)
     s=sub.add_parser("audit");s.add_argument("--full-hash",action="store_true")
+    s=sub.add_parser("backup");s.add_argument("output",type=Path)
+    s=sub.add_parser("restore");s.add_argument("archive",type=Path)
     args=parser.parse_args(argv)
     try:
         state=safe_state(args.state_dir)
-        with contextlib.closing(open_db(state)) as conn:
-            if args.action=="init":out=dict(private_state_created=True)
-            elif args.action=="ingest":out=ingest(conn,state,args.path,args.kind,args.label)
-            elif args.action=="import-chatgpt":out=import_conversations(conn,state,args.path)
-            elif args.action=="search":out=search(conn,args.phrase,args.limit)
-            elif args.action=="add-project":out=add_project(conn,args.id,args.title,args.intent,args.parent)
-            elif args.action=="link-source":out=link_source(conn,args.project_id,args.source_id,args.relation)
-            elif args.action=="add-claim":out=add_claim(conn,args.project_id,args.predicate,args.value,args.source)
-            else:out=audit(conn,full_hash=args.full_hash)
+        if args.action=="restore":
+            out=restore_private(args.archive,state)
+        else:
+            with contextlib.closing(open_db(state)) as conn:
+                out=run_private_action(conn,args,state)
         print(json.dumps(out,ensure_ascii=False,sort_keys=True,indent=2))
         return 0
     except (ValueError,sqlite3.Error,FileNotFoundError,UnicodeError,zipfile.BadZipFile) as exc:
         print("CF0_CONTINUITY_ERROR:"+str(exc),file=sys.stderr)
         return 2
+
+
+def run_private_action(conn: sqlite3.Connection,args,state:Path):
+            if args.action=="init":out=dict(private_state_created=True)
+            elif args.action=="ingest":out=ingest(conn,state,args.path,args.kind,args.label,args.origin)
+            elif args.action=="import-chatgpt":out=import_conversations(conn,state,args.path)
+            elif args.action=="search":out=search(conn,args.phrase,args.limit)
+            elif args.action=="seed-atlas":out=seed_reconstructed_atlas(conn,state,args.atlas,args.addendum,args.atlas_origin,args.addendum_origin)
+            elif args.action=="add-project":out=add_project(conn,args.id,args.title,args.intent,args.parent)
+            elif args.action=="link-source":out=link_source(conn,args.project_id,args.source_id,args.relation)
+            elif args.action=="add-claim":out=add_claim(conn,args.project_id,args.predicate,args.value,args.source)
+            elif args.action=="backup":out=backup_private(conn,state,args.output)
+            else:out=audit(conn,full_hash=args.full_hash)
+            return out
 
 
 if __name__=="__main__":
