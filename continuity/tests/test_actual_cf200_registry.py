@@ -15,8 +15,11 @@ class CurrentRegistryBridgeTests(unittest.TestCase):
     def test_exact_public_registry_import_and_idempotence(self):
         source = ROOT / "automation_200" / "registry.json"
         original_bytes = source.read_bytes()
+        # The checkout can have CRLF on Windows; preserve canonical Git bytes
+        # as a separate temp source for a stable cross-platform identity.
+        canonical_git_bytes = original_bytes.replace(b"\r\n", b"\n")
         blob_digest = hashlib.sha1(
-            b"blob " + str(len(original_bytes)).encode("ascii") + b"\0" + original_bytes
+            b"blob " + str(len(canonical_git_bytes)).encode("ascii") + b"\0" + canonical_git_bytes
         ).hexdigest()
         state = json.loads((ROOT / "docs/PUBLIC_CONTINUITY_STATE.json").read_text())
         self.assertEqual(blob_digest, state["cf200"]["registry_git_blob_sha1"])
