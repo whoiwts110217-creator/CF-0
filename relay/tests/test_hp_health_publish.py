@@ -81,6 +81,18 @@ class PublisherTests(unittest.TestCase):
             __import__("json").dumps(old).encode()).decode()))
         self.assertEqual(publish(repo, sample()), "published")
 
+    def test_non_utf8_previous_report_fails_open_to_new_publication(self):
+        repo = Repo(dict(sha="old", content=base64.b64encode(bytes([255,254])).decode()))
+        self.assertEqual(publish(repo, sample()), "published")
+        self.assertEqual(repo.calls[1][2]["sha"], "old")
+
+    def test_non_base64_previous_report_still_rejected(self):
+        from cf_public_relay import RelayError
+        repo = Repo(dict(sha="old", content="%%%%"))
+        with self.assertRaises(RelayError):
+            publish(repo, sample())
+        self.assertEqual(len(repo.calls), 1)
+
     def test_invalid_count_rejected(self):
         data = sample()
         data["receipt_count"] = -1
