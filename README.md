@@ -1,58 +1,49 @@
 # Caveman Focus — CF-0
 
-**Kiara Lynn Rose Smith's Caveman Focus** — public knowledge and automation repository. Status reviewed 2026-11-06; live status and historical milestones are separated below.
+**Kiara Lynn Rose Smith's Caveman Focus**
 
-> **Simplify complexity without losing the essentials. Guess → hypothesis → evidence → proof.**
+> Simplify complexity without losing the essentials. **Guess → hypothesis → evidence → proof.**
 
-**[START HERE](docs/START_HERE.md)**
+**Caveman Focus is an experimental automation and knowledge system** being built to coordinate AI-assisted work, make priorities follow its owner's decisions, and verify what actually happened. Its first practical target is a low-resource Windows PC: fewer manual commands, more useful automated work, and clear evidence for every result.
 
-## Public development release — November 6, 2026
+**Project stage: public developer preview (November 6, 2026).** The source is available, but there is no stable, independently reproduced end-user release yet.
 
-**[Browse the public development snapshot](docs/PUBLIC_DEVELOPMENT_SNAPSHOT_2026-11-06.md)** · **[Master plan and workflow chart](docs/CAVEMAN_FOCUS_MASTER_PLAN.md)**
+**[What works](#what-works-today)** · **[Try the source](#explore-or-test)** · **[Current status and evidence](docs/PROJECT_STATUS.md)** · **[Full project index](docs/PUBLIC_DEVELOPMENT_SNAPSHOT_2026-11-06.md)**
 
-The current public-safe source and documentation are available for inspection and testing **as unfinished development work**. This is not a tagged stable release, a verified seven-day unattended system, or proof of income. Credentials, private records and sensitive account details are excluded. The intended next milestone is a verified, reproducible public automation release, followed by the documented Day-One business follow-along.
+## What works today
 
+The owner has demonstrated a bounded **ChatGPT → GitHub queue → Windows HP relay → public-safe receipt** pathway, including owner-observed Notepad launches. The Windows Task Scheduler has also been observed launching the relay automatically. The system records receipts in SQLite and has tests for parts of the protocol.
 
-## New: HP remote-control milestone and autonomy rules
+**What this proves:** specific allowlisted commands can be transported, executed and recorded on the owner's HP. **What it does not prove:** arbitrary computer control, a complete unattended workday, a seven-day autonomous run, or that a particular scheduled invocation generated a particular public receipt.
 
-- **[Autonomous Operations Rulebook v0.1](CAVEMAN_FOCUS_RULEBOOK_v0.1.md)** — owner authority, intervention-based autonomy, priority order, bounded capability expansion, evidence standards and roadmap.
-- **[Verified HP Fast Lane milestone](docs/CF0_FAST_LANE_MILESTONE_2026-11-05.md)** — live ChatGPT → GitHub → HP Notepad launches and public-safe execution receipts; a separate ~30-second Fast Lane preserves the original scheduled relay.
-- **[Fast Lane installer](relay/INSTALL_CF0_FAST_LANE.ps1)** — user-installed Windows sign-in listener; not an instantaneous push service or unrestricted remote shell.
+[See the November 5 HP demonstration and evidence](docs/CF0_FAST_LANE_MILESTONE_2026-11-05.md) · [See the November 6 continuity audit](automation_200/MASTER_MISSION_BOARD.md)
 
-**Current reality:** remote allowlisted Notepad execution and receipts have been verified, including unattended polling in live tests. Autonomous installation, general-purpose desktop work, high-priority STOP and seven-day unattended operation are **not yet verified**.
+## What we're building next
 
-## Current operational status — November 6, 2026
+**Remove the human copy-and-paste loop.** The owner should set goals and approve consequential actions, not repeatedly copy PowerShell diagnostics into ChatGPT. The next deliverable is automatic, privacy-minimized HP health reporting through the existing bounded relay.
 
-- **Verified on owner HP:** Windows Task Scheduler launched the `CavemanFocusCF0Relay` wrapper on time triggers (events 107/100/200/201/102), with successful exit code 0. The relay SQLite database contained 28 persisted command receipts; ten recent `open_notepad` records correspond to the owner's earlier ten-launch request. A public matching ping receipt also exists. **These observations do not independently prove that the scheduled instance generated that specific public receipt.**
-- **Paused:** owner disabled the separate `CavemanFocusSupervisor` research scheduler; the GitHub relay remained enabled. Do not silently resume unnecessary research.
-- **Highest-priority P0:** eliminate repeated owner PowerShell copy/paste. [Owner directive](automation_200/MASTER_OPERATOR_PROMPT.md) and [read-only HP health collector source](relay/cf_hp_health_snapshot.py) are committed, but the collector is **not yet deployed or automatically publishing**.
-- **Registry:** 52 of 200 work orders verified as recorded in the authoritative [registry](automation_200/registry.json); no new count claimed from status-document edits.
-- **Income and autonomy:** no verified income or seven-day independent operation. Historical milestone reports remain valid for their dates; consult this section for the latest scoped status.
+The [read-only collector source](relay/cf_hp_health_snapshot.py) exists. **It is not yet deployed on the HP or publishing reports automatically.** Do not mistake a committed file for an installed capability.
 
-## Automatic mission control
+After that, develop an owner-controlled priority engine, then legitimate financial operations. Creative and scientific work can progress concurrently when resources permit.
 
-- **[Master Operator Prompt](automation_200/MASTER_OPERATOR_PROMPT.md)** — standing instructions for the existing ChatGPT CF-200 scheduled executor: automate → prioritize → prepare legitimate income → advance other work concurrently.
-- **[Master Mission Board](automation_200/MASTER_MISSION_BOARD.md)** — current deliverables, blockers, verified evidence and what to build next.
-- **[CF-200 Task Registry](automation_200/registry.json)** — 200 evidence-gated work orders; **[read-only task selector](automation_200/priority_selector.py)** chooses eligible work without mutating history.
-- **[Public relay watchdog](.github/workflows/cf0-channel-watchdog.yml)** — runs inside GitHub Actions; checks public-safe command/receipt matching. This does **not** demonstrate unattended PC execution.
+## Explore or test
 
-The ChatGPT scheduled CF-200 executor has been instructed to use the master prompt and board each hour; run outcomes require separate evidence. Project artifacts are public where owner-authorized and safe to release. Never publish credentials, private records, private creative source, or other people's personal information.
+- **New visitors:** [Start Here](docs/START_HERE.md) explains the project, its priorities and the evidence boundaries.
+- **Developers:** inspect the [relay source](relay/), [CF-200 task engine](automation_200/), [tests](tests/) and [GitHub workflows](.github/workflows/). Start with offline, read-only tests. The public repository is **not** a turnkey remote-control installer.
+- **Reviewers:** use the [current status and evidence](docs/PROJECT_STATUS.md), [mission board](automation_200/MASTER_MISSION_BOARD.md), and [task registry](automation_200/registry.json) to distinguish code, tests, owner-HP observations and unverified goals.
+- **Broader work:** [project and research index](docs/PUBLIC_DEVELOPMENT_SNAPSHOT_2026-11-06.md), [master plan](docs/CAVEMAN_FOCUS_MASTER_PLAN.md), and [foundation](docs/FOUNDATION.md).
 
-| Branch | Documentation |
-|---|---|
-| Core method / ownership / ideals | [Foundation](docs/FOUNDATION.md) |
-| Project registry | [Projects](docs/PROJECTS.md) |
-| Theories, original and standard formulas | [Formulas](docs/FORMULAS.md) |
-| Automation architecture and HP status | [Automation](docs/AUTOMATION.md), [Operations](docs/OPERATIONS.md) |
-| Original recovered code | [Experiments](experiments/README.md) |
-| RH and Single-Dot | [RH](docs/RH.md), [SN](docs/SINGLE_DOT.md) |
-| Research/invention | [Research](docs/RESEARCH.md), [30 ideas](docs/INVENTIONS.md) |
-| Business and project finances | [Business](docs/BUSINESS.md), [Public finance](finance/README.md) |
-| Original fiction | [Creative](docs/CREATIVE.md) |
-| AR / business game | [Reality Game](docs/REALITY_GAME.md) |
-| Roadmaps | [Roadmaps](docs/ROADMAPS.md) |
-| Chronology, gaps, public-release rule | [Timeline](docs/TIMELINE.md), [Provenance](docs/PROVENANCE.md), [Publication policy](docs/PUBLICATION_POLICY.md) |
-| Original SN illustration | [Assets](assets/README.md) |
-| HP Python bridge and phone control | [Bridge](bridge/README.md), [Phone → ChatGPT → HP](docs/HP_CHAT_CONTROL.md) |
+## Operating principles
 
-**Scope:** Curated, public-safe, reconstructed historical index—not a complete export of all conversations. The original approximately 37-project list remains unrecovered. No verified new scientific law, RH proof, general-purpose autonomous HP control, or real income is claimed here. A limited allowlisted HP remote command pathway is now verified. This repository is **PUBLIC**; publish non-sensitive work and aggregate project finances by default; keep credentials, private account details and nonconsenting third-party records outside public GitHub.
+1. **Automation first.** Build reliable execution, receipts, recovery and safe transport.
+2. **Priority intelligence second.** Owner direction controls scheduling and overrides.
+3. **Financial sustainability third.** Measure real customers and collected income; don't call plans revenue.
+4. **Other projects concurrently.** Preserve and advance research, inventions and creative work without displacing higher priorities.
+
+[Autonomous Operations Rulebook](CAVEMAN_FOCUS_RULEBOOK_v0.1.md) · [Master Operator Prompt](automation_200/MASTER_OPERATOR_PROMPT.md) · [Public release policy](docs/PUBLICATION_POLICY.md)
+
+## Important boundaries
+
+This is a public, curated project archive—not a complete conversation export. The original approximately 37-project list remains unrecovered. No verified RH proof, new scientific law, seven-day independent HP operation, general-purpose desktop controller, or real income is claimed. Public GitHub is **not** a place for credentials, private account data, private creative source or other people's personal information. Review repository licensing before reuse; source visibility alone is not permission to redistribute.
+
+**The test for progress is not how many plans we write. It is how much authorized work the system performs and verifies without making the owner do it manually.**
