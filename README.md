@@ -10,6 +10,12 @@
 
 **[What works](#what-works-today)** · **[Try the source](#explore-or-test)** · **[Current status and evidence](docs/PROJECT_STATUS.md)** · **[Full project index](docs/PUBLIC_DEVELOPMENT_SNAPSHOT_2026-11-06.md)**
 
+## The operating-environment thesis
+
+**The goal is not to invent a second intelligence. It is to build the conditions in which existing AI reasoning can do useful work repeatedly.** Caveman Focus aims to provide persistent task context, owner-governed priorities, restricted tools, execution records, observations, and recovery so a reasoning model can plan → act → evaluate → revise.
+
+The AI supplies reasoning; the environment supplies continuity, permissions, action and feedback. **This is the design hypothesis, not a claim that the full loop is operational.** [Architecture and acceptance gates](docs/CAVEMAN_FOCUS_MASTER_PLAN.md).
+
 ## What works today
 
 The owner has demonstrated a bounded **ChatGPT → GitHub queue → Windows HP relay → public-safe receipt** pathway, including owner-observed Notepad launches. The Windows Task Scheduler has also been observed launching the relay automatically. The system records receipts in SQLite and has tests for parts of the protocol.
