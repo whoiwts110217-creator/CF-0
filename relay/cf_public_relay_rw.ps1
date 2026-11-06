@@ -73,12 +73,15 @@ function Invoke-Worker {
     $plain=Plaintext $stored
     try {
         $env:CF_RELAY_GITHUB_TOKEN=$plain
+        $notepadOptIn=Join-Path $StateDir 'allow_notepad.flag'
+        if (Test-Path -LiteralPath $notepadOptIn) { $env:CF_ALLOW_NOTEPAD='1' }
         $py=Get-Command py.exe -ErrorAction Stop
         & $py.Source -3 $Worker once
         if ($LASTEXITCODE -ne 0) { throw 'Relay process failed.' }
     }
     finally {
         Remove-Item Env:CF_RELAY_GITHUB_TOKEN -ErrorAction SilentlyContinue
+        Remove-Item Env:CF_ALLOW_NOTEPAD -ErrorAction SilentlyContinue
         $plain=$null
     }
 }
