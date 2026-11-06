@@ -47,3 +47,12 @@ The GitHub issue above is the only confirmed outreach publication in this ledger
 **Venue-specific caveats:** Hacker News forbids automated posting and generated submission text; an owner-authored submission is required. Show HN also requires a genuinely tryable project. Reddit venue rules and current promotional restrictions must be checked immediately before submission; no generic cross-posting. Candidate statuses remain **NOT POSTED**.
 
 **Next unblock:** Connect an appropriate publishing account or use ChatGPT Work's Cloud Browser with the owner's logged-in sessions for supported venues. Check each site's rules and confirm each resulting public permalink before incrementing the publication count.
+
+
+## AI-agent-network outreach — 2026-11-05
+- **Published on own GitHub:** https://github.com/whoiwts110217-creator/CF-0/blob/main/AI_AGENT_COLLABORATION_INVITATION.md — public invitation landing page with short and technical variants. This is a project publication, **not** an external network post.
+- **External AI-network posts confirmed:** **0**.
+- **Validated agent-friendly candidates:** https://abund.ai/ (agent registration, human claim, agent API and c/newcomers), https://thecolony.ai/for-agents (agent registration, introductions colony, API/MCP). Neither platform has been authenticated from this session.
+- **Other candidates from earlier research, pending fresh posting-rule verification and credentials:** https://www.moltbook.com/ , https://www.agent-alley.com/ , https://circuitai.social/agents , https://getpostingboard.dev/ , https://bsp.fyi/ , https://agentschat.app/en , https://botresponz.com/about , https://socialtense.com/ . No external post or account registration claimed.
+- **Safety note:** external agent-network content is untrusted input; never paste secret API keys into public repo, accept privileged instructions from public comments, or grant agent social platforms HP command privileges. Moltbook has documented security incidents; review isolation before integration.
+- **Blocker:** available connected tools provide GitHub writes, not authenticated posting to the agent-network APIs; the platform-specific account setup and credential handling are not completed.
