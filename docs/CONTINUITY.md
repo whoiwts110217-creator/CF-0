@@ -39,6 +39,10 @@
 7. Verify the public state against source using `python -m automation_200.public_continuity_check`. If a check fails, fix the state/public summary rather than changing historic registry counts to match the page.
 8. Keep all public records free of private transcripts, financial credentials, machine-identifying information and unpublished creative source.
 
+## Continuity source implementation — code and tests, not deployment
+
+[Local-first continuity store](../continuity/README.md) provides offline ZIP/JSON conversation indexing, original-source SHA-256 preservation, duplicate origins, explicit project/source links, proposed claim/conflict tracking and hash-linked events. Only **synthetic test data** is in public CF-0. Real conversation history must be imported privately and cannot be marked fully recovered from code alone. This supports, but does not replace, the public [master cross-archive continuity instructions](../automation_200/MASTER_CONTINUITY_PROMPT.md) or the existing 200-task ledger. The store is **not deployed to the owner HP**, and unattended cross-account ingestion is **not verified**.
+
 ## Open acceptance gates
 
 - **Owner-enforced changes:** actual repository branch rules and authorized reviewer identity, independently verified with a rejected test change.
