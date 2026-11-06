@@ -5,7 +5,6 @@ No network, no tokens, no shell execution, no writes. JSON on stdout only.
 For future explicit integration with the existing scheduled relay.
 """
 import json
-import os
 import pathlib
 import sqlite3
 from datetime import datetime, timezone
@@ -27,11 +26,18 @@ def snapshot(home=None):
     try:
         # SQLite read-only URI avoids accidentally creating a new database.
         with sqlite3.connect(db.resolve().as_uri() + "?mode=ro", uri=True, timeout=2) as con:
-            rows = con.execute("SELECT receipt FROM receipts ORDER BY rowid DESC LIMIT 200").fetchall()
             result["receipt_count"] = con.execute("SELECT COUNT(*) FROM receipts").fetchone()[0]
-        result["ping_receipt_count"] = 0
+            rows = con.execute("SELECT receipt FROM receipts ORDER BY rowid DESC LIMIT 200").fetchall()
+        result["ping_receipt_count"] = 0  # among the most recent 200 rows only
         for idx, (raw,) in enumerate(rows):
-            receipt = json.loads(raw)
+            try:
+                receipt = json.loads(raw)
+            except (TypeError, ValueError):
+                result["error"] = "malformed_receipt"
+                continue
+            if not isinstance(receipt, dict):
+                result["error"] = "malformed_receipt"
+                continue
             if idx == 0:
                 status = receipt.get("status")
                 result["last_receipt_status"] = status if status in ("completed", "failed") else "other"
