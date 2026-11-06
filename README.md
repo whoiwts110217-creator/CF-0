@@ -61,3 +61,7 @@ Contributions are voluntary support for an independent project, **not** tax-dedu
 This is a public, curated project archive—not a complete conversation export. The original approximately 37-project list remains unrecovered. No verified RH proof, new scientific law, seven-day independent HP operation, general-purpose desktop controller, or real income is claimed. Public GitHub is **not** a place for credentials, private account data, private creative source or other people's personal information. Review repository licensing before reuse; source visibility alone is not permission to redistribute.
 
 **The test for progress is not how many plans we write. It is how much authorized work the system performs and verifies without making the owner do it manually.**
+
+### Optional HP health reporting
+
+A local, reversible opt-in is available for the existing HP relay: [one-click HP health reporting](relay/HEALTH_ONE_CLICK.md). This is source-only until the owner updates and activates it on the physical HP; CI is not HP evidence.

@@ -34,7 +34,7 @@ jobs:
       - name: Parse Windows PowerShell scripts
         shell: pwsh
         run: |
-          $paths=@('relay/install_task.ps1','relay/cf_public_relay_rw.ps1','relay/hp_takeover_check.ps1')
+          $paths=@('relay/install_task.ps1','relay/cf_public_relay_rw.ps1','relay/hp_takeover_check.ps1','relay/configure_health_reporting.ps1')
           foreach($path in $paths) {
             $tokens = $null
             $errors = $null

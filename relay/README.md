@@ -48,3 +48,7 @@ To run the same check in a local repository checkout, use `py -3 relay\channel_a
 ## Proof target
 
 A normal ChatGPT message commits a `ping`; the actual HP sees it without a token and writes a local receipt; the owner provides the ledger output, or a separately authenticated public GitHub receipt appears. Confirm source ID, SHA256 digest and idempotent replay. This has **not yet been observed on the HP**.
+
+## Owner-local, optional automatic health reporting
+
+For a **single reversible activation** without repeated copied diagnostics, see [one-click HP health reporting](HEALTH_ONE_CLICK.md). The controls require the existing HP relay and authenticated writeback already configured; activation does not modify the Windows scheduled task or grant new remote actions. A fresh real HP health report is still needed as proof of unattended publication.
