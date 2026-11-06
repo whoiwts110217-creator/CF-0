@@ -120,6 +120,10 @@ class State:
         with self.conn() as con:
             con.execute('CREATE TABLE IF NOT EXISTS receipts(id TEXT PRIMARY KEY, digest TEXT NOT NULL, receipt TEXT NOT NULL)')
             con.execute('CREATE TABLE IF NOT EXISTS meta(k TEXT PRIMARY KEY, value TEXT NOT NULL)')
+            # Durable at-most-once start marker: if the process disappears
+            # after starting an action but before saving a receipt, an unknown
+            # outcome must never be silently treated as safe to re-execute.
+            con.execute('CREATE TABLE IF NOT EXISTS attempts(id TEXT PRIMARY KEY, digest TEXT NOT NULL, state TEXT NOT NULL)')
     @contextlib.contextmanager
     def conn(self):
         # SQLite connection context manager commits but does not close; this
@@ -131,9 +135,26 @@ class State:
         with self.conn() as con:
             x=con.execute('SELECT digest,receipt FROM receipts WHERE id=?',(jid,)).fetchone()
         return (x[0],json.loads(x[1])) if x else None
+    def attempt(self,jid):
+        with self.conn() as con:
+            x=con.execute('SELECT digest,state FROM attempts WHERE id=?',(jid,)).fetchone()
+        return (x[0],x[1]) if x else None
+    def begin(self,jid,digest):
+        # SQLite commits the marker BEFORE executing the allowlisted action.
+        # Never re-run if a prior attempt for this UUID is already recorded.
+        with self.conn() as con:
+            existing=con.execute('SELECT digest FROM attempts WHERE id=?',(jid,)).fetchone()
+            if existing is not None:
+                if existing[0]!=digest:raise RelayError('attempt_conflict')
+                return False
+            con.execute('INSERT INTO attempts VALUES(?,?,?)',(jid,digest,'in_progress'))
+        return True
     def save(self,jid,digest,receipt):
         with self.conn() as con:
             con.execute('INSERT INTO receipts VALUES(?,?,?)',(jid,digest,dump(receipt).decode()))
+            # Atomic with the completed receipt. A failed save leaves the
+            # original in_progress marker, not a fabricated success.
+            con.execute("UPDATE attempts SET state='completed' WHERE id=? AND digest=?",(jid,digest))
     def cursor(self):
         with self.conn() as con:r=con.execute("SELECT value FROM meta WHERE k='cursor'").fetchone()
         return r[0] if r else ''
@@ -161,7 +182,7 @@ def execute(job,sidecar:pathlib.Path|None=None):
 def tick(repo:HttpRepo, state:State,sidecar=None):
     names=repo.files();cur=state.cursor()
     ordered=[n for n in names if n>cur]+[n for n in names if n<=cur]
-    result={'scanned':0,'executed':0,'replayed':0,'public_receipts':0,'errors':[]}
+    result={'scanned':0,'executed':0,'replayed':0,'uncertain':0,'public_receipts':0,'errors':[]}
     for n in ordered[:MAX_SCAN]:
         state.set_cursor(n);result['scanned']+=1
         jid=n[:-5];stored=state.receipt(jid)
@@ -172,6 +193,16 @@ def tick(repo:HttpRepo, state:State,sidecar=None):
                 continue
             job=validate(repo.load(n),n)
             digest=sha(job)
+            previous=state.attempt(jid)
+            if previous is not None:
+                if previous[0]!=digest:raise RelayError('attempt_conflict')
+                # No durable completed receipt. Could have executed before
+                # crash; do not retry and do not publish a completed receipt.
+                result['uncertain']+=1
+                continue
+            if not state.begin(jid,digest):
+                result['uncertain']+=1
+                continue
             value=execute(job,sidecar)
             receipt={'v':1,'id':jid,'request_sha256':digest,'status':'completed','result':value}
             state.save(jid,digest,receipt)
