@@ -1,7 +1,7 @@
 name: CF-0 Channel Evidence Watchdog
 on:
   schedule:
-    - cron: '17 * * * *'
+    - cron: '*/5 * * * *'
   workflow_dispatch:
   push:
     paths:
