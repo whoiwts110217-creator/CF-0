@@ -1,10 +1,18 @@
 # Caveman Focus — CF-0
 
-**Kiara Lynn Rose Smith's Caveman Focus** — public knowledge and automation repository. Updated 2026-11-05.
+**Kiara Lynn Rose Smith's Caveman Focus** — public knowledge and automation repository. Updated 2026-11-05 (HP Fast Lane milestone and rulebook v0.1).
 
 > **Simplify complexity without losing the essentials. Guess → hypothesis → evidence → proof.**
 
 **[START HERE](docs/START_HERE.md)**
+
+## New: HP remote-control milestone and autonomy rules
+
+- **[Autonomous Operations Rulebook v0.1](CAVEMAN_FOCUS_RULEBOOK_v0.1.md)** — owner authority, intervention-based autonomy, priority order, bounded capability expansion, evidence standards and roadmap.
+- **[Verified HP Fast Lane milestone](docs/CF0_FAST_LANE_MILESTONE_2026-11-05.md)** — live ChatGPT → GitHub → HP Notepad launches and public-safe execution receipts; a separate ~30-second Fast Lane preserves the original scheduled relay.
+- **[Fast Lane installer](relay/INSTALL_CF0_FAST_LANE.ps1)** — user-installed Windows sign-in listener; not an instantaneous push service or unrestricted remote shell.
+
+**Current reality:** remote allowlisted Notepad execution and receipts have been verified, including unattended polling in live tests. Autonomous installation, general-purpose desktop work, high-priority STOP and seven-day unattended operation are **not yet verified**.
 
 ## Automatic mission control
 
@@ -32,4 +40,4 @@ The ChatGPT scheduled CF-200 executor has been instructed to use the master prom
 | Original SN illustration | [Assets](assets/README.md) |
 | HP Python bridge and phone control | [Bridge](bridge/README.md), [Phone → ChatGPT → HP](docs/HP_CHAT_CONTROL.md) |
 
-**Scope:** Curated, public-safe, reconstructed historical index—not a complete export of all conversations. The original approximately 37-project list remains unrecovered. No verified new scientific law, RH proof, fully connected HP control, or real income is claimed here. This repository is **PUBLIC**; publish non-sensitive work and aggregate project finances by default; keep credentials, private account details and nonconsenting third-party records outside public GitHub.
+**Scope:** Curated, public-safe, reconstructed historical index—not a complete export of all conversations. The original approximately 37-project list remains unrecovered. No verified new scientific law, RH proof, general-purpose autonomous HP control, or real income is claimed here. A limited allowlisted HP remote command pathway is now verified. This repository is **PUBLIC**; publish non-sensitive work and aggregate project finances by default; keep credentials, private account details and nonconsenting third-party records outside public GitHub.
