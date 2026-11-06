@@ -193,3 +193,12 @@ The hourly public channel watchdog now runs priority selector and waiting-cycle 
 - No direct authorized HP desktop interface was available; no Notepad or viewer launch, local opt-in, physical deployment, financial transaction or receipt correlation was performed. Registry, append-only events and checkpoints remain untouched.
 
 **Next three:** (1) verify current watchdog CI for health collector/publisher and repair actual failures; (2) prepare a single reviewed owner-approved HP deployment/activation with opt-in and rollback, without repetitive clipboard diagnostics; (3) validate a real health report and the existing Tkinter viewer on HP, then correlate Windows scheduler history to the outstanding probe.
+
+
+## P0 Windows health snapshot handle fix — November 6, 2026, 05:09 ET
+
+- Read the current operator prompt, mission board and registry; **52/200 verified** remains authoritative. The outstanding ping request `1bd3a644-9b80-4d05-8cb1-7043c7853d54` still has a matching public receipt with SHA-256 `bdd1b0e1c0b45e1b1618c16e814fc9a606e6530bf2419978ee9c510055f8ce16`, completed pong/protocol 1. Public receipt does **not** establish scheduled Windows origin.
+- [SQLite cleanup fix](https://github.com/whoiwts110217-creator/CF-0/commit/594d52283dcd73545c058556f9810aff6dfaaaa9): collector now deterministically closes its read-only SQLite connection, important for file-handle release on Windows. [Regression test](https://github.com/whoiwts110217-creator/CF-0/commit/cc6bbd1b4e062aae88b7add5e843ce7b2208c807) checks that the DB can be renamed after snapshot collection. Both source files were fetched back from GitHub. The test is **not yet independently confirmed passing on Windows CI**; GitHub combined commit status returned no statuses, which is not a pass or a failure.
+- HP health publication remains local opt-in and not deployed; no direct HP desktop interface was available. No Notepad window was opened. Public relay command allowlist, registry, event log and checkpoints were not changed. The cloud repository cannot itself attest to the owner HP's scheduled run.
+
+**Next three:** (1) inspect the Windows CI job for the new handle-release regression and repair failures; (2) prepare/validate a single owner-approved local HP activation and rollback for the existing health publisher and live viewer; (3) correlate a health report and Task Scheduler wrapper timestamp to the existing ping receipt before closing unattended verification.
