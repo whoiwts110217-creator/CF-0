@@ -66,6 +66,24 @@ def publish(repo, report):
             raise RelayError("health_destination_invalid") from exc
         if previous == data:
             return "unchanged"
+        # The Windows relay polls every five minutes. Avoid a new public
+        # commit on every poll when the health metrics have not changed.
+        # Still publish a heartbeat at least every 30 minutes.
+        try:
+            old = json.loads(previous)
+            new = json.loads(data)
+            from datetime import datetime, timezone
+            old_time = datetime.fromisoformat(old["collected_utc"])
+            new_time = datetime.fromisoformat(new["collected_utc"])
+            same_metrics = all(old.get(key) == new.get(key)
+                               for key in FIELDS if key != "collected_utc")
+            age = (new_time - old_time).total_seconds()
+            if (old_time.tzinfo is not None and new_time.tzinfo is not None
+                    and same_metrics and 0 <= age < 1800):
+                return "unchanged"
+        except (ValueError, TypeError, KeyError, AttributeError):
+            # Untrusted previous content must never suppress a fresh report.
+            pass
         payload["sha"] = current["sha"]
     repo.request("PUT", PATH, payload)
     return "published"
