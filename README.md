@@ -6,6 +6,15 @@
 
 **[START HERE](docs/START_HERE.md)**
 
+## Automatic mission control
+
+- **[Master Operator Prompt](automation_200/MASTER_OPERATOR_PROMPT.md)** — standing instructions for the existing ChatGPT CF-200 scheduled executor: automate → prioritize → prepare legitimate income → advance other work concurrently.
+- **[Master Mission Board](automation_200/MASTER_MISSION_BOARD.md)** — current deliverables, blockers, verified evidence and what to build next.
+- **[CF-200 Task Registry](automation_200/registry.json)** — 200 evidence-gated work orders; **[read-only task selector](automation_200/priority_selector.py)** chooses eligible work without mutating history.
+- **[Public relay watchdog](.github/workflows/cf0-channel-watchdog.yml)** — runs inside GitHub Actions; checks public-safe command/receipt matching. This does **not** demonstrate unattended PC execution.
+
+The ChatGPT scheduled CF-200 executor has been instructed to use the master prompt and board each hour; run outcomes require separate evidence. Project artifacts are public where owner-authorized and safe to release. Never publish credentials, private records, private creative source, or other people's personal information.
+
 | Branch | Documentation |
 |---|---|
 | Core method / ownership / ideals | [Foundation](docs/FOUNDATION.md) |
