@@ -1,6 +1,6 @@
 # Caveman Focus — CF-0
 
-**Kiara Lynn Rose Smith's Caveman Focus** — public knowledge and automation repository. Updated 2026-11-05 (HP Fast Lane milestone and rulebook v0.1).
+**Kiara Lynn Rose Smith's Caveman Focus** — public knowledge and automation repository. Status reviewed 2026-11-06; live status and historical milestones are separated below.
 
 > **Simplify complexity without losing the essentials. Guess → hypothesis → evidence → proof.**
 
@@ -20,6 +20,14 @@ The current public-safe source and documentation are available for inspection an
 - **[Fast Lane installer](relay/INSTALL_CF0_FAST_LANE.ps1)** — user-installed Windows sign-in listener; not an instantaneous push service or unrestricted remote shell.
 
 **Current reality:** remote allowlisted Notepad execution and receipts have been verified, including unattended polling in live tests. Autonomous installation, general-purpose desktop work, high-priority STOP and seven-day unattended operation are **not yet verified**.
+
+## Current operational status — November 6, 2026
+
+- **Verified on owner HP:** Windows Task Scheduler launched the `CavemanFocusCF0Relay` wrapper on time triggers (events 107/100/200/201/102), with successful exit code 0. The relay SQLite database contained 28 persisted command receipts; ten recent `open_notepad` records correspond to the owner's earlier ten-launch request. A public matching ping receipt also exists. **These observations do not independently prove that the scheduled instance generated that specific public receipt.**
+- **Paused:** owner disabled the separate `CavemanFocusSupervisor` research scheduler; the GitHub relay remained enabled. Do not silently resume unnecessary research.
+- **Highest-priority P0:** eliminate repeated owner PowerShell copy/paste. [Owner directive](automation_200/MASTER_OPERATOR_PROMPT.md) and [read-only HP health collector source](relay/cf_hp_health_snapshot.py) are committed, but the collector is **not yet deployed or automatically publishing**.
+- **Registry:** 52 of 200 work orders verified as recorded in the authoritative [registry](automation_200/registry.json); no new count claimed from status-document edits.
+- **Income and autonomy:** no verified income or seven-day independent operation. Historical milestone reports remain valid for their dates; consult this section for the latest scoped status.
 
 ## Automatic mission control
 
