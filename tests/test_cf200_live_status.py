@@ -40,12 +40,14 @@ class StatusTests(unittest.TestCase):
     def test_snapshot_separates_public_commit_and_hp(self):
         registry = {"completed": 52, "target": 200, "status": "WORK_IN_PROGRESS"}
         commits = [{"sha": "a" * 40, "commit": {"message": "test commit"}}]
-        with patch.object(self.mod, "fetch_json", side_effect=[registry, commits]), patch.object(
+        with patch.object(self.mod, "fetch_json", side_effect=[registry, commits, {"workflow_runs": [{"name": "Windows CI", "conclusion": "success", "html_url": "https://github.com/example/run"}]}]), patch.object(
             self.mod, "probe_summary", return_value="HP ping receipt: unavailable"):
             output = self.mod.snapshot()
         self.assertIn("52 / 200", output)
         self.assertIn("NOT VERIFIED", output)
         self.assertIn("does not prove CI passed", output)
+        self.assertIn("Windows CI: success", output)
+        self.assertIn("correlate Windows scheduled run", output)
 
 if __name__ == "__main__":
     unittest.main()
