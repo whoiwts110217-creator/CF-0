@@ -15,6 +15,9 @@ on:
       - 'relay/cf_hp_health_snapshot.py'
       - 'relay/cf_hp_health_publish.py'
       - 'relay/tests/test_hp_health_publish.py'
+      - 'relay/health_watch.py'
+      - 'relay/tests/test_health_watch.py'
+      - 'relay/health/latest.json'
       - 'command_queue/inbox/**'
       - 'command_queue/receipts/**'
       - '.github/workflows/cf0-channel-watchdog.yml'
@@ -35,6 +38,8 @@ jobs:
         run: python -m unittest discover -s relay/tests -p test_hp_health_snapshot.py -v
       - name: Test fixed-path HP health publication offline
         run: python -m unittest discover -s relay/tests -p test_hp_health_publish.py -v
+      - name: Test public HP report classification offline
+        run: python -m unittest discover -s relay/tests -p test_health_watch.py -v
       - name: Test priority persistence and CLI without touching owner state
         run: |
           python -m unittest discover -s automation_200/tests -p 'test_priority_selector.py' -v
@@ -48,3 +53,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
         run: python relay/channel_audit.py --live
+      - name: Classify public HP heartbeat without claiming device identity
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python relay/health_watch.py --live
