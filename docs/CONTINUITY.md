@@ -49,6 +49,14 @@ An **offline private** continuity store was constructed from **eight accessible 
 
 **No full original ChatGPT conversation export was indexed in that snapshot.** The original approximately 37-project inventory remains missing; there is no real-time cross-account data feed, no installed continuity store on the HP, and no continuous unattended system demonstrated. The source artifacts and backup contain private work and remain in the owner-controlled Library, not public CF-0. [Code, import instructions, limits and tests](../continuity/README.md) · [dated machine-readable counts](PUBLIC_CONTINUITY_STATE.json).
 
+## Source recovery v2 — November 6, 2026
+
+**Newest private snapshot:** the previous eight-file recovery was preserved intact. Ten additional existing Library artifacts were ingested as complete original **artifact files**—not conversation transcripts—including early automation, HP bridge, Domino Sidecar, Continuity Control, Guardian, Unified Operations financial-core, grant and invention sources. Each artifact has a SHA-256 identity and a source-level project association without any new claim of project completion.
+
+The private v2 database has **18 preserved source files**, **62 still-unverified reconstructed project entries**, **134 project-source links**, **98 typed external references**, and **91 hash-linked local events**. Its ZIP backup was restored into an independent directory and every stored file hash and the event chain passed. The backup and item-level source report are private Library records under `/Caveman Focus/Master Records/`; no originals or SQLite data have been published to GitHub.
+
+**Still missing:** zero full original ChatGPT conversation exports indexed; the original approximately 37-project list is not recovered; not all 62 entries are source-verifiable original projects; no HP deployment or verified money movement. The full raw CF-200 registry has **not** been imported into the owner's persistent private backup. The new [disposable exact-file import CI test](../continuity/tests/test_actual_cf200_registry.py) tests the public-source bridge only, and the registry Git blob SHA is tracked in the [dated public state](PUBLIC_CONTINUITY_STATE.json) to detect source changes without a completed-count change.
+
 ## Open acceptance gates
 
 - **Owner-enforced changes:** actual repository branch rules and authorized reviewer identity, independently verified with a rejected test change.
