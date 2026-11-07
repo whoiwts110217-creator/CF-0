@@ -1,0 +1,157 @@
+{
+  "schema": "dreamkiller.chapter1.design_model.v1",
+  "design_id": "DK-CH01-001",
+  "status": "proposed_not_implemented",
+  "creator": "David Smith",
+  "designated_owner": "Kiara Lynn Rose Smith",
+  "project": "CF-CONCEPT-DREAMKILLER-001",
+  "historical_predecessor": "CR-10_separate",
+  "rom_implemented": false,
+  "emulator_gameplay_verified": false,
+  "locations": [
+    {
+      "id": "S00",
+      "label": "Cactus Brink",
+      "exits": {
+        "east": "S01"
+      }
+    },
+    {
+      "id": "S01",
+      "label": "First Sign",
+      "sign_object_id": "OBJ_SIGN_037",
+      "exits": {
+        "west": "S00",
+        "east": "E01",
+        "north": "W01"
+      }
+    },
+    {
+      "id": "E01",
+      "label": "Sign Echo",
+      "sign_object_id": "OBJ_SIGN_037",
+      "exits": {
+        "west": "S01",
+        "east": "S02",
+        "north": "D00"
+      }
+    },
+    {
+      "id": "S02",
+      "label": "Cinder Ford",
+      "exits": {
+        "west": "E01",
+        "north": "W01",
+        "south": "D01"
+      }
+    },
+    {
+      "id": "W01",
+      "label": "Thornbank Wilds",
+      "exits": {
+        "south": "S02",
+        "west": "S01",
+        "east": "D01"
+      }
+    },
+    {
+      "id": "D00",
+      "label": "Below the Sign",
+      "exits": {
+        "south": "E01",
+        "east": "D01"
+      }
+    },
+    {
+      "id": "D01",
+      "label": "Missing Cave B1",
+      "exits": {
+        "west": "D00",
+        "east": "D02",
+        "north": "W01",
+        "south": "S02"
+      }
+    },
+    {
+      "id": "D02",
+      "label": "Archive Sluice B2",
+      "exits": {
+        "west": "D01"
+      }
+    }
+  ],
+  "entity_ids": [
+    "OBJ_SIGN_037",
+    "OBJ_CACTUS_001",
+    "OBJ_FRUIT_001",
+    "OBJ_SEED_001",
+    "NPC_PIP",
+    "NPC_CAIRN_A",
+    "NPC_CAIRN_B",
+    "NPC_MARA",
+    "NPC_KNUCKLE",
+    "NPC_MOSSKIN",
+    "NPC_REGISTRAR_4"
+  ],
+  "recorded_atlas_claim": {
+    "from": "S01",
+    "direction": "east",
+    "destination": "S02",
+    "status": "fallible_map_claim"
+  },
+  "glitch_B001": {
+    "id": "B-001",
+    "kind": "deliberate_route_table_alias",
+    "from": "S01",
+    "direction": "east",
+    "destination": "E01",
+    "requires_quest": false,
+    "uses_rng": false,
+    "requires_undefined_behavior": false,
+    "sign_object_id": "OBJ_SIGN_037",
+    "recovery_to": [
+      "S01",
+      "S02"
+    ],
+    "implementation_status": "design_only"
+  },
+  "prediction_P001": {
+    "id": "P-001",
+    "statement": "ONE CAIRN MAY EXIT THE ARCHIVE",
+    "kind": "fallible_machine_prediction",
+    "must_be_recorded_before_rescue": true
+  },
+  "branches": {
+    "pip": [
+      "help",
+      "refuse",
+      "go_alone"
+    ],
+    "fruit": [
+      "leave",
+      "harvest"
+    ],
+    "sluice": [
+      "surface",
+      "underdeep",
+      "unchanged"
+    ],
+    "rescue": [
+      "A_only",
+      "B_only",
+      "both",
+      "neither"
+    ]
+  },
+  "journal_fields": [
+    "event_id",
+    "world_tick",
+    "location_id",
+    "actor_id",
+    "conditions",
+    "observation",
+    "interpretation",
+    "affected_entities"
+  ],
+  "test_scope": "formalized_source_model_not_game_engine"
+}
