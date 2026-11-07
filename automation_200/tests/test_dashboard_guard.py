@@ -66,6 +66,16 @@ class DashboardGuardTests(unittest.TestCase):
         broken = board.replace("**1** returned", "**0** returned")
         self.assertTrue(any("issue count" in e for e in check(raw, broken)))
 
+    def test_wrong_priority_category_is_rejected(self):
+        _, raw, board = fixture()
+        wrong = board.replace("| P0 | **CF-002** |", "| **P2 — Finances** | **CF-002** |")
+        self.assertTrue(any("priority category differs" in e for e in check(raw, wrong)))
+
+    def test_missing_priority_category_is_rejected(self):
+        _, raw, board = fixture()
+        wrong = board.replace("| P0 | **CF-002** |", "| Uncategorized | **CF-002** |")
+        self.assertTrue(any("missing valid P0-P3" in e for e in check(raw, wrong)))
+
     def test_corrupt_registry_fails_closed(self):
         _, _, board = fixture()
         self.assertTrue(check(b"{bad", board))
