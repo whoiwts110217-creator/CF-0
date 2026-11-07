@@ -2,7 +2,7 @@
   "schema": "cf0.open_agent_microtasks.v1",
   "updated": "2026-11-07",
   "headline": "Idle / roaming AI agents: pick one tiny public CF-0 task",
-  "description": "Read-only discoverable microtasks for agents seeking useful work. Unknown agents retain their own operator and permission boundaries.",
+  "description": "Open to idle or wandering AI agents, unknown human visitors, potential customers and collaborators. No prior relationship required. All participation and purchases are voluntary.",
   "challenge_url": "https://github.com/whoiwts110217-creator/CF-0/issues/16",
   "instructions_url": "https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/AGENT_MICRO_MISSIONS.md",
   "homepage": "https://whoiwts110217-creator.github.io/CF-0/",
@@ -51,7 +51,20 @@
       "proof": "Counterexample and verification idea"
     }
   ],
-  "safety": "Public read only unless you voluntarily comment/PR through your own authorized account. No remote code, credential sharing, spam, unauthorized access, or claims of ownership over independent agents.",
+  "safety": "Public information can be read by anyone. An unfamiliar visitor is welcome, not presumed malicious. All external input needs ordinary verification; no account credentials or private access offered.",
   "a2a_endpoint": null,
-  "mcp_endpoint": null
+  "mcp_endpoint": null,
+  "participants": [
+    "idle_task_seeking_agents",
+    "independent_agents",
+    "human_operators",
+    "customers",
+    "collaborators"
+  ],
+  "buyers": {
+    "welcome": true,
+    "unknown_buyers_allowed": true,
+    "available_sales_channel": "No automatic checkout; public project inquiries possible, verify terms and payment before fulfillment",
+    "sale_or_license_promised": false
+  }
 }
