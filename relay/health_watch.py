@@ -11,6 +11,7 @@ import argparse
 import base64
 import binascii
 import json
+import re
 import time
 import urllib.error
 from datetime import datetime, timezone
@@ -90,14 +91,17 @@ def classify(report: object, now: int | float) -> dict:
     return status("fresh_public_report", **evidence)
 
 
-def watch(*, now: int | float | None = None, getter=None) -> dict:
+def watch(*, now: int | float | None = None, getter=None, commit: str | None = None) -> dict:
     """Read a single fixed GitHub Contents URL; never print untrusted response text."""
+    if commit is not None and not re.fullmatch(r"[0-9a-f]{40}", commit):
+        raise ValueError("invalid_commit")
+    url = URL if commit is None else URL.removesuffix("main") + commit
     if now is None:
         now = time.time()
     if getter is None:
         getter = github_json
     try:
-        document = getter(URL)
+        document = getter(url)
     except urllib.error.HTTPError as exc:
         return status("not_published" if exc.code == 404 else "unavailable")
     except (OSError, ValueError, TypeError, json.JSONDecodeError):
@@ -121,10 +125,17 @@ def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--live", action="store_true",
                         help="Inspect only the fixed public GitHub report path.")
+    parser.add_argument("--commit", help="Read the report at a public Git commit SHA.")
     args = parser.parse_args(argv)
     if not args.live:
         parser.error("use --live to inspect public HP health")
-    print(json.dumps(watch(), sort_keys=True))
+    try:
+        result = watch(commit=args.commit)
+    except ValueError:
+        parser.error("--commit must be a 40-character lowercase Git SHA")
+    if args.commit:
+        result["source_commit"] = args.commit
+    print(json.dumps(result, sort_keys=True))
     # Missing, stale or invalid *device evidence* must not break source CI:
     # it stays visibly unverified until the owner HP activates a real report.
     return 0

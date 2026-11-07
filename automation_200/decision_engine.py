@@ -31,7 +31,9 @@ RETRY_BASE_SECONDS = 300
 MAX_ATTEMPT_AGE = 10**12
 # The registry currently marks certain owner-local acceptance tasks as HP-free.
 # Explicitly hold these by ID rather than guessing from public task titles.
-OWNER_LOCAL_EVIDENCE_IDS = frozenset({"CF-042", "CF-190", "CF-191", "CF-194"})
+OWNER_LOCAL_EVIDENCE_IDS = frozenset({
+    "CF-042", "CF-077", "CF-184", "CF-190", "CF-191", "CF-194",
+})
 
 
 def _attempts_valid(registry, attempts):

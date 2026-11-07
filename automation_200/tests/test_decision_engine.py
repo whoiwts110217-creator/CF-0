@@ -49,11 +49,13 @@ class EvidenceDecisionTests(unittest.TestCase):
 
     def test_misflagged_owner_local_work_is_never_cloud_eligible(self):
         sample = {"tasks": [task("CF-042", "sidecar"),
+                            task("CF-077", "receipt"),
+                            task("CF-184", "real_operations"),
                             task("CF-190", "real_operations"),
                             task("SRC", "receipt")]}
         result = propose(sample, health_state="fresh_public_report", now=100)
         self.assertEqual([x["id"] for x in result["selected"]], ["SRC"])
-        self.assertEqual(result["held_counts"]["owner_local_evidence_required"], 2)
+        self.assertEqual(result["held_counts"]["owner_local_evidence_required"], 4)
 
     def test_dependency_block_and_explicit_owner_override(self):
         sample = {"tasks": [task("P0", "receipt"),

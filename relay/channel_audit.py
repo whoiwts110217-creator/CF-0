@@ -229,10 +229,14 @@ def main(argv=None) -> int:
     modes = p.add_mutually_exclusive_group(required=True)
     modes.add_argument("--live", action="store_true", help="Read CF-0 public inbox and receipts from GitHub.")
     modes.add_argument("--review-pruning", action="store_true", help="Print a read-only candidate manifest.")
+    p.add_argument("--commit", help="Pin a live audit to a public Git commit SHA.")
     args = p.parse_args(argv)
+    if args.commit is not None and (not args.live or not re.fullmatch(r"[0-9a-f]{40}", args.commit)):
+        p.error("--commit requires --live and a 40-character lowercase Git SHA")
+    scope = {"source_commit": args.commit} if args.commit else {}
     capacity = None
     try:
-        ref = main_commit() if args.review_pruning else "main"
+        ref = main_commit() if args.review_pruning else (args.commit or "main")
         names = {folder: list_json_names(folder, ref=ref) for folder in QUEUE_FOLDERS}
         capacity = archive_capacity({folder: len(files) for folder, files in names.items()})
         if capacity["state"] == "limit_exceeded":
@@ -248,12 +252,12 @@ def main(argv=None) -> int:
             )
     except (ValueError, OSError, urllib.error.URLError, json.JSONDecodeError) as exc:
         # Never print token-bearing headers, machine details or response bodies.
-        failure = {"audit": "unavailable", "error_type": type(exc).__name__}
+        failure = {"audit": "unavailable", "error_type": type(exc).__name__, **scope}
         if capacity is not None:
             failure["archive_capacity"] = capacity
         print(json.dumps(failure, sort_keys=True))
         return 1
-    print(json.dumps({"audit": "read_only", "repo": REPO,
+    print(json.dumps({"audit": "read_only", "repo": REPO, **scope,
                       "archive_capacity": capacity, **report}, sort_keys=True))
     return 0
 

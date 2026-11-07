@@ -10,7 +10,9 @@ on:
       - 'automation_200/tests/test_waiting_cycles.py'
       - 'automation_200/priority_selector.py'
       - 'automation_200/decision_engine.py'
+      - 'automation_200/watchdog_handoff.py'
       - 'automation_200/tests/test_decision_engine.py'
+      - 'automation_200/tests/test_watchdog_handoff.py'
       - 'automation_200/tests/test_priority_selector.py'
       - 'relay/tests/test_channel_audit.py'
       - 'relay/tests/test_hp_health_snapshot.py'
@@ -48,20 +50,36 @@ jobs:
           python -m unittest discover -s automation_200/tests -p 'test_waiting_cycles.py' -v
           python automation_200/waiting_cycles.py --state /tmp/cf200-ci-waiting.json --limit 4
       - name: Test founder decision engine without changing owner state
-        run: python -m unittest discover -s automation_200/tests -p 'test_decision_engine.py' -v
+        run: |
+          python -m unittest discover -s automation_200/tests -p 'test_decision_engine.py' -v
+          python -m unittest discover -s automation_200/tests -p 'test_watchdog_handoff.py' -v
       - name: Select founder-priority ready work (read-only)
         run: |
           python automation_200/validate_registry.py
           python automation_200/priority_selector.py --limit 4
       - name: Inspect live public queue and receipts (read-only)
+        id: queue
+        shell: bash
         env:
           GITHUB_TOKEN: ${{ github.token }}
-        run: python relay/channel_audit.py --live
+        run: python relay/channel_audit.py --live --commit "$GITHUB_SHA" | tee "$RUNNER_TEMP/cf0-queue.json"
       - name: Classify public HP heartbeat without claiming device identity
+        id: health
+        if: ${{ !cancelled() && (success() || steps.queue.outcome == 'failure') }}
+        shell: bash
         env:
           GITHUB_TOKEN: ${{ github.token }}
-        run: python relay/health_watch.py --live
+        run: python relay/health_watch.py --live --commit "$GITHUB_SHA" | tee "$RUNNER_TEMP/cf0-health.json"
       - name: Propose next source-only work under founder policy
-        env:
-          GITHUB_TOKEN: ${{ github.token }}
-        run: python -m automation_200.decision_engine --live --limit 4
+        if: ${{ !cancelled() && steps.health.outcome == 'success' }}
+        shell: bash
+        run: |
+          test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+          python -m automation_200.watchdog_handoff --commit "$GITHUB_SHA" --event "$GITHUB_EVENT_NAME" \
+            --queue "$RUNNER_TEMP/cf0-queue.json" --health "$RUNNER_TEMP/cf0-health.json" \
+            | tee "$RUNNER_TEMP/cf0-work-handoff.log"
+          {
+            printf '### CF-0 Work handoff\n\n%s\n' '```json'
+            sed -n 's/^CF0_WORK_HANDOFF=//p' "$RUNNER_TEMP/cf0-work-handoff.log" | python -m json.tool
+            printf '%s\n' '```'
+          } >> "$GITHUB_STEP_SUMMARY"
