@@ -391,3 +391,12 @@ The hourly public channel watchdog now runs priority selector and waiting-cycle 
 - `registry.json` remains **54/200** with checkpoint **052**. `relay/health/latest.json` returned GitHub 404, which is missing public report evidence, not proof HP is offline. Existing matched ping does not establish independently scheduled Windows execution. No HP/Notepad deployment or private v2/v3 archive mutation; no income verified.
 
 **Next three executable tasks:** (1) obtain a conclusive Windows CI test run for dependency cycle and prior reference tests, fixing any failure; (2) audit the actual 200-task graph for cycles and blocked dependencies using the public registry without mutating it; (3) privately restore v2, import byte-exact registry into a new v3 state and independently audit only when authorized private sources are available together.
+
+
+## Public self-referencing Work prompt — 2026-11-06
+
+- Published [WORK_COPY_PASTE_AUTOMATION_PROMPT.md](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) in [commit 25a3c3e](https://github.com/whoiwts110217-creator/CF-0/commit/25a3c3e3d015263bca9e49c5b09c9f13b9d76653); fetched it back from public `main` (blob `ee5aa07170ca4c9ec4c0c1ed5e63ee7c8dd3f431`).
+- The Work prompt explicitly instructs future Work instances to read the two public masters FIRST, then retrieve **itself** from this public GitHub path every run, rather than asking the owner to paste it again. This is a documented handoff contract, **not proof** that a scheduled Work instance has adopted it or that the HP is autonomously connected.
+- No scheduler, public relay action, private archive, registry or event history changed. CF-200 remains **54/200**, checkpoint **052**. HP unattended execution and Notepad deployment remain unverified; no income claimed.
+
+**Next three:** (1) verify the existing Work schedule actually reads the new public self-reference at its next authorized run; (2) check Windows CI for dependency-graph changes; (3) continue the existing sanitized HP health/report loop and private v3 import only with required evidence and authorized private sources.
