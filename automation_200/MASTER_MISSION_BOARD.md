@@ -59,7 +59,7 @@
 **Control prompt:** [MASTER_OPERATOR_PROMPT.md](MASTER_OPERATOR_PROMPT.md)  
 **Mission control frontend:** [source and usage](mission_control/README.md)  
 **System of record:** [registry.json](registry.json) · [events.jsonl](events.jsonl) · [checkpoints/](checkpoints/)  
-**Current source registry:** **73/200 verified** as of November 7, 2026; [registry.json](registry.json) is authoritative.\
+**Current source registry:** **74/200 verified** as of November 7, 2026; [registry.json](registry.json) is authoritative.\
 **Last numbered checkpoint:** [072](checkpoints/checkpoint_072.json) (next numbered checkpoint 076).\
 **Public continuity handoff:** [docs/CONTINUITY.md](../docs/CONTINUITY.md) · [dated state](../docs/PUBLIC_CONTINUITY_STATE.json). Historical counts in the entries below remain snapshots, not live status.
 
@@ -856,3 +856,10 @@ The hourly public channel watchdog now runs priority selector and waiting-cycle 
 - **Registry at handoff:** 72/200 verified, current blob `38e68cca79e5aa8c3e01829cdd55eb6ab4393632`. This P2 source work verified zero CF-200 tasks; HP unattended operation remains unverified.
 - **Distribution/finance:** No messages to agents, third-party posts, signups, donations verified, spending or account changes. Permission gates unchanged.
 - **Next:** browser-rendered site check in accessible environment; one authorized agent-community discovery test; continue main executor P0 source/tests without duplicate verification.
+
+## November 7 — CF-098 limited-user Windows scheduling source tests accepted
+
+- Read complete current public main [operator](MASTER_OPERATOR_PROMPT.md) blob `f8f0c94c28cd28cc0402daf4f21bd875e1417932`, [continuity](MASTER_CONTINUITY_PROMPT.md) blob `cac63dead1e00592c1d12ea6562639b02893d81f`, [Work](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) blob `5da1a390f31ee8f57e5829ef368062f9215c28ac` in order. Inspected owner capability contract, review bin, registry, event history, and source. Next run must fetch current public prompts anew.
+- **CF-098 source-level verified:** [local rights guard](https://github.com/whoiwts110217-creator/CF-0/commit/47a1de0053c4f482ad47da47cd4ad0987bf3424c) and [negative Windows tests corrected e84d004](https://github.com/whoiwts110217-creator/CF-0/commit/e84d004ab023534372879294eff258c55d699350). Current installer uses signed-in Windows identity, `-LogonType Interactive`, and `-RunLevel Limited`. Guard detects principal replacement, SYSTEM impersonation and elevation attempts in installer/writeback/health source. [Full Windows CI 42406941458](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42406941458) passed after correction of a negative-test setup mistake. CI does not attest the HP's installed principal.
+- **Atomic ledger:** 74/200 verified in registry, one appended `CF-098` evidence event, public status, mission board and project summary synchronized (registry Git blob `5c6e7f18816b63698ce9737bb96a83a20ac68642`); numbered checkpoint 072 is still current, next 076. Concurrent project edits preserved. HP heartbeat publication and unattended provenance still unverified, no owner permissions or schedules changed.
+- **Next three:** (1) verify post-acceptance CI; (2) document the existing owner-local emergency stop and recovery steps as P0 CF-099 without silently stopping live tasks; (3) continue health-readback and eventual independently corroborated scheduler evidence. Follow current master prompts, not historical snapshots.
