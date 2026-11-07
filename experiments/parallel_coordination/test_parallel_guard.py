@@ -34,7 +34,34 @@ class ParallelGuardTests(unittest.TestCase):
         with self.assertRaisesRegex(ConflictError, "task_claimed"):
             validate_proposal(claim(paths=("docs/a.md", "docs/b.md")),
                               current_sha="abc", now=NOW,
-                              active_claims=(claim(),))
+                              active_claims=(claim(),),
+                              expected_path_shas={"docs/a.md": "sha1", "docs/b.md": "sha2"},
+                              current_path_shas={"docs/a.md": "sha1", "docs/b.md": "sha2"})
+
+    def test_multi_file_claim_without_versions_rejected(self):
+        with self.assertRaisesRegex(ConflictError, "missing_per_path_versions"):
+            validate_proposal(claim(paths=("docs/a.md", "docs/b.md")),
+                              current_sha="abc", now=NOW)
+
+    def test_multi_file_claim_stale_second_path_rejected(self):
+        with self.assertRaisesRegex(ConflictError, "stale_path:docs/b.md"):
+            validate_proposal(claim(paths=("docs/a.md", "docs/b.md")),
+                              current_sha="abc", now=NOW,
+                              expected_path_shas={"docs/a.md": "sha1", "docs/b.md": "sha2"},
+                              current_path_shas={"docs/a.md": "sha1", "docs/b.md": "new_sha"})
+
+    def test_multi_file_claim_missing_observed_path_rejected(self):
+        with self.assertRaisesRegex(ConflictError, "missing_current_path_sha"):
+            validate_proposal(claim(paths=("docs/a.md", "docs/b.md")),
+                              current_sha="abc", now=NOW,
+                              expected_path_shas={"docs/a.md": "sha1", "docs/b.md": "sha2"},
+                              current_path_shas={"docs/a.md": "sha1"})
+
+    def test_multi_file_claim_versions_match_accepted(self):
+        validate_proposal(claim(paths=("docs/a.md", "docs/b.md")),
+                          current_sha="abc", now=NOW,
+                          expected_path_shas={"docs/a.md": "sha1", "docs/b.md": "sha2"},
+                          current_path_shas={"docs/a.md": "sha1", "docs/b.md": "sha2"})
 
     def test_same_path_other_task_rejected(self):
         with self.assertRaisesRegex(ConflictError, "path_claimed"):
