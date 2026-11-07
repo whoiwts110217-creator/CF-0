@@ -116,6 +116,7 @@ class ReferenceWorld:
         self.water = WATER_SHARES["unchanged"]
         self.escorting = []
         self.exited = []
+        self.rescue_decided = False
         self.p001_recorded = False
         self.p001_falsified = False
         self.road_repaired = False
@@ -223,10 +224,11 @@ class ReferenceWorld:
     def select_rescue(self, outcome):
         if self.location != "D02" or not self.p001_recorded or outcome not in BRANCHES["rescue"]:
             return False
-        if self.escorting or self.exited:
+        if self.rescue_decided:
             return False
         escorts = {"A_only": ["A"], "B_only": ["B"], "both": ["A", "B"], "neither": []}[outcome]
         self.escorting = escorts
+        self.rescue_decided = True
         self.step()
         self.record("rescue_choice", choice=outcome, escorts=list(escorts))
         return True
@@ -251,6 +253,8 @@ class ReferenceWorld:
         assert all(a["world_tick"] <= b["world_tick"] for a,b in zip(self.events, self.events[1:]))
         assert all(e["world_tick"] <= self.tick for e in self.events)
         assert (not self.exited or self.p001_recorded)
+        assert (not self.rescue_decided or any(e["kind"] == "rescue_choice" for e in self.events))
+        assert sum(e["kind"] == "rescue_choice" for e in self.events) <= 1
         assert (not self.p001_falsified or self.exited == ["A", "B"])
         if self.sign_marked:
             assert any(e["kind"] == "sign_marked" and e["object_id"] == "OBJ_SIGN_037" for e in self.events)
