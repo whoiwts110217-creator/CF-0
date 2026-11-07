@@ -382,3 +382,12 @@ The hourly public channel watchdog now runs priority selector and waiting-cycle 
 - Registry baseline remains **54/200**, checkpoint **052**. Private v2 and missing original conversation exports remain unchanged. Public ping evidence does not establish unattended HP scheduling; no HP Notepad activation or new command issued.
 
 **Next three executable tasks:** (1) inspect Windows CI for these dependency tests and repair failures; (2) inspect dependency-cycle handling and add a synthetic test if missing; (3) conduct a private v3 exact-registry import and restoration audit only when the authorized private v2 source and byte-exact registry are accessible together.
+
+
+## CF-200 dependency-cycle source hardening — 2026-11-06 evening
+
+- Mandatory main preflight: operator v1.0 blob `67ce4bf6d176a4fde9d35b050a9959f4da1994da`, continuity v1.0 blob `291a4836f26f6dd3b8664092adba777bee1f1f54`.
+- [Source commit a8478b9](https://github.com/whoiwts110217-creator/CF-0/commit/a8478b90d7c29735ccc1690a11813a120b6b542f) adds iterative dependency-cycle detection before immutable private registry snapshot ingestion. [Test commit 8571961](https://github.com/whoiwts110217-creator/CF-0/commit/85719617574cb63a46e969e8a549adf235b8eadf) covers two- and three-task cycles and a valid shared-dependency diamond. Fetched back both source files from public main; **test execution and Windows CI still unverified**. GitHub workflow lookup for these commits returned no PR-associated runs, and direct local git access could not resolve github.com.
+- `registry.json` remains **54/200** with checkpoint **052**. `relay/health/latest.json` returned GitHub 404, which is missing public report evidence, not proof HP is offline. Existing matched ping does not establish independently scheduled Windows execution. No HP/Notepad deployment or private v2/v3 archive mutation; no income verified.
+
+**Next three executable tasks:** (1) obtain a conclusive Windows CI test run for dependency cycle and prior reference tests, fixing any failure; (2) audit the actual 200-task graph for cycles and blocked dependencies using the public registry without mutating it; (3) privately restore v2, import byte-exact registry into a new v3 state and independently audit only when authorized private sources are available together.
