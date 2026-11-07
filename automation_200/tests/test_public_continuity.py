@@ -86,10 +86,27 @@ class PublicContinuityTests(unittest.TestCase):
         registry = json.loads((root / "automation_200/registry.json").read_text(encoding="utf-8"))
         count = registry["completed"]
         board = p.read_text(encoding="utf-8")
-        header, rest = board.split("## Owner-defined strategy", 1)
-        self.assertIn(f"{count}/200", header)
-        header = header.replace(f"{count}/200", f"{count + 1}/200", 1)
-        p.write_text(header + "## Owner-defined strategy" + rest, encoding="utf-8")
+        # The board contains historical dated entries with older counts.
+        # Mutate only the authoritative current-registry heading, never the
+        # first matching "65/200" elsewhere in the long append-only board.
+        lines = board.splitlines(keepends=True)
+        current = [i for i, line in enumerate(lines) if line.startswith("**Current source registry:**")]
+        self.assertEqual(len(current), 1)
+        index = current[0]
+        self.assertIn(f"**{count}/200 verified**", lines[index])
+        lines[index] = lines[index].replace(
+            f"**{count}/200 verified**", f"**{count + 1}/200 verified**", 1
+        )
+        p.write_text("".join(lines), encoding="utf-8")
+        with self.assertRaisesRegex(ContinuityError, "public_mission_board_header_stale"):
+            check(root)
+
+    def test_duplicate_current_registry_heading_is_rejected(self):
+        root = self.prepare()
+        p = root / "automation_200/MASTER_MISSION_BOARD.md"
+        board = p.read_text(encoding="utf-8")
+        line = next(s for s in board.splitlines() if s.startswith("**Current source registry:**"))
+        p.write_text(board + "\n" + line + "\n", encoding="utf-8")
         with self.assertRaisesRegex(ContinuityError, "public_mission_board_header_stale"):
             check(root)
 
