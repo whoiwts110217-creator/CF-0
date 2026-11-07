@@ -1,3 +1,10 @@
+## November 7, 2026 — Dreamkiller Chapter One filed (P3 creative design)
+
+- **Source preflight:** operator blob `f8f0c94c28cd28cc0402daf4f21bd875e1417932`, continuity `cac63dead1e00592c1d12ea6562639b02893d81f`, Work `5da1a390f31ee8f57e5829ef368062f9215c28ac`, plus Dreamkiller's complete public master, inspected. Next Work run must retrieve all three operational prompts freshly from main.
+- **Deliverable:** [Chapter One: The Missing Cave](../concepts/dreamkiller/chapter_01/CHAPTER_ONE_DESIGN_V0_1.md), ID **DK-CH01-001**, with [structured map/branch and glitch model](../concepts/dreamkiller/chapter_01/BRANCH_AND_GLITCH_MODEL.json) and [source-only tests](../concepts/dreamkiller/chapter_01/test_chapter_model.py); public concepts index linked. The owner-defined creator is **David Smith**, designated owner **Kiara Lynn Rose Smith**. All new story additions are **proposed**, not a replaced master canon.
+- **Verification:** [Dreamkiller Chapter One Design Checks run 42407377346](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42407377346) **passed** for source-model invariants and 72 branch combinations. This does **not** verify a game ROM, GBC hardware behavior or actual emulator gameplay. **Registry observed:** `74/200` verified from blob `5c6e7f18816b63698ce9737bb96a83a20ac68642`, current at this read; no CF-200 registry/event/checkpoint mutation by this P3 work.
+- **Boundaries:** no extra HP permission, outreach, finance, proprietary game assets or private archive publication. Next design proposals: dungeon screen maps, terrain/creature combat interactions and bounded journal/save representation. P0–P2 priorities unchanged.
+
 ## November 7, 2026 — CF-097 bounded poll work synthetic regression (source-only)
 
 - **Mandatory preflight:** current public main operator blob `f8f0c94c28cd28cc0402daf4f21bd875e1417932`, continuity blob `cac63dead1e00592c1d12ea6562639b02893d81f`, and [Work self-reference](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) blob `5da1a390f31ee8f57e5829ef368062f9215c28ac` fetched in order. Next run must retrieve all three again.
