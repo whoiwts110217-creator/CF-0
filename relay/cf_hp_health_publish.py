@@ -31,6 +31,10 @@ def sanitized(report):
         value = report[key]
         if value is not None and (type(value) is not int or value < 0):
             raise ValueError("invalid_health_count")
+    # The ping count covers at most the latest 200 total receipts.
+    if (report["receipt_count"] is not None and report["ping_receipt_count"] is not None
+            and report["ping_receipt_count"] > report["receipt_count"]):
+        raise ValueError("inconsistent_health_counts")
     if report["last_receipt_status"] not in (None, "completed", "failed", "other"):
         raise ValueError("invalid_health_status")
     if report["error"] not in (None, "malformed_receipt", "state_unavailable"):
