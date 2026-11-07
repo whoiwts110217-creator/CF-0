@@ -2,6 +2,8 @@
 
 **[START HERE — site, Mission Control, master prompts, HP commands, AI Tracker](docs/START_HERE.md)**
 
+**[PUBLIC TASKS & ISSUES](docs/TASKS_AND_ISSUES.md) — what we're doing, what's blocked, and what needs your decision**
+
 
 **Created and developed by David Smith; designated owner and intended generational beneficiary: Kiara Lynn Rose Smith.**
 
@@ -15,7 +17,7 @@
 
 **Master continuity order:** [Read the public master operating prompt first](automation_200/MASTER_OPERATOR_PROMPT.md), then the [cross-archive, project and event continuity prompt](automation_200/MASTER_CONTINUITY_PROMPT.md) **before CF-0 decisions**. Work sessions then read the [current Work execution prompt](automation_200/WORK_COPY_PASTE_AUTOMATION_PROMPT.md) from public main. The public prompt describes how to recover and reconcile prior conversations, archives and workstreams without publishing private originals.
 
-**Continuity snapshot:** [71/200 verified source/operations work orders](docs/PROJECT_STATUS.md), with the [latest public handoff and evidence boundaries](docs/CONTINUITY.md). The currently checked-in relay **does not support remote Notepad launch**; previously observed Windows Notepad launches are historical, and restoration remains open. The optional HP heartbeat and independent scheduler correlation are still unverified.
+**Live task evidence:** The [public task and issue dashboard](docs/TASKS_AND_ISSUES.md) summarizes the current source-backed registry and open issues. For task-specific verification use [the project status](docs/PROJECT_STATUS.md) and [public continuity evidence](docs/CONTINUITY.md). The currently checked-in relay **does not support remote Notepad launch**; previously observed Windows Notepad launches are historical, and restoration remains open. The optional HP heartbeat and independent scheduler correlation are still unverified.
 
 **[Filed concepts](concepts/README.md)** · **[Dreamkiller / BreachDungeon](concepts/dreamkiller/MASTER_CONCEPT_AND_CONTINUITY_PROMPT.md)** · **[November 7 cross-archive reconciliation](docs/CONTINUITY_RECONCILIATION_2026-11-07_DREAMKILLER.md)**
 
