@@ -1,68 +1,73 @@
-# CF-0 — Public Tasks & Issues
+# CF-0 — Tasks & Issues
+**Public owner dashboard · Last source review: November 7, 2026 (Eastern)**
 
-**Simple owner view · Snapshot: November 7, 2026 (Eastern)**
+> **This is the short version.** See [the official 200-task registry](../automation_200/registry.json) for each work order, the [master mission board](../automation_200/MASTER_MISSION_BOARD.md) for technical history, and [GitHub Issues](https://github.com/whoiwts110217-creator/CF-0/issues) for discussion. This is a dated report, **not** a continuously live HP status display.
 
-> **Start here.** This is a public-safe task/issue summary, not a new registry or a claim that work was executed. The [authoritative CF-200 registry](../automation_200/registry.json), [event ledger](../automation_200/events.jsonl), [latest mission board](../automation_200/MASTER_MISSION_BOARD.md), and [approval bin](../automation_200/PROMPT_CHANGE_BIN.md) remain the sources of truth. If this page has an old timestamp, check those sources.
+## Status at a glance
 
-## At a glance
+| Measure | Verified source-backed state |
+|---|---|
+| CF-200 work orders | **75 verified / 200 total**; 125 planned |
+| Current verified progress | 37.5% of defined work orders; **not** 37.5% of the finished product |
+| Open GitHub issues | **3** returned in the last issue search |
+| Public task/issue refresh | **Working once** through existing enabled hourly CF-200 executor; ongoing reliability still being observed |
+| Unattended HP computer | **Unverified** — local Windows scheduling and matching receipt not independently correlated |
+| Donations/revenue | No new owner-confirmed receipts established by this dashboard |
 
-- **75 / 200 CF-200 work orders verified; 125 planned.** Based on registry blob `cecdcea4f9dcc00e1b046f39875433aaeb7e63d6` fetched during this update; this is **not** a percentage of a finished autonomous system.
-- **Priority:** P0 Automation → P1 Owner-directed prioritization/continuity → P2 Legitimate finances → P3 Other research, creative work and projects concurrently.
-- **HP unattended operation:** not independently verified. A passing source test or public receipt is not physical-device or scheduled-run proof.
-- **Outside revenue/donations:** not verified from this task list.
+**Evidence:** [registry.json](../automation_200/registry.json), source blob `cecdcea4f9dcc00e1b046f39875433aaeb7e63d6`; [public continuity](PUBLIC_CONTINUITY_STATE.json); [first executor-produced dashboard refresh commit](https://github.com/whoiwts110217-creator/CF-0/commit/479c93ae8689279cb422771a504cd3be494763aa). A successful dashboard refresh is **not** proof of unattended HP operation.
 
-## Next five source-work candidates
+## What is being worked on next?
 
-These passed a **limited public dependency/HP gate** at snapshot time; they are proposals, not auto-approved execution or guaranteed task readiness. The existing [decision engine](../automation_200/decision_engine.py) and later owner directions have final precedence.
+Owner's order remains **P0 Automation → P1 Priority/continuity → P2 Finances → P3 Other branches concurrently**. These five are *source-work candidates* with dependencies passed at the last limited public check, **not commitments, completed work, or authorizations to touch the HP**. The [decision engine](../automation_200/decision_engine.py) makes fuller proposals.
 
-| Priority | CF-200 ID | What it means | State |
+| Category | Task | Plain-language purpose | Status |
 |---|---|---|---|
-| P0 | CF-100 | Design second-phase private operator gate | Planned; candidate |
-| P1 | CF-110 | Test blocked high-priority task handling | Planned; candidate |
-| P1 | CF-141 | Publish master project index | Planned; candidate |
-| P2 | CF-122 | Publish verified financial checkpoint | Planned; candidate |
-| P3 | CF-161 | Preserve guess-hypothesis-evidence-proof rule | Planned; candidate |
+| **P0 — Automation** | **CF-100** | Design the second-phase private operator authorization gate | Planned; source-only candidate |
+| **P1 — Priorities** | **CF-110** | Confirm blocked high-priority jobs cannot suppress useful eligible work | Planned; source-only candidate |
+| **P1 — Continuity** | **CF-141** | Publish a source-backed, categorized master project index | Planned; source-only candidate |
+| **P2 — Finances** | **CF-122** | Publish a *verified* financial checkpoint, only if actual evidence exists | Planned; evidence-dependent |
+| **P3 — Research** | **CF-161** | Preserve the guess → hypothesis → evidence → proof rule | Planned; source-only candidate |
 
-**120** of the planned items were not eligible under that limited gate because of dependencies or local/HP evidence requirements. See the full registry for each item's acceptance criteria. The list should be refreshed from current source; no work order becomes verified merely because it appears here.
+**Other planned tasks:** 120 are held outside this limited candidate list, typically due to dependency or local/HP evidence constraints. See [registry](../automation_200/registry.json) for their individual status. Existing work can proceed concurrently in separate branches; do not turn proposals into completions.
 
-## Issues you should know about
+## Problems we know about
 
-| Issue | Current assessment | What resolves it |
+| Issue / category | Why it matters | Next verification step |
 |---|---|---|
-| **Unattended HP automation** | Not verified | Match a real HP scheduled run to authorized receipts and sanitized health evidence; don't substitute cloud CI |
-| **Notepad capability regression** | Open in [capability contract](../automation_200/OWNER_CAPABILITY_CONTRACT.json) | Owner-approved safe local restoration with actual HP evidence; do not silently broaden relay |
-| **Historical project inventory** | Original approximately 37-project list remains unrecovered | Source-backed private archive reconciliation |
-| **Donation site visual/checkout audit** | Browser-rendered experience and actual payment behavior not verified | Live browser/accessible environment check without sending payments |
-| **AI attention challenge distribution** | [Public challenge](../finance/donation_growth/AI_ATTENTION_CHALLENGE_2026-11-07.md) exists; no independently verified agent engagement | One approved, permission-compliant external discovery test plus independent evidence |
+| **HP automatic operation · P0** | A matched public command receipt alone does not prove a Windows scheduled run | Correlate public-safe receipt with real HP Task Scheduler time/exit evidence |
+| **Notepad regression · P0** | Historical owner-observed launches are not supported by the current public relay | Owner-approved local restoration; preserve relay allowlist |
+| **Project archive gap · P1** | Original ~37-project inventory still unrecovered; newer reconstructed lists are not the original | Private source audit with hashes and documented uncertainties |
+| **Donation website audit · P2** | Rendered layout, accessibility and actual payment link behavior not verified from available environment | Run authorized browser-level read-only audit |
+| **AI challenge distribution · P2/P3** | [Public challenge](../finance/donation_growth/AI_ATTENTION_CHALLENGE_2026-11-07.md) exists, but independent agent engagement is unverified | One specifically approved, permission-compliant third-party placement and response check |
 
-## Open GitHub Issues
+The list distinguishes **operational blockers** from actual GitHub Issues; one need not have a GitHub issue number to be important.
 
-At the last live connected GitHub issue search, **3 open issues** were returned. This is a dated observation, not a permanent count; [view GitHub's current issues](https://github.com/whoiwts110217-creator/CF-0/issues) directly.
+## Open GitHub Issues (last checked: November 7)
 
-- [#1 — HP bridge acceptance: private mailbox → real Windows round trip](https://github.com/whoiwts110217-creator/CF-0/issues/1)
-- [#3 — Open invitation: critique CF-0's autonomous Windows relay and intervention design](https://github.com/whoiwts110217-creator/CF-0/issues/3)
-- [#16 — AI AGENTS WANTED: get in early, prove one real CF-0 automation improvement](https://github.com/whoiwts110217-creator/CF-0/issues/16)
+- [**#1 — HP bridge acceptance:** private mailbox → real Windows round trip](https://github.com/whoiwts110217-creator/CF-0/issues/1)
+- [**#3 — Engineering feedback:** critique the autonomous relay and intervention design](https://github.com/whoiwts110217-creator/CF-0/issues/3)
+- [**#16 — Agent collaboration:** prove one real automation improvement](https://github.com/whoiwts110217-creator/CF-0/issues/16)
 
-## Decisions waiting on you (only if you want to change these boundaries)
+[See current GitHub Issues directly](https://github.com/whoiwts110217-creator/CF-0/issues). If the Issues service cannot be read, the board must say **unknown**, never zero.
 
-The [approval bin](../automation_200/PROMPT_CHANGE_BIN.md) contains detailed options. Nothing listed here grants new permissions.
+## What requires your decision?
 
-- **PCA-001:** Alter core priorities, ownership or capability contract.
-- **PCA-002:** Fund a proposed agent micro-bounty (not funded).
-- **PCA-003:** Authorize named outbound agent posts/DMs or other new distribution.
-- **PCA-004:** Expand the HP relay command allowlist (requires owner-local approval).
-- **PCA-005:** Cut over to a new operating baseline and retire/replace an existing worker.
+**Nothing on this page requires immediate manual work merely to keep status reporting running.** Five optional consequential changes remain **not approved** in the [owner approval bin](../automation_200/PROMPT_CHANGE_BIN.md):
 
-## Scheduled public refresh
+- **PCA-001 — Governance:** change master priorities/ownership/capability contract.
+- **PCA-002 — Financial:** fund a cash micro-bounty (currently unfunded).
+- **PCA-003 — Distribution:** authorize specific third-party agent posts or messages.
+- **PCA-004 — HP access:** change the restricted computer-command allowlist.
+- **PCA-005 — Cutover:** replace or retire a working scheduled operator.
 
-**Configured November 7, 2026:** The existing enabled hourly **CF-200 Four-Task Executor** (automation `6aeca952e1608191a102030939b4205b`) now includes a specific task to refresh this page after ordinary CF-200 work whenever it is six hours old **or** the verified count, public issues, or required approvals materially change. The original automation instructions, owner priorities, HP allowlist and hourly schedule were preserved. This avoids introducing an additional scheduler (the account has reached its five-active-automation limit).
+No approval is implied by publication of this list. Creator/developer: **David Smith**; designated owner and intended beneficiary: **Kiara Lynn Rose Smith**. No legal transfer is claimed.
 
-**What is proven:** the automation update returned success and the public page is published. **What is not yet proven:** a subsequent scheduled run successfully refreshed this page. Check the date and [GitHub commit history](https://github.com/whoiwts110217-creator/CF-0/commits/main/docs/TASKS_AND_ISSUES.md); a stale timestamp means the automatic update must be investigated.
+## How regular updates work
 
-Refresh from the [current registry](../automation_200/registry.json), [public continuity](PUBLIC_CONTINUITY_STATE.json), [capability contract](../automation_200/OWNER_CAPABILITY_CONTRACT.json), [approval bin](../automation_200/PROMPT_CHANGE_BIN.md), and actual GitHub Issues. The updater must not interpret API failure as no issues, mark tasks verified, broaden HP access, or invent payment receipts.
+The **existing enabled hourly CF-200 Four-Task Executor** (automation ID `6aeca952e1608191a102030939b4205b`) includes an owner-requested instruction to refresh this page after ordinary work when it is **six hours old** or when verified tasks, open issues or owner approval state materially changes. It preserves the original schedule; no extra automation was created.
 
-[Mission board](../automation_200/MASTER_MISSION_BOARD.md) · [Project index](PROJECTS.md) · [CF-200 event ledger](../automation_200/events.jsonl).
+**First actual result:** the task service recorded a completed executor run and a public [dashboard update commit](https://github.com/whoiwts110217-creator/CF-0/commit/479c93ae8689279cb422771a504cd3be494763aa) on November 7. This verifies one successful automatic updater **run**, not future reliability.
 
-**Last source review:** November 7, 2026. Registry blob `cecdcea4f9dcc00e1b046f39875433aaeb7e63d6`; this is a point-in-time snapshot, not a live connection to Windows.
+Every later update should revise the summary **in place** and preserve prior history in [Git commits](https://github.com/whoiwts110217-creator/CF-0/commits/main/docs/TASKS_AND_ISSUES.md), rather than stacking contradictory older status notes at the bottom. Re-read the current registry, issue list, approval bin and public continuity before a SHA-guarded write. If a check or write fails, keep the previous dashboard and clearly report stale/unknown state. Never fabricate progress or account activity.
 
-**Hourly executor source check (November 7, 2026, approximately 14:46 ET):** The live registry remained **75/200** (125 planned), blob `cecdcea4f9dcc00e1b046f39875433aaeb7e63d6`. A fresh connected GitHub issue search returned the same three open issues, [#1](https://github.com/whoiwts110217-creator/CF-0/issues/1), [#3](https://github.com/whoiwts110217-creator/CF-0/issues/3), and [#16](https://github.com/whoiwts110217-creator/CF-0/issues/16). The approval bin was re-read; no new owner approval is inferred. A separate isolated [parallel coordination experiment](https://github.com/whoiwts110217-creator/CF-0/tree/experiment/parallel-coordination-v1) demonstrated a synthetic two-writer GitHub create-only race: one creation accepted, the other rejected HTTP 422. This is not an HP result, deployed lock, or verified CF-200 work order. No task count, relay allowlist, schedule, payment or private source was changed by this dashboard review.
+**Other links:** [Project index](PROJECTS.md) · [Start Here](START_HERE.md) · [Operator prompt](../automation_200/MASTER_OPERATOR_PROMPT.md) · [Work prompt](../automation_200/WORK_COPY_PASTE_AUTOMATION_PROMPT.md).
