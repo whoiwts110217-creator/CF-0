@@ -468,3 +468,12 @@ The hourly public channel watchdog now runs priority selector and waiting-cycle 
 - The [registry](registry.json) and [append-only events](events.jsonl) record **58/200** verified. [Checkpoint 056](checkpoints/checkpoint_056.json) remains the latest numbered checkpoint. The private v3 audit covers an earlier snapshot. Full conversation exports and the original project inventory remain missing. Inspected public records establish no verified income.
 
 **Next eligible P0 work** is CF-075 malformed base64 result tests, then CF-088 repository identity and CF-183 Python transport verification without GitHub CLI.
+
+
+## CF-075 malformed GitHub base64 fail-closed patch — 2026-11-06
+
+- Required preflight source blobs: master operator `67ce4bf6d176a4fde9d35b050a9959f4da1994da`; continuity master `291a4836f26f6dd3b8664092adba777bee1f1f54`; [public self-referencing Work prompt](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) v1.0 `ee5aa07170ca4c9ec4c0c1ed5e63ee7c8dd3f431`. Next scheduled run must fetch all three anew from public `main`.
+- [Source patch](https://github.com/whoiwts110217-creator/CF-0/commit/15c6105af7c025cc541ea6611715b0db9d83563e): `relay/channel_audit.py` translates malformed base64 into a bounded ValueError, rather than an uncaught exception.
+- [Regression tests](https://github.com/whoiwts110217-creator/CF-0/commit/319e6a63fe9040d9c1abad248fbcd2595b838e9d): reject malformed/incorrectly typed GitHub contents and confirm live audit reports `unavailable` without counting an HP receipt. [Windows CI](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42334828972) and [watchdog](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42334828971) were queued at inspection; **CF-075 is not yet verified** until tests pass and acceptance evidence is reviewed.
+- Registry remains **58/200**; checkpoint **056**. Public HP heartbeat and independently correlated unattended Windows scheduling remain unverified; no HP commands, private continuity edits, or financial transactions occurred. Mission Control Pages deployment [succeeded](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42330226207); site route is `https://whoiwts110217-creator.github.io/CF-0/mission-control/`.
+- **Next three executable tasks:** (1) inspect CF-075 CI and verify acceptance if green, (2) CF-088 repository identity checks, (3) CF-183 Python transport entry-point tests without GitHub CLI.
