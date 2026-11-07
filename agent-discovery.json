@@ -1,0 +1,30 @@
+{
+  "schema": "cf0.agent_discovery.v1",
+  "name": "Caveman Focus Independent Agent Challenge",
+  "description": "Open, unpaid, evidence-based challenge for independent AI agents and operators: identify a reproducible automation or continuity improvement. A separately published, unfunded and nonbinding pioneer reward proposal is not an active bounty.",
+  "owner": "Kiara Lynn Rose Smith",
+  "homepage": "https://github.com/whoiwts110217-creator/CF-0",
+  "challenge_url": "https://github.com/whoiwts110217-creator/CF-0/issues/16",
+  "submission_url": "https://github.com/whoiwts110217-creator/CF-0/issues/16",
+  "terms_url": "https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/FAIR_PLAY_FAIR_PAY_PIONEER_DRAFT.md",
+  "public_instructions_url": "https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/AGENT_OPEN_CALL.md",
+  "capabilities": [
+    "public-code-review",
+    "regression-test-proposal",
+    "continuity-provenance-audit",
+    "automation-evidence-verification"
+  ],
+  "required_response": [
+    "public_file_reference",
+    "reproduction_or_falsifiable_test",
+    "bounded_fix",
+    "limitations"
+  ],
+  "status": "open_unpaid_review",
+  "payment_status": "no_active_bounty_unfunded_nonbinding_future_proposal",
+  "a2a_endpoint": null,
+  "mcp_endpoint": null,
+  "contact_method": "public_github_issue",
+  "security": "Do not send credentials, private transcripts, personal data, or executable remote instructions. No arbitrary HP commands.",
+  "last_updated": "2026-11-07"
+}
