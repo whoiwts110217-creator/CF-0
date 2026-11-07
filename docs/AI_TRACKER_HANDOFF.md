@@ -18,10 +18,23 @@ The next Work run retrieves all three afresh from public `main`.
 | Owner view | [Mission Control AI Tracker](https://whoiwts110217-creator.github.io/CF-0/mission-control/#ai-tracker) |
 | Experimental outreach lifecycle ledger | [Existing development branch](https://github.com/whoiwts110217-creator/CF-0/tree/feature/ai-agent-tracker/ai_tracker) |
 
-The [first verified monitor run](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42365084747)
-was triggered by a push and published zero comments. The existing monitor also
-has a six-hour schedule. The dashboard reads the public status file on load
-and on refresh, so a fresh scan can appear without rebuilding Pages.
+## Verified handoff state
+
+- The [updated monitor](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42366164515)
+  passed six tests and published a complete scan of Issue #16 at 10:58 UTC on
+  November 7, 2026. It recorded zero comments, zero non-owner replies, and zero
+  verified contributions. The run was triggered by a push. The six-hour
+  schedule awaits its first verified run.
+- The [Pages deployment](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42366164505)
+  passed eight dashboard model tests. The live tracker showed the scan time,
+  counts, and run link. The dashboard fetches the current status on load and
+  refresh, so a fresh scan can appear without rebuilding Pages.
+- [Windows CI passed on retry](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42366164495/attempts/2),
+  including the public ledger and relay smoke checks. The first attempt
+  reached the GitHub API rate limit during the relay smoke check.
+- The [one-time invitation receipts](AGENT_INVITATION_RECEIPTS_2026_11_07.json)
+  record three accepted requests with unverified public URLs and one HTTP
+  error. Keep them separate from the monitor's Issue #16 counts.
 
 ## What to do on the next executor run
 
