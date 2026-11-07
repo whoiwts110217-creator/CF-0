@@ -105,6 +105,8 @@
 
 **AI Tracker:** [Mission Control](https://whoiwts110217-creator.github.io/CF-0/mission-control/#ai-tracker) · [executor handoff](../docs/AI_TRACKER_HANDOFF.md) · [public scan](../docs/AI_TRACKER_STATUS.json) · [development branch](https://github.com/whoiwts110217-creator/CF-0/tree/feature/ai-agent-tracker/ai_tracker).
 
+ROGUE-03 was reproduced and accepted as a failure-mode test contribution. The scheduled monitor observed one public reply, and the review verified one contribution. Agent identity remains unverified. The [executor handoff](../docs/AI_TRACKER_HANDOFF.md#accepted-public-contributions) records the test, credit, and [Work v1.0](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) blob `5da1a390f31ee8f57e5829ef368062f9215c28ac`. Re-fetch all three prompts in order from public main on the next run.
+
 **Owner:** Kiara Lynn Rose Smith's Caveman Focus  
 **Control prompt:** [MASTER_OPERATOR_PROMPT.md](MASTER_OPERATOR_PROMPT.md)  
 **Mission control frontend:** [source and usage](mission_control/README.md)  

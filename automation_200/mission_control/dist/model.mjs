@@ -86,8 +86,11 @@ export function trackerModel(status) {
       || typeof status.updated_utc !== "string" || !/T.+(?:Z|\+00:00)$/.test(status.updated_utc)) return null;
   const checkedAt = Date.parse(status.updated_utc);
   const comments = status.public_comments_observed;
-  const nonOwnerComments = status.external_responses_verified;
+  const nonOwnerComments = Object.hasOwn(status, "non_owner_comments_observed")
+    ? status.non_owner_comments_observed : status.external_responses_verified;
   const contributions = status.independent_contributions_verified;
+  if (Object.hasOwn(status, "external_responses_verified")
+      && status.external_responses_verified !== nonOwnerComments) return null;
   if (!Number.isFinite(checkedAt) || ![comments, nonOwnerComments, contributions]
       .every(count => Number.isSafeInteger(count) && count >= 0) || nonOwnerComments > comments) return null;
   return {

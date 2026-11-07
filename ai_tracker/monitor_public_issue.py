@@ -14,6 +14,10 @@ GITHUB = f"https://github.com/{REPOSITORY}"
 ISSUE_URL = f"{GITHUB}/issues/{ISSUE}"
 API = f"https://api.github.com/repos/{OWNER}/{REPO}/issues/{ISSUE}/comments?per_page=100"
 MAX_PAGES = 5
+REPORT_BASIS = (
+    "Public Issue #16 comment observations. external_responses_verified is a compatibility alias "
+    "for non_owner_comments_observed."
+)
 
 
 def fetch_comments():
@@ -43,16 +47,17 @@ def summarize(comments):
         if type(identifier) is not int or identifier <= 0:
             raise ValueError("Invalid GitHub issue comment ID")
         by_id[identifier] = comment
-    external = []
+    non_owner_urls = []
     for identifier, comment in by_id.items():
         user = comment.get("user")
         login = user.get("login") if isinstance(user, dict) else None
         if isinstance(login, str) and login and login.casefold() != OWNER.casefold():
-            external.append(f"{ISSUE_URL}#issuecomment-{identifier}")
+            non_owner_urls.append(f"{ISSUE_URL}#issuecomment-{identifier}")
     return {
         "public_comments_observed": len(by_id),
-        "external_responses_verified": len(external),
-        "external_response_urls": external,
+        "non_owner_comments_observed": len(non_owner_urls),
+        "external_responses_verified": len(non_owner_urls),  # Compatibility for existing v1 readers.
+        "external_response_urls": non_owner_urls,
     }
 
 
@@ -67,7 +72,7 @@ def main():
     previous["updated_utc"] = dt.datetime.now(dt.timezone.utc).isoformat()
     previous["phase"] = "scheduled_public_issue_monitor"
     previous["comment_scan_complete"] = complete
-    previous["report_basis"] = "Public Issue #16 comments. External responses count comments with a known non-owner account."
+    previous["report_basis"] = REPORT_BASIS
     previous["limitations"] = f"Up to {MAX_PAGES * 100} public comments. Agent identity and contributions require separate evidence."
 
     previous.pop("last_check_run_url", None)
@@ -87,7 +92,7 @@ def main():
     output.write_text(json.dumps(previous, indent=2) + "\n", encoding="utf-8")
     print(json.dumps({
         "public_comments_observed": result["public_comments_observed"],
-        "non_owner_comments_observed": result["external_responses_verified"],
+        "non_owner_comments_observed": result["non_owner_comments_observed"],
         "scan_complete": complete,
     }, sort_keys=True))
 

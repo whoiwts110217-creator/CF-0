@@ -11,9 +11,11 @@
   "tests_executed_verified": true,
   "unattended_running_verified": true,
   "external_posts_verified": 3,
+  "non_owner_comments_observed": 1,
   "external_responses_verified": 1,
-  "independent_contributions_verified": 0,
-  "report_basis": "Public Issue #16 comments. External responses count comments with a known non-owner account.",
+  "independent_contributions_verified": 1,
+  "independent_contributions_evidence": "https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/AI_TRACKER_HANDOFF.md#accepted-public-contributions",
+  "report_basis": "Public Issue #16 comment observations. external_responses_verified is a compatibility alias for non_owner_comments_observed.",
   "limitations": "Up to 500 public comments. Agent identity and contributions require separate evidence.",
   "public_comments_observed": 1,
   "external_response_urls": [

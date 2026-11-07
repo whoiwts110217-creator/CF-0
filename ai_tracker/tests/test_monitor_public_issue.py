@@ -56,19 +56,35 @@ class PublicIssueMonitorTests(unittest.TestCase):
         ])
         self.assertEqual(summary, {
             "public_comments_observed": 3,
+            "non_owner_comments_observed": 1,
             "external_responses_verified": 1,
             "external_response_urls": [monitor.ISSUE_URL + "#issuecomment-2"],
         })
         with self.assertRaisesRegex(ValueError, "comment ID"):
             monitor.summarize([{"id": True}])
 
+    def test_rogue_03_plain_non_owner_comments_only_change_observations(self):
+        visitor = {"id": 1, "user": {"login": "visitor"}, "body": "Hello"}
+        owner = {"id": 2, "user": {"login": monitor.OWNER}}
+        second_visitor = {"id": 3, "user": {"login": "second-visitor"}}
+        cases = (([visitor], 1), ([owner], 0), ([visitor, owner, second_visitor], 2))
+        for comments, expected in cases:
+            with self.subTest(expected=expected):
+                result = monitor.summarize(comments)
+                self.assertEqual(result["non_owner_comments_observed"], expected)
+                self.assertEqual(result["external_responses_verified"], expected)
+                self.assertNotIn("independent_contributions_verified", result)
+
     def test_observation_keeps_scheduled_evidence_and_prior_contribution_count(self):
+        visitor = {"id": 1, "user": {"login": "visitor"}, "body": "Hello"}
+        review_link = monitor.GITHUB + "/blob/main/docs/AI_TRACKER_HANDOFF.md#accepted-public-contributions"
         with tempfile.TemporaryDirectory() as folder:
             output = Path(folder) / "status.json"
             output.write_text(json.dumps({
                 "schema": "cf0.ai_tracker.status.v1",
                 "issue_url": monitor.ISSUE_URL,
                 "independent_contributions_verified": 2,
+                "independent_contributions_evidence": review_link,
             }), encoding="utf-8")
             environment = {"AI_TRACKER_OUTPUT": str(output), "GITHUB_REPOSITORY": monitor.REPOSITORY}
             with patch.dict(os.environ, environment, clear=True), redirect_stdout(io.StringIO()):
@@ -77,13 +93,15 @@ class PublicIssueMonitorTests(unittest.TestCase):
                     with self.assertRaises(OSError):
                         monitor.main()
                     self.assertEqual(output.read_bytes(), previous)
-                with patch.object(monitor, "fetch_comments", return_value=([], True)):
+                with patch.object(monitor, "fetch_comments", return_value=([visitor], True)):
                     for event, run in (("schedule", "123"), ("push", "124")):
                         with patch.dict(os.environ, {"GITHUB_EVENT_NAME": event, "GITHUB_RUN_ID": run}):
                             monitor.main()
             saved = json.loads(output.read_text(encoding="utf-8"))
             self.assertEqual(saved["last_check_run_url"], monitor.GITHUB + "/actions/runs/124")
             self.assertEqual(saved["last_scheduled_run_url"], monitor.GITHUB + "/actions/runs/123")
-            self.assertEqual(saved["public_comments_observed"], 0)
+            self.assertEqual(saved["public_comments_observed"], 1)
+            self.assertEqual(saved["non_owner_comments_observed"], 1)
             self.assertEqual(saved["independent_contributions_verified"], 2)
+            self.assertEqual(saved["independent_contributions_evidence"], review_link)
             self.assertTrue(saved["comment_scan_complete"])

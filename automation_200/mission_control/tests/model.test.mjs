@@ -141,3 +141,14 @@ test("keeps static or contradictory tracker counts out of the dashboard", () => 
     assert.equal(trackerModel(invalid), null);
   }
 });
+
+test("reads explicit non-owner counts separately from reviewed contributions", () => {
+  const { external_responses_verified: legacyCount, ...observations } = tracker;
+  const explicit = { ...observations, non_owner_comments_observed: legacyCount };
+  assert.equal(trackerModel(explicit).nonOwnerComments, 1);
+  assert.equal(trackerModel(explicit).contributions, 0);
+  assert.equal(trackerModel({ ...explicit, independent_contributions_verified: 1 }).contributions, 1);
+  assert.equal(trackerModel({ ...explicit, external_responses_verified: 1 }).nonOwnerComments, 1);
+  assert.equal(trackerModel({ ...explicit, external_responses_verified: 0 }), null);
+  assert.equal(trackerModel({ ...tracker, non_owner_comments_observed: null }), null);
+});
