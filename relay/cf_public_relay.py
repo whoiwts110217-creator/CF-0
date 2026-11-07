@@ -94,13 +94,16 @@ class HttpRepo:
                 data=res.read(1_000_001)
                 if len(data)>1_000_000:raise RelayError('response_too_large')
                 return json.loads(data)
+        # Do not chain lower-level exceptions into task/runner logs. A library
+        # error may embed a token, URL, response body, or request details.
+        # Only fixed, public-safe reason codes leave the HTTP boundary.
         except urllib.error.HTTPError as e:
             if e.code==404 and method=='GET': return None
-            raise RelayError('github_http_'+str(e.code)) from e
-        except (urllib.error.URLError,TimeoutError,OSError) as e:
-            raise RelayError('github_unreachable') from e
-        except (ValueError, UnicodeDecodeError) as e:
-            raise RelayError('github_invalid_json') from e
+            raise RelayError('github_http_'+str(e.code)) from None
+        except (urllib.error.URLError,TimeoutError,OSError):
+            raise RelayError('github_unreachable') from None
+        except (ValueError, UnicodeDecodeError):
+            raise RelayError('github_invalid_json') from None
     def files(self):
         path=f'/repos/{self.repo}/contents/command_queue/inbox?ref=main'
         data=self.request('GET',path)
