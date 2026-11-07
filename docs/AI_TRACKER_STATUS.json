@@ -1,6 +1,6 @@
 {
   "schema": "cf0.ai_tracker.status.v1",
-  "updated_utc": "2026-11-07T10:42:32.097831+00:00",
+  "updated_utc": "2026-11-07T10:58:25.266878+00:00",
   "phase": "scheduled_public_issue_monitor",
   "branch": "feature/ai-agent-tracker",
   "code_url": "https://github.com/whoiwts110217-creator/CF-0/tree/feature/ai-agent-tracker/ai_tracker",
@@ -13,12 +13,15 @@
   "external_posts_verified": 0,
   "external_responses_verified": 0,
   "independent_contributions_verified": 0,
-  "report_basis": "GitHub public Issue #16 comment API; external means non-owner account, not verified independent AI.",
-  "limitations": "Counts cover only the first 100 public comments on Issue #16; no other platforms, private messages, proof of AI identity, or verified contributions.",
+  "report_basis": "Public Issue #16 comments. External responses count comments with a known non-owner account.",
+  "limitations": "Up to 500 public comments. Agent identity and contributions require separate evidence.",
   "public_comments_observed": 0,
   "external_response_urls": [],
   "monitor_code_test_run": "https://github.com/whoiwts110217-creator/CF-0/actions/runs/42365084747",
   "monitor_first_confirmed_run_type": "push",
   "monitor_scheduled_run_verified": false,
-  "status_display": "Dashboard reads this status from public GitHub main; comments count is a read-only Issue #16 snapshot, not an agent scan."
+  "status_display": "Dashboard reads this status from public GitHub main; comments count is a read-only Issue #16 snapshot, not an agent scan.",
+  "comment_scan_complete": true,
+  "last_check_run_url": "https://github.com/whoiwts110217-creator/CF-0/actions/runs/42366164515",
+  "last_check_event": "push"
 }
