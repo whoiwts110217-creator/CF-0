@@ -46,6 +46,33 @@ class HealthWatchTests(unittest.TestCase):
         self.assertEqual(result["scheduled_origin"], "not_verified_by_public_report")
         self.assertEqual(result["seven_day_unattended"], "not_verified")
 
+    def test_pinned_public_health_read_is_exact_and_read_only(self):
+        """A historical commit lookup cannot silently fall back to live main."""
+        commit = "a" * 40
+        called = []
+        def read(url):
+            called.append(url)
+            return encoded(sample(30))
+        result = watch(now=NOW, getter=read, commit=commit)
+        self.assertEqual(called, [URL.removesuffix("main") + commit])
+        self.assertEqual(result["state"], "fresh_public_report")
+        self.assertEqual(result["scheduled_origin"], "not_verified_by_public_report")
+        self.assertEqual(result["physical_hp_identity"], "not_attested_by_public_report")
+        self.assertEqual(result["seven_day_unattended"], "not_verified")
+
+    def test_rejects_untrusted_commit_before_any_network_access(self):
+        called = []
+        def read(url):
+            called.append(url)
+            raise AssertionError("must not call remote getter")
+        for bad in ("", "main", "A" * 40, "a" * 39, "a" * 41,
+                    "../private", "a" * 40 + "?path=secret", None):
+            if bad is None:
+                continue
+            with self.subTest(commit=bad), self.assertRaises(ValueError):
+                watch(now=NOW, getter=read, commit=bad)
+        self.assertEqual(called, [])
+
     def test_missing_report_does_not_fake_hp_heartbeat(self):
         def missing(url):
             raise urllib.error.HTTPError(url, 404, "Not Found", None, None)
