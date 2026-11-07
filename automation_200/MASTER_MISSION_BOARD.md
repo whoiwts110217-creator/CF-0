@@ -1,3 +1,13 @@
+
+## November 7, 2026 — owner-facing public task and issue dashboard
+
+- **Owner's request:** maintain an understandable **public** task list and issue list regularly, without adding competing registries or disabling established work. Published [Tasks & Issues](../docs/TASKS_AND_ISSUES.md), [commit 81488a5](https://github.com/whoiwts110217-creator/CF-0/commit/81488a5bc0adda7f8286e0db42e44f20e097b273). Registry snapshot updated using main blob `cecdcea4f9dcc00e1b046f39875433aaeb7e63d6` (75/200 verified at that inspection) in [commit 807288d](https://github.com/whoiwts110217-creator/CF-0/commit/807288de133a5b89bd87d1612c79c80658bdb041).
+- **Prominent entry points:** [README](../README.md) updated in [commit 7189d07](https://github.com/whoiwts110217-creator/CF-0/commit/7189d071ac98885db9f7e1ec7b01268c9dc28fc5); [Start Here](../docs/START_HERE.md) in [commit 63ad173](https://github.com/whoiwts110217-creator/CF-0/commit/63ad17370550731ea2b0a8147383e73ee1256ab1).
+- **Existing automation, not a duplicate:** updated the **enabled hourly CF-200 Four-Task Executor**, ID `6aeca952e1608191a102030939b4205b`, using the owner's specific request to refresh the public dashboard if at least 6 hours old or material evidence changed. Verified updated automation prompt and unchanged hourly schedule via task service. The fifth task limit prevented adding a new task; none of the five existing enabled tasks was disabled or rescheduled.
+- **Source/authority scope:** current public operator blob `f8f0c94c28cd28cc0402daf4f21bd875e1417932`, continuity blob `cac63dead1e00592c1d12ea6562639b02893d81f`, Work blob `5da1a390f31ee8f57e5829ef368062f9215c28ac`; next run must fetch all fresh again. Scheduled prompt was **appended**, not replaced. No public master prompt edits, changed HP allowlist, outreach authorization, payments, or verified CF-200 task status.
+- **Proof limit:** public board exists and automation update succeeded, but **no subsequent scheduled refresh has yet been verified**. See commit history and timestamp; a stale dashboard is a failure to investigate, not evidence that nothing changed.
+- **Next:** verify the next eligible hourly run actually writes the board when due or material changes occur; keep the board concise and link to authoritative registry, issue API, and approval bin. Main CF-200 technical execution retains P0 priority.
+
 ## November 7, 2026 — Dreamkiller Chapter One filed (P3 creative design)
 
 - **Source preflight:** operator blob `f8f0c94c28cd28cc0402daf4f21bd875e1417932`, continuity `cac63dead1e00592c1d12ea6562639b02893d81f`, Work `5da1a390f31ee8f57e5829ef368062f9215c28ac`, plus Dreamkiller's complete public master, inspected. Next Work run must retrieve all three operational prompts freshly from main.
