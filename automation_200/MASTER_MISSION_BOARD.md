@@ -12,6 +12,15 @@
 **Last numbered checkpoint:** [064](checkpoints/checkpoint_064.json) (next numbered checkpoint 068).\
 **Public continuity handoff:** [docs/CONTINUITY.md](../docs/CONTINUITY.md) · [dated state](../docs/PUBLIC_CONTINUITY_STATE.json). Historical counts in the entries below remain snapshots, not live status.
 
+
+## November 7 — navigation deployment safeguard
+
+- Mandatory public main preflight: operator blob `67ce4bf6d176a4fde9d35b050a9959f4da1994da`; continuity blob `291a4836f26f6dd3b8664092adba777bee1f1f54`; [self-referential Work prompt](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) blob `ee5aa07170ca4c9ec4c0c1ed5e63ee7c8dd3f431`. Next run must retrieve all three again in order.
+- [Public website deployment run 42363961882](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42363961882) completed **successfully**; this confirms deployment workflow success, not independent browser reachability.
+- Added a staged-pages navigation smoke gate to [publish-website.yml](../.github/workflows/publish-website.yml) in [commit 928fb91](https://github.com/whoiwts110217-creator/CF-0/commit/928fb91fd913ac280f0295de10b66bb81a53dd4d). It checks links to the owner hub, master operator prompt and AI tracker from both site and Mission Control, plus reciprocal home/dashboard navigation. The new workflow run is not yet confirmed passing; do not claim its tests passed until checked.
+- Registry remains **65/200 verified** (registry blob `8f94deeb754601868efc05e99f81820294c67c54`); no registry status changed and no numbered checkpoint was added. `relay/health/latest.json` returned 404, so there is no fresh public HP heartbeat and no independent scheduled-poll correlation. No private archive imported or copy/paste eliminated in this run.
+- **Next three:** (1) inspect CI for navigation smoke gate and repair if failing; (2) investigate public-safe health-report publication without changing HP allowlist; (3) advance CF-091 secret-exclusion diagnostics with acceptance tests.
+
 ## Owner-defined strategy
 
 **P0 AUTOMATE → P1 PRIORITIZE → P2 GENERATE LEGITIMATE INCOME → P3 OTHER PROJECTS IN PARALLEL.**
