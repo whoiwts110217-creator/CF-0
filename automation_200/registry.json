@@ -3,7 +3,7 @@
   "owner": "Kiara Lynn Rose Smith",
   "project": "Caveman Focus",
   "target": 200,
-  "completed": 64,
+  "completed": 65,
   "checkpoint_every": 4,
   "status": "WORK_IN_PROGRESS",
   "note": "A planned item is not a completed task. Physical HP outcomes require owner-HP evidence.",
@@ -1395,8 +1395,8 @@
       "depends_on": [
         "CF-107"
       ],
-      "status": "planned",
-      "evidence": null,
+      "status": "verified",
+      "evidence": "a2adeaf81cf0fca10bc94c1fdb181d9b9d862d0d scopes the four-item git-checkpoint command to the registry, event log, and numbered snapshot. Windows CI https://github.com/whoiwts110217-creator/CF-0/actions/runs/42362253930/job/128372899805 passed the real temporary Git regression. It rejected three completions, committed the fourth and eighth, preserved the earlier snapshot bytes, kept an unrelated file staged, and made no extra commit on repeat. The actual checkpoint 064 was generated from the exact 64-item registry and the local git-checkpoint repeat left its saved tree unchanged.",
       "authority": "owner-reviewed",
       "physical_hp_required": false
     },
