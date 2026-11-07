@@ -214,6 +214,31 @@ class Tests(unittest.TestCase):
             with self.assertRaises(r.RelayError):mailbox.publish(jid,expected)
             self.assertEqual(calls,['GET'])
 
+    def test_malformed_github_base64_is_controlled_and_never_executed(self):
+        """Corrupt inbox bytes must not bypass the relay error boundary."""
+        job = r.make_job('ping')
+        repo = r.HttpRepo(token='local-test')
+        for content in ('%%%', 'a', '////='):
+            with self.subTest(content=content):
+                repo.request = lambda method, path, payload=None: {'encoding': 'base64', 'content': content}
+                with self.assertRaisesRegex(r.RelayError, 'invalid_file_data'):
+                    repo.load(job['id'] + '.json')
+
+    def test_malformed_existing_receipt_base64_never_overwrites(self):
+        """Corrupt existing public receipts must not trigger a replacement PUT."""
+        job = r.make_job('ping')
+        result = {'pong': True, 'protocol': 1}
+        receipt = {'v': 2, 'id': job['id'], 'request_sha256': r.sha(job),
+                   'status': 'completed', 'result': result, 'response_sha256': r.sha(result)}
+        repo = r.HttpRepo(token='local-test')
+        for content in ('%%%', 'a', '////='):
+            with self.subTest(content=content):
+                with patch.object(repo, 'request', return_value={'encoding': 'base64', 'content': content}) as request:
+                    with self.assertRaisesRegex(r.RelayError, 'receipt_unreadable'):
+                        repo.publish(job['id'], receipt)
+                    self.assertEqual(request.call_count, 1)
+                    self.assertEqual(request.call_args.args[0], 'GET')
+
     def test_existing_receipt_versions_match_without_rewriting(self):
         job = r.make_job("ping")
         job_id = job["id"]
