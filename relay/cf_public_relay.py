@@ -125,7 +125,56 @@ class HttpRepo:
     repo: str=REPO
     api: str=API
     token: str | None=None
+    # Explicit dependency injection for the offline integration test harness.
+    # The real CLI never sets this; test endpoints must remain loopback only.
+    test_loopback: bool=False
+
+    def _assert_fixed_target(self, method: str, path: str) -> None:
+        if self.repo != REPO:
+            raise RelayError('repo_override_not_allowed')
+        if self.api != API:
+            url = urllib.parse.urlsplit(self.api)
+            if (self.test_loopback is not True or url.scheme != 'http'
+                    or url.hostname != '127.0.0.1' or url.port is None
+                    or url.username or url.password or url.query or url.fragment
+                    or url.path not in ('', '/')):
+                raise RelayError('api_override_not_allowed')
+        if type(path) is not str or type(method) is not str:
+            raise RelayError('invalid_repo_request')
+        prefix = f'/repos/{REPO}/contents/'
+        if not path.startswith(prefix):
+            raise RelayError('repo_override_not_allowed')
+        target = path[len(prefix):]
+        action = ('GET' if method == 'GET' else
+                  'PUT' if method == 'PUT' else None)
+        valid_get = (
+            target == 'command_queue/inbox?ref=main'
+            or target == 'relay/health/latest.json?ref=main'
+            or (target.startswith('command_queue/inbox/')
+                and target.endswith('.json?ref=main')
+                and UUID.fullmatch(target[len('command_queue/inbox/'):-len('.json?ref=main')]) is not None)
+            or (target.startswith('command_queue/receipts/')
+                and target.endswith('.json?ref=main')
+                and UUID.fullmatch(target[len('command_queue/receipts/'):-len('.json?ref=main')]) is not None)
+        )
+        valid_put = (
+            target == 'relay/health/latest.json'
+            or (target.startswith('command_queue/receipts/')
+                and target.endswith('.json')
+                and UUID.fullmatch(target[len('command_queue/receipts/'):-len('.json')]) is not None)
+        )
+        if not ((action == 'GET' and valid_get)
+                or (action == 'PUT' and valid_put)):
+            raise RelayError('invalid_repo_request')
+
+    def __post_init__(self):
+        # Do not accept arbitrary repository redirects even when callers
+        # instantiate this class directly instead of using the fixed CLI.
+        self._assert_fixed_target('GET', f'/repos/{REPO}/contents/command_queue/inbox?ref=main')
+
     def request(self,method: str,path:str,payload:dict | None=None) -> Any:
+        # Recheck immediately before network I/O: dataclasses are mutable.
+        self._assert_fixed_target(method, path)
         url=self.api.rstrip('/')+path
         data=dump(payload) if payload is not None else None
         headers={'Accept':'application/vnd.github+json','User-Agent':AGENT,'X-GitHub-Api-Version':'2022-11-28'}
