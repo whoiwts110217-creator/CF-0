@@ -3,7 +3,7 @@
 **Control prompt:** [MASTER_OPERATOR_PROMPT.md](MASTER_OPERATOR_PROMPT.md)  
 **Mission control frontend:** [source and usage](mission_control/README.md)  
 **System of record:** [registry.json](registry.json) · [events.jsonl](events.jsonl) · [checkpoints/](checkpoints/)  
-**Current source registry:** **60/200 verified** as of November 7, 2026; [registry.json](registry.json) is authoritative.\
+**Current source registry:** **61/200 verified** as of November 7, 2026; [registry.json](registry.json) is authoritative.\
 **Last numbered checkpoint:** [060](checkpoints/checkpoint_060.json) (next numbered checkpoint 064).\
 **Public continuity handoff:** [docs/CONTINUITY.md](../docs/CONTINUITY.md) · [dated state](../docs/PUBLIC_CONTINUITY_STATE.json). Historical counts in the entries below remain snapshots, not live status.
 
@@ -28,13 +28,12 @@
 
 | Rank | ID | Output and acceptance |
 |---|---|---|
-| 1 | CF-069 | Preserve uncertainty when a worker stops before a durable receipt. Use a controlled interruption and check what can be recovered. |
-| 2 | CF-088 | Verify repository identity against GitHub metadata and the relay configuration. |
-| 3 | CF-183 | Verify the real Python transport entry point without the GitHub CLI. |
-| 4 | CF-108 | Validate four-item checkpoint creation and preservation under repeated runs. |
-| 5 | CF-141 | Link existing public project sources from the master index and keep the original list gap visible. |
+| 1 | CF-089 | Verify who can write GitHub queue commands and what issuer evidence the relay can establish. |
+| 2 | CF-183 | Verify the Python transport entry point without the GitHub CLI. |
+| 3 | CF-108 | Validate four-item checkpoint creation and preservation under repeated runs. |
+| 4 | CF-141 | Link existing public project sources from the master index and keep the original list gap visible. |
 
-CF-027 still needs a non-admin Windows installation test. CF-042 needs a backup of the existing Domino data on the owner HP. Advance other eligible work while these checks are blocked.
+CF-077 needs an actual receipt upload correlated with an HP run. CF-027 still needs a non-admin Windows installation test. CF-042 needs a backup of the existing Domino data on the owner HP. Advance other eligible work while these checks are blocked.
 
 ## Creative work inventory for concurrent safe drafting
 
@@ -543,3 +542,12 @@ The hourly public channel watchdog now runs priority selector and waiting-cycle 
 - Existing private v2 backup remains historical evidence only, not re-read this run; original ~37-project list and full conversation exports remain unresolved. No capability or schedule changed. No owner copy/paste was needed for source inspection and commits; HP automatic feedback loop still unverified.
 
 **Next three:** (1) inspect CI 42357134308 and repair any regression; (2) test the CF-077 upload/replay acceptance boundary with a successful synthetic HTTP round-trip and then decide whether task-specific acceptance is met; (3) continue P0 public health reporting and source-only CF-088 repository identity verification without claiming physical HP scheduling.
+
+## CF-088 repository identity verified — November 7, 2026 ET
+
+- Read the complete [operator v1.0](MASTER_OPERATOR_PROMPT.md), [continuity v1.0](MASTER_CONTINUITY_PROMPT.md), and [Work v1.0](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) in order on [public main](https://github.com/whoiwts110217-creator/CF-0/commit/334ff6168687682ef08b23f632119eafc0f2fd4f). Their blobs were `67ce4bf6d176a4fde9d35b050a9959f4da1994da`, `291a4836f26f6dd3b8664092adba777bee1f1f54`, and `ee5aa07170ca4c9ec4c0c1ed5e63ee7c8dd3f431`. The next Work run retrieves all three afresh from public `main` in that order.
+- GitHub metadata matched `whoiwts110217-creator/CF-0`, repository ID `1444521490`, and default branch `main`. [The setup probe](https://github.com/whoiwts110217-creator/CF-0/commit/fbc687fc5ab835dd21a67dd1fed1331c8d81a224) now checks all three before it can write. [Windows CI](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42357079051) passed the offline identity checks for matching and mismatched metadata and the regression for checking identity before an upload. Acceptance covers the repository and Windows CI.
+- Recorded CF-088 at **61/200** in the registry and appended its evidence event. [Checkpoint 060](checkpoints/checkpoint_060.json) was [restored](https://github.com/whoiwts110217-creator/CF-0/commit/3d46629c2286122a9bdd0e5f9dcec2233054ce7e) for the preceding four verified work orders, and [Windows CI](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42356907186) passed the checkpoint repair. The next numbered checkpoint is due at 064.
+- The [watchdog](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42355299863) matched 10 public receipts. The fixed HP health report remains unpublished. Historical owner-run observations establish manual activity. CF-077 still requires an upload correlated with an actual HP run. This source work needed no clipboard handoff. The private master record was reviewed, and the existing private backup audit covers an earlier registry. The original project inventory and complete transcripts remain gaps. Verified income remains unestablished in the reviewed records.
+
+**Next eligible work** is CF-089 issuer write permissions, CF-183 Python transport without GitHub CLI, and CF-108 four-item checkpoint workflow verification.
