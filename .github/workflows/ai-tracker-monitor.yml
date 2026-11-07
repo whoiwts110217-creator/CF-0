@@ -1,0 +1,28 @@
+name: AI Tracker public response monitor
+on:
+  schedule:
+    - cron: '17 */6 * * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: ai-tracker-public-monitor
+  cancel-in-progress: false
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+      - name: Check public agent responses
+        run: python ai_tracker/monitor_public_issue.py
+      - name: Commit changed public status only
+        run: |
+          if ! git diff --quiet -- docs/AI_TRACKER_STATUS.json; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add docs/AI_TRACKER_STATUS.json
+            git commit -m "Update public AI Tracker issue response status"
+            git push
+          fi
