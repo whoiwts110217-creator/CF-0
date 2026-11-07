@@ -3,7 +3,7 @@
 **Control prompt:** [MASTER_OPERATOR_PROMPT.md](MASTER_OPERATOR_PROMPT.md)  
 **Mission control frontend:** [source and usage](mission_control/README.md)  
 **System of record:** [registry.json](registry.json) · [events.jsonl](events.jsonl) · [checkpoints/](checkpoints/)  
-**Current source registry:** **58/200 verified** as of November 6, 2026; [registry.json](registry.json) is authoritative.\
+**Current source registry:** **59/200 verified** as of November 7, 2026; [registry.json](registry.json) is authoritative.\
 **Last numbered checkpoint:** [056](checkpoints/checkpoint_056.json) (next numbered checkpoint 060).\
 **Public continuity handoff:** [docs/CONTINUITY.md](../docs/CONTINUITY.md) · [dated state](../docs/PUBLIC_CONTINUITY_STATE.json). Historical counts in the entries below remain snapshots, not live status.
 
