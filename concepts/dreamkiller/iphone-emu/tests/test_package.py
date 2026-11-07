@@ -27,6 +27,11 @@ class PocketPackageTests(unittest.TestCase):
         expected=(data[0x14e]<<8)|data[0x14f]
         actual=(sum(data[:0x14e])+sum(data[0x150:]))&65535
         self.assertEqual(expected,actual)
+    def test_original_rom_rebuilds_byte_for_byte(self):
+        import runpy
+        source = runpy.run_path(str(SITE/'road-test-source.py'))
+        self.assertEqual(source['build_rom'](), (SITE/'road-test.gb').read_bytes())
+
     def test_pwa_can_cache_all_required_local_assets(self):
         manifest=json.loads((SITE/'manifest.webmanifest').read_text(encoding='utf-8'))
         self.assertEqual(manifest['display'],'standalone')
