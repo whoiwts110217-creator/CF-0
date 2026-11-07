@@ -4,6 +4,7 @@ on:
     branches: [main]
     paths:
       - 'index.html'
+      - 'docs/START_HERE.md'
       - 'automation_200/mission_control/dist/**'
       - 'automation_200/mission_control/build_snapshot.py'
       - 'automation_200/mission_control/test_build_snapshot.py'
@@ -42,6 +43,25 @@ jobs:
           mkdir -p _site/mission-control
           cp -R automation_200/mission_control/dist/. _site/mission-control/
           printf '%s\n' 'User-agent: *' 'Allow: /' > _site/robots.txt
+      - name: Verify owner navigation links in staged site
+        shell: bash
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          home = Path("_site/index.html").read_text(encoding="utf-8")
+          dashboard = Path("_site/mission-control/index.html").read_text(encoding="utf-8")
+          expected = [
+              "https://github.com/whoiwts110217-creator/CF-0/blob/main/automation_200/MASTER_OPERATOR_PROMPT.md",
+              "https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/START_HERE.md",
+              "https://github.com/whoiwts110217-creator/CF-0/tree/feature/ai-agent-tracker/ai_tracker",
+          ]
+          for name, page in (("homepage", home), ("mission-control", dashboard)):
+              for url in expected:
+                  assert url in page, f"{name} missing owner shortcut: {url}"
+          assert 'href="./mission-control/"' in home, "homepage missing dashboard route"
+          assert 'href="../"' in dashboard, "dashboard missing home route"
+          print("Owner navigation smoke test passed")
+          PY
       - name: Upload static site
         uses: actions/upload-pages-artifact@v3
         with:
