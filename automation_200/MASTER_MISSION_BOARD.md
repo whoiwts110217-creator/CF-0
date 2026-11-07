@@ -111,7 +111,7 @@ ROGUE-03 was reproduced and accepted as a failure-mode test contribution. The sc
 **Control prompt:** [MASTER_OPERATOR_PROMPT.md](MASTER_OPERATOR_PROMPT.md)  
 **Mission control frontend:** [source and usage](mission_control/README.md)  
 **System of record:** [registry.json](registry.json) · [events.jsonl](events.jsonl) · [checkpoints/](checkpoints/)  
-**Current source registry:** **78/200 verified** as of November 7, 2026; [registry.json](registry.json) is authoritative.\
+**Current source registry:** **79/200 verified** as of November 7, 2026; [registry.json](registry.json) is authoritative.\
 **Last numbered checkpoint:** [076](checkpoints/checkpoint_076.json) (next numbered checkpoint 080).\
 **Public continuity handoff:** [docs/CONTINUITY.md](../docs/CONTINUITY.md) · [dated state](../docs/PUBLIC_CONTINUITY_STATE.json). Historical counts in the entries below remain snapshots, not live status.
 
@@ -943,3 +943,10 @@ The hourly public channel watchdog now runs priority selector and waiting-cycle 
 - **CF-111 accepted** following [tests 4479454](https://github.com/whoiwts110217-creator/CF-0/commit/4479454b678b58f9e087e701dfafc105163edaae) and passing [full Windows CI 42410201079](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42410201079). Default P0 automation → P1 owner priority policy → P2 finance; explicit owner priority can change order only among eligible tasks. Blocked P0 work does not permanently gate legitimate finance, and physical HP and spending remain unapproved without their own evidence/consent.
 - **Atomic ledger:** registry `78/200`, appended one evidence event, reconciled continuity and project status, board; Git blob `0a08f62951ef89f5a65b9ab15c0f78d1489ff2a5`. Last numbered checkpoint `076`; next `080`. Separate website/AI Tracker updates from other runs preserved.
 - **Next three:** verify Windows and dashboard checks on this commit; advance P1 CF-112 concurrent independent task source tests; independently verify real HP health report if published after local opt-in. No unproven income, private archive recovery or HP action claimed.
+
+## November 7, 2026 — CF-112 independent task proposal evidence accepted
+
+- Read the complete public main [master operator](MASTER_OPERATOR_PROMPT.md) blob `f8f0c94c28cd28cc0402daf4f21bd875e1417932`, [continuity](MASTER_CONTINUITY_PROMPT.md) blob `cac63dead1e00592c1d12ea6562639b02893d81f`, [Work](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) blob `5da1a390f31ee8f57e5829ef368062f9215c28ac` in order. Next Work instance reads current versions, never this historic note instead.
+- **CF-112 source verified:** [independence tests](../automation_200/tests/test_concurrent_independent_cf112.py) ([commit 06c978e](https://github.com/whoiwts110217-creator/CF-0/commit/06c978ecafa3adf47d3d9589b9a2876ec2fe4d12)), [full Windows CI 42410630206](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42410630206). Safe P0–P3 work may appear together in a deterministic read-only task proposal; dependencies remain held until verified and HP-only work never receives execution authority. Does not prove actual parallel or unattended execution.
+- **Atomic evidence:** 79/200 authoritative registry, appended event, updated public continuity and project status, source Git blob `9e2bf036459f5041ce3b0d22a9c3a0f07f59aadd`. Last checkpoint 076, next 080. Concurrent site/AI Tracker work retained. HP heartbeat unavailable at last check; no owner-local setup or financial outcome claimed.
+- **Next three:** post-update CI; CF-113 owner-policy mutation prevention; independent public HP health report observation through existing opt-in without remote permissions.
