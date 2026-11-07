@@ -409,3 +409,13 @@ The hourly public channel watchdog now runs priority selector and waiting-cycle 
 - The existing private v3 audit covers the earlier 54-order registry snapshot. The new registry snapshot needs its own private sync and restore check. Full original conversation exports and the original roughly 37-project inventory are still missing.
 
 **Next three eligible source tasks:** CF-072 response digest validation, CF-088 repository identity, and CF-183 Python transport without GitHub CLI.
+
+
+## Public Work prompt regression coverage — 2026-11-06 ET
+
+- **Mandatory preflight read on this run:** complete public [operator master v1.0](MASTER_OPERATOR_PROMPT.md) (blob `67ce4bf6d176a4fde9d35b050a9959f4da1994da`), [continuity master v1.0](MASTER_CONTINUITY_PROMPT.md) (blob `291a4836f26f6dd3b8664092adba777bee1f1f54`), and the [self-referencing Work prompt v1.0](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) (blob `ee5aa07170ca4c9ec4c0c1ed5e63ee7c8dd3f431`). **Next run must retrieve all three anew from public main**, not from this dated note.
+- [Self-reference contract regression tests](https://github.com/whoiwts110217-creator/CF-0/commit/def2778bc32d2f7f2098c4cba6cb6e7f4a442e78) assert the public canonical URL, mandatory read order, no manual re-paste requirement, and no unapproved HP/remote/scheduler expansion. This is source-level assurance only; **not** proof a future Work instance obeys the instructions. Windows CI for this specific commit was pending at board write.
+- Current registry read from public main: **55/200 verified**, latest numbered checkpoint **052**; CF-071 was verified by the preceding source/CI run, not by this regression-test change. [Windows CI 42324453763](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42324453763) passed for the earlier CF-071 tests. No new CF-200 task accepted here.
+- The existing Work executor was previously updated to read the third prompt automatically; this run actually fetched that prompt from public main, demonstrating this session's retrieval, **not** physical HP unattended operation. Public health report and scheduler/receipt correlation remain unverified. The private v3 snapshot was reported by the preceding board entry; no new private archive import or audit was performed in this run.
+
+**Next three executable tasks:** (1) confirm the Windows regression workflow for `def2778` and repair any failures; (2) implement CF-072 response SHA-256 validation with compatible legacy-receipt behavior and synthetic replay tests; (3) recheck sanitized HP health publication and correlate independent Windows scheduler evidence before any unattended HP claim.
