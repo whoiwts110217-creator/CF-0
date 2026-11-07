@@ -5,6 +5,9 @@ on:
     paths:
       - 'index.html'
       - 'automation_200/mission_control/dist/**'
+      - 'automation_200/mission_control/build_snapshot.py'
+      - 'automation_200/registry.json'
+      - 'docs/PUBLIC_CONTINUITY_STATE.json'
       - '.github/workflows/publish-website.yml'
   workflow_dispatch:
 permissions:
@@ -26,6 +29,8 @@ jobs:
         uses: actions/configure-pages@v5
         with:
           enablement: true
+      - name: Build commit-pinned public Mission Control fallback
+        run: python automation_200/mission_control/build_snapshot.py
       - name: Stage only the public homepage
         shell: bash
         run: |
