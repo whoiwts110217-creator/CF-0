@@ -16,6 +16,16 @@ class PromptChangeGuardTests(unittest.TestCase):
     def test_committed_public_prompts_are_tracked(self):
         self.assertEqual(audit(ROOT), [])
 
+    def test_windows_crlf_checkout_does_not_look_like_unlogged_edit(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            self.fixture(root)
+            for path in PROMPTS:
+                prompt = root / path
+                raw = prompt.read_bytes().replace(b"\r\n", b"\n")
+                prompt.write_bytes(raw.replace(b"\n", b"\r\n"))
+            self.assertEqual(audit(root), [], "Only checkout line endings changed")
+
     def test_missing_priority_is_rejected(self):
         with tempfile.TemporaryDirectory() as d:
             root = Path(d)
