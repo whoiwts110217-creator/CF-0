@@ -140,6 +140,95 @@ class ChannelAuditTests(unittest.TestCase):
         self.assertEqual(report["archive_capacity"]["file_counts"], {"inbox": 1, "receipts": 120})
         self.assertEqual(report["archive_capacity"]["remaining_before_limit"]["receipts"], 0)
 
+    def test_pruning_review_only_selects_old_matched_ping_pairs(self):
+        now = self.job["expires"] + channel_audit.PRUNING_GRACE_SECONDS
+        cutoff = now - channel_audit.PRUNING_GRACE_SECONDS
+        inbox, receipts = {self.name: self.job}, {self.name: self.good}
+
+        def add_pair(action="ping", issued=self.issued, **receipt_changes):
+            job = make_job(action, now=issued)
+            name = job["id"] + ".json"
+            inbox[name] = job
+            receipts[name] = {**self.good, "id": job["id"], "request_sha256": sha(job),
+                              **receipt_changes}
+            return job
+
+        current = add_pair(v=2, response_sha256=sha(self.good["result"]))
+        protected = add_pair()
+        add_pair(issued=self.issued + 1)  # expires one second after the cutoff
+        add_pair(issued=now)  # pending even if a receipt file is present
+        add_pair("hp_status")
+        add_pair(request_sha256="0" * 64)
+        add_pair(v=2, response_sha256="0" * 64)
+        add_pair(result={"pong": False, "protocol": 1})
+        add_pair(kind="cf0_hp_writeback_probe", status="received")
+        unmatched = add_pair()
+        receipts.pop(unmatched["id"] + ".json")
+        orphan = add_pair()
+        inbox.pop(orphan["id"] + ".json")
+        self.assertEqual(self.job["expires"], cutoff)
+
+        kwargs = {"source_commit": "a" * 40, "protected_ping_id": protected["id"], "now": now}
+        review = channel_audit.pruning_review(inbox, receipts, **kwargs)
+        manifest = review["manifest"]
+        pairs = manifest["pairs_for_review"]
+        self.assertEqual([pair["request_id"] for pair in pairs], sorted([self.job["id"], current["id"]]))
+        for pair in pairs:
+            name = pair["request_id"] + ".json"
+            self.assertEqual(pair["inbox_path"], "command_queue/inbox/" + name)
+            self.assertEqual(pair["receipt_path"], "command_queue/receipts/" + name)
+            self.assertEqual(pair["request_sha256"], sha(inbox[name]))
+            self.assertEqual(pair["receipt_sha256"], sha(receipts[name]))
+        self.assertEqual(review["manifest_sha256"], sha(manifest))
+        later = channel_audit.pruning_review(inbox, receipts, **{**kwargs, "now": now + 2})
+        self.assertNotEqual(review["manifest_sha256"], later["manifest_sha256"])
+        moved = channel_audit.pruning_review(inbox, receipts, **{**kwargs, "source_commit": "b" * 40})
+        self.assertNotEqual(review["manifest_sha256"], moved["manifest_sha256"])
+
+    def test_pruning_review_pins_reads_and_requires_a_protected_ping(self):
+        repo_url = f"{channel_audit.API}/repos/{channel_audit.REPO}"
+        ref_url = repo_url + "/git/ref/heads/main"
+        commit = "c" * 40
+        suffix = "?ref=" + commit
+        inbox_url = channel_audit.folder_url("inbox")
+        receipts_url = channel_audit.folder_url("receipts")
+        state_url = repo_url + "/contents/docs/PUBLIC_CONTINUITY_STATE.json" + suffix
+        protected = make_job("ping", now=self.issued)["id"]
+        state = {"schema": "cf0.public_continuity.v1", "hp": {"public_ping_request_id": protected}}
+
+        def encoded(value):
+            return {"encoding": "base64", "content": base64.b64encode(json.dumps(value).encode()).decode()}
+
+        responses = {
+            ref_url: {"ref": "refs/heads/main", "object": {"type": "commit", "sha": commit}},
+            inbox_url + suffix: [{"type": "file", "name": self.name}],
+            receipts_url + suffix: [{"type": "file", "name": self.name}],
+            state_url: encoded(state),
+            inbox_url + "/" + self.name + suffix: encoded(self.job),
+            receipts_url + "/" + self.name + suffix: encoded(self.good),
+        }
+        for valid in (True, False):
+            with self.subTest(valid=valid):
+                if not valid:
+                    responses[state_url] = encoded({**state, "hp": {}})
+                output = io.StringIO()
+                with patch.object(channel_audit, "github_json", side_effect=responses.__getitem__) as fetch:
+                    with patch.object(channel_audit.time, "time",
+                                      return_value=self.job["expires"] + channel_audit.PRUNING_GRACE_SECONDS):
+                        with contextlib.redirect_stdout(output):
+                            self.assertEqual(channel_audit.main(["--review-pruning"]), 0 if valid else 1)
+                    self.assertEqual([args[0] for args, _ in fetch.call_args_list],
+                                     list(responses) if valid else list(responses)[:4])
+                report = json.loads(output.getvalue())
+                if valid:
+                    manifest = report["pruning_review"]["manifest"]
+                    self.assertEqual(manifest["source_commit"], commit)
+                    self.assertEqual(manifest["protected_ping_id"], protected)
+                    self.assertEqual([p["request_id"] for p in manifest["pairs_for_review"]], [self.job["id"]])
+                else:
+                    self.assertEqual(report["audit"], "unavailable")
+                    self.assertNotIn("pruning_review", report)
+
 
 if __name__ == "__main__":
     unittest.main()

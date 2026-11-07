@@ -33,6 +33,14 @@ The archive capacity report counts JSON files separately in the inbox and receip
 
 To run the same check in a local repository checkout, use `py -3 relay\channel_audit.py --live`. It makes GitHub HTTPS **GET** requests only. To run offline classification tests, use `py -3 -m unittest discover -s relay\tests -p test_channel_audit.py -v`. Unanswered commands remain pending or expired until a genuine matching execution receipt is independently observed; this watchdog never simulates one.
 
+### Queue pruning review (CF-074)
+
+Run `py -3 relay\channel_audit.py --review-pruning` to generate a read-only manifest. Both queue folders and the protected HP ping in the [public continuity state](../docs/PUBLIC_CONTINUITY_STATE.json) are read at one GitHub commit. A pair can enter review when a valid ping expired at least seven days ago and its completed receipt matches the request digest and successful ping result. The grace period preserves a full week of recent queue evidence. The current public ping, unresolved or mismatched pairs, setup probes, and receipts for other actions stay in the active folders.
+
+The manifest binds the source commit, candidate paths, and canonical request and receipt digests to `manifest_sha256`. Before approving a batch, check candidate IDs against the mission board, registry, live status pages, and other active references. Keep referenced pairs until their evidence links are preserved. Approval must cover the exact commit, manifest digest, selected pairs, and archive destination.
+
+For a future approved relocation, verify the original Git blobs and a byte-for-byte restore of both files. Move each selected pair together into `command_queue/archive/<source-commit>/inbox/` and `command_queue/archive/<source-commit>/receipts/` in one commit based on the approved revision. If the branch or selected blobs changed, generate a fresh review. Verify the active queue and archived copies after publishing. A revert of the relocation commit restores the active paths.
+
 ## Test locally
 
 `py -3 relay\cf_public_relay.py ping-demo`

@@ -7,19 +7,22 @@ import argparse
 import base64
 import json
 import os
+import re
 import sys
 import time
 import urllib.error
 import urllib.request
+from urllib.parse import quote
 
 if __package__:
-    from .cf_public_relay import REPO, RelayError, sha, successful_ping, validate, validate_receipt
+    from .cf_public_relay import REPO, UUID, RelayError, sha, successful_ping, validate, validate_receipt
 else:
-    from cf_public_relay import REPO, RelayError, sha, successful_ping, validate, validate_receipt
+    from cf_public_relay import REPO, UUID, RelayError, sha, successful_ping, validate, validate_receipt
 
 API = "https://api.github.com"
 MAX_FILES = 120
 ARCHIVE_REVIEW_AT = 100
+PRUNING_GRACE_SECONDS = 7 * 24 * 60 * 60
 QUEUE_FOLDERS = ("inbox", "receipts")
 
 def archive_capacity(file_counts: dict[str, int]) -> dict:
@@ -94,6 +97,45 @@ def summarize(inbox: dict, receipts: dict, now: int) -> dict:
     )
     return counts
 
+def pruning_review(inbox: dict, receipts: dict, *, source_commit: str,
+                   protected_ping_id: str, now: int) -> dict:
+    """Prepare an exact candidate list for owner review."""
+    if not isinstance(source_commit, str) or not re.fullmatch(r"[0-9a-f]{40}", source_commit):
+        raise ValueError("invalid_source_commit")
+    if not isinstance(protected_ping_id, str) or not UUID.fullmatch(protected_ping_id):
+        raise ValueError("invalid_protected_ping")
+    pairs = []
+    for filename, job in sorted(inbox.items()):
+        if not isinstance(job, dict) or job.get("action") != "ping" or filename not in receipts:
+            continue
+        try:
+            validate(job, filename, now=job.get("issued"))
+            if job["id"] == protected_ping_id or job["expires"] > now - PRUNING_GRACE_SECONDS:
+                continue
+            request_digest = sha(job)
+            receipt = receipts[filename]
+            validate_receipt(receipt, job["id"], request_digest)
+            if not successful_ping(receipt["result"]):
+                continue
+            receipt_digest = sha(receipt)
+        except (RelayError, ValueError, TypeError):
+            continue
+        pairs.append({
+            "request_id": job["id"],
+            "inbox_path": "command_queue/inbox/" + filename,
+            "receipt_path": "command_queue/receipts/" + filename,
+            "request_sha256": request_digest,
+            "receipt_sha256": receipt_digest,
+        })
+    manifest = {
+        "schema": "cf0.queue_pruning_review.v1",
+        "source_commit": source_commit,
+        "protected_ping_id": protected_ping_id,
+        "grace_seconds_after_expiry": PRUNING_GRACE_SECONDS,
+        "pairs_for_review": pairs,
+    }
+    return {"manifest": manifest, "manifest_sha256": sha(manifest), "as_of_epoch": now}
+
 def github_json(url: str) -> object:
     headers = {"Accept": "application/vnd.github+json",
                "User-Agent": "CavemanFocus-CF0-Channel-Audit/1.0",
@@ -113,18 +155,30 @@ def folder_url(folder: str) -> str:
         raise ValueError("invalid_directory")
     return f"{API}/repos/{REPO}/contents/command_queue/{folder}"
 
-def list_json_names(folder: str) -> list[str]:
-    listing = github_json(folder_url(folder) + "?ref=main")
+def list_json_names(folder: str, *, ref: str = "main") -> list[str]:
+    listing = github_json(folder_url(folder) + "?ref=" + ref)
     if not isinstance(listing, list):
         raise ValueError("invalid_listing")
     return [entry["name"] for entry in listing if isinstance(entry, dict)
             and entry.get("type") == "file" and isinstance(entry.get("name"), str)
             and entry["name"].endswith(".json")]
 
-def read_folder(folder: str, *, names: list[str] | None = None) -> dict:
+def read_contents_json(url: str) -> object:
+    data = github_json(url)
+    if not isinstance(data, dict) or data.get("encoding") != "base64":
+        raise ValueError("invalid_document")
+    body = data.get("content")
+    if not isinstance(body, str):
+        raise ValueError("invalid_content")
+    decoded = base64.b64decode("".join(body.split()), validate=True)
+    if len(decoded) > 8192:
+        raise ValueError("oversized_document")
+    return json.loads(decoded)
+
+def read_folder(folder: str, *, names: list[str] | None = None, ref: str = "main") -> dict:
     root = folder_url(folder)
     if names is None:
-        names = list_json_names(folder)
+        names = list_json_names(folder, ref=ref)
     if len(names) > MAX_FILES:
         raise ValueError("audit_limit_reached")
     documents = {}
@@ -132,33 +186,53 @@ def read_folder(folder: str, *, names: list[str] | None = None) -> dict:
         # Construct the exact path from the listing's basename; no arbitrary URLs.
         if "/" in name or ".." in name:
             raise ValueError("invalid_filename")
-        data = github_json(root + "/" + name + "?ref=main")
-        if not isinstance(data, dict) or data.get("encoding") != "base64":
-            raise ValueError("invalid_document")
-        body = data.get("content")
-        if not isinstance(body, str):
-            raise ValueError("invalid_content")
-        decoded = base64.b64decode("".join(body.split()), validate=True)
-        if len(decoded) > 8192:
-            raise ValueError("oversized_document")
-        documents[name] = json.loads(decoded)
+        documents[name] = read_contents_json(root + "/" + quote(name, safe="") + "?ref=" + ref)
     return documents
+
+def main_commit() -> str:
+    response = github_json(f"{API}/repos/{REPO}/git/ref/heads/main")
+    if not isinstance(response, dict) or response.get("ref") != "refs/heads/main":
+        raise ValueError("invalid_main_ref")
+    target = response.get("object")
+    if not isinstance(target, dict) or target.get("type") != "commit":
+        raise ValueError("invalid_main_ref")
+    commit_sha = target.get("sha")
+    if not isinstance(commit_sha, str) or not re.fullmatch(r"[0-9a-f]{40}", commit_sha):
+        raise ValueError("invalid_main_ref")
+    return commit_sha
+
+def public_ping_id(ref: str) -> str:
+    state = read_contents_json(f"{API}/repos/{REPO}/contents/docs/PUBLIC_CONTINUITY_STATE.json?ref={ref}")
+    if (not isinstance(state, dict) or state.get("schema") != "cf0.public_continuity.v1"
+            or not isinstance(state.get("hp"), dict)):
+        raise ValueError("invalid_public_continuity")
+    ping_id = state["hp"].get("public_ping_request_id")
+    if not isinstance(ping_id, str) or not UUID.fullmatch(ping_id):
+        raise ValueError("invalid_protected_ping")
+    return ping_id
 
 def main(argv=None) -> int:
     p = argparse.ArgumentParser(description=__doc__)
-    p.add_argument("--live", action="store_true", help="Read CF-0 public inbox and receipts from GitHub.")
+    modes = p.add_mutually_exclusive_group(required=True)
+    modes.add_argument("--live", action="store_true", help="Read CF-0 public inbox and receipts from GitHub.")
+    modes.add_argument("--review-pruning", action="store_true", help="Print a read-only candidate manifest.")
     args = p.parse_args(argv)
-    if not args.live:
-        p.error("use --live for a read-only GitHub audit")
     capacity = None
     try:
-        names = {folder: list_json_names(folder) for folder in QUEUE_FOLDERS}
+        ref = main_commit() if args.review_pruning else "main"
+        names = {folder: list_json_names(folder, ref=ref) for folder in QUEUE_FOLDERS}
         capacity = archive_capacity({folder: len(files) for folder, files in names.items()})
         if capacity["state"] == "limit_exceeded":
             raise ValueError("audit_limit_reached")
-        inbox = read_folder("inbox", names=names["inbox"])
-        receipts = read_folder("receipts", names=names["receipts"])
-        report = summarize(inbox, receipts, int(time.time()))
+        protected_ping_id = public_ping_id(ref) if args.review_pruning else None
+        inbox = read_folder("inbox", names=names["inbox"], ref=ref)
+        receipts = read_folder("receipts", names=names["receipts"], ref=ref)
+        now = int(time.time())
+        report = summarize(inbox, receipts, now)
+        if args.review_pruning:
+            report["pruning_review"] = pruning_review(
+                inbox, receipts, source_commit=ref, protected_ping_id=protected_ping_id, now=now
+            )
     except (ValueError, OSError, urllib.error.URLError, json.JSONDecodeError) as exc:
         # Never print token-bearing headers, machine details or response bodies.
         failure = {"audit": "unavailable", "error_type": type(exc).__name__}
