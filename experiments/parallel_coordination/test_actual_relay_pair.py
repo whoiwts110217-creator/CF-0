@@ -159,5 +159,29 @@ class ActualRelayReceiptTests(unittest.TestCase):
             inspect_actual_relay_pair(job_id="../evil", request=None, receipt=None)
 
 
+    def test_duplicate_top_level_request_key_rejected(self):
+        raw = relay.dump(job())
+        raw = raw[:-1] + b',"v":1}'
+        result = inspect_actual_relay_pair(
+            job_id=JOB_ID, request=blob(REQ_PATH, raw),
+            receipt=blob(REC_PATH, receipt()))
+        self.assertIn("request_invalid_json", result.blockers)
+
+    def test_duplicate_nested_result_key_rejected(self):
+        raw = relay.dump(receipt())
+        raw = raw.replace(b'"pong":true', b'"pong":true,"pong":true')
+        result = inspect_actual_relay_pair(
+            job_id=JOB_ID, request=blob(REQ_PATH, job()),
+            receipt=blob(REC_PATH, raw))
+        self.assertIn("receipt_invalid_json", result.blockers)
+
+    def test_nonfinite_json_constant_rejected(self):
+        raw = relay.dump(receipt()).replace(b'"protocol":1', b'"protocol":NaN')
+        result = inspect_actual_relay_pair(
+            job_id=JOB_ID, request=blob(REQ_PATH, job()),
+            receipt=blob(REC_PATH, raw))
+        self.assertIn("receipt_invalid_json", result.blockers)
+
+
 if __name__ == "__main__":
     unittest.main()
