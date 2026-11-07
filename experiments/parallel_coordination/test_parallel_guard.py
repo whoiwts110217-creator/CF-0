@@ -25,6 +25,17 @@ class ParallelGuardTests(unittest.TestCase):
             validate_proposal(claim(), current_sha="abc", now=NOW,
                               active_claims=(claim(operator="worker-b", paths=("docs/b.md",)),))
 
+    def test_same_operator_same_task_duplicate_rejected(self):
+        with self.assertRaisesRegex(ConflictError, "task_claimed"):
+            validate_proposal(claim(), current_sha="abc", now=NOW,
+                              active_claims=(claim(),))
+
+    def test_same_operator_expanded_claim_rejected(self):
+        with self.assertRaisesRegex(ConflictError, "task_claimed"):
+            validate_proposal(claim(paths=("docs/a.md", "docs/b.md")),
+                              current_sha="abc", now=NOW,
+                              active_claims=(claim(),))
+
     def test_same_path_other_task_rejected(self):
         with self.assertRaisesRegex(ConflictError, "path_claimed"):
             validate_proposal(claim(), current_sha="abc", now=NOW,
