@@ -130,7 +130,7 @@ ROGUE-03 was reproduced and accepted as a failure-mode test contribution. The sc
 **Control prompt:** [MASTER_OPERATOR_PROMPT.md](MASTER_OPERATOR_PROMPT.md)  
 **Mission control frontend:** [source and usage](mission_control/README.md)  
 **System of record:** [registry.json](registry.json) · [events.jsonl](events.jsonl) · [checkpoints/](checkpoints/)  
-**Current source registry:** **82/200 verified** as of November 7, 2026; [registry.json](registry.json) is authoritative.\
+**Current source registry:** **83/200 verified** as of November 7, 2026; [registry.json](registry.json) is authoritative.\
 **Last numbered checkpoint:** [080](checkpoints/checkpoint_080.json) (next numbered checkpoint 084).\
 **Public continuity handoff:** [docs/CONTINUITY.md](../docs/CONTINUITY.md) · [dated state](../docs/PUBLIC_CONTINUITY_STATE.json). Historical counts in the entries below remain snapshots, not live status.
 
@@ -992,3 +992,10 @@ The hourly public channel watchdog now runs priority selector and waiting-cycle 
 - **CF-115 verified:** [deterministic conflict analyzer](../automation_200/owner_instruction_conflicts.py) commit [d868502](https://github.com/whoiwts110217-creator/CF-0/commit/d868502af4248f6f92ef75eb9d94f6e7e9bb2655); [negative tests](../automation_200/tests/test_owner_instruction_conflicts_cf115.py) commit [76b851a](https://github.com/whoiwts110217-creator/CF-0/commit/76b851a789475222b4508c3191d6ee2f856cf470). Conflicting structured `block` and `prioritize` owner-direction records require explicit resolution; unverified authority and unknown tasks rejected; blocked tasks cannot be selected by preference. [Windows CI 42413696329](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42413696329) passed. It does **not** authenticate an actual owner; callers must do so separately.
 - **Atomic continuity:** verified **82/200**, registry blob `d0eb7ed398b7acc6f6a84486a0bb625e9486b9dc`, append-only event, continuity record, project status and board synchronized. Numbered checkpoint `080` remains latest, next `084`. No HP operation, money or public private archives were touched. Notepad regression remains open.
 - **Next three:** verify Windows CI after registry transition; test eligible CF-116 context expiry without overriding owner policy; obtain actual HP-origin public-safe heartbeat only through owner-local approved opt-in and independently verified scheduler/receipt matching.
+
+## November 7, 2026 — CF-116 context-expiry source acceptance
+
+- Full public preflight: [operator](MASTER_OPERATOR_PROMPT.md) blob `f8f0c94c28cd28cc0402daf4f21bd875e1417932`, [continuity](MASTER_CONTINUITY_PROMPT.md) blob `cac63dead1e00592c1d12ea6562639b02893d81f`, [Work](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) blob `5da1a390f31ee8f57e5829ef368062f9215c28ac` fetched/read in order, followed by owner contract, decision engine, registry and approval bin. Next run must refetch current main.
+- **CF-116 verified:** [source guard](../automation_200/task_context_expiry.py) and [decision engine](decision_engine.py) block expired/future-issued context and reject malformed inputs without changing legacy context-free proposals. [Windows tests 42414009722](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42414009722) passed. No real HP or financial operation involved.
+- Reconciled registry and append-only event, project status, continuity record and this board atomically: **83/200**, Git registry blob `eb04e1506ba78d5528bbeb91b86f2407e264346f`. Checkpoint **080** last, next **084**. Owner-policy priority and Notepad regression preserved.
+- Next three: confirm post-ledger CI, implement eligible CF-117 next-unblocking-task selection, check public HP heartbeat only by the owner-approved read-only path; no repeated clipboard requests.
