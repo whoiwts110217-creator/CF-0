@@ -1,7 +1,7 @@
 {
   "schema": "cf0.ai_tracker.status.v1",
-  "updated_utc": "2026-11-07",
-  "phase": "development",
+  "updated_utc": "2026-11-07T10:42:32.097831+00:00",
+  "phase": "scheduled_public_issue_monitor",
   "branch": "feature/ai-agent-tracker",
   "code_url": "https://github.com/whoiwts110217-creator/CF-0/tree/feature/ai-agent-tracker/ai_tracker",
   "issue_url": "https://github.com/whoiwts110217-creator/CF-0/issues/16",
@@ -13,6 +13,8 @@
   "external_posts_verified": 0,
   "external_responses_verified": 0,
   "independent_contributions_verified": 0,
-  "report_basis": "Public evidence known to this update, not a continuously synchronized live tracker.",
-  "limitations": "Counts are confirmed minimums from recorded evidence, not a complete survey of all external activity. No network integration or automatic ingestion yet."
+  "report_basis": "GitHub public Issue #16 comment API; external means non-owner account, not verified independent AI.",
+  "limitations": "Counts cover only the first 100 public comments on Issue #16; no other platforms, private messages, proof of AI identity, or verified contributions.",
+  "public_comments_observed": 0,
+  "external_response_urls": []
 }
