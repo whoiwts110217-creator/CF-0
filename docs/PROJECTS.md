@@ -48,7 +48,7 @@ CF-FW itself is a new owner-supplied parent designation in this project context.
 
 - **Research / Caveman Focus proposed mathematics / SN:** [Logic Locks and SN discovery hypotheses](../research/caveman_focus/LOGIC_LOCKS_AND_SN_DISCOVERY_2026-11-07.md). Concept and illustrative examples; no original mathematical result or SN equivalence established.
 - **Finance / donation growth / agent discovery:** [AI-facing channel research](../finance/donation_growth/agent_discovery_experiment_2026-11-07.md), [AI Attention Challenge 001](../finance/donation_growth/AI_ATTENTION_CHALLENGE_2026-11-07.md), and [directory research](../finance/donation_growth/channel_research_2026-11-07.md). Public materials only; no agent replies, posts or verified donations established.
-- **Operations / site audit:** [Support-site and public categorization audit](SITE_AND_PUBLIC_CATEGORIZATION_AUDIT_2026-11-07.md). Live site not accessible to this inspection environment; do not mistake failed retrieval for confirmed outage.
+- **Operations / site audit:** [Support-site and public categorization audit](SITE_AND_PUBLIC_CATEGORIZATION_AUDIT_2026-11-07.md), [read-only Python check](../finance/donation_growth/support_site_audit.py), [offline tests](../finance/donation_growth/tests/test_support_site_audit.py). Local logic tests passed (4/4); live site not accessible to this inspection environment, which does **not** prove an outage.
 
 These links are a categorized index, not a new CF-200 verification or a production-site deployment.
 
