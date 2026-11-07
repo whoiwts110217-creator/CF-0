@@ -43,3 +43,9 @@ A CF-0 operator may make bounded, public-safe **clarity/efficiency** changes dur
 - During every run: check this queue; act on items explicitly approved by the owner where tools and guards permit; make eligible tiny prompt improvements as normal work; append a record for each change; keep all unapproved proposals pending. Link commits and test evidence, rather than assuming a GitHub edit is a fully deployed capability.
 - **CF-200 remains distinct:** editing a prompt is not an independently verified CF-200 work order. Do not change the 200-task registry or increment completion for editorial work.
 - Preserve unrecovered archive gaps and keep private originals off public GitHub.
+
+## Creator attribution correction (November 7)
+
+| ID | Specific owner-directed edit | Boundary | Evidence |
+|---|---|---|---|
+| **PCE-005** | Correct two outdated operator-prompt attribution statements: David Smith creator/developer; Kiara Lynn Rose Smith designated owner/beneficiary | Owner authorized this specific factual reconciliation; PCA-001 **remains pending** for future automatic authority/ownership edits | [Master operator](MASTER_OPERATOR_PROMPT.md) · [append-only revision log](PROMPT_CHANGE_LOG.jsonl) · [source reconciliation](../docs/CONTINUITY_RECONCILIATION_2026-11-07_DREAMKILLER.md) |

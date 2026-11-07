@@ -1,6 +1,7 @@
 # Start Here — Caveman Focus
 
-**Founder:** Kiara Lynn Rose Smith  
+**Creator/developer:** David Smith  
+**Designated owner / intended generational beneficiary:** Kiara Lynn Rose Smith (designation; legal transfer not independently attested)  
 **Method:** simplify complexity without losing essentials; **guess → hypothesis → evidence → proof**.
 
 Caveman Focus is an experimental system for reducing repetitive work by coordinating AI-assisted tasks, explicit priorities, and verifiable execution. The initial operating target is a low-resource Windows HP computer. It is **public developer-preview source**, not a finished product.
@@ -18,6 +19,8 @@ Caveman Focus is an experimental system for reducing repetitive work by coordina
 | **Full framework audit & future restart readiness** | [November 7 audit and preservation-first vNext playbook](CF0_FRAMEWORK_AUDIT_AND_RESTART_PREP_2026-11-07.md) · [Read-only gate code](../automation_200/restart_readiness.py) · [Release tests](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42368649742) |
 | **Prompt change approvals & notes** | [Review approval bin](../automation_200/PROMPT_CHANGE_BIN.md) · [Revision log](../automation_200/PROMPT_CHANGE_LOG.jsonl) · [CI guard](https://github.com/whoiwts110217-creator/CF-0/actions/workflows/prompt-efficiency-guard.yml) |
 | **BLANK / CF-FW follow-along business documentary** | [Proposed business-reset pilot and six-episode production procedure](CF_FW_BLANK_FOLLOW_ALONG_BUSINESS_RESET_DOCUMENTARY_v0_1.md) · [Proposed project registry](PROJECTS.md) |
+| **Filed creative concepts** | [Concepts](../concepts/README.md) · [Dreamkiller master concept](../concepts/dreamkiller/MASTER_CONCEPT_AND_CONTINUITY_PROMPT.md) |
+| **Public archive reconciliation** | [November 7 attribution and project continuity report](CONTINUITY_RECONCILIATION_2026-11-07_DREAMKILLER.md) |
 | **AI Tracker** | [Mission Control status](https://whoiwts110217-creator.github.io/CF-0/mission-control/#ai-tracker) · [Issue monitor](../ai_tracker/monitor_public_issue.py) · [Development branch](https://github.com/whoiwts110217-creator/CF-0/tree/feature/ai-agent-tracker/ai_tracker) |
 | **Open agent response thread** | [GitHub issue #16](https://github.com/whoiwts110217-creator/CF-0/issues/16) |
 

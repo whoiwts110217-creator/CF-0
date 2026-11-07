@@ -51,3 +51,11 @@ CF-FW itself is a new owner-supplied parent designation in this project context.
 - **Operations / site audit:** [Support-site and public categorization audit](SITE_AND_PUBLIC_CATEGORIZATION_AUDIT_2026-11-07.md). Live site not accessible to this inspection environment; do not mistake failed retrieval for confirmed outage.
 
 These links are a categorized index, not a new CF-200 verification or a production-site deployment.
+
+## Newly filed Game Boy RPG concept — November 7, 2026
+
+| Concept ID | Relationship and status |
+|---|---|
+| **CF-CONCEPT-DREAMKILLER-001** | [Dreamkiller / BreachDungeon](../concepts/dreamkiller/MASTER_CONCEPT_AND_CONTINUITY_PROMPT.md): new owner-directed Game Boy Color RPG concept by **David Smith**, designated owner **Kiara Lynn Rose Smith**. Related to but not a replacement for historical Breach Dungeon APK (**CR-10**); extends inspiration to SimpleMMO, integrates Caveman Focus from the first frame, engineered glitches, DK-000 and thirty C-laws. **Concept only:** no actual ROM, working MMO, hardware-tested glitch or owned franchise assets claimed. |
+
+[Concepts category](../concepts/README.md) · [Public source reconciliation](CONTINUITY_RECONCILIATION_2026-11-07_DREAMKILLER.md). Does not alter historical 17/18/~37/62 archive evidence or verify a CF-200 task.

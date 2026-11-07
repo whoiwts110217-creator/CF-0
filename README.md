@@ -3,7 +3,7 @@
 **[START HERE — site, Mission Control, master prompts, HP commands, AI Tracker](docs/START_HERE.md)**
 
 
-**Kiara Lynn Rose Smith's Caveman Focus**
+**Created and developed by David Smith; designated owner and intended generational beneficiary: Kiara Lynn Rose Smith.**
 
 > Simplify complexity without losing the essentials. **Guess → hypothesis → evidence → proof.**
 
@@ -15,7 +15,9 @@
 
 **Master continuity order:** [Read the public master operating prompt first](automation_200/MASTER_OPERATOR_PROMPT.md), then the [cross-archive, project and event continuity prompt](automation_200/MASTER_CONTINUITY_PROMPT.md) **before CF-0 decisions**. Work sessions then read the [current Work execution prompt](automation_200/WORK_COPY_PASTE_AUTOMATION_PROMPT.md) from public main. The public prompt describes how to recover and reconcile prior conversations, archives and workstreams without publishing private originals.
 
-**Continuity snapshot:** [65/200 verified source/operations work orders](docs/PROJECT_STATUS.md), with the [latest public handoff and evidence boundaries](docs/CONTINUITY.md). The currently checked-in relay **does not support remote Notepad launch**; previously observed Windows Notepad launches are historical, and restoration remains open. The optional HP heartbeat and independent scheduler correlation are still unverified.
+**Continuity snapshot:** [71/200 verified source/operations work orders](docs/PROJECT_STATUS.md), with the [latest public handoff and evidence boundaries](docs/CONTINUITY.md). The currently checked-in relay **does not support remote Notepad launch**; previously observed Windows Notepad launches are historical, and restoration remains open. The optional HP heartbeat and independent scheduler correlation are still unverified.
+
+**[Filed concepts](concepts/README.md)** · **[Dreamkiller / BreachDungeon](concepts/dreamkiller/MASTER_CONCEPT_AND_CONTINUITY_PROMPT.md)** · **[November 7 cross-archive reconciliation](docs/CONTINUITY_RECONCILIATION_2026-11-07_DREAMKILLER.md)**
 
 **[What works](#what-works-today)** · **[Try the source](#explore-or-test)** · **[Current status and evidence](docs/PROJECT_STATUS.md)** · **[Full project index](docs/PUBLIC_DEVELOPMENT_SNAPSHOT_2026-11-06.md)**
 

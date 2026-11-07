@@ -9,3 +9,5 @@
 - **Tactile book machine**, mathematical/AI concept art and further archive fragments.
 
 Do not republish full unpublished scripts or personal passages without identifying and reviewing the specific source.
+
+- **[Dreamkiller / BreachDungeon](../concepts/dreamkiller/MASTER_CONCEPT_AND_CONTINUITY_PROMPT.md)** (**CF-CONCEPT-DREAMKILLER-001**): original Game Boy Color–oriented RPG concept by **David Smith**, designed with AI assistance and Caveman Focus continuity. Distinct from the old Breach Dungeon APK; filed concept, not a verified ROM or a grant of third-party asset rights.

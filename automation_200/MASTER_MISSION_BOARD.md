@@ -1,3 +1,11 @@
+## November 7, 2026 — owner-directed Dreamkiller concept filing & continuity reconciliation
+
+- **Mandatory preflight:** original current-main operator blob `f3d4d0d443323528a64c6aa9e9d4c9a3b30e8098`, continuity blob `cac63dead1e00592c1d12ea6562639b02893d81f`, and Work blob `5da1a390f31ee8f57e5829ef368062f9215c28ac` read in order. [Approval bin](PROMPT_CHANGE_BIN.md) and capability contract reviewed. Next operator must retrieve latest current-main files again, not rely on this snapshot.
+- **Owner-scoped P3 deliverable:** public [Dreamkiller/BreachDungeon concept](../concepts/dreamkiller/MASTER_CONCEPT_AND_CONTINUITY_PROMPT.md), ID CF-CONCEPT-DREAMKILLER-001; [filed concepts category](../concepts/README.md); [dated reconciliation](../docs/CONTINUITY_RECONCILIATION_2026-11-07_DREAMKILLER.md). Predecessor CR-10 remains separate. No game code/ROM, proprietary assets or tested exploit claimed.
+- **Attribution:** David Smith creator/developer, Kiara Lynn Rose Smith designated owner/intended beneficiary, no verified legal transfer. Old error preserved in Git history; current cross-project attribution corrected under explicit owner request (PCE-005).
+- **Registry observed:** `71/200` verified, source blob `51f23dea6f2a9cde6616d92da84e213ca2a8bcce`; latest numbered checkpoint `68`, next `72`. No registry, events, checkpoints, payments or HP operations changed by this document task. Concurrent CF-200 work remains authoritative; no new verification claimed. CI for this editorial batch **pending**.
+- **Next three:** verify public continuity source checks/CI; continue existing P0 cloud-source and HP evidence work without manual clipboard; recover original missing private conversation archives without publishing them.
+
 ## November 7, 2026 — one-time HP opt-in handoff clarification (source-only)
 
 - **Mandatory public preflight:** full operator v1.0 blob `f3d4d0d443323528a64c6aa9e9d4c9a3b30e8098`, continuity v1.0 blob `cac63dead1e00592c1d12ea6562639b02893d81f`, and [Work self-reference v1.0](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) blob `5da1a390f31ee8f57e5829ef368062f9215c28ac` fetched in order from current `main`; next run must fetch all three anew. Owner approval bin inspected; no approvals changed.

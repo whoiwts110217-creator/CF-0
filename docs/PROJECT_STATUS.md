@@ -55,3 +55,7 @@ CF-108 verified that Git checkpoint commits contain only the registry, event log
 - [Public development snapshot](PUBLIC_DEVELOPMENT_SNAPSHOT_2026-11-06.md) — full source and project index.
 
 **Integrity rule:** historical files retain their original dates and scope. Update this status when new evidence is actually checked; never convert a proposed feature or a passing CI test into a claimed physical HP deployment.
+
+## November 7 — publicly filed game concept
+
+[**Dreamkiller / BreachDungeon**](../concepts/dreamkiller/MASTER_CONCEPT_AND_CONTINUITY_PROMPT.md) (CF-CONCEPT-DREAMKILLER-001) is now a **public design artifact**, created by **David Smith** with **Kiara Lynn Rose Smith** designated owner/intended beneficiary. It extends but does not overwrite the historical Breach Dungeon APK CR-10. No game installation, real Game Boy ROM, tested glitch, revenue or CF-200 task verification is claimed by this addition. [Cross-archive reconciliation](CONTINUITY_RECONCILIATION_2026-11-07_DREAMKILLER.md).
