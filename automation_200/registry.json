@@ -3,7 +3,7 @@
   "owner": "Kiara Lynn Rose Smith",
   "project": "Caveman Focus",
   "target": 200,
-  "completed": 65,
+  "completed": 66,
   "checkpoint_every": 4,
   "status": "WORK_IN_PROGRESS",
   "note": "A planned item is not a completed task. Physical HP outcomes require owner-HP evidence.",
@@ -1176,8 +1176,8 @@
       "depends_on": [
         "CF-090"
       ],
-      "status": "planned",
-      "evidence": null,
+      "status": "verified",
+      "evidence": "Relay secret-safe HTTP error boundary cf_public_relay.py source commit bf2666774d5d3703bdaeb271bdd6deca254b48e7 and dummy-credential exception-chain regression tests relay/tests/test_secret_safe_http_errors.py at 03496ee85b0fc5a3de13c8a841ea1fe9227df0d5. All tests passed Windows CI https://github.com/whoiwts110217-creator/CF-0/actions/runs/42371129564 and latest full Windows CI https://github.com/whoiwts110217-creator/CF-0/actions/runs/42384041000. Source-level proof only; physical HP operation and unattended scheduling not tested.",
       "authority": "existing-source-tests",
       "physical_hp_required": false
     },
