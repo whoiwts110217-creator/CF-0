@@ -1,5 +1,9 @@
 """Offline registry schema and priority dependency guard regression tests."""
 import copy,json,pathlib,sys,unittest
+import hashlib
+import subprocess
+from contextlib import redirect_stdout
+from io import StringIO
 from tempfile import TemporaryDirectory
 from unittest.mock import patch
 ROOT=pathlib.Path(__file__).resolve().parents[1]
@@ -56,4 +60,70 @@ class RegistryTests(unittest.TestCase):
                 records = [json.loads(line) for line in events.read_text().splitlines()]
                 self.assertEqual(records[0], {'prior': True})
                 self.assertEqual([event['task'] for event in records[1:]], ['CF-001', 'CF-002'])
+
+    def test_git_checkpoint_is_scoped_and_preserves_earlier_batches(self):
+        initial = copy.deepcopy(DATA)
+        initial["completed"] = 0
+        for task in initial["tasks"]:
+            task.update(status="planned", evidence=None)
+        evidence = "specific synthetic acceptance test"
+        with TemporaryDirectory() as folder:
+            repo = pathlib.Path(folder)
+            root = repo / "automation_200"
+            root.mkdir()
+            registry = root / "registry.json"
+            events = root / "events.jsonl"
+            snapshots = root / "checkpoints"
+            first_snapshot = snapshots / "checkpoint_004.json"
+            registry.write_bytes(json.dumps(initial).encode())
+            events.write_bytes(b"")
+
+            def git(*args):
+                return subprocess.run(
+                    ["git", *args], cwd=repo, check=True, text=True, capture_output=True, timeout=40
+                ).stdout.strip()
+
+            git("init", "--quiet")
+            git("config", "user.name", "CF-0 checkpoint test")
+            git("config", "user.email", "checkpoint-test@localhost")
+            git("config", "commit.gpgSign", "false")
+            git("config", "core.autocrlf", "false")
+            git("add", "automation_200/registry.json", "automation_200/events.jsonl")
+            git("commit", "--quiet", "-m", "Synthetic registry baseline")
+            (repo / "unrelated.txt").write_text("staged outside the checkpoint\n", encoding="utf-8")
+            git("add", "unrelated.txt")
+
+            with (
+                patch.multiple(checkpoints, ROOT=root, SRC=registry, EVENTS=events, CHECKPOINTS=snapshots),
+                redirect_stdout(StringIO()),
+            ):
+                checkpoints.complete(["CF-001", "CF-002", "CF-003"], evidence)
+                with self.assertRaisesRegex(ValueError, "requires 4 verified tasks"):
+                    checkpoints.git_checkpoint()
+                self.assertFalse(snapshots.exists())
+
+                checkpoints.complete(["CF-004"], evidence)
+                checkpoints.git_checkpoint()
+                first_head = git("rev-parse", "HEAD")
+                first_bytes = first_snapshot.read_bytes()
+                first = json.loads(first_bytes)
+                self.assertEqual(first["evidence_ids"], ["CF-001", "CF-002", "CF-003", "CF-004"])
+                self.assertEqual(first["registry_sha256"], hashlib.sha256(registry.read_bytes()).hexdigest())
+                committed = git("diff-tree", "--no-commit-id", "--name-only", "-r", "HEAD").splitlines()
+                self.assertEqual(set(committed), {
+                    "automation_200/checkpoints/checkpoint_004.json",
+                    "automation_200/events.jsonl",
+                    "automation_200/registry.json",
+                })
+                self.assertEqual(git("diff", "--cached", "--name-only"), "unrelated.txt")
+                checkpoints.git_checkpoint()
+                self.assertEqual(git("rev-parse", "HEAD"), first_head)
+
+                checkpoints.complete(["CF-005", "CF-006", "CF-007", "CF-008"], evidence)
+                checkpoints.git_checkpoint()
+                second = json.loads((snapshots / "checkpoint_008.json").read_bytes())
+                self.assertEqual(second["evidence_ids"], [f"CF-{n:03d}" for n in range(1, 9)])
+                self.assertEqual(second["registry_sha256"], hashlib.sha256(registry.read_bytes()).hexdigest())
+                self.assertEqual(first_snapshot.read_bytes(), first_bytes)
+                self.assertEqual(git("diff", "--cached", "--name-only"), "unrelated.txt")
 if __name__=='__main__':unittest.main()

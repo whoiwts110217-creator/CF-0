@@ -21,3 +21,7 @@ py -3 automation_200\checkpoints.py checkpoint
 ```
 
 Commit after every four **verified** tasks, not after generating four speculative ideas. This registry can outlive any one chat. Public source and CI can verify local claims, but user-HP tasks require independent HP evidence.
+
+At a four-item milestone, `py -3 automation_200\checkpoints.py git-checkpoint`
+creates a local commit containing the registry, event log, and numbered
+checkpoint. Unrelated staged files stay staged for their own commit.

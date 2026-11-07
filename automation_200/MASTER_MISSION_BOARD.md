@@ -3,8 +3,8 @@
 **Control prompt:** [MASTER_OPERATOR_PROMPT.md](MASTER_OPERATOR_PROMPT.md)  
 **Mission control frontend:** [source and usage](mission_control/README.md)  
 **System of record:** [registry.json](registry.json) · [events.jsonl](events.jsonl) · [checkpoints/](checkpoints/)  
-**Current source registry:** **63/200 verified** as of November 7, 2026; [registry.json](registry.json) is authoritative.\
-**Last numbered checkpoint:** [060](checkpoints/checkpoint_060.json) (next numbered checkpoint 064).\
+**Current source registry:** **64/200 verified** as of November 7, 2026; [registry.json](registry.json) is authoritative.\
+**Last numbered checkpoint:** [064](checkpoints/checkpoint_064.json) (next numbered checkpoint 068).\
 **Public continuity handoff:** [docs/CONTINUITY.md](../docs/CONTINUITY.md) · [dated state](../docs/PUBLIC_CONTINUITY_STATE.json). Historical counts in the entries below remain snapshots, not live status.
 
 ## Owner-defined strategy
@@ -28,12 +28,11 @@
 
 | Rank | ID | Output and acceptance |
 |---|---|---|
-| 1 | CF-090 | Verify the relay's command timing limits, including the exact expiry and clock-skew boundaries. |
-| 2 | CF-184 | Measure poll delay and separate transport timing from any device-specific scheduling evidence. |
-| 3 | CF-108 | Validate four-item checkpoint creation and preservation under repeated runs. |
-| 4 | CF-141 | Link existing public project sources from the master index and keep the original list gap visible. |
+| 1 | CF-091 | Check that errors and diagnostic logs exclude local secrets. |
+| 2 | CF-108 | Verify the four-item Git checkpoint scope and repeatability in Windows CI. |
+| 3 | CF-141 | Link existing public project sources from the master index and keep the original list gap visible. |
 
-CF-077 needs an actual receipt upload correlated with an HP run. CF-027 still needs a non-admin Windows installation test. CF-042 needs a backup of the existing Domino data on the owner HP. Advance other eligible work while these checks are blocked.
+CF-077 needs an actual receipt upload correlated with an HP run. CF-184 needs timed evidence of when the HP picked up a queued request. CF-027 still needs a non-admin Windows installation test. CF-042 needs a backup of the existing Domino data on the owner HP. Advance other eligible work while these checks are blocked.
 
 ## Creative work inventory for concurrent safe drafting
 
@@ -570,3 +569,13 @@ The hourly public channel watchdog now runs priority selector and waiting-cycle 
 - Prior Windows CI and [Pages deployment](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42361088477) passed. No new HP receipts or Task Scheduler correlation observed; the public health report remains unavailable in the reviewed evidence. Private archives not reopened or changed. No remote commands or expanded permissions.
 
 **Next three:** (1) inspect CF-090 CI outcome and only then evaluate work-order acceptance; (2) implement/test CF-184 measurable poll-delay instrumentation without physical-HP claims; (3) audit CF-108 checkpoint dependencies and preservation checks.
+
+## CF-090 verified and checkpoint 064 created — November 7, 2026 ET
+
+- Read the complete [operator v1.0](MASTER_OPERATOR_PROMPT.md), [continuity v1.0](MASTER_CONTINUITY_PROMPT.md), and [Work v1.0](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) from [public main](https://github.com/whoiwts110217-creator/CF-0/commit/df41517c85165d6d32c9c0ff256f0b2ea4aaa407) in that order. The blobs were `67ce4bf6d176a4fde9d35b050a9959f4da1994da`, `291a4836f26f6dd3b8664092adba777bee1f1f54`, and `ee5aa07170ca4c9ec4c0c1ed5e63ee7c8dd3f431`. The next Work run retrieves all three afresh from public `main` in that order.
+- **CF-090.** Reviewed the [scheduled executor's boundary tests](https://github.com/whoiwts110217-creator/CF-0/commit/f429c5f8dbf35253860f5256fa917a17f535950c) and confirmed all six passed in the [Windows job](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42361732710/job/128371362462). They cover the exact expiry second, the 180-second clock-skew allowance, the 86,400-second maximum lifetime, invalid time types, and each allowed action. The dispatch regression also checks locally that a new command one second past expiry leaves neither an attempt nor a receipt.
+- The registry records **64/200**. [Checkpoint 064](checkpoints/checkpoint_064.json) records all 64 IDs and the exact registry SHA-256. The four additions since checkpoint 060 are CF-088, CF-089, CF-090, and CF-183. Checkpoint 068 is next.
+- **CF-108 source and local tests.** The checkpoint Git command previously swept unrelated staged changes into its commit. The new regression reproduced that defect. The scoped command passed locally across two successive milestones, including a repeat of the first checkpoint. CF-108 acceptance awaits the Windows run for this commit.
+- The [reviewed watchdog](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42359042629) matched 10 public receipts. Earlier owner-run checks establish manual activity. The fixed heartbeat remains unpublished, and HP pickup timing and unattended upload provenance still require device evidence. This run needed no clipboard handoff. The private master revision was confirmed against the earlier full read. The backup predates this registry, and the original inventory and full transcripts remain gaps. The reviewed records establish no verified income.
+
+**Next eligible work** is CF-091 secret-safe diagnostics, CF-108 Windows checkpoint verification, and CF-141 public project index verification.

@@ -64,7 +64,6 @@ def git_checkpoint(push=False):
     """
     r=verify();n=r['completed']
     if n==0 or n%4!=0:raise ValueError('git checkpoint requires 4 verified tasks since prior checkpoint')
-    checkpoint()
     root=ROOT.parent
     names=['automation_200/registry.json','automation_200/events.jsonl',
            f'automation_200/checkpoints/checkpoint_{n:03d}.json']
@@ -72,9 +71,10 @@ def git_checkpoint(push=False):
         result=subprocess.run(['git',*args],cwd=root,check=True,capture_output=True,text=True,timeout=40)
         return result.stdout.strip()
     if call('rev-parse','--is-inside-work-tree')!='true':raise ValueError('not a Git checkout')
+    checkpoint()
     call('add','--',*names)
-    if call('diff','--cached','--name-only'):
-        call('commit','-m',f'CF200 verified checkpoint {n:03d}/200')
+    if call('diff','--cached','--name-only','--',*names):
+        call('commit','--only','-m',f'CF200 verified checkpoint {n:03d}/200','--',*names)
     if push:call('push','origin','HEAD')
     print(json.dumps({'saved_git':True,'verified':n,'pushed':push}))
 

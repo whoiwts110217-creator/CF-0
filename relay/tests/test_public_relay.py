@@ -28,6 +28,7 @@ class Tests(unittest.TestCase):
     def test_no_future(self):
         x=r.make_job('ping',now=5000)
         with self.assertRaises(r.RelayError):r.validate(x,x['id']+'.json',now=1000)
+
     def test_no_identity_mismatch(self):
         x=r.make_job('ping')
         with self.assertRaises(r.RelayError):r.validate(x,r.make_job('ping')['id']+'.json')
@@ -62,16 +63,18 @@ class Tests(unittest.TestCase):
         with self.assertRaises(r.RelayError):r.validate(x,x['id']+'.json')
 
     def test_json_expired_not_executed(self):
-        x=r.make_job('ping',now=1000)
-        class BadRepo(FakeRepo):
-            pass
-        # Expired request is examined but does not create a ledger receipt.
-        with tempfile.TemporaryDirectory() as td:
-            state=r.State(pathlib.Path(td)/'db')
-            status=r.tick(BadRepo([x]),state)
-            self.assertEqual(status['executed'],0)
-            self.assertEqual(state.count(),0)
-            self.assertEqual(status['errors'][0]['error'],'expired_or_future')
+        job = r.make_job("ping", now=1000)
+        mailbox = FakeRepo([job])
+        with tempfile.TemporaryDirectory() as td, patch.object(r.time, "time", return_value=job["expires"] + 1):
+            state = r.State(pathlib.Path(td) / "db")
+            status = r.tick(mailbox, state)
+            self.assertEqual(status["executed"], 0)
+            self.assertIsNone(state.attempt(job["id"]))
+            self.assertIsNone(state.receipt(job["id"]))
+            self.assertEqual(mailbox.sent, {})
+            self.assertEqual(status["errors"], [
+                {"file": job["id"] + ".json", "error": "expired_or_future"},
+            ])
 
     def test_state_connection_closed_after_tick(self):
         x=r.make_job('ping')

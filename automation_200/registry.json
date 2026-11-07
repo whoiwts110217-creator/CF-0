@@ -3,7 +3,7 @@
   "owner": "Kiara Lynn Rose Smith",
   "project": "Caveman Focus",
   "target": 200,
-  "completed": 63,
+  "completed": 64,
   "checkpoint_every": 4,
   "status": "WORK_IN_PROGRESS",
   "note": "A planned item is not a completed task. Physical HP outcomes require owner-HP evidence.",
@@ -1163,8 +1163,8 @@
       "depends_on": [
         "CF-089"
       ],
-      "status": "planned",
-      "evidence": null,
+      "status": "verified",
+      "evidence": "f429c5f8dbf35253860f5256fa917a17f535950c covers the exact expiry second, expiry plus one second, 180-second clock skew, the 86,400-second lifetime cap, zero and negative lifetimes, timestamp types, and all three allowlisted actions. All six CF-090 boundary tests passed in Windows CI https://github.com/whoiwts110217-creator/CF-0/actions/runs/42361732710/job/128371362462. Source verification using synthetic jobs.",
       "authority": "existing-source-tests",
       "physical_hp_required": false
     },
