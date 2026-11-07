@@ -1,3 +1,19 @@
+## Current build — Road v0.1.2 (November 7, 2026)
+
+**[Download the latest playable-mechanics cartridge (.gb)](dreamkiller_road_v0_1_2.gb)** · [Open Dreamkiller Pocket](https://whoiwts110217-creator.github.io/CF-0/dreamkiller/)
+
+**Creator/developer: David Smith.** Designated owner/intended beneficiary: Kiara Lynn Rose Smith (legal transfer unverified).
+
+**Actual browser validation passed:** [Dreamkiller Browser ROM Compatibility run 42412019117](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42412019117) loaded this exact canonical build through GameBoy.js/Gambatte in headless Chromium and found a nonblank **160×144 canvas with two rendered colors**. [Website deployment run 42412019124](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42412019124) also passed. These tests do not independently verify a physical iPhone, button interactions, cross-session SRAM persistence, or native Game Boy hardware.
+
+Version **v0.1** and **v0.1.1** remain preserved as failed browser-rendering history. v0.1.1 adjusted LCD initialization, and v0.1.2 corrects the original CGB-header / DMG-palette mismatch by marking this slice **DMG-compatible** (it still works in the Game Boy Color emulator). Correct ROM SHA-256: `04370dae88b8ebcce9014063267d03b2bfb32dbbee3e2133daf31f6313cb08d6`; Git blob `46b4c9a2a0a45d507daa2f6890ee304fb944fed3`. Current web-app file `../iphone-emu/site/road-v01.gb` must match this exact blob.
+
+**Source rebuild:** original Python assembler, hand-made pixel font and CPU-subset tests are available in the accompanying Dreamkiller Road v0.1.2 source ZIP in the release conversation. The game itself has only four route scenes and two SRAM flags; the complete event journal and Chapter One are not implemented.
+
+---
+
+### Previous v0.1 release notes (historical, superseded)
+
 # Dreamkiller Road — Game Boy Cartridge v0.1
 
 **Creator/developer:** David Smith  
