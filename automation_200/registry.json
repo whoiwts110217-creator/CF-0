@@ -3,7 +3,7 @@
   "owner": "Kiara Lynn Rose Smith",
   "project": "Caveman Focus",
   "target": 200,
-  "completed": 76,
+  "completed": 77,
   "checkpoint_every": 4,
   "status": "WORK_IN_PROGRESS",
   "note": "A planned item is not a completed task. Physical HP outcomes require owner-HP evidence.",
@@ -1421,8 +1421,8 @@
       "depends_on": [
         "CF-109"
       ],
-      "status": "planned",
-      "evidence": null,
+      "status": "verified",
+      "evidence": "CF-110 source-level owner-priority fallback tests in automation_200/tests/test_blocked_priority_cf110.py commit e5d173333258a93040b478e42059ca0706c21bd0; repaired stale P0-only assertion in automation_200/tests/test_decision_engine.py commit 90112483a43a193aa19bcce40ce3dc27b5f6aaf2. Full Windows CI https://github.com/whoiwts110217-creator/CF-0/actions/runs/42409936713 PASSED, plus channel watchdog https://github.com/whoiwts110217-creator/CF-0/actions/runs/42409936734. Tests ensure blocked top P0 permits safe fallback, dependency/HP hold, retry cooldown/ceiling, and preserved source-only no-execution authority. Not an autonomous running owner decision engine or physical HP proof.",
       "authority": "owner-reviewed",
       "physical_hp_required": false
     },

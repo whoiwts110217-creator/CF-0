@@ -109,7 +109,7 @@
 **Control prompt:** [MASTER_OPERATOR_PROMPT.md](MASTER_OPERATOR_PROMPT.md)  
 **Mission control frontend:** [source and usage](mission_control/README.md)  
 **System of record:** [registry.json](registry.json) · [events.jsonl](events.jsonl) · [checkpoints/](checkpoints/)  
-**Current source registry:** **76/200 verified** as of November 7, 2026; [registry.json](registry.json) is authoritative.\
+**Current source registry:** **77/200 verified** as of November 7, 2026; [registry.json](registry.json) is authoritative.\
 **Last numbered checkpoint:** [076](checkpoints/checkpoint_076.json) (next numbered checkpoint 080).\
 **Public continuity handoff:** [docs/CONTINUITY.md](../docs/CONTINUITY.md) · [dated state](../docs/PUBLIC_CONTINUITY_STATE.json). Historical counts in the entries below remain snapshots, not live status.
 
@@ -927,3 +927,10 @@ The hourly public channel watchdog now runs priority selector and waiting-cycle 
 - **CF-100 source-level design accepted:** [Private operator gate design](../bridge/PRIVATE_OPERATOR_GATE_CF100.md) and [tests](../bridge/tests/test_private_operator_gate_cf100.py), [HP Bridge CI 42407790112](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42407790112). *DESIGN ONLY*. No private operator installed, scheduled, enabled or approved. Any future change needs explicit PCA-004 approval and local HP opt-in.
 - **Checkpoint 076:** registry, append-only event, public continuity, project status and current mission board updated together. `76/200` verified, registry Git blob `6285d13ffdc7cb8a03edd6bbb7ad52670e595647`, raw SHA256 `f588ad7b19d9ff2c91d8064a48703f30d47d7b2bb5d3072e410a75270d5baded`; next checkpoint 080. Do not infer unattended HP operation or revenue.
 - **Next three:** (1) verify Windows/continuity CI after ledger update; (2) continue P1 CF-110 blocked-priority tests without bypassing dependencies; (3) seek independent sanitized HP health-report readback through existing owner-local opt-in, not remote changes or repeated PowerShell copy-paste.
+
+## November 7, 2026 — CF-110 founder priority fallback verified
+
+- **Required continuity preflight** read current public operator blob `f8f0c94c28cd28cc0402daf4f21bd875e1417932`, continuity blob `cac63dead1e00592c1d12ea6562639b02893d81f` and [Work prompt](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) blob `5da1a390f31ee8f57e5829ef368062f9215c28ac` in order. Consulted owner contract, approval bin, decision engine, registry and relevant tests. Future runs refetch all three live.
+- **CF-110 source-verified:** [priority fallback negative tests](../automation_200/tests/test_blocked_priority_cf110.py) commit [e5d1733](https://github.com/whoiwts110217-creator/CF-0/commit/e5d173333258a93040b478e42059ca0706c21bd0) and [stale invariant correction 9011248](https://github.com/whoiwts110217-creator/CF-0/commit/90112483a43a193aa19bcce40ce3dc27b5f6aaf2); [full Windows CI 42409936713](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42409936713) passed. Correct handling: P0 if eligible, fallback P1 when no cloud-safe P0; owner preference does not bypass HP/dependencies, cooldown or explicit blocks. These are *read-only proposals*, not auto-executed commands.
+- **Atomic ledger:** `77/200` verified, registry blob `96103185820c5a6444681905ce0fca0f81cf4fc1`; current numbered checkpoint remains `076`, next `080`. Event, public status, project summary and board synchronized together. Cloud CI does not prove physical HP deployment or actual time-triggered operation.
+- **Next three:** (1) verify exact post-ledger Windows CI and dashboard source consistency; (2) advance next P1 eligible evidence task (CF-111 subject to current registry); (3) continue safe public HP-health readback after owner-local activation, no repetitive manual transcripts and no expanded action permissions. Private archive recovery gaps and unverified financial receipts unchanged.
