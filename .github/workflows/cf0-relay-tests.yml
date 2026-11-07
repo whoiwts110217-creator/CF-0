@@ -79,7 +79,7 @@ jobs:
       - name: External Windows read-only relay smoke test without GitHub CLI
         shell: pwsh
         run: |
-          $python = (Get-Command python -CommandType Application -ErrorAction Stop).Source
+          $python = (Get-Command python -CommandType Application -TotalCount 1 -ErrorAction Stop).Source
           $emptyPath = Join-Path $env:RUNNER_TEMP 'cf0_empty_path'
           New-Item -ItemType Directory -Path $emptyPath -Force | Out-Null
           $env:PATH = $emptyPath
