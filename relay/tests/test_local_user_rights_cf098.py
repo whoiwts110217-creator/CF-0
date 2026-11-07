@@ -55,9 +55,10 @@ class LocalUserRightsTests(unittest.TestCase):
 
     def test_comment_cannot_fool_auditor_as_real_principal(self):
         changed = self.install.replace(
-            "New-ScheduledTaskPrincipal -UserId $user -LogonType Interactive -RunLevel Limited",
-            "# New-ScheduledTaskPrincipal -UserId $user -LogonType Interactive -RunLevel Limited",
+            "$principal=New-ScheduledTaskPrincipal -UserId $user -LogonType Interactive -RunLevel Limited",
+            "# $principal=New-ScheduledTaskPrincipal -UserId $user -LogonType Interactive -RunLevel Limited",
             1)
+        self.assertNotEqual(changed, self.install)
         self.assertTrue(self.audit(install=changed))
 
 
