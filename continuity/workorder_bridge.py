@@ -102,6 +102,31 @@ def validate_registry(value: object) -> dict:
             not isinstance(dep, str) or dep not in task_ids for dep in dependencies
         ) or len(dependencies) != len(set(dependencies)) or task["id"] in dependencies:
             raise ValueError("invalid_cf200_dependency_reference")
+    # A snapshot may have valid references yet contain a dependency cycle.
+    # Reject it before ingesting bytes into the immutable private evidence store.
+    graph = {task["id"]: task.get("depends_on", []) for task in tasks}
+    visiting, visited = set(), set()
+    for root in graph:
+        if root in visited:
+            continue
+        stack = [(root, False)]
+        while stack:
+            node, leaving = stack.pop()
+            if leaving:
+                visiting.remove(node)
+                visited.add(node)
+                continue
+            if node in visited:
+                continue
+            if node in visiting:
+                raise ValueError("cyclic_cf200_dependency_graph")
+            visiting.add(node)
+            stack.append((node, True))
+            for dependency in reversed(graph[node]):
+                if dependency in visiting:
+                    raise ValueError("cyclic_cf200_dependency_graph")
+                if dependency not in visited:
+                    stack.append((dependency, False))
     if count != completed:
         raise ValueError("cf200_completed_count_mismatch")
     return {"tasks":tasks,"target":target,"completed":count}
