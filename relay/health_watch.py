@@ -63,6 +63,14 @@ def classify(report: object, now: int | float) -> dict:
         return status("invalid", reason="inconsistent_counts")
     if report["last_receipt_status"] not in (None, "completed", "failed", "other"):
         return status("invalid", reason="invalid_receipt_status")
+    # A nonempty receipt ledger cannot have an absent last status. A zero-row
+    # ledger cannot report a last receipt or any ping receipts. Reject rather
+    # than presenting contradictory self-reported evidence as healthy.
+    count = report["receipt_count"]
+    last = report["last_receipt_status"]
+    if ((count is not None and count > 0 and last is None)
+            or (count == 0 and last is not None)):
+        return status("invalid", reason="inconsistent_last_receipt")
     if report["error"] not in (None, "malformed_receipt", "state_unavailable"):
         return status("invalid", reason="invalid_error_field")
     try:
