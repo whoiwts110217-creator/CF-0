@@ -64,7 +64,16 @@ try{
  if(!state.launched||!state.title.includes('ROAD')||!state.canvas)throw Error('Road ROM did not render a browser emulator canvas');
  const pixels=await evaluate(`(()=>{const c=document.querySelector("#game canvas");const context=c?.getContext("2d");if(!context)return {error:"2D canvas unavailable"};const d=context.getImageData(0,0,c.width,c.height).data;const unique=new Set();for(let i=0;i<d.length;i+=4){unique.add([d[i],d[i+1],d[i+2],d[i+3]].join(","));if(unique.size>5)break}return {width:c.width,height:c.height,colors:unique.size}})()`);
  console.log('Emulated frame pixels:',JSON.stringify(pixels));
- if(pixels.error||pixels.colors<2)throw Error('ROM canvas did not paint nonblank pixel data');
+ if(pixels.error||pixels.colors<2){
+   const debug=await evaluate('({running:window.GAMEBOY_RUNNING,paused:window.GAMEBOY_PAUSED,raf:window.GAMEBOY_RAF_ID,frameTime:window.GAMEBOY_LAST_FRAME_TIME,retro:typeof window.GAMEBOY_RETRO,retroKeys:Object.keys(window.GAMEBOY_RETRO||{}).slice(0,24)})');
+   console.log('Core state during blank frame:',JSON.stringify(debug));
+   await send('Page.navigate',{url:origin});await sleep(1000);
+   await evaluate('document.getElementById("demo-button").click()');await sleep(2200);
+   const diag=await evaluate(`(()=>{const c=document.querySelector("#game canvas"),ctx=c?.getContext("2d");if(!ctx)return {error:"no canvas"};const d=ctx.getImageData(0,0,c.width,c.height).data;const colors=new Set();for(let i=0;i<d.length;i+=4){colors.add([d[i],d[i+1],d[i+2]].join(','));if(colors.size>4)break}return {colors:colors.size,run:window.GAMEBOY_RUNNING,paused:window.GAMEBOY_PAUSED}})()`);
+   console.log('Diagnostic ROM control sample:',JSON.stringify(diag));
+   throw Error('ROM canvas did not paint nonblank pixel data');
+ }
+
 
  console.log('PASS: GameBoy.js initialized the original Road cartridge in headless Chromium.');
 }catch(e){console.error('BROWSER SMOKE FAILED:',e);process.exitCode=1}
