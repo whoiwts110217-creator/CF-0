@@ -6,6 +6,7 @@ files beyond the existing relay SQLite database. Fixed GitHub destination.
 A public report is self-reported evidence, not cryptographic HP attestation.
 """
 import base64
+import binascii
 import json
 import os
 import pathlib
@@ -66,13 +67,15 @@ def publish(repo, report):
         "content": base64.b64encode(data).decode("ascii"),
     }
     if current is not None:
-        if not isinstance(current, dict) or not isinstance(current.get("sha"), str):
+        if (not isinstance(current, dict) or not isinstance(current.get("sha"), str)
+                or not isinstance(current.get("content"), str)
+                or len(current["content"]) > 8192):
             raise RelayError("health_destination_invalid")
         # Avoid an unnecessary commit when retrying identical report content.
         try:
             previous = base64.b64decode("".join(current["content"].split()), validate=True)
-        except (KeyError, AttributeError, TypeError, ValueError, UnicodeError) as exc:
-            raise RelayError("health_destination_invalid") from exc
+        except (KeyError, AttributeError, TypeError, ValueError, UnicodeError, binascii.Error):
+            raise RelayError("health_destination_invalid") from None
         if previous == data:
             return "unchanged"
         # The Windows relay polls every five minutes. Avoid a new public
