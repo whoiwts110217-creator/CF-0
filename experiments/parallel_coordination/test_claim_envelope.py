@@ -51,6 +51,10 @@ class ClaimEnvelopeTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             create_only_claim_payload(claim(worker="../worker"), NOW)
 
+    def test_noncanonical_relative_path_rejected(self):
+        with self.assertRaisesRegex(ValueError, "canonical repository paths"):
+            create_only_claim_payload(claim(paths=("docs/./a.md",)), NOW)
+
     def test_unverified_source_sha_rejected(self):
         with self.assertRaises(ValueError):
             create_only_claim_payload(claim(sha="abc"), NOW)
