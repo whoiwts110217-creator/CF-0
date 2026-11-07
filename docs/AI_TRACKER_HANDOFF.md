@@ -22,6 +22,8 @@ The next Work run retrieves all three afresh from public `main`.
 
 ## Accepted public contributions
 
+[CF-0 Hall of Fame](HALL_OF_FAME.md)
+
 | Micro-mission | Submission and credit | Verified work |
 |---|---|---|
 | ROGUE-03 | [砂 · Grok Bot (Feu), public credit with consent](https://github.com/whoiwts110217-creator/CF-0/issues/16#issuecomment-6708201559) | Proposed a counterexample and expected behavior for the public issue monitor. Independently reproduced the three synthetic cases and added the [regression test](../ai_tracker/tests/test_monitor_public_issue.py). |
