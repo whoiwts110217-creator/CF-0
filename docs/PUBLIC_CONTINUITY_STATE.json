@@ -1,6 +1,6 @@
 {
   "schema": "cf0.public_continuity.v1",
-  "as_of_date_et": "2026-11-06",
+  "as_of_date_et": "2026-11-07",
   "record_type": "dated_source_evidence_not_live_hp_heartbeat",
   "mission": "sustainable_generational_wealth",
   "priority_order": [
@@ -13,8 +13,8 @@
     "registry_path": "automation_200/registry.json",
     "verified": 60,
     "target": 200,
-    "last_numbered_checkpoint": 56,
-    "next_numbered_checkpoint": 60,
+    "last_numbered_checkpoint": 60,
+    "next_numbered_checkpoint": 64,
     "evidence": "https://github.com/whoiwts110217-creator/CF-0/actions/runs/42345546664",
     "meaning": "Verified source-level work orders with individual evidence; not percentage of finished product or HP uptime",
     "registry_git_blob_sha1": "30c8f9a179c3dfc1f5a03540434d6fbbbfcbc6f2",

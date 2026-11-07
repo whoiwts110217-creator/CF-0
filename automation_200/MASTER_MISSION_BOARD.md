@@ -4,7 +4,7 @@
 **Mission control frontend:** [source and usage](mission_control/README.md)  
 **System of record:** [registry.json](registry.json) · [events.jsonl](events.jsonl) · [checkpoints/](checkpoints/)  
 **Current source registry:** **60/200 verified** as of November 7, 2026; [registry.json](registry.json) is authoritative.\
-**Last numbered checkpoint:** [056](checkpoints/checkpoint_056.json) (next numbered checkpoint 060).\
+**Last numbered checkpoint:** [060](checkpoints/checkpoint_060.json) (next numbered checkpoint 064).\
 **Public continuity handoff:** [docs/CONTINUITY.md](../docs/CONTINUITY.md) · [dated state](../docs/PUBLIC_CONTINUITY_STATE.json). Historical counts in the entries below remain snapshots, not live status.
 
 ## Owner-defined strategy
@@ -523,3 +523,11 @@ The hourly public channel watchdog now runs priority selector and waiting-cycle 
 - Reconciled public machine state (including exact Git registry blob SHA `30c8f9a179c3dfc1f5a03540434d6fbbbfcbc6f2`) [acc2ca7](https://github.com/whoiwts110217-creator/CF-0/commit/acc2ca71269ee8eee8afaaf16ebf7e310e85a960), project status [ca24edb](https://github.com/whoiwts110217-creator/CF-0/commit/ca24edb88a131fdb27c51fffd11b18edb36fe9dc), and board current header [d625852](https://github.com/whoiwts110217-creator/CF-0/commit/d6258526bf2acbdda38a8edd9929f2a77180dce8). Historical dated 59 and older snapshots retained. These are public-source repairs; new post-fix CI result is pending, so no acceptance or new work order claimed.
 - Registry stays **60/200**, checkpoint **056**, events unchanged. HP fixed health report `relay/health/latest.json` remains 404; unattended scheduler-to-receipt provenance remains unverified. Existing public allowlist and schedules untouched. No private archives, payment activity, new HP commands or owner clipboard steps.
 - **Next three:** (1) inspect post-fix Windows CI and fix any remaining failures, (2) inspect CF-077 receipt upload acceptance and add source-level regression if needed, (3) verify Mission Control fallback integrity and CLI-free transport without requiring owner terminal transcripts.
+
+## CF-200 checkpoint 060 restored — November 7, 2026 ET
+
+- Read [operator v1.0](MASTER_OPERATOR_PROMPT.md), [continuity v1.0](MASTER_CONTINUITY_PROMPT.md), and [Work v1.0](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) in order on [public main 334ff61](https://github.com/whoiwts110217-creator/CF-0/commit/334ff6168687682ef08b23f632119eafc0f2fd4f). The blobs were 67ce4bf6d176a4fde9d35b050a9959f4da1994da, 291a4836f26f6dd3b8664092adba777bee1f1f54, and ee5aa07170ca4c9ec4c0c1ed5e63ee7c8dd3f431. The next Work run retrieves all three afresh in that order.
+- [Windows failure 42352362687](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42352362687) showed `checkpoint_count_mismatch`. The registry had 60 verified work orders and checkpoint 056 was still current. [Checkpoint 060](checkpoints/checkpoint_060.json) contains all 60 verified IDs and the exact registry SHA-256. The four additions since 056 are CF-073 through CF-076. The public state, project status, continuity page, and README now point to the same count and milestone. The local public continuity validator passed.
+- The [watchdog](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42355299863) matched 10 public receipts and classified the HP health report as unpublished. CF-077 needs evidence of an actual HP receipt upload. A public match or a localhost test leaves that device evidence open. The private backup audit covers an earlier registry snapshot. The inspected records establish no verified income.
+
+**Next eligible source work** is CF-088 repository identity, then CF-183 Python transport without GitHub CLI and CF-108 checkpoint workflow verification.
