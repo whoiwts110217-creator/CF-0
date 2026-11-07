@@ -18,6 +18,7 @@ ALLOWED = frozenset(('ping', 'hp_status', 'sidecar_verify'))
 MAX_JOB_BYTES = 8192
 MAX_SCAN = 80
 MAX_ACTIONS = 4
+NETWORK_TIMEOUT_SECONDS = 20  # bounded GitHub API GET/PUT; no infinite wait
 UUID = re.compile(r'^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$')
 SHA256 = re.compile(r'[0-9a-f]{64}')
 RECEIPT_FIELDS = frozenset({'v', 'id', 'request_sha256', 'status', 'result'})
@@ -188,7 +189,7 @@ class HttpRepo:
         if self.token: headers['Authorization']='Bearer '+self.token
         req=urllib.request.Request(url,data=data,headers=headers,method=method)
         try:
-            with urllib.request.urlopen(req,timeout=20) as res:
+            with urllib.request.urlopen(req,timeout=NETWORK_TIMEOUT_SECONDS) as res:
                 data=res.read(1_000_001)
                 if len(data)>1_000_000:raise RelayError('response_too_large')
                 return json.loads(data)
