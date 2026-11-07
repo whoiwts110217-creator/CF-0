@@ -20,6 +20,40 @@ REQUIRED_IDS = frozenset({
     "notepad_owner_launch",
 })
 PRIORITY = ["automation", "owner_priority_policy", "legitimate_finance", "parallel_other_projects"]
+# This maps the owner's *existing* workstream tiers to selector source. This is
+# regression detection only; owner-approved changes require an explicit policy
+# decision and an accompanying deliberate guard/test revision.
+EXPECTED_STREAM_TIERS = {
+    "chat_command": 0, "hp_install": 0, "sidecar": 0,
+    "receipt": 0, "security": 0, "real_operations": 0,
+    "priority_logic": 1, "archive": 1,
+    "public_finance": 2,
+    "research": 3,
+}
+
+
+def _check_priority_selector_source(root: Path) -> None:
+    source_path = root / "automation_200" / "priority_selector.py"
+    try:
+        nodes = ast.parse(source_path.read_text(encoding="utf-8")).body
+    except (OSError, SyntaxError, UnicodeError):
+        raise ValueError("owner_selector_policy_unreadable") from None
+    assignments = [node for node in nodes
+                   if isinstance(node, (ast.Assign, ast.AnnAssign))
+                   and any(isinstance(target, ast.Name)
+                           and target.id == "PRIORITY_ORDER"
+                           for target in (node.targets if isinstance(node, ast.Assign)
+                                          else [node.target]))]
+    if len(assignments) != 1:
+        raise ValueError("owner_selector_policy_missing_or_ambiguous")
+    try:
+        tiers = ast.literal_eval(assignments[0].value)
+    except (ValueError, TypeError, SyntaxError):
+        raise ValueError("owner_selector_policy_not_static") from None
+    if (type(tiers) is not dict or tiers != EXPECTED_STREAM_TIERS
+            or any(type(level) is not int for level in tiers.values())):
+        raise ValueError("founder_selector_priority_regression")
+
 
 # Minimum source capabilities from the last verified owner-facing contract.
 # Changes to these expectations are governance changes; CI alone is not consent.
@@ -65,6 +99,7 @@ def check(contract: dict, relay_source: str, *, root: Path = ROOT) -> dict:
         raise ValueError("creator_owner_credit_regression")
     if contract.get("priority_order") != PRIORITY:
         raise ValueError("founder_priority_regression")
+    _check_priority_selector_source(root)
     mission = contract.get("mission")
     if not isinstance(mission, str) or "sustainable generational wealth" not in mission.lower():
         raise ValueError("generational_wealth_mission_missing")
