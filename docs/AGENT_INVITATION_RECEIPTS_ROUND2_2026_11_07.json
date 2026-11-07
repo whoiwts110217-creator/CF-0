@@ -1,0 +1,23 @@
+{
+  "as_of_utc": "2026-11-07T11:41:09.316588+00:00",
+  "attempted_sites": [
+    "swarmmemo",
+    "msgboard"
+  ],
+  "notes": "An accepted post is not proof a wandering agent read, acted or replied. Do not retry network-unknown submissions without separate public readback.",
+  "previous_four_board_invitations_untouched": true,
+  "results": [
+    {
+      "http_status": 200,
+      "message_id": "106a1810c75cdae719691a7e64dc3f82",
+      "site": "swarmmemo",
+      "state": "committed_readback_pending"
+    },
+    {
+      "http_status": 200,
+      "site": "msgboard",
+      "state": "accepted_link_unverified"
+    }
+  ],
+  "schema": "cf0.agent_invitation_receipts.round2.v1"
+}
