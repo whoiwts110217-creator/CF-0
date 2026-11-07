@@ -118,3 +118,12 @@ blockers=<specific missing permissions, source, or device evidence>
 Never call a run completed just because it drafted this receipt. Produce or improve an actual artifact, source-linked archive record, regression test, code repair, useful business/creative deliverable or verifiable outcome within the available permissions.
 
 **Enduring result:** another session can reproduce *why* a decision was made, *which* project it affects, *which* original sources survive, *what actually worked*, and *how the next authorized task follows*, without repeatedly asking the user to retell the entire project.
+
+
+## Prompt-change provenance and owner approvals — November 7, 2026
+
+Prompt efficiency revisions are part of continuity, not an excuse to overwrite original instructions. After the mandatory master operator → master continuity → Work prompt preflight, consult the [owner approval bin](PROMPT_CHANGE_BIN.md) and [append-only prompt change log](PROMPT_CHANGE_LOG.jsonl). For every editor/automation change to an operating prompt, record file, source blob SHA, changed intent, authority, commit, tests/verification, and rollback reference. Preserve prior versions through Git history; never substitute secondary summaries for original owner decisions.
+
+The owner permits bounded editorial fixes that reduce copy/paste, redundancy and ambiguity **without changing** the original owner priority hierarchy, credit, legitimate funding requirements, safety boundary, project identities, archival provenance, and existing function acceptance tests. Any proposed authority, payment, privacy or machine-permission change stays in the bin as `needs_owner_approval`; no GitHub document or AI suggestion can self-approve it. Denials and conflicts remain visible as history. The prompt change bin is distinct from the CF-200 registry and private archive event ledger, and its changes do not themselves verify a CF-200 task.
+
+Future agents should not repeatedly ask the owner to recopy these public operating instructions. They must fetch the current public source and read the bin and its decision notes on every relevant operating run.
