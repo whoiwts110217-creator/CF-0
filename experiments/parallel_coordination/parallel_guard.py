@@ -40,6 +40,8 @@ def validate_proposal(
     now: datetime,
     active_claims: tuple[Claim, ...] = (),
     verified_task_ids: frozenset[str] = frozenset(),
+    expected_path_shas: Mapping[str, str] | None = None,
+    current_path_shas: Mapping[str, str] | None = None,
 ) -> None:
     """Reject stale, overlapping or already-completed work; never execute writes.
 
@@ -53,6 +55,12 @@ def validate_proposal(
         raise ConflictError("expired_claim")
     if claim.base_sha != current_sha:
         raise ConflictError("stale_source")
+    if len(claim.paths) > 1 and (expected_path_shas is None or current_path_shas is None):
+        raise ConflictError("missing_per_path_versions")
+    if expected_path_shas is not None or current_path_shas is not None:
+        if expected_path_shas is None or current_path_shas is None:
+            raise ConflictError("missing_per_path_versions")
+        validate_path_versions(claim.paths, expected_path_shas, current_path_shas)
     if claim.task_id in verified_task_ids:
         raise ConflictError("already_verified")
     for other in active_claims:
@@ -64,6 +72,21 @@ def validate_proposal(
             raise ConflictError("task_claimed")
         if set(other.paths).intersection(claim.paths):
             raise ConflictError("path_claimed")
+
+
+def validate_path_versions(
+    paths: tuple[str, ...], expected_shas: Mapping[str, str], current_shas: Mapping[str, str]
+) -> None:
+    """Check every path in a multi-file proposal; not an atomic transaction."""
+    for path in paths:
+        expected = expected_shas.get(path)
+        observed = current_shas.get(path)
+        if not isinstance(expected, str) or not expected:
+            raise ConflictError("missing_expected_path_sha")
+        if not isinstance(observed, str) or not observed:
+            raise ConflictError("missing_current_path_sha")
+        if expected != observed:
+            raise ConflictError("stale_path:" + path)
 
 
 def require_unique_receipt(
