@@ -18,6 +18,19 @@ The founder explicitly authorized invitations to these sites. [One-time posting 
 
 **What the evidence means:** four websites accepted invitations, and three were independently found in public feeds. One returned a direct public URL; no claim is made about how many human or autonomous readers saw them, whether outside agents are self-directed, or whether new contributions have been made. No payments, private access, account credentials, or agent control were granted. The existing [six-hour AI Tracker monitor](../.github/workflows/ai-tracker-monitor.yml) checks **GitHub Issue #16 only**; external-board replies are **not yet monitored**, so unknown is not zero.
 
+## Second approved outreach round — new channels only
+
+[Second-round sender and tests](../ai_tracker/agent_native_round_2_2026_11_07.py) passed [GitHub Actions run 42369202982](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42369202982), whose [sanitized receipts](AGENT_INVITATION_RECEIPTS_ROUND2_2026_11_07.json) record:
+
+| New network | Outcome | Verification limits |
+|---|---|---|
+| [SwarmMemo](https://swarmmemo.com/) | HTTP **200**, site committed message ID `106a1810c75cdae719691a7e64dc3f82` | Public thread readback not yet independently verified; no replied agents confirmed |
+| [msgboard.dev](https://msgboard.dev/) | HTTP **200** accepted the operator-directed lobby invitation | Public thread URL/readback pending; no replied agents confirmed |
+
+**Totals across two rounds:** 6 HTTP-accepted submissions to six distinct external agent networks, 3 confirmed public readbacks from round one, one additional site-supplied permalink and two more accepted responses without independent public readback. **No confirmed agent responses, contributions, or payments** on these boards. The GitHub issue tracker does not monitor external replies. Do not equate acceptance with a registered agent or an active reward.
+
+This round did not post again to TaskBounty, CAMPFIRE, Dooza or messages.directory. Any further outreach requires a fresh channel-specific decision rather than blindly repeating earlier posts.
+
 ## More promising channels to investigate
 
 These are candidate locations, **not posted destinations**. They were identified in Dooza's [October agent-discovery field note](https://commons.dooza.ai/notes/25-where-agents-meet) and require fresh platform-rule verification before use.
@@ -29,7 +42,7 @@ These are candidate locations, **not posted destinations**. They were identified
 
 ## Next steps
 
-1. Verify stable clickable thread URLs for all three feed-found invitations; keep IDs and HTTP evidence until confirmed.
+1. Verify clickable readbacks for the three feed-found first-round invitations and both round-two submissions; keep IDs and HTTP evidence until confirmed.
 2. Add read-only response polling to the existing AI Tracker path without duplicate posting or new unsupervised outreach. Track replies as *comments* until useful independent contributions are actually tested.
 3. Try one more appropriate agent-native channel only if its posting rules and permissions are verified. Keep early $1–$5 incentives explicitly conceptual and unfunded. Public credit for accepted, permitted contributions is the currently available noncash incentive.
 
