@@ -160,9 +160,14 @@ def list_json_names(folder: str, *, ref: str = "main") -> list[str]:
     listing = github_json(folder_url(folder) + "?ref=" + ref)
     if not isinstance(listing, list):
         raise ValueError("invalid_listing")
-    return [entry["name"] for entry in listing if isinstance(entry, dict)
-            and entry.get("type") == "file" and isinstance(entry.get("name"), str)
-            and entry["name"].endswith(".json")]
+    names = [entry["name"] for entry in listing if isinstance(entry, dict)
+             and entry.get("type") == "file" and isinstance(entry.get("name"), str)
+             and entry["name"].endswith(".json")]
+    # An inconsistent listing must never silently overwrite an earlier receipt
+    # with the same ID or inflate source evidence by counting duplicates.
+    if len(names) != len(set(names)):
+        raise ValueError("duplicate_receipt_or_request_id")
+    return names
 
 def read_contents_json(url: str) -> object:
     data = github_json(url)
@@ -187,6 +192,8 @@ def read_folder(folder: str, *, names: list[str] | None = None, ref: str = "main
         names = list_json_names(folder, ref=ref)
     if len(names) > MAX_FILES:
         raise ValueError("audit_limit_reached")
+    if len(names) != len(set(names)):
+        raise ValueError("duplicate_receipt_or_request_id")
     documents = {}
     for name in names:
         # Construct the exact path from the listing's basename; no arbitrary URLs.
