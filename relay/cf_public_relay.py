@@ -133,9 +133,15 @@ class HttpRepo:
         if self.repo != REPO:
             raise RelayError('repo_override_not_allowed')
         if self.api != API:
-            url = urllib.parse.urlsplit(self.api)
+            if type(self.api) is not str:
+                raise RelayError('api_override_not_allowed')
+            try:
+                url = urllib.parse.urlsplit(self.api)
+                port = url.port
+            except ValueError:
+                raise RelayError('api_override_not_allowed') from None
             if (self.test_loopback is not True or url.scheme != 'http'
-                    or url.hostname != '127.0.0.1' or url.port is None
+                    or url.hostname != '127.0.0.1' or port is None
                     or url.username or url.password or url.query or url.fragment
                     or url.path not in ('', '/')):
                 raise RelayError('api_override_not_allowed')
