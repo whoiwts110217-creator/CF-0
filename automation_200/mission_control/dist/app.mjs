@@ -141,6 +141,34 @@ async function refreshFromGitHub() {
   }
 }
 
+const aiTrackerStatusURL = "https://raw.githubusercontent.com/whoiwts110217-creator/CF-0/main/docs/AI_TRACKER_STATUS.json";
+
+async function refreshAITracker() {
+  try {
+    const response = await fetch(aiTrackerStatusURL + "?checked=" + Date.now(), {
+      cache: "no-store", signal: AbortSignal.timeout(7000),
+    });
+    if (!response.ok) throw new Error("Public tracker status unavailable");
+    const data = await response.json();
+    if (data?.schema !== "cf0.ai_tracker.status.v1") throw new Error("Unknown tracker status schema");
+    for (const key of ["public_comments_observed", "external_responses_verified", "independent_contributions_verified"]) {
+      if (!Number.isSafeInteger(data[key]) || data[key] < 0) throw new Error("Invalid tracker count");
+    }
+    const date = Date.parse(data.updated_utc);
+    if (!Number.isFinite(date)) throw new Error("Missing update time");
+    byId("ai-comments").textContent = data.public_comments_observed;
+    byId("ai-replies").textContent = data.external_responses_verified;
+    byId("ai-contributions").textContent = data.independent_contributions_verified;
+    const operational = data.phase === "scheduled_public_issue_monitor";
+    badge("ai-tracker-badge", operational ? "Public issue monitor" : "Development snapshot", operational ? "mint" : "amber");
+    byId("ai-status-note").textContent = "Last published check: " + checkedTime.format(new Date(date)) +
+      ". Source: public Issue #16 monitor. Coverage is limited to GitHub issue comments.";
+  } catch {
+    badge("ai-tracker-badge", "Status unavailable", "amber");
+    byId("ai-status-note").textContent = "Published tracker data could not be verified. Open the evidence snapshot on GitHub.";
+  }
+}
+
 async function start() {
   try {
     const response = await fetch("./snapshot.json", { signal: AbortSignal.timeout(3000) });
@@ -148,12 +176,12 @@ async function start() {
   } catch {
     // A missing fallback does not block the current GitHub read.
   }
-  await refreshFromGitHub();
+  await Promise.all([refreshFromGitHub(), refreshAITracker()]);
 }
 
 search.addEventListener("input", () => { page = 0; renderTasks(); });
 filter.addEventListener("change", () => { page = 0; renderTasks(); });
 previous.addEventListener("click", () => { page--; renderTasks(); });
 next.addEventListener("click", () => { page++; renderTasks(); });
-refresh.addEventListener("click", refreshFromGitHub);
+refresh.addEventListener("click", () => { refreshFromGitHub(); refreshAITracker(); });
 start();
