@@ -38,7 +38,7 @@ class SecretSafeHTTPTests(unittest.TestCase):
         )
         with patch.object(relay.urllib.request, "urlopen", side_effect=upstream):
             with self.assertRaises(relay.RelayError) as caught:
-                relay.HttpRepo(token=SECRET).request("POST", f"/repos/{relay.REPO}/contents/command_queue/inbox?ref=main", {})
+                relay.HttpRepo(token=SECRET).request("PUT", f"/repos/{relay.REPO}/contents/command_queue/receipts/00000000-0000-4000-8000-000000000001.json", {})
         self.assertEqual(str(caught.exception), "github_http_503")
         self.assert_safe(caught.exception)
 
@@ -46,7 +46,7 @@ class SecretSafeHTTPTests(unittest.TestCase):
         with patch.object(relay.urllib.request, "urlopen",
                           side_effect=urllib.error.URLError(SECRET)):
             with self.assertRaises(relay.RelayError) as caught:
-                relay.HttpRepo(token=SECRET).request("GET", "/repos/example")
+                relay.HttpRepo(token=SECRET).request("GET", f"/repos/{relay.REPO}/contents/command_queue/inbox?ref=main")
         self.assertEqual(str(caught.exception), "github_unreachable")
         self.assert_safe(caught.exception)
 
@@ -54,7 +54,7 @@ class SecretSafeHTTPTests(unittest.TestCase):
         with patch.object(relay.urllib.request, "urlopen",
                           return_value=BadJsonResponse()):
             with self.assertRaises(relay.RelayError) as caught:
-                relay.HttpRepo(token=SECRET).request("GET", "/repos/example")
+                relay.HttpRepo(token=SECRET).request("GET", f"/repos/{relay.REPO}/contents/command_queue/inbox?ref=main")
         self.assertEqual(str(caught.exception), "github_invalid_json")
         self.assert_safe(caught.exception)
 
@@ -62,7 +62,7 @@ class SecretSafeHTTPTests(unittest.TestCase):
         with patch.object(relay.urllib.request, "urlopen",
                           return_value=BadJsonResponse()) as send:
             with self.assertRaises(relay.RelayError):
-                relay.HttpRepo(token=SECRET).request("GET", "/repos/example")
+                relay.HttpRepo(token=SECRET).request("GET", f"/repos/{relay.REPO}/contents/command_queue/inbox?ref=main")
         request = send.call_args.args[0]
         self.assertIn(SECRET, request.get_header("Authorization"))
         self.assertNotIn(SECRET, request.full_url)
