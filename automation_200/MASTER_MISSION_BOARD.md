@@ -59,7 +59,7 @@
 **Control prompt:** [MASTER_OPERATOR_PROMPT.md](MASTER_OPERATOR_PROMPT.md)  
 **Mission control frontend:** [source and usage](mission_control/README.md)  
 **System of record:** [registry.json](registry.json) · [events.jsonl](events.jsonl) · [checkpoints/](checkpoints/)  
-**Current source registry:** **72/200 verified** as of November 7, 2026; [registry.json](registry.json) is authoritative.\
+**Current source registry:** **73/200 verified** as of November 7, 2026; [registry.json](registry.json) is authoritative.\
 **Last numbered checkpoint:** [072](checkpoints/checkpoint_072.json) (next numbered checkpoint 076).\
 **Public continuity handoff:** [docs/CONTINUITY.md](../docs/CONTINUITY.md) · [dated state](../docs/PUBLIC_CONTINUITY_STATE.json). Historical counts in the entries below remain snapshots, not live status.
 
@@ -840,3 +840,9 @@ The hourly public channel watchdog now runs priority selector and waiting-cycle 
 - **Checkpoint 072:** task registry + append-only verification event + continuity JSON + current project status + mission board + numbered checkpoint committed atomically. `72/200` verified, registry SHA256 `02fd9acf0b8e0ba05781a34a53197fe679c4744c3efc1d32884bbb3157850a56`, registry Git blob `38e68cca79e5aa8c3e01829cdd55eb6ab4393632`, next checkpoint **076**. Preserve historic Notepad regression, project/archive branches, P0-P3 priorities, and original public HP command allowlist.
 - **HP health:** fixed public `relay/health/latest.json` still unverified / not published at last inspection. Do not remotely enable opt-in, or interpret source CI as physical unattended operation. No payment, outside agent contribution, private archive restoration, or owner clipboard step claimed.
 - **Next three:** verify source-level Windows CI/continuity after checkpoint; implement eligible P0 `CF-097` bounded poll-work tests; obtain a real publicly sanitized HP health artifact after owner-local approval and separately correlate with Windows scheduler evidence.
+
+## November 7 — CF-097 accepted without replacing concurrent project edits
+
+- Re-read complete current main operator `f8f0c94c28cd28cc0402daf4f21bd875e1417932`, continuity `cac63dead1e00592c1d12ea6562639b02893d81f`, Work `5da1a390f31ee8f57e5829ef368062f9215c28ac`, owner controls, registry and CI. [CF-097 test commit aaaf03a4](https://github.com/whoiwts110217-creator/CF-0/commit/aaaf03a4f2e79e824450214045c43ba26eb66195) passed [Windows 42403779158](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42403779158): at most 4 actions and 80 scans per tick, cursor continuation and no second attempt after unknown outcome. It proves source-level work bounds, not physical device execution. The related independent Dreamkiller/donation work is preserved.
+- Synced canonical registry, append-only event, public continuity and project-status headings atomically to **73/200** (Git registry blob `38b6cf4b5f30e22a30246ed85cd345b06f352029`). Numbered checkpoint **072** remains latest and **076** is next. Public HP health report still missing; cannot establish unattended HP operation. Preserved Notepad regression and existing three-command allowlist; no new machine access or revenue claims.
+- **Next 3:** verify post-commit Windows test and public continuity; inspect CF-098 owner-local user rights without changing any HP permissions; continue evidence-only HP health monitoring. Successor must read current public prompts anew, not recopy this log.
