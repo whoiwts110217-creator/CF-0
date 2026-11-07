@@ -40,7 +40,13 @@ REQUIRED = {
 
 
 def git_blob_sha(raw: bytes) -> str:
-    return hashlib.sha1(b"blob " + str(len(raw)).encode() + b"\0" + raw).hexdigest()
+    """Compare canonical prompt text despite Git checkout CRLF conversion on Windows.
+
+    The tracked public prompts use LF in Git. Do not treat a Windows working-tree
+    CRLF checkout as an unlogged modification; content edits still change the hash.
+    """
+    canonical = raw.replace(b"\r\n", b"\n")
+    return hashlib.sha1(b"blob " + str(len(canonical)).encode() + b"\0" + canonical).hexdigest()
 
 
 def audit(root: Path = ROOT) -> list[str]:
