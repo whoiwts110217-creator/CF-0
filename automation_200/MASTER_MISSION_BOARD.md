@@ -1,3 +1,10 @@
+## November 7, 2026 — Dreamkiller adversarial stress audit (P3 / no CF-200 verification)
+
+- **Source-verified creative work:** [Chapter One adversarial audit](../concepts/dreamkiller/chapter_01/STRESS_AUDIT_2026-11-07.md), [reference simulation](../concepts/dreamkiller/chapter_01/stress_reference.py), and [regression cases](../concepts/dreamkiller/chapter_01/test_stress_edge_cases.py). Original design JSON remains unchanged and **proposed**.
+- **Negative evidence preserved:** [CI 42408090856](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42408090856) found two failures: *rescue neither* could be rewritten as *rescue both*, even after save/restore, in the Python reference simulator. [Patch 80d6300](https://github.com/whoiwts110217-creator/CF-0/commit/80d6300494cdab56a37eb06bfe2bbc0ceb3c34a9) persisted a decision flag. [CI 42408145018](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42408145018) passed **28/28 reference tests**, 72 modeled choice combinations and 38,400 fuzzed reference actions. Seven remaining gaps stay OPEN: gate state, save format, water economy, fruit lifecycle, identity quantifier, DK-000 condition, and actual Game Boy ROM.
+- **Strict scope:** This does not prove physical iPhone use, actual Game Boy ROM, hardware glitches, gameplay balance, or complete continuity. Neither HP permission nor funds changed. **CF-200 registry snapshot:** 75/200 verified from blob cecdcea4f9dcc00e1b046f39875433aaeb7e63d6; no task status/event/checkpoint changed by the P3 stress test. Previously corrected creator: **David Smith**; designated owner/beneficiary: **Kiara Lynn Rose Smith**.
+- **Next:** specify conditional gate and P-001 identity semantics → size bounded journal/SRAM save format → build and test actual minimal cartridge. Maintain owner P0/P1/P2 operational priorities separately.
+
 
 ## November 7, 2026 — owner-facing public task and issue dashboard
 
