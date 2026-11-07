@@ -81,3 +81,24 @@ This verifies classification of **one controlled two-file interruption**, not th
 - Mandatory public preflight was read in order: [Operator](../../automation_200/MASTER_OPERATOR_PROMPT.md) blob `f8f0c94c28cd28cc0402daf4f21bd875e1417932`, [Continuity](../../automation_200/MASTER_CONTINUITY_PROMPT.md) blob `cac63dead1e00592c1d12ea6562639b02893d81f`, [Work self-reference](../../automation_200/WORK_COPY_PASTE_AUTOMATION_PROMPT.md) blob `5da1a390f31ee8f57e5829ef368062f9215c28ac`.
 
 **Next executable gates:** (1) obtain independent completed CI evidence for the entire branch suite; (2) add an evidence-authenticated recovery packet that includes claim and receipt provenance, without expanding authority; (3) test a reviewed claim release/reclaim proposal in a sandbox before any live integration. No additional copy/paste is requested from the owner.
+
+## November 7 continuation — integrity packet and actual GitHub CI acceptance
+
+**Previously unresolved CI gate now has positive evidence.** [Actions run #27](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42413588078) on branch commit [1aef7b5](https://github.com/whoiwts110217-creator/CF-0/commit/1aef7b589a116c99a79bb67319f0d26d6c6b3300) completed **successfully**. The GitHub Actions job log directly reports **"Ran 80 tests ... OK"** and a successful \`guard-tests\` job. The source files on that run included the new [\`evidence_packet.py\`](evidence_packet.py) (Git blob \`c4f0a5cdce5129cdcad4e7c910ad44cc7f861792\`) and [20 packet tests](test_evidence_packet.py) (blob \`e45978103b5482a22773192ba56d6a07e568ec8d\`).
+
+### What the read-only integrity packet actually checks
+
+- Byte-exact local content matches the **claimed** Git blob SHA-1, plus claim task/operator/base SHA, authorized test file scope, status, bounded date window, and non-reclaim policy.
+- Synthetic normalized receipt records match expected action IDs, expected paths, request SHA-256, and \`completed\` status; missing, duplicated, malformed, altered or uncertain records fail closed.
+- The returned status is intentionally \`INTEGRITY_CHECKED_ONLY\` or \`HOLD_EVIDENCE\`. All results prohibit automatic action retry, claim release, or CF-200 task verification.
+- A matching hash does **not** authenticate GitHub origin, signer, authorization, real HP execution, receipt provenance, Windows scheduler, or the external truth of any claimed result. The current public HP relay receipt schema is **not assumed** to be identical to the synthetic normalized receipt schema.
+
+### Cross-module recovery gate
+
+[Integration tests](test_recovery_integration.py) (Git blob \`bdeefc1ac0942eb07e9c297d43fec686aa14a91e\`, [commit 05fe30b](https://github.com/whoiwts110217-creator/CF-0/commit/05fe30b01b2f5e0c4cb2429beb935af552e8d123)) connect **claim envelope -> integrity packet -> partial-write reconciliation -> interrupted claim review**, with five no-network cases: matched evidence still requires review; tampering blocks; partially applied writes hold; missing HP schedule evidence blocks; uncertain receipt blocks. CI confirmation for this **newer** integration commit must be checked separately; run #27 cannot certify code committed after it.
+
+**Main registry at latest inspection:** \`81/200\`, blob \`51a706bdec8f8f206e5ec7a4f4a4e6eeb1cc2593\`; this branch did not change it.
+
+**Preflight versions read fully from current public main:** operator \`f8f0c94c28cd28cc0402daf4f21bd875e1417932\`, continuity \`cac63dead1e00592c1d12ea6562639b02893d81f\`, Work self-reference \`5da1a390f31ee8f57e5829ef368062f9215c28ac\`. Retrieve fresh for the next decision.
+
+**Next three executable gates:** (1) verify the new integrated suite via a completed GitHub Actions job; (2) adapt provenance validation to the *actual* existing public-safe receipt schema only after fetching its authoritative source and tests, not by guessing; (3) review a conservative release/reclaim decision process with owner permission, no automatic retries. No new HP commands or production claim locks have been enabled.
