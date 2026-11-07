@@ -1,3 +1,11 @@
+## November 7, 2026 — public task board automatic refresh verified
+
+- **Mandatory full three-prompt preflight:** operator blob `f8f0c94c28cd28cc0402daf4f21bd875e1417932`; continuity blob `cac63dead1e00592c1d12ea6562639b02893d81f`; Work self-reference blob `5da1a390f31ee8f57e5829ef368062f9215c28ac`. The next run must fetch all three fresh from public main.
+- **New evidence:** existing enabled hourly CF-200 automation `6aeca952e1608191a102030939b4205b` reported a completed run and linked [dashboard update commit 479c93a](https://github.com/whoiwts110217-creator/CF-0/commit/479c93ae8689279cb422771a504cd3be494763aa). Connected GitHub confirmed the resulting dashboard content, which records a fresh registry check and unchanged three open issues (#1, #3, #16). This verifies one task-service/GitHub **dashboard refresh**, not sustained future reliability or the HP scheduler.
+- **Owner-facing clarity repair:** [Task & Issue dashboard](../docs/TASKS_AND_ISSUES.md) reorganized in-place into snapshot, work candidates, operational problems, actual GitHub issues, owner approvals, and verified refresh mechanism in [commit db5455b](https://github.com/whoiwts110217-creator/CF-0/commit/db5455be4f38808a8ece8274c9b84bfc692d5995). Earlier additive status notes were consolidated; history remains in Git commits.
+- **State at check:** registry `75/200` verified, blob `cecdcea4f9dcc00e1b046f39875433aaeb7e63d6`, 125 planned. This review marks **no CF-200 work order** verified; no event/checkpoint change, no HP action, no income claim, no external AI messages, no new scheduler.
+- **Next:** continue checking scheduled dashboard refresh for subsequent verifiable commits; independently verify HP scheduler/health separately; maintain unambiguous current owner approval requests and P0/P1/P2/P3 ordering. Any later source change should update the board **in place**, not append a contradictory timestamped fragment.
+
 ## November 7, 2026 — Dreamkiller adversarial stress audit (P3 / no CF-200 verification)
 
 - **Source-verified creative work:** [Chapter One adversarial audit](../concepts/dreamkiller/chapter_01/STRESS_AUDIT_2026-11-07.md), [reference simulation](../concepts/dreamkiller/chapter_01/stress_reference.py), and [regression cases](../concepts/dreamkiller/chapter_01/test_stress_edge_cases.py). Original design JSON remains unchanged and **proposed**.
