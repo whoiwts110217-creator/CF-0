@@ -197,7 +197,22 @@ def ingest(conn: sqlite3.Connection, state: Path, source: Path, kind: str,
         sid = "sha256:" + digest
         destination = store / digest[:2] / digest
         _private_dir(destination.parent)
-        if not destination.exists():
+        if destination.exists() or destination.is_symlink():
+            # A digest-shaped path is not evidence that its bytes are intact.
+            # Preserve corrupt evidence rather than silently replacing it.
+            if not destination.is_file() or destination.is_symlink():
+                raise ValueError("private_original_path_not_regular_file")
+            saved_hash = hashlib.sha256()
+            saved_size = 0
+            with destination.open("rb") as saved:
+                while block := saved.read(CHUNK):
+                    saved_size += len(block)
+                    if saved_size > n:
+                        raise ValueError("private_original_hash_mismatch")
+                    saved_hash.update(block)
+            if saved_size != n or saved_hash.hexdigest() != digest:
+                raise ValueError("private_original_hash_mismatch")
+        else:
             os.replace(temp_name, destination)
         # Same bytes but different origins remain individually visible.
         with conn:
