@@ -1,0 +1,31 @@
+name: Dreamkiller Browser ROM Compatibility
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'concepts/dreamkiller/iphone-emu/**'
+      - 'concepts/dreamkiller/rom_v0_1/**'
+      - '.github/workflows/dreamkiller-browser-smoke.yml'
+  pull_request:
+    paths:
+      - 'concepts/dreamkiller/iphone-emu/**'
+      - 'concepts/dreamkiller/rom_v0_1/**'
+      - '.github/workflows/dreamkiller-browser-smoke.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  emulator-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate original cartridge identity and web package
+        run: |
+          python -m unittest discover -s concepts/dreamkiller/iphone-emu/tests -p 'test_*.py' -v
+          node --check concepts/dreamkiller/iphone-emu/site/app.js
+          node --check concepts/dreamkiller/iphone-emu/site/service-worker.js
+      - name: Launch Dreamkiller Road ROM inside real headless browser emulator
+        run: |
+          node --check concepts/dreamkiller/iphone-emu/tests/browser_smoke.mjs
+          node concepts/dreamkiller/iphone-emu/tests/browser_smoke.mjs
