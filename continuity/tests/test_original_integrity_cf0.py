@@ -1,5 +1,6 @@
 """Adversarial offline test: corrupted content-addressed originals fail closed."""
 import hashlib
+import contextlib
 from pathlib import Path
 import tempfile
 import unittest
@@ -13,7 +14,7 @@ class OriginalIntegrityTests(unittest.TestCase):
             state = base / "private"
             original = base / "source.txt"
             original.write_bytes(b"original verified data")
-            with c.open_db(state) as db:
+            with contextlib.closing(c.open_db(state)) as db:
                 first = c.ingest(db, state, original, "memo", "first")
                 stored = Path(first["private_original"])
                 stored.write_bytes(b"corrupt")
@@ -31,7 +32,7 @@ class OriginalIntegrityTests(unittest.TestCase):
             state = base / "private"
             original = base / "source.txt"
             original.write_bytes(b"unchanged source")
-            with c.open_db(state) as db:
+            with contextlib.closing(c.open_db(state)) as db:
                 a = c.ingest(db, state, original, "memo", "first")
                 b = c.ingest(db, state, original, "memo", "second")
                 self.assertTrue(b["duplicate"])
@@ -52,7 +53,7 @@ class OriginalIntegrityTests(unittest.TestCase):
                 dest.symlink_to(original)
             except (OSError, NotImplementedError):
                 self.skipTest("symlink creation unavailable")
-            with c.open_db(state) as db:
+            with contextlib.closing(c.open_db(state)) as db:
                 with self.assertRaisesRegex(ValueError, "private_original_path_not_regular_file"):
                     c.ingest(db, state, original, "memo")
                 self.assertEqual(c.audit(db)["sources"], 0)
