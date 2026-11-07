@@ -31,9 +31,13 @@ FILES = (
 class PublicContinuityTests(unittest.TestCase):
     def test_live_repository_continuity(self):
         status = check()
+        registry = json.loads((ROOT / "automation_200/registry.json").read_text(encoding="utf-8"))
+        verified = sum(task["status"] == "verified" for task in registry["tasks"])
+        checkpoints = (ROOT / "automation_200/checkpoints").glob("checkpoint_*.json")
+        latest_checkpoint = max(int(path.stem.removeprefix("checkpoint_")) for path in checkpoints)
         self.assertTrue(status["passed"])
-        self.assertEqual(status["registry_verified"], 54)
-        self.assertEqual(status["latest_checkpoint"], 52)
+        self.assertEqual(status["registry_verified"], verified)
+        self.assertEqual(status["latest_checkpoint"], latest_checkpoint)
         self.assertTrue(status["ping_digest_matched"])
         self.assertFalse(status["notepad_restored"])
         self.assertFalse(status["hp_hardware_attestation"])
@@ -55,7 +59,7 @@ class PublicContinuityTests(unittest.TestCase):
         root = self.prepare()
         p = root / "docs/PUBLIC_CONTINUITY_STATE.json"
         j = json.loads(p.read_text())
-        j["cf200"]["verified"] = 52
+        j["cf200"]["verified"] += 1
         p.write_text(json.dumps(j))
         with self.assertRaisesRegex(ContinuityError, "public_work_order_count_stale"):
             check(root)
@@ -79,7 +83,13 @@ class PublicContinuityTests(unittest.TestCase):
     def test_old_public_board_heading_is_rejected(self):
         root = self.prepare()
         p = root / "automation_200/MASTER_MISSION_BOARD.md"
-        p.write_text(p.read_text().replace("54/200", "52/200", 1))
+        registry = json.loads((root / "automation_200/registry.json").read_text(encoding="utf-8"))
+        count = registry["completed"]
+        board = p.read_text(encoding="utf-8")
+        header, rest = board.split("## Owner-defined strategy", 1)
+        self.assertIn(f"{count}/200", header)
+        header = header.replace(f"{count}/200", f"{count + 1}/200", 1)
+        p.write_text(header + "## Owner-defined strategy" + rest, encoding="utf-8")
         with self.assertRaisesRegex(ContinuityError, "public_mission_board_header_stale"):
             check(root)
 

@@ -2,7 +2,7 @@
 **Owner:** Kiara Lynn Rose Smith's Caveman Focus  
 **Control prompt:** [MASTER_OPERATOR_PROMPT.md](MASTER_OPERATOR_PROMPT.md)  
 **System of record:** [registry.json](registry.json) · [events.jsonl](events.jsonl) · [checkpoints/](checkpoints/)  
-**Current source registry:** **54/200 verified** as of November 6, 2026; [registry.json](registry.json) is authoritative.  
+**Current source registry:** **55/200 verified** as of November 6, 2026; [registry.json](registry.json) is authoritative.  
 **Last numbered checkpoint:** [052](checkpoints/checkpoint_052.json) (next numbered checkpoint 056, not yet due).  
 **Public continuity handoff:** [docs/CONTINUITY.md](../docs/CONTINUITY.md) · [dated state](../docs/PUBLIC_CONTINUITY_STATE.json). Historical counts in the entries below remain snapshots, not live status.
 
@@ -400,3 +400,12 @@ The hourly public channel watchdog now runs priority selector and waiting-cycle 
 - No scheduler, public relay action, private archive, registry or event history changed. CF-200 remains **54/200**, checkpoint **052**. HP unattended execution and Notepad deployment remain unverified; no income claimed.
 
 **Next three:** (1) verify the existing Work schedule actually reads the new public self-reference at its next authorized run; (2) check Windows CI for dependency-graph changes; (3) continue the existing sanitized HP health/report loop and private v3 import only with required evidence and authorized private sources.
+
+## CF-071 — public-safe HP status receipt regression, November 6, 2026 ET
+
+- Read the complete master operator v1.0, master continuity v1.0, and [Work execution prompt v1.0](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) in that order at [public main 22b850a](https://github.com/whoiwts110217-creator/CF-0/commit/22b850ad9990d706c899647099ea370f24bec36e). Work prompt blob was ee5aa07170ca4c9ec4c0c1ed5e63ee7c8dd3f431. Next Work run fetches all three again from public main.
+- [CF-071 test commit 31d6586](https://github.com/whoiwts110217-creator/CF-0/commit/31d658691510ef8292227451e2f851bdff244f40) exercises hp_status through SQLite and the public HTTP writeback path against a loopback endpoint. The exact receipt excludes synthetic host, user and path metadata. Replay after reopening the database preserves the same receipt and makes no duplicate write. The local relay module passed all 28 tests. [Windows relay CI 42324453763](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42324453763) passed on that test commit. CF-071 is recorded in the [registry](registry.json) and [append-only events](events.jsonl), bringing the count to **55/200**. Checkpoint 052 remains the latest numbered checkpoint.
+- [Public ping](../command_queue/receipts/aeccc8a2-217f-4786-aaaf-19b2fc9ff35a.json) matched its request and digest. The fixed public health report returned 404. A Windows scheduled instance and wrapper outcome remain uncorrelated with the receipt. The existing hourly executor already instructs future runs to retrieve the three prompts. No verified income was found in the inspected public evidence.
+- The existing private v3 audit covers the earlier 54-order registry snapshot. The new registry snapshot needs its own private sync and restore check. Full original conversation exports and the original roughly 37-project inventory are still missing.
+
+**Next three eligible source tasks:** CF-072 response digest validation, CF-088 repository identity, and CF-183 Python transport without GitHub CLI.
