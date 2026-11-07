@@ -19,6 +19,26 @@ else:
 
 API = "https://api.github.com"
 MAX_FILES = 120
+ARCHIVE_REVIEW_AT = 100
+QUEUE_FOLDERS = ("inbox", "receipts")
+
+def archive_capacity(file_counts: dict[str, int]) -> dict:
+    largest_folder = max(file_counts.values())
+    if largest_folder > MAX_FILES:
+        state = "limit_exceeded"
+    elif largest_folder >= ARCHIVE_REVIEW_AT:
+        state = "review_due"
+    else:
+        state = "within_limit"
+    return {
+        "state": state,
+        "file_counts": file_counts,
+        "review_at_per_folder": ARCHIVE_REVIEW_AT,
+        "limit_per_folder": MAX_FILES,
+        "remaining_before_limit": {
+            folder: max(0, MAX_FILES - count) for folder, count in file_counts.items()
+        },
+    }
 
 def summarize(inbox: dict, receipts: dict, now: int) -> dict:
     """Return source-only channel evidence; do not infer an authenticated HP."""
@@ -88,22 +108,28 @@ def github_json(url: str) -> object:
         raise ValueError("response_too_large")
     return json.loads(content)
 
-def read_folder(folder: str) -> dict:
-    if folder not in ("inbox", "receipts"):
+def folder_url(folder: str) -> str:
+    if folder not in QUEUE_FOLDERS:
         raise ValueError("invalid_directory")
-    root = f"{API}/repos/{REPO}/contents/command_queue/{folder}"
-    listing = github_json(root + "?ref=main")
+    return f"{API}/repos/{REPO}/contents/command_queue/{folder}"
+
+def list_json_names(folder: str) -> list[str]:
+    listing = github_json(folder_url(folder) + "?ref=main")
     if not isinstance(listing, list):
         raise ValueError("invalid_listing")
-    files = [entry for entry in listing if isinstance(entry, dict)
-             and entry.get("type") == "file" and isinstance(entry.get("name"), str)
-             and entry["name"].endswith(".json")]
-    if len(files) > MAX_FILES:
+    return [entry["name"] for entry in listing if isinstance(entry, dict)
+            and entry.get("type") == "file" and isinstance(entry.get("name"), str)
+            and entry["name"].endswith(".json")]
+
+def read_folder(folder: str, *, names: list[str] | None = None) -> dict:
+    root = folder_url(folder)
+    if names is None:
+        names = list_json_names(folder)
+    if len(names) > MAX_FILES:
         raise ValueError("audit_limit_reached")
     documents = {}
-    for entry in files:
+    for name in names:
         # Construct the exact path from the listing's basename; no arbitrary URLs.
-        name = entry["name"]
         if "/" in name or ".." in name:
             raise ValueError("invalid_filename")
         data = github_json(root + "/" + name + "?ref=main")
@@ -124,13 +150,24 @@ def main(argv=None) -> int:
     args = p.parse_args(argv)
     if not args.live:
         p.error("use --live for a read-only GitHub audit")
+    capacity = None
     try:
-        report = summarize(read_folder("inbox"), read_folder("receipts"), int(time.time()))
+        names = {folder: list_json_names(folder) for folder in QUEUE_FOLDERS}
+        capacity = archive_capacity({folder: len(files) for folder, files in names.items()})
+        if capacity["state"] == "limit_exceeded":
+            raise ValueError("audit_limit_reached")
+        inbox = read_folder("inbox", names=names["inbox"])
+        receipts = read_folder("receipts", names=names["receipts"])
+        report = summarize(inbox, receipts, int(time.time()))
     except (ValueError, OSError, urllib.error.URLError, json.JSONDecodeError) as exc:
         # Never print token-bearing headers, machine details or response bodies.
-        print(json.dumps({"audit": "unavailable", "error_type": type(exc).__name__}))
+        failure = {"audit": "unavailable", "error_type": type(exc).__name__}
+        if capacity is not None:
+            failure["archive_capacity"] = capacity
+        print(json.dumps(failure, sort_keys=True))
         return 1
-    print(json.dumps({"audit": "read_only", "repo": REPO, **report}, sort_keys=True))
+    print(json.dumps({"audit": "read_only", "repo": REPO,
+                      "archive_capacity": capacity, **report}, sort_keys=True))
     return 0
 
 if __name__ == "__main__":

@@ -27,7 +27,9 @@ Download the full GitHub repo ZIP, extract it to a permanent folder; double-clic
 
 The read-only `relay/channel_audit.py` compares public request IDs and canonical SHA-256 digests against public execution receipts. It counts pending/expired requests, invalid requests, mismatched receipts, orphan receipts, and setup probes. It **does not** treat a setup probe, CI pass, or matching public content as cryptographic proof of the physical HP's identity.
 
-The [CF-0 Channel Evidence Watchdog](https://github.com/whoiwts110217-creator/CF-0/actions/workflows/cf0-channel-watchdog.yml) runs hourly and on changes to the public inbox, receipts, or audit code. Open a run's **Inspect live public queue and receipts (read-only)** step to see the JSON counts. The workflow has `contents: read` permission and requires no credential changes or new HP installation.
+The [CF-0 Channel Evidence Watchdog](https://github.com/whoiwts110217-creator/CF-0/actions/workflows/cf0-channel-watchdog.yml) is scheduled every five minutes and runs on changes to the public inbox, receipts, or audit code. Open a run's **Inspect live public queue and receipts (read-only)** step to see the JSON counts. The workflow has `contents: read` permission and requires no credential changes or new HP installation.
+
+The archive capacity report counts JSON files separately in the inbox and receipt folders before opening their contents. It reports `review_due` when either folder reaches 100, leaving 20 slots before the audit ceiling of 120. At 120, the audit still runs. Above 120 in either folder, the watchdog reports `limit_exceeded` and exits before fetching individual documents. Archive or pruning decisions use a separate owner-reviewed procedure.
 
 To run the same check in a local repository checkout, use `py -3 relay\channel_audit.py --live`. It makes GitHub HTTPS **GET** requests only. To run offline classification tests, use `py -3 -m unittest discover -s relay\tests -p test_channel_audit.py -v`. Unanswered commands remain pending or expired until a genuine matching execution receipt is independently observed; this watchdog never simulates one.
 

@@ -1,7 +1,13 @@
 """Read-only channel audit evidence tests; no real HP contact or claims."""
+import base64
+import contextlib
+import io
+import json
 import unittest
+from unittest.mock import patch
 
 from relay.cf_public_relay import make_job, sha
+from relay import channel_audit
 from relay.channel_audit import summarize
 
 
@@ -74,6 +80,65 @@ class ChannelAuditTests(unittest.TestCase):
         report = summarize({self.name: invalid}, {self.name: self.good}, self.issued + 90)
         self.assertEqual(report["invalid_requests"], 1)
         self.assertEqual(report["matching_execution_receipts"], 0)
+
+    def test_archive_capacity_checks_each_folder_at_the_boundaries(self):
+        for size, expected in ((99, "within_limit"), (100, "review_due"),
+                               (120, "review_due"), (121, "limit_exceeded")):
+            for folder, other in (("inbox", "receipts"), ("receipts", "inbox")):
+                with self.subTest(folder=folder, size=size):
+                    capacity = channel_audit.archive_capacity({folder: size, other: 1})
+                    self.assertEqual(capacity["state"], expected)
+                    self.assertEqual(capacity["remaining_before_limit"][folder], max(0, 120 - size))
+
+    def test_live_audit_preflights_both_folders_before_reading_overfull_queue(self):
+        inbox_url = channel_audit.folder_url("inbox") + "?ref=main"
+        receipts_url = channel_audit.folder_url("receipts") + "?ref=main"
+        overfull = [{"type": "file", "name": f"receipt-{number}.json"} for number in range(121)]
+        for listings in ((overfull, []), ([], overfull)):
+            with self.subTest(inbox_count=len(listings[0])):
+                output = io.StringIO()
+                with patch.object(channel_audit, "github_json", side_effect=listings) as fetch:
+                    with contextlib.redirect_stdout(output):
+                        self.assertEqual(channel_audit.main(["--live"]), 1)
+                    self.assertEqual([args[0] for args, _ in fetch.call_args_list],
+                                     [inbox_url, receipts_url])
+                report = json.loads(output.getvalue())
+                self.assertEqual(report["audit"], "unavailable")
+                self.assertEqual(report["archive_capacity"]["state"], "limit_exceeded")
+                self.assertEqual(report["archive_capacity"]["file_counts"],
+                                 {"inbox": len(listings[0]), "receipts": len(listings[1])})
+                self.assertNotIn("matching_execution_receipts", report)
+
+    def test_live_audit_keeps_matching_receipts_at_the_ceiling(self):
+        inbox_url = channel_audit.folder_url("inbox")
+        receipts_url = channel_audit.folder_url("receipts")
+        entries = [{"type": "file", "name": self.name}, {"type": "file", "name": "README.md"}]
+        entries.extend({"type": "file", "name": f"archive-{number}.json"} for number in range(119))
+
+        def fake_github(url):
+            if url == inbox_url + "?ref=main":
+                return [{"type": "file", "name": self.name}]
+            if url == receipts_url + "?ref=main":
+                return entries
+            if url.startswith(inbox_url + "/"):
+                document = self.job
+            elif url == receipts_url + "/" + self.name + "?ref=main":
+                document = self.good
+            else:
+                document = {}
+            return {"encoding": "base64",
+                    "content": base64.b64encode(json.dumps(document).encode()).decode("ascii")}
+
+        output = io.StringIO()
+        with patch.object(channel_audit, "github_json", side_effect=fake_github) as fetch:
+            with contextlib.redirect_stdout(output):
+                self.assertEqual(channel_audit.main(["--live"]), 0)
+            self.assertEqual(fetch.call_count, 123)
+        report = json.loads(output.getvalue())
+        self.assertEqual(report["matching_execution_receipts"], 1)
+        self.assertEqual(report["archive_capacity"]["state"], "review_due")
+        self.assertEqual(report["archive_capacity"]["file_counts"], {"inbox": 1, "receipts": 120})
+        self.assertEqual(report["archive_capacity"]["remaining_before_limit"]["receipts"], 0)
 
 
 if __name__ == "__main__":
