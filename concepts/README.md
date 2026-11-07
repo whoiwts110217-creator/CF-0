@@ -33,3 +33,5 @@ New **PROPOSED** layer beneath the existing Dreamkiller constitution: first town
 [**32 KB Dreamkiller Road v0.1.2 cartridge — latest rendered build**](dreamkiller/rom_v0_1/dreamkiller_road_v0_1_2.gb) · [Features, save layout and test limits](dreamkiller/rom_v0_1/README.md) · [Open iPhone player](https://whoiwts110217-creator.github.io/CF-0/dreamkiller/).
 
 One-tap prototype loading is integrated into the iPhone web app. The exact v0.1.2 ROM **rendered a nonblank frame in headless Chromium and GameBoy.js** ([CI evidence](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42412019117)); physical iPhone controls and SRAM persistence remain untested. This is a *tech slice*, not the two-floor Chapter One, complete social RPG or secret ending. Historical CR-10 APK remains separate.
+
+**Next cartridge slice (local handoff):** [v0.1.3 fruit persistence, build hash, migration test and still-unverified browser/iPhone acceptance](dreamkiller/rom_v0_1/V013_FRUIT_PERSISTENCE_HANDOFF.md). This version is a downloadable owner-conversation artifact, not yet the hosted default cartridge; the public on-site button remains v0.1.2.
