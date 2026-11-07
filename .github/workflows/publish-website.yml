@@ -8,6 +8,7 @@ on:
       - 'llms.txt'
       - 'docs/START_HERE.md'
       - 'automation_200/mission_control/dist/**'
+      - 'automation_200/mission_control/tests/**'
       - 'automation_200/mission_control/build_snapshot.py'
       - 'automation_200/mission_control/test_build_snapshot.py'
       - 'automation_200/registry.json'
@@ -35,6 +36,8 @@ jobs:
           enablement: true
       - name: Test public snapshot boundaries
         run: python -m unittest discover -s automation_200/mission_control -p 'test_build_snapshot.py'
+      - name: Test Mission Control source loading
+        run: node --test automation_200/mission_control/tests/model.test.mjs
       - name: Build commit-pinned public Mission Control fallback
         run: python automation_200/mission_control/build_snapshot.py
       - name: Stage only the public homepage

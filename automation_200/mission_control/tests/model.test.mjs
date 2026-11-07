@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { test } from "node:test";
-import { dashboardModel, filterTasks, HEALTH, loadLive, pingPaths, REGISTRY, registryModel, STATE } from "../dist/model.mjs";
+import { dashboardModel, filterTasks, GITHUB, HEALTH, loadLive, pingPaths, REGISTRY, registryModel, STATE, trackerModel } from "../dist/model.mjs";
 
 const commit = "a".repeat(40);
 const id = "9b4a1726-f1c7-4efd-bcea-dba621ef87b0";
@@ -31,6 +31,19 @@ const receipt = {
   status: "completed",
   result: { pong: true, protocol: 1 },
   v: 1,
+};
+const tracker = {
+  schema: "cf0.ai_tracker.status.v1",
+  phase: "scheduled_public_issue_monitor",
+  issue_url: GITHUB + "/issues/16",
+  updated_utc: "2026-11-07T10:45:00+00:00",
+  public_comments_observed: 2,
+  external_responses_verified: 1,
+  independent_contributions_verified: 0,
+  comment_scan_complete: true,
+  last_check_event: "push",
+  last_check_run_url: GITHUB + "/actions/runs/123",
+  last_scheduled_run_url: "https://example.org/actions/runs/122",
 };
 
 test("counts verified work orders and searches titles, IDs, and streams", () => {
@@ -102,4 +115,29 @@ test("fetches evidence at one immutable commit and separates 404 from unavailabl
   const blocked = (url, options) => url.endsWith(HEALTH) ? reply(null, 503) : github(url, options);
   assert.equal((await loadLive(blocked)).health, "unavailable");
   await assert.rejects(loadLive(async () => reply(null, 403)), /unavailable/);
+});
+
+test("reads tracker scan provenance and keeps workflow links on the CF-0 repository", () => {
+  assert.deepEqual(trackerModel(tracker), {
+    checkedAt: Date.parse(tracker.updated_utc),
+    comments: 2, nonOwnerComments: 1, contributions: 0, complete: true, event: "push",
+    runUrl: tracker.last_check_run_url, scheduledRunUrl: null,
+  });
+  const partial = { ...tracker, comment_scan_complete: false, last_scheduled_run_url: GITHUB + "/actions/runs/122" };
+  assert.equal(trackerModel(partial).complete, false);
+  assert.equal(trackerModel(partial).scheduledRunUrl, partial.last_scheduled_run_url);
+  const legacy = { ...tracker, last_check_run_url: null, comment_scan_complete: undefined, monitor_code_test_run: tracker.last_check_run_url };
+  assert.equal(trackerModel(legacy).complete, null);
+  assert.equal(trackerModel(legacy).runUrl, legacy.monitor_code_test_run);
+});
+
+test("keeps static or contradictory tracker counts out of the dashboard", () => {
+  for (const invalid of [
+    null,
+    { ...tracker, phase: "development", updated_utc: "2026-11-07" },
+    { ...tracker, public_comments_observed: 0, external_responses_verified: 1 },
+    { ...tracker, issue_url: GITHUB + "/issues/17" },
+  ]) {
+    assert.equal(trackerModel(invalid), null);
+  }
 });

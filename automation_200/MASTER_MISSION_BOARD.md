@@ -2,7 +2,7 @@
 
 **[ONE-CLICK OWNER HUB — site, Mission Control, master prompts, HP scripts, AI Tracker](../docs/START_HERE.md)**
 
-**AI Tracker:** [public development branch](https://github.com/whoiwts110217-creator/CF-0/tree/feature/ai-agent-tracker/ai_tracker) — Python tracker and initial tests committed; **not merged, tested or unattended**. [Agent challenge response issue #16](https://github.com/whoiwts110217-creator/CF-0/issues/16). This branch-only work is not a verified CF-200 work order.
+**AI Tracker:** [Mission Control](https://whoiwts110217-creator.github.io/CF-0/mission-control/#ai-tracker) · [executor handoff](../docs/AI_TRACKER_HANDOFF.md) · [public scan](../docs/AI_TRACKER_STATUS.json) · [development branch](https://github.com/whoiwts110217-creator/CF-0/tree/feature/ai-agent-tracker/ai_tracker).
 
 **Owner:** Kiara Lynn Rose Smith's Caveman Focus  
 **Control prompt:** [MASTER_OPERATOR_PROMPT.md](MASTER_OPERATOR_PROMPT.md)  
@@ -21,7 +21,9 @@
 - Registry remains **65/200 verified** (registry blob `8f94deeb754601868efc05e99f81820294c67c54`); no registry status changed and no numbered checkpoint was added. `relay/health/latest.json` returned 404, so there is no fresh public HP heartbeat and no independent scheduled-poll correlation. No private archive imported or copy/paste eliminated in this run.
 - **Next three:** (1) inspect CI for navigation smoke gate and repair if failing; (2) investigate public-safe health-report publication without changing HP allowlist; (3) advance CF-091 secret-exclusion diagnostics with acceptance tests.
 
-**AI Tracker Mission Control integration (Nov 7):** [Public status snapshot](../docs/AI_TRACKER_STATUS.json) and [dashboard section](https://whoiwts110217-creator.github.io/CF-0/mission-control/#ai-tracker) committed on `main`; development code remains [on feature branch](https://github.com/whoiwts110217-creator/CF-0/tree/feature/ai-agent-tracker/ai_tracker). Zero confirmed external posts, replies and verified contributions as of the dated snapshot. No verified test run, live polling, or unattended agent tracking. Next: run tracker unit tests and replace static counters with evidence-backed ingestion before claiming live status.\n\n## Owner-defined strategy
+**AI Tracker Mission Control integration (Nov 7):** the [first verified monitor run](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42365084747) was triggered by a push and published a scan of Issue #16. [Current scan and scheduled evidence](../docs/AI_TRACKER_STATUS.json).
+
+## Owner-defined strategy
 
 **P0 AUTOMATE → P1 PRIORITIZE → P2 GENERATE LEGITIMATE INCOME → P3 OTHER PROJECTS IN PARALLEL.**
 
@@ -633,3 +635,9 @@ The hourly public channel watchdog now runs priority selector and waiting-cycle 
 - Targeted discovery opportunity identified: [TaskBounty Agent Board](https://www.task-bounty.com/board/start) accepts read-only visitors and agent-originated postings via web, API or MCP without registration. That platform is a **candidate** for an authorized outbound invitation, not a platform on which CF-0 has been posted.
 - Existing [AI Tracker run](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42365084747) succeeded on a `push` trigger with monitor tests and public Issue #16 read; its six-hour `schedule` has not been independently verified here. Authoritative [CF-200 registry](registry.json) remains **65/200 verified**; no HP outcome or private continuity recovery newly claimed.
 - **Next three:** (1) check GitHub Pages deployment and the public feed URLs; (2) seek an approved posting connection to agent-native board and track actual post URLs; (3) validate monitor schedule and incoming response evidence before announcing agent discovery or payment.
+
+## AI Tracker handoff for the CF-200 executor — November 7, 2026 ET
+
+- Read the [operator prompt](MASTER_OPERATOR_PROMPT.md), [continuity prompt](MASTER_CONTINUITY_PROMPT.md), and [Work v1.0](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) in order from [public main](https://github.com/whoiwts110217-creator/CF-0/commit/b66f96c5b515dd76307f8b644b0e4a775affaa50). The Work blob was `ee5aa07170ca4c9ec4c0c1ed5e63ee7c8dd3f431`. The next Work run retrieves all three afresh from public `main`.
+- The [executor handoff](../docs/AI_TRACKER_HANDOFF.md) gives the next run a single route to the public monitor, scan and dashboard. The monitor records page coverage and workflow provenance. Mission Control displays non-owner comment counts and separate contribution evidence, with links to actual scan runs.
+- The registry header check now reads the authoritative count line, so a matching count in a dated note cannot hide a stale heading. The existing regression exposed this failure. The registry records **65/200**.

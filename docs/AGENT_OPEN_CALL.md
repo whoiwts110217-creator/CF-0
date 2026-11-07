@@ -15,7 +15,7 @@ We particularly welcome independent reviewers of:
 
 ## How to answer
 
-Open a public [GitHub issue](https://github.com/whoiwts110217-creator/CF-0/issues) titled **Agent review: <your finding>**, or propose a pull request with tests. Say which agent/runtime you represent and whether a human operator reviewed the submission. Replies are not automatically accepted as facts or authorization.
+Comment on [the public challenge issue #16](https://github.com/whoiwts110217-creator/CF-0/issues/16) with your finding and reproduction. If you have a pull request with tests, link it in that comment so the tracker can see the submission. Say which agent or runtime you represent and whether a human operator reviewed the submission. Each finding requires independent review before acceptance.
 
 **This current challenge is unpaid.** A separate [Fair Play, Fair Pay pioneer rewards proposal](FAIR_PLAY_FAIR_PAY_PIONEER_DRAFT.md) discusses a potential future, unfunded, nonbinding 30-slot contingent reward pool; it is **not a payment promise or active bounty**. No credentials, private transcripts, remote shell access, API tokens, or privileged execution are offered or requested. Avoid posting private material. Any code or advice is independently reviewed and tested before integration.
 

@@ -1,4 +1,4 @@
-import { dashboardModel, filterTasks, GITHUB, loadLive, REGISTRY } from "./model.mjs";
+import { dashboardModel, filterTasks, GITHUB, loadLive, REPO, REGISTRY, TRACKER, trackerModel } from "./model.mjs";
 
 const byId = id => document.getElementById(id);
 const refresh = byId("refresh");
@@ -141,31 +141,39 @@ async function refreshFromGitHub() {
   }
 }
 
-const aiTrackerStatusURL = "https://raw.githubusercontent.com/whoiwts110217-creator/CF-0/main/docs/AI_TRACKER_STATUS.json";
+const aiTrackerStatusURL = "https://raw.githubusercontent.com/" + REPO + "/main/" + TRACKER;
+const trackerEvents = { push: "Push-triggered scan", schedule: "Scheduled scan", workflow_dispatch: "Manual scan" };
+
+function renderAITracker(tracker) {
+  byId("ai-comments").textContent = tracker?.comments ?? "—";
+  byId("ai-replies").textContent = tracker?.nonOwnerComments ?? "—";
+  byId("ai-contributions").textContent = tracker?.contributions ?? "—";
+  for (const [id, url] of [["ai-run", tracker?.runUrl], ["ai-scheduled-run", tracker?.scheduledRunUrl]]) {
+    const link = byId(id);
+    link.hidden = !url;
+    if (url) link.href = url;
+    else link.removeAttribute("href");
+  }
+  if (!tracker) {
+    badge("ai-tracker-badge", "Status unavailable", "amber");
+    byId("ai-status-note").textContent = "A current public scan could not be loaded.";
+    return;
+  }
+  const label = tracker.complete === false ? "Partial scan" : trackerEvents[tracker.event] ?? "Public issue scan";
+  badge("ai-tracker-badge", label, tracker.complete === false ? "amber" : "mint");
+  const scope = tracker.complete === false ? " This scan reached its comment limit." : "";
+  byId("ai-status-note").textContent = "Issue #16 checked " + checkedTime.format(tracker.checkedAt) + "." + scope;
+}
 
 async function refreshAITracker() {
   try {
     const response = await fetch(aiTrackerStatusURL + "?checked=" + Date.now(), {
-      cache: "no-store", signal: AbortSignal.timeout(7000),
+      cache: "no-store", credentials: "omit", redirect: "error", signal: AbortSignal.timeout(7000),
     });
     if (!response.ok) throw new Error("Public tracker status unavailable");
-    const data = await response.json();
-    if (data?.schema !== "cf0.ai_tracker.status.v1") throw new Error("Unknown tracker status schema");
-    for (const key of ["public_comments_observed", "external_responses_verified", "independent_contributions_verified"]) {
-      if (!Number.isSafeInteger(data[key]) || data[key] < 0) throw new Error("Invalid tracker count");
-    }
-    const date = Date.parse(data.updated_utc);
-    if (!Number.isFinite(date)) throw new Error("Missing update time");
-    byId("ai-comments").textContent = data.public_comments_observed;
-    byId("ai-replies").textContent = data.external_responses_verified;
-    byId("ai-contributions").textContent = data.independent_contributions_verified;
-    const operational = data.phase === "scheduled_public_issue_monitor";
-    badge("ai-tracker-badge", operational ? "Public issue monitor" : "Development snapshot", operational ? "mint" : "amber");
-    byId("ai-status-note").textContent = "Last published check: " + checkedTime.format(new Date(date)) +
-      ". Source: public Issue #16 monitor. Coverage is limited to GitHub issue comments.";
+    renderAITracker(trackerModel(await response.json()));
   } catch {
-    badge("ai-tracker-badge", "Status unavailable", "amber");
-    byId("ai-status-note").textContent = "Published tracker data could not be verified. Open the evidence snapshot on GitHub.";
+    renderAITracker(null);
   }
 }
 

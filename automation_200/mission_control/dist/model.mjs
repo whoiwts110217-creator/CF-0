@@ -3,6 +3,7 @@ export const GITHUB = "https://github.com/" + REPO;
 export const REGISTRY = "automation_200/registry.json";
 export const STATE = "docs/PUBLIC_CONTINUITY_STATE.json";
 export const HEALTH = "relay/health/latest.json";
+export const TRACKER = "docs/AI_TRACKER_STATUS.json";
 
 const commitPattern = /^[a-f0-9]{40}$/;
 const pingPattern = /^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/;
@@ -71,6 +72,31 @@ async function matchedPing(paths, ping) {
   // The allowlisted ping result has exactly two fields with scalar JSON values.
   return Object.keys(receipt.result).length === 2
     && receipt.response_sha256 === await canonicalDigest(receipt.result);
+}
+
+function trackerRunUrl(url) {
+  const prefix = GITHUB + "/actions/runs/";
+  return typeof url === "string" && url.startsWith(prefix)
+    && /^[1-9][0-9]{0,19}$/.test(url.slice(prefix.length)) ? url : null;
+}
+
+export function trackerModel(status) {
+  if (status?.schema !== "cf0.ai_tracker.status.v1" || status.issue_url !== GITHUB + "/issues/16"
+      || status.phase !== "scheduled_public_issue_monitor"
+      || typeof status.updated_utc !== "string" || !/T.+(?:Z|\+00:00)$/.test(status.updated_utc)) return null;
+  const checkedAt = Date.parse(status.updated_utc);
+  const comments = status.public_comments_observed;
+  const nonOwnerComments = status.external_responses_verified;
+  const contributions = status.independent_contributions_verified;
+  if (!Number.isFinite(checkedAt) || ![comments, nonOwnerComments, contributions]
+      .every(count => Number.isSafeInteger(count) && count >= 0) || nonOwnerComments > comments) return null;
+  return {
+    checkedAt, comments, nonOwnerComments, contributions,
+    complete: typeof status.comment_scan_complete === "boolean" ? status.comment_scan_complete : null,
+    event: ["push", "schedule", "workflow_dispatch"].includes(status.last_check_event) ? status.last_check_event : null,
+    runUrl: trackerRunUrl(status.last_check_run_url ?? status.monitor_code_test_run),
+    scheduledRunUrl: trackerRunUrl(status.last_scheduled_run_url),
+  };
 }
 
 export async function dashboardModel(data) {

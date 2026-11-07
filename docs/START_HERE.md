@@ -15,10 +15,10 @@ Caveman Focus is an experimental system for reducing repetitive work by coordina
 | **Master operator prompt (read first)** | [MASTER_OPERATOR_PROMPT.md](../automation_200/MASTER_OPERATOR_PROMPT.md) |
 | **Continuity prompt (read second)** | [MASTER_CONTINUITY_PROMPT.md](../automation_200/MASTER_CONTINUITY_PROMPT.md) |
 | **Work execution prompt (read third)** | [WORK_COPY_PASTE_AUTOMATION_PROMPT.md](../automation_200/WORK_COPY_PASTE_AUTOMATION_PROMPT.md) |
-| **AI Tracker (public development branch)** | [feature/ai-agent-tracker](https://github.com/whoiwts110217-creator/CF-0/tree/feature/ai-agent-tracker/ai_tracker) |
+| **AI Tracker** | [Mission Control status](https://whoiwts110217-creator.github.io/CF-0/mission-control/#ai-tracker) · [Issue monitor](../ai_tracker/monitor_public_issue.py) · [Development branch](https://github.com/whoiwts110217-creator/CF-0/tree/feature/ai-agent-tracker/ai_tracker) |
 | **Open agent response thread** | [GitHub issue #16](https://github.com/whoiwts110217-creator/CF-0/issues/16) |
 
-**Why the AI Tracker wasn't on Mission Control:** its Python files were committed to a separate **public development branch**, not main. It has not been merged, field-tested, or shown running unattended. The main-branch dashboard reads the main-branch registry and therefore does not automatically display branch-only work.
+Mission Control shows the most recently published public scan of Issue #16. Non-owner comments count replies from known accounts other than the repository owner. Contributions have a separate verification count.
 
 ### Your HP command-window shortcuts
 

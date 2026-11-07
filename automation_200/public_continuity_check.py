@@ -74,7 +74,8 @@ def check(root: Path = ROOT) -> dict:
             "checkpoint_count_mismatch")
     require(f"{verified}/200" in project_status.split("## Earlier checkpoint", 1)[0],
             "public_project_status_stale")
-    require(f"{verified}/200" in board.split("## Owner-defined strategy", 1)[0],
+    board_headers = [line for line in board.splitlines() if line.startswith("**Current source registry:**")]
+    require(len(board_headers) == 1 and f"**{verified}/200 verified**" in board_headers[0],
             "public_mission_board_header_stale")
 
     # Current source status, never confuse the prior observed Notepad launches
