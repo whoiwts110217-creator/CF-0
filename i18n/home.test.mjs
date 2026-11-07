@@ -31,7 +31,7 @@ test("Visible homepage copy is in the translation catalog, except names and lang
   const body = html.slice(html.indexOf("<body>"), html.indexOf("</body>"));
   const ignored = new Set([
     "CAVEMAN", "FOCUS", "CF-0", "Kiara Lynn Rose Smith's Caveman Focus",
-    "EN", "English", "Español", "Français", "Português", ".", "→"
+    "EN", "English", "Español", "Français", "Português", ".", "→", "🌐"
   ]);
   const strings = [...body.matchAll(/>([^<>]+)</g)]
     .map(m => m[1].replaceAll("&amp;", "&").trim())
