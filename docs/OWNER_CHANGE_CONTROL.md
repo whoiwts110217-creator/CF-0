@@ -15,10 +15,12 @@ either person.
   untracked relay actions, false Notepad restoration, mission/priority changes,
   and stale R1 Library pointer. The Windows CI also checks a fail-closed legacy
   Notepad installer. It runs on pull requests as well as selected pushes.
-- **Owner review NOT enforced:** branch-protection/ruleset settings are unknown
-  to this connector (403). A committer with direct `main` write permission
-  could still replace a file and workflow. Tests run after a push do not undo
-  that change. Even a PR with green checks does not prove owner consent.
+- **Owner review unverified.** On November 7, 2026, GitHub reported
+  `protected: false` for `main`, and the connected issuer held repository
+  write access. The detailed rules endpoint was unavailable through the
+  connection. A successful source push or green CI establishes technical
+  access or test results. An independent owner review requires separate
+  evidence. [GitHub branch metadata](https://api.github.com/repos/whoiwts110217-creator/CF-0/branches/main)
 - **Notepad NOT restored:** current public relay accepts `ping`,
   `hp_status`, `sidecar_verify` only. The old Notepad installer could print
   successful installation while leaving an unusable command path. The revised

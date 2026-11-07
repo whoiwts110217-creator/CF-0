@@ -76,9 +76,18 @@ jobs:
         run: |
           & powershell.exe -NoProfile -ExecutionPolicy Bypass -File relay/hp_takeover_check.ps1 -OfflineOnly
           if ($LASTEXITCODE -ne 0) { throw 'Offline HP diagnostic failed' }
-      - name: External Windows read-only relay smoke test
+      - name: External Windows read-only relay smoke test without GitHub CLI
         shell: pwsh
         run: |
-          python relay/cf_public_relay.py once --state-dir "$env:RUNNER_TEMP/cf0_public_relay_probe"
+          $python = (Get-Command python -CommandType Application -ErrorAction Stop).Source
+          $emptyPath = Join-Path $env:RUNNER_TEMP 'cf0_empty_path'
+          New-Item -ItemType Directory -Path $emptyPath -Force | Out-Null
+          $env:PATH = $emptyPath
+          Remove-Item Env:CF_RELAY_GITHUB_TOKEN -ErrorAction SilentlyContinue
+          if (Get-Command gh.exe -CommandType Application -ErrorAction SilentlyContinue) {
+            throw 'GitHub CLI must be unavailable during the transport check'
+          }
+          & $python relay/cf_public_relay.py once --state-dir "$env:RUNNER_TEMP/cf0_public_relay_probe"
           if ($LASTEXITCODE -ne 0) { throw 'Public relay poll failed' }
-          python relay/cf_public_relay.py status --state-dir "$env:RUNNER_TEMP/cf0_public_relay_probe"
+          & $python relay/cf_public_relay.py status --state-dir "$env:RUNNER_TEMP/cf0_public_relay_probe"
+          if ($LASTEXITCODE -ne 0) { throw 'Public relay status failed' }

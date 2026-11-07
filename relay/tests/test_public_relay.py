@@ -103,7 +103,12 @@ class Tests(unittest.TestCase):
 
     def assert_http_transport_receipt(self, action, expected_result):
         import hashlib
+        import io
+        import os
+        import shutil
         import threading
+        from contextlib import redirect_stdout
+        from functools import partial
         from urllib.parse import urlparse
         from http.server import BaseHTTPRequestHandler,ThreadingHTTPServer
         job=r.make_job(action)
@@ -135,6 +140,9 @@ class Tests(unittest.TestCase):
                 else:
                     self.respond(404, {"message": "missing"})
             def do_PUT(self):
+                if self.headers.get("Authorization") != "Bearer local-test":
+                    self.respond(401, {"message": "missing test authorization"})
+                    return
                 data = json.loads(self.rfile.read(int(self.headers["Content-Length"])))
                 if self.path != receipt_path or data.get("branch") != "main":
                     self.respond(404, {"message": "wrong write target"})
@@ -145,10 +153,26 @@ class Tests(unittest.TestCase):
         thread=threading.Thread(target=server.serve_forever,daemon=True);thread.start()
         try:
             with tempfile.TemporaryDirectory() as td:
-                mb=r.HttpRepo(api=f'http://127.0.0.1:{server.server_port}',token='local-test')
-                database = pathlib.Path(td) / "state.sqlite3"
-                first = r.tick(mb, r.State(database))
-                replay = r.tick(mb, r.State(database))
+                empty_path = pathlib.Path(td) / "empty-path"
+                empty_path.mkdir()
+                loopback = partial(r.HttpRepo, api=f"http://127.0.0.1:{server.server_port}")
+                args = ["once", "--state-dir", td]
+                results = []
+                # Use the real CLI, HTTP transport and SQLite ledger. Only
+                # the API endpoint and disposable test credential are supplied.
+                with patch.object(r, "HttpRepo", loopback), patch.dict(os.environ, {
+                    "PATH": str(empty_path),
+                    "NO_PROXY": "127.0.0.1",
+                    "CF_RELAY_GITHUB_TOKEN": "local-test",
+                }):
+                    self.assertIsNone(shutil.which("gh"))
+                    for _ in range(2):
+                        stdout = io.StringIO()
+                        with redirect_stdout(stdout):
+                            self.assertEqual(r.main(args), 0)
+                        results.append(json.loads(stdout.getvalue()))
+                first, replay = results
+                database = pathlib.Path(td) / "relay.sqlite3"
                 self.assertEqual((first["executed"], replay["executed"]), (1, 0))
                 self.assertEqual((first["public_receipts"], replay["public_receipts"]), (1, 1))
                 self.assertEqual(replay["replayed"], 1)

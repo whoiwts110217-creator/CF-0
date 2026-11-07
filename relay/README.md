@@ -9,6 +9,20 @@
 3. Local SQLite ledger prevents duplicate execution. By default the result is saved **only on the HP**; this is one-way control unless you optionally authorize a restricted GitHub write token for safe public receipts.
 4. If owner sets `CF_RELAY_GITHUB_TOKEN` on HP using a token restricted to **CF-0 Contents write**, the HP can post the **public-safe** receipt under `command_queue/receipts/<uuid>.json` for this ChatGPT account to read later. Do not place this token in the repo/chat/logs. Do not use this public relay for confidential status or arbitrary shell commands.
 
+### Command issuer permission check (CF-089)
+
+Resolve the issuer's login from the authenticated GitHub connection. Confirm the
+canonical CF-0 repository ID and `main` branch, then check that login's effective
+repository permission. A base role of `write` or `admin` and authenticated
+`permissions.push=true` establish repository-level access for the connected
+issuer. GitHub evaluates the active credential and branch rules on an authorized
+write. Read the resulting commit and request back from `main` to confirm
+publication. [GitHub collaborator permissions](https://docs.github.com/en/rest/collaborators/collaborators#get-repository-permissions-for-a-user)
+
+The relay reads the canonical public branch and validates the request schema and
+allowlist. Historical commit author and committer fields are descriptive metadata.
+Enforcement of independent owner review is tracked separately. [Owner change controls](../docs/OWNER_CHANGE_CONTROL.md)
+
 ## Run on actual HP (Python 3 available)
 
 Download the full GitHub repo ZIP, extract it to a permanent folder; double-click `RUN_CF0_RELAY.bat`. No additional libraries. The console polls once. Run `INSTALL_CF0_RELAY.bat` to schedule polling every 5 minutes while signed in; `STOP_CF0_RELAY.bat` to stop the schedule. The local SQLite file is in `%USERPROFILE%\.caveman_focus_relay\relay.sqlite3` by default. This prototype does not auto-enable a job on the user's real HP.
