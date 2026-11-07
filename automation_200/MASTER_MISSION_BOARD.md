@@ -3,7 +3,7 @@
 **Control prompt:** [MASTER_OPERATOR_PROMPT.md](MASTER_OPERATOR_PROMPT.md)  
 **Mission control frontend:** [source and usage](mission_control/README.md)  
 **System of record:** [registry.json](registry.json) · [events.jsonl](events.jsonl) · [checkpoints/](checkpoints/)  
-**Current source registry:** **56/200 verified** as of November 6, 2026; [registry.json](registry.json) is authoritative.\
+**Current source registry:** **57/200 verified** as of November 6, 2026; [registry.json](registry.json) is authoritative.\
 **Last numbered checkpoint:** [056](checkpoints/checkpoint_056.json) (next numbered checkpoint 060).\
 **Public continuity handoff:** [docs/CONTINUITY.md](../docs/CONTINUITY.md) · [dated state](../docs/PUBLIC_CONTINUITY_STATE.json). Historical counts in the entries below remain snapshots, not live status.
 
@@ -450,3 +450,12 @@ The hourly public channel watchdog now runs priority selector and waiting-cycle 
 - The [existing public ping](../command_queue/receipts/aeccc8a2-217f-4786-aaaf-19b2fc9ff35a.json) matched its request digest. The public health report returned 404 and Windows Scheduler correlation remains unverified. The private v3 audit covers an earlier registry snapshot. Full original conversation exports and the original project inventory remain missing. Inspected public evidence establishes no verified income.
 
 **Next three eligible source tasks** are CF-073 long-lived receipt archive threshold, CF-088 GitHub repository identity, and CF-183 Python transport verification without GitHub CLI.
+
+## CF-073 — receipt archive capacity, November 6, 2026 ET
+
+- Read [operator v1.0](MASTER_OPERATOR_PROMPT.md), [continuity v1.0](MASTER_CONTINUITY_PROMPT.md), then [Work v1.0](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) from [public main b4fcb41](https://github.com/whoiwts110217-creator/CF-0/commit/b4fcb411b07d16fd269451376842d4353cf62711). Their blobs were 67ce4bf6d176a4fde9d35b050a9959f4da1994da, 291a4836f26f6dd3b8664092adba777bee1f1f54 and ee5aa07170ca4c9ec4c0c1ed5e63ee7c8dd3f431. The next Work run fetches them anew from public main in the same order.
+- The first eligible P0 task was CF-073. [Source 3163d01](https://github.com/whoiwts110217-creator/CF-0/commit/3163d0118c10fcb8b31f73c2e85e1a6048875b8e) counts JSON files in both folders before downloading contents. The review warning starts at 100 files per folder, 20 below the existing audit ceiling. At 120 the audit can still match receipts. Above 120, the audit reports the counts and skips individual file reads. Boundary tests exercised 99, 100, 120, and 121 files. [Windows CI](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42330589362) and the [live watchdog](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42330589381) passed.
+- The live watchdog reported 31 inbox files and 30 receipt files, both within the limit, and 10 public request-to-receipt matches. The capacity report is automatic in the existing watchdog log. The fixed HP report remained unpublished and the Windows Scheduler-to-receipt correlation is unverified.
+- The [registry](registry.json) and [append-only events](events.jsonl) record **57/200** verified. [Checkpoint 056](checkpoints/checkpoint_056.json) is the latest numbered checkpoint. The private v3 audit covers an earlier registry snapshot. The original conversation exports and project inventory remain missing. Inspected public records establish no verified income.
+
+**Next eligible P0 work** is CF-074 owner-reviewed queue pruning criteria, then CF-088 repository identity and CF-183 Python transport verification without GitHub CLI.
