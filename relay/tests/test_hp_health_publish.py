@@ -102,6 +102,19 @@ class PublisherTests(unittest.TestCase):
             publish(repo, data)
         self.assertEqual(repo.calls, [])
 
+    def test_last_receipt_status_must_match_row_count(self):
+        for patch in (
+            {"receipt_count": 12, "last_receipt_status": None},
+            {"receipt_count": 0, "ping_receipt_count": 0, "last_receipt_status": "completed"},
+        ):
+            with self.subTest(patch=patch):
+                data = sample()
+                data.update(patch)
+                repo = Repo()
+                with self.assertRaisesRegex(ValueError, "inconsistent_health_last_receipt"):
+                    publish(repo, data)
+                self.assertEqual(repo.calls, [])
+
     def test_invalid_count_rejected(self):
         data = sample()
         data["receipt_count"] = -1
