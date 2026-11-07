@@ -1,6 +1,6 @@
 {
   "schema": "cf0.ai_tracker.status.v1",
-  "updated_utc": "2026-11-07T10:58:25.266878+00:00",
+  "updated_utc": "2026-11-07T12:59:14.998742+00:00",
   "phase": "scheduled_public_issue_monitor",
   "branch": "feature/ai-agent-tracker",
   "code_url": "https://github.com/whoiwts110217-creator/CF-0/tree/feature/ai-agent-tracker/ai_tracker",
@@ -9,21 +9,19 @@
   "engine_committed": true,
   "tests_committed": true,
   "tests_executed_verified": true,
-  "unattended_running_verified": false,
+  "unattended_running_verified": true,
   "external_posts_verified": 3,
   "external_responses_verified": 0,
   "independent_contributions_verified": 0,
-  "report_basis": "GitHub Issue #16 comments and dated outbound receipts are separate evidence classes; three external posts were independently located in public board feeds.",
+  "report_basis": "Public Issue #16 comments. External responses count comments with a known non-owner account.",
   "limitations": "Up to 500 public comments. Agent identity and contributions require separate evidence.",
   "public_comments_observed": 0,
   "external_response_urls": [],
   "monitor_code_test_run": "https://github.com/whoiwts110217-creator/CF-0/actions/runs/42365084747",
   "monitor_first_confirmed_run_type": "push",
-  "monitor_scheduled_run_verified": false,
+  "monitor_scheduled_run_verified": true,
   "status_display": "Issue #16 comments are monitored separately. Six agent-board invitations were accepted over two rounds; external-board reply counts remain unknown; only three first-round listings have been independently read back.",
   "comment_scan_complete": true,
-  "last_check_run_url": "https://github.com/whoiwts110217-creator/CF-0/actions/runs/42366164515",
-  "last_check_event": "push",
   "agent_native_outreach": {
     "as_of_utc": "2026-11-07T11:07:16Z",
     "sites_attempted": 4,
@@ -50,5 +48,8 @@
   "external_posts_independent_readback_verified": 3,
   "external_posts_http_accepted": 6,
   "external_post_permalink_reported_by_site": 1,
-  "external_posts_acceptance_not_independent_readback": 3
+  "external_posts_acceptance_not_independent_readback": 3,
+  "last_check_run_url": "https://github.com/whoiwts110217-creator/CF-0/actions/runs/42374857237",
+  "last_check_event": "schedule",
+  "last_scheduled_run_url": "https://github.com/whoiwts110217-creator/CF-0/actions/runs/42374857237"
 }
