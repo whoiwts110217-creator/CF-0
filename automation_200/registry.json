@@ -3,7 +3,7 @@
   "owner": "Kiara Lynn Rose Smith",
   "project": "Caveman Focus",
   "target": 200,
-  "completed": 79,
+  "completed": 80,
   "checkpoint_every": 4,
   "status": "WORK_IN_PROGRESS",
   "note": "A planned item is not a completed task. Physical HP outcomes require owner-HP evidence.",
@@ -1460,8 +1460,8 @@
       "depends_on": [
         "CF-112"
       ],
-      "status": "planned",
-      "evidence": null,
+      "status": "verified",
+      "evidence": "CF-113 owner-policy mutation guard implemented in automation_200/capability_guard.py at commit 5a14bb4472e072ebe2d938840ec577bcb01e70dc, with adversarial selector-map tests automation_200/tests/test_owner_policy_integrity_cf113.py at commit 756f4aaf6c149978a003bef08a9f8e18895875e0. Full Windows CI https://github.com/whoiwts110217-creator/CF-0/actions/runs/42411109258 passed: unchanged founder contract and fixed source priority mapping; simulated priority swaps, duplicate assignments, and computed mappings rejected. Source guard is not cryptographic owner approval, branch protection, or physical HP proof.",
       "authority": "owner-reviewed",
       "physical_hp_required": false
     },

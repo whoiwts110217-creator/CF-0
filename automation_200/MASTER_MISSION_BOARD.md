@@ -111,8 +111,8 @@ ROGUE-03 was reproduced and accepted as a failure-mode test contribution. The sc
 **Control prompt:** [MASTER_OPERATOR_PROMPT.md](MASTER_OPERATOR_PROMPT.md)  
 **Mission control frontend:** [source and usage](mission_control/README.md)  
 **System of record:** [registry.json](registry.json) · [events.jsonl](events.jsonl) · [checkpoints/](checkpoints/)  
-**Current source registry:** **79/200 verified** as of November 7, 2026; [registry.json](registry.json) is authoritative.\
-**Last numbered checkpoint:** [076](checkpoints/checkpoint_076.json) (next numbered checkpoint 080).\
+**Current source registry:** **80/200 verified** as of November 7, 2026; [registry.json](registry.json) is authoritative.\
+**Last numbered checkpoint:** [080](checkpoints/checkpoint_080.json) (next numbered checkpoint 084).\
 **Public continuity handoff:** [docs/CONTINUITY.md](../docs/CONTINUITY.md) · [dated state](../docs/PUBLIC_CONTINUITY_STATE.json). Historical counts in the entries below remain snapshots, not live status.
 
 
@@ -950,3 +950,11 @@ The hourly public channel watchdog now runs priority selector and waiting-cycle 
 - **CF-112 source verified:** [independence tests](../automation_200/tests/test_concurrent_independent_cf112.py) ([commit 06c978e](https://github.com/whoiwts110217-creator/CF-0/commit/06c978ecafa3adf47d3d9589b9a2876ec2fe4d12)), [full Windows CI 42410630206](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42410630206). Safe P0–P3 work may appear together in a deterministic read-only task proposal; dependencies remain held until verified and HP-only work never receives execution authority. Does not prove actual parallel or unattended execution.
 - **Atomic evidence:** 79/200 authoritative registry, appended event, updated public continuity and project status, source Git blob `9e2bf036459f5041ce3b0d22a9c3a0f07f59aadd`. Last checkpoint 076, next 080. Concurrent site/AI Tracker work retained. HP heartbeat unavailable at last check; no owner-local setup or financial outcome claimed.
 - **Next three:** post-update CI; CF-113 owner-policy mutation prevention; independent public HP health report observation through existing opt-in without remote permissions.
+
+## November 7, 2026 — CF-113 owner-policy mutation guard verified; checkpoint 080
+
+- **Required public preflight** read complete operator blob `f8f0c94c28cd28cc0402daf4f21bd875e1417932`, continuity blob `cac63dead1e00592c1d12ea6562639b02893d81f`, Work blob `5da1a390f31ee8f57e5829ef368062f9215c28ac` in that order. Consulted owner capability contract, prompt-approval bin, current decision engine and the public CF-200 registry. Future runs refetch current main source.
+- **CF-113 source verified:** [policy guard](../automation_200/capability_guard.py) [commit 5a14bb4](https://github.com/whoiwts110217-creator/CF-0/commit/5a14bb4472e072ebe2d938840ec577bcb01e70dc) now checks the priority selector's actual static tier mapping alongside the owner contract; [negative mutation tests](../automation_200/tests/test_owner_policy_integrity_cf113.py) [commit 756f4aa](https://github.com/whoiwts110217-creator/CF-0/commit/756f4aaf6c149978a003bef08a9f8e18895875e0) and [full Windows CI 42411109258](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42411109258) passed. It catches unauthorized source drift; it cannot prove owner consent or enforce GitHub merge approvals by itself.
+- **Checkpoint 080:** accepted CF-113 only after CF-112, atomically recorded registry `80/200`, event, public status/project summary and [numbered checkpoint 080](checkpoints/checkpoint_080.json) (registry SHA-256 `d7e737e3aadf514149bda7f0560c942ce963a88268d924cfe8eff1c9097aec8b`, Git blob `fa2e9927a506ee168f95007a86a601c5e1ca57e0`). Next numbered checkpoint `084`.
+- **Boundaries:** no new HP permissions, scheduler, private-operator installation, money transfer, public secrets, or source-rewriting authority. Existing Notepad regression remains open. The HP public heartbeat is still unverified until a real owner-local report is published; green CI does not prove the HP is online or unattended.
+- **Next three:** verify post-commit Windows continuity and Pages deploy, then advance CF-114 owner-policy diff reporting with source-level tests, and monitor existing HP health-report readback without asking the owner to act as a repeated clipboard.
