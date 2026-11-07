@@ -324,7 +324,7 @@ while ((node = walker.nextNode())) {
   const original = node.nodeValue;
   const english = original.trim();
   if (!Object.hasOwn(COPY, english)) continue;
-  sourceNodes.push({node, english, lead: original.match(/^\\s*/)[0], trail: original.match(/\\s*$/)[0]});
+  sourceNodes.push({node, english, lead: original.match(/^\s*/)[0], trail: original.match(/\s*$/)[0]});
 }
 for (const control of document.querySelectorAll("[data-set-language]")) {
   control.addEventListener("click", () => chooseLanguage(control.dataset.setLanguage));
