@@ -67,7 +67,13 @@ class NextUnblockingTests(unittest.TestCase):
         path = Path(__file__).resolve().parents[1] / "registry.json"
         current = json.loads(path.read_text(encoding="utf-8"))
         result = next_unblocking_task(current, "CF-117")
-        self.assertEqual(result["next"]["id"], "CF-117")
+        current_status = next(t["status"] for t in current["tasks"] if t["id"] == "CF-117")
+        if current_status == "verified":
+            self.assertIsNone(result["next"], "Verified tasks must not be re-proposed")
+            self.assertFalse(result["blocked_or_owner_local"])
+        else:
+            self.assertEqual(current_status, "planned")
+            self.assertEqual(result["next"]["id"], "CF-117")
         self.assertFalse(result["execution_authorized"])
 
 
