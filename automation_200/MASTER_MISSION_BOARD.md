@@ -3,7 +3,7 @@
 **Control prompt:** [MASTER_OPERATOR_PROMPT.md](MASTER_OPERATOR_PROMPT.md)  
 **Mission control frontend:** [source and usage](mission_control/README.md)  
 **System of record:** [registry.json](registry.json) · [events.jsonl](events.jsonl) · [checkpoints/](checkpoints/)  
-**Current source registry:** **61/200 verified** as of November 7, 2026; [registry.json](registry.json) is authoritative.\
+**Current source registry:** **63/200 verified** as of November 7, 2026; [registry.json](registry.json) is authoritative.\
 **Last numbered checkpoint:** [060](checkpoints/checkpoint_060.json) (next numbered checkpoint 064).\
 **Public continuity handoff:** [docs/CONTINUITY.md](../docs/CONTINUITY.md) · [dated state](../docs/PUBLIC_CONTINUITY_STATE.json). Historical counts in the entries below remain snapshots, not live status.
 
@@ -28,8 +28,8 @@
 
 | Rank | ID | Output and acceptance |
 |---|---|---|
-| 1 | CF-089 | Verify who can write GitHub queue commands and what issuer evidence the relay can establish. |
-| 2 | CF-183 | Verify the Python transport entry point without the GitHub CLI. |
+| 1 | CF-090 | Verify the relay's command timing limits, including the exact expiry and clock-skew boundaries. |
+| 2 | CF-184 | Measure poll delay and separate transport timing from any device-specific scheduling evidence. |
 | 3 | CF-108 | Validate four-item checkpoint creation and preservation under repeated runs. |
 | 4 | CF-141 | Link existing public project sources from the master index and keep the original list gap visible. |
 
@@ -551,3 +551,13 @@ The hourly public channel watchdog now runs priority selector and waiting-cycle 
 - The [watchdog](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42355299863) matched 10 public receipts. The fixed HP health report remains unpublished. Historical owner-run observations establish manual activity. CF-077 still requires an upload correlated with an actual HP run. This source work needed no clipboard handoff. The private master record was reviewed, and the existing private backup audit covers an earlier registry. The original project inventory and complete transcripts remain gaps. Verified income remains unestablished in the reviewed records.
 
 **Next eligible work** is CF-089 issuer write permissions, CF-183 Python transport without GitHub CLI, and CF-108 four-item checkpoint workflow verification.
+
+## CF-089 and CF-183 verified — November 7, 2026 ET
+
+- Read the complete [operator v1.0](MASTER_OPERATOR_PROMPT.md), [continuity v1.0](MASTER_CONTINUITY_PROMPT.md), and [Work v1.0](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) from [public main](https://github.com/whoiwts110217-creator/CF-0/commit/8377349875ec0b72265e4067ba98a62f8125bc2e) in that order. The blobs were `67ce4bf6d176a4fde9d35b050a9959f4da1994da`, `291a4836f26f6dd3b8664092adba777bee1f1f54`, and `ee5aa07170ca4c9ec4c0c1ed5e63ee7c8dd3f431`. The next Work run retrieves all three afresh from public `main` in that order.
+- **CF-089.** GitHub authenticated the connected issuer and returned `admin` with `permissions.push=true` for CF-0. The same connection advanced `main` with the [source commit](https://github.com/whoiwts110217-creator/CF-0/commit/aefdc896e92aa1b5201f5d1ff503238f7a7d7905) and read it back. GitHub reported `protected: false` for `main`. The [historical ping commit](https://github.com/whoiwts110217-creator/CF-0/commit/768746c34e954282ff8ebbdbec650d4ca405b4e6) is unsigned, so historical issuer attribution and independent owner-review enforcement remain open. [Issuer procedure](../relay/README.md#command-issuer-permission-check-cf-089) · [Owner change controls](../docs/OWNER_CHANGE_CONTROL.md)
+- **CF-183.** The Python `once` entry point ran with GitHub CLI unavailable. The Windows loopback used one synthetic upload across two polls. The live Windows read-only check scanned 31 public entries with zero executions and zero receipt publications. The [first run](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42360465978) exposed multiple Python paths on Windows. The [workflow fix](https://github.com/whoiwts110217-creator/CF-0/commit/c2f3d0143d8d8f38d2fcf3167bfef90e93d4210f) selects one interpreter. The corrected run hit an anonymous API rate limit on its first attempt and passed on the second. [Passing Windows job](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42360605852/job/128368708384)
+- The registry records **63/200** verified work orders and two appended evidence events. [Checkpoint 060](checkpoints/checkpoint_060.json) is the latest numbered milestone. Checkpoint 064 is due after one more verified work order.
+- The [watchdog](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42359042629) matched 10 public receipts, and the fixed HP heartbeat remains unpublished. Historical owner-run checks provide manual evidence. CF-077 still needs an upload correlated with an actual HP run. This work needed no clipboard handoff. The private master was reviewed, and the existing backup audit covers an earlier registry. The original project inventory and full transcripts remain gaps. The reviewed records establish no verified income.
+
+**Next eligible work** is CF-090 command TTL checks, CF-184 poll delay measurement, then CF-108 four-item checkpoint creation and preservation.
