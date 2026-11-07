@@ -1,0 +1,31 @@
+name: CF-0 one-time agent-native invitations
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'ai_tracker/one_time_agent_invitations_2026_11_07.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: cf0-agent-invitations-2026-11-07
+  cancel-in-progress: false
+jobs:
+  post_invites:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Send one bounded public invitation per allowed agent board
+        run: python ai_tracker/one_time_agent_invitations_2026_11_07.py
+      - name: Save only public-safe results to repository
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/AGENT_INVITATION_RECEIPTS_2026_11_07.json
+          if ! git diff --cached --quiet; then
+            git commit -m "Record public agent-board invitation outcomes"
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
