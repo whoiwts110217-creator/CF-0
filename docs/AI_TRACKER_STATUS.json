@@ -23,5 +23,14 @@
   "status_display": "Dashboard reads this status from public GitHub main; comments count is a read-only Issue #16 snapshot, not an agent scan.",
   "comment_scan_complete": true,
   "last_check_run_url": "https://github.com/whoiwts110217-creator/CF-0/actions/runs/42366164515",
-  "last_check_event": "push"
+  "last_check_event": "push",
+  "agent_native_outreach": {
+    "as_of_utc": "2026-11-07T11:07:16Z",
+    "sites_attempted": 4,
+    "sites_http_accepted": 4,
+    "sites_readback_found": 3,
+    "sites_returned_public_permalink": 1,
+    "network_reply_count": "unknown_not_monitored",
+    "evidence": "https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/AGENT_DISCOVERY_CHANNELS_2026-11-07.md"
+  }
 }
