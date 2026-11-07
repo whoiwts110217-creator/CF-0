@@ -74,6 +74,31 @@ class WorkorderBridgeTests(unittest.TestCase):
         self.assertTrue(result["imported"])
         self.assertEqual(workorder_bridge.audit_workorders(self.db)["cf200_order_versions"], 2)
 
+    def test_rejects_dependency_cycles_before_ingestion(self):
+        for edges in ((["CF-002"], ["CF-001"]),
+                      (["CF-002"], ["CF-003"], ["CF-001"])):
+            with self.subTest(edges=edges):
+                items = [dict(id=f"CF-{i:03d}", stream="research",
+                              title=f"Task {i}", status="planned", evidence="",
+                              depends_on=deps)
+                         for i, deps in enumerate(edges, start=1)]
+                self.source.write_text(json.dumps(
+                    {"tasks": items, "target": len(items), "completed": 0}), encoding="utf-8")
+                with self.assertRaisesRegex(ValueError, "cyclic_cf200_dependency_graph"):
+                    workorder_bridge.import_registry(self.db, self.state, self.source)
+                self.assertEqual(workorder_bridge.audit_workorders(self.db)["cf200_snapshots"], 0)
+
+    def test_accepts_shared_acyclic_dependencies(self):
+        items = [dict(id=f"CF-{i:03d}", stream="research", title=f"Task {i}",
+                      status="planned", evidence="", depends_on=deps)
+                 for i, deps in enumerate(([], ["CF-001"], ["CF-001"],
+                                          ["CF-002", "CF-003"]), start=1)]
+        self.source.write_text(json.dumps(
+            {"tasks": items, "target": 4, "completed": 0}), encoding="utf-8")
+        result = workorder_bridge.import_registry(self.db, self.state, self.source)
+        self.assertTrue(result["imported"])
+        self.assertEqual(workorder_bridge.audit_workorders(self.db)["cf200_order_versions"], 4)
+
     def test_import_idempotence(self):
         one = self.snapshot()
         two = self.snapshot()
