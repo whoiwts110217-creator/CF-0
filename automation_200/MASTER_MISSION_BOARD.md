@@ -531,3 +531,15 @@ The hourly public channel watchdog now runs priority selector and waiting-cycle 
 - The [watchdog](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42355299863) matched 10 public receipts and classified the HP health report as unpublished. CF-077 needs evidence of an actual HP receipt upload. A public match or a localhost test leaves that device evidence open. The private backup audit covers an earlier registry snapshot. The inspected records establish no verified income.
 
 **Next eligible source work** is CF-088 repository identity, then CF-183 Python transport without GitHub CLI and CF-108 checkpoint workflow verification.
+
+
+## CF-200 scheduled source repair — 2026-11-07 03:48 ET
+
+- Preflight order: [master operator](MASTER_OPERATOR_PROMPT.md) v1.0 blob `67ce4bf6d176a4fde9d35b050a9959f4da`; [continuity master](MASTER_CONTINUITY_PROMPT.md) blob `291a4836f26f6dd3b8664092adba777bee1f1f54`; [Work self-reference](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) v1.0 blob `ee5aa07170ca4c9ec4c0c1ed5e63ee7c8dd3f431`. Next scheduled session must fetch all three anew from public main, in order.
+- Current exact registry blob `30c8f9a179c3dfc1f5a03540434d6fbbbfcbc6f2`: **60/200**; latest checkpoint **060**. Existing events unchanged. No work-order acceptance advanced.
+- Fixed a fail-open exception boundary in `relay/cf_public_relay.py`: invalid GitHub base64 for a queued job or previously published receipt now raises controlled `RelayError`, rather than an uncaught `binascii.Error`. [Source commit](https://github.com/whoiwts110217-creator/CF-0/commit/8ebf9e52ac772e0567b474e86faa7ffa17b44e00).
+- Added synthetic tests rejecting malformed inbox and existing receipt content, asserting no replacement upload for corrupt remote receipt. [Test commit](https://github.com/whoiwts110217-creator/CF-0/commit/f3029ac007d3dbf39623e821fa4d4b478b1864d0). Both files fetched back from public main. [Post-test Windows CI](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42357134308) was **in progress** at inspection; tests not yet declared passed.
+- Previous Windows CI [42356907186](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42356907186) succeeded; earlier [42352362687](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42352362687) failed. Latest public HP `relay/health/latest.json` remains **missing (GitHub 404)**. No unattended scheduler correlation, new HP command, income receipt, private archive import or local Notepad deployment claimed.
+- Existing private v2 backup remains historical evidence only, not re-read this run; original ~37-project list and full conversation exports remain unresolved. No capability or schedule changed. No owner copy/paste was needed for source inspection and commits; HP automatic feedback loop still unverified.
+
+**Next three:** (1) inspect CI 42357134308 and repair any regression; (2) test the CF-077 upload/replay acceptance boundary with a successful synthetic HTTP round-trip and then decide whether task-specific acceptance is met; (3) continue P0 public health reporting and source-only CF-088 repository identity verification without claiming physical HP scheduling.
