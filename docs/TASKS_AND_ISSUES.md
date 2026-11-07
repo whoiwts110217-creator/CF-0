@@ -7,14 +7,14 @@
 
 | Measure | Verified source-backed state |
 |---|---|
-| CF-200 work orders | **82 verified / 200 total**; 118 planned |
-| Current verified progress | 41% of defined work orders; **not** 37.5% of the finished product |
+| CF-200 work orders | **84 verified / 200 total**; 116 planned |
+| Current verified progress | 42% of defined work orders; **not** 42% of the finished product |
 | Open GitHub issues | **3** returned in the last issue search |
 | Public task/issue refresh | **Working once** through existing enabled hourly CF-200 executor; ongoing reliability still being observed |
 | Unattended HP computer | **Unverified** — local Windows scheduling and matching receipt not independently correlated |
 | Donations/revenue | No new owner-confirmed receipts established by this dashboard |
 
-**Evidence:** [registry.json](../automation_200/registry.json), source blob `d0eb7ed398b7acc6f6a84486a0bb625e9486b9dc`; [public continuity](PUBLIC_CONTINUITY_STATE.json); [first executor-produced dashboard refresh commit](https://github.com/whoiwts110217-creator/CF-0/commit/479c93ae8689279cb422771a504cd3be494763aa). A successful dashboard refresh is **not** proof of unattended HP operation.
+**Evidence:** [registry.json](../automation_200/registry.json), source blob `304ed3c72df0fb82b6a0eacf6f4dc2e971262c74`; [public continuity](PUBLIC_CONTINUITY_STATE.json); [first executor-produced dashboard refresh commit](https://github.com/whoiwts110217-creator/CF-0/commit/479c93ae8689279cb422771a504cd3be494763aa). A successful dashboard refresh is **not** proof of unattended HP operation.
 
 ## What is being worked on next?
 
@@ -22,12 +22,12 @@ Owner's order remains **P0 Automation → P1 Priority/continuity → P2 Finances
 
 | Category | Task | Plain-language purpose | Status |
 |---|---|---|---|
-| **P1 — Priorities** | **CF-116** | Expire stale task context so decisions rely on current evidence | Planned; source-only candidate |
+| **P1 — Priorities** | **CF-118** | Explain why the decision engine selects or holds each task | Planned; source-only candidate |
 | **P1 — Priorities** | **CF-141** | Publish the source-backed master project index | Planned; source-only candidate |
-| **P1 — Continuity** | **CF-122** | Publish a verified financial checkpoint only if evidence exists | Planned; evidence-dependent |
-| **P2 — Finances** | **CF-161** | Preserve guess → hypothesis → evidence → proof | Planned; source-only candidate |
+| **P2 — Finances** | **CF-122** | Publish a verified financial checkpoint only if evidence exists | Planned; evidence-dependent |
+| **P3 — Research** | **CF-161** | Preserve guess → hypothesis → evidence → proof | Planned; source-only candidate |
 
-**Other planned tasks:** **114** are held by this limited dependency/HP gate. See the [registry](../automation_200/registry.json) for each acceptance condition. CF-100 and CF-110 are already verified and must not appear as planned candidates.
+**Other planned tasks:** **112** other work orders remain planned; many need dependencies or HP-local evidence. See the [registry](../automation_200/registry.json) for each acceptance condition. CF-100 and CF-110 are already verified and must not appear as planned candidates.
 
 ## Problems we know about
 
