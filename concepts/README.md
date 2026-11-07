@@ -19,3 +19,9 @@ No proprietary assets from Pixel Dungeon, Pokémon Mystery Dungeon or SimpleMMO 
 [**Open iPhone emulator (GitHub Pages)**](https://whoiwts110217-creator.github.io/CF-0/dreamkiller/) · [Source, license, usage and limitations](dreamkiller/iphone-emu/site/README.md).
 
 This is an installable **Home Screen web app** for Game Boy/Game Boy Color ROMs, not an App Store `.ipa`, and the original built-in road test is **not** the Dreamkiller game. Home-screen installation and gameplay still require real-device validation. ROMs remain in the user's browser; do not publish someone else's commercial ROMs.
+
+## Chapter One design — DK-CH01-001
+
+[**The Missing Cave — full first-chapter concept**](dreamkiller/chapter_01/CHAPTER_ONE_DESIGN_V0_1.md) · [structured branch/glitch model](dreamkiller/chapter_01/BRANCH_AND_GLITCH_MODEL.json) · [model consistency checks](dreamkiller/chapter_01/test_chapter_model.py).
+
+New **PROPOSED** layer beneath the existing Dreamkiller constitution: first town, rescue choices, two cave floors, persistent fruit state, and glitch B-001 with deterministic entry/exit. The 72 combinatorial source-model scenarios are **not** an emulator or Game Boy ROM test.
