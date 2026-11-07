@@ -94,6 +94,14 @@ def validate_registry(value: object) -> dict:
     expected_ids = {f"CF-{n:03d}" for n in range(1, target + 1)}
     if task_ids != expected_ids:
         raise ValueError("cf200_noncanonical_or_missing_task_ids")
+    # Validate graph references before ingesting any source bytes. Older synthetic
+    # snapshots may omit depends_on; a present field must be a list of known IDs.
+    for task in tasks:
+        dependencies = task.get("depends_on", [])
+        if not isinstance(dependencies, list) or any(
+            not isinstance(dep, str) or dep not in task_ids for dep in dependencies
+        ) or len(dependencies) != len(set(dependencies)) or task["id"] in dependencies:
+            raise ValueError("invalid_cf200_dependency_reference")
     if count != completed:
         raise ValueError("cf200_completed_count_mismatch")
     return {"tasks":tasks,"target":target,"completed":count}
