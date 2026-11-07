@@ -50,6 +50,10 @@ jobs:
           python -m unittest discover -s concepts/dreamkiller/iphone-emu/tests -p 'test_*.py' -v
           node --check concepts/dreamkiller/iphone-emu/site/app.js
           node --check concepts/dreamkiller/iphone-emu/site/service-worker.js
+      - name: Launch first Dreamkiller Road ROM inside browser emulator
+        run: |
+          node --check concepts/dreamkiller/iphone-emu/tests/browser_smoke.mjs
+          node concepts/dreamkiller/iphone-emu/tests/browser_smoke.mjs
       - name: Stage curated public website and Dreamkiller emulator
         shell: bash
         run: |
@@ -83,6 +87,7 @@ jobs:
           assert Path("_site/dreamkiller/index.html").is_file()
           assert Path("_site/dreamkiller/GameBoy.min.js").stat().st_size > 500000
           assert Path("_site/dreamkiller/road-test.gb").stat().st_size == 32768
+          assert Path("_site/dreamkiller/road-v01.gb").stat().st_size == 32768
           assert Path("_site/dreamkiller/GPL-2.0.txt").is_file()
           expected = [
               "https://github.com/whoiwts110217-creator/CF-0/blob/main/automation_200/MASTER_OPERATOR_PROMPT.md",
