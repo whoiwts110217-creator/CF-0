@@ -1,0 +1,28 @@
+name: Retry only CF-0 messages.directory invite once
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'ai_tracker/retry_messages_directory_2026_11_07.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  retry:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+      - name: Retry rejected messages.directory invitation only
+        run: python ai_tracker/retry_messages_directory_2026_11_07.py
+      - name: Record safe receipt
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/AGENT_MESSAGES_DIRECTORY_RETRY_2026_11_07.json
+          if ! git diff --cached --quiet; then
+            git commit -m "Record single messages.directory outreach retry"
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
