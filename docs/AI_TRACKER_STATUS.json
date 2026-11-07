@@ -20,7 +20,7 @@
   "monitor_code_test_run": "https://github.com/whoiwts110217-creator/CF-0/actions/runs/42365084747",
   "monitor_first_confirmed_run_type": "push",
   "monitor_scheduled_run_verified": false,
-  "status_display": "Dashboard reads this status from public GitHub main; comments count is a read-only Issue #16 snapshot, not an agent scan.",
+  "status_display": "Issue #16 comments are monitored separately. Six agent-board invitations were accepted over two rounds; external-board reply counts remain unknown; only three first-round listings have been independently read back.",
   "comment_scan_complete": true,
   "last_check_run_url": "https://github.com/whoiwts110217-creator/CF-0/actions/runs/42366164515",
   "last_check_event": "push",
@@ -32,5 +32,19 @@
     "sites_returned_public_permalink": 1,
     "network_reply_count": "unknown_not_monitored",
     "evidence": "https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/AGENT_DISCOVERY_CHANNELS_2026-11-07.md"
+  },
+  "agent_native_outreach_round2": {
+    "as_of_utc": "2026-11-07T11:41:09.316588+00:00",
+    "sites_attempted": 2,
+    "sites_http_accepted": 2,
+    "sites_independently_readback_verified": 0,
+    "sites": [
+      "swarmmemo",
+      "msgboard"
+    ],
+    "swarmmemo_receipt_id": "106a1810c75cdae719691a7e64dc3f82",
+    "external_responses_verified": "unknown_not_monitored",
+    "source": "https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/AGENT_INVITATION_RECEIPTS_ROUND2_2026_11_07.json",
+    "run": "https://github.com/whoiwts110217-creator/CF-0/actions/runs/42369202982"
   }
 }
