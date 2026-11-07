@@ -13,12 +13,18 @@ from pathlib import Path
 import re
 import sys
 
+try:
+    from .priority_selector import PRIORITY_ORDER
+except ImportError:
+    from priority_selector import PRIORITY_ORDER
+
 ROOT = Path(__file__).resolve().parents[1]
 COUNTS_RE = re.compile(r"\*\*(\d+) verified / (\d+) total\*\*; (\d+) planned")
 BLOB_RE = re.compile(r"source blob \`([a-f0-9]{40})\`")
 ISSUE_COUNT_RE = re.compile(r"\| Open GitHub issues \| \*\*(\d+)\*\*")
 ISSUE_URL_RE = re.compile(r"https://github\.com/whoiwts110217-creator/CF-0/issues/(\d+)")
 CANDIDATE_RE = re.compile(r"^\|[^|\n]*\| \*\*(CF-\d{3})\*\* \|", re.M)
+CANDIDATE_TIER_RE = re.compile(r"^\|\s*(?:\*\*)?P([0-3])[^|\n]*\|\s*\*\*(CF-\d{3})\*\*\s*\|", re.M)
 HELD_LOCAL = {"CF-042", "CF-077", "CF-184", "CF-190", "CF-191", "CF-194"}
 
 
@@ -75,6 +81,14 @@ def check(registry_bytes: bytes, board: str) -> list[str]:
         errors.append("No candidate task IDs found in current-work table")
     if len(candidates) != len(set(candidates)):
         errors.append("Candidate task appears more than once")
+    labeled = CANDIDATE_TIER_RE.findall(section(board, "What is being worked on next?"))
+    if len(labeled) != len(candidates):
+        errors.append("Candidate table is missing valid P0-P3 priority labels")
+    for tier, task_id in labeled:
+        row_task = by_id.get(task_id)
+        if row_task is not None and PRIORITY_ORDER.get(row_task.get("stream"), 4) != int(tier):
+            errors.append("Dashboard candidate priority category differs from registry: " + task_id)
+
     for task_id in candidates:
         task = by_id.get(task_id)
         if task is None:
