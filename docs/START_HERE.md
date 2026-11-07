@@ -5,6 +5,29 @@
 
 Caveman Focus is an experimental system for reducing repetitive work by coordinating AI-assisted tasks, explicit priorities, and verifiable execution. The initial operating target is a low-resource Windows HP computer. It is **public developer-preview source**, not a finished product.
 
+## Quick access — bookmark this page
+
+| Destination | Direct link |
+|---|---|
+| **Public website** | [Site entry page](../index.html) (GitHub source; hosting address not verified here) |
+| **Mission Control** | [Dashboard source](../automation_200/mission_control/dist/index.html) · [Dashboard guide](../automation_200/mission_control/README.md) |
+| **Master mission board** | [MASTER_MISSION_BOARD.md](../automation_200/MASTER_MISSION_BOARD.md) |
+| **Master operator prompt (read first)** | [MASTER_OPERATOR_PROMPT.md](../automation_200/MASTER_OPERATOR_PROMPT.md) |
+| **Continuity prompt (read second)** | [MASTER_CONTINUITY_PROMPT.md](../automation_200/MASTER_CONTINUITY_PROMPT.md) |
+| **Work execution prompt (read third)** | [WORK_COPY_PASTE_AUTOMATION_PROMPT.md](../automation_200/WORK_COPY_PASTE_AUTOMATION_PROMPT.md) |
+| **AI Tracker (public development branch)** | [feature/ai-agent-tracker](https://github.com/whoiwts110217-creator/CF-0/tree/feature/ai-agent-tracker/ai_tracker) |
+| **Open agent response thread** | [GitHub issue #16](https://github.com/whoiwts110217-creator/CF-0/issues/16) |
+
+**Why the AI Tracker wasn't on Mission Control:** its Python files were committed to a separate **public development branch**, not main. It has not been merged, field-tested, or shown running unattended. The main-branch dashboard reads the main-branch registry and therefore does not automatically display branch-only work.
+
+### Your HP command-window shortcuts
+
+These links identify scripts in your existing local CF-0 folder; viewing them on GitHub does **not** launch Windows command windows:
+
+- [READ_WRITE_STATUS_CF0.bat](../READ_WRITE_STATUS_CF0.bat) — check scheduled status without a manual poll.
+- [HP_BRIDGE_STATUS.bat](../HP_BRIDGE_STATUS.bat) — bridge status.
+- [STATUS_CF0_RELAY.bat](../STATUS_CF0_RELAY.bat) — relay status.
+
 ## Choose a path
 
 - **What has actually worked?** Read the [current evidence-based status](PROJECT_STATUS.md) and [HP demonstration](CF0_FAST_LANE_MILESTONE_2026-11-05.md).
