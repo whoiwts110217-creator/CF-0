@@ -138,8 +138,8 @@ ROGUE-03 was reproduced and accepted as a failure-mode test contribution. The sc
 **Control prompt:** [MASTER_OPERATOR_PROMPT.md](MASTER_OPERATOR_PROMPT.md)  
 **Mission control frontend:** [source and usage](mission_control/README.md)  
 **System of record:** [registry.json](registry.json) · [events.jsonl](events.jsonl) · [checkpoints/](checkpoints/)  
-**Current source registry:** **83/200 verified** as of November 7, 2026; [registry.json](registry.json) is authoritative.\
-**Last numbered checkpoint:** [080](checkpoints/checkpoint_080.json) (next numbered checkpoint 084).\
+**Current source registry:** **84/200 verified** as of November 7, 2026; [registry.json](registry.json) is authoritative.\
+**Last numbered checkpoint:** [084](checkpoints/checkpoint_084.json) (next numbered checkpoint 088).\
 **Public continuity handoff:** [docs/CONTINUITY.md](../docs/CONTINUITY.md) · [dated state](../docs/PUBLIC_CONTINUITY_STATE.json). Historical counts in the entries below remain snapshots, not live status.
 
 
@@ -1007,3 +1007,10 @@ The hourly public channel watchdog now runs priority selector and waiting-cycle 
 - **CF-116 verified:** [source guard](../automation_200/task_context_expiry.py) and [decision engine](decision_engine.py) block expired/future-issued context and reject malformed inputs without changing legacy context-free proposals. [Windows tests 42414009722](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42414009722) passed. No real HP or financial operation involved.
 - Reconciled registry and append-only event, project status, continuity record and this board atomically: **83/200**, Git registry blob `eb04e1506ba78d5528bbeb91b86f2407e264346f`. Checkpoint **080** last, next **084**. Owner-policy priority and Notepad regression preserved.
 - Next three: confirm post-ledger CI, implement eligible CF-117 next-unblocking-task selection, check public HP heartbeat only by the owner-approved read-only path; no repeated clipboard requests.
+
+## November 7, 2026 — CF-117 next-unblocking task verified; checkpoint 084
+
+- **Preflight:** fetched full current public main [operator](MASTER_OPERATOR_PROMPT.md) blob `f8f0c94c28cd28cc0402daf4f21bd875e1417932`, [continuity](MASTER_CONTINUITY_PROMPT.md) blob `cac63dead1e00592c1d12ea6562639b02893d81f`, and [Work](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) blob `5da1a390f31ee8f57e5829ef368062f9215c28ac` in order. Checked owner contract, capability guard, registry and prompt approval bin. Refetch from latest public main on next run.
+- **CF-117 verified:** [dependency-safe next-unblocking task selector](../automation_200/next_unblocking_task.py) with [negative tests](../automation_200/tests/test_next_unblocking_cf117.py) identifies runnable safe prerequisite or stops for HP-only or explicitly blocked chains, without executing commands. [Full Windows CI 42414383595](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42414383595) passed. Earlier test run failed on an unrelated concurrent SQLite temp-file cleanup; [fix 4cc4895](https://github.com/whoiwts110217-creator/CF-0/commit/4cc489580f7c229c575cd76e17f1e6e01f3b37a3) recovered Windows CI. No physical HP activity inferred.
+- **Checkpoint 084:** accepted `84/200` in registry, one append-only event, continuity state, project status, this mission board and [checkpoint 084](checkpoints/checkpoint_084.json) atomically. Registry Git blob `304ed3c72df0fb82b6a0eacf6f4dc2e971262c74` and exact-byte SHA-256 `a9a7babdd82b61bc31e4178167f9b3fe94a5195310f2160995f90214f87d2630`; next checkpoint `088`. No HP permission changes, payments, private source publications or silent project merges.
+- **Next three:** verify newest post-checkpoint Windows/Pages CI; advance CF-118 owner-visible decision explanation after dependencies; independently check actual sanitized HP health signal through the existing opt-in, never equate source tests with unattended operation.
