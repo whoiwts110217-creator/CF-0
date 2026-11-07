@@ -30,11 +30,11 @@ def create_only_claim_payload(claim: Claim, now: datetime) -> tuple[str, str]:
     if not _WORKER_ID.fullmatch(claim.operator_id):
         raise ValueError("bounded operator ID required")
     if not _SHA.fullmatch(claim.base_sha):
-        raise ValueError("actual 40-character lowercase source SHA required")
+        raise ValueError("40-character lowercase SHA format required; caller must verify GitHub provenance")
     seconds = (claim.expires_at - now).total_seconds()
     if not (0 < seconds <= 3600):
         raise ConflictError("invalid_claim_lifetime")
-    if any(p == "." or p.endswith("/") or "\\" in p or "//" in p for p in claim.paths):
+    if any("." in p.split("/") or p.endswith("/") or "\\" in p or "//" in p for p in claim.paths):
         raise ValueError("canonical repository paths required")
     path = f"experiments/parallel_coordination/claims/{claim.task_id}.json"
     record = {
