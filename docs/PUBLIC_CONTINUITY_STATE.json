@@ -11,13 +11,13 @@
   ],
   "cf200": {
     "registry_path": "automation_200/registry.json",
-    "verified": 70,
+    "verified": 71,
     "target": 200,
     "last_numbered_checkpoint": 68,
     "next_numbered_checkpoint": 72,
-    "evidence": "https://github.com/whoiwts110217-creator/CF-0/actions/runs/42398244953",
+    "evidence": "https://github.com/whoiwts110217-creator/CF-0/actions/runs/42398570265",
     "meaning": "Verified source-level work orders with individual evidence; not percentage of finished product or HP uptime",
-    "registry_git_blob_sha1": "7c738818feabbab1ac226829ca4dc269b31fca47",
+    "registry_git_blob_sha1": "51f23dea6f2a9cde6616d92da84e213ca2a8bcce",
     "registry_exact_raw_bytes_imported_into_private_store": false
   },
   "hp": {

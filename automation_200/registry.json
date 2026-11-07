@@ -3,7 +3,7 @@
   "owner": "Kiara Lynn Rose Smith",
   "project": "Caveman Focus",
   "target": 200,
-  "completed": 70,
+  "completed": 71,
   "checkpoint_every": 4,
   "status": "WORK_IN_PROGRESS",
   "note": "A planned item is not a completed task. Physical HP outcomes require owner-HP evidence.",
@@ -1228,8 +1228,8 @@
       "depends_on": [
         "CF-094"
       ],
-      "status": "planned",
-      "evidence": null,
+      "status": "verified",
+      "evidence": "CF-095 verifies byte-bounded GitHub relay HTTP responses: cf_public_relay.py uses res.read(1_000_001) with response_too_large rejection above 1,000,000 bytes. New relay/tests/test_http_response_limit_cf095.py tests valid exact-limit JSON, one byte over-limit rejection, much larger stream capped read, no private-body logging, fixed timeout and method/path safety; commit 41e7becdce681eb34d323e1d29ce1b69104e0a92. Full Windows CI https://github.com/whoiwts110217-creator/CF-0/actions/runs/42398570265 passed. Source and synthetic HTTP only; not physical HP execution.",
       "authority": "existing-source-tests",
       "physical_hp_required": false
     },

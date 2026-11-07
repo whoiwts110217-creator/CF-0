@@ -32,7 +32,7 @@
 **Control prompt:** [MASTER_OPERATOR_PROMPT.md](MASTER_OPERATOR_PROMPT.md)  
 **Mission control frontend:** [source and usage](mission_control/README.md)  
 **System of record:** [registry.json](registry.json) · [events.jsonl](events.jsonl) · [checkpoints/](checkpoints/)  
-**Current source registry:** **70/200 verified** as of November 7, 2026; [registry.json](registry.json) is authoritative.\
+**Current source registry:** **71/200 verified** as of November 7, 2026; [registry.json](registry.json) is authoritative.\
 **Last numbered checkpoint:** [068](checkpoints/checkpoint_068.json) (next numbered checkpoint 072).\
 **Public continuity handoff:** [docs/CONTINUITY.md](../docs/CONTINUITY.md) · [dated state](../docs/PUBLIC_CONTINUITY_STATE.json). Historical counts in the entries below remain snapshots, not live status.
 
@@ -798,3 +798,10 @@ The hourly public channel watchdog now runs priority selector and waiting-cycle 
 - **Atomic acceptance:** registry changed to **70/200**, appended one verified CF-094 event, public continuity state / source status / board synchronized in a single guarded commit. Registry Git blob `7c738818feabbab1ac226829ca4dc269b31fca47`. Numbered checkpoint **068** remains last; **072** is next. No additional HP commands, new schedule, public income, or private source changes authorized or reported.
 - **Physical HP still unverified:** `relay/health/latest.json` remained missing in this run. Prior setup and optional owner-local opt-in documentation exists but has not been verified on the physical HP. The cloud has not enabled it, read secrets or asked for repeated owner PowerShell output.
 - **Next three:** (1) verify source CI and continuity of this 70/200 commit; (2) advance the next eligible P0 CF-095 bounded HTTP response-size test without widening relay authority; (3) after actual current HP checkout and owner-local opt-in, check the fixed sanitized heartbeat and correlate scheduled origin separately. No unrelated archive/finance status changes.
+
+## November 7, 2026 — CF-095 fixed HTTP response size, source-verified
+
+- **Mandatory preflight:** current main [operator](MASTER_OPERATOR_PROMPT.md) `f3d4d0d443323528a64c6aa9e9d4c9a3b30e8098` → [continuity](MASTER_CONTINUITY_PROMPT.md) `cac63dead1e00592c1d12ea6562639b02893d81f` → [Work prompt](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) `5da1a390f31ee8f57e5829ef368062f9215c28ac`. Next scheduled executor must fetch all three anew from public main; owner capability contract and owner approval bin unchanged.
+- **CF-095 verified:** Existing bounded network read in [relay/cf_public_relay.py](../relay/cf_public_relay.py) limits GitHub API response body intake to 1,000,001 bytes before parsing. [Boundary tests](https://github.com/whoiwts110217-creator/CF-0/commit/41e7becdce681eb34d323e1d29ce1b69104e0a92) confirm acceptance at 1,000,000, rejection at 1,000,001, no unbounded read and no disclosure of synthetic private response body. [Full Windows CI 42398570265](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42398570265) passed before acceptance. Source-level proof only.
+- **Atomic registry/event/state/board sync:** `71/200` with Git registry blob `51f23dea6f2a9cde6616d92da84e213ca2a8bcce`. Numbered checkpoint `068` remains latest, next `072` due after one more accepted task. No HP writeback, scheduler changes, account funds, payments, or private archives touched. Public health report still not published at last check.
+- **Next three:** (1) validate source count and post-ledger full Windows CI; (2) inspect/test P0 `CF-096` network timeout boundary without changing owner command allowlist; (3) retain the HP health one-click owner-local opt-in as the missing link for device-origin proof, without repeated manual diagnostics.
