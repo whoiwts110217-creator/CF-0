@@ -15,6 +15,7 @@ Caveman Focus is an experimental system for reducing repetitive work by coordina
 | **Master operator prompt (read first)** | [MASTER_OPERATOR_PROMPT.md](../automation_200/MASTER_OPERATOR_PROMPT.md) |
 | **Continuity prompt (read second)** | [MASTER_CONTINUITY_PROMPT.md](../automation_200/MASTER_CONTINUITY_PROMPT.md) |
 | **Work execution prompt (read third)** | [WORK_COPY_PASTE_AUTOMATION_PROMPT.md](../automation_200/WORK_COPY_PASTE_AUTOMATION_PROMPT.md) |
+| **Prompt change approvals & notes** | [Review approval bin](../automation_200/PROMPT_CHANGE_BIN.md) · [Revision log](../automation_200/PROMPT_CHANGE_LOG.jsonl) · [CI guard](https://github.com/whoiwts110217-creator/CF-0/actions/workflows/prompt-efficiency-guard.yml) |
 | **AI Tracker** | [Mission Control status](https://whoiwts110217-creator.github.io/CF-0/mission-control/#ai-tracker) · [Issue monitor](../ai_tracker/monitor_public_issue.py) · [Development branch](https://github.com/whoiwts110217-creator/CF-0/tree/feature/ai-agent-tracker/ai_tracker) |
 | **Open agent response thread** | [GitHub issue #16](https://github.com/whoiwts110217-creator/CF-0/issues/16) |
 
