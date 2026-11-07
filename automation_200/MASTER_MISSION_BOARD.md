@@ -3,8 +3,8 @@
 **Control prompt:** [MASTER_OPERATOR_PROMPT.md](MASTER_OPERATOR_PROMPT.md)  
 **Mission control frontend:** [source and usage](mission_control/README.md)  
 **System of record:** [registry.json](registry.json) · [events.jsonl](events.jsonl) · [checkpoints/](checkpoints/)  
-**Current source registry:** **55/200 verified** as of November 6, 2026; [registry.json](registry.json) is authoritative.  
-**Last numbered checkpoint:** [052](checkpoints/checkpoint_052.json) (next numbered checkpoint 056, not yet due).  
+**Current source registry:** **56/200 verified** as of November 6, 2026; [registry.json](registry.json) is authoritative.\
+**Last numbered checkpoint:** [056](checkpoints/checkpoint_056.json) (next numbered checkpoint 060).\
 **Public continuity handoff:** [docs/CONTINUITY.md](../docs/CONTINUITY.md) · [dated state](../docs/PUBLIC_CONTINUITY_STATE.json). Historical counts in the entries below remain snapshots, not live status.
 
 ## Owner-defined strategy
@@ -441,3 +441,12 @@ The hourly public channel watchdog now runs priority selector and waiting-cycle 
 - Registry/checkpoints/events untouched. HP relay allowlist, schedules and private continuity unchanged. Public site is not evidence of donations or physical HP autonomy.
 
 **Next three:** (1) inspect Pages workflow conclusion and confirm HTTP live homepage, fixing deployment blockers; (2) verify mobile navigation and accessibility against the published HTML; (3) improve public support/product conversion only with validated destinations and owner-reviewed claims.
+
+## CF-072 — response digest validation, November 6, 2026 ET
+
+- Read [operator v1.0](MASTER_OPERATOR_PROMPT.md), [continuity v1.0](MASTER_CONTINUITY_PROMPT.md), and [Work v1.0](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) in that order at [public main 87bd83b](https://github.com/whoiwts110217-creator/CF-0/commit/87bd83bfec96af3cec0737357f4604901363ecbc). Their blobs were 67ce4bf6d176a4fde9d35b050a9959f4da1994da, 291a4836f26f6dd3b8664092adba777bee1f1f54 and ee5aa07170ca4c9ec4c0c1ed5e63ee7c8dd3f431. The next Work run fetches all three anew from public main in the same order.
+- Selected CF-072 as the first eligible P0 order after the verified CF-071 prerequisite. [Source commit fe3840d](https://github.com/whoiwts110217-creator/CF-0/commit/fe3840d57b0a502fdcf487b819f1bc7eb1385898) adds a required response SHA-256 to v2 receipts and checks it during replay, writeback, and audit. Corrupted v2 receipts produce an error without reexecuting the job. Equivalent v1 receipts remain readable and retain their original bytes. Local relay, recovery, continuity, and [Mission Control](mission_control/README.md) tests passed. The compatible reader deployed to the owner-only Mission Control site.
+- [Windows relay CI](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42329233663) and the [GitHub watchdog](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42329233636) passed on the source commit. The [registry](registry.json) and [append-only event log](events.jsonl) record CF-072 as verified, bringing the total to **56/200**. [Checkpoint 056](checkpoints/checkpoint_056.json) records the fourth verification since checkpoint 052.
+- The [existing public ping](../command_queue/receipts/aeccc8a2-217f-4786-aaaf-19b2fc9ff35a.json) matched its request digest. The public health report returned 404 and Windows Scheduler correlation remains unverified. The private v3 audit covers an earlier registry snapshot. Full original conversation exports and the original project inventory remain missing. Inspected public evidence establishes no verified income.
+
+**Next three eligible source tasks** are CF-073 long-lived receipt archive threshold, CF-088 GitHub repository identity, and CF-183 Python transport verification without GitHub CLI.

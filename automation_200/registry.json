@@ -3,7 +3,7 @@
   "owner": "Kiara Lynn Rose Smith",
   "project": "Caveman Focus",
   "target": 200,
-  "completed": 55,
+  "completed": 56,
   "checkpoint_every": 4,
   "status": "WORK_IN_PROGRESS",
   "note": "A planned item is not a completed task. Physical HP outcomes require owner-HP evidence.",
@@ -931,8 +931,8 @@
       "depends_on": [
         "CF-071"
       ],
-      "status": "planned",
-      "evidence": null,
+      "status": "verified",
+      "evidence": "relay/tests/test_public_relay.py and relay/tests/test_channel_audit.py at fe3840d57b0a502fdcf487b819f1bc7eb1385898. v2 response SHA-256 is required and validated before replay and during cloud audit. Tests verify changed or missing digests, durable writeback and v1 compatibility. Windows CI https://github.com/whoiwts110217-creator/CF-0/actions/runs/42329233663 and watchdog https://github.com/whoiwts110217-creator/CF-0/actions/runs/42329233636 passed. Source-level acceptance.",
       "authority": "existing-source-tests",
       "physical_hp_required": false
     },
