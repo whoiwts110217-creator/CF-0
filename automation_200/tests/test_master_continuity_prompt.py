@@ -45,6 +45,34 @@ class MasterContinuityTests(unittest.TestCase):
                 self.assertIn("MASTER_OPERATOR_PROMPT.md", text)
                 self.assertIn("MASTER_CONTINUITY_PROMPT.md", text)
 
+    def test_public_work_self_reference_and_preflight_order(self):
+        """A public prompt exists; this test does not establish Work compliance."""
+        work = content("automation_200/WORK_COPY_PASTE_AUTOMATION_PROMPT.md")
+        url = ("https://github.com/whoiwts110217-creator/CF-0/blob/main/"
+               "automation_200/WORK_COPY_PASTE_AUTOMATION_PROMPT.md")
+        self.assertIn(url, work)
+        self.assertIn("THEN FETCH AND READ THIS VERY FILE FROM PUBLIC GITHUB", work)
+        first = work.index("MASTER_OPERATOR_PROMPT.md")
+        second = work.index("MASTER_CONTINUITY_PROMPT.md")
+        third = work.index("THEN FETCH AND READ THIS VERY FILE FROM PUBLIC GITHUB")
+        self.assertLess(first, second)
+        self.assertLess(second, third)
+        self.assertIn("Do not require the owner to re-paste this prompt", work)
+        self.assertIn("A prompt cannot initiate or schedule itself", work)
+
+    def test_work_prompt_preserves_hp_and_privacy_boundaries(self):
+        work = content("automation_200/WORK_COPY_PASTE_AUTOMATION_PROMPT.md")
+        for action in ("ping", "hp_status", "sidecar_verify"):
+            self.assertIn(action, work)
+        for phrase in (
+            "No remote shell",
+            "Private v1/v2 archives remain private",
+            "not proof of scheduled HP execution",
+            "Do not add duplicate schedulers",
+        ):
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase.lower(), work.lower())
+
     def test_preserve_owner_priority_and_broader_goal(self):
         prompt = content("automation_200/MASTER_CONTINUITY_PROMPT.md").lower()
         for required in ("sustainable generational wealth", "automation", "priority",
