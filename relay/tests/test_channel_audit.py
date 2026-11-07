@@ -81,6 +81,43 @@ class ChannelAuditTests(unittest.TestCase):
         self.assertEqual(report["invalid_requests"], 1)
         self.assertEqual(report["matching_execution_receipts"], 0)
 
+    def test_malformed_base64_contents_fail_closed_without_a_traceback(self):
+        """CF-075: reject corrupt GitHub content and do not report a match."""
+        invalid = (
+            {"encoding": "base64", "content": "%%%"},
+            {"encoding": "base64", "content": "a"},
+            {"encoding": "base64", "content": "////="},
+            {"encoding": "base64", "content": 7},
+            {"encoding": "utf-8", "content": "e30="},
+        )
+        for document in invalid:
+            with self.subTest(document=document):
+                with patch.object(channel_audit, "github_json", return_value=document):
+                    with self.assertRaises(ValueError):
+                        channel_audit.read_contents_json("https://api.github.com/unused")
+
+    def test_live_audit_reports_malformed_base64_as_unavailable(self):
+        """CF-075: a broken receipt cannot be counted as HP execution."""
+        inbox_url = channel_audit.folder_url("inbox")
+        receipt_url = channel_audit.folder_url("receipts")
+        encoded_job = base64.b64encode(json.dumps(self.job).encode()).decode()
+        responses = {
+            inbox_url + "?ref=main": [{"type": "file", "name": self.name}],
+            receipt_url + "?ref=main": [{"type": "file", "name": self.name}],
+            inbox_url + "/" + self.name + "?ref=main":
+                {"encoding": "base64", "content": encoded_job},
+            receipt_url + "/" + self.name + "?ref=main":
+                {"encoding": "base64", "content": "%%%"},
+        }
+        output = io.StringIO()
+        with patch.object(channel_audit, "github_json", side_effect=responses.__getitem__):
+            with contextlib.redirect_stdout(output):
+                self.assertEqual(channel_audit.main(["--live"]), 1)
+        report = json.loads(output.getvalue())
+        self.assertEqual(report["audit"], "unavailable")
+        self.assertEqual(report["error_type"], "ValueError")
+        self.assertNotIn("matching_execution_receipts", report)
+
     def test_archive_capacity_checks_each_folder_at_the_boundaries(self):
         for size, expected in ((99, "within_limit"), (100, "review_due"),
                                (120, "review_due"), (121, "limit_exceeded")):
