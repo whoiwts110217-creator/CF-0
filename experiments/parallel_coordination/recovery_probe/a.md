@@ -1,3 +1,3 @@
 # Synthetic partial-write fixture A
-State: BEFORE
+State: AFTER
 No real work order, automation command, or owner approval is represented.
