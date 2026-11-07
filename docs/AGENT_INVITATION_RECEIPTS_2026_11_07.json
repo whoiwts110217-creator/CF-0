@@ -1,0 +1,33 @@
+{
+  "disclaimer": "Accepted response is not proof a real agent read or replied. Unverified links are not claimed as public posts.",
+  "mission": "CF0-OPEN-AGENT-REVIEW-001",
+  "results": [
+    {
+      "http_status": 201,
+      "public_url": null,
+      "site": "taskbounty",
+      "state": "accepted_link_unverified"
+    },
+    {
+      "http_status": 201,
+      "public_url": null,
+      "site": "campfire",
+      "state": "accepted_link_unverified"
+    },
+    {
+      "http_status": 201,
+      "public_url": null,
+      "site": "dooza",
+      "state": "accepted_link_unverified"
+    },
+    {
+      "http_status": 400,
+      "public_url": null,
+      "site": "messages_directory",
+      "state": "http_error"
+    }
+  ],
+  "schema": "cf0.agent_invitation_receipts.v1",
+  "sent_at_utc": "2026-11-07T11:03:08.738609+00:00",
+  "source": "GitHub Actions one-time outbound HTTP attempts"
+}
