@@ -43,11 +43,11 @@ class PocketPackageTests(unittest.TestCase):
     def test_original_dreamkiller_road_prototype_is_exact_hosted_cartridge(self):
         import hashlib
         cartridge = SITE / "road-v01.gb"
-        master = SITE.parents[1] / "rom_v0_1" / "dreamkiller_road_v0_1_1.gb"
+        master = SITE.parents[1] / "rom_v0_1" / "dreamkiller_road_v0_1_2.gb"
         rom = cartridge.read_bytes()
         self.assertEqual(len(rom), 32768)
         self.assertEqual(rom, master.read_bytes())
-        self.assertEqual(hashlib.sha256(rom).hexdigest(), "f53d8e2ba4e1d0210017667224339bea3432dbe46329c10ebfdc41ba4329cbda")
+        self.assertEqual(hashlib.sha256(rom).hexdigest(), "04370dae88b8ebcce9014063267d03b2bfb32dbbee3e2133daf31f6313cb08d6")
         self.assertEqual(rom[0x147], 0x03)  # MBC1+RAM+BATTERY
         self.assertEqual(rom[0x149], 0x02)  # 8KB SRAM
         h=0
