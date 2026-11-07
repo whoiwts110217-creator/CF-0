@@ -1,5 +1,5 @@
 # CAS probe
 
-Stage: initial
+Stage: accepted first update
 
-This disposable source-safe test checks GitHub blob SHA preconditions. No task or HP command is executed.
+This content must survive a second update using a stale SHA.
