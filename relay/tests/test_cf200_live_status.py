@@ -3,6 +3,7 @@ import unittest
 import hashlib
 import json
 from relay.cf200_live_status import PROBE_ID, PROBE_DIGEST, probe_summary
+from relay.cf_public_relay import sha
 
 
 class ReceiptSummaryTests(unittest.TestCase):
@@ -13,7 +14,7 @@ class ReceiptSummaryTests(unittest.TestCase):
 
     def setUp(self):
         self.receipt = {
-            "id": PROBE_ID, "request_sha256": PROBE_DIGEST,
+            "v": 1, "id": PROBE_ID, "request_sha256": PROBE_DIGEST,
             "status": "completed", "result": {"pong": True, "protocol": 1},
         }
 
@@ -28,6 +29,12 @@ class ReceiptSummaryTests(unittest.TestCase):
 
     def test_wrong_result_is_not_accepted(self):
         receipt = dict(self.receipt, result={"pong": False, "protocol": 1})
+        self.assertIn("mismatched", probe_summary(lambda _: receipt))
+
+    def test_current_receipt_checks_response_digest(self):
+        receipt = dict(self.receipt, v=2, response_sha256=sha(self.receipt["result"]))
+        self.assertIn("matching completed ping", probe_summary(lambda _: receipt))
+        receipt["response_sha256"] = "0" * 64
         self.assertIn("mismatched", probe_summary(lambda _: receipt))
 
     def test_network_error_is_not_a_negative_receipt(self):

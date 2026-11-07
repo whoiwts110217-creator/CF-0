@@ -13,9 +13,9 @@ import urllib.error
 import urllib.request
 
 if __package__:
-    from .cf_public_relay import REPO, RelayError, sha, validate
+    from .cf_public_relay import REPO, RelayError, sha, successful_ping, validate, validate_receipt
 else:
-    from cf_public_relay import REPO, RelayError, sha, validate
+    from cf_public_relay import REPO, RelayError, sha, successful_ping, validate, validate_receipt
 
 API = "https://api.github.com"
 MAX_FILES = 120
@@ -47,17 +47,14 @@ def summarize(inbox: dict, receipts: dict, now: int) -> dict:
             continue
         matched_ids.add(name)
         receipt = receipts[name]
-        if (isinstance(receipt, dict)
-                and set(receipt) == {"v", "id", "request_sha256", "status", "result"}
-                and type(receipt["v"]) is int and receipt["v"] == 1
-                and receipt["id"] == job["id"]
-                and receipt["request_sha256"] == sha(job)
-                and receipt["status"] == "completed"
-                and isinstance(receipt["result"], dict)
-                and (job["action"] != "ping" or successful_ping(receipt["result"]))):
-            counts["matching_execution_receipts"] += 1
-        else:
+        try:
+            validate_receipt(receipt, job["id"], sha(job))
+            if job["action"] == "ping" and not successful_ping(receipt["result"]):
+                raise RelayError("unexpected_ping_result")
+        except RelayError:
             counts["mismatched_receipts"] += 1
+        else:
+            counts["matching_execution_receipts"] += 1
 
     for filename, receipt in receipts.items():
         if filename in matched_ids:
@@ -76,11 +73,6 @@ def summarize(inbox: dict, receipts: dict, now: int) -> dict:
         "No matching execution receipt; a setup probe or CI pass is not HP execution evidence."
     )
     return counts
-
-def successful_ping(result: dict) -> bool:
-    return (result.get("pong") is True
-            and type(result.get("protocol")) is int
-            and result["protocol"] == 1)
 
 def github_json(url: str) -> object:
     headers = {"Accept": "application/vnd.github+json",

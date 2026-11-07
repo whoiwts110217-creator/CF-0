@@ -58,6 +58,20 @@ test("distinguishes matched public ping evidence from invalid results or unsafe 
   assert.equal(pingPaths({ hp: { public_ping_request_id: "../malicious" } }), null);
 });
 
+test("checks a v2 ping response digest and rejects a missing or altered digest", async () => {
+  const data = { commit, registry: fixture, state, health: "not_published" };
+  const current = {
+    ...receipt,
+    v: 2,
+    result: { protocol: 1, pong: true },
+    response_sha256: createHash("sha256").update(JSON.stringify(receipt.result)).digest("hex"),
+  };
+  assert.equal((await dashboardModel({ ...data, ping: { request, receipt: current } })).ping, "matched");
+  for (const invalid of [{ ...current, response_sha256: "0".repeat(64) }, { ...receipt, v: 2 }]) {
+    assert.equal((await dashboardModel({ ...data, ping: { request, receipt: invalid } })).ping, "unconfirmed");
+  }
+});
+
 test("keeps registry progress when the dated checkpoint summary drifts", async () => {
   const oldState = { ...state, cf200: { ...state.cf200, verified: 0 } };
   const model = await dashboardModel({ commit, registry: fixture, state: oldState, health: "unavailable" });

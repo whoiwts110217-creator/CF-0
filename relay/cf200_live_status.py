@@ -8,6 +8,11 @@ import urllib.request
 from datetime import datetime
 from tkinter.scrolledtext import ScrolledText
 
+if __package__:
+    from .cf_public_relay import RelayError, successful_ping, validate_receipt
+else:
+    from cf_public_relay import RelayError, successful_ping, validate_receipt
+
 REPO = "whoiwts110217-creator/CF-0"
 BASE = "https://raw.githubusercontent.com/" + REPO + "/main/"
 API = "https://api.github.com/repos/" + REPO
@@ -27,10 +32,12 @@ def probe_summary(fetch=None):
         receipt = reader(BASE + "command_queue/receipts/" + PROBE_ID + ".json")
     except Exception:
         return "HP ping receipt: unavailable"
-    valid = (isinstance(receipt, dict) and receipt.get("id") == PROBE_ID
-             and receipt.get("request_sha256") == PROBE_DIGEST
-             and receipt.get("status") == "completed"
-             and receipt.get("result") == {"pong": True, "protocol": 1})
+    try:
+        validate_receipt(receipt, PROBE_ID, PROBE_DIGEST)
+    except RelayError:
+        return "HP ping receipt: mismatched or invalid"
+    result = receipt["result"]
+    valid = len(result) == 2 and successful_ping(result)
     return ("HP ping receipt: matching completed ping; scheduler origin UNVERIFIED"
             if valid else "HP ping receipt: mismatched or invalid")
 

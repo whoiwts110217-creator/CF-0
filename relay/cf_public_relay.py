@@ -19,15 +19,42 @@ MAX_JOB_BYTES = 8192
 MAX_SCAN = 80
 MAX_ACTIONS = 4
 UUID = re.compile(r'^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$')
+SHA256 = re.compile(r'[0-9a-f]{64}')
+RECEIPT_FIELDS = frozenset({'v', 'id', 'request_sha256', 'status', 'result'})
+RECEIPT_FIELDS_BY_VERSION = {1: RECEIPT_FIELDS, 2: RECEIPT_FIELDS | {'response_sha256'}}
 MARKER = 'CAVEMAN FOCUS | KIARA LYNN-ROSE. SMITH'
 
 class RelayError(Exception): pass
 
 def dump(obj: Any) -> bytes:
-    return json.dumps(obj, sort_keys=True, separators=(',', ':'), ensure_ascii=False).encode('utf-8')
+    return json.dumps(obj, sort_keys=True, separators=(',', ':'), ensure_ascii=False, allow_nan=False).encode('utf-8')
 
 def sha(obj: Any) -> str:
     return hashlib.sha256(dump(obj)).hexdigest()
+
+def validate_receipt(receipt: Any, job_id: str, request_digest: str | None = None) -> str:
+    """Validate a legacy or current receipt and return its canonical result digest."""
+    if (not isinstance(receipt, dict) or type(receipt.get('v')) is not int
+            or set(receipt) != RECEIPT_FIELDS_BY_VERSION.get(receipt['v'])
+            or not isinstance(job_id, str) or not UUID.fullmatch(job_id) or receipt['id'] != job_id
+            or receipt['status'] != 'completed' or not isinstance(receipt['result'], dict)):
+        raise RelayError('invalid_receipt')
+    stored_request = receipt['request_sha256']
+    if (not isinstance(stored_request, str) or not SHA256.fullmatch(stored_request)
+            or (request_digest is not None and stored_request != request_digest)):
+        raise RelayError('request_digest_mismatch')
+    try:
+        result_digest = sha(receipt['result'])
+    except (TypeError, ValueError, RecursionError) as exc:
+        raise RelayError('invalid_receipt_result') from exc
+    if receipt['v'] == 2 and receipt['response_sha256'] != result_digest:
+        raise RelayError('response_digest_mismatch')
+    return result_digest
+
+def successful_ping(result: dict) -> bool:
+    return (result.get('pong') is True
+            and type(result.get('protocol')) is int
+            and result['protocol'] == 1)
 
 def validate(job: Any, name: str, now: int | None=None) -> dict:
     now = int(time.time()) if now is None else now
@@ -95,6 +122,7 @@ class HttpRepo:
     def publish(self,job_id,receipt):
         # Optional GitHub write. Never put device name, file lists, paths or secrets in public receipt.
         if not self.token: return False
+        result_digest = validate_receipt(receipt, job_id)
         path=f'/repos/{self.repo}/contents/command_queue/receipts/{job_id}.json'
         previous=self.request('GET',path+'?ref=main')
         if previous is not None:
@@ -105,9 +133,15 @@ class HttpRepo:
                 encoded = previous['content']
                 if not isinstance(encoded, str): raise ValueError('invalid content type')
                 old = json.loads(base64.b64decode(''.join(encoded.split()), validate=True))
-            except (KeyError, ValueError, TypeError, UnicodeDecodeError) as exc:
+            except (KeyError, ValueError, TypeError, RecursionError) as exc:
                 raise RelayError('receipt_unreadable') from exc
-            if old != receipt: raise RelayError('receipt_conflict')
+            # Accept an equivalent legacy receipt as-is. GitHub receipt history is immutable.
+            try:
+                previous_digest = validate_receipt(old, job_id, receipt['request_sha256'])
+            except RelayError as exc:
+                raise RelayError('receipt_conflict') from exc
+            if previous_digest != result_digest:
+                raise RelayError('receipt_conflict')
             return True
         self.request('PUT',path,{'message':f'HP public relay receipt {job_id}', 'branch':'main',
                                  'content':base64.b64encode(dump(receipt)).decode('ascii')})
@@ -134,7 +168,15 @@ class State:
     def receipt(self,jid):
         with self.conn() as con:
             x=con.execute('SELECT digest,receipt FROM receipts WHERE id=?',(jid,)).fetchone()
-        return (x[0],json.loads(x[1])) if x else None
+        if x is None:
+            return None
+        digest, encoded = x
+        try:
+            receipt = json.loads(encoded)
+        except (TypeError, ValueError, RecursionError) as exc:
+            raise RelayError('receipt_unreadable') from exc
+        validate_receipt(receipt, jid, digest)
+        return digest, receipt
     def attempt(self,jid):
         with self.conn() as con:
             x=con.execute('SELECT digest,state FROM attempts WHERE id=?',(jid,)).fetchone()
@@ -191,8 +233,9 @@ def tick(repo:HttpRepo, state:State,sidecar=None):
     result={'scanned':0,'executed':0,'replayed':0,'uncertain':0,'public_receipts':0,'errors':[]}
     for n in ordered[:MAX_SCAN]:
         state.set_cursor(n);result['scanned']+=1
-        jid=n[:-5];stored=state.receipt(jid)
+        jid=n[:-5]
         try:
+            stored=state.receipt(jid)
             if stored is not None:
                 result['replayed']+=1
                 if repo.publish(jid,stored[1]):result['public_receipts']+=1
@@ -213,7 +256,8 @@ def tick(repo:HttpRepo, state:State,sidecar=None):
                 result['uncertain']+=1
                 continue
             value=execute(job,sidecar)
-            receipt={'v':1,'id':jid,'request_sha256':digest,'status':'completed','result':value}
+            receipt={'v':2,'id':jid,'request_sha256':digest,'status':'completed','result':value,
+                     'response_sha256':sha(value)}
             state.save(jid,digest,receipt)
             result['executed']+=1
             if repo.publish(jid,receipt):result['public_receipts']+=1

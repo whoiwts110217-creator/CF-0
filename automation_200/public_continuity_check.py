@@ -100,12 +100,13 @@ def check(root: Path = ROOT) -> dict:
     require(inbox.is_file() and receipt_path.is_file(), "missing_public_ping_files")
     job = json.loads(inbox.read_text(encoding="utf-8"))
     receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
-    digest = hashlib.sha256(
-        json.dumps(job, sort_keys=True, separators=(",", ":"), ensure_ascii=False).encode("utf-8")
-    ).hexdigest()
-    require(receipt.get("id") == jid and receipt.get("request_sha256") == digest
-            and receipt.get("status") == "completed" and job.get("action") == "ping"
-            and receipt.get("result", {}).get("pong") is True,
+    from relay.cf_public_relay import RelayError, sha, successful_ping, validate_receipt
+
+    try:
+        validate_receipt(receipt, jid, sha(job))
+    except RelayError as exc:
+        raise ContinuityError("public_ping_digest_or_receipt_mismatch") from exc
+    require(job.get("id") == jid and job.get("action") == "ping" and successful_ping(receipt["result"]),
             "public_ping_digest_or_receipt_mismatch")
     require(state["hp"]["public_ping_result"] == "completed_matched_request_sha256",
             "public_ping_status_drift")

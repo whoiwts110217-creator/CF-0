@@ -1,5 +1,6 @@
 # cf.attr.v1=Q0FWRU1BTiBGT0NVU3xLSUFSQSBMWU5OLVJPU0UuIFNNSVRI
 import sys,pathlib,unittest,tempfile,base64,json,time
+from unittest.mock import patch
 sys.path.insert(0,str(pathlib.Path(__file__).resolve().parents[1]))
 import cf_public_relay as r
 
@@ -88,7 +89,6 @@ class Tests(unittest.TestCase):
 
     def test_http_status_receipt_excludes_private_host_metadata(self):
         import os
-        from unittest.mock import patch
 
         with patch.dict(os.environ, {
             'USERNAME': 'synthetic-private-user',
@@ -154,12 +154,14 @@ class Tests(unittest.TestCase):
                 self.assertEqual(replay["replayed"], 1)
                 self.assertEqual(first["errors"] + replay["errors"], [])
                 canonical = json.dumps(job, sort_keys=True, separators=(",", ":")).encode()
+                response = json.dumps(expected_result, sort_keys=True, separators=(",", ":")).encode()
                 expected = {
-                    "v": 1,
+                    "v": 2,
                     "id": job["id"],
                     "request_sha256": hashlib.sha256(canonical).hexdigest(),
                     "status": "completed",
                     "result": expected_result,
+                    "response_sha256": hashlib.sha256(response).hexdigest(),
                 }
                 self.assertEqual(writes, [expected])
                 self.assertEqual(r.State(database).receipt(job["id"]),
@@ -193,7 +195,9 @@ class Tests(unittest.TestCase):
             self.assertEqual(state.count(),0)
 
     def test_remote_existing_receipt_forgery_and_malformed_data_rejected(self):
-        job=r.make_job('ping');jid=job['id'];expected={'id':jid,'status':'completed'}
+        job=r.make_job('ping');jid=job['id'];result={'pong':True,'protocol':1}
+        expected={'v':2,'id':jid,'request_sha256':r.sha(job),'status':'completed',
+                  'result':result,'response_sha256':r.sha(result)}
         mailbox=r.HttpRepo(repo=r.REPO,token='local-demo')
         calls=[]
         def pretend(method,path,payload=None):
@@ -209,6 +213,53 @@ class Tests(unittest.TestCase):
             mailbox.request=lambda method,path,payload=None,bad=invalid: calls.append(method) or bad
             with self.assertRaises(r.RelayError):mailbox.publish(jid,expected)
             self.assertEqual(calls,['GET'])
+
+    def test_existing_receipt_versions_match_without_rewriting(self):
+        job = r.make_job("ping")
+        job_id = job["id"]
+        result = {"pong": True, "protocol": 1}
+        legacy = {"v": 1, "id": job_id, "request_sha256": r.sha(job),
+                  "status": "completed", "result": result}
+        current = {**legacy, "v": 2, "response_sha256": r.sha(result)}
+        mailbox = r.HttpRepo(token="local-test")
+        path = f"/repos/{r.REPO}/contents/command_queue/receipts/{job_id}.json?ref=main"
+        for saved, existing in ((current, legacy), (legacy, current)):
+            with self.subTest(saved=saved["v"], existing=existing["v"]):
+                response = {"encoding": "base64", "content": base64.b64encode(r.dump(existing)).decode()}
+                with patch.object(mailbox, "request", return_value=response) as request:
+                    self.assertTrue(mailbox.publish(job_id, saved))
+                    request.assert_called_once_with("GET", path)
+        invalid = {**current, "response_sha256": "0" * 64}
+        response = {"encoding": "base64", "content": base64.b64encode(r.dump(invalid)).decode()}
+        with patch.object(mailbox, "request", return_value=response) as request:
+            with self.assertRaisesRegex(r.RelayError, "receipt_conflict"):
+                mailbox.publish(job_id, current)
+            request.assert_called_once_with("GET", path)
+
+    def test_corrupt_saved_response_is_neither_reexecuted_nor_republished(self):
+        job = r.make_job("ping")
+        job_id = job["id"]
+        with tempfile.TemporaryDirectory() as folder:
+            db = pathlib.Path(folder) / "relay.sqlite3"
+            state = r.State(db)
+            repo = FakeRepo([job])
+            self.assertEqual(r.tick(repo, state)["executed"], 1)
+            receipt = repo.sent.pop(job_id)
+            tampered = {**receipt, "result": {"pong": False, "protocol": 1}}
+            missing_digest = {key: value for key, value in receipt.items() if key != "response_sha256"}
+            for raw, error in ((r.dump(tampered).decode(), "response_digest_mismatch"),
+                               (r.dump(missing_digest).decode(), "invalid_receipt"),
+                               ("{", "receipt_unreadable")):
+                with self.subTest(error=error):
+                    with state.conn() as connection:
+                        connection.execute("UPDATE receipts SET receipt=? WHERE id=?", (raw, job_id))
+                    with patch.object(r, "execute") as execute:
+                        outcome = r.tick(repo, r.State(db))
+                        execute.assert_not_called()
+                    self.assertEqual(outcome["errors"], [{"file": job_id + ".json", "error": error}])
+                    self.assertEqual((outcome["executed"], outcome["replayed"]), (0, 0))
+                    self.assertEqual(repo.sent, {})
+                    self.assertEqual(state.count(), 1)
 
     def test_result_isolation_rejects_remote_shell_and_personal_fields(self):
         job=r.make_job('ping')

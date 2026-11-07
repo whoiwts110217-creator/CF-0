@@ -24,6 +24,16 @@ class ChannelAuditTests(unittest.TestCase):
         self.assertEqual(report["mismatched_receipts"], 0)
         self.assertNotEqual(report["physical_hp_attestation"], "verified")
 
+    def test_current_receipt_requires_matching_response_digest(self):
+        current = {**self.good, "v": 2, "response_sha256": sha(self.good["result"])}
+        for receipt, expected in ((current, 1),
+                                  ({**current, "response_sha256": "0" * 64}, 0),
+                                  ({**self.good, "v": 2}, 0)):
+            with self.subTest(receipt=receipt):
+                report = summarize({self.name: self.job}, {self.name: receipt}, self.issued)
+                self.assertEqual(report["matching_execution_receipts"], expected)
+                self.assertEqual(report["mismatched_receipts"], 1 - expected)
+
     def test_probe_is_not_execution_receipt(self):
         probe = {"v": 1, "id": "probe", "kind": "cf0_hp_writeback_probe",
                  "status": "received", "result": {"public_safe": True}}

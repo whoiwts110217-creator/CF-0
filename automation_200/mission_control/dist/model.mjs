@@ -48,6 +48,12 @@ export function filterTasks(tasks, status, query) {
   });
 }
 
+async function canonicalDigest(value) {
+  const canonical = JSON.stringify(Object.fromEntries(Object.entries(value).sort(([a], [b]) => a.localeCompare(b))));
+  const bytes = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(canonical));
+  return Array.from(new Uint8Array(bytes), byte => byte.toString(16).padStart(2, "0")).join("");
+}
+
 async function matchedPing(paths, ping) {
   const { request, receipt } = ping ?? {};
   if (!paths || !request || !receipt || !globalThis.crypto?.subtle) return false;
@@ -56,14 +62,15 @@ async function matchedPing(paths, ping) {
       || request.expires <= request.issued || request.expires - request.issued > 86400
       || !request.args || typeof request.args !== "object" || Array.isArray(request.args)
       || Object.keys(request.args).length !== 0 || Object.keys(request).length !== 6
-      || receipt.v !== 1 || receipt.id !== paths.id || receipt.status !== "completed"
+      || ![1, 2].includes(receipt.v) || receipt.id !== paths.id || receipt.status !== "completed"
       || receipt.result?.pong !== true || receipt.result?.protocol !== 1
-      || Object.keys(receipt).length !== 5) return false;
+      || Object.keys(receipt).length !== (receipt.v === 2 ? 6 : 5)) return false;
 
-  const canonical = JSON.stringify(Object.fromEntries(Object.entries(request).sort(([a], [b]) => a.localeCompare(b))));
-  const bytes = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(canonical));
-  const hash = Array.from(new Uint8Array(bytes), byte => byte.toString(16).padStart(2, "0")).join("");
-  return receipt.request_sha256 === hash;
+  if (receipt.request_sha256 !== await canonicalDigest(request)) return false;
+  if (receipt.v === 1) return !Object.hasOwn(receipt, "response_sha256");
+  // The allowlisted ping result has exactly two fields with scalar JSON values.
+  return Object.keys(receipt.result).length === 2
+    && receipt.response_sha256 === await canonicalDigest(receipt.result);
 }
 
 export async function dashboardModel(data) {
