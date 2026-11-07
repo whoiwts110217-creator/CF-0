@@ -17,6 +17,7 @@ Caveman Focus is an experimental system for reducing repetitive work by coordina
 | **Work execution prompt (read third)** | [WORK_COPY_PASTE_AUTOMATION_PROMPT.md](../automation_200/WORK_COPY_PASTE_AUTOMATION_PROMPT.md) |
 | **Full framework audit & future restart readiness** | [November 7 audit and preservation-first vNext playbook](CF0_FRAMEWORK_AUDIT_AND_RESTART_PREP_2026-11-07.md) · [Read-only gate code](../automation_200/restart_readiness.py) · [Release tests](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42368649742) |
 | **Prompt change approvals & notes** | [Review approval bin](../automation_200/PROMPT_CHANGE_BIN.md) · [Revision log](../automation_200/PROMPT_CHANGE_LOG.jsonl) · [CI guard](https://github.com/whoiwts110217-creator/CF-0/actions/workflows/prompt-efficiency-guard.yml) |
+| **BLANK / CF-FW follow-along business documentary** | [Proposed business-reset pilot and six-episode production procedure](CF_FW_BLANK_FOLLOW_ALONG_BUSINESS_RESET_DOCUMENTARY_v0_1.md) · [Proposed project registry](PROJECTS.md) |
 | **AI Tracker** | [Mission Control status](https://whoiwts110217-creator.github.io/CF-0/mission-control/#ai-tracker) · [Issue monitor](../ai_tracker/monitor_public_issue.py) · [Development branch](https://github.com/whoiwts110217-creator/CF-0/tree/feature/ai-agent-tracker/ai_tracker) |
 | **Open agent response thread** | [GitHub issue #16](https://github.com/whoiwts110217-creator/CF-0/issues/16) |
 
