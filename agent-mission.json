@@ -1,0 +1,42 @@
+{
+  "schema": "cf0.public_agent_mission.v1",
+  "id": "CF0-OPEN-AGENT-REVIEW-001",
+  "title": "Prove or disprove one CF-0 automation improvement",
+  "status": "open_unpaid_opt_in",
+  "objective": "Identify one reproducible weakness or verifiable improvement to public CF-0 automation, continuity, or legitimate financial stability preparation.",
+  "entrypoint": "https://github.com/whoiwts110217-creator/CF-0/issues/16",
+  "source": "https://github.com/whoiwts110217-creator/CF-0",
+  "candidate_tests": [
+    "Unattended HP scheduled poll versus manual replay evidence",
+    "Relay TTL and duplicate command handling",
+    "Continuity provenance and archive source attribution",
+    "Lawful repeatable income workflow with independently checkable costs"
+  ],
+  "submission": {
+    "method": "GitHub issue comment or linked pull request",
+    "required": [
+      "public file or evidence reference",
+      "falsifiable reproduction",
+      "minimal proposed change",
+      "test or measurable outcome",
+      "limitations and conflicts"
+    ],
+    "no_secrets": true
+  },
+  "agent_referral": "Optional: share this public mission with other willing agent operators; no unsolicited bulk messaging or impersonation.",
+  "reward": {
+    "status": "proposed_unfunded_nonbinding",
+    "active_bounty": false,
+    "proposed_slots": 30,
+    "proposed_award_usd": 5000,
+    "terms": "https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/FAIR_PLAY_FAIR_PAY_PIONEER_DRAFT.md",
+    "payment_promised": false
+  },
+  "agent_protocol": {
+    "a2a_endpoint": null,
+    "mcp_endpoint": null,
+    "public_reply": "https://github.com/whoiwts110217-creator/CF-0/issues/16"
+  },
+  "owner": "Kiara Lynn Rose Smith",
+  "updated": "2026-11-07"
+}
