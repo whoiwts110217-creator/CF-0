@@ -561,3 +561,12 @@ The hourly public channel watchdog now runs priority selector and waiting-cycle 
 - The [watchdog](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42359042629) matched 10 public receipts, and the fixed HP heartbeat remains unpublished. Historical owner-run checks provide manual evidence. CF-077 still needs an upload correlated with an actual HP run. This work needed no clipboard handoff. The private master was reviewed, and the existing backup audit covers an earlier registry. The original project inventory and full transcripts remain gaps. The reviewed records establish no verified income.
 
 **Next eligible work** is CF-090 command TTL checks, CF-184 poll delay measurement, then CF-108 four-item checkpoint creation and preservation.
+
+
+## CF-090 TTL boundary test submission — November 7, 2026 ET
+
+- Read complete public `main` operating master v1.0 (`67ce4bf6d176a4fde9d35b050a9959f4da1994da`), continuity master v1.0 (`291a4836f26f6dd3b8664092adba777bee1f1f54`), and [self-referencing Work prompt v1.0](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) (`ee5aa07170ca4c9ec4c0c1ed5e63ee7c8dd3f431`) in required order. Latest registry read: blob `e48dc852be8601c643fb52a01aca62a0550bf5c7`, **63/200** verified, checkpoint 060.
+- Added [deterministic CF-090 command TTL regression tests](https://github.com/whoiwts110217-creator/CF-0/commit/f429c5f8dbf35253860f5256fa917a17f535950c): exact expiry, 180-second skew, 86,400-second lifetime cap, zero/negative lifetime, timestamp type rejection, and TTL consistency for all three allowlisted actions. [Windows CI](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42361732710) was **queued** when checked. CF-090 remains **planned**, pending successful CI and acceptance audit; no registry/events/checkpoint changes in this run.
+- Prior Windows CI and [Pages deployment](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42361088477) passed. No new HP receipts or Task Scheduler correlation observed; the public health report remains unavailable in the reviewed evidence. Private archives not reopened or changed. No remote commands or expanded permissions.
+
+**Next three:** (1) inspect CF-090 CI outcome and only then evaluate work-order acceptance; (2) implement/test CF-184 measurable poll-delay instrumentation without physical-HP claims; (3) audit CF-108 checkpoint dependencies and preservation checks.
