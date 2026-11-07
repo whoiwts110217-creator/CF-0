@@ -1,0 +1,20 @@
+name: Dreamkiller Chapter One Design Checks
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'concepts/dreamkiller/chapter_01/**'
+      - '.github/workflows/dreamkiller-chapter01.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  design-check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check JSON and 72 branching scenarios (source model only)
+        run: |
+          python -m json.tool concepts/dreamkiller/chapter_01/BRANCH_AND_GLITCH_MODEL.json > /dev/null
+          python -m unittest discover -s concepts/dreamkiller/chapter_01 -p 'test_*.py' -v
