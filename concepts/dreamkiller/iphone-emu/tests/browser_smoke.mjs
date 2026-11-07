@@ -62,6 +62,10 @@ try{
  const state=await evaluate('({launched:!document.getElementById("playing").classList.contains("hidden"),title:document.getElementById("rom-title").textContent,status:document.getElementById("status-line").textContent,canvas:document.querySelectorAll("#game canvas").length,children:document.getElementById("game").childElementCount})');
  console.log('Emulator launch observation:',JSON.stringify(state));
  if(!state.launched||!state.title.includes('ROAD')||!state.canvas)throw Error('Road ROM did not render a browser emulator canvas');
+ const pixels=await evaluate(`(()=>{const c=document.querySelector("#game canvas");const context=c?.getContext("2d");if(!context)return {error:"2D canvas unavailable"};const d=context.getImageData(0,0,c.width,c.height).data;const unique=new Set();for(let i=0;i<d.length;i+=4){unique.add([d[i],d[i+1],d[i+2],d[i+3]].join(","));if(unique.size>5)break}return {width:c.width,height:c.height,colors:unique.size}})()`);
+ console.log('Emulated frame pixels:',JSON.stringify(pixels));
+ if(pixels.error||pixels.colors<2)throw Error('ROM canvas did not paint nonblank pixel data');
+
  console.log('PASS: GameBoy.js initialized the original Road cartridge in headless Chromium.');
 }catch(e){console.error('BROWSER SMOKE FAILED:',e);process.exitCode=1}
 finally{for(const p of pending.values())clearTimeout(p.timeout);if(socket)socket.close();chrome.kill('SIGKILL');await new Promise(resolve=>server.close(resolve))}
