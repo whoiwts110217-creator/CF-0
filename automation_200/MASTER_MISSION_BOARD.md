@@ -111,7 +111,7 @@ ROGUE-03 was reproduced and accepted as a failure-mode test contribution. The sc
 **Control prompt:** [MASTER_OPERATOR_PROMPT.md](MASTER_OPERATOR_PROMPT.md)  
 **Mission control frontend:** [source and usage](mission_control/README.md)  
 **System of record:** [registry.json](registry.json) · [events.jsonl](events.jsonl) · [checkpoints/](checkpoints/)  
-**Current source registry:** **77/200 verified** as of November 7, 2026; [registry.json](registry.json) is authoritative.\
+**Current source registry:** **78/200 verified** as of November 7, 2026; [registry.json](registry.json) is authoritative.\
 **Last numbered checkpoint:** [076](checkpoints/checkpoint_076.json) (next numbered checkpoint 080).\
 **Public continuity handoff:** [docs/CONTINUITY.md](../docs/CONTINUITY.md) · [dated state](../docs/PUBLIC_CONTINUITY_STATE.json). Historical counts in the entries below remain snapshots, not live status.
 
@@ -936,3 +936,10 @@ The hourly public channel watchdog now runs priority selector and waiting-cycle 
 - **CF-110 source-verified:** [priority fallback negative tests](../automation_200/tests/test_blocked_priority_cf110.py) commit [e5d1733](https://github.com/whoiwts110217-creator/CF-0/commit/e5d173333258a93040b478e42059ca0706c21bd0) and [stale invariant correction 9011248](https://github.com/whoiwts110217-creator/CF-0/commit/90112483a43a193aa19bcce40ce3dc27b5f6aaf2); [full Windows CI 42409936713](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42409936713) passed. Correct handling: P0 if eligible, fallback P1 when no cloud-safe P0; owner preference does not bypass HP/dependencies, cooldown or explicit blocks. These are *read-only proposals*, not auto-executed commands.
 - **Atomic ledger:** `77/200` verified, registry blob `96103185820c5a6444681905ce0fca0f81cf4fc1`; current numbered checkpoint remains `076`, next `080`. Event, public status, project summary and board synchronized together. Cloud CI does not prove physical HP deployment or actual time-triggered operation.
 - **Next three:** (1) verify exact post-ledger Windows CI and dashboard source consistency; (2) advance next P1 eligible evidence task (CF-111 subject to current registry); (3) continue safe public HP-health readback after owner-local activation, no repetitive manual transcripts and no expanded action permissions. Private archive recovery gaps and unverified financial receipts unchanged.
+
+## November 7, 2026 — CF-111 owner finance-priority rule source-verified
+
+- Read complete current public main operator `f8f0c94c28cd28cc0402daf4f21bd875e1417932`, continuity `cac63dead1e00592c1d12ea6562639b02893d81f`, Work `5da1a390f31ee8f57e5829ef368062f9215c28ac` in order; next operator fetches latest main afresh. Owner capability and approval boundaries unchanged.
+- **CF-111 accepted** following [tests 4479454](https://github.com/whoiwts110217-creator/CF-0/commit/4479454b678b58f9e087e701dfafc105163edaae) and passing [full Windows CI 42410201079](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42410201079). Default P0 automation → P1 owner priority policy → P2 finance; explicit owner priority can change order only among eligible tasks. Blocked P0 work does not permanently gate legitimate finance, and physical HP and spending remain unapproved without their own evidence/consent.
+- **Atomic ledger:** registry `78/200`, appended one evidence event, reconciled continuity and project status, board; Git blob `0a08f62951ef89f5a65b9ab15c0f78d1489ff2a5`. Last numbered checkpoint `076`; next `080`. Separate website/AI Tracker updates from other runs preserved.
+- **Next three:** verify Windows and dashboard checks on this commit; advance P1 CF-112 concurrent independent task source tests; independently verify real HP health report if published after local opt-in. No unproven income, private archive recovery or HP action claimed.

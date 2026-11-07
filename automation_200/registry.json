@@ -3,7 +3,7 @@
   "owner": "Kiara Lynn Rose Smith",
   "project": "Caveman Focus",
   "target": 200,
-  "completed": 77,
+  "completed": 78,
   "checkpoint_every": 4,
   "status": "WORK_IN_PROGRESS",
   "note": "A planned item is not a completed task. Physical HP outcomes require owner-HP evidence.",
@@ -1434,8 +1434,8 @@
       "depends_on": [
         "CF-110"
       ],
-      "status": "planned",
-      "evidence": null,
+      "status": "verified",
+      "evidence": "CF-111 source-level owner-priority/finance order: tests automation_200/tests/test_finance_priority_cf111.py at commit 4479454b678b58f9e087e701dfafc105163edaae; full Windows CI https://github.com/whoiwts110217-creator/CF-0/actions/runs/42410201079 passed. P0 automation above P1 governance above P2 finance by default; owner override can reorder eligible work without HP/dependency bypass or spending authority. No financial income, HP deployment or unattended autonomy claimed.",
       "authority": "owner-reviewed",
       "physical_hp_required": false
     },
