@@ -56,3 +56,14 @@ python -m unittest discover -v -p 'test_*.py'
 3. Review durable-claim ownership and safe expiration/recovery separately before any merge or real task reservation. Expired claims are not permission to repeat actions.
 
 **Preflight read this continuation:** public main blobs operator `f8f0c94c28cd28cc0402daf4f21bd875e1417932`, continuity `cac63dead1e00592c1d12ea6562639b02893d81f`, and [Work self-reference](../../automation_200/WORK_COPY_PASTE_AUTOMATION_PROMPT.md) `5da1a390f31ee8f57e5829ef368062f9215c28ac`. Read all three again on next run.
+
+### Real GitHub partial-write readback test
+
+A second source-level test was performed against **synthetic fixtures in this experiment branch only**, with no real work-order reservation or side effect:
+
+1. Created `recovery_probe/a.md` (blob `5bda26221f290580c0c450eb8aa50da79bdc3527`) and `recovery_probe/b.md` (blob `8fb358ee8fd07a617c701c67b6ad2cb1334fe236`).
+2. Committed **only A's planned update**: [`0d95c6d`](https://github.com/whoiwts110217-creator/CF-0/commit/0d95c6de0bab013076256d0956b3d6c8799a73b7), observed A blob `c0b8cd0a5a0268d6e2bfcc51de22b33baf93a5c2`. B's planned update was intentionally **not sent**.
+3. Read both files again from GitHub: A remained updated and B remained at its original blob. The computed Git blob hash of B's hypothetical desired content was `e8407889cd708ec4ceb489443dbe272018a8877f`; B did not have that hash.
+4. Passed those real GitHub readback hashes into the locally tested, byte-matched `reconcile_writes` implementation. It returned `PARTIAL`, exactly A in `applied`, exactly B in `untouched`, no drift/unknown files, and `automatic_retry_allowed=False`. A Python assertion for this outcome passed.
+
+This verifies classification of **one controlled two-file interruption**, not the integrity of an independent multi-file transaction or recovery after an actual worker crash. No automatic rollback, repair, or claim release was attempted. An agent handling a genuine interrupted operation must re-read each remote file and reconcile safely with current owner authority.
