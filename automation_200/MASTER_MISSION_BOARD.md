@@ -1,3 +1,13 @@
+## November 7, 2026 — owner override / HP gate regression coverage (source-only)
+
+- **Public preflight:** current main operator blob `f8f0c94c28cd28cc0402daf4f21bd875e1417932`, continuity `cac63dead1e00592c1d12ea6562639b02893d81f`, [Work prompt](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) `5da1a390f31ee8f57e5829ef368062f9215c28ac` read in order; next executor must re-fetch current main.
+- **Actual change:** [five synthetic decision safety regression cases](test_decision_owner_guard_extra.py) added in [commit 89eb3a0](https://github.com/whoiwts110217-creator/CF-0/commit/89eb3a060cb63905e1b1ef870f2ea57d1e7bfdb5), covering owner preferences versus dependencies, HP-only tasks, owner-local evidence, duplicate block IDs, and read-only output. File fetched back and source verified. **CI/test pass not yet evidenced** (commit status API returned no statuses).
+- **Registry:** 72/200 verified at observed blob `38e68cca79e5aa8c3e01829cdd55eb6ab4393632`; no task completion or checkpoint claimed for this test-only change.
+- **HP:** fixed `relay/health/latest.json` not found on current main; public heartbeat unavailable. No new HP receipt or Windows schedule-origin correlation was established. Notepad deployment remains unverified; no relay commands or GUI actions attempted.
+- **Parallel work caution:** a separate experimental coordination branch exists. This run did not modify its files, central registry, prompt bin, or relay allowlist. A source test does not confer authority.
+- **Next three:** (1) obtain CI evidence for the new five tests and correct any failure; (2) inspect existing P0 security/decision tests for one independently executable regression without altering owner authority; (3) inspect sanitized HP heartbeat only when actually published and correlate scheduled provenance before any unattended claim.
+- **Private continuity:** v2 original-chat gaps remain; no private backup imported or publicized.
+
 ## November 7, 2026 — owner-directed Dreamkiller concept filing & continuity reconciliation
 
 - **Mandatory preflight:** original current-main operator blob `f3d4d0d443323528a64c6aa9e9d4c9a3b30e8098`, continuity blob `cac63dead1e00592c1d12ea6562639b02893d81f`, and Work blob `5da1a390f31ee8f57e5829ef368062f9215c28ac` read in order. [Approval bin](PROMPT_CHANGE_BIN.md) and capability contract reviewed. Next operator must retrieve latest current-main files again, not rely on this snapshot.
