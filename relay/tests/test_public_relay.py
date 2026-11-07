@@ -84,11 +84,29 @@ class Tests(unittest.TestCase):
             self.assertTrue((home/'renamed.sqlite3').exists())
 
     def test_http_transport_integration(self):
+        self.assert_http_transport_receipt('ping', {'pong': True, 'protocol': 1})
+
+    def test_http_status_receipt_excludes_private_host_metadata(self):
+        import os
+        from unittest.mock import patch
+
+        with patch.dict(os.environ, {
+            'USERNAME': 'synthetic-private-user',
+            'COMPUTERNAME': 'synthetic-private-host',
+            'USERPROFILE': r'C:\Users\synthetic-private-user',
+        }):
+            self.assert_http_transport_receipt('hp_status', {
+                'worker': 'online',
+                'policy': 'public-safe',
+                'commands': ['hp_status', 'ping', 'sidecar_verify'],
+            })
+
+    def assert_http_transport_receipt(self, action, expected_result):
         import hashlib
         import threading
         from urllib.parse import urlparse
         from http.server import BaseHTTPRequestHandler,ThreadingHTTPServer
-        job=r.make_job('ping')
+        job=r.make_job(action)
         root = f"/repos/{r.REPO}/contents/command_queue"
         filename = job["id"] + ".json"
         receipt_path = f"{root}/receipts/{filename}"
@@ -136,13 +154,16 @@ class Tests(unittest.TestCase):
                 self.assertEqual(replay["replayed"], 1)
                 self.assertEqual(first["errors"] + replay["errors"], [])
                 canonical = json.dumps(job, sort_keys=True, separators=(",", ":")).encode()
-                self.assertEqual(writes, [{
+                expected = {
                     "v": 1,
                     "id": job["id"],
                     "request_sha256": hashlib.sha256(canonical).hexdigest(),
                     "status": "completed",
-                    "result": {"pong": True, "protocol": 1},
-                }])
+                    "result": expected_result,
+                }
+                self.assertEqual(writes, [expected])
+                self.assertEqual(r.State(database).receipt(job["id"]),
+                                 (expected["request_sha256"], expected))
         finally:
             server.shutdown();thread.join(timeout=3);server.server_close()
 
