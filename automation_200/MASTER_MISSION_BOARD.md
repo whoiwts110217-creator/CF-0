@@ -3,7 +3,7 @@
 **Control prompt:** [MASTER_OPERATOR_PROMPT.md](MASTER_OPERATOR_PROMPT.md)  
 **Mission control frontend:** [source and usage](mission_control/README.md)  
 **System of record:** [registry.json](registry.json) · [events.jsonl](events.jsonl) · [checkpoints/](checkpoints/)  
-**Current source registry:** **57/200 verified** as of November 6, 2026; [registry.json](registry.json) is authoritative.\
+**Current source registry:** **58/200 verified** as of November 6, 2026; [registry.json](registry.json) is authoritative.\
 **Last numbered checkpoint:** [056](checkpoints/checkpoint_056.json) (next numbered checkpoint 060).\
 **Public continuity handoff:** [docs/CONTINUITY.md](../docs/CONTINUITY.md) · [dated state](../docs/PUBLIC_CONTINUITY_STATE.json). Historical counts in the entries below remain snapshots, not live status.
 
@@ -459,3 +459,12 @@ The hourly public channel watchdog now runs priority selector and waiting-cycle 
 - The [registry](registry.json) and [append-only events](events.jsonl) record **57/200** verified. [Checkpoint 056](checkpoints/checkpoint_056.json) is the latest numbered checkpoint. The private v3 audit covers an earlier registry snapshot. The original conversation exports and project inventory remain missing. Inspected public records establish no verified income.
 
 **Next eligible P0 work** is CF-074 owner-reviewed queue pruning criteria, then CF-088 repository identity and CF-183 Python transport verification without GitHub CLI.
+
+## CF-074 — owner-reviewed queue pruning, November 6, 2026 ET
+
+- Read [operator v1.0](MASTER_OPERATOR_PROMPT.md), [continuity v1.0](MASTER_CONTINUITY_PROMPT.md), and [Work v1.0](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) from [public main bae80c3](https://github.com/whoiwts110217-creator/CF-0/commit/bae80c31726b894f1acf75bbeaf1785a56f4842a). Their blobs were 67ce4bf6d176a4fde9d35b050a9959f4da1994da, 291a4836f26f6dd3b8664092adba777bee1f1f54 and ee5aa07170ca4c9ec4c0c1ed5e63ee7c8dd3f431. The next Work run fetches all three anew in the same order.
+- [CF-074 source aa814c4](https://github.com/whoiwts110217-creator/CF-0/commit/aa814c46217348875db3d10574ac015e8552c84a) produces a read-only pruning manifest from one GitHub commit. It preserves the current HP ping and holds recent, unresolved, mismatched, and non-ping records. A matched ping enters review at least seven days after its request expired. Any later relocation requires owner approval of the exact manifest and destination, byte-for-byte restoration checks, and one commit preserving both files.
+- The dry run on the pinned public queue counted 31 inbox files, 30 receipt files, and 0 pruning candidates. The review assembles paths and digests automatically. [Windows CI](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42332182844) and the [watchdog](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42332182843) passed. The watchdog observed 10 matched public receipts and an unpublished HP health report. Unattended Windows scheduling remains unverified.
+- The [registry](registry.json) and [append-only events](events.jsonl) record **58/200** verified. [Checkpoint 056](checkpoints/checkpoint_056.json) remains the latest numbered checkpoint. The private v3 audit covers an earlier snapshot. Full conversation exports and the original project inventory remain missing. Inspected public records establish no verified income.
+
+**Next eligible P0 work** is CF-075 malformed base64 result tests, then CF-088 repository identity and CF-183 Python transport verification without GitHub CLI.

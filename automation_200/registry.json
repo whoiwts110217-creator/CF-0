@@ -3,7 +3,7 @@
   "owner": "Kiara Lynn Rose Smith",
   "project": "Caveman Focus",
   "target": 200,
-  "completed": 57,
+  "completed": 58,
   "checkpoint_every": 4,
   "status": "WORK_IN_PROGRESS",
   "note": "A planned item is not a completed task. Physical HP outcomes require owner-HP evidence.",
@@ -957,8 +957,8 @@
       "depends_on": [
         "CF-073"
       ],
-      "status": "planned",
-      "evidence": null,
+      "status": "verified",
+      "evidence": "relay/channel_audit.py and relay/README.md at aa814c46217348875db3d10574ac015e8552c84a. Read-only pruning review pins both folders and the protected HP ping to one commit, retains seven days after expiry, and binds candidate paths and digests to the exact owner-review manifest. Tests hold current, unresolved and mismatched pairs. Pinned queue dry run found 0 candidates. Windows CI https://github.com/whoiwts110217-creator/CF-0/actions/runs/42332182844 and watchdog https://github.com/whoiwts110217-creator/CF-0/actions/runs/42332182843 passed.",
       "authority": "existing-source-tests",
       "physical_hp_required": false
     },
