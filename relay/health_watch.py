@@ -56,6 +56,11 @@ def classify(report: object, now: int | float) -> dict:
         value = report[field]
         if value is not None and (type(value) is not int or value < 0):
             return status("invalid", reason="invalid_counts")
+    # Ping receipts are a subset of total receipts (recent 200 at most).
+    # Reject contradictory public evidence instead of reporting it as healthy.
+    if (report["receipt_count"] is not None and report["ping_receipt_count"] is not None
+            and report["ping_receipt_count"] > report["receipt_count"]):
+        return status("invalid", reason="inconsistent_counts")
     if report["last_receipt_status"] not in (None, "completed", "failed", "other"):
         return status("invalid", reason="invalid_receipt_status")
     if report["error"] not in (None, "malformed_receipt", "state_unavailable"):
