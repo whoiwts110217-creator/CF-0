@@ -40,8 +40,8 @@
 **Control prompt:** [MASTER_OPERATOR_PROMPT.md](MASTER_OPERATOR_PROMPT.md)  
 **Mission control frontend:** [source and usage](mission_control/README.md)  
 **System of record:** [registry.json](registry.json) · [events.jsonl](events.jsonl) · [checkpoints/](checkpoints/)  
-**Current source registry:** **71/200 verified** as of November 7, 2026; [registry.json](registry.json) is authoritative.\
-**Last numbered checkpoint:** [068](checkpoints/checkpoint_068.json) (next numbered checkpoint 072).\
+**Current source registry:** **72/200 verified** as of November 7, 2026; [registry.json](registry.json) is authoritative.\
+**Last numbered checkpoint:** [072](checkpoints/checkpoint_072.json) (next numbered checkpoint 076).\
 **Public continuity handoff:** [docs/CONTINUITY.md](../docs/CONTINUITY.md) · [dated state](../docs/PUBLIC_CONTINUITY_STATE.json). Historical counts in the entries below remain snapshots, not live status.
 
 
@@ -813,3 +813,11 @@ The hourly public channel watchdog now runs priority selector and waiting-cycle 
 - **CF-095 verified:** Existing bounded network read in [relay/cf_public_relay.py](../relay/cf_public_relay.py) limits GitHub API response body intake to 1,000,001 bytes before parsing. [Boundary tests](https://github.com/whoiwts110217-creator/CF-0/commit/41e7becdce681eb34d323e1d29ce1b69104e0a92) confirm acceptance at 1,000,000, rejection at 1,000,001, no unbounded read and no disclosure of synthetic private response body. [Full Windows CI 42398570265](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42398570265) passed before acceptance. Source-level proof only.
 - **Atomic registry/event/state/board sync:** `71/200` with Git registry blob `51f23dea6f2a9cde6616d92da84e213ca2a8bcce`. Numbered checkpoint `068` remains latest, next `072` due after one more accepted task. No HP writeback, scheduler changes, account funds, payments, or private archives touched. Public health report still not published at last check.
 - **Next three:** (1) validate source count and post-ledger full Windows CI; (2) inspect/test P0 `CF-096` network timeout boundary without changing owner command allowlist; (3) retain the HP health one-click owner-local opt-in as the missing link for device-origin proof, without repeated manual diagnostics.
+
+## November 7, 2026 — CF-096 accepted / source checkpoint 072
+
+- Refetched and read current public `main` [operator](MASTER_OPERATOR_PROMPT.md) blob `f3d4d0d443323528a64c6aa9e9d4c9a3b30e8098`, then [continuity](MASTER_CONTINUITY_PROMPT.md) blob `cac63dead1e00592c1d12ea6562639b02893d81f`, then [Work](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) blob `5da1a390f31ee8f57e5829ef368062f9215c28ac`, plus owner contract, decision engine, approval bin, registry, and current evidence. Next run must fetch these afresh.
+- **P0 CF-096 accepted:** [fixed 20-second GitHub HTTP timeout](https://github.com/whoiwts110217-creator/CF-0/commit/f9be6ab51dcde99642bedbca6cab24e3b95f8608) and [timeout regression tests](https://github.com/whoiwts110217-creator/CF-0/commit/ec135ef3ecb5ec26a7b63e3b3cbc2927ddf1c4ec) passed [full Windows CI 42398859873](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42398859873). Socket-level bound and no automatic duplicate request on ambiguous timeout, not a guaranteed whole-poll clock bound or a real HP run.
+- **Checkpoint 072:** task registry + append-only verification event + continuity JSON + current project status + mission board + numbered checkpoint committed atomically. `72/200` verified, registry SHA256 `02fd9acf0b8e0ba05781a34a53197fe679c4744c3efc1d32884bbb3157850a56`, registry Git blob `38e68cca79e5aa8c3e01829cdd55eb6ab4393632`, next checkpoint **076**. Preserve historic Notepad regression, project/archive branches, P0-P3 priorities, and original public HP command allowlist.
+- **HP health:** fixed public `relay/health/latest.json` still unverified / not published at last inspection. Do not remotely enable opt-in, or interpret source CI as physical unattended operation. No payment, outside agent contribution, private archive restoration, or owner clipboard step claimed.
+- **Next three:** verify source-level Windows CI/continuity after checkpoint; implement eligible P0 `CF-097` bounded poll-work tests; obtain a real publicly sanitized HP health artifact after owner-local approval and separately correlate with Windows scheduler evidence.

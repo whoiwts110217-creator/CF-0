@@ -3,7 +3,7 @@
   "owner": "Kiara Lynn Rose Smith",
   "project": "Caveman Focus",
   "target": 200,
-  "completed": 71,
+  "completed": 72,
   "checkpoint_every": 4,
   "status": "WORK_IN_PROGRESS",
   "note": "A planned item is not a completed task. Physical HP outcomes require owner-HP evidence.",
@@ -1241,8 +1241,8 @@
       "depends_on": [
         "CF-095"
       ],
-      "status": "planned",
-      "evidence": null,
+      "status": "verified",
+      "evidence": "CF-096 bounded 20-second network socket timeout in relay/cf_public_relay.py at source commit f9be6ab51dcde99642bedbca6cab24e3b95f8608; synthetic timeout and no-duplicate-retry tests relay/tests/test_network_timeout_cf096.py at commit ec135ef3ecb5ec26a7b63e3b3cbc2927ddf1c4ec. Full Windows CI https://github.com/whoiwts110217-creator/CF-0/actions/runs/42398859873 passed for GET/PUT timeout, sanitized network failure, no implicit retry. Socket timeout is not a total run time guarantee; real HP status unverified.",
       "authority": "existing-source-tests",
       "physical_hp_required": false
     },
