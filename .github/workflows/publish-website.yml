@@ -4,6 +4,7 @@ on:
     branches: [main]
     paths:
       - 'index.html'
+      - 'i18n/**'
       - 'agent-tasks.json'
       - 'llms.txt'
       - 'docs/START_HERE.md'
@@ -38,6 +39,8 @@ jobs:
         run: python -m unittest discover -s automation_200/mission_control -p 'test_build_snapshot.py'
       - name: Test Mission Control source loading
         run: node --test automation_200/mission_control/tests/model.test.mjs
+      - name: Test optional homepage languages
+        run: node --test i18n/home.test.mjs
       - name: Build commit-pinned public Mission Control fallback
         run: python automation_200/mission_control/build_snapshot.py
       - name: Stage only the public homepage
@@ -45,6 +48,8 @@ jobs:
         run: |
           mkdir -p _site
           cp index.html _site/index.html
+          mkdir -p _site/i18n
+          cp i18n/home.mjs _site/i18n/home.mjs
           cp agent-tasks.json _site/agent-tasks.json
           cp llms.txt _site/llms.txt
           mkdir -p _site/mission-control
@@ -56,6 +61,10 @@ jobs:
           python - <<'PY'
           from pathlib import Path
           home = Path("_site/index.html").read_text(encoding="utf-8")
+          locale = Path("_site/i18n/home.mjs").read_text(encoding="utf-8")
+          assert 'id="language-picker"' in home and 'id="current-language">EN' in home
+          assert 'src="./i18n/home.mjs"' in home
+          assert '"Español"' in locale and '"Français"' in locale and '"Português"' in locale
           dashboard = Path("_site/mission-control/index.html").read_text(encoding="utf-8")
           import json
           tasks = json.loads(Path("_site/agent-tasks.json").read_text(encoding="utf-8"))
