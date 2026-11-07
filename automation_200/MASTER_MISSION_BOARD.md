@@ -21,7 +21,7 @@
 - Registry remains **65/200 verified** (registry blob `8f94deeb754601868efc05e99f81820294c67c54`); no registry status changed and no numbered checkpoint was added. `relay/health/latest.json` returned 404, so there is no fresh public HP heartbeat and no independent scheduled-poll correlation. No private archive imported or copy/paste eliminated in this run.
 - **Next three:** (1) inspect CI for navigation smoke gate and repair if failing; (2) investigate public-safe health-report publication without changing HP allowlist; (3) advance CF-091 secret-exclusion diagnostics with acceptance tests.
 
-## Owner-defined strategy
+**AI Tracker Mission Control integration (Nov 7):** [Public status snapshot](../docs/AI_TRACKER_STATUS.json) and [dashboard section](https://whoiwts110217-creator.github.io/CF-0/mission-control/#ai-tracker) committed on `main`; development code remains [on feature branch](https://github.com/whoiwts110217-creator/CF-0/tree/feature/ai-agent-tracker/ai_tracker). Zero confirmed external posts, replies and verified contributions as of the dated snapshot. No verified test run, live polling, or unattended agent tracking. Next: run tracker unit tests and replace static counters with evidence-backed ingestion before claiming live status.\n\n## Owner-defined strategy
 
 **P0 AUTOMATE → P1 PRIORITIZE → P2 GENERATE LEGITIMATE INCOME → P3 OTHER PROJECTS IN PARALLEL.**
 
