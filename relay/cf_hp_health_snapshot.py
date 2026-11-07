@@ -35,9 +35,15 @@ def snapshot(home=None):
                 receipt = json.loads(raw)
             except (TypeError, ValueError):
                 result["error"] = "malformed_receipt"
+                # The newest row exists but is unreadable; retain a safe
+                # category so the publisher can still report the failure.
+                if idx == 0:
+                    result["last_receipt_status"] = "other"
                 continue
             if not isinstance(receipt, dict):
                 result["error"] = "malformed_receipt"
+                if idx == 0:
+                    result["last_receipt_status"] = "other"
                 continue
             if idx == 0:
                 status = receipt.get("status")
