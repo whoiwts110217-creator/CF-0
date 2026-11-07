@@ -1,0 +1,9 @@
+{
+  "schema": "cf0.coord_probe.v1",
+  "test_only": true,
+  "task_id": "SYNTHETIC-NOT-CF200",
+  "claim_key": "synthetic-test-only",
+  "operator_id": "probe-a",
+  "state": "probe_record_only",
+  "note": "Fixture tests create-only conflict behavior, not real worker ownership."
+}
