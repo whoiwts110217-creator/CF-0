@@ -20,7 +20,7 @@ If the separate private HP Bridge has also been enabled, its `CavemanFocusHPBrid
 | Existing file | What it actually does | What it does **not** do |
 |---|---|---|
 | `DISABLE_CF0_HEALTH_REPORT.bat` | Removes the local opt-in flag for publishing public-safe health data | Does not stop relay polls or remove stored receipts |
-| `DISABLE_CF0_WRITEBACK.bat` | Reverts an existing scheduled task action to tokenless read-only polling and removes its local writeback token file | Does **not** stop polling; do not confuse with an urgent stop |
+| `DISABLE_CF0_WRITEBACK.bat` | Reverts an existing scheduled task action to tokenless read-only polling and removes its local writeback token file | Does not stop polling; do not confuse with an urgent stop |
 | `STOP_CF0_RELAY.bat` | Unregisters the future public relay task | Does not prove a running process ended and does not delete the SQLite ledger |
 | `STOP_HP_BRIDGE_WINDOWS.bat` | Unregisters the separate HP Bridge task | Does not stop the public relay |
 
