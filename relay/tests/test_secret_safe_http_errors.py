@@ -38,7 +38,7 @@ class SecretSafeHTTPTests(unittest.TestCase):
         )
         with patch.object(relay.urllib.request, "urlopen", side_effect=upstream):
             with self.assertRaises(relay.RelayError) as caught:
-                relay.HttpRepo(token=SECRET).request("POST", "/repos/example", {})
+                relay.HttpRepo(token=SECRET).request("POST", f"/repos/{relay.REPO}/contents/command_queue/inbox?ref=main", {})
         self.assertEqual(str(caught.exception), "github_http_503")
         self.assert_safe(caught.exception)
 
