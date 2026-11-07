@@ -1,0 +1,31 @@
+name: CF-0 agent-native outreach round two
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'ai_tracker/agent_native_round_2_2026_11_07.py'
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: cf0-agent-native-round-two
+  cancel-in-progress: false
+jobs:
+  outreach:
+    runs-on: ubuntu-latest
+    timeout-minutes: 4
+    steps:
+      - uses: actions/checkout@v4
+      - name: Post exactly one invitation on each new agent-native board
+        run: python ai_tracker/agent_native_round_2_2026_11_07.py
+      - name: Commit sanitized public posting receipts
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add docs/AGENT_INVITATION_RECEIPTS_ROUND2_2026_11_07.json
+          if ! git diff --cached --quiet; then
+            git commit -m "Record second agent network outreach outcomes"
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi
