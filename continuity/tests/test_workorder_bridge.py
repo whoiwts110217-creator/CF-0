@@ -42,6 +42,38 @@ class WorkorderBridgeTests(unittest.TestCase):
                     workorder_bridge.import_registry(self.db, self.state, self.source)
                 self.assertEqual(workorder_bridge.audit_workorders(self.db)["cf200_snapshots"], 0)
 
+    def test_rejects_bad_dependency_references_without_ingestion(self):
+        cases = [
+            ["CF-999"], ["CF-001"], ["CF-002", "CF-002"],
+            "CF-002", [None], [{"id": "CF-002"}],
+        ]
+        for dependencies in cases:
+            with self.subTest(dependencies=dependencies):
+                items = [
+                    dict(id="CF-001", stream="chat_command", title="Protocol",
+                         status="planned", evidence="", depends_on=dependencies),
+                    dict(id="CF-002", stream="research", title="Research",
+                         status="planned", evidence="", depends_on=[]),
+                ]
+                self.source.write_text(json.dumps(
+                    {"tasks": items, "target": 2, "completed": 0}), encoding="utf-8")
+                with self.assertRaisesRegex(ValueError, "invalid_cf200_dependency_reference"):
+                    workorder_bridge.import_registry(self.db, self.state, self.source)
+                self.assertEqual(workorder_bridge.audit_workorders(self.db)["cf200_snapshots"], 0)
+
+    def test_accepts_valid_dependency_reference(self):
+        items = [
+            dict(id="CF-001", stream="chat_command", title="Protocol",
+                 status="planned", evidence="", depends_on=[]),
+            dict(id="CF-002", stream="research", title="Research",
+                 status="planned", evidence="", depends_on=["CF-001"]),
+        ]
+        self.source.write_text(json.dumps(
+            {"tasks": items, "target": 2, "completed": 0}), encoding="utf-8")
+        result = workorder_bridge.import_registry(self.db, self.state, self.source)
+        self.assertTrue(result["imported"])
+        self.assertEqual(workorder_bridge.audit_workorders(self.db)["cf200_order_versions"], 2)
+
     def test_import_idempotence(self):
         one = self.snapshot()
         two = self.snapshot()
