@@ -62,6 +62,13 @@ The list distinguishes **operational blockers** from actual GitHub Issues; one n
 
 No approval is implied by publication of this list. Creator/developer: **David Smith**; designated owner and intended beneficiary: **Kiara Lynn Rose Smith**. No legal transfer is claimed.
 
+## Automatic consistency safeguards
+
+- **Read-only source check:** [dashboard_guard.py](../automation_200/dashboard_guard.py) compares the displayed work-order counts and task candidates against the exact local [registry](../automation_200/registry.json) and its Git content identity; it also checks that the displayed issue count matches distinct linked issue numbers. It **cannot** independently confirm which GitHub issues remain open, HP status or revenue.
+- **Six offline unit tests:** [test_dashboard_guard.py](../automation_200/tests/test_dashboard_guard.py) — all **6/6 passed locally** on November 7, 2026. Cases cover matching data, stale counts, invalid dependencies, HP-only candidates, issue count mismatch and invalid registry JSON.
+- **CI on dashboard/checker edits:** [dashboard-guard.yml](../.github/workflows/dashboard-guard.yml) runs the same offline checks and snapshot guard on relevant push/pull-request edits and can be run manually. This is **not** another scheduled automation. GitHub Actions result for the new workflow remains **unverified** here; code publication alone is not a passing CI run.
+- **Repair rule:** when a registry edit creates drift, refresh the dashboard from authoritative source with a GitHub SHA guard; do not change task statuses merely to make the checker pass. If issues cannot be retrieved, show **unknown**, not zero.
+
 ## How regular updates work
 
 The **existing enabled hourly CF-200 Four-Task Executor** (automation ID `6aeca952e1608191a102030939b4205b`) includes an owner-requested instruction to refresh this page after ordinary work when it is **six hours old** or when verified tasks, open issues or owner approval state materially changes. It preserves the original schedule; no extra automation was created.
