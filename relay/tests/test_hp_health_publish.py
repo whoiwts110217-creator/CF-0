@@ -93,6 +93,15 @@ class PublisherTests(unittest.TestCase):
             publish(repo, sample())
         self.assertEqual(len(repo.calls), 1)
 
+    def test_ping_count_exceeding_total_rejected_before_network(self):
+        data = sample()
+        data["receipt_count"] = 2
+        data["ping_receipt_count"] = 3
+        repo = Repo()
+        with self.assertRaisesRegex(ValueError, "inconsistent_health_counts"):
+            publish(repo, data)
+        self.assertEqual(repo.calls, [])
+
     def test_invalid_count_rejected(self):
         data = sample()
         data["receipt_count"] = -1
