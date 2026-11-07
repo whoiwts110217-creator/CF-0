@@ -3,11 +3,13 @@ on:
   push:
     paths:
       - 'docs/TASKS_AND_ISSUES.md'
+      - 'automation_200/registry.json'
       - 'automation_200/dashboard_guard.py'
       - 'automation_200/tests/test_dashboard_guard.py'
   pull_request:
     paths:
       - 'docs/TASKS_AND_ISSUES.md'
+      - 'automation_200/registry.json'
       - 'automation_200/dashboard_guard.py'
       - 'automation_200/tests/test_dashboard_guard.py'
   workflow_dispatch:
