@@ -372,3 +372,13 @@ The hourly public channel watchdog now runs priority selector and waiting-cycle 
 - Registry remains 54/200 and checkpoint 052. Private v1/v2 remain untouched; exact registry import into private v3 remains unverified. No new task acceptance, verified income, HP deployment or Notepad launch claimed.
 
 **Next three executable tasks:** (1) review the Windows CI test details for canonical-ID and immutable-snapshot cases, then add a focused failing regression only if a real gap is identified; (2) use the existing read-only health and scheduler evidence surfaces to correlate the outstanding ping with a scheduled Windows execution, without another manual poll; (3) when the private v2 archive and exact GitHub registry are accessible together, perform an isolated, versioned private v3 import and independent restore/hash audit, never publishing the archive.
+
+
+## Continuity dependency integrity — 2026-11-06 (follow-up)
+
+- Preflight: read public main master operating prompt v1.0 (blob `67ce4bf6d176a4fde9d35b050a9959f4da1994da`) and continuity prompt v1.0 (blob `291a4836f26f6dd3b8664092adba777bee1f1f54`).
+- Source fix: [f12f7e1](https://github.com/whoiwts110217-creator/CF-0/commit/f12f7e18fec32c602b7ebb057e8d88cc52788df6) validates dependency references before private CF-200 snapshot ingestion; rejects unknown IDs, self-links, duplicates and malformed types. No registry, HP or owner permissions changed.
+- Synthetic regression coverage: [a6a8719](https://github.com/whoiwts110217-creator/CF-0/commit/a6a871904c966ec47eeaf93d474d7bef86d09bff) adds invalid-reference and valid-dependency cases. **CI pending independent verification**; these commits do not satisfy any numbered CF-200 acceptance condition by themselves.
+- Registry baseline remains **54/200**, checkpoint **052**. Private v2 and missing original conversation exports remain unchanged. Public ping evidence does not establish unattended HP scheduling; no HP Notepad activation or new command issued.
+
+**Next three executable tasks:** (1) inspect Windows CI for these dependency tests and repair failures; (2) inspect dependency-cycle handling and add a synthetic test if missing; (3) conduct a private v3 exact-registry import and restoration audit only when the authorized private v2 source and byte-exact registry are accessible together.
