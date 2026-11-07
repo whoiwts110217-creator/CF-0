@@ -1,3 +1,10 @@
+## November 7, 2026 — one-time HP opt-in handoff clarification (source-only)
+
+- **Mandatory public preflight:** full operator v1.0 blob `f3d4d0d443323528a64c6aa9e9d4c9a3b30e8098`, continuity v1.0 blob `cac63dead1e00592c1d12ea6562639b02893d81f`, and [Work self-reference v1.0](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) blob `5da1a390f31ee8f57e5829ef368062f9215c28ac` fetched in order from current `main`; next run must fetch all three anew. Owner approval bin inspected; no approvals changed.
+- **Source change:** [one-time health setup guide](../relay/HEALTH_ONE_CLICK.md) clarified `HEALTH_REPORT=OPTED_IN` is local flag confirmation only; the launcher must exist in the actual HP checkout and the cloud executor, not the owner clipboard, checks subsequent publication. [Commit 6599097](https://github.com/whoiwts110217-creator/CF-0/commit/659909791b2d2a8891e6e72c8dba57fa8e92fddb). Documentation-only; no HP installation or script execution claimed.
+- **Authoritative registry:** `69/200` verified, blob `8114ecc161c4ffd8773913625b5b48b52f6ef5a7`. No new work order acceptance, registry event, checkpoint, private backup or owner permission change. [Public health report](../relay/health/latest.json) returned 404 (`not_published`); this does not establish that the HP is off or that a scheduled task failed. Physical scheduler/receipt correlation still missing.
+- **Next three:** (1) check for a fresh sanitized HP health report after the owner's one-time opt-in, without requesting repeated diagnostics; (2) inspect P0 Windows regression and cloud watchdog evidence for actual failures; (3) advance CF-141 public project index only from cleared source, keeping private originals private. CI for this documentation-only change not yet verified.
+
 ## November 7, 2026 — parallel-chat coordination guard (source-only)
 
 - **Current three-prompt preflight:** operator blob `f3d4d0d443323528a64c6aa9e9d4c9a3b30e8098`, continuity blob `cac63dead1e00592c1d12ea6562639b02893d81f`, [Work prompt](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) blob `5da1a390f31ee8f57e5829ef368062f9215c28ac`; future runs must retrieve all three anew from public main.
