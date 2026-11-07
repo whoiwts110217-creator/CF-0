@@ -127,6 +127,18 @@ class HealthWatchTests(unittest.TestCase):
         self.assertEqual(result["scheduled_origin"], "not_verified_by_public_report")
         self.assertNotIn("reported_receipt_count", result)
 
+    def test_inconsistent_last_receipt_never_appears_healthy(self):
+        for patch in (
+            {"receipt_count": 28, "last_receipt_status": None},
+            {"receipt_count": 0, "ping_receipt_count": 0, "last_receipt_status": "completed"},
+        ):
+            with self.subTest(patch=patch):
+                result = watch(now=NOW, getter=lambda _: encoded(sample(**patch)))
+                self.assertEqual(result["state"], "invalid")
+                self.assertEqual(result["reason"], "inconsistent_last_receipt")
+                self.assertNotIn("reported_receipt_count", result)
+                self.assertEqual(result["scheduled_origin"], "not_verified_by_public_report")
+
     def test_invalid_timestamps_and_types(self):
         for patch in (
             {"collected_utc": "not-a-time"},
