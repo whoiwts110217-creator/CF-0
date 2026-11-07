@@ -117,3 +117,14 @@ This verifies classification of **one controlled two-file interruption**, not th
 **Fresh authoritative registry observation before this branch work:** \`84/200\`, blob \`304ed3c72df0fb82b6a0eacf6f4dc2e971262c74\`. Other sessions may advance it.
 
 **Next executable gates:** (1) obtain a completed GitHub Actions run for the new actual-receipt tests and inspect its job log; (2) test a real public-safe request/receipt pair readback through an independent read-only consumer, making no HP-origin claim; (3) review whether to merge only the small validated read-only helper after a fresh main/owner-capability reconciliation. No production task claims or auto-recovery are authorized.
+
+
+### Read-only spot-check against two existing PUBLIC legacy pairs
+
+On current public \`main\`, two already-published ping inbox/receipt pairs were retrieved by matching UUID and independently checked using the exact \`json.dumps(..., sort_keys=True, separators=(',', ':'), ensure_ascii=False, allow_nan=False)\` and SHA-256 conventions of the original relay code. Both request digests matched their respective public v1 receipts; both receipts contain \`status=completed\`, \`result.pong=true\`, and \`result.protocol=1\`. Exact original inbox and receipt Git blobs were observed for each pair.
+
+This is **public content consistency**, not physical HP identity, scheduled-poll provenance, an authentic operator signature, or proof the tests ran on an HP. Neither historical receipt contains a v2 \`response_sha256\`; both must be classified as legacy-review evidence, not promoted into a production release decision. The normal programmatic adapter was not invoked directly on these retrieved bytes; the public spot-check and synthetic adapter tests are distinct verification activities.
+
+**Latest CI boundary:** the last independently confirmed GitHub Actions job was run \`42413588078\` with 80 passing tests. A new workflow run covering the 20 actual-relay tests has **not** yet been independently confirmed from current tool output; pending, not passed.
+
+No owner authorization was expanded, no automatic recovery enabled, and no real task reservation made.
