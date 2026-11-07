@@ -4,7 +4,7 @@ This folder is for owner-directed creative and product **concepts** with explici
 
 | ID | Filed concept | Creator | Present state |
 |---|---|---|---|
-| CF-CONCEPT-DREAMKILLER-001 | [Dreamkiller / BreachDungeon: The Road That Was Always There](dreamkiller/MASTER_CONCEPT_AND_CONTINUITY_PROMPT.md) | **David Smith** | Filed master concept and Chapter One proposal; **Road v0.1 executable GB prototype** with B-001 and two saved observation flags. Full game, complete journal, real hardware and iPhone compatibility **not yet verified** |
+| CF-CONCEPT-DREAMKILLER-001 | [Dreamkiller / BreachDungeon: The Road That Was Always There](dreamkiller/MASTER_CONCEPT_AND_CONTINUITY_PROMPT.md) | **David Smith** | Filed master concept and Chapter One proposal; **Road v0.1 executable GB prototype** with B-001 and two saved observation flags. Full game, complete journal, real hardware and physical iPhone compatibility **not yet verified** |
 
 **Designated owner/intended generational beneficiary:** Kiara Lynn Rose Smith (creator-designated; not proof of completed legal transfer).
 
@@ -30,6 +30,6 @@ New **PROPOSED** layer beneath the existing Dreamkiller constitution: first town
 
 ## First executable ROM — Road v0.1
 
-[**32 KB Dreamkiller Road GB cartridge**](dreamkiller/rom_v0_1/dreamkiller_road_v0_1.gb) · [Features, save layout and test limits](dreamkiller/rom_v0_1/README.md) · [Open iPhone player](https://whoiwts110217-creator.github.io/CF-0/dreamkiller/).
+[**32 KB Dreamkiller Road v0.1.2 cartridge — latest rendered build**](dreamkiller/rom_v0_1/dreamkiller_road_v0_1_2.gb) · [Features, save layout and test limits](dreamkiller/rom_v0_1/README.md) · [Open iPhone player](https://whoiwts110217-creator.github.io/CF-0/dreamkiller/).
 
-One-tap prototype loading is integrated into the iPhone player's source; full emulator/iPhone compatibility must be checked separately from CPU-level source tests. This is a *tech slice*, not the two-floor Chapter One, complete social RPG or secret ending. Historical CR-10 APK remains separate.
+One-tap prototype loading is integrated into the iPhone web app. The exact v0.1.2 ROM **rendered a nonblank frame in headless Chromium and GameBoy.js** ([CI evidence](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42412019117)); physical iPhone controls and SRAM persistence remain untested. This is a *tech slice*, not the two-floor Chapter One, complete social RPG or secret ending. Historical CR-10 APK remains separate.
