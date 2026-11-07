@@ -1,4 +1,9 @@
 # CAVEMAN FOCUS — MASTER MISSION BOARD
+
+**[ONE-CLICK OWNER HUB — site, Mission Control, master prompts, HP scripts, AI Tracker](../docs/START_HERE.md)**
+
+**AI Tracker:** [public development branch](https://github.com/whoiwts110217-creator/CF-0/tree/feature/ai-agent-tracker/ai_tracker) — Python tracker and initial tests committed; **not merged, tested or unattended**. [Agent challenge response issue #16](https://github.com/whoiwts110217-creator/CF-0/issues/16). This branch-only work is not a verified CF-200 work order.
+
 **Owner:** Kiara Lynn Rose Smith's Caveman Focus  
 **Control prompt:** [MASTER_OPERATOR_PROMPT.md](MASTER_OPERATOR_PROMPT.md)  
 **Mission control frontend:** [source and usage](mission_control/README.md)  
