@@ -9,8 +9,8 @@ Caveman Focus is an experimental system for reducing repetitive work by coordina
 
 | Destination | Direct link |
 |---|---|
-| **Public website** | [Site entry page](../index.html) (GitHub source; hosting address not verified here) |
-| **Mission Control** | [Dashboard source](../automation_200/mission_control/dist/index.html) · [Dashboard guide](../automation_200/mission_control/README.md) |
+| **Public website** | [Live public site](https://whoiwts110217-creator.github.io/CF-0/) (deployment URL derived from GitHub Pages convention; live reachability not independently confirmed) |
+| **Mission Control** | [Live Mission Control](https://whoiwts110217-creator.github.io/CF-0/mission-control/) (reachability not independently confirmed) · [Dashboard guide](../automation_200/mission_control/README.md) |
 | **Master mission board** | [MASTER_MISSION_BOARD.md](../automation_200/MASTER_MISSION_BOARD.md) |
 | **Master operator prompt (read first)** | [MASTER_OPERATOR_PROMPT.md](../automation_200/MASTER_OPERATOR_PROMPT.md) |
 | **Continuity prompt (read second)** | [MASTER_CONTINUITY_PROMPT.md](../automation_200/MASTER_CONTINUITY_PROMPT.md) |
