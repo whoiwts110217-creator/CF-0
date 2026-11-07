@@ -27,7 +27,20 @@ class EvidenceDecisionTests(unittest.TestCase):
         self.assertTrue(plan["selected"])
         tiers = [x["priority_tier"] for x in plan["selected"]]
         self.assertEqual(tiers, sorted(tiers))
-        self.assertEqual(tiers[0], 0)  # P1 may proceed once cloud-safe P0 tasks are exhausted.
+        # P0 wins when a cloud-safe P0 work order is eligible. Once all P0
+        # options are held/verified, the founder's policy permits safe P1.
+        eligible_p0 = {
+            t["id"] for t in REGISTRY["tasks"]
+            if t["status"] == "planned"
+            and t["stream"] in ("chat_command", "hp_install", "sidecar", "receipt",
+                               "security", "real_operations")
+            and not t["physical_hp_required"]
+            and t["stream"] != "hp_install"
+            and t["id"] not in ("CF-042", "CF-077", "CF-184", "CF-190", "CF-191", "CF-194")
+            and all(next((x["status"] for x in REGISTRY["tasks"] if x["id"] == dep),
+                         None) == "verified" for dep in t["depends_on"])
+        }
+        self.assertEqual(tiers[0], 0 if eligible_p0 else 1)
         self.assertTrue(all(x["action"] == "propose_source_work_only" for x in plan["selected"]))
         self.assertNotIn("CF-027", [x["id"] for x in plan["selected"]])
         self.assertNotIn("CF-042", [x["id"] for x in plan["selected"]])
