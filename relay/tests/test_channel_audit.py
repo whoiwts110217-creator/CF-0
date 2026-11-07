@@ -118,6 +118,38 @@ class ChannelAuditTests(unittest.TestCase):
         self.assertEqual(report["error_type"], "ValueError")
         self.assertNotIn("matching_execution_receipts", report)
 
+    def test_duplicate_receipt_ids_fail_closed_at_listing_and_read(self):
+        """CF-076: duplicate public IDs must never be silently overwritten."""
+        for folder in ("inbox", "receipts"):
+            with self.subTest(folder=folder):
+                url = channel_audit.folder_url(folder) + "?ref=main"
+                duplicate = [{"type": "file", "name": self.name},
+                             {"type": "file", "name": self.name}]
+                with patch.object(channel_audit, "github_json", return_value=duplicate):
+                    with self.assertRaisesRegex(ValueError, "duplicate_receipt_or_request_id"):
+                        channel_audit.list_json_names(folder)
+                with patch.object(channel_audit, "read_contents_json") as read:
+                    with self.assertRaisesRegex(ValueError, "duplicate_receipt_or_request_id"):
+                        channel_audit.read_folder(folder, names=[self.name, self.name])
+                    read.assert_not_called()
+
+    def test_live_audit_duplicate_receipt_id_is_unavailable(self):
+        """CF-076: no matched count may escape an ambiguous GitHub listing."""
+        inbox_url = channel_audit.folder_url("inbox") + "?ref=main"
+        receipts_url = channel_audit.folder_url("receipts") + "?ref=main"
+        listing = [{"type": "file", "name": self.name}]
+        duplicates = listing * 2
+        output = io.StringIO()
+        with patch.object(channel_audit, "github_json",
+                          side_effect={inbox_url: listing,
+                                       receipts_url: duplicates}.__getitem__):
+            with contextlib.redirect_stdout(output):
+                self.assertEqual(channel_audit.main(["--live"]), 1)
+        report = json.loads(output.getvalue())
+        self.assertEqual(report["audit"], "unavailable")
+        self.assertEqual(report["error_type"], "ValueError")
+        self.assertNotIn("matching_execution_receipts", report)
+
     def test_archive_capacity_checks_each_folder_at_the_boundaries(self):
         for size, expected in ((99, "within_limit"), (100, "review_due"),
                                (120, "review_due"), (121, "limit_exceeded")):
