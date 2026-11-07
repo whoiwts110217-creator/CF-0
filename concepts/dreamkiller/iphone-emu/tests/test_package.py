@@ -40,6 +40,29 @@ class PocketPackageTests(unittest.TestCase):
         for name in ['index.html','styles.css','app.js','GameBoy.min.js','icon.svg','road-test.gb','manifest.webmanifest']:
             self.assertIn(name,worker)
             self.assertTrue((SITE/name).is_file())
+    def test_original_dreamkiller_road_prototype_is_exact_hosted_cartridge(self):
+        import hashlib
+        cartridge = SITE / "road-v01.gb"
+        master = SITE.parents[1] / "rom_v0_1" / "dreamkiller_road_v0_1.gb"
+        rom = cartridge.read_bytes()
+        self.assertEqual(len(rom), 32768)
+        self.assertEqual(rom, master.read_bytes())
+        self.assertEqual(hashlib.sha256(rom).hexdigest(), "b3ae9b964f7f4515663230e1a52f8944c09da937a52a054991f1066b0f48879e")
+        self.assertEqual(rom[0x147], 0x03)  # MBC1+RAM+BATTERY
+        self.assertEqual(rom[0x149], 0x02)  # 8KB SRAM
+        h=0
+        for byte in rom[0x134:0x14d]:
+            h=(h-byte-1)&255
+        self.assertEqual(rom[0x14d], h)
+        self.assertEqual((sum(rom[:0x14e])+sum(rom[0x150:]))&65535, int.from_bytes(rom[0x14e:0x150],"big"))
+        html=(SITE/"index.html").read_text(encoding="utf-8")
+        app=(SITE/"app.js").read_text(encoding="utf-8")
+        worker=(SITE/"service-worker.js").read_text(encoding="utf-8")
+        self.assertIn('id="road-button"', html)
+        self.assertIn('"road-button"', app)
+        self.assertIn('fetch("./road-v01.gb")',app)
+        self.assertIn('"./road-v01.gb"',worker)
+
     def test_local_file_only_not_upload(self):
         app=(SITE/'app.js').read_text(encoding='utf-8')
         self.assertIn('file.arrayBuffer()',app)
