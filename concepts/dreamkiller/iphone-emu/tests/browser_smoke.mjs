@@ -71,6 +71,11 @@ try{
    await evaluate('document.getElementById("demo-button").click()');await sleep(2200);
    const diag=await evaluate(`(()=>{const c=document.querySelector("#game canvas"),ctx=c?.getContext("2d");if(!ctx)return {error:"no canvas"};const d=ctx.getImageData(0,0,c.width,c.height).data;const colors=new Set();for(let i=0;i<d.length;i+=4){colors.add([d[i],d[i+1],d[i+2]].join(','));if(colors.size>4)break}return {colors:colors.size,run:window.GAMEBOY_RUNNING,paused:window.GAMEBOY_PAUSED}})()`);
    console.log('Diagnostic ROM control sample:',JSON.stringify(diag));
+   await send('Page.navigate',{url:origin});await sleep(950);
+   const variant=await evaluate(`(async()=>{const r=await fetch('./road-v01.gb');const b=new Uint8Array(await r.arrayBuffer());b[0x143]=0;let h=0;for(let i=0x134;i<=0x14c;i++)h=(h-b[i]-1)&255;b[0x14d]=h;let sum=0;for(let i=0;i<b.length;i++)if(i!==0x14e&&i!==0x14f)sum=(sum+b[i])&65535;b[0x14e]=sum>>8;b[0x14f]=sum&255;window.embedGameBoy({container:'game',name:'dmg-variant.gb',rom:b.buffer,soundEnabled:false,showMobileControls:false});return {header:b[0x143],size:b.length}})()`);
+   await sleep(2500);
+   const variantPixels=await evaluate(`(()=>{const c=document.querySelector('#game canvas'),ctx=c?.getContext('2d');if(!ctx)return {error:'no canvas'};const d=ctx.getImageData(0,0,c.width,c.height).data;const s=new Set();for(let i=0;i<d.length;i+=4){s.add(d[i]+','+d[i+1]+','+d[i+2]);if(s.size>4)break}return {colors:s.size,started:window.GAMEBOY_RUNNING}})()`);
+   console.log('DMG-compatible Road header variant:',JSON.stringify({variant,variantPixels}));
    throw Error('ROM canvas did not paint nonblank pixel data');
  }
 
