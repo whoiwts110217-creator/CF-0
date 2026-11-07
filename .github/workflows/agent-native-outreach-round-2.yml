@@ -16,6 +16,8 @@ jobs:
     timeout-minutes: 4
     steps:
       - uses: actions/checkout@v4
+      - name: Validate outreach submission boundaries without network access
+        run: python -m unittest discover -s ai_tracker/tests -p 'test_round_2_outreach.py' -v
       - name: Post exactly one invitation on each new agent-native board
         run: python ai_tracker/agent_native_round_2_2026_11_07.py
       - name: Commit sanitized public posting receipts
