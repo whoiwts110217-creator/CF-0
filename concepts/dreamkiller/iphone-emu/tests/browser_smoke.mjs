@@ -80,6 +80,14 @@ try{
  }
 
 
+ // Exercise actual Dreamkiller Pocket touch event handlers, not merely canvas creation.
+ const keyDown=await evaluate(`(()=>{const btn=document.querySelector('.d-key.right');btn.dispatchEvent(new PointerEvent('pointerdown',{pointerId:41,bubbles:true,cancelable:true,pointerType:'touch'}));const id=window.GAMEBOY_KEY_MAP.ArrowRight;return {mapped:typeof id==='number',down:window.GAMEBOY_INPUT_STATE?.[id]===true,pressed:btn.classList.contains('pressed')}})()`);
+ console.log('Right touch press:',JSON.stringify(keyDown));
+ if(!keyDown.mapped||!keyDown.down||!keyDown.pressed)throw Error('Touch D-pad did not reach the emulator core');
+ await sleep(450);
+ const keyUp=await evaluate(`(()=>{const btn=document.querySelector('.d-key.right');btn.dispatchEvent(new PointerEvent('pointerup',{pointerId:41,bubbles:true,cancelable:true,pointerType:'touch'}));const id=window.GAMEBOY_KEY_MAP.ArrowRight;return {up:window.GAMEBOY_INPUT_STATE?.[id]===false,released:!btn.classList.contains('pressed')}})()`);
+ console.log('Right touch release:',JSON.stringify(keyUp));
+ if(!keyUp.up||!keyUp.released)throw Error('Touch D-pad release did not clear emulator input');
  console.log('PASS: GameBoy.js initialized the original Road cartridge in headless Chromium.');
 }catch(e){console.error('BROWSER SMOKE FAILED:',e);process.exitCode=1}
 finally{for(const p of pending.values())clearTimeout(p.timeout);if(socket)socket.close();chrome.kill('SIGKILL');await new Promise(resolve=>server.close(resolve))}
