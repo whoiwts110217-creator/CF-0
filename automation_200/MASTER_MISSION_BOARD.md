@@ -91,8 +91,8 @@
 **Control prompt:** [MASTER_OPERATOR_PROMPT.md](MASTER_OPERATOR_PROMPT.md)  
 **Mission control frontend:** [source and usage](mission_control/README.md)  
 **System of record:** [registry.json](registry.json) · [events.jsonl](events.jsonl) · [checkpoints/](checkpoints/)  
-**Current source registry:** **75/200 verified** as of November 7, 2026; [registry.json](registry.json) is authoritative.\
-**Last numbered checkpoint:** [072](checkpoints/checkpoint_072.json) (next numbered checkpoint 076).\
+**Current source registry:** **76/200 verified** as of November 7, 2026; [registry.json](registry.json) is authoritative.\
+**Last numbered checkpoint:** [076](checkpoints/checkpoint_076.json) (next numbered checkpoint 080).\
 **Public continuity handoff:** [docs/CONTINUITY.md](../docs/CONTINUITY.md) · [dated state](../docs/PUBLIC_CONTINUITY_STATE.json). Historical counts in the entries below remain snapshots, not live status.
 
 
@@ -902,3 +902,10 @@ The hourly public channel watchdog now runs priority selector and waiting-cycle 
 - **CF-099 accepted:** [urgent stop and safe resumption guide](../relay/URGENT_STOP_AND_RESUME.md) with [Windows source-test evidence](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42407315346). Distinguishes Disable+End, unregister-via-STOP_CF0_RELAY, independent `watch` process, separate private HP Bridge and flags for writeback/health. Warns that a task unregister does not immediately kill an active process, stopping mid-action leaves uncertain attempts, and local SQLite/receipt history must be preserved. No owner HP action was performed.
 - **Atomic continuity:** `75/200` verified, one appended event and synchronized registry/public state/project status/mission board; Git blob `cecdcea4f9dcc00e1b046f39875433aaeb7e63d6`, numbered checkpoint `072` remains latest, next `076`. No new permissions, payment, or unverified HP uptime claimed.
 - **Next three:** verify post-commit Windows and Pages CI; create CF-100 strictly design-only, approval-gated private operator scope referencing existing private bridge rather than enabling remote commands; continue checking missing public HP heartbeat without demanding repeated clipboard transcripts.
+
+## November 7, 2026 — CF-100 verified design-only checkpoint 076
+
+- **Continuity preflight:** read complete current main operator `f8f0c94c28cd28cc0402daf4f21bd875e1417932`, continuity `cac63dead1e00592c1d12ea6562639b02893d81f`, Work `5da1a390f31ee8f57e5829ef368062f9215c28ac` in order. Next scheduled run must refetch the latest versions; owner capability contract and approval bin unchanged.
+- **CF-100 source-level design accepted:** [Private operator gate design](../bridge/PRIVATE_OPERATOR_GATE_CF100.md) and [tests](../bridge/tests/test_private_operator_gate_cf100.py), [HP Bridge CI 42407790112](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42407790112). *DESIGN ONLY*. No private operator installed, scheduled, enabled or approved. Any future change needs explicit PCA-004 approval and local HP opt-in.
+- **Checkpoint 076:** registry, append-only event, public continuity, project status and current mission board updated together. `76/200` verified, registry Git blob `6285d13ffdc7cb8a03edd6bbb7ad52670e595647`, raw SHA256 `f588ad7b19d9ff2c91d8064a48703f30d47d7b2bb5d3072e410a75270d5baded`; next checkpoint 080. Do not infer unattended HP operation or revenue.
+- **Next three:** (1) verify Windows/continuity CI after ledger update; (2) continue P1 CF-110 blocked-priority tests without bypassing dependencies; (3) seek independent sanitized HP health-report readback through existing owner-local opt-in, not remote changes or repeated PowerShell copy-paste.
