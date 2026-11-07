@@ -115,6 +115,21 @@ class PublisherTests(unittest.TestCase):
                     publish(repo, data)
                 self.assertEqual(repo.calls, [])
 
+    def test_invalid_padding_rejected_with_safe_error_without_write(self):
+        from cf_public_relay import RelayError
+        repo = Repo(dict(sha="old", content="a"))
+        with self.assertRaisesRegex(RelayError, "^health_destination_invalid$") as caught:
+            publish(repo, sample())
+        self.assertTrue(caught.exception.__suppress_context__)
+        self.assertEqual(len(repo.calls), 1)
+
+    def test_oversized_untrusted_destination_rejected_without_decode_or_write(self):
+        from cf_public_relay import RelayError
+        repo = Repo(dict(sha="old", content="A" * 8193))
+        with self.assertRaisesRegex(RelayError, "^health_destination_invalid$"):
+            publish(repo, sample())
+        self.assertEqual(len(repo.calls), 1)
+
     def test_invalid_count_rejected(self):
         data = sample()
         data["receipt_count"] = -1
