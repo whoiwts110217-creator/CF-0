@@ -1,6 +1,6 @@
 # Caveman Focus — Foundation, Ideals and Ownership
 
-**Attribution:** Kiara Lynn Rose Smith's Caveman Focus.
+**Creator/developer:** David Smith. **Designated owner / intended generational beneficiary:** Kiara Lynn Rose Smith (designation, not verified legal transfer). Historical “Kiara Lynn Rose Smith's Caveman Focus” branding is preserved as prior public wording, but is **not** evidence that Kiara created the project.
 
 **Primary definition:** A framework for thinking, creating and researching by simplifying complexity without losing essentials, where clarity is the desired outcome.
 

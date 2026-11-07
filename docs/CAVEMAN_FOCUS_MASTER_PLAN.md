@@ -2,7 +2,7 @@
 Updated: 2026-11-06
 
 ## Mission and ownership
-Caveman Focus is a practical simplification, experimentation and automation framework intended to help everyday businesses, create sustainable income and build generational wealth. Its creator is the parent of Kiara Lynn Rose Smith; the creator intends ownership for their daughter Kiara Lynn Rose Smith. This document does not claim a completed legal transfer.
+Caveman Focus is a practical simplification, experimentation and automation framework intended to help everyday businesses, create sustainable income and build generational wealth. Its creator/developer is **David Smith**, who designated his daughter **Kiara Lynn Rose Smith** as intended owner and generational beneficiary. This document does not claim a completed legal transfer.
 
 ## Operating-environment thesis
 
@@ -10,7 +10,7 @@ Caveman Focus does **not** require inventing a new AI reasoning model. Its engin
 
 This distinguishes **model capability** (reasoning and proposing actions) from **environment capability** (keeping the loop running with real-world feedback). An execution receipt does not by itself prove a useful result, and a working relay does not prove that the AI automatically evaluated the receipt and made the next decision. The full closed loop remains an engineering objective, not a verified feature.
 
-**Ownership and attribution note:** The public project name and attribution are **“Kiara Lynn Rose Smith's Caveman Focus.”** The creator's stated intention is that their daughter, Kiara Lynn Rose Smith, own the project; this is an intended ownership arrangement, not a claim of completed legal transfer. Public attribution must not be read as proof of a completed transfer or as erasing the creator's role. Keep these separate until ownership documentation establishes otherwise.
+**Ownership and attribution note:** The historical public-facing name has been **“Kiara Lynn Rose Smith's Caveman Focus.”** The current creator credit is **David Smith**; Kiara is the designated owner/intended beneficiary, not the creator. The creator's stated intention is that their daughter, Kiara Lynn Rose Smith, own the project; this is an intended ownership arrangement, not a claim of completed legal transfer. Public attribution must not be read as proof of a completed transfer or as erasing the creator's role. Keep these separate until ownership documentation establishes otherwise.
 
 ## Binding priority order
 1. **Automation infrastructure first:** complete and verify scheduling, execution, receipts, recovery, public-safe logging, and low-resource HP integration.
