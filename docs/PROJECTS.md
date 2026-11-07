@@ -43,3 +43,11 @@ Creative scripts and full private histories remain in the owner-controlled archi
 | **BLANK — Follow-Along Business Reset documentary and automation pilot** | **CF-FW** (owner-supplied proposed parent designation, **not** assumed equivalent to CF-0; legal formation not verified) | [Pilot treatment and operating procedure](CF_FW_BLANK_FOLLOW_ALONG_BUSINESS_RESET_DOCUMENTARY_v0_1.md), v0.1 proposed Nov 7, 2026. No company incorporation, products, film, customer, or sales claimed. Owner-directed exploration; original historical registry count unaffected. |
 
 CF-FW itself is a new owner-supplied parent designation in this project context. Its full name, legal status, corporate structure, and relationship to existing Caveman Focus entities require a separate evidence-backed decision. Do not infer its existence from the public CF-0 repository name.
+
+## November 7 — public research, funding and site-audit navigation
+
+- **Research / Caveman Focus proposed mathematics / SN:** [Logic Locks and SN discovery hypotheses](../research/caveman_focus/LOGIC_LOCKS_AND_SN_DISCOVERY_2026-11-07.md). Concept and illustrative examples; no original mathematical result or SN equivalence established.
+- **Finance / donation growth / agent discovery:** [AI-facing channel research](../finance/donation_growth/agent_discovery_experiment_2026-11-07.md), [AI Attention Challenge 001](../finance/donation_growth/AI_ATTENTION_CHALLENGE_2026-11-07.md), and [directory research](../finance/donation_growth/channel_research_2026-11-07.md). Public materials only; no agent replies, posts or verified donations established.
+- **Operations / site audit:** [Support-site and public categorization audit](SITE_AND_PUBLIC_CATEGORIZATION_AUDIT_2026-11-07.md). Live site not accessible to this inspection environment; do not mistake failed retrieval for confirmed outage.
+
+These links are a categorized index, not a new CF-200 verification or a production-site deployment.
