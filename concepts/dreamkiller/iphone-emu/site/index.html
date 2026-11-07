@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,maximum-scale=1,user-scalable=no">
+  <meta name="theme-color" content="#111b21">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Dreamkiller GB">
+  <meta name="description" content="A local, touch-controlled GB/GBC ROM player for the Dreamkiller project.">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" href="./icon.svg" sizes="192x192">
+  <link rel="apple-touch-icon" href="./icon.svg">
+  <link rel="stylesheet" href="./styles.css">
+  <title>Dreamkiller Pocket • GB/GBC</title>
+  <script defer src="./GameBoy.min.js"></script>
+  <script defer src="./app.js"></script>
+</head>
+<body>
+  <main id="launcher" class="launcher">
+    <div class="grain" aria-hidden="true"></div>
+    <section class="landing-shell">
+      <header class="brand-row">
+        <div class="mark" aria-hidden="true">D<span>K</span></div>
+        <div class="brand-right">CAVEMAN FOCUS <span class="brand-dot"></span> POCKET LAB</div>
+      </header>
+      <div class="screen-card">
+        <div class="screen-topline"><span>MODEL 001 / GBC</span><span class="live"><span></span> SYSTEM READY</span></div>
+        <div class="logo-box">
+          <p class="eyebrow">THE ROAD WAS ALWAYS THERE</p>
+          <h1>DREAM<span>KILLER</span></h1>
+          <p class="subtitle">GB / GBC EMULATOR</p>
+        </div>
+        <div class="pixel-road" aria-hidden="true">
+          <div class="horizon"></div><div class="road-path"></div><div class="road-middle"></div>
+        </div>
+        <div class="screen-bottomline"><span>PORTABLE EDITION</span><span>VER 0.1</span></div>
+      </div>
+      <div class="panel">
+        <p class="panel-heading">LOAD A CARTRIDGE</p>
+        <p class="explain">Play your own <strong>.gb</strong> or <strong>.gbc</strong> file on iPhone. Your ROM stays on your device.</p>
+        <label class="primary-button" for="rom-input"><span class="button-chevron">▶</span> CHOOSE ROM FILE</label>
+        <input id="rom-input" type="file" accept=".gb,.gbc,application/octet-stream" hidden>
+        <button id="demo-button" class="secondary-button" type="button">RUN BUILT-IN HARDWARE TEST</button>
+        <div class="status-line" role="status" id="status-line" aria-live="polite">No cartridge loaded</div>
+      </div>
+      <p class="legal">Created by <strong>David Smith</strong> · Caveman Focus<br>Game Boy / Color emulator core: Gambatte · GPLv2</p>
+    </section>
+  </main>
+  <main id="playing" class="playing hidden" aria-label="Game Boy emulator">
+    <header class="play-bar">
+      <button class="nav-back" id="menu-button" type="button" aria-label="Go back to ROM selection">‹ MENU</button>
+      <div class="play-header-title"><strong>DREAMKILLER</strong><small id="rom-title">CARTRIDGE LOADED</small></div>
+      <span class="play-indicator" aria-label="playing"></span>
+    </header>
+    <div class="play-layout">
+      <div class="lcd-bezel">
+        <div class="lcd-topline"><span>CF / 01</span><span>PIXEL DISPLAY</span></div>
+        <div id="game" role="img" aria-label="Game Boy video output"></div>
+        <div class="lcd-bottomline">DOT MATRIX WITH STEREO SOUND</div>
+      </div>
+      <div class="gamepad" role="group" aria-label="Game Boy touch controls">
+        <div class="d-pad" aria-label="Direction pad">
+          <button class="d-key up" type="button" data-key="ArrowUp" aria-label="Up">▲</button>
+          <button class="d-key left" type="button" data-key="ArrowLeft" aria-label="Left">◀</button>
+          <span class="d-center" aria-hidden="true"></span>
+          <button class="d-key right" type="button" data-key="ArrowRight" aria-label="Right">▶</button>
+          <button class="d-key down" type="button" data-key="ArrowDown" aria-label="Down">▼</button>
+        </div>
+        <div class="ab-pad">
+          <button class="action-key b" type="button" data-key="KeyZ" aria-label="B button">B</button>
+          <button class="action-key a" type="button" data-key="KeyX" aria-label="A button">A</button>
+        </div>
+      </div>
+      <div class="system-controls">
+        <button class="system-key" data-key="KeyA" type="button">SELECT</button>
+        <button class="system-key" data-key="KeyS" type="button">START</button>
+      </div>
+      <div class="emulator-toolbar">
+        <button type="button" id="sound-button">SOUND</button>
+        <button type="button" id="save-button">SAVE STATE</button>
+        <button type="button" id="load-button">LOAD STATE</button>
+        <button type="button" id="reset-button">RESET</button>
+      </div>
+    </div>
+  </main>
+</body>
+</html>
