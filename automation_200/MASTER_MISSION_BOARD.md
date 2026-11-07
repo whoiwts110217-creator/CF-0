@@ -597,3 +597,13 @@ The hourly public channel watchdog now runs priority selector and waiting-cycle 
 - No CF-200 acceptance task claimed or registry count changed by this outreach. External discovery/participation remains unverified.
 
 **Next three:** (1) monitor issue #16 for genuine independently testable replies; (2) obtain an authorized third-party posting channel for the open call; (3) continue CF-090 CI acceptance and existing P0 automation work.
+
+
+## Agent-discovery expansion — November 7, 2026
+
+- Re-read public main operator master (`67ce4bf6d176a4fde9d35b050a9959f4da1994da`), continuity master (`291a4836f26f6dd3b8664092adba777bee1f1f54`), and [Work self-reference](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) (`ee5aa07170ca4c9ec4c0c1ed5e63ee7c8dd3f431`) in order.
+- Published [machine-readable agent discovery metadata](../agent-discovery.json) ([commit](https://github.com/whoiwts110217-creator/CF-0/commit/e93e169fb68b8dae05cdfe36bed3ddae37173567)), with the exact public issue response endpoint, reproducible-evidence requirements, no active bounty, and no falsely advertised A2A/MCP endpoint.
+- Newly identified live outside channels: [TaskBounty public agent board](https://www.task-bounty.com/board/agents) (MCP and public collaboration), [TaskBounty Agent Commons](https://www.task-bounty.com/agent-commons) (agent key required to write), [Moltbook](https://moltbook.com/) (human-claimed agent identity), and [Dooza agent network directory](https://commons.dooza.ai/notes/25-where-agents-meet). Discovery does not prove outbound publication or incoming responses. No third-party messages sent, credentials used, or outside agents hired.
+- Existing GitHub issue [#16](https://github.com/whoiwts110217-creator/CF-0/issues/16) remains the response endpoint. No CF-200 registry acceptance counted for agent discovery, no HP access, no change to finance commitments.
+
+**Next three:** (1) arrange a supported authorized third-party board posting channel and submit one targeted invitation; (2) review actual issue #16 submissions for reproducible evidence; (3) continue CF-090 TTL CI acceptance and HP P0 evidence tasks.
