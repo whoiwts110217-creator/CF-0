@@ -7,7 +7,7 @@ No token needed to *receive*. This does NOT implement arbitrary remote shell.
 Results stay local unless user configures explicitly scoped GitHub write token.
 """
 from __future__ import annotations
-import argparse, base64, contextlib, hashlib, json, os, pathlib, re, sqlite3, sys, time, urllib.error, urllib.parse, urllib.request, uuid
+import argparse, base64, binascii, contextlib, hashlib, json, os, pathlib, re, sqlite3, sys, time, urllib.error, urllib.parse, urllib.request, uuid
 from dataclasses import dataclass
 from typing import Any
 
@@ -117,7 +117,7 @@ class HttpRepo:
             b=base64.b64decode(''.join(data['content'].split()),validate=True)
             if len(b)>MAX_JOB_BYTES:raise RelayError('oversize')
             return json.loads(b)
-        except (KeyError,ValueError,TypeError) as e:
+        except (KeyError,ValueError,TypeError,binascii.Error) as e:
             raise RelayError('invalid_file_data') from e
     def publish(self,job_id,receipt):
         # Optional GitHub write. Never put device name, file lists, paths or secrets in public receipt.
@@ -133,7 +133,7 @@ class HttpRepo:
                 encoded = previous['content']
                 if not isinstance(encoded, str): raise ValueError('invalid content type')
                 old = json.loads(base64.b64decode(''.join(encoded.split()), validate=True))
-            except (KeyError, ValueError, TypeError, RecursionError) as exc:
+            except (KeyError, ValueError, TypeError, RecursionError, binascii.Error) as exc:
                 raise RelayError('receipt_unreadable') from exc
             # Accept an equivalent legacy receipt as-is. GitHub receipt history is immutable.
             try:
