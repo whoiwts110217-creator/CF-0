@@ -16,9 +16,11 @@ from pathlib import Path
 try:
     from .priority_selector import select_tasks
     from .validate_registry import check_registry
+    from .task_context_expiry import held_task_contexts
 except ImportError:
     from priority_selector import select_tasks
     from validate_registry import check_registry
+    from task_context_expiry import held_task_contexts
 
 ROOT = Path(__file__).resolve().parent
 POLICY = "cf200.decision_proposal.v1"
@@ -52,7 +54,8 @@ def _attempts_valid(registry, attempts):
 
 
 def propose(registry, *, health_state="unavailable", now=None, limit=4,
-            blocked_ids=(), owner_preference_ids=(), attempts=None):
+            blocked_ids=(), owner_preference_ids=(), attempts=None,
+            task_contexts=None):
     """Produce a cloud-safe proposal; fail closed on malformed owner inputs.
 
     The registry's physical_hp_required bit is necessary but not sufficient.
@@ -73,6 +76,9 @@ def propose(registry, *, health_state="unavailable", now=None, limit=4,
     if (len(explicit_blocked) != len(set(explicit_blocked))
             or any(type(x) is not str or x not in ids for x in explicit_blocked)):
         raise ValueError("invalid blocked task IDs")
+    if task_contexts is None:
+        task_contexts = {}
+    context_holds = held_task_contexts(task_contexts, ids, now)
     reasons = {}
     status = {t["id"]: t["status"] for t in registry["tasks"]}
     for task in registry["tasks"]:
@@ -81,6 +87,8 @@ def propose(registry, *, health_state="unavailable", now=None, limit=4,
             continue
         if tid in explicit_blocked:
             reasons[tid] = "explicitly_blocked"
+        elif tid in context_holds:
+            reasons[tid] = context_holds[tid]
         elif task.get("physical_hp_required", False):
             reasons[tid] = "physical_hp_required"
         elif task["stream"] == "hp_install":
@@ -135,6 +143,8 @@ def main(argv=None):
     parser.add_argument("--owner-preference", action="append", default=[])
     parser.add_argument("--attempts-json", default="{}",
                         help="Explicit public-safe failures/failed_at map. No state writes.")
+    parser.add_argument("--task-contexts-json", default="{}",
+                        help="Optional reviewed ID to created_at/expires_at map; old/unknown contexts are not execution authorization.")
     args = parser.parse_args(argv)
     registry = json.loads((ROOT / "registry.json").read_text(encoding="utf-8"))
     check_registry(registry)
@@ -147,6 +157,7 @@ def main(argv=None):
         registry, health_state=health, now=int(time.time()), limit=args.limit,
         blocked_ids=args.blocked, owner_preference_ids=args.owner_preference,
         attempts=json.loads(args.attempts_json),
+        task_contexts=json.loads(args.task_contexts_json),
     )
     print(json.dumps(result, sort_keys=True, indent=2))
     return 0
