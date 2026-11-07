@@ -3,6 +3,8 @@
 from pathlib import Path
 import unittest
 
+from relay.cf_public_relay import REPO
+
 ROOT=Path(__file__).resolve().parents[2]
 
 class ReadWriteSetupTests(unittest.TestCase):
@@ -35,6 +37,16 @@ class ReadWriteSetupTests(unittest.TestCase):
         self.assertIn("Invoke-RestMethod -Method Put",s)
         self.assertIn("kind='cf0_hp_writeback_probe'",s)
         self.assertLess(s.index("$probeId=New-WriteProbe $secret"),s.index("Set-ScheduledTask -TaskName $TaskName -Action $action | Out-Null",s.index("$probeId=New-WriteProbe $secret")))
+
+    def test_repository_identity_checked_before_write_probe(self):
+        script = (ROOT / "relay/cf_public_relay_rw.ps1").read_text()
+        self.assertIn(f"$RepoName='{REPO}'", script)
+        probe = script.split("function New-WriteProbe", 1)[1].split("function Invoke-Worker", 1)[0]
+        metadata = probe.index("$meta=Invoke-RestMethod -Method Get")
+        identity_check = probe.index("Assert-RepositoryIdentity $meta")
+        write = probe.index("Invoke-RestMethod -Method Put")
+        self.assertLess(metadata, identity_check)
+        self.assertLess(identity_check, write)
 
     def test_existing_schedule_reused_and_disable_restores_reader(self):
         s=(ROOT/"relay/cf_public_relay_rw.ps1").read_text()

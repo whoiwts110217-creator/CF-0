@@ -4,6 +4,8 @@
 param([ValidateSet('enable','once','status','disable','selftest')][string]$Mode='enable')
 $ErrorActionPreference='Stop'
 $RepoName='whoiwts110217-creator/CF-0'
+$RepoId='1444521490'
+$RepoBranch='main'
 $TaskName='CavemanFocusCF0Relay'
 $StateDir=Join-Path $env:LOCALAPPDATA 'CavemanFocus\CF0Relay'
 $SecretFile=Join-Path $StateDir 'write_token.dpapi'
@@ -36,6 +38,15 @@ function Unprotect-TokenFromFile([string] $Path) {
     }
 }
 
+function Assert-RepositoryIdentity([object] $Metadata) {
+    if ($null -eq $Metadata -or
+        [string]$Metadata.full_name -cne $RepoName -or
+        [string]$Metadata.id -cne $RepoId -or
+        [string]$Metadata.default_branch -cne $RepoBranch) {
+        throw 'wrong_repository'
+    }
+}
+
 function New-WriteProbe([Security.SecureString] $Secret) {
     $plain=Plaintext $Secret
     try {
@@ -46,14 +57,14 @@ function New-WriteProbe([Security.SecureString] $Secret) {
             'User-Agent'='CF0-HP-ReadWrite-Setup/1.0'
         }
         $meta=Invoke-RestMethod -Method Get -Uri ('https://api.github.com/repos/'+$RepoName) -Headers $headers -TimeoutSec 20
-        if ($meta.full_name -cne $RepoName) { throw 'wrong_repository' }
+        Assert-RepositoryIdentity $meta
         $id=[guid]::NewGuid().ToString()
         $receipt=@{
             v=1; id=$id; kind='cf0_hp_writeback_probe'; status='received'
             result=@{ public_safe=$true; note='CF-0 writeback verified; no device or user metadata' }
         } | ConvertTo-Json -Depth 5 -Compress
         $contents=[Convert]::ToBase64String([Text.Encoding]::UTF8.GetBytes($receipt))
-        $body=@{message=('CF-0 HP return-channel proof '+$id);branch='main';content=$contents} | ConvertTo-Json -Compress
+        $body=@{message=('CF-0 HP return-channel proof '+$id);branch=$RepoBranch;content=$contents} | ConvertTo-Json -Compress
         $url='https://api.github.com/repos/'+$RepoName+'/contents/command_queue/receipts/'+$id+'.json'
         $null=Invoke-RestMethod -Method Put -Uri $url -Headers $headers -Body $body -ContentType 'application/json' -TimeoutSec 25
         return $id
@@ -95,6 +106,22 @@ function Invoke-Worker {
 # Self-test is fully offline and uses a disposable dummy string.
 # It exercises the same DPAPI save/read path used by the scheduled worker.
 if ($Mode -eq 'selftest') {
+    $expected=@{full_name='whoiwts110217-creator/CF-0'; id=1444521490; default_branch='main'}
+    Assert-RepositoryIdentity ([pscustomobject]$expected)
+    $mismatches=@{full_name='example/CF-0'; id=1; default_branch='other'}
+    foreach ($field in $mismatches.Keys) {
+        $candidate=$expected.Clone()
+        $candidate[$field]=$mismatches[$field]
+        try {
+            Assert-RepositoryIdentity ([pscustomobject]$candidate)
+        }
+        catch {
+            if ($_.Exception.Message -ceq 'wrong_repository') { continue }
+            throw
+        }
+        throw ('Repository identity test accepted a mismatched '+$field)
+    }
+    Write-Host 'REPOSITORY_IDENTITY=PASSED (offline test with matching and mismatched metadata)'
     $testPath=Join-Path ([IO.Path]::GetTempPath()) ('cf0-secret-roundtrip-'+[guid]::NewGuid().ToString('N')+'.txt')
     try {
         $dummy=ConvertTo-SecureString 'CF0DummySecretForOfflineRoundTrip' -AsPlainText -Force
