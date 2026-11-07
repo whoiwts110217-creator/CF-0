@@ -25,3 +25,5 @@ This is an installable **Home Screen web app** for Game Boy/Game Boy Color ROMs,
 [**The Missing Cave — full first-chapter concept**](dreamkiller/chapter_01/CHAPTER_ONE_DESIGN_V0_1.md) · [structured branch/glitch model](dreamkiller/chapter_01/BRANCH_AND_GLITCH_MODEL.json) · [model consistency checks](dreamkiller/chapter_01/test_chapter_model.py).
 
 New **PROPOSED** layer beneath the existing Dreamkiller constitution: first town, rescue choices, two cave floors, persistent fruit state, and glitch B-001 with deterministic entry/exit. The 72 combinatorial source-model scenarios are **not** an emulator or Game Boy ROM test.
+
+**Adversarial stress audit:** [28/28 final reference checks; one repaired rescue-choice bug; seven open specification/ROM gaps](dreamkiller/chapter_01/STRESS_AUDIT_2026-11-07.md) · [Stateful simulator](dreamkiller/chapter_01/stress_reference.py) · [Regression tests](dreamkiller/chapter_01/test_stress_edge_cases.py). These are source/reference tests, not Game Boy gameplay.
