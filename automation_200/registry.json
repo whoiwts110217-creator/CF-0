@@ -3,7 +3,7 @@
   "owner": "Kiara Lynn Rose Smith",
   "project": "Caveman Focus",
   "target": 200,
-  "completed": 80,
+  "completed": 81,
   "checkpoint_every": 4,
   "status": "WORK_IN_PROGRESS",
   "note": "A planned item is not a completed task. Physical HP outcomes require owner-HP evidence.",
@@ -1473,8 +1473,8 @@
       "depends_on": [
         "CF-113"
       ],
-      "status": "planned",
-      "evidence": null,
+      "status": "verified",
+      "evidence": "CF-114 read-only owner policy diff reporter automation_200/policy_diff.py source commit 0b7785b68012c192df93a6c8ff1fa4a626a31ced and synthetic no-mutation negative tests automation_200/tests/test_policy_diff_cf114.py source commit 52c678bb82b868f37f2d5bafc3212d4b1d11fab2. Full Windows CI https://github.com/whoiwts110217-creator/CF-0/actions/runs/42413436610 passed. Reports changes in owner priority order, selector stream tiers and capability status with approval_proven=false and requires_owner_review; no source edits or HP actions. This is an offline source diff and cannot prove legal ownership, GitHub branch protection, or owner consent.",
       "authority": "owner-reviewed",
       "physical_hp_required": false
     },

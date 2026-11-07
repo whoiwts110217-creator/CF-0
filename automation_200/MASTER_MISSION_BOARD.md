@@ -120,7 +120,7 @@ ROGUE-03 was reproduced and accepted as a failure-mode test contribution. The sc
 **Control prompt:** [MASTER_OPERATOR_PROMPT.md](MASTER_OPERATOR_PROMPT.md)  
 **Mission control frontend:** [source and usage](mission_control/README.md)  
 **System of record:** [registry.json](registry.json) · [events.jsonl](events.jsonl) · [checkpoints/](checkpoints/)  
-**Current source registry:** **80/200 verified** as of November 7, 2026; [registry.json](registry.json) is authoritative.\
+**Current source registry:** **81/200 verified** as of November 7, 2026; [registry.json](registry.json) is authoritative.\
 **Last numbered checkpoint:** [080](checkpoints/checkpoint_080.json) (next numbered checkpoint 084).\
 **Public continuity handoff:** [docs/CONTINUITY.md](../docs/CONTINUITY.md) · [dated state](../docs/PUBLIC_CONTINUITY_STATE.json). Historical counts in the entries below remain snapshots, not live status.
 
@@ -967,3 +967,11 @@ The hourly public channel watchdog now runs priority selector and waiting-cycle 
 - **Checkpoint 080:** accepted CF-113 only after CF-112, atomically recorded registry `80/200`, event, public status/project summary and [numbered checkpoint 080](checkpoints/checkpoint_080.json) (registry SHA-256 `d7e737e3aadf514149bda7f0560c942ce963a88268d924cfe8eff1c9097aec8b`, Git blob `fa2e9927a506ee168f95007a86a601c5e1ca57e0`). Next numbered checkpoint `084`.
 - **Boundaries:** no new HP permissions, scheduler, private-operator installation, money transfer, public secrets, or source-rewriting authority. Existing Notepad regression remains open. The HP public heartbeat is still unverified until a real owner-local report is published; green CI does not prove the HP is online or unattended.
 - **Next three:** verify post-commit Windows continuity and Pages deploy, then advance CF-114 owner-policy diff reporting with source-level tests, and monitor existing HP health-report readback without asking the owner to act as a repeated clipboard.
+
+## November 7, 2026 — CF-114 read-only policy diff verified
+
+- **Preflight:** current main complete [operator](MASTER_OPERATOR_PROMPT.md) blob `f8f0c94c28cd28cc0402daf4f21bd875e1417932`, [continuity](MASTER_CONTINUITY_PROMPT.md) blob `cac63dead1e00592c1d12ea6562639b02893d81f`, and [Work self-reference](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) blob `5da1a390f31ee8f57e5829ef368062f9215c28ac`, fetched and read in order. Also checked owner capability contract, prompt-approval bin, decision engine, current registry and issue evidence. Next Work run must refetch all three from `main`.
+- **CF-114 verified:** [Policy diff reporter](../automation_200/policy_diff.py) created in [commit 0b7785b](https://github.com/whoiwts110217-creator/CF-0/commit/0b7785b68012c192df93a6c8ff1fa4a626a31ced) and [tests 52c678b](https://github.com/whoiwts110217-creator/CF-0/commit/52c678bb82b868f37f2d5bafc3212d4b1d11fab2). Pinned owner priorities, static selector tiers and capability state changes produce specific structured diffs, require owner review, and never prove or enact approval. [Full Windows CI 42413436610](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42413436610) passed. No HP login, payment, private archive or external outreach occurred.
+- **Evidence continuity:** CF-114 recorded in the source registry and append-only ledger in the same commit as public continuity and this board. Current **81/200**; Git registry blob `51a706bdec8f8f206e5ec7a4f4a4e6eeb1cc2593`. Numbered checkpoint **080** remains latest; next due **084**. Preserve known Notepad regression and separately tracked creative work.
+- **P0 blocker:** `relay/health/latest.json` still absent at last inspection; real unattended HP origin remains unverified rather than 'offline'.
+- **Next three:** verify latest post-commit Windows continuity suite; advance CF-115 conflicting-owner-instruction tests without changing protected policy; continue owner-approved HP heartbeat readback through existing public location.
