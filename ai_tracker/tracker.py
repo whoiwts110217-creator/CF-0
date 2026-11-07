@@ -54,8 +54,8 @@ def append(path, event):
 def report(path):
     events = read_events(path)
     latest = {}
-    for event in events:
-        validate(event, [e for e in events if e is not event and events.index(e) < events.index(event)])
+    for index, event in enumerate(events):
+        validate(event, events[:index])
         latest[event["target"]] = EVENTS[event["event"]]
     return {"targets": len(latest), "states": {s: sum(v == s for v in latest.values()) for s in sorted(STATES)},
             "verified_agents": sum(v == "verified" for v in latest.values())}
