@@ -158,7 +158,7 @@ class Tests(unittest.TestCase):
             with tempfile.TemporaryDirectory() as td:
                 empty_path = pathlib.Path(td) / "empty-path"
                 empty_path.mkdir()
-                loopback = partial(r.HttpRepo, api=f"http://127.0.0.1:{server.server_port}")
+                loopback = partial(r.HttpRepo, api=f"http://127.0.0.1:{server.server_port}", test_loopback=True)
                 args = ["once", "--state-dir", td]
                 results = []
                 # Use the real CLI, HTTP transport and SQLite ledger. Only
