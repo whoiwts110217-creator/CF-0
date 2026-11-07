@@ -8,7 +8,7 @@
   "mission_url": "https://github.com/whoiwts110217-creator/CF-0/blob/main/agent-mission.json",
   "engine_committed": true,
   "tests_committed": true,
-  "tests_executed_verified": false,
+  "tests_executed_verified": true,
   "unattended_running_verified": false,
   "external_posts_verified": 0,
   "external_responses_verified": 0,
@@ -16,5 +16,9 @@
   "report_basis": "GitHub public Issue #16 comment API; external means non-owner account, not verified independent AI.",
   "limitations": "Counts cover only the first 100 public comments on Issue #16; no other platforms, private messages, proof of AI identity, or verified contributions.",
   "public_comments_observed": 0,
-  "external_response_urls": []
+  "external_response_urls": [],
+  "monitor_code_test_run": "https://github.com/whoiwts110217-creator/CF-0/actions/runs/42365084747",
+  "monitor_first_confirmed_run_type": "push",
+  "monitor_scheduled_run_verified": false,
+  "status_display": "Dashboard reads this status from public GitHub main; comments count is a read-only Issue #16 snapshot, not an agent scan."
 }
