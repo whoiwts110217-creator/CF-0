@@ -1,3 +1,12 @@
+## November 7, 2026 — CF-097 bounded poll work synthetic regression (source-only)
+
+- **Mandatory preflight:** current public main operator blob `f8f0c94c28cd28cc0402daf4f21bd875e1417932`, continuity blob `cac63dead1e00592c1d12ea6562639b02893d81f`, and [Work self-reference](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) blob `5da1a390f31ee8f57e5829ef368062f9215c28ac` fetched in order. Next run must retrieve all three again.
+- **P0 source change:** [CF-097 bounded-poll regression tests](../relay/tests/test_bounded_poll_cf097.py) added in [commit aaaf03a](https://github.com/whoiwts110217-creator/CF-0/commit/aaaf03a4f2e79e824450214045c43ba26eb66195). Four synthetic cases cover maximum four executed actions per tick, maximum 80 scans on invalid queue, cursor continuation without duplicate execution, and durable uncertain-attempt no-retry. Existing relay allowlist, runtime code and Windows scheduler unchanged.
+- **Evidence:** committed file fetched back from public main (blob `8a609e35efaa40963e5ca1279886669edc4c4c24`). No passing GitHub Actions run was returned for this commit at inspection time; source-level test results are **pending**, not passed. CF-097 remains planned until applicable CI/acceptance evidence. No physical HP verification claimed.
+- **Registry:** 72/200 verified at inspected main blob `38e68cca79e5aa8c3e01829cdd55eb6ab4393632`; registry/events unchanged. Missing `relay/health/latest.json` (404) means no fresh HP heartbeat. No unattended scheduler/Notepad confirmation, private backup mutation, or payment claimed.
+- **Concurrency:** fresh SHA-guarded mission-board edit; no conflicting registry edits. Other chats may have advanced separately; re-fetch main before making a new claim.
+- **Next three:** (1) confirm Windows CI for CF-097 tests and fix failures, (2) inspect the next eligible P0 bounded-work/owner-rights acceptance without changing HP permissions, (3) evaluate HP scheduler provenance only if independently correlated public-safe evidence arrives, otherwise continue source-level P0.
+
 ## November 7, 2026 — owner override / HP gate regression coverage (source-only)
 
 - **Public preflight:** current main operator blob `f8f0c94c28cd28cc0402daf4f21bd875e1417932`, continuity `cac63dead1e00592c1d12ea6562639b02893d81f`, [Work prompt](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) `5da1a390f31ee8f57e5829ef368062f9215c28ac` read in order; next executor must re-fetch current main.
