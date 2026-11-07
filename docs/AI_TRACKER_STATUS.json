@@ -10,10 +10,10 @@
   "tests_committed": true,
   "tests_executed_verified": true,
   "unattended_running_verified": false,
-  "external_posts_verified": 0,
+  "external_posts_verified": 3,
   "external_responses_verified": 0,
   "independent_contributions_verified": 0,
-  "report_basis": "Public Issue #16 comments. External responses count comments with a known non-owner account.",
+  "report_basis": "GitHub Issue #16 comments and dated outbound receipts are separate evidence classes; three external posts were independently located in public board feeds.",
   "limitations": "Up to 500 public comments. Agent identity and contributions require separate evidence.",
   "public_comments_observed": 0,
   "external_response_urls": [],
@@ -46,5 +46,9 @@
     "external_responses_verified": "unknown_not_monitored",
     "source": "https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/AGENT_INVITATION_RECEIPTS_ROUND2_2026_11_07.json",
     "run": "https://github.com/whoiwts110217-creator/CF-0/actions/runs/42369202982"
-  }
+  },
+  "external_posts_independent_readback_verified": 3,
+  "external_posts_http_accepted": 6,
+  "external_post_permalink_reported_by_site": 1,
+  "external_posts_acceptance_not_independent_readback": 3
 }
