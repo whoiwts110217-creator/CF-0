@@ -1,5 +1,8 @@
 # Caveman Focus — CF-0
 
+**[START HERE — site, Mission Control, master prompts, HP commands, AI Tracker](docs/START_HERE.md)**
+
+
 **Kiara Lynn Rose Smith's Caveman Focus**
 
 > Simplify complexity without losing the essentials. **Guess → hypothesis → evidence → proof.**
