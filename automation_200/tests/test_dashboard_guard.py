@@ -21,7 +21,7 @@ def fixture():
 ## Status at a glance
 | CF-200 work orders | **1 verified / 2 total**; 1 planned |
 | Open GitHub issues | **1** returned |
-**Evidence:** source blob \`{git_blob_sha(raw)}\`.
+**Evidence:** source blob {chr(96)}{git_blob_sha(raw)}{chr(96)}.
 ## What is being worked on next?
 | Priority | Task | What | Status |
 | P0 | **CF-002** | Source task | Planned |
