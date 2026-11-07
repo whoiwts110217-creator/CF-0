@@ -31,8 +31,10 @@ A CF-0 operator may make bounded, public-safe **clarity/efficiency** changes dur
 
 | ID | Change and reason | Outcome | Evidence |
 |---|---|---|---|
-| PCE-001 | Established this review bin and a machine-readable append-only change log for prompt efficiency. | **Applied under the owner's November 7 request**; no authority or payments changed. | [Log](PROMPT_CHANGE_LOG.jsonl) |
-| PCE-002 | Added a concise prompt-efficiency and approval-routing rule to the public master operator and Work prompts. | **Applied; tests/CI must be checked** before claiming a passing guard. | [Operator prompt](MASTER_OPERATOR_PROMPT.md) · [Work prompt](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) |
+| PCE-001 | Established this review bin and an append-only prompt-change log. | **Applied under the owner's November 7 request**; no authority or payments changed. | [Create commit](https://github.com/whoiwts110217-creator/CF-0/commit/884090251f2d6c3cb9437f400bfba6d38102dddc) |
+| PCE-002 | Added bounded efficiency edits and approval routing to the operating master. | **Applied; review guard/CI evidence separately.** | [Operator commit](https://github.com/whoiwts110217-creator/CF-0/commit/766e53b3e149c7acceb79509e16df94cdeaf7612) |
+| PCE-003 | Added approval-bin preflight and prompt-change logging to Work handoffs. | **Applied; no expanded tools or permissions.** | [Work commit](https://github.com/whoiwts110217-creator/CF-0/commit/c28db8482d23607cda2bc5cfd10b93228599ed9c) |
+| PCE-004 | Preserved original-prompt provenance and reversible change evidence in continuity master. | **Applied; existing project/owner history preserved.** | [Continuity commit](https://github.com/whoiwts110217-creator/CF-0/commit/59d415ad0da67960dda4a2e4dcea44eb5c0fd027) |
 
 ## 4. Next operator / Work handoff
 
