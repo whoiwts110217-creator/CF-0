@@ -56,8 +56,8 @@ def validate_proposal(
     if claim.task_id in verified_task_ids:
         raise ConflictError("already_verified")
     for other in active_claims:
-        if other.operator_id == claim.operator_id and other.task_id == claim.task_id:
-            continue
+        # Even the same operator cannot silently enlarge an existing claim.
+        # Duplicate claims must be reconciled against durable evidence.
         if other.expires_at <= now:
             continue
         if other.task_id == claim.task_id:
