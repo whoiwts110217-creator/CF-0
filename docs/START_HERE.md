@@ -1,5 +1,7 @@
 # Start Here — Caveman Focus
 
+**[Public tasks and issues](TASKS_AND_ISSUES.md) — clear priorities, current blockers, open GitHub issues, and approvals needed**
+
 **Creator/developer:** David Smith  
 **Designated owner / intended generational beneficiary:** Kiara Lynn Rose Smith (designation; legal transfer not independently attested)  
 **Method:** simplify complexity without losing essentials; **guess → hypothesis → evidence → proof**.
