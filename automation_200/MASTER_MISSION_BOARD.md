@@ -431,3 +431,13 @@ The hourly public channel watchdog now runs priority selector and waiting-cycle 
 - The [public ping receipt](../command_queue/receipts/aeccc8a2-217f-4786-aaaf-19b2fc9ff35a.json) matched its request digest. The [cloud watchdog](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42321515224) classified the fixed health report as unpublished, and a later direct check returned 404. The Windows scheduler-to-receipt correlation remains open. The prior private v3 audit covers the earlier registry snapshot. The original conversation exports and original project inventory are still missing. Inspected public records establish no verified income.
 
 **Next three eligible source tasks:** CF-072 response digest validation with legacy receipt coverage, CF-088 repository identity checks, and CF-183 verification of the Python transport without GitHub CLI.
+
+
+## Free public homepage and GitHub Pages — 2026-11-06
+
+- Preflight read public operating master v1.0 (blob `67ce4bf6`), continuity master v1.0 and Work self-reference v1.0 (blob `ee5aa071`) before site changes.
+- Public-safe responsive `index.html` homepage created: [d622820](https://github.com/whoiwts110217-creator/CF-0/commit/d6228206987e61433570cf91d77ccfe7f45b8a0f). Includes method, public projects, progress links, optional pre-existing publicly documented Cash App support destination, and honest funding caveats. No private source or new financial claim published.
+- Added GitHub Pages Actions deployment workflow with public homepage-only artifact: [6ec6d6d](https://github.com/whoiwts110217-creator/CF-0/commit/6ec6d6d4c950c7373f5a26fc41b76e6bbc66d9b5). Both files fetched back from `main`. [Initial Pages workflow](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42328667503) observed **queued**; live Pages deployment and Pages settings **not yet verified**. Expected URL (not confirmed): `https://whoiwts110217-creator.github.io/CF-0/`.
+- Registry/checkpoints/events untouched. HP relay allowlist, schedules and private continuity unchanged. Public site is not evidence of donations or physical HP autonomy.
+
+**Next three:** (1) inspect Pages workflow conclusion and confirm HTTP live homepage, fixing deployment blockers; (2) verify mobile navigation and accessibility against the published HTML; (3) improve public support/product conversion only with validated destinations and owner-reviewed claims.
