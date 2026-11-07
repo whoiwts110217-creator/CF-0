@@ -5,6 +5,7 @@ from __future__ import annotations
 
 import argparse
 import base64
+import binascii
 import json
 import os
 import re
@@ -170,7 +171,12 @@ def read_contents_json(url: str) -> object:
     body = data.get("content")
     if not isinstance(body, str):
         raise ValueError("invalid_content")
-    decoded = base64.b64decode("".join(body.split()), validate=True)
+    # GitHub contents are untrusted; malformed base64 must produce a bounded
+    # audit failure, not an uncaught traceback or a partial evidence report.
+    try:
+        decoded = base64.b64decode("".join(body.split()), validate=True)
+    except (binascii.Error, ValueError) as exc:
+        raise ValueError("invalid_base64_content") from exc
     if len(decoded) > 8192:
         raise ValueError("oversized_document")
     return json.loads(decoded)
