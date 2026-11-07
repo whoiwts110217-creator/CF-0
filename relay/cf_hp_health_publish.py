@@ -37,6 +37,11 @@ def sanitized(report):
         raise ValueError("inconsistent_health_counts")
     if report["last_receipt_status"] not in (None, "completed", "failed", "other"):
         raise ValueError("invalid_health_status")
+    count = report["receipt_count"]
+    last = report["last_receipt_status"]
+    if ((count is not None and count > 0 and last is None)
+            or (count == 0 and last is not None)):
+        raise ValueError("inconsistent_health_last_receipt")
     if report["error"] not in (None, "malformed_receipt", "state_unavailable"):
         raise ValueError("invalid_health_error")
     from datetime import datetime, timezone
