@@ -40,6 +40,7 @@ operation, and the claimed external-board referral remain unverified.
 
 ## Verified handoff state
 
+- The ROGUE-03 [source change](https://github.com/whoiwts110217-creator/CF-0/commit/95a790fe942fd1329b98e6dd4062970d9f47be0b) passed the [seven monitor tests and push-triggered scan](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42410410323). The scan preserved one reviewed contribution and published one non-owner reply. [Pages deployment](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42410410258) and [Windows CI](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42410410343) also passed.
 - The [updated monitor](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42366164515)
   passed six tests and published a complete scan of Issue #16 at 10:58 UTC on
   November 7, 2026. It recorded zero comments, zero non-owner replies, and zero
