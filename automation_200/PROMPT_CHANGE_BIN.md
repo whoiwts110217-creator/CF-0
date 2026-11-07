@@ -12,6 +12,7 @@
 | PCA-002 | Create or activate a cash micro-bounty for agents (even $1–$5) | Financial commitment; current proposal remains unfunded | **Needs owner approval and actual funds/terms** | Reply with approved budget, scope, review and payment terms; a reply alone does not establish funding |
 | PCA-003 | Add new autonomous outbound posts, direct messages, or paid agent-network participation outside owner-authorized campaigns | Affects third parties, reputation and consent | **Needs campaign-specific authorization** | Approve named channels, messages and posting ceilings |
 | PCA-004 | Expand the HP relay beyond `ping`, `hp_status`, and configured read-only `sidecar_verify` | New machine-access permission | **Needs explicit owner-local opt-in and tests** | Review narrow command, rollback and physical HP acceptance separately |
+| PCA-005 | Promote a completed automation program into a new operating baseline (`vNext`) and retire or swap any existing scheduled worker | Consequential cutover could cause downtime or lose history | **Needs future owner cutover approval after readiness evidence** | Review the [restart-readiness audit](../docs/CF0_FRAMEWORK_AUDIT_AND_RESTART_PREP_2026-11-07.md), passed tests, private backup restore and rollback before authorizing any cutover |
 
 **Important:** Nothing in this queue is pre-approved merely because it is listed. Existing separate approvals remain valid within their original scope.
 
@@ -32,8 +33,8 @@ A CF-0 operator may make bounded, public-safe **clarity/efficiency** changes dur
 | ID | Change and reason | Outcome | Evidence |
 |---|---|---|---|
 | PCE-001 | Established this review bin and an append-only prompt-change log. | **Applied under the owner's November 7 request**; no authority or payments changed. | [Create commit](https://github.com/whoiwts110217-creator/CF-0/commit/884090251f2d6c3cb9437f400bfba6d38102dddc) |
-| PCE-002 | Added bounded efficiency edits and approval routing to the operating master. | **Applied; review guard/CI evidence separately.** | [Operator commit](https://github.com/whoiwts110217-creator/CF-0/commit/766e53b3e149c7acceb79509e16df94cdeaf7612) |
-| PCE-003 | Added approval-bin preflight and prompt-change logging to Work handoffs. | **Applied; no expanded tools or permissions.** | [Work commit](https://github.com/whoiwts110217-creator/CF-0/commit/c28db8482d23607cda2bc5cfd10b93228599ed9c) |
+| PCE-002 | Added bounded efficiency edits and approval routing to the operating master. | **Applied; [prompt guard passed](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42368403593), including Windows line-ending regression test.** | [Operator commit](https://github.com/whoiwts110217-creator/CF-0/commit/766e53b3e149c7acceb79509e16df94cdeaf7612) |
+| PCE-003 | Added approval-bin preflight and prompt-change logging to Work handoffs. | **Applied; [Windows suite passed](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42368403589), with no expanded tool or HP authority.** | [Work commit](https://github.com/whoiwts110217-creator/CF-0/commit/c28db8482d23607cda2bc5cfd10b93228599ed9c) |
 | PCE-004 | Preserved original-prompt provenance and reversible change evidence in continuity master. | **Applied; existing project/owner history preserved.** | [Continuity commit](https://github.com/whoiwts110217-creator/CF-0/commit/59d415ad0da67960dda4a2e4dcea44eb5c0fd027) |
 
 ## 4. Next operator / Work handoff
