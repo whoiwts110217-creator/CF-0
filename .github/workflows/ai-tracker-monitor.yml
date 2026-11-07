@@ -1,5 +1,11 @@
 name: AI Tracker public response monitor
 on:
+  push:
+    branches: [main]
+    paths:
+      - 'ai_tracker/monitor_public_issue.py'
+      - 'ai_tracker/tests/test_monitor_public_issue.py'
+      - '.github/workflows/ai-tracker-monitor.yml'
   schedule:
     - cron: '17 */6 * * *'
   workflow_dispatch:
@@ -15,6 +21,8 @@ jobs:
       - uses: actions/checkout@v4
         with:
           persist-credentials: true
+      - name: Test AI Tracker monitor
+        run: python -m unittest discover -s ai_tracker/tests -p 'test_monitor_public_issue.py' -v
       - name: Check public agent responses
         run: python ai_tracker/monitor_public_issue.py
       - name: Commit changed public status only
