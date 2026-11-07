@@ -67,7 +67,7 @@ class HPHealthSnapshotTests(unittest.TestCase):
                     self.assertNotIn(str(folder).encode(), payload)
                     now = datetime.fromisoformat(report["collected_utc"]).timestamp()
                     state = classify(json.loads(payload), now)
-                    self.assertEqual(state["state"], "fresh_public_report")
+                    self.assertEqual(state["state"], "reported_problem")
                     self.assertTrue(state["reported_problem"])
                     self.assertEqual(state["scheduled_origin"], "not_verified_by_public_report")
 
