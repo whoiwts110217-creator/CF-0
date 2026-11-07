@@ -317,6 +317,7 @@ function chooseLanguage(value) {
 }
 
 const sourceNodes = [];
+if (typeof document !== "undefined") {
 const walker = document.createTreeWalker(document.body, NodeFilter.SHOW_TEXT);
 let node;
 while ((node = walker.nextNode())) {
@@ -333,3 +334,4 @@ const queryLanguage = new URLSearchParams(location.search).get("lang");
 let saved = "en";
 try { saved = localStorage.getItem("cf0-home-language") || "en"; } catch { /* private mode */ }
 chooseLanguage(queryLanguage ?? saved);
+}
