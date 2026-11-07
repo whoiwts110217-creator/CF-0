@@ -4,6 +4,7 @@ on:
     branches: [main]
     paths:
       - 'index.html'
+      - 'automation_200/mission_control/dist/**'
       - '.github/workflows/publish-website.yml'
   workflow_dispatch:
 permissions:
@@ -30,6 +31,8 @@ jobs:
         run: |
           mkdir -p _site
           cp index.html _site/index.html
+          mkdir -p _site/mission-control
+          cp -R automation_200/mission_control/dist/. _site/mission-control/
           printf '%s\n' 'User-agent: *' 'Allow: /' > _site/robots.txt
       - name: Upload static site
         uses: actions/upload-pages-artifact@v3
