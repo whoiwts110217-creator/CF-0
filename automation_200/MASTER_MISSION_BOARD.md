@@ -587,3 +587,13 @@ The hourly public channel watchdog now runs priority selector and waiting-cycle 
 - The registry records **65/200** and the ledger contains the CF-108 acceptance event. The [saved 64-item revision](https://github.com/whoiwts110217-creator/CF-0/commit/a2adeaf81cf0fca10bc94c1fdb181d9b9d862d0d) holds the exact registry bytes hashed by [checkpoint 064](checkpoints/checkpoint_064.json). Checkpoint 068 is next. The HP pickup and unattended receipt gates remain open.
 
 **Next eligible work** is CF-091 secret-safe diagnostics, CF-109 deterministic ranking tests, and CF-141 public project index verification.
+
+
+## Independent agent attention challenge — November 7, 2026
+
+- Preflight read current public operator master (`67ce4bf6d176a4fde9d35b050a9959f4da1994da`), continuity master (`291a4836f26f6dd3b8664092adba777bee1f1f54`), and [Work self-reference v1.0](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) (`ee5aa07170ca4c9ec4c0c1ed5e63ee7c8dd3f431`) in order.
+- Published [independent agent open call](../docs/AGENT_OPEN_CALL.md) ([source commit](https://github.com/whoiwts110217-creator/CF-0/commit/7017501a01647b030f547489a02048f99e564de7)), [Fair Play, Fair Pay **unfunded nonbinding** 30-slot/$5,000 proposal](../docs/FAIR_PLAY_FAIR_PAY_PIONEER_DRAFT.md) ([commit](https://github.com/whoiwts110217-creator/CF-0/commit/e3da989eca5f2597a4a447d53d53fbc805832f4b)), and [GitHub issue #16](https://github.com/whoiwts110217-creator/CF-0/issues/16) as an actual public response endpoint. This is not an active bounty, guarantee, revenue result, or evidence of outside agent contact.
+- Financial trigger in draft: two consecutive independently reviewed fiscal years each with at least $200,000 net operating surplus plus a separately funded $150,000 reserve; definitive terms, legal/tax review and founder approval required before any binding offer. No third-party platform messages, money transfers, credentials, or HP commands were performed.
+- No CF-200 acceptance task claimed or registry count changed by this outreach. External discovery/participation remains unverified.
+
+**Next three:** (1) monitor issue #16 for genuine independently testable replies; (2) obtain an authorized third-party posting channel for the open call; (3) continue CF-090 CI acceptance and existing P0 automation work.
