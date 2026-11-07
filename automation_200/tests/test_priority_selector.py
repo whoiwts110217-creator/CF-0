@@ -19,6 +19,42 @@ class OwnerPriorityTests(unittest.TestCase):
         self.assertTrue(all(REGISTRY["tasks"][next(i for i, t in enumerate(REGISTRY["tasks"]) if t["id"] == r["id"])]["status"] == "planned" for r in first))
         self.assertTrue(all(not r["physical_hp_required"] for r in first))
 
+    def test_cf109_reproducible_regardless_of_source_task_order(self):
+        # A source-only selector must be reproducible even when another
+        # collector changes the JSON array order but not the work order facts.
+        from copy import deepcopy
+        first = select_tasks(REGISTRY, limit=12)
+        reordered = deepcopy(REGISTRY)
+        reordered["tasks"] = list(reversed(reordered["tasks"]))
+        second = select_tasks(reordered, limit=12)
+        self.assertEqual(first, second)
+        self.assertEqual(REGISTRY["completed"], sum(
+            t["status"] == "verified" for t in REGISTRY["tasks"]
+        ))
+        self.assertTrue(all(not x["physical_hp_required"] for x in first))
+
+    def test_cf109_founder_preference_and_blockers_are_stable(self):
+        sample = {"tasks": [
+            task("P0A", "security", priority=4),
+            task("P0B", "receipt", priority=1, hp=True),
+            task("F", "public_finance"),
+            task("P1", "priority_logic"),
+            task("B", "priority_logic", depends_on=("Z",)),
+            task("Z", "receipt", status="planned", hp=True),
+        ]}
+        baseline = json.dumps(sample, sort_keys=True)
+        prefs = ["B", "P0B", "F"]
+        expected = ["F", "P0A", "P1"]
+        for ordered in (sample["tasks"], list(reversed(sample["tasks"]))):
+            actual = select_tasks(
+                {"tasks": ordered}, limit=5,
+                blocked_ids=["P0B"], owner_preference_ids=prefs
+            )
+            self.assertEqual([x["id"] for x in actual], expected)
+            self.assertEqual(actual[0]["why"], "owner_override")
+            self.assertEqual(actual[1]["priority_tier"], 0)
+        self.assertEqual(json.dumps(sample, sort_keys=True), baseline)
+
     def test_priority_tiers(self):
         sample = {"tasks":[task("F", "public_finance"), task("R","research"),
                            task("A","archive"), task("P","priority_logic"),
