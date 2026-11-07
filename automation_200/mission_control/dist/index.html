@@ -1,0 +1,154 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <meta name="theme-color" content="#111620">
+  <meta name="description" content="Caveman Focus mission control for CF-200 work orders, public relay evidence, and operating instructions.">
+  <title>CF-0 Mission Control</title>
+  <link rel="icon" href="./mark.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./style.css">
+  <script type="module" src="./app.mjs"></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to mission control</a>
+  <header class="topbar">
+    <div class="shell topbar-inner">
+      <a class="brand" href="#overview">
+        <img src="./mark.svg" alt="" width="36" height="36">
+        <span>Caveman Focus<small>CF-0 WORKSPACE</small></span>
+      </a>
+      <nav aria-label="Main navigation">
+        <a href="#overview">Overview</a>
+        <a href="#work-orders">Work orders</a>
+        <a href="#sources">Sources</a>
+      </nav>
+      <a class="repo-link" href="https://github.com/whoiwts110217-creator/CF-0">GitHub <span class="external-icon" aria-hidden="true"></span></a>
+    </div>
+  </header>
+
+  <main class="shell" id="main">
+    <section id="overview" aria-labelledby="page-title">
+      <div class="intro">
+        <div>
+          <p class="eyebrow"><span class="square" aria-hidden="true"></span> OPERATIONS / CF-0</p>
+          <h1 id="page-title">Mission control</h1>
+          <p class="subtitle">Track CF-200 work orders and the evidence behind each update.</p>
+        </div>
+        <a class="button primary" href="https://github.com/whoiwts110217-creator/CF-0/blob/main/automation_200/MASTER_MISSION_BOARD.md">Open mission board <span class="external-icon" aria-hidden="true"></span></a>
+      </div>
+
+      <div class="source-bar">
+        <div class="source-info">
+          <span id="source-badge" class="badge" data-tone="muted">Loading</span>
+          <a id="source-commit" href="https://github.com/whoiwts110217-creator/CF-0/commits/main/">main</a>
+          <span id="source-status" role="status">Reading public GitHub evidence.</span>
+        </div>
+        <button type="button" id="refresh" class="refresh" disabled>
+          <svg aria-hidden="true" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7v5h-5M4 17v-5h5"/><path d="M6.4 7a7 7 0 0 1 11.3-.2L20 12M4 12l2.3 5.2a7 7 0 0 0 11.3-.2"/></svg>
+          Refresh
+        </button>
+      </div>
+
+      <div class="summary-grid">
+        <article class="card progress-card" aria-labelledby="progress-title">
+          <p class="eyebrow">01 / DELIVERY</p>
+          <h2 id="progress-title">CF-200 progress</h2>
+          <div class="count-row">
+            <p class="count"><span id="verified">—</span><span class="total"> / <span id="target">200</span></span></p>
+            <span id="percent" class="badge" data-tone="mint">— verified</span>
+          </div>
+          <progress id="progress" value="0" max="200" aria-label="Verified work orders"></progress>
+          <div class="scale" aria-hidden="true"><span>0</span><span>50</span><span>100</span><span>150</span><span>200</span></div>
+          <div class="card-foot">
+            <span id="planned">— planned</span>
+            <span id="checkpoint">Checkpoint pending source</span>
+          </div>
+        </article>
+
+        <article class="card evidence-card" aria-labelledby="evidence-title">
+          <p class="eyebrow">02 / RELAY</p>
+          <h2 id="evidence-title">HP evidence</h2>
+          <dl class="evidence">
+            <div>
+              <dt>Public ping <a id="ping-link" class="tiny-link" href="https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/PROJECT_STATUS.md">Source <span class="external-icon" aria-hidden="true"></span></a></dt>
+              <dd><span id="ping-badge" class="badge" data-tone="muted">Checking</span></dd>
+            </div>
+            <div>
+              <dt>Health report</dt>
+              <dd><span id="health-badge" class="badge" data-tone="muted">Checking</span></dd>
+            </div>
+            <div>
+              <dt>Windows Scheduler correlation</dt>
+              <dd><span class="badge" data-tone="amber">Unverified</span></dd>
+            </div>
+          </dl>
+          <p class="evidence-note">Scheduler verification requires a matching Windows task run and wrapper outcome.</p>
+        </article>
+      </div>
+    </section>
+
+    <div class="detail-grid">
+      <section id="work-orders" class="card work-card" aria-labelledby="work-title">
+        <div class="section-heading">
+          <div><p class="eyebrow">03 / REGISTRY</p><h2 id="work-title">Work orders</h2></div>
+          <a id="registry-link" class="tiny-link" href="https://github.com/whoiwts110217-creator/CF-0/blob/main/automation_200/registry.json">GitHub registry <span class="external-icon" aria-hidden="true"></span></a>
+        </div>
+        <div class="filters">
+          <label class="search">
+            <svg aria-hidden="true" width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6"/><path d="m15 15 4.5 4.5"/></svg>
+            <span class="sr-only">Search work orders</span>
+            <input id="search" type="search" placeholder="Search ID, title, or stream" disabled>
+          </label>
+          <label>
+            <span class="sr-only">Work order status</span>
+            <select id="filter" disabled>
+              <option value="all">All statuses</option>
+              <option value="verified">Verified</option>
+              <option value="planned">Planned</option>
+            </select>
+          </label>
+        </div>
+        <table>
+          <caption class="sr-only">CF-200 work orders. Open a title to read its dependencies and evidence.</caption>
+          <thead><tr><th scope="col">ID</th><th scope="col">Work order</th><th scope="col">Status</th></tr></thead>
+          <tbody id="tasks"><tr><td class="empty" colspan="3">Waiting for registry data.</td></tr></tbody>
+        </table>
+        <div class="pagination">
+          <span id="results" role="status">—</span>
+          <div>
+            <button type="button" id="previous" disabled aria-label="Previous page">Prev</button>
+            <button type="button" id="next" disabled aria-label="Next page">Next</button>
+          </div>
+        </div>
+      </section>
+
+      <aside id="sources" class="card source-card" aria-labelledby="sources-title">
+        <p class="eyebrow">04 / OPERATOR</p>
+        <h2 id="sources-title">Run instructions</h2>
+        <p class="aside-text">The hourly executor is configured to read these public files from <code>main</code> in this order.</p>
+        <ol class="source-list">
+          <li><a href="https://github.com/whoiwts110217-creator/CF-0/blob/main/automation_200/MASTER_OPERATOR_PROMPT.md"><span><strong>Master operator</strong><small>Authority and operating cycle</small></span><span class="external-icon" aria-hidden="true"></span></a></li>
+          <li><a href="https://github.com/whoiwts110217-creator/CF-0/blob/main/automation_200/MASTER_CONTINUITY_PROMPT.md"><span><strong>Master continuity</strong><small>Evidence and archive rules</small></span><span class="external-icon" aria-hidden="true"></span></a></li>
+          <li><a href="https://github.com/whoiwts110217-creator/CF-0/blob/main/automation_200/WORK_COPY_PASTE_AUTOMATION_PROMPT.md"><span><strong>Work execution</strong><small>Current handoff and acceptance</small></span><span class="external-icon" aria-hidden="true"></span></a></li>
+        </ol>
+        <div class="priorities">
+          <h3>Owner’s priority order</h3>
+          <ul>
+            <li><code>P0</code> Automation</li>
+            <li><code>P1</code> Priority decisions</li>
+            <li><code>P2</code> Legitimate income</li>
+            <li><code>P3</code> Other projects in parallel</li>
+          </ul>
+        </div>
+      </aside>
+    </div>
+    <noscript><p>Enable JavaScript to read GitHub status and browse work orders here. The source links remain available.</p></noscript>
+    <footer>
+      <span>Kiara Lynn Rose Smith’s Caveman Focus</span>
+      <span>Read-only view of public CF-0 evidence</span>
+    </footer>
+  </main>
+</body>
+</html>

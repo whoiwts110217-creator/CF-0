@@ -1,6 +1,7 @@
 # CAVEMAN FOCUS — MASTER MISSION BOARD
 **Owner:** Kiara Lynn Rose Smith's Caveman Focus  
 **Control prompt:** [MASTER_OPERATOR_PROMPT.md](MASTER_OPERATOR_PROMPT.md)  
+**Mission control frontend:** [source and usage](mission_control/README.md)  
 **System of record:** [registry.json](registry.json) · [events.jsonl](events.jsonl) · [checkpoints/](checkpoints/)  
 **Current source registry:** **55/200 verified** as of November 6, 2026; [registry.json](registry.json) is authoritative.  
 **Last numbered checkpoint:** [052](checkpoints/checkpoint_052.json) (next numbered checkpoint 056, not yet due).  
@@ -419,3 +420,14 @@ The hourly public channel watchdog now runs priority selector and waiting-cycle 
 - The existing Work executor was previously updated to read the third prompt automatically; this run actually fetched that prompt from public main, demonstrating this session's retrieval, **not** physical HP unattended operation. Public health report and scheduler/receipt correlation remain unverified. The private v3 snapshot was reported by the preceding board entry; no new private archive import or audit was performed in this run.
 
 **Next three executable tasks:** (1) confirm the Windows regression workflow for `def2778` and repair any failures; (2) implement CF-072 response SHA-256 validation with compatible legacy-receipt behavior and synthetic replay tests; (3) recheck sanitized HP health publication and correlate independent Windows scheduler evidence before any unattended HP claim.
+
+
+## CF-0 Mission Control — November 6, 2026 ET
+
+- Deployed the owner-only Mission Control site. The [public frontend source](mission_control/README.md) reads the registry, dated continuity state, fixed health path and documented ping pair at a single GitHub commit. The bundled fallback comes from [f624739](https://github.com/whoiwts110217-creator/CF-0/commit/f62473923f5bf556ecffa98fb255c295b4dbfa8a). The dashboard labels the evidence source and separates public receipt matching from Windows Scheduler correlation.
+- All five [dashboard model tests](mission_control/tests/model.test.mjs) passed. Browser preview verified GitHub refresh, desktop and 390-pixel layout, search, status filters, pagination and CI evidence links. Production deployment succeeded and the signed-out browser reached the owner sign-in screen.
+- Current public registry records **55/200** verified, including CF-071, with checkpoint **052**. [Windows CI for the 55-order sync](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42325122317) passed. [Windows CI for the separate Work prompt regression](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42325320788) also passed.
+- This session read [operator v1.0](MASTER_OPERATOR_PROMPT.md), [continuity v1.0](MASTER_CONTINUITY_PROMPT.md), then [Work v1.0](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) at [main 22b850a](https://github.com/whoiwts110217-creator/CF-0/commit/22b850ad9990d706c899647099ea370f24bec36e). The respective blobs were 67ce4bf6d176a4fde9d35b050a9959f4da1994da, 291a4836f26f6dd3b8664092adba777bee1f1f54 and ee5aa07170ca4c9ec4c0c1ed5e63ee7c8dd3f431. The existing hourly executor's latest saved report also records this three-file retrieval. Each next Work run retrieves all three anew from public main in that order.
+- The [public ping receipt](../command_queue/receipts/aeccc8a2-217f-4786-aaaf-19b2fc9ff35a.json) matched its request digest. The [cloud watchdog](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42321515224) classified the fixed health report as unpublished, and a later direct check returned 404. The Windows scheduler-to-receipt correlation remains open. The prior private v3 audit covers the earlier registry snapshot. The original conversation exports and original project inventory are still missing. Inspected public records establish no verified income.
+
+**Next three eligible source tasks:** CF-072 response digest validation with legacy receipt coverage, CF-088 repository identity checks, and CF-183 verification of the Python transport without GitHub CLI.
