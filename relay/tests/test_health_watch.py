@@ -119,6 +119,14 @@ class HealthWatchTests(unittest.TestCase):
         self.assertNotIn("local_path", result)
         self.assertNotIn("C:/Users", json.dumps(result))
 
+    def test_ping_count_cannot_exceed_total_receipts(self):
+        invalid = sample(receipt_count=2, ping_receipt_count=3)
+        result = watch(now=NOW, getter=lambda _: encoded(invalid))
+        self.assertEqual(result["state"], "invalid")
+        self.assertEqual(result["reason"], "inconsistent_counts")
+        self.assertEqual(result["scheduled_origin"], "not_verified_by_public_report")
+        self.assertNotIn("reported_receipt_count", result)
+
     def test_invalid_timestamps_and_types(self):
         for patch in (
             {"collected_utc": "not-a-time"},
