@@ -44,8 +44,17 @@ def _decode_blob(
         return None, "invalid_or_oversize_bytes"
     if not isinstance(record.blob_sha, str) or git_blob_sha(record.content) != record.blob_sha:
         return None, "blob_mismatch"
+    def unique_pairs(pairs):
+        value = {}
+        for key, item in pairs:
+            if key in value:
+                raise ValueError("duplicate_json_key")
+            value[key] = item
+        return value
+
     try:
-        obj = json.loads(record.content.decode("utf-8"))
+        obj = json.loads(record.content.decode("utf-8"), object_pairs_hook=unique_pairs,
+                         parse_constant=lambda _: (_ for _ in ()).throw(ValueError("nonfinite")))
     except (UnicodeDecodeError, ValueError):
         return None, "invalid_json"
     if not isinstance(obj, dict):
