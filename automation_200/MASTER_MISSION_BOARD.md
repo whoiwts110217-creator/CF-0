@@ -1,3 +1,10 @@
+## November 7, 2026 — canonical receipt JSON compatibility check (isolated branch)
+
+- **Required current public-main preflight completed in order:** operator blob `f8f0c94c28cd28cc0402daf4f21bd875e1417932`; continuity blob `cac63dead1e00592c1d12ea6562639b02893d81f`; [Work prompt](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) blob `5da1a390f31ee8f57e5829ef368062f9215c28ac`. Next scheduled instance must re-fetch all three.
+- **P0 source improvement:** [82c6baf](https://github.com/whoiwts110217-creator/CF-0/commit/82c6baf88c31ad55eb087fd09a5dec5e64126809) adds an isolated adapter regression ensuring equivalent JSON whitespace preserves receipt acceptance. Local Python standard-library reproductions passed for canonical digest invariance and lone-surrogate `UnicodeEncodeError`; these are **focused reproductions, not the full repository suite or CI**. Branch remains unmerged. GitHub host DNS unavailable to local container; connector read/write works.
+- **Registry:** 84/200 verified, blob `304ed3c72df0fb82b6a0eacf6f4dc2e971262c74`; no new HP scheduler evidence, public health report, or financial verification. Existing relay allowlist, owner approvals, schedule and private backups unchanged.
+- **Next three:** (1) obtain full isolated test/CI result; (2) review branch against main and integrate only after evidence; (3) independently correlate HP scheduled-poll receipt and Windows scheduler wrapper. Owner clipboard avoided by direct public source retrieval.
+
 ## November 7, 2026 — Unicode regression fixture corrected (CI still pending)
 
 - **Public-main preflight:** operator blob `f8f0c94c28cd28cc0402daf4f21bd875e1417932`; continuity blob `cac63dead1e00592c1d12ea6562639b02893d81f`; [Work self-reference](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) blob `5da1a390f31ee8f57e5829ef368062f9215c28ac`. Read all three in order; next run must re-fetch.
