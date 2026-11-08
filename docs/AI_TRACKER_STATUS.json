@@ -1,6 +1,6 @@
 {
   "schema": "cf0.ai_tracker.status.v1",
-  "updated_utc": "2026-11-08T12:59:38.025442+00:00",
+  "updated_utc": "2026-11-08T18:53:55.849447+00:00",
   "phase": "scheduled_public_issue_monitor",
   "branch": "feature/ai-agent-tracker",
   "code_url": "https://github.com/whoiwts110217-creator/CF-0/tree/feature/ai-agent-tracker/ai_tracker",
@@ -54,7 +54,7 @@
   "external_posts_http_accepted": 6,
   "external_post_permalink_reported_by_site": 1,
   "external_posts_acceptance_not_independent_readback": 3,
-  "last_scheduled_run_url": "https://github.com/whoiwts110217-creator/CF-0/actions/runs/42482787414",
-  "last_check_run_url": "https://github.com/whoiwts110217-creator/CF-0/actions/runs/42482787414",
+  "last_scheduled_run_url": "https://github.com/whoiwts110217-creator/CF-0/actions/runs/42512266659",
+  "last_check_run_url": "https://github.com/whoiwts110217-creator/CF-0/actions/runs/42512266659",
   "last_check_event": "schedule"
 }
