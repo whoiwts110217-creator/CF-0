@@ -1,3 +1,11 @@
+## November 7, 2026, 9:25 p.m. Eastern — CF-118 public task identity corrected
+
+- **Mandatory public-main preflight read in order:** `MASTER_OPERATOR_PROMPT.md` blob `f8f0c94c28cd28cc0402daf4f21bd875e1417932`, `MASTER_CONTINUITY_PROMPT.md` blob `cac63dead1e00592c1d12ea6562639b02893d81f`, [Work self-reference](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) blob `5da1a390f31ee8f57e5829ef368062f9215c28ac`.
+- **P1 source accuracy patch:** [26860365](https://github.com/whoiwts110217-creator/CF-0/commit/26860365e56180b7e39ef18b8f23502bd941541c) corrects the public [Tasks & Issues](../docs/TASKS_AND_ISSUES.md) CF-118 description to its exact registry task `Add failure retries with ceiling` instead of an unrelated explanation feature. Source `registry.json` blob `304ed3c72df0fb82b6a0eacf6f4dc2e971262c74` confirms CF-118 planned and CF-117 verified; `decision_engine.py` already contains a retry limit and cooldown, but CF-118 acceptance is **not** proven by existing code alone. Dashboard readback verified corrected text.
+- **Live public issues:** search returned #1, #3 and #16 open; branch compare 52 ahead / 169 behind before dashboard write. Draft PR #17 remains review-only; no passing CI evidenced.
+- **Verified registry:** **84/200**, unchanged. No new HP scheduler evidence, permission changes, financial actions or private source publication.
+- **Next three:** (1) inspect CF-118 acceptance and retry tests before any task completion claim, (2) obtain PR #17 branch-tip CI, (3) correlate HP scheduled poll with independent local scheduler evidence. No owner copy/paste required for public GitHub read/write.
+
 ## November 7, 2026 — PR #17 explicit integration evidence gate
 
 - **Required main preflight:** operator `f8f0c94c28cd28cc0402daf4f21bd875e1417932`; continuity `cac63dead1e00592c1d12ea6562639b02893d81f`; Work `5da1a390f31ee8f57e5829ef368062f9215c28ac`, read in that order.
