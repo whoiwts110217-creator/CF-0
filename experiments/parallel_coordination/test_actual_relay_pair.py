@@ -201,7 +201,7 @@ class ActualRelayReceiptTests(unittest.TestCase):
                 self.assertIn("receipt_invalid_json", result.blockers)
 
     def test_invalid_utf8_receipt_rejected(self):
-        raw = relay.dump(receipt()) + b"\\xff"
+        raw = relay.dump(receipt()) + bytes([255])
         result = inspect_actual_relay_pair(
             job_id=JOB_ID, request=blob(REQ_PATH, job()),
             receipt=blob(REC_PATH, raw))
