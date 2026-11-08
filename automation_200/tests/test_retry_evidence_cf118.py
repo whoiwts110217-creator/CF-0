@@ -1,5 +1,6 @@
 """Offline CF-118 journal tests; no HP or network access."""
 import json
+from unittest.mock import patch
 import tempfile
 import unittest
 from pathlib import Path
@@ -38,6 +39,23 @@ class RetryEvidenceTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 append_failure(path, ids, "CF-118", 999)
             self.assertEqual(read_events(path, ids)[1]["CF-118"]["failures"], 1)
+
+    def test_replace_failure_preserves_prior_journal(self):
+        # Simulated interruption at the atomic replacement boundary.
+        # The existing journal must survive and temporary files be removed.
+        with tempfile.TemporaryDirectory() as root:
+            path = Path(root) / "attempts.jsonl"
+            ids = {"CF-118"}
+            append_failure(path, ids, "CF-118", 1000)
+            before = path.read_bytes()
+            with patch("automation_200.retry_evidence.os.replace", side_effect=OSError("simulated interruption")):
+                with self.assertRaisesRegex(OSError, "simulated interruption"):
+                    append_failure(path, ids, "CF-118", 1001)
+            self.assertEqual(path.read_bytes(), before)
+            self.assertEqual(read_events(path, ids)[1]["CF-118"]["failures"], 1)
+            self.assertEqual(list(Path(root).glob(".retry-journal-*")), [])
+            append_failure(path, ids, "CF-118", 1002)
+            self.assertEqual(read_events(path, ids)[1]["CF-118"]["failures"], 2)
 
     def test_reject_truncated_or_unknown_records(self):
         with tempfile.TemporaryDirectory() as root:
