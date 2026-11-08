@@ -34,8 +34,14 @@ def _read_snapshot(path):
 
 
 def _parse_events(data, allowed_ids):
+    # An interrupted write can leave a valid JSON object without its line
+    # terminator. Never accept that ambiguous tail as completed evidence.
+    if data and not data.endswith(b"\n"):
+        raise ValueError("retry journal missing final newline")
     events, attempts, previous = [], {}, GENESIS
     for line in data.decode("utf-8").splitlines():
+        if not line.strip():
+            raise ValueError("retry journal contains an empty record")
         try:
             event = json.loads(line)
         except (ValueError, TypeError) as exc:
