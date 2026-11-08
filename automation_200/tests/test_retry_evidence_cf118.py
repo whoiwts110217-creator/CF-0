@@ -102,6 +102,24 @@ class RetryEvidenceTests(unittest.TestCase):
             append_failure(path, allowed, "CF-118", 1001)
             self.assertEqual(read_events(path, allowed)[1]["CF-118"]["failures"], 2)
 
+    def test_reject_unterminated_or_blank_line_without_mutation(self):
+        with tempfile.TemporaryDirectory() as root:
+            path = Path(root) / "attempts.jsonl"
+            allowed = {"CF-118"}
+            append_failure(path, allowed, "CF-118", 1000)
+            valid = path.read_bytes()
+            newline = bytes([10])
+            for corrupted in (valid.rstrip(newline), valid + newline, newline + valid):
+                path.write_bytes(corrupted)
+                with self.assertRaises(ValueError):
+                    read_events(path, allowed)
+                with self.assertRaises(ValueError):
+                    append_failure(path, allowed, "CF-118", 1001)
+                self.assertEqual(path.read_bytes(), corrupted)
+            path.write_bytes(valid)
+            append_failure(path, allowed, "CF-118", 1001)
+            self.assertEqual(read_events(path, allowed)[1]["CF-118"]["failures"], 2)
+
     def test_reject_valid_hash_with_missing_first_failure(self):
         # A correctly hashed record cannot invent a prior local failure.
         with tempfile.TemporaryDirectory() as root:
