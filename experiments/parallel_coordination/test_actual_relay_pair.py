@@ -183,5 +183,30 @@ class ActualRelayReceiptTests(unittest.TestCase):
         self.assertIn("receipt_invalid_json", result.blockers)
 
 
+    def test_duplicate_nested_request_args_key_rejected(self):
+        raw = relay.dump(job()).replace(b'"args":{}', b'"args":{"x":1,"x":2}')
+        result = inspect_actual_relay_pair(
+            job_id=JOB_ID, request=blob(REQ_PATH, raw),
+            receipt=blob(REC_PATH, receipt()))
+        self.assertIn("request_invalid_json", result.blockers)
+
+    def test_infinity_json_constant_rejected(self):
+        for constant in (b"Infinity", b"-Infinity"):
+            with self.subTest(constant=constant):
+                raw = relay.dump(receipt()).replace(b'"protocol":1',
+                                                    b'"protocol":' + constant)
+                result = inspect_actual_relay_pair(
+                    job_id=JOB_ID, request=blob(REQ_PATH, job()),
+                    receipt=blob(REC_PATH, raw))
+                self.assertIn("receipt_invalid_json", result.blockers)
+
+    def test_invalid_utf8_receipt_rejected(self):
+        raw = relay.dump(receipt()) + b"\\xff"
+        result = inspect_actual_relay_pair(
+            job_id=JOB_ID, request=blob(REQ_PATH, job()),
+            receipt=blob(REC_PATH, raw))
+        self.assertIn("receipt_invalid_json", result.blockers)
+
+
 if __name__ == "__main__":
     unittest.main()
