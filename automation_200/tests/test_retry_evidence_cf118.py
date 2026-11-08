@@ -85,6 +85,22 @@ class RetryEvidenceTests(unittest.TestCase):
             self.assertEqual(attempts["CF-118"]["failures"], 6)
             self.assertEqual([event["failures"] for event in events], list(range(1, 7)))
 
+    def test_corrupted_snapshot_never_overwritten(self):
+        # Fail closed: a malformed existing journal must survive an append attempt.
+        with tempfile.TemporaryDirectory() as root:
+            path = Path(root) / "attempts.jsonl"
+            allowed = {"CF-118"}
+            append_failure(path, allowed, "CF-118", 1000)
+            valid = path.read_bytes()
+            for corrupted in (valid[:-8], b"\\xff\\xfe\\x00", b'{"task":"CF-118"}\\n'):
+                path.write_bytes(corrupted)
+                with self.assertRaises((ValueError, UnicodeError)):
+                    append_failure(path, allowed, "CF-118", 1001)
+                self.assertEqual(path.read_bytes(), corrupted)
+            path.write_bytes(valid)
+            append_failure(path, allowed, "CF-118", 1001)
+            self.assertEqual(read_events(path, allowed)[1]["CF-118"]["failures"], 2)
+
     def test_reject_truncated_or_unknown_records(self):
         with tempfile.TemporaryDirectory() as root:
             path = Path(root) / "attempts.jsonl"
