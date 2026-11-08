@@ -1,0 +1,26 @@
+name: Dreamkiller v0.2 Browser Compatibility
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'concepts/dreamkiller/rom_v0_2/**'
+      - 'concepts/dreamkiller/iphone-emu/tests/browser_v02_smoke.mjs'
+      - '.github/workflows/dreamkiller-v02-browser.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  browser-cartridge:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build v0.2 from exact public source
+        run: |
+          python3 concepts/dreamkiller/rom_v0_2/build_v02.py
+          cp concepts/dreamkiller/rom_v0_2/dreamkiller_road_v0_2.gb concepts/dreamkiller/iphone-emu/site/road-v02.gb
+          sha256sum concepts/dreamkiller/iphone-emu/site/road-v02.gb
+      - name: Test real ROM in Gambatte-derived headless Chromium
+        run: |
+          node --check concepts/dreamkiller/iphone-emu/tests/browser_v02_smoke.mjs
+          node concepts/dreamkiller/iphone-emu/tests/browser_v02_smoke.mjs
