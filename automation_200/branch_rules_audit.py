@@ -21,8 +21,8 @@ def classify(ruleset):
     refs = conditions.get("ref_name") if isinstance(conditions, dict) else None
     includes = refs.get("include") if isinstance(refs, dict) else None
     rules = ruleset.get("rules")
-    types = {rule.get("type") for rule in rules if isinstance(rule, dict)} if isinstance(rules, list) else set()
-    targets_main = isinstance(includes, list) and ("~DEFAULT_BRANCH" in includes or "refs/heads/main" in includes)
+    types = {rule["type"] for rule in rules if isinstance(rule, dict) and type(rule.get("type")) is str} if isinstance(rules, list) else set()
+    targets_main = isinstance(includes, list) and "refs/heads/main" in includes
     good = (ruleset.get("id") == RULESET_ID and ruleset.get("source") == REPO
             and ruleset.get("target") == "branch" and ruleset.get("enforcement") == "active"
             and targets_main and {"deletion", "non_fast_forward"}.issubset(types))
