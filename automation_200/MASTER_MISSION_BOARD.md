@@ -1,3 +1,10 @@
+## November 7, 2026 — malformed Unicode evidence handling (isolated branch)
+
+- **Three-prompt current-main preflight:** [operator](MASTER_OPERATOR_PROMPT.md) blob `f8f0c94c28cd28cc0402daf4f21bd875e1417932`, [continuity](MASTER_CONTINUITY_PROMPT.md) blob `cac63dead1e00592c1d12ea6562639b02893d81f`, [Work](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) blob `5da1a390f31ee8f57e5829ef368062f9215c28ac`; retrieve anew next run.
+- **P0 source patch on isolated branch:** [1615eaf](https://github.com/whoiwts110217-creator/CF-0/commit/1615eafe230c444ac0416a27a04b4f320ca70bef) makes read-only receipt inspection fail closed on malformed Unicode during canonical JSON encoding. [06344bd](https://github.com/whoiwts110217-creator/CF-0/commit/06344bd39e5baa15bf7b490eab90f16c3951ff28) adds two escaped-surrogate regression cases. Python stdlib reproduction confirmed a lone surrogate raises `UnicodeEncodeError` with `ensure_ascii=False`; complete repository test suite/CI still unconfirmed. No merge or HP deployment.
+- **Registry unchanged:** 84/200 verified at blob `304ed3c72df0fb82b6a0eacf6f4dc2e971262c74`. No unattended scheduler/receipt correlation, no new public HP health report or financial verification claimed. Existing HP allowlist, schedules, private archives and owner approvals unchanged.
+- **Next three:** (1) execute isolated test suite and verify CI; (2) compare isolated adapter against current main before any merge; (3) inspect independently correlated HP scheduler and receipt evidence when it becomes available. Public source retrieval required no owner clipboard action.
+
 ## November 7, 2026 — isolated relay evidence negative-case tests (CI pending)
 
 - **Current public-main preflight, complete and ordered:** [operator](MASTER_OPERATOR_PROMPT.md) blob `f8f0c94c28cd28cc0402daf4f21bd875e1417932`; [continuity](MASTER_CONTINUITY_PROMPT.md) blob `cac63dead1e00592c1d12ea6562639b02893d81f`; [Work self-reference](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) blob `5da1a390f31ee8f57e5829ef368062f9215c28ac`. Future runs must retrieve all three again from public `main`.
