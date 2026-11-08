@@ -256,5 +256,15 @@ class ActualRelayReceiptTests(unittest.TestCase):
         self.assertIn("receipt_invalid_or_oversize_bytes", result.blockers)
 
 
+    def test_deeply_nested_json_receipt_rejected_without_crashing(self):
+        # Under the 8192-byte cap, JSON nesting can still exceed parser depth.
+        raw = b'[' * 1200 + b'0' + b']' * 1200
+        result = inspect_actual_relay_pair(
+            job_id=JOB_ID, request=blob(REQ_PATH, job()),
+            receipt=blob(REC_PATH, raw))
+        self.assertEqual(result.status, "HOLD_EVIDENCE")
+        self.assertIn("receipt_invalid_json", result.blockers)
+
+
 if __name__ == "__main__":
     unittest.main()
