@@ -1,3 +1,10 @@
+## November 8, 2026, 8:58 a.m. Eastern — dashboard source reconciliation
+
+- **Required public-main preflight:** complete operator blob `f8f0c94c28cd28cc0402daf4f21bd875e1417932`, continuity blob `cac63dead1e00592c1d12ea6562639b02893d81f`, [Work self-reference](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) blob `5da1a390f31ee8f57e5829ef368062f9215c28ac` read in order; next run must retrieve each again.
+- **Actual change:** [dashboard commit eb87a07](https://github.com/whoiwts110217-creator/CF-0/commit/eb87a07bf30df74874a90b3b3eaa4c4b77f7a62b) repairs literal escaped paragraph breaks and updates the source review, six-test source reference, and issue timestamp. Three open GitHub issues (#1, #3, #16) returned from live search; five PCA approvals remain pending.
+- **Evidence limits:** authoritative registry source `304ed3c72df0fb82b6a0eacf6f4dc2e971262c74` remains 84/200 verified; CF-118 test execution/CI not established. Public `relay/health/latest.json` returned GitHub 404; unattended HP scheduler-to-receipt correlation still missing. No HP actions, registry/events changes, outreach, payments or private archive publication.
+- **Next three:** (1) execute/obtain CF-118 exact-source test and CI evidence; (2) audit durable retry attempts provenance; (3) correlate existing HP scheduled probe with Windows event time and wrapper outcome without owner clipboard loops.
+
 ## November 8, 2026, 8:17 a.m. Eastern — CF-118 malformed-clock regression
 
 - **Ordered complete public preflight:** operator blob `f8f0c94c28cd28cc0402daf4f21bd875e1417932`, continuity blob `cac63dead1e00592c1d12ea6562639b02893d81f`, [Work self-reference](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) blob `5da1a390f31ee8f57e5829ef368062f9215c28ac`; fetched anew from public main.
