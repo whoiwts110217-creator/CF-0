@@ -1,3 +1,9 @@
+## November 8, 2026, 1:28 p.m. Eastern — CF-118 retry journal write isolation
+
+- **Preflight.** Current main `122cc3b4d2f4` supplied operator `f8f0c94c`, continuity `cac63dead`, and [Work self-reference](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) `5da1a390`. Retrieve all three anew next run.
+- **Implemented.** The [retry journal source change](https://github.com/whoiwts110217-creator/CF-0/commit/dba2a21e1a4888b5f57c0c027485523ee0c0b368) locks the read, chain calculation and write as one operation. It writes a complete, size-bounded snapshot before replacing the journal. Existing valid JSONL records carry forward.
+- **Status.** Verification was deferred at the owner's direction. CF-118 remains planned. Its next checks cover concurrent writers and interruption before replacement. The journal continues to supply local diagnostic evidence, with retry execution gated separately.
+
 ## November 8, 2026, 1:14 p.m. Eastern — scheduled public-health readback and dashboard correction
 
 - **Mandatory current-main preflight:** full operator blob `f8f0c94c28cd28cc0402daf4f21bd875e1417932`, full continuity blob `cac63dead1e00592c1d12ea6562639b02893d81f`, then full [Work self-reference](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) blob `5da1a390f31ee8f57e5829ef368062f9215c28ac`, retrieved in order. Next run must fetch all three anew. Existing five PCA approval proposals remain pending; no changes to permissions or priorities.
