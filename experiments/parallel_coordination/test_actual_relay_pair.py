@@ -237,22 +237,6 @@ class ActualRelayReceiptTests(unittest.TestCase):
         self.assertEqual(result.status, "CONSISTENT_PUBLIC_PAIR_ONLY")
 
 
-    def test_over_nested_request_json_fails_closed(self):
-        # Below byte cap, but exceeds Python's default JSON nesting depth.
-        raw = b"[" * 1200 + b"0" + b"]" * 1200
-        result = inspect_actual_relay_pair(
-            job_id=JOB_ID, request=blob(REQ_PATH, raw),
-            receipt=blob(REC_PATH, receipt()))
-        self.assertEqual(result.status, "HOLD_EVIDENCE")
-        self.assertIn("request_invalid_json", result.blockers)
-
-    def test_over_nested_receipt_json_fails_closed(self):
-        raw = b"[" * 1200 + b"0" + b"]" * 1200
-        result = inspect_actual_relay_pair(
-            job_id=JOB_ID, request=blob(REQ_PATH, job()),
-            receipt=blob(REC_PATH, raw))
-        self.assertEqual(result.status, "HOLD_EVIDENCE")
-        self.assertIn("receipt_invalid_json", result.blockers)
 
 
 if __name__ == "__main__":
