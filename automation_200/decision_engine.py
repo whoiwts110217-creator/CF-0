@@ -71,6 +71,10 @@ def propose(registry, *, health_state="unavailable", now=None, limit=4,
     if attempts is None:
         attempts = {}
     _attempts_valid(registry, attempts)
+    # Future-dated failure evidence can hold tasks indefinitely. Reject it
+    # rather than silently treating an unverified clock value as a cooldown.
+    if any(attempt["failed_at"] > now for attempt in attempts.values()):
+        raise ValueError("attempt timestamp is in the future")
     ids = {task["id"] for task in registry["tasks"]}
     explicit_blocked = list(blocked_ids)
     if (len(explicit_blocked) != len(set(explicit_blocked))
