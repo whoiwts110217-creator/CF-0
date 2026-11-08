@@ -1,3 +1,11 @@
+## November 8, 2026, 8:17 a.m. Eastern — CF-118 malformed-clock regression
+
+- **Ordered complete public preflight:** operator blob `f8f0c94c28cd28cc0402daf4f21bd875e1417932`, continuity blob `cac63dead1e00592c1d12ea6562639b02893d81f`, [Work self-reference](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) blob `5da1a390f31ee8f57e5829ef368062f9215c28ac`; fetched anew from public main.
+- **Actual source artifact:** [commit e367bb9](https://github.com/whoiwts110217-creator/CF-0/commit/e367bb94ed001cd849d9a7234e3ba1f3035715d4) adds a sixth CF-118 boundary regression covering negative, boolean, fractional and string clocks while checking that supplied attempt evidence is unchanged. Readback confirmed blob `eb1913011c613c16d734d633942f9232257ec90a`.
+- **Verification limit:** test source exists on main; no executed passing test or CI established by this readback. Registry source blob `304ed3c72df0fb82b6a0eacf6f4dc2e971262c74` still records **84/200 verified**; CF-118 remains planned. No registry, events, checkpoints or HP permissions changed.
+- **HP:** `relay/health/latest.json` returned GitHub 404; absence is not evidence of machine offline. Historical manual receipts do not establish independent unattended scheduler correlation. No HP commands or owner clipboard requests.
+- **Next three:** (1) obtain executed CF-118 and full-suite CI results; (2) validate durable retry-attempt provenance; (3) correlate existing scheduled HP probe UUID/digest/receipt with Windows scheduler time and wrapper outcome. Private v2 archive and owner approvals unchanged. Re-fetch all three prompts on next run.
+
 ## November 8, 2026, approximately 5:53 a.m. Eastern — CF-118 additional retry boundary tests
 
 - **Mandatory public-main preflight:** complete [master operator](MASTER_OPERATOR_PROMPT.md) blob `f8f0c94c28cd28cc0402daf4f21bd875e1417932`, [master continuity](MASTER_CONTINUITY_PROMPT.md) blob `cac63dead1e00592c1d12ea6562639b02893d81f`, then [Work self-reference](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) blob `5da1a390f31ee8f57e5829ef368062f9215c28ac`; all retrieved from public `main` in order, no owner clipboard.
