@@ -1,5 +1,5 @@
 # CF-0 — Tasks & Issues
-**Public owner dashboard · Last source review: November 7, 2026, 8:40 p.m. Eastern**
+**Public owner dashboard · Last source review: November 7, 2026, 9:25 p.m. Eastern**
 
 > **This is the short version.** See [the official 200-task registry](../automation_200/registry.json) for each work order, the [master mission board](../automation_200/MASTER_MISSION_BOARD.md) for technical history, and [GitHub Issues](https://github.com/whoiwts110217-creator/CF-0/issues) for discussion. This is a dated report, **not** a continuously live HP status display.
 
@@ -9,7 +9,7 @@
 |---|---|
 | CF-200 work orders | **84 verified / 200 total**; 116 planned |
 | Current verified progress | 42% of defined work orders; **not** 42% of the finished product |
-| Open GitHub issues | **3** returned in the November 7, 8:40 p.m. Eastern issue search |
+| Open GitHub issues | **3** returned in the November 7, 9:25 p.m. Eastern issue search |
 | Public task/issue refresh | **Working once** through existing enabled hourly CF-200 executor; ongoing reliability still being observed |
 | Unattended HP computer | **Unverified** — local Windows scheduling and matching receipt not independently correlated |
 | Donations/revenue | No new owner-confirmed receipts established by this dashboard |
@@ -22,12 +22,12 @@ Owner's order remains **P0 Automation → P1 Priority/continuity → P2 Finances
 
 | Category | Task | Plain-language purpose | Status |
 |---|---|---|---|
-| **P1 — Priorities** | **CF-118** | Explain why the decision engine selects or holds each task | Planned; source-only candidate |
+| **P1 — Priorities** | **CF-118** | Add failure retries with a ceiling (per authoritative registry); validate existing retry/cooldown logic before acceptance | Planned; source-only candidate; CF-117 dependency verified |
 | **P1 — Priorities** | **CF-141** | Publish the source-backed master project index | Planned; source-only candidate |
 | **P2 — Finances** | **CF-122** | Publish a verified financial checkpoint only if evidence exists | Planned; evidence-dependent |
 | **P3 — Research** | **CF-161** | Preserve guess → hypothesis → evidence → proof | Planned; source-only candidate |
 
-**Latest P0 review:** [draft PR #17](https://github.com/whoiwts110217-creator/CF-0/pull/17) is **DO NOT MERGE / DO NOT DEPLOY**. Its [integration evidence gate](https://github.com/whoiwts110217-creator/CF-0/blob/experiment/parallel-coordination-v1/experiments/parallel_coordination/INTEGRATION_GATE.md) requires branch-tip tests, current-main reconciliation, owner-governed review and independent HP provenance. A review query returned zero submitted reviews; commit-status query returned zero statuses (neither proves CI success nor failure). Latest compare reported 51 commits ahead / 167 behind. The public [HP health snapshot](https://github.com/whoiwts110217-creator/CF-0/blob/main/relay/health/latest.json) returned **404**, meaning unavailable, not proof that the HP is offline.
+**Latest P0 review:** [draft PR #17](https://github.com/whoiwts110217-creator/CF-0/pull/17) is **DO NOT MERGE / DO NOT DEPLOY**. Its [integration evidence gate](https://github.com/whoiwts110217-creator/CF-0/blob/experiment/parallel-coordination-v1/experiments/parallel_coordination/INTEGRATION_GATE.md) requires branch-tip tests, current-main reconciliation, owner-governed review and independent HP provenance. A review query returned zero submitted reviews; commit-status query returned zero statuses (neither proves CI success nor failure). Latest compare reported 52 commits ahead / 169 behind. The public [HP health snapshot](https://github.com/whoiwts110217-creator/CF-0/blob/main/relay/health/latest.json) returned **404**, meaning unavailable, not proof that the HP is offline.
 
 **Latest P0 source:** [canonical JSON test commit](https://github.com/whoiwts110217-creator/CF-0/commit/82c6baf88c31ad55eb087fd09a5dec5e64126809); no new verified work order, HP execution proof or CI pass claimed. The fixed [Work self-reference](../automation_200/WORK_COPY_PASTE_AUTOMATION_PROMPT.md) was re-read from public main at blob `5da1a390f31ee8f57e5829ef368062f9215c28ac`.
 
