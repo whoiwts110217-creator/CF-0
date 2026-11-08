@@ -34,6 +34,19 @@ class TestRulesAudit(unittest.TestCase):
         data["conditions"]["ref_name"]["include"] = ["~DEFAULT_BRANCH"]
         self.assertEqual(classify(data)["state"], "review_required")
 
+    def test_explicit_main_exclusion_blocks_false_protection_claim(self):
+        for excluded in ("refs/heads/main", "~ALL"):
+            with self.subTest(excluded=excluded):
+                data = sample()
+                data["conditions"]["ref_name"]["exclude"] = [excluded]
+                self.assertEqual(classify(data)["state"], "review_required")
+                self.assertFalse(classify(data)["targets_main"])
+
+    def test_missing_exclusion_list_is_not_assumed_safe(self):
+        data = sample()
+        del data["conditions"]["ref_name"]["exclude"]
+        self.assertNotEqual(classify(data)["state"], "baseline_verified")
+
     def test_malformed_rule_type_fails_closed(self):
         data = sample()
         data["rules"] = [{"type": []}]
