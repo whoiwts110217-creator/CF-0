@@ -1,0 +1,26 @@
+name: CF0 Folder Drop Vault external access probe
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/vault-access-probe.yml"
+      - "automation_200/vault_access_probe.py"
+      - "automation_200/tests/test_vault_access_probe.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  external-read:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Offline probe contract tests
+        run: python -m unittest discover -s automation_200/tests -p test_vault_access_probe.py -v
+      - name: Test public root HTTPS status only (no share IDs or file content)
+        run: python -m automation_200.vault_access_probe
