@@ -26,3 +26,9 @@
 - Preserve existing v7 private archive and CF-0 task registry. Do not mark an HP action, full chat export, sale, or CF-200 task complete from these tests.
 
 **Action in Sites editor:** Open **existing** Folder Drop Vault under ChatGPT Sites, ask @Sites to implement this contract in place, save a reviewable version, test both existing drops and deploy only after the end-to-end readback passes. No new schedule, paid dependency or alternative upload workflow is required.
+
+## GitHub-runner proof (November 8)
+
+The first [external probe run](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42512259162/job/128827650453) **passed five offline tests and observed HTTP 200** from the *Site homepage* using `HEAD /` on a GitHub-hosted Ubuntu runner. The reported JSON had `state=root_reachable`, `share_files_fetched=0`, and `end_to_end_archive_access_verified=false`. This establishes **one connected external environment can reach the host**. It does NOT establish that any specific shared drop can be reached, downloaded or extracted. It also does not remove the separate current-chat web-reader block. The existing Site-side workflow can now be tested from a reachable cloud runner or through the owner-authorized Sites/Work editor, with link IDs kept outside public GitHub source.
+
+**Next operator step:** In ChatGPT Work with @Sites, open the *existing* Folder Drop Vault project. Inspect the actual share handler, R2 keys, audience configuration and both owner-provided links in the private Work context. Prove ZIP bytes and manifest, then save and deploy any needed site-side amendment. If a new external download origin is necessary for this chat, obtain explicit approval of the destination and verify that the connected ChatGPT reader can retrieve actual bytes before declaring the vault fixed. Do not embed unlisted share URLs into public pull requests or workflow logs.
