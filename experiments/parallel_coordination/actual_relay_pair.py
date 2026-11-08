@@ -87,7 +87,7 @@ def inspect_actual_relay_pair(
     try:
         relay.validate(job, job_id + ".json", now=job["issued"])
         request_digest = relay.sha(job)
-    except (relay.RelayError, TypeError, ValueError, RecursionError):
+    except (relay.RelayError, TypeError, ValueError, UnicodeError, RecursionError):
         return RelayPairInspection("HOLD_EVIDENCE", ("request_invalid_schema",))
 
     result, err = _decode_blob(receipt, receipt_path)
@@ -98,7 +98,7 @@ def inspect_actual_relay_pair(
     try:
         response_digest = relay.validate_receipt(result, job_id, request_digest)
         relay.validate_public_result(result["result"], job["action"])
-    except (relay.RelayError, TypeError, ValueError, RecursionError):
+    except (relay.RelayError, TypeError, ValueError, UnicodeError, RecursionError):
         return RelayPairInspection(
             "HOLD_EVIDENCE", ("receipt_invalid_or_unmatched",),
             request_digest=request_digest
