@@ -1,3 +1,10 @@
+## November 7, 2026 — Unicode regression fixture corrected (CI still pending)
+
+- **Public-main preflight:** operator blob `f8f0c94c28cd28cc0402daf4f21bd875e1417932`; continuity blob `cac63dead1e00592c1d12ea6562639b02893d81f`; [Work self-reference](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) blob `5da1a390f31ee8f57e5829ef368062f9215c28ac`. Read all three in order; next run must re-fetch.
+- **P0 correction:** [6309927](https://github.com/whoiwts110217-creator/CF-0/commit/6309927f06a56125c708fede6e26ab65b0ab603e) fixes the two JSON surrogate test fixtures on isolated branch: a double-escaped backslash would test a literal `\\u` sequence instead of an actual decoded lone surrogate. The source was SHA-guarded and committed; full branch tests/CI remain **unconfirmed**. Prior [Unicode fail-closed patch](https://github.com/whoiwts110217-creator/CF-0/commit/1615eafe230c444ac0416a27a04b4f320ca70bef) remains isolated, not merged.
+- **Environment:** container `git ls-remote` failed with `Could not resolve host: github.com`; GitHub connector can read/write sources but does not provide a test runner. Do not claim full test execution. **Registry 84/200** (blob `304ed3c72df0fb82b6a0eacf6f4dc2e971262c74`), unchanged. HP unattended scheduler and health evidence remain unverified; no HP command, payment or permission change.
+- **Next three:** (1) obtain completed branch test/CI evidence without owner clipboard, (2) inspect main/branch integration risks and preserve allowlist, (3) correlate existing HP scheduled-poll probe with independently observed Windows events when accessible.
+
 ## November 7, 2026 — malformed Unicode evidence handling (isolated branch)
 
 - **Three-prompt current-main preflight:** [operator](MASTER_OPERATOR_PROMPT.md) blob `f8f0c94c28cd28cc0402daf4f21bd875e1417932`, [continuity](MASTER_CONTINUITY_PROMPT.md) blob `cac63dead1e00592c1d12ea6562639b02893d81f`, [Work](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) blob `5da1a390f31ee8f57e5829ef368062f9215c28ac`; retrieve anew next run.
