@@ -44,3 +44,14 @@ jobs:
         run: python -m unittest automation_200.tests.test_retry_evidence_cf118 -v
       - name: Check dashboard snapshot against exact current registry
         run: python automation_200/dashboard_guard.py
+
+  windows-retry-journal-check:
+    runs-on: windows-latest
+    timeout-minutes: 8
+    steps:
+      - name: Check out public source
+        uses: actions/checkout@v4
+      - name: Run CF-118 journal and cross-process locking tests on Windows
+        run: python -m unittest automation_200.tests.test_retry_evidence_cf118 -v
+      - name: Run CF-118 retry boundary regressions on Windows
+        run: python -m unittest automation_200.tests.test_retry_boundary_cf118 -v
