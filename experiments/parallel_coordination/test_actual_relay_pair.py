@@ -208,5 +208,24 @@ class ActualRelayReceiptTests(unittest.TestCase):
         self.assertIn("receipt_invalid_json", result.blockers)
 
 
+    def test_escaped_lone_surrogate_request_fails_closed(self):
+        raw = relay.dump(job()).replace(b'"args":{}',
+                                      b'"args":{"unused":"\\\\ud800"}')
+        result = inspect_actual_relay_pair(
+            job_id=JOB_ID, request=blob(REQ_PATH, raw),
+            receipt=blob(REC_PATH, receipt()))
+        self.assertEqual(result.status, "HOLD_EVIDENCE")
+        self.assertIn("request_invalid_schema", result.blockers)
+
+    def test_escaped_lone_surrogate_receipt_fails_closed(self):
+        raw = relay.dump(receipt()).replace(b'"pong":true',
+                                           b'"pong":"\\\\ud800"')
+        result = inspect_actual_relay_pair(
+            job_id=JOB_ID, request=blob(REQ_PATH, job()),
+            receipt=blob(REC_PATH, raw))
+        self.assertEqual(result.status, "HOLD_EVIDENCE")
+        self.assertIn("receipt_invalid_or_unmatched", result.blockers)
+
+
 if __name__ == "__main__":
     unittest.main()
