@@ -1,5 +1,5 @@
 # CF-0 — Tasks & Issues
-**Public owner dashboard · Last source review: November 8, 2026, 1:14 p.m. Eastern**
+**Public owner dashboard · Last source review: November 8, 2026, afternoon Eastern**
 
 > **This is the short version.** See [the official 200-task registry](../automation_200/registry.json) for each work order, the [master mission board](../automation_200/MASTER_MISSION_BOARD.md) for technical history, and [GitHub Issues](https://github.com/whoiwts110217-creator/CF-0/issues) for discussion. This is a dated report, **not** a continuously live HP status display.
 
@@ -9,13 +9,15 @@
 |---|---|
 | CF-200 work orders | **84 verified / 200 total**; 116 planned |
 | Current verified progress | 42% of defined work orders; **not** 42% of the finished product |
-| Open GitHub issues | **3** returned in the November 8, 1:14 p.m. Eastern issue search |
+| Open GitHub issues | **3** confirmed in the latest issue search ([#1](https://github.com/whoiwts110217-creator/CF-0/issues/1), [#3](https://github.com/whoiwts110217-creator/CF-0/issues/3), [#16](https://github.com/whoiwts110217-creator/CF-0/issues/16)) |
 | Public task/issue refresh | **Working once** through existing enabled hourly CF-200 executor; ongoing reliability still being observed |
 | Public HP health | **First report now published:** collected November 8, 1:08:53 p.m. Eastern; completed last receipt, 32 saved receipts, 10 ping receipts, no reported health error. This is self-reported public-safe telemetry, not Windows scheduler attestation. |
 | Unattended HP computer | **Unverified** — local Windows scheduling and matching receipt not independently correlated |
 | Donations/revenue | No new owner-confirmed receipts established by this dashboard |
 
 **Evidence:** [registry.json](../automation_200/registry.json), source blob `304ed3c72df0fb82b6a0eacf6f4dc2e971262c74`; [public continuity](PUBLIC_CONTINUITY_STATE.json); [first executor-produced dashboard refresh commit](https://github.com/whoiwts110217-creator/CF-0/commit/479c93ae8689279cb422771a504cd3be494763aa). A successful dashboard refresh is **not** proof of unattended HP operation.
+
+**CF-118 CI evidence update (November 8):** [GitHub Actions run #18](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42497038161) failed: eight dashboard tests passed, but five of seven retry-boundary tests errored with `KeyError: 'title'` in `priority_selector.select_tasks`. The current test fixture ([source](../automation_200/tests/test_retry_boundary_cf118.py), blob `44fa8f9192f4dbfeed25a7d252f0ecfa1b3585d6`) now supplies the missing titles; **a newer passing CI run has not been established**. Windows CI was added to the existing workflow, but configuration alone does not prove execution. CF-118 stays planned. The latest inspected public health report (blob `216115372d8241e5278c27d6906a11c0348ec296`) reports 32 receipts, 10 pings and no error, without scheduler attestation.
 
 ## What is being worked on next?
 
