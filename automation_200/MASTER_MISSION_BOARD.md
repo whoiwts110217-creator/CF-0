@@ -1,3 +1,11 @@
+## November 7, 2026 — branch divergence blocks unreviewed integration
+
+- **Required main preflight read in order:** operator `f8f0c94c28cd28cc0402daf4f21bd875e1417932`; continuity `cac63dead1e00592c1d12ea6562639b02893d81f`; Work `5da1a390f31ee8f57e5829ef368062f9215c28ac`. Re-fetch on every future run.
+- **P0 integration audit (GitHub compare main...experiment/parallel-coordination-v1):** branch status `diverged`, **50 commits ahead / 163 behind** at comparison time; 21 changed files reported, all additions in isolated experiment/workflow paths. This does not authorize a blind merge; review branch and main histories and rebase/integrate safely after test evidence. Existing `.github/workflows/parallel-coordination-tests.yml` on the branch runs Python unittest discovery on pushes affecting experiment files, and supports workflow_dispatch; the latest commit's connector workflow lookup returned zero PR-triggered runs, **not** a proof that no push CI exists.
+- **Environment limitation:** local container `git ls-remote` failed to resolve `github.com`; GitHub connector can compare and read files but provides no direct test execution. No CI passing claim, HP scheduled proof, relay permission change or deployment.
+- **Registry:** 84/200 verified at `304ed3c72df0fb82b6a0eacf6f4dc2e971262c74`; no new CF-200 acceptance evidence.
+- **Next three:** (1) obtain direct Actions run/test evidence for branch tip, (2) review integration against 163 newer main commits and select safe strategy, (3) independently correlate HP scheduled execution with local scheduler and signed/public-safe receipt. Owner copy/paste avoided through direct GitHub reads.
+
 ## November 7, 2026, evening — P0 isolated relay evidence size-bound tests
 
 - **Continuity preflight:** read complete current public `main` [operator](MASTER_OPERATOR_PROMPT.md) blob `f8f0c94c28cd28cc0402daf4f21bd875e1417932`, [continuity](MASTER_CONTINUITY_PROMPT.md) blob `cac63dead1e00592c1d12ea6562639b02893d81f`, then [Work copy/paste self-reference](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) blob `5da1a390f31ee8f57e5829ef368062f9215c28ac`. Re-fetch each in order next run.
