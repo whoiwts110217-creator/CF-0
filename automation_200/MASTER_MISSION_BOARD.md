@@ -1,3 +1,12 @@
+## November 7, 2026, 10:14 p.m. Eastern — CF-118 retry boundary tests committed
+
+- **Mandatory preflight:** public main operator blob `f8f0c94c28cd28cc0402daf4f21bd875e1417932`, continuity blob `cac63dead1e00592c1d12ea6562639b02893d81f`, [Work self-reference](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) blob `5da1a390f31ee8f57e5829ef368062f9215c28ac`, read in that order. Next Work run must fetch all three again.
+- **P1 real artifact:** [commit 78062dd](https://github.com/whoiwts110217-creator/CF-0/commit/78062ddfd6a533fb7a8dd96878186e5dbcea11b5) adds [`test_retry_ceiling_cf118.py`](tests/test_retry_ceiling_cf118.py) to existing test suite. Synthetic 200-task tests cover retry ceiling even under owner preference, exact cooldown boundary, no inferred attempts, malformed attempts fail-closed, and physical-HP hold. File readback verified on public main (blob `2f0927cda13bb1111ddbdd12111749bd641c5615`).
+- **CI:** commit workflow lookup returned no pull-request-triggered workflow runs; this endpoint does not establish whether push-triggered CI has run. **No test pass claimed.** Existing decision engine already has an input-only retry mechanism; CF-118 durable failure handling/acceptance remains open until appropriate tests and acceptance are independently verified.
+- **Registry:** source blob `304ed3c72df0fb82b6a0eacf6f4dc2e971262c74`, **84/200** verified; no task status or append-only events modified. Private continuity v2 source coverage unchanged; full original chat exports and original ~37-project inventory still missing.
+- **HP:** manual public-safe round trip supported by historical owner context; independently correlated unattended Windows scheduled poll still **unverified**. No HP action, relay allowlist expansion, private publication or finance activity.
+- **Next 3:** (1) obtain exact-commit CI for CF-118 tests and address any failure; (2) inspect durable retry-state requirements without introducing a duplicate scheduler; (3) correlate existing scheduled-poll UUID/hash/receipt with independent Windows scheduler evidence. Draft PR #17 remains no-merge review-only.
+
 ## November 7, 2026, 9:25 p.m. Eastern — CF-118 public task identity corrected
 
 - **Mandatory public-main preflight read in order:** `MASTER_OPERATOR_PROMPT.md` blob `f8f0c94c28cd28cc0402daf4f21bd875e1417932`, `MASTER_CONTINUITY_PROMPT.md` blob `cac63dead1e00592c1d12ea6562639b02893d81f`, [Work self-reference](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) blob `5da1a390f31ee8f57e5829ef368062f9215c28ac`.
