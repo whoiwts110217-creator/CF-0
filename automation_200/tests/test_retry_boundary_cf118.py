@@ -70,5 +70,26 @@ class RetryBoundaryTests(unittest.TestCase):
                 "CF-002": {"failures": 1, "failed_at": 1001}})
 
 
+    def test_malformed_retry_records_fail_closed_without_mutation(self):
+        valid = {"CF-002": {"failures": 1, "failed_at": 1000}}
+        cases = [
+            {"CF-UNKNOWN": {"failures": 1, "failed_at": 1000}},
+            {"CF-002": {"failures": 0, "failed_at": 1000}},
+            {"CF-002": {"failures": True, "failed_at": 1000}},
+            {"CF-002": {"failures": 1, "failed_at": -1}},
+            {"CF-002": {"failures": 1, "failed_at": "1000"}},
+            {"CF-002": {"failures": 1}},
+            {"CF-002": {"failures": 1, "failed_at": 1000, "approved": True}},
+        ]
+        for record in cases:
+            before = repr(record)
+            with self.subTest(record=before), self.assertRaises(ValueError):
+                propose(registry(), now=2000, attempts=record)
+            self.assertEqual(repr(record), before)
+        result = propose(registry(), now=2000, attempts=valid)
+        self.assertFalse(result["execution_authorized"])
+        self.assertEqual(valid, {"CF-002": {"failures": 1, "failed_at": 1000}})
+
+
 if __name__ == "__main__":
     unittest.main()
