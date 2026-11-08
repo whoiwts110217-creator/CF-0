@@ -62,7 +62,7 @@ def propose(registry, *, health_state="unavailable", now=None, limit=4,
     The entire hp_install stream requires actual owner-local confirmation,
     including early items still tagged false for physical_hp_required.
     """
-    if health_state not in HEALTH_STATES:
+    if type(health_state) is not str or health_state not in HEALTH_STATES:
         raise ValueError("unknown HP health state")
     if now is None:
         now = int(time.time())
