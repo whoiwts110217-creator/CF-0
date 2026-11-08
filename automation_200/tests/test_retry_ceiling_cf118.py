@@ -67,6 +67,25 @@ class RetryCeilingTests(unittest.TestCase):
             with self.subTest(attempts=attempts), self.assertRaises(ValueError):
                 propose(sample, now=10000, attempts=attempts)
 
+    def test_dependency_hold_takes_precedence_over_retry(self):
+        sample = registry()
+        sample["tasks"][0]["depends_on"] = ["CF-002"]
+        result = propose(sample, now=10000,
+                         owner_preference_ids=["CF-001"],
+                         attempts={"CF-001": {"failures": RETRY_LIMIT, "failed_at": 0}})
+        self.assertNotIn("CF-001", [x["id"] for x in result["selected"]])
+        self.assertEqual(result["held_counts"]["dependencies_unverified"], 1)
+        self.assertNotIn("retry_limit_reached", result["held_counts"])
+
+    def test_retry_limit_does_not_block_other_ready_work(self):
+        sample = registry()
+        result = propose(sample, now=10000, limit=2,
+                         owner_preference_ids=["CF-001", "CF-002"],
+                         attempts={"CF-001": {"failures": RETRY_LIMIT, "failed_at": 0}})
+        self.assertEqual(result["selected"][0]["id"], "CF-002")
+        self.assertEqual(len(result["selected"]), 2)
+        self.assertFalse(result["execution_authorized"])
+
     def test_hp_local_gate_remains_even_after_cooldown(self):
         sample = registry()
         sample["tasks"][0]["physical_hp_required"] = True
