@@ -1,3 +1,10 @@
+## November 8, 2026, 2:02 p.m. Eastern — Windows retry-journal CI coverage
+
+- **Ordered current-public preflight:** operator blob `f8f0c94c28cd28cc0402daf4f21bd875e1417932`, continuity blob `cac63dead1e00592c1d12ea6562639b02893d81f`, and [Work self-reference](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) blob `5da1a390f31ee8f57e5829ef368062f9215c28ac`, fetched in order; no clipboard request.
+- **P1 code/CI:** [commit 38bb763](https://github.com/whoiwts110217-creator/CF-0/commit/38bb763147081f92f5fee8fb5370e4d62d19311a) extends the existing dashboard-guard workflow with a separate `windows-latest` offline job for CF-118 journal/process locking and retry-boundary tests. Workflow readback blob `feca2efcee44ba89149685c3b7cb3338baf32d56` confirms publication. This is CI *configuration*, not a confirmed passing run; combined-status lookup returned zero statuses. Existing Linux checks retained.
+- **Evidence:** registry still **84/200 verified**, 116 planned; CF-118 planned until acceptance-specific execution evidence. Latest retrieved public HP report blob `216115372d8241e5278c27d6906a11c0348ec296`, 32 receipts and 10 pings, no reported error, but no unattended Windows scheduled-run correlation. PCA-001 through PCA-005 remain pending; no changes to registry/events/checkpoints, HP commands, schedule or private material.
+- **Next three:** (1) obtain Linux and Windows workflow job results, (2) fix any observed CF-118 failure and re-run tests, (3) correlate HP scheduled probe UUID/hash/receipt with Windows Task Scheduler timestamp and wrapper outcome.
+
 ## November 8, 2026, 2:02 p.m. Eastern — CF-118 cross-process writer regression
 
 - **Ordered public-main preflight:** operator blob `f8f0c94c28cd28cc0402daf4f21bd875e1417932`, continuity blob `cac63dead1e00592c1d12ea6562639b02893d81f`, and [Work self-reference](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) blob `5da1a390f31ee8f57e5829ef368062f9215c28ac` fetched in order. No owner clipboard.
