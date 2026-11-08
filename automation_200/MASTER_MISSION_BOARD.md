@@ -1,3 +1,11 @@
+## November 7, 2026 — isolated relay evidence negative-case tests (CI pending)
+
+- **Current public-main preflight, complete and ordered:** [operator](MASTER_OPERATOR_PROMPT.md) blob `f8f0c94c28cd28cc0402daf4f21bd875e1417932`; [continuity](MASTER_CONTINUITY_PROMPT.md) blob `cac63dead1e00592c1d12ea6562639b02893d81f`; [Work self-reference](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) blob `5da1a390f31ee8f57e5829ef368062f9215c28ac`. Future runs must retrieve all three again from public `main`.
+- **P0 source changes on existing isolated branch, not merged:** [0251d60](https://github.com/whoiwts110217-creator/CF-0/commit/0251d60831930dd68b322bb75685be4f1310e6bd) adds nested duplicate-request-key, Infinity/-Infinity and invalid-UTF-8 receipt tests; [af558d2](https://github.com/whoiwts110217-creator/CF-0/commit/af558d20db2135bd8af9545f7871b6a272a80be6) corrects the UTF-8 fixture to emit a truly invalid byte. Source readback confirmed. **Tests not run / CI unconfirmed;** no passing claim.
+- **Registry:** 84/200 verified, main blob `304ed3c72df0fb82b6a0eacf6f4dc2e971262c74`; unchanged. No new receipt or Windows scheduler correlation. Public `relay/health/latest.json` unavailable (404 on previous check); not proof HP is offline. Existing public relay allowlist, schedules and private archives unchanged.
+- **Next three:** (1) run all isolated adapter and fixture tests on branch head, repair any failures; (2) compare branch adapter with live main relay and review for safe integration; (3) inspect independent HP scheduler/wrapper evidence when available, otherwise continue eligible public-safe P0 work.
+- **Copy/paste avoided:** three public prompts, registry, test source and owner approval bin fetched directly; no owner terminal transcript requested. Pending PCA approvals remain pending.
+
 ## November 7, 2026 — public relay evidence JSON ambiguity hardening (isolated branch; CI pending)
 
 - **Preflight from current public main read in order and complete:** [MASTER_OPERATOR_PROMPT.md](MASTER_OPERATOR_PROMPT.md) Git blob `f8f0c94c28cd28cc0402daf4f21bd875e1417932`; [MASTER_CONTINUITY_PROMPT.md](MASTER_CONTINUITY_PROMPT.md) `cac63dead1e00592c1d12ea6562639b02893d81f`; [WORK_COPY_PASTE_AUTOMATION_PROMPT.md](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) `5da1a390f31ee8f57e5829ef368062f9215c28ac`. These are source blob versions, not assumed immutable future versions.
