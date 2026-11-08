@@ -227,5 +227,15 @@ class ActualRelayReceiptTests(unittest.TestCase):
         self.assertIn("receipt_invalid_or_unmatched", result.blockers)
 
 
+    def test_valid_unicode_in_json_encoding_does_not_change_ping_result(self):
+        # Whitespace and non-ASCII escapes are not proof of tampering by themselves.
+        raw = relay.dump(receipt()).replace(b'"pong":true',
+                                           b'"pong":true ')
+        result = inspect_actual_relay_pair(
+            job_id=JOB_ID, request=blob(REQ_PATH, job()),
+            receipt=blob(REC_PATH, raw))
+        self.assertEqual(result.status, "CONSISTENT_PUBLIC_PAIR_ONLY")
+
+
 if __name__ == "__main__":
     unittest.main()
