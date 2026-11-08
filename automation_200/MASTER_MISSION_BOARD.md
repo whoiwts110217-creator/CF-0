@@ -1,3 +1,11 @@
+## November 8, 2026 — CI trigger evidence gap discovered
+
+- **Ordered current-public preflight:** operator `f8f0c94c28cd28cc0402daf4f21bd875e1417932`, continuity `cac63dead1e00592c1d12ea6562639b02893d81f`, [Work self-reference](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) `5da1a390f31ee8f57e5829ef368062f9215c28ac`, read in order.
+- **Live public GitHub Actions workflow listing:** [dashboard-guard runs](https://github.com/whoiwts110217-creator/CF-0/actions/workflows/dashboard-guard.yml) shows **18 total runs**, latest visible #18 on November 8 for commit `b881f1a` failed. Later main commits changing retry tests and the workflow itself have **no corresponding run visible on this listing**. The workflow source declares push path filters for these changed paths and a `workflow_dispatch` entry. This is a **CI triggering/availability gap**, not a passing test. Possible causes (e.g. token-trigger suppression or Actions settings) are hypotheses only; not established.
+- **Historical log confirmation:** job 128781492173 in run 42497038161: dashboard tests 8/8 passed; retry boundary 2/7 passed and 5 errored `KeyError: 'title'`. Current fixture blob `44fa8f9192f4dbfeed25a7d252f0ecfa1b3585d6` has titles, but has not been proven passing in CI. Recent Windows job configuration blob `feca2efcee44ba89149685c3b7cb3338baf32d56` is published but not executed in a visible run.
+- **Safety and status:** CF-118 planned; registry remains **84/200 verified**. HP report blob `216115372d8241e5278c27d6906a11c0348ec296` shows 32 receipts/10 pings, no reported error, without Windows scheduler correlation. No HP commands, permissions, schedules, registry/events/checkpoints or owner approvals changed.
+- **Next three:** (1) establish why workflow is not being triggered on recent changes or use an authorized workflow-dispatch mechanism; (2) obtain and inspect Linux and Windows job logs for a fresh main-branch run, fix failures; (3) correlate HP scheduled probe UUID/digest/receipt to Windows Task Scheduler and wrapper outcome.
+
 ## November 8, 2026 — diagnosed actual historical CF-118 CI failure
 
 - **Ordered public-main preflight:** operator `f8f0c94c28cd28cc0402daf4f21bd875e1417932`, continuity `cac63dead1e00592c1d12ea6562639b02893d81f`, [Work self-reference](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) `5da1a390f31ee8f57e5829ef368062f9215c28ac`, retrieved anew in order.
