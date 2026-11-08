@@ -1,5 +1,5 @@
 # CF-0 — Tasks & Issues
-**Public owner dashboard · Last source review: November 7, 2026 (Eastern)**
+**Public owner dashboard · Last source review: November 7, 2026, 7:17 p.m. Eastern**
 
 > **This is the short version.** See [the official 200-task registry](../automation_200/registry.json) for each work order, the [master mission board](../automation_200/MASTER_MISSION_BOARD.md) for technical history, and [GitHub Issues](https://github.com/whoiwts110217-creator/CF-0/issues) for discussion. This is a dated report, **not** a continuously live HP status display.
 
@@ -9,7 +9,7 @@
 |---|---|
 | CF-200 work orders | **84 verified / 200 total**; 116 planned |
 | Current verified progress | 42% of defined work orders; **not** 42% of the finished product |
-| Open GitHub issues | **3** returned in the last issue search |
+| Open GitHub issues | **3** returned in the November 7, 7:17 p.m. Eastern issue search |
 | Public task/issue refresh | **Working once** through existing enabled hourly CF-200 executor; ongoing reliability still being observed |
 | Unattended HP computer | **Unverified** — local Windows scheduling and matching receipt not independently correlated |
 | Donations/revenue | No new owner-confirmed receipts established by this dashboard |
@@ -27,12 +27,15 @@ Owner's order remains **P0 Automation → P1 Priority/continuity → P2 Finances
 | **P2 — Finances** | **CF-122** | Publish a verified financial checkpoint only if evidence exists | Planned; evidence-dependent |
 | **P3 — Research** | **CF-161** | Preserve guess → hypothesis → evidence → proof | Planned; source-only candidate |
 
+**Latest P0 source:** [canonical JSON test commit](https://github.com/whoiwts110217-creator/CF-0/commit/82c6baf88c31ad55eb087fd09a5dec5e64126809); no new verified work order, HP execution proof or CI pass claimed. The fixed [Work self-reference](../automation_200/WORK_COPY_PASTE_AUTOMATION_PROMPT.md) was re-read from public main at blob `5da1a390f31ee8f57e5829ef368062f9215c28ac`.
+
 **Other planned tasks:** **112** other work orders remain planned; many need dependencies or HP-local evidence. See the [registry](../automation_200/registry.json) for each acceptance condition. CF-100 and CF-110 are already verified and must not appear as planned candidates.
 
 ## Problems we know about
 
 | Issue / category | Why it matters | Next verification step |
 |---|---|---|
+| **Relay evidence adapter CI · P0** | The [isolated branch](https://github.com/whoiwts110217-creator/CF-0/tree/experiment/parallel-coordination-v1) has new malformed-JSON/Unicode and canonical-whitespace regression tests, but the full branch test suite and cloud CI remain unconfirmed; do not merge or call these passing | Obtain a real full-suite test result and review against current main |
 | **HP automatic operation · P0** | A matched public command receipt alone does not prove a Windows scheduled run | Correlate public-safe receipt with real HP Task Scheduler time/exit evidence |
 | **Notepad regression · P0** | Historical owner-observed launches are not supported by the current public relay | Owner-approved local restoration; preserve relay allowlist |
 | **Project archive gap · P1** | Original ~37-project inventory still unrecovered; newer reconstructed lists are not the original | Private source audit with hashes and documented uncertainties |
