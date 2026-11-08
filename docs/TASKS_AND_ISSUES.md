@@ -1,5 +1,5 @@
 # CF-0 — Tasks & Issues
-**Public owner dashboard · Last source review: November 8, 2026, 8:58 a.m. Eastern**
+**Public owner dashboard · Last source review: November 8, 2026, 1:14 p.m. Eastern**
 
 > **This is the short version.** See [the official 200-task registry](../automation_200/registry.json) for each work order, the [master mission board](../automation_200/MASTER_MISSION_BOARD.md) for technical history, and [GitHub Issues](https://github.com/whoiwts110217-creator/CF-0/issues) for discussion. This is a dated report, **not** a continuously live HP status display.
 
@@ -9,8 +9,9 @@
 |---|---|
 | CF-200 work orders | **84 verified / 200 total**; 116 planned |
 | Current verified progress | 42% of defined work orders; **not** 42% of the finished product |
-| Open GitHub issues | **3** returned in the November 8, 8:58 a.m. Eastern issue search |
+| Open GitHub issues | **3** returned in the November 8, 1:14 p.m. Eastern issue search |
 | Public task/issue refresh | **Working once** through existing enabled hourly CF-200 executor; ongoing reliability still being observed |
+| Public HP health | **First report now published:** collected November 8, 1:08:53 p.m. Eastern; completed last receipt, 32 saved receipts, 10 ping receipts, no reported health error. This is self-reported public-safe telemetry, not Windows scheduler attestation. |
 | Unattended HP computer | **Unverified** — local Windows scheduling and matching receipt not independently correlated |
 | Donations/revenue | No new owner-confirmed receipts established by this dashboard |
 
@@ -28,6 +29,8 @@ Owner's order remains **P0 Automation → P1 Priority/continuity → P2 Finances
 | **P3 — Research** | **CF-161** | Preserve guess → hypothesis → evidence → proof | Planned; source-only candidate |
 
 **Latest P0 review:** [draft PR #17](https://github.com/whoiwts110217-creator/CF-0/pull/17) is **DO NOT MERGE / DO NOT DEPLOY**. Its [integration evidence gate](https://github.com/whoiwts110217-creator/CF-0/blob/experiment/parallel-coordination-v1/experiments/parallel_coordination/INTEGRATION_GATE.md) requires branch-tip tests, current-main reconciliation, owner-governed review and independent HP provenance. A review query returned zero submitted reviews; commit-status query returned zero statuses (neither proves CI success nor failure). Latest compare reported 52 commits ahead / 169 behind. The public [HP health snapshot](https://github.com/whoiwts110217-creator/CF-0/blob/main/relay/health/latest.json) returned **404**, meaning unavailable, not proof that the HP is offline.
+
+**November 8, 1:14 p.m. source review — material P0 change:** The [first public-safe HP health report](../relay/health/latest.json) is now present (blob `7b6a3ad7a9957bcea998fa6ff41015da49686672`), collected `2026-11-08T18:08:53+00:00`, with `receipt_count=32`, `ping_receipt_count=10`, `last_receipt_status=completed`, and `error=null`. The [mission-board receipt correlation](../automation_200/MASTER_MISSION_BOARD.md) records a completed allowlisted ping for UUID `be51a949-74ba-4fd1-b049-ac83a46f5387`, request digest `c41b77246a7a4a149462cb80bb954a15f50f5d81e09b0432928493633c8d5350`, and [receipt commit c483125](https://github.com/whoiwts110217-creator/CF-0/commit/c483125b437c996337f962780e7c1990bb27b082). The health report does **not** independently attest an unattended Windows Task Scheduler invocation; the HP gate remains open. The prior 404 observations below are historical, not the current report state. Registry remains **84/200 verified**; three open issues (#1, #3, #16) were returned on this review. CF-118 retry journal exists in source but no qualifying executed test/CI acceptance was established by this review. Five owner-approval proposals remain pending; no owner action requested. The [Work self-reference](../automation_200/WORK_COPY_PASTE_AUTOMATION_PROMPT.md) was re-read at blob `5da1a390f31ee8f57e5829ef368062f9215c28ac` after operator `f8f0c94c28cd28cc0402daf4f21bd875e1417932` and continuity `cac63dead1e00592c1d12ea6562639b02893d81f`. No manual owner clipboard action, HP command or new scheduler was required for this readback.
 
 **November 8, 8:58 a.m. source review:** CF-118 remains planned at 84/200. Latest source includes retry boundary tests at `automation_200/tests/test_retry_boundary_cf118.py` (blob `eb1913011c613c16d734d633942f9232257ec90a`), but no passing execution evidence was established in this review. GitHub issue #16 still has two comments, the latest from the repository owner; no new contributor reply. The public HP health snapshot remains unavailable (404), and independently correlated Windows scheduled-run evidence is still missing. No relay commands were sent. Five owner approval proposals remain pending.
 
@@ -48,7 +51,7 @@ Owner's order remains **P0 Automation → P1 Priority/continuity → P2 Finances
 
 The list distinguishes **operational blockers** from actual GitHub Issues; one need not have a GitHub issue number to be important.
 
-## Open GitHub Issues (last checked: November 8, 8:58 a.m. Eastern)
+## Open GitHub Issues (last checked: November 8, 1:14 p.m. Eastern)
 
 - [**#1 — HP bridge acceptance:** private mailbox → real Windows round trip](https://github.com/whoiwts110217-creator/CF-0/issues/1)
 - [**#3 — Engineering feedback:** critique the autonomous relay and intervention design](https://github.com/whoiwts110217-creator/CF-0/issues/3)
