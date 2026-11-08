@@ -4,6 +4,8 @@
 
 **[PUBLIC TASKS & ISSUES](docs/TASKS_AND_ISSUES.md) — what we're doing, what's blocked, and what needs your decision**
 
+**[TRY CAVEMAN FOCUS — free 60-second clarity exercise and feedback](https://github.com/whoiwts110217-creator/CF-0/issues/21)** — a public experiment; participation and optional support are separate. No visitor, supporter, or income claims.
+
 
 **Created and developed by David Smith; designated owner and intended generational beneficiary: Kiara Lynn Rose Smith.**
 
