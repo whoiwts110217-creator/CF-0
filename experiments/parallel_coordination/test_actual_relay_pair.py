@@ -210,7 +210,7 @@ class ActualRelayReceiptTests(unittest.TestCase):
 
     def test_escaped_lone_surrogate_request_fails_closed(self):
         raw = relay.dump(job()).replace(b'"args":{}',
-                                      b'"args":{"unused":"\\\\ud800"}')
+                                      b'"args":{"unused":"\\ud800"}')
         result = inspect_actual_relay_pair(
             job_id=JOB_ID, request=blob(REQ_PATH, raw),
             receipt=blob(REC_PATH, receipt()))
@@ -219,7 +219,7 @@ class ActualRelayReceiptTests(unittest.TestCase):
 
     def test_escaped_lone_surrogate_receipt_fails_closed(self):
         raw = relay.dump(receipt()).replace(b'"pong":true',
-                                           b'"pong":"\\\\ud800"')
+                                           b'"pong":"\\ud800"')
         result = inspect_actual_relay_pair(
             job_id=JOB_ID, request=blob(REQ_PATH, job()),
             receipt=blob(REC_PATH, raw))
