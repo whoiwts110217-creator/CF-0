@@ -1,5 +1,7 @@
 """Offline CF-118 journal tests; no HP or network access."""
 import json
+import subprocess
+import sys
 from unittest.mock import patch
 import tempfile
 import unittest
@@ -56,6 +58,32 @@ class RetryEvidenceTests(unittest.TestCase):
             self.assertEqual(list(Path(root).glob(".retry-journal-*")), [])
             append_failure(path, ids, "CF-118", 1002)
             self.assertEqual(read_events(path, ids)[1]["CF-118"]["failures"], 2)
+
+    def test_concurrent_processes_preserve_every_failure(self):
+        # Separate interpreters exercise the OS lock, not merely a thread lock.
+        # Each worker appends twice; interleaving must not lose either update.
+        with tempfile.TemporaryDirectory() as root:
+            path = Path(root) / "attempts.jsonl"
+            script = (
+                "import sys\n"
+                "from automation_200.retry_evidence import append_failure\n"
+                "for _ in range(2):\n"
+                "    append_failure(sys.argv[1], {'CF-118'}, 'CF-118', 1000)\n"
+            )
+            workers = [
+                subprocess.Popen(
+                    [sys.executable, "-c", script, str(path)],
+                    stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                )
+                for _ in range(3)
+            ]
+            for worker in workers:
+                stdout, stderr = worker.communicate(timeout=20)
+                self.assertEqual(worker.returncode, 0, stderr.decode("utf-8", errors="replace"))
+            events, attempts = read_events(path, {"CF-118"})
+            self.assertEqual(len(events), 6)
+            self.assertEqual(attempts["CF-118"]["failures"], 6)
+            self.assertEqual([event["failures"] for event in events], list(range(1, 7)))
 
     def test_reject_truncated_or_unknown_records(self):
         with tempfile.TemporaryDirectory() as root:
