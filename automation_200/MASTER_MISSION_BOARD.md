@@ -1,3 +1,11 @@
+## November 7, 2026 — parser-depth negative-case regression (isolated branch)
+
+- **Current main preflight read in mandatory order:** operator `f8f0c94c28cd28cc0402daf4f21bd875e1417932`; continuity `cac63dead1e00592c1d12ea6562639b02893d81f`; Work `5da1a390f31ee8f57e5829ef368062f9215c28ac`. Re-read next run.
+- **P0:** [e4d2797](https://github.com/whoiwts110217-creator/CF-0/commit/e4d27972edd977147165fb7c09af8f4c06cc5189) adds deeply nested JSON receipt regression on `experiment/parallel-coordination-v1` (<8192 bytes, > typical parser nesting limit); expects `HOLD_EVIDENCE` and `receipt_invalid_json`. Existing adapter source already catches `RecursionError`; test source committed, **full suite and CI unconfirmed**. Concurrent branch changes were observed; SHA-guarded update was used.
+- **Integration risk:** branch had 50 commits ahead and 164 behind main on last comparison, 21 changed files; no blind merge. Local container cannot resolve GitHub DNS, connector can read/write but not execute tests. Workflow file exists but a passing run is not established.
+- **Registry:** 84/200 verified at blob `304ed3c72df0fb82b6a0eacf6f4dc2e971262c74`. No HP scheduled proof, allowlist expansion, financial verification, private archive publication or owner approval.
+- **Next three:** (1) obtain independent branch suite/CI result, (2) reconcile branch divergence and review integration, (3) correlate physical HP scheduler and public-safe receipt. No owner clipboard required for this commit.
+
 ## November 7, 2026 — branch divergence blocks unreviewed integration
 
 - **Required main preflight read in order:** operator `f8f0c94c28cd28cc0402daf4f21bd875e1417932`; continuity `cac63dead1e00592c1d12ea6562639b02893d81f`; Work `5da1a390f31ee8f57e5829ef368062f9215c28ac`. Re-fetch on every future run.
