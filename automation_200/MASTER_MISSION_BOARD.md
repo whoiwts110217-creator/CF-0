@@ -1,3 +1,10 @@
+## November 8, 2026 — CF-118 corrupt-journal preservation regression
+
+- **Ordered current-public preflight:** operator blob `f8f0c94c28cd28cc0402daf4f21bd875e1417932`, continuity blob `cac63dead1e00592c1d12ea6562639b02893d81f`, and [Work self-reference](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) blob `5da1a390f31ee8f57e5829ef368062f9215c28ac`, all retrieved in order. No manual clipboard.
+- **Source work:** [test addition](https://github.com/whoiwts110217-creator/CF-0/commit/a34d0b80b68d8a9ddd964f10345d2cfc0d080fdc) and [test-byte correction](https://github.com/whoiwts110217-creator/CF-0/commit/e8f37f9c8340afa85eda11cb3508755ea3d035c1) check that malformed/truncated/invalid-UTF8 retry journals are rejected without destroying original bytes, then valid recovery works. Final test source readback blob `a83e775a4a634744cf8dc3a69454b63b9d394676`. This is published test source, **not confirmed passing execution**.
+- **Verification limits:** Local git access could not resolve github.com; GitHub connector readback worked. Registry blob `304ed3c72df0fb82b6a0eacf6f4dc2e971262c74` remains **84/200 verified**, CF-118 planned. Public HP report blob `216115372d8241e5278c27d6906a11c0348ec296` still reports 32 receipts, 10 pings, last completed, no error, but no physical Windows scheduled-run correlation. No new HP command or owner approval.
+- **Next three:** (1) obtain executed Windows/Linux GitHub Actions job evidence; (2) address any observed journal concurrency or corrupt-state failures; (3) correlate outstanding HP scheduled probe to Windows scheduler timestamp/wrapper. No registry/events/checkpoints, HP allowlist/schedule, payments or private archives changed.
+
 ## November 8, 2026, 2:02 p.m. Eastern — Windows retry-journal CI coverage
 
 - **Ordered current-public preflight:** operator blob `f8f0c94c28cd28cc0402daf4f21bd875e1417932`, continuity blob `cac63dead1e00592c1d12ea6562639b02893d81f`, and [Work self-reference](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) blob `5da1a390f31ee8f57e5829ef368062f9215c28ac`, fetched in order; no clipboard request.
