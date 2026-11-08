@@ -92,7 +92,7 @@ class RetryEvidenceTests(unittest.TestCase):
             allowed = {"CF-118"}
             append_failure(path, allowed, "CF-118", 1000)
             valid = path.read_bytes()
-            for corrupted in (valid[:-8], b"\\xff\\xfe\\x00", b'{"task":"CF-118"}\\n'):
+            for corrupted in (valid[:-8], bytes([255, 254, 0]), b'{"task":"CF-118"}' + bytes([10])):
                 path.write_bytes(corrupted)
                 with self.assertRaises((ValueError, UnicodeError)):
                     append_failure(path, allowed, "CF-118", 1001)
