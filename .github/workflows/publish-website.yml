@@ -9,6 +9,7 @@ on:
       - 'llms.txt'
       - 'docs/START_HERE.md'
       - 'concepts/dreamkiller/iphone-emu/site/**'
+      - 'concepts/dreamkiller/rom_v0_2/**'
       - 'concepts/dreamkiller/iphone-emu/tests/**'
       - 'automation_200/mission_control/dist/**'
       - 'automation_200/mission_control/tests/**'
@@ -45,6 +46,8 @@ jobs:
         run: node --test i18n/home.test.mjs
       - name: Build commit-pinned public Mission Control fallback
         run: python automation_200/mission_control/build_snapshot.py
+      - name: Rebuild Dreamkiller v0.2 cartridge from public source
+        run: python3 concepts/dreamkiller/rom_v0_2/build_v02.py
       - name: Validate iPhone Game Boy emulator web-app package
         run: |
           python -m unittest discover -s concepts/dreamkiller/iphone-emu/tests -p 'test_*.py' -v
@@ -67,6 +70,7 @@ jobs:
           cp -R automation_200/mission_control/dist/. _site/mission-control/
           mkdir -p _site/dreamkiller
           cp -R concepts/dreamkiller/iphone-emu/site/. _site/dreamkiller/
+          cp concepts/dreamkiller/rom_v0_2/dreamkiller_road_v0_2.gb _site/dreamkiller/road-v02.gb
           printf '%s\n' 'User-agent: *' 'Allow: /' > _site/robots.txt
       - name: Verify owner navigation links in staged site
         shell: bash
@@ -88,6 +92,10 @@ jobs:
           assert Path("_site/dreamkiller/GameBoy.min.js").stat().st_size > 500000
           assert Path("_site/dreamkiller/road-test.gb").stat().st_size == 32768
           assert Path("_site/dreamkiller/road-v01.gb").stat().st_size == 32768
+          from hashlib import sha256
+          new_rom = Path("_site/dreamkiller/road-v02.gb")
+          assert new_rom.stat().st_size == 32768
+          assert sha256(new_rom.read_bytes()).hexdigest() == "df42c2a1d155b929cef09d4648b9ac80e95eb4a6eab8da44da894fa98f57ee2c"
           assert Path("_site/dreamkiller/GPL-2.0.txt").is_file()
           expected = [
               "https://github.com/whoiwts110217-creator/CF-0/blob/main/automation_200/MASTER_OPERATOR_PROMPT.md",

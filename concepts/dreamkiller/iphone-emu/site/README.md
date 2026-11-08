@@ -19,3 +19,9 @@ Controls: D-pad, A/B, Start/Select. SAVE STATE downloads a snapshot, LOAD STATE 
 - The native Game Boy Color cannot provide an internet MMO without a separately designed service. This emulator player is independent of the game design.
 
 [Master game concept](../../MASTER_CONCEPT_AND_CONTINUITY_PROMPT.md) · [CF-0 Continuity](../../../../docs/CONTINUITY.md)
+
+## Current one-tap prototype — v0.2 (Nov 7/8)
+
+The launcher now has **PLAY DREAMKILLER v0.2** for the source-controlled 32KB ROM, rebuilt and SHA-256 checked on publication. It is a playable vertical slice with hand-authored Game Boy tiles, six mapped areas, a two-frame OAM character, Day-One fruit/sign Road discovery, one shade encounter, Pip's yes/no prompt, cave gate and archive record. This is **not** the complete 10–15-minute chapter; a physical iPhone Safari test and browser battery-SRAM persistence test remain outstanding. The older v0.1.2 remains selectable as an archive. D-pad hold-to-repeat has a 280ms initial delay and 165ms follow-up pulse (36ms release gap); it is implemented in the launcher source and still needs human-device usability confirmation.
+
+[Playable ROM source](../../rom_v0_2/README.md) · [v0.2 headless GameBoy.js browser pass](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42430061229) (160x144, four colors, touch keypress/release).
