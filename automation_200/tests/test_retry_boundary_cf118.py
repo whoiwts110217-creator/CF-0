@@ -47,5 +47,21 @@ class RetryBoundaryTests(unittest.TestCase):
         self.assertFalse(result["execution_authorized"])
 
 
+    def test_owner_override_cannot_reopen_exhausted_retry(self):
+        attempts = {"CF-002": {"failures": 3, "failed_at": 1000}}
+        result = propose(registry(), now=5000, attempts=attempts,
+                         owner_preference_ids=["CF-002"], limit=4)
+        self.assertEqual(result["held_counts"].get("retry_limit_reached"), 1)
+        self.assertNotIn("CF-002", [item["id"] for item in result["selected"]])
+        self.assertIn("CF-003", [item["id"] for item in result["selected"]])
+        self.assertFalse(result["execution_authorized"])
+        self.assertEqual(attempts["CF-002"], {"failures": 3, "failed_at": 1000})
+
+    def test_future_failure_timestamp_fails_closed(self):
+        with self.assertRaisesRegex(ValueError, "future"):
+            propose(registry(), now=1000, attempts={
+                "CF-002": {"failures": 1, "failed_at": 1001}})
+
+
 if __name__ == "__main__":
     unittest.main()
