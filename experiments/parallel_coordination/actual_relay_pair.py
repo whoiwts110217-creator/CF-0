@@ -55,7 +55,7 @@ def _decode_blob(
     try:
         obj = json.loads(record.content.decode("utf-8"), object_pairs_hook=unique_pairs,
                          parse_constant=lambda _: (_ for _ in ()).throw(ValueError("nonfinite")))
-    except (UnicodeDecodeError, ValueError):
+    except (UnicodeDecodeError, ValueError, RecursionError):
         return None, "invalid_json"
     if not isinstance(obj, dict):
         return None, "not_an_object"
