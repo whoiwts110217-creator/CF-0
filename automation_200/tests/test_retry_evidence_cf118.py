@@ -1,5 +1,6 @@
 """Offline CF-118 journal tests; no HP or network access."""
 import json
+import hashlib
 import subprocess
 import sys
 from unittest.mock import patch
@@ -100,6 +101,22 @@ class RetryEvidenceTests(unittest.TestCase):
             path.write_bytes(valid)
             append_failure(path, allowed, "CF-118", 1001)
             self.assertEqual(read_events(path, allowed)[1]["CF-118"]["failures"], 2)
+
+    def test_reject_valid_hash_with_missing_first_failure(self):
+        # A correctly hashed record cannot invent a prior local failure.
+        with tempfile.TemporaryDirectory() as root:
+            path = Path(root) / "attempts.jsonl"
+            body = {"task": "CF-118", "failures": 2, "failed_at": 1000,
+                    "previous": "0" * 64}
+            digest = hashlib.sha256(json.dumps(body, sort_keys=True,
+                separators=(",", ":"), ensure_ascii=True).encode("ascii")).hexdigest()
+            path.write_text(json.dumps(dict(body, digest=digest)) + "\\n", encoding="utf-8")
+            original = path.read_bytes()
+            with self.assertRaises(ValueError):
+                read_events(path, {"CF-118"})
+            with self.assertRaises(ValueError):
+                append_failure(path, {"CF-118"}, "CF-118", 1001)
+            self.assertEqual(path.read_bytes(), original)
 
     def test_reject_truncated_or_unknown_records(self):
         with tempfile.TemporaryDirectory() as root:
