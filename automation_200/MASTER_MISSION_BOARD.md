@@ -1,3 +1,11 @@
+## November 7, 2026 — isolated branch review gate opened (draft PR #17)
+
+- **Public main preflight complete and ordered:** operator blob `f8f0c94c28cd28cc0402daf4f21bd875e1417932`; continuity blob `cac63dead1e00592c1d12ea6562639b02893d81f`; Work blob `5da1a390f31ee8f57e5829ef368062f9215c28ac`. Fetch anew next run.
+- **P0 real action:** opened [draft pull request #17](https://github.com/whoiwts110217-creator/CF-0/pull/17) for `experiment/parallel-coordination-v1` into `main`, marked **DO NOT MERGE OR DEPLOY**, to expose review and CI evidence without applying the experiment. Search immediately before creation found no existing PR with that head. At compare time branch was 51 commits ahead / 165 behind, 21 changed files. GitHub create response: `draft=true`, `mergeable=false`; do not treat that as a final conflict diagnosis.
+- **Acceptance gates:** completed CI test evidence, current-main code/security/continuity review, explicit owner-governed integration decision; do not mark a CF-200 task verified on PR creation. Existing HP relay allowlist, scheduled execution and public-safe receipt requirements unchanged.
+- **Registry:** 84/200 verified, blob `304ed3c72df0fb82b6a0eacf6f4dc2e971262c74`. No physical HP scheduled receipt correlation, new income or private archive changes.
+- **Next three:** (1) inspect PR #17 checks and review feedback, (2) determine minimal safe integration strategy given divergence, (3) continue independent HP scheduled evidence check. No owner copy/paste required.
+
 ## November 7, 2026 — parser-depth negative-case regression (isolated branch)
 
 - **Current main preflight read in mandatory order:** operator `f8f0c94c28cd28cc0402daf4f21bd875e1417932`; continuity `cac63dead1e00592c1d12ea6562639b02893d81f`; Work `5da1a390f31ee8f57e5829ef368062f9215c28ac`. Re-read next run.
