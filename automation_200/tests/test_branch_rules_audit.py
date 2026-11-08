@@ -29,6 +29,16 @@ class TestRulesAudit(unittest.TestCase):
             change(data)
             self.assertNotEqual(classify(data)["state"], "baseline_verified")
 
+    def test_default_branch_alias_alone_is_not_explicit_main(self):
+        data = sample()
+        data["conditions"]["ref_name"]["include"] = ["~DEFAULT_BRANCH"]
+        self.assertEqual(classify(data)["state"], "review_required")
+
+    def test_malformed_rule_type_fails_closed(self):
+        data = sample()
+        data["rules"] = [{"type": []}]
+        self.assertNotEqual(classify(data)["state"], "baseline_verified")
+
     def test_new_write_restrictions_require_review(self):
         for rule in ("update", "pull_request", "required_status_checks"):
             data = sample()
