@@ -101,6 +101,14 @@ class RetryCeilingTests(unittest.TestCase):
         self.assertNotIn("CF-001", [item["id"] for item in result["selected"]])
         self.assertEqual(result["held_counts"]["retry_cooldown"], 1)
 
+    def test_non_string_health_state_rejected_without_mutation(self):
+        sample = registry()
+        before = copy.deepcopy(sample)
+        for health in ([], {}, 0, None, True):
+            with self.subTest(health=health), self.assertRaises(ValueError):
+                propose(sample, health_state=health, now=10000)
+        self.assertEqual(sample, before)
+
     def test_hp_local_gate_remains_even_after_cooldown(self):
         sample = registry()
         sample["tasks"][0]["physical_hp_required"] = True
