@@ -1,3 +1,12 @@
+## November 8, 2026, 3:30 p.m. Eastern — hourly public dashboard reconciliation
+
+- **Ordered preflight on public main:** [operator](MASTER_OPERATOR_PROMPT.md) blob `f8f0c94c28cd28cc0402daf4f21bd875e1417932`; [continuity](MASTER_CONTINUITY_PROMPT.md) blob `cac63dead1e00592c1d12ea6562639b02893d81f`; [Work self-reference](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) blob `5da1a390f31ee8f57e5829ef368062f9215c28ac`, all retrieved afresh in order.
+- **Verified issue change:** current GitHub open-issue search returns **four**: [#1](https://github.com/whoiwts110217-creator/CF-0/issues/1), [#3](https://github.com/whoiwts110217-creator/CF-0/issues/3), [#16](https://github.com/whoiwts110217-creator/CF-0/issues/16), and newly observed [#21](https://github.com/whoiwts110217-creator/CF-0/issues/21) (free 60-second clarity exercise feedback). [Public dashboard refreshed](https://github.com/whoiwts110217-creator/CF-0/commit/6fbeefb0af32ec36276e05c1663dc6c54dafc487) to show four instead of three.
+- **Latest inspected HP public-safe health:** `relay/health/latest.json` blob `631c804b27ee263f0b3891809658524fa71fca0f`, collected `2026-11-08T20:22:07+00:00`, 32 receipts, 10 pings, last completed, no reported error. This does **not** independently attest Windows Task Scheduler execution.
+- **CI:** previously inspected dashboard workflow run #18 (42497038161) failed five CF-118 boundary tests with missing title fields in its historical fixture; current fixture source has titles but **no fresh passing Linux/Windows job evidence**. Workflow triggering remains unresolved. Do not count source-only fixes as acceptance.
+- **Registry:** blob `304ed3c72df0fb82b6a0eacf6f4dc2e971262c74`, **84/200 verified; 116 planned**. No changes to events, checkpoints, HP allowlist/schedule, approvals, private archives, revenue or payment actions.
+- **Next three:** (1) establish authorized fresh CI execution/trigger evidence for Linux and Windows retry tests; (2) investigate and fix any observed failures, preserving retry-journal corruption evidence; (3) correlate existing HP scheduled probe UUID/digest/receipt with Windows Task Scheduler and wrapper outcome.
+
 ## November 8, 2026 — CI trigger evidence gap discovered
 
 - **Ordered current-public preflight:** operator `f8f0c94c28cd28cc0402daf4f21bd875e1417932`, continuity `cac63dead1e00592c1d12ea6562639b02893d81f`, [Work self-reference](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) `5da1a390f31ee8f57e5829ef368062f9215c28ac`, read in order.
