@@ -227,8 +227,8 @@ class ActualRelayReceiptTests(unittest.TestCase):
         self.assertIn("receipt_invalid_or_unmatched", result.blockers)
 
 
-    def test_valid_unicode_in_json_encoding_does_not_change_ping_result(self):
-        # Whitespace and non-ASCII escapes are not proof of tampering by themselves.
+    def test_equivalent_json_whitespace_preserves_valid_receipt(self):
+        # JSON whitespace alone does not change the canonical receipt digest.
         raw = relay.dump(receipt()).replace(b'"pong":true',
                                            b'"pong":true ')
         result = inspect_actual_relay_pair(
