@@ -1,3 +1,11 @@
+## November 8, 2026, 1:39 p.m. Eastern — retry-journal interruption regression
+
+- **Ordered public-main preflight:** operator blob `f8f0c94c28cd28cc0402daf4f21bd875e1417932`, continuity blob `cac63dead1e00592c1d12ea6562639b02893d81f`, and [Work self-reference](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) blob `5da1a390f31ee8f57e5829ef368062f9215c28ac` retrieved in order. No owner clipboard required; re-fetch next run.
+- **Source-level P1 work:** [commit 7bceeb3](https://github.com/whoiwts110217-creator/CF-0/commit/7bceeb380a2dff7c5e0f9aeb0ad33776655d76d4) adds an offline regression that simulates failure at atomic journal replacement, checks prior journal bytes and failure count remain intact, checks temporary-file cleanup, and checks a later append can recover. Public main readback confirmed test blob `3b078b8e47000febaaed64f06a25045f35f4eab3`.
+- **Evidence limit:** test source committed, but no actual passing test or CI execution established this run. CF-118 remains **planned**; registry blob `304ed3c72df0fb82b6a0eacf6f4dc2e971262c74` remains **84/200 verified**. Test simulates replacement failure, not actual power loss or Windows crash recovery. No registry/events/checkpoint changes.
+- **P0 health:** [public report](../relay/health/latest.json) blob `7b6a3ad7a9957bcea998fa6ff41015da49686672` collected 18:08:53 UTC reports 32 receipts, 10 pings, last completed, no reported error. It does **not** prove unattended Windows Task Scheduler correlation; that gate stays open. No HP command or Notepad action.
+- **Approvals and next three:** PCA-001 through PCA-005 remain pending. (1) obtain executed CI result for CF-118 journal and boundary tests, (2) test concurrent writers and real interrupted writes with source-level evidence, (3) correlate HP scheduled probe UUID/hash/receipt to Windows task time and wrapper result. No new schedule, payments, outreach, or private source publication.
+
 ## November 8, 2026, 1:28 p.m. Eastern — CF-118 retry journal write isolation
 
 - **Preflight.** Current main `122cc3b4d2f4` supplied operator `f8f0c94c`, continuity `cac63dead`, and [Work self-reference](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) `5da1a390`. Retrieve all three anew next run.
