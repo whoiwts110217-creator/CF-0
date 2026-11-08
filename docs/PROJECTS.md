@@ -109,3 +109,24 @@ The requester explicitly asked that prior conversations **and** archives be read
 | **CF-RC-019** | **No structural identity decisions** | All 62 reconstructed entries in the inspected v5 graph have empty parent IDs; recorded claim/conflict tables are also empty. Build reversible, explicit source-cited relation candidates, with meaningful identities for Book Machine, anthology episodes, novel versus research, and distinct game versions. Owner review is needed for ambiguous identity or rights changes. |
 
 **Evidence boundary and operational result:** This is a public-safe aggregate of private read-only research; its counts can be checked from the owner-controlled archives, but no private raw files are being committed. It does not restore the lost approximately 37-project inventory, execute a local HP action, verify unattended scheduling, confirm revenue, approve an identity merge, alter capability permissions, or mark any CF-200 work order completed. The existing [continuity engine](../continuity/README.md) and source-graded [master prompts](../automation_200/MASTER_CONTINUITY_PROMPT.md) remain the implementation path. This follow-up is research, not an unattended source-ingestion pipeline.
+
+## November 8 — v6 private archive preservation and work-order mapping status
+
+**Public-safe aggregate, source-verified by separate private restore; no private originals published.** A new *owner-controlled* v6 backup preserves all v5 sources unchanged and adds two versioned original artifact packages: **RH Runs 001–008** (associated, evidence-only, with existing \`RES-02\`) and **Donation Growth v1.4** (associated with \`FIN-02\`). The v6 manifest and full content hashes were independently rechecked after restoration. **v5 was not overwritten.**
+
+| Evidence scope | Historic v5 | New preserved v6 |
+|---|---:|---:|
+| Private source artifacts | 22 | 24 |
+| Source→project evidence associations | 136 | 138 |
+| Validated hash-chain events | 100 | 104 |
+| Reconstructed project identities | 62 | 62 |
+| Full original indexed ChatGPT conversations | 0 | 0 |
+| Accepted project→CF-200 work-order links | 0 | 0 |
+
+A read-only comparison of the two preserved CF-200 historical snapshots found **30 planned→verified transitions and no verified→planned transitions** between 54/200 and 84/200. These are historical changes, **not 30 new completions in this audit**. The existing source-level, stream-based [work-order bridge](../continuity/workorder_bridge.py) yields **100 candidate associations** and leaves **100 ambiguous tasks unmapped** in the 84/200 snapshot. All suggestions remain unapproved; this review changed no authoritative project/CF-200 status.
+
+**Four identity-recovery leads absent as independent titles in the reconstructed 62:** *OPEN HORIZON*, *Clarity Sheet*, *AI Discovery Signal*, and *Day One follow-along*. Text scanning found *OPEN HORIZON* only in a partial prior-conversation recollection, not among the accessible preserved v5 text sources. *Clarity Sheet* occurs in three v5 preserved sources and a separate owner-Library storefront; *AI Discovery Signal* in one secondary source; *Day One* in two. **None is automatically promoted to a new verified project**, and the missing original ~37 inventory is still unlocated.
+
+**P0 evidence update:** GitHub now contains a [public HP health report](../relay/health/latest.json) collected on November 8 at **18:08:53 UTC**, reporting 32 saved receipts and no collector error. This establishes that a public report was published, **not** independently authenticated HP identity, exact Task Scheduler provenance or reliable unattended operation. Preserve those unverified acceptance gates and the existing restricted relay allowlist.
+
+**Next acceptance:** use the private v6 recovery metadata and existing continuity/work-order bridge to review one source-linked alias or task relationship, then append a new approved private event only if the evidence and authority criteria are actually met. Do not publish private source text, merge project identities from name similarity, or mark \`CF-141\` complete for this document-only PR.
