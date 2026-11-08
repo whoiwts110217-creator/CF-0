@@ -1,0 +1,27 @@
+name: Dreamkiller v0.2 Cartridge Build
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'concepts/dreamkiller/rom_v0_2/**'
+      - '.github/workflows/dreamkiller-v02.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  cartridge:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Rebuild original Dreamkiller Game Boy ROM and test
+        working-directory: concepts/dreamkiller/rom_v0_2
+        run: |
+          python3 build_v02.py
+          python3 -m unittest test_v02 -v
+          sha256sum dreamkiller_road_v0_2.gb
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dreamkiller-road-v02-rom
+          path: concepts/dreamkiller/rom_v0_2/dreamkiller_road_v0_2.gb
+          if-no-files-found: error
