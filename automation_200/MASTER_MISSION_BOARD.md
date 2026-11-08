@@ -1,3 +1,12 @@
+## November 8, 2026, 2:37 a.m. Eastern — CF-118 boundary regression coverage
+
+- **Mandatory public-main preflight read in order:** [operator](MASTER_OPERATOR_PROMPT.md) blob `f8f0c94c28cd28cc0402daf4f21bd875e1417932`; [continuity](MASTER_CONTINUITY_PROMPT.md) blob `cac63dead1e00592c1d12ea6562639b02893d81f`; [Work self-reference](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) blob `5da1a390f31ee8f57e5829ef368062f9215c28ac`. All three fetched from current public main, in sequence.
+- **Source artifact:** [de1bf9a](https://github.com/whoiwts110217-creator/CF-0/commit/de1bf9a411cb95d7c678b334f3fa4a5f1d6c201b) added `automation_200/tests/test_retry_boundary_cf118.py`: three offline regressions for retry cooldown immediately before/at boundary, exhausted retry ceilings, and HP-install holds despite fresh public heartbeat/owner preference. Fetched back from public main at blob `66ecedc7167b7cec728cfbf8ea07bbe190b9c6a6`. **Tests not executed or CI-confirmed in this run.** No task acceptance claimed.
+- **Authoritative registry:** `registry.json` blob `304ed3c72df0fb82b6a0eacf6f4dc2e971262c74`, **84/200 verified**, 116 planned. No events/checkpoint changes.
+- **GitHub discussion:** 3 open issues observed; #16 still has only 2 comments, last by repository owner, so no new reply from the contributor. No third-party messages sent.
+- **HP:** owner-provided manual diagnostic remains historical evidence; fresh independent scheduled-run correlation still missing. No relay action, allowlist expansion or HP GUI action.
+- **Next three:** (1) obtain actual passing CI for CF-118 retry tests and inspect durable retry records, (2) correlate outstanding scheduled HP probe receipt/hash with Windows Task Scheduler evidence, (3) inspect PR #17 integration CI/review without merging. The GitHub source handoff required no owner copy/paste. Five prompt-change bin proposals remain unapproved.
+
 ## November 8, 2026, 1:52 a.m. Eastern — malformed blocked-ID input safety fix
 
 - **Required current public-main preflight, in order:** [operator](MASTER_OPERATOR_PROMPT.md) blob `f8f0c94c28cd28cc0402daf4f21bd875e1417932`; [continuity](MASTER_CONTINUITY_PROMPT.md) blob `cac63dead1e00592c1d12ea6562639b02893d81f`; [Work copy/paste self-reference](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) blob `5da1a390f31ee8f57e5829ef368062f9215c28ac`. Source read; no owner clipboard required.
