@@ -34,6 +34,12 @@ either person.
   Library contains mixed projects/subprojects and lacks per-item original
   source references. It does not replace the missing original ~37-project list.
 
+## Verified destructive-operation branch protection — November 8, 2026
+
+The earlier November 7 note that protection was unverified remains historical. A repository-level ruleset was subsequently inspected through GitHub's REST API: [CF-0 Main — Continuity Protection](https://github.com/whoiwts110217-creator/CF-0/rules/26799223). It is `active`, explicitly includes `refs/heads/main`, and requires `deletion` and `non_fast_forward` protection. Its empty bypass list does not prove an independent review gate. The inspected rules did **not** include required pull requests, status checks, or update restrictions; ordinary automation writes are not blocked by this ruleset.
+
+The reproducible [read-only branch audit](../automation_200/branch_rules_audit.py), with [offline fail-closed tests](../automation_200/tests/test_branch_rules_audit.py), checks this exact baseline against live GitHub ruleset data when run with network access. It does not grant administrator authority, test rejected writes, validate the person empowered to approve changes, or prove GitHub plan enforcement on a different repository. **Independent owner-review enforcement is still open**, separate from deletion/force-push protection. No HP health reporting opt-in is required for CF-0 source work or this check; the owner deferred that optional activation.
+
 ## Required owner-controlled settings (not performed by ChatGPT)
 
 An authorized GitHub repository administrator, together with the designated
