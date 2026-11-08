@@ -7,6 +7,9 @@ on:
       - '.github/workflows/dashboard-guard.yml'
       - 'automation_200/dashboard_guard.py'
       - 'automation_200/tests/test_dashboard_guard.py'
+      - 'automation_200/decision_engine.py'
+      - 'automation_200/priority_selector.py'
+      - 'automation_200/tests/test_retry_boundary_cf118.py'
   pull_request:
     paths:
       - 'docs/TASKS_AND_ISSUES.md'
@@ -14,6 +17,9 @@ on:
       - '.github/workflows/dashboard-guard.yml'
       - 'automation_200/dashboard_guard.py'
       - 'automation_200/tests/test_dashboard_guard.py'
+      - 'automation_200/decision_engine.py'
+      - 'automation_200/priority_selector.py'
+      - 'automation_200/tests/test_retry_boundary_cf118.py'
   workflow_dispatch:
 
 permissions:
@@ -28,5 +34,7 @@ jobs:
         uses: actions/checkout@v4
       - name: Run offline dashboard checks
         run: python -m unittest discover -s automation_200/tests -p 'test_dashboard_guard.py' -v
+      - name: Run CF-118 retry boundary regressions (source-only, no HP)
+        run: python -m unittest automation_200.tests.test_retry_boundary_cf118 -v
       - name: Check dashboard snapshot against exact current registry
         run: python automation_200/dashboard_guard.py
