@@ -50,7 +50,9 @@ def _parse_events(data, allowed_ids):
             raise ValueError("invalid retry journal values or chain")
         body = {key: event[key] for key in ("task", "failures", "failed_at", "previous")}
         digest = hashlib.sha256(_canonical(body).encode("ascii")).hexdigest()
-        if digest != event["digest"] or (task in attempts and
+        if digest != event["digest"] or (
+            task not in attempts and failures != 1
+        ) or (task in attempts and
             (failures != attempts[task]["failures"] + 1 or stamp < attempts[task]["failed_at"])):
             raise ValueError("retry journal integrity or sequence mismatch")
         previous = digest
