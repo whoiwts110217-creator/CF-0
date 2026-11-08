@@ -55,9 +55,9 @@ try{
  socket.onmessage=e=>{const m=JSON.parse(e.data);if(!m.id)return;const p=pending.get(m.id);if(!p)return;clearTimeout(p.timeout);pending.delete(m.id);m.error?p.reject(Error(JSON.stringify(m.error))):p.resolve(m)};
  await send('Runtime.enable');await send('Page.enable');await send('Page.navigate',{url:origin});
  await sleep(1200);
- const initial=await evaluate('({ready:document.readyState,emulator:typeof window.embedGameBoy,button:!!document.getElementById("road-button")})');
+ const initial=await evaluate('({ready:document.readyState,emulator:typeof window.embedGameBoy,button:!!document.getElementById("road2-button")})');
  if(initial.emulator!=='function'||!initial.button)throw Error('Emulator core or launcher button unavailable: '+JSON.stringify(initial));
- await evaluate(`(async()=>{const r=await fetch('./road-v02.gb');if(!r.ok)throw Error('v02 ROM missing');const rom=await r.arrayBuffer();if(rom.byteLength!==32768)throw Error('wrong cartridge size');document.getElementById('rom-title').textContent='DREAMKILLER ROAD V0.2.GB';document.getElementById('playing').classList.remove('hidden');window.embedGameBoy({container:'game',name:'Dreamkiller Road v0.2.gb',rom,soundEnabled:false,showMobileControls:false,player1:{up:'ArrowUp',down:'ArrowDown',left:'ArrowLeft',right:'ArrowRight',a:'KeyX',b:'KeyZ',start:'KeyS',select:'KeyA'}});return {size:rom.byteLength}})()`);
+ await evaluate('document.getElementById("road2-button").click()');
  await sleep(1800);
  const state=await evaluate('({launched:!document.getElementById("playing").classList.contains("hidden"),title:document.getElementById("rom-title").textContent,status:document.getElementById("status-line").textContent,canvas:document.querySelectorAll("#game canvas").length,children:document.getElementById("game").childElementCount})');
  console.log('Emulator launch observation:',JSON.stringify(state));
