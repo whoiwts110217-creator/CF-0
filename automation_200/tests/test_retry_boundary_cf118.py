@@ -10,14 +10,18 @@ from automation_200.decision_engine import propose
 
 def registry():
     return {"tasks": [
-        {"id": "CF-001", "status": "verified", "stream": "priority_logic",
-         "priority": 1, "depends_on": [], "physical_hp_required": False},
-        {"id": "CF-002", "status": "planned", "stream": "priority_logic",
-         "priority": 1, "depends_on": ["CF-001"], "physical_hp_required": False},
-        {"id": "CF-003", "status": "planned", "stream": "priority_logic",
-         "priority": 2, "depends_on": ["CF-001"], "physical_hp_required": False},
-        {"id": "CF-004", "status": "planned", "stream": "hp_install",
-         "priority": 1, "depends_on": ["CF-001"], "physical_hp_required": False},
+        {"id": "CF-001", "title": "Verified prerequisite", "status": "verified",
+         "stream": "priority_logic", "priority": 1, "depends_on": [],
+         "physical_hp_required": False, "authority": "existing-source-tests"},
+        {"id": "CF-002", "title": "Retry candidate", "status": "planned",
+         "stream": "priority_logic", "priority": 1, "depends_on": ["CF-001"],
+         "physical_hp_required": False, "authority": "existing-source-tests"},
+        {"id": "CF-003", "title": "Other ready work", "status": "planned",
+         "stream": "priority_logic", "priority": 2, "depends_on": ["CF-001"],
+         "physical_hp_required": False, "authority": "existing-source-tests"},
+        {"id": "CF-004", "title": "HP installation", "status": "planned",
+         "stream": "hp_install", "priority": 1, "depends_on": ["CF-001"],
+         "physical_hp_required": False, "authority": "owner-local"},
     ]}
 
 
