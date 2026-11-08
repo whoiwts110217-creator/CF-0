@@ -57,6 +57,13 @@ class RetryBoundaryTests(unittest.TestCase):
         self.assertFalse(result["execution_authorized"])
         self.assertEqual(attempts["CF-002"], {"failures": 3, "failed_at": 1000})
 
+    def test_invalid_clock_values_fail_closed_without_mutating_attempts(self):
+        attempts = {"CF-002": {"failures": 1, "failed_at": 1000}}
+        for clock in (-1, True, 1000.5, "1000"):
+            with self.subTest(clock=clock), self.assertRaisesRegex(ValueError, "time"):
+                propose(registry(), now=clock, attempts=attempts)
+        self.assertEqual(attempts, {"CF-002": {"failures": 1, "failed_at": 1000}})
+
     def test_future_failure_timestamp_fails_closed(self):
         with self.assertRaisesRegex(ValueError, "future"):
             propose(registry(), now=1000, attempts={
