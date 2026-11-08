@@ -109,6 +109,15 @@ class RetryCeilingTests(unittest.TestCase):
                 propose(sample, health_state=health, now=10000)
         self.assertEqual(sample, before)
 
+    def test_malformed_blocked_ids_fail_closed_without_mutation(self):
+        sample = registry()
+        before = copy.deepcopy(sample)
+        for blocked in (None, 42, [["CF-001"]], [{"id": "CF-001"}],
+                        ["CF-001", "CF-001"], ["CF-999"], [True]):
+            with self.subTest(blocked=blocked), self.assertRaises(ValueError):
+                propose(sample, now=10000, blocked_ids=blocked)
+        self.assertEqual(sample, before)
+
     def test_hp_local_gate_remains_even_after_cooldown(self):
         sample = registry()
         sample["tasks"][0]["physical_hp_required"] = True
