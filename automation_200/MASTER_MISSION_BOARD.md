@@ -1,3 +1,12 @@
+## November 7, 2026, 10:46 p.m. Eastern — CF-118 retry selection regression expansion
+
+- **Current public main mandatory read order:** operator blob `f8f0c94c28cd28cc0402daf4f21bd875e1417932`, continuity blob `cac63dead1e00592c1d12ea6562639b02893d81f`, [Work self-reference](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) blob `5da1a390f31ee8f57e5829ef368062f9215c28ac`. No owner clipboard step needed.
+- **Actual source change:** [commit 19e65f9](https://github.com/whoiwts110217-creator/CF-0/commit/19e65f951579a46f3403af658ec2e8926fcff2ce) extends existing `automation_200/tests/test_retry_ceiling_cf118.py` from five to seven tests: (1) unmet dependency must hold before retry ceiling; (2) retry-exhausted preferred task cannot starve another ready task. Public main readback confirmed blob `6bd72933b4897e6670a291d349334879b1e1fd5b`.
+- **Evidence limit:** tests added, **not executed in this run**; local GitHub clone unavailable in runner (DNS resolution of github.com failed). GitHub commit combined-status queries for `78062dd` and `cee62e5` returned zero statuses, which cannot establish passing or failing GitHub Actions. No acceptance evidence for CF-118 yet.
+- **Registry:** authoritative `registry.json` blob `304ed3c72df0fb82b6a0eacf6f4dc2e971262c74` remains **84/200**. No event, checkpoint or task-status edits.
+- **HP:** owner-reported historical manual receipts supported; fresh unattended scheduled Windows Task Scheduler-to-receipt correlation not observed. No HP commands, relay allowlist changes, financial actions or private continuity publication.
+- **Next three:** (1) obtain exact-commit CI or independently reproducible test results for CF-118; (2) inspect retry-state persistence/acceptance requirements without a duplicate scheduler; (3) correlate the existing HP scheduled-poll probe to independently timestamped Windows scheduler evidence. Draft PR #17 remains no-merge review-only.
+
 ## November 7, 2026, 10:14 p.m. Eastern — CF-118 retry boundary tests committed
 
 - **Mandatory preflight:** public main operator blob `f8f0c94c28cd28cc0402daf4f21bd875e1417932`, continuity blob `cac63dead1e00592c1d12ea6562639b02893d81f`, [Work self-reference](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) blob `5da1a390f31ee8f57e5829ef368062f9215c28ac`, read in that order. Next Work run must fetch all three again.
