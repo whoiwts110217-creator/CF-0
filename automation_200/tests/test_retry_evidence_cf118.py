@@ -110,7 +110,7 @@ class RetryEvidenceTests(unittest.TestCase):
                     "previous": "0" * 64}
             digest = hashlib.sha256(json.dumps(body, sort_keys=True,
                 separators=(",", ":"), ensure_ascii=True).encode("ascii")).hexdigest()
-            path.write_text(json.dumps(dict(body, digest=digest)) + "\\n", encoding="utf-8")
+            path.write_text(json.dumps(dict(body, digest=digest)) + "\n", encoding="utf-8")
             original = path.read_bytes()
             with self.assertRaises(ValueError):
                 read_events(path, {"CF-118"})
