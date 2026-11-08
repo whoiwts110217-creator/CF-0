@@ -20,10 +20,10 @@ def classify(ruleset):
     conditions = ruleset.get("conditions")
     refs = conditions.get("ref_name") if isinstance(conditions, dict) else None
     includes = refs.get("include") if isinstance(refs, dict) else None
+    excludes = refs.get("exclude") if isinstance(refs, dict) else None
     rules = ruleset.get("rules")
     types = {rule["type"] for rule in rules if isinstance(rule, dict) and type(rule.get("type")) is str} if isinstance(rules, list) else set()
-    targets_main = isinstance(includes, list) and "refs/heads/main" in includes
-    good = (ruleset.get("id") == RULESET_ID and ruleset.get("source") == REPO
+    # GitHub exclusions take precedence. A ruleset mentioning main as an\n    # inclusion must not be accepted when it also excludes main or all refs.\n    targets_main = (isinstance(includes, list) and "refs/heads/main" in includes\n                    and isinstance(excludes, list)\n                    and not any(ref in excludes for ref in ("refs/heads/main", "~ALL")))\n    good = (ruleset.get("id") == RULESET_ID and ruleset.get("source") == REPO
             and ruleset.get("target") == "branch" and ruleset.get("enforcement") == "active"
             and targets_main and {"deletion", "non_fast_forward"}.issubset(types))
     extra = bool(types.intersection({"update", "pull_request", "required_status_checks"}))
