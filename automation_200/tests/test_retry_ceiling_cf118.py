@@ -86,6 +86,21 @@ class RetryCeilingTests(unittest.TestCase):
         self.assertEqual(len(result["selected"]), 2)
         self.assertFalse(result["execution_authorized"])
 
+    def test_future_failure_timestamp_rejected_without_task_selection(self):
+        sample = registry()
+        before = copy.deepcopy(sample)
+        with self.assertRaisesRegex(ValueError, "future"):
+            propose(sample, now=1000, owner_preference_ids=["CF-001"],
+                    attempts={"CF-001": {"failures": 1, "failed_at": 1001}})
+        self.assertEqual(sample, before)
+
+    def test_failure_at_current_timestamp_enters_cooldown(self):
+        sample = registry()
+        result = propose(sample, now=1000, owner_preference_ids=["CF-001"],
+                         attempts={"CF-001": {"failures": 1, "failed_at": 1000}})
+        self.assertNotIn("CF-001", [item["id"] for item in result["selected"]])
+        self.assertEqual(result["held_counts"]["retry_cooldown"], 1)
+
     def test_hp_local_gate_remains_even_after_cooldown(self):
         sample = registry()
         sample["tasks"][0]["physical_hp_required"] = True
