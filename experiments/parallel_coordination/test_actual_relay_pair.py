@@ -239,5 +239,22 @@ class ActualRelayReceiptTests(unittest.TestCase):
 
 
 
+    def test_oversize_request_blob_rejected_before_parsing(self):
+        raw = relay.dump(job()) + b" " * 8193
+        result = inspect_actual_relay_pair(
+            job_id=JOB_ID, request=blob(REQ_PATH, raw),
+            receipt=blob(REC_PATH, receipt()))
+        self.assertEqual(result.status, "HOLD_EVIDENCE")
+        self.assertIn("request_invalid_or_oversize_bytes", result.blockers)
+
+    def test_oversize_receipt_blob_rejected_before_parsing(self):
+        raw = relay.dump(receipt()) + b" " * 8193
+        result = inspect_actual_relay_pair(
+            job_id=JOB_ID, request=blob(REQ_PATH, job()),
+            receipt=blob(REC_PATH, raw))
+        self.assertEqual(result.status, "HOLD_EVIDENCE")
+        self.assertIn("receipt_invalid_or_oversize_bytes", result.blockers)
+
+
 if __name__ == "__main__":
     unittest.main()
