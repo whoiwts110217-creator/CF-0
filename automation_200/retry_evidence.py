@@ -7,10 +7,12 @@ edits but is NOT authentication; untrusted journals must not grant execution.
 """
 from __future__ import annotations
 
+from contextlib import contextmanager
 import hashlib
 import json
 import os
 from pathlib import Path
+import tempfile
 
 GENESIS = "0" * 64
 MAX_BYTES = 1024 * 1024
@@ -20,14 +22,20 @@ def _canonical(value):
     return json.dumps(value, sort_keys=True, separators=(",", ":"), ensure_ascii=True)
 
 
-def read_events(path, allowed_ids):
-    path = Path(path)
-    if not path.exists():
-        return [], {}
-    if path.stat().st_size > MAX_BYTES:
+def _read_snapshot(path):
+    try:
+        with path.open("rb") as handle:
+            data = handle.read(MAX_BYTES + 1)
+    except FileNotFoundError:
+        return b""
+    if len(data) > MAX_BYTES:
         raise ValueError("retry journal too large")
+    return data
+
+
+def _parse_events(data, allowed_ids):
     events, attempts, previous = [], {}, GENESIS
-    for line in path.read_text(encoding="utf-8").splitlines():
+    for line in data.decode("utf-8").splitlines():
         try:
             event = json.loads(line)
         except (ValueError, TypeError) as exc:
@@ -51,8 +59,42 @@ def read_events(path, allowed_ids):
     return events, attempts
 
 
+def read_events(path, allowed_ids):
+    return _parse_events(_read_snapshot(Path(path)), allowed_ids)
+
+
+@contextmanager
+def _writer_lock(path):
+    # Keep a stable lock file beside the journal because replacement changes
+    # the journal's inode. Closing the handle releases the OS lock.
+    lock_path = path.with_name(path.name + ".lock")
+    with os.fdopen(os.open(lock_path, os.O_RDWR | os.O_CREAT, 0o600), "r+b") as handle:
+        if os.name == "nt":
+            import msvcrt
+            msvcrt.locking(handle.fileno(), msvcrt.LK_LOCK, 1)
+        else:
+            import fcntl
+            fcntl.flock(handle.fileno(), fcntl.LOCK_EX)
+        yield
+
+
+def _replace_snapshot(path, data):
+    # Readers see either the previous journal or the complete new one.
+    temporary = None
+    try:
+        with tempfile.NamedTemporaryFile(dir=path.parent, prefix=".retry-journal-", delete=False) as handle:
+            temporary = Path(handle.name)
+            handle.write(data)
+            handle.flush()
+            os.fsync(handle.fileno())
+        os.replace(temporary, path)
+    finally:
+        if temporary is not None:
+            temporary.unlink(missing_ok=True)
+
+
 def append_failure(path, allowed_ids, task, stamp):
-    """Local-only append; caller must serialize writers and protect the file.
+    """Append a local failure under an interprocess lock.
 
     Reject malformed existing state. Never use this as authorization to retry.
     """
@@ -60,21 +102,23 @@ def append_failure(path, allowed_ids, task, stamp):
         raise ValueError("invalid failure time")
     if type(task) is not str or task not in allowed_ids:
         raise ValueError("unknown task")
-    path = Path(path)
-    events, attempts = read_events(path, allowed_ids)
-    previous = events[-1]["digest"] if events else GENESIS
-    old = attempts.get(task)
-    if old and stamp < old["failed_at"]:
-        raise ValueError("failure time regressed")
-    failures = (old["failures"] if old else 0) + 1
-    if failures > 10:
-        raise ValueError("failure count exceeded")
-    body = {"task": task, "failures": failures, "failed_at": stamp, "previous": previous}
-    event = dict(body, digest=hashlib.sha256(_canonical(body).encode("ascii")).hexdigest())
-    # Exclusive creation on first write; single-writer precondition is explicit.
-    flags = os.O_WRONLY | os.O_APPEND | os.O_CREAT
-    with os.fdopen(os.open(path, flags, 0o600), "a", encoding="utf-8") as handle:
-        handle.write(_canonical(event) + "\n")
-        handle.flush()
-        os.fsync(handle.fileno())
+    path = Path(path).resolve()
+    with _writer_lock(path):
+        data = _read_snapshot(path)
+        events, attempts = _parse_events(data, allowed_ids)
+        previous = events[-1]["digest"] if events else GENESIS
+        old = attempts.get(task)
+        if old and stamp < old["failed_at"]:
+            raise ValueError("failure time regressed")
+        failures = (old["failures"] if old else 0) + 1
+        if failures > 10:
+            raise ValueError("failure count exceeded")
+        body = {"task": task, "failures": failures, "failed_at": stamp, "previous": previous}
+        event = dict(body, digest=hashlib.sha256(_canonical(body).encode("ascii")).hexdigest())
+        if data and not data.endswith((b"\r", b"\n")):
+            data += b"\n"
+        data += (_canonical(event) + "\n").encode("ascii")
+        if len(data) > MAX_BYTES:
+            raise ValueError("retry journal too large")
+        _replace_snapshot(path, data)
     return event
