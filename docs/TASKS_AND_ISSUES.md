@@ -1,5 +1,5 @@
 # CF-0 — Tasks & Issues
-**Public owner dashboard · Last source review: November 8, 2026, afternoon Eastern**
+**Public owner dashboard · Last source review: November 8, 2026, 3:30 p.m. Eastern**
 
 > **This is the short version.** See [the official 200-task registry](../automation_200/registry.json) for each work order, the [master mission board](../automation_200/MASTER_MISSION_BOARD.md) for technical history, and [GitHub Issues](https://github.com/whoiwts110217-creator/CF-0/issues) for discussion. This is a dated report, **not** a continuously live HP status display.
 
@@ -9,9 +9,9 @@
 |---|---|
 | CF-200 work orders | **84 verified / 200 total**; 116 planned |
 | Current verified progress | 42% of defined work orders; **not** 42% of the finished product |
-| Open GitHub issues | **3** confirmed in the latest issue search ([#1](https://github.com/whoiwts110217-creator/CF-0/issues/1), [#3](https://github.com/whoiwts110217-creator/CF-0/issues/3), [#16](https://github.com/whoiwts110217-creator/CF-0/issues/16)) |
+| Open GitHub issues | **4** confirmed in the November 8, 3:30 p.m. Eastern issue search ([#1](https://github.com/whoiwts110217-creator/CF-0/issues/1), [#3](https://github.com/whoiwts110217-creator/CF-0/issues/3), [#16](https://github.com/whoiwts110217-creator/CF-0/issues/16), [#21](https://github.com/whoiwts110217-creator/CF-0/issues/21))
 | Public task/issue refresh | **Working once** through existing enabled hourly CF-200 executor; ongoing reliability still being observed |
-| Public HP health | **First report now published:** collected November 8, 1:08:53 p.m. Eastern; completed last receipt, 32 saved receipts, 10 ping receipts, no reported health error. This is self-reported public-safe telemetry, not Windows scheduler attestation. |
+| Public HP health | **Latest inspected report:** collected November 8, 3:22:07 p.m. Eastern; completed last receipt, 32 saved receipts, 10 ping receipts, no reported health error. This is self-reported public-safe telemetry, not Windows scheduler attestation. |
 | Unattended HP computer | **Unverified** — local Windows scheduling and matching receipt not independently correlated |
 | Donations/revenue | No new owner-confirmed receipts established by this dashboard |
 
