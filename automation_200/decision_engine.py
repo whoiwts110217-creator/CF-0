@@ -76,9 +76,14 @@ def propose(registry, *, health_state="unavailable", now=None, limit=4,
     if any(attempt["failed_at"] > now for attempt in attempts.values()):
         raise ValueError("attempt timestamp is in the future")
     ids = {task["id"] for task in registry["tasks"]}
-    explicit_blocked = list(blocked_ids)
-    if (len(explicit_blocked) != len(set(explicit_blocked))
-            or any(type(x) is not str or x not in ids for x in explicit_blocked)):
+    # Validate types before deduplication: an unhashable list/dict in an
+    # external proposal input must fail closed with a controlled ValueError.
+    try:
+        explicit_blocked = list(blocked_ids)
+    except TypeError as exc:
+        raise ValueError("invalid blocked task IDs") from exc
+    if (any(type(x) is not str or x not in ids for x in explicit_blocked)
+            or len(explicit_blocked) != len(set(explicit_blocked))):
         raise ValueError("invalid blocked task IDs")
     if task_contexts is None:
         task_contexts = {}
