@@ -1,3 +1,11 @@
+## November 7, 2026 — PR #17 explicit integration evidence gate
+
+- **Required main preflight:** operator `f8f0c94c28cd28cc0402daf4f21bd875e1417932`; continuity `cac63dead1e00592c1d12ea6562639b02893d81f`; Work `5da1a390f31ee8f57e5829ef368062f9215c28ac`, read in that order.
+- **P0 real change:** [617f417](https://github.com/whoiwts110217-creator/CF-0/commit/617f4170420f0b20503441ca8808d941ff32d5bc) created `experiments/parallel_coordination/INTEGRATION_GATE.md` on isolated experiment branch for draft [PR #17](https://github.com/whoiwts110217-creator/CF-0/pull/17). Documents mandatory test evidence, safe divergence reconciliation, relay allowlist, physical HP provenance and owner approval. **DO NOT MERGE / DEPLOY**.
+- **Evidence checked:** PR #17 review query returned zero submitted reviews; combined commit status for `e4d27972edd977147165fb7c09af8f4c06cc5189` returned zero statuses. These are not proof of CI failure or success. Compare reported 51 ahead / 167 behind, 21 changed files at inspection.
+- **Registry:** 84/200, no new accepted work-order completion; no HP action, schedule or permission change, financial transaction or private publication.
+- **Next:** verify branch-tip test run, reconcile branch divergence safely, and independently validate unattended HP scheduler + receipt provenance.
+
 ## November 7, 2026 — isolated branch review gate opened (draft PR #17)
 
 - **Public main preflight complete and ordered:** operator blob `f8f0c94c28cd28cc0402daf4f21bd875e1417932`; continuity blob `cac63dead1e00592c1d12ea6562639b02893d81f`; Work blob `5da1a390f31ee8f57e5829ef368062f9215c28ac`. Fetch anew next run.
