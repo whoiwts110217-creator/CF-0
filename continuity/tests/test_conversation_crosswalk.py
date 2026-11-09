@@ -3,6 +3,7 @@ import sqlite3
 import tempfile
 import unittest
 from pathlib import Path
+from contextlib import closing
 import sys
 sys.path.insert(0,str(Path(__file__).resolve().parents[1]))
 from continuity.conversation_crosswalk import validate_map,compare,open_readonly_db,verify_secondary_review
@@ -37,7 +38,7 @@ class CrosswalkTests(unittest.TestCase):
     def test_read_only_original_candidate_still_requires_review(self):
         with tempfile.TemporaryDirectory() as d:
             path=synthetic(Path(d))
-            with open_readonly_db(path) as db:
+            with closing(open_readonly_db(path)) as db:
                 r=compare(MAP,db)
                 self.assertEqual(r['matches'][0]['match_status'],'candidate_requires_original_review')
                 self.assertEqual(r['matches'][0]['candidate_originals'][0]['conversation_id'],'original-123')
@@ -45,19 +46,19 @@ class CrosswalkTests(unittest.TestCase):
                 self.assertEqual(db.execute('select count(*) from conversations').fetchone()[0],1)
     def test_duplicate_title_is_ambiguous(self):
         with tempfile.TemporaryDirectory() as d:
-            with open_readonly_db(synthetic(Path(d),duplicate=True)) as db:
+            with closing(open_readonly_db(synthetic(Path(d),duplicate=True))) as db:
                 r=compare(MAP,db)
             self.assertEqual(r['matches'][0]['match_status'],'ambiguous_multiple_originals')
             self.assertEqual(len(r['matches'][0]['candidate_originals']),2)
     def test_partial_import_never_promoted(self):
         with tempfile.TemporaryDirectory() as d:
-            with open_readonly_db(synthetic(Path(d),partial=True)) as db:r=compare(MAP,db)
+            with closing(open_readonly_db(synthetic(Path(d),partial=True))) as db:r=compare(MAP,db)
             self.assertEqual(r['matches'][0]['match_status'],'no_primary_title_match')
     def test_title_without_content_is_not_confirmed(self):
         with tempfile.TemporaryDirectory() as d:
             p=synthetic(Path(d));db=sqlite3.connect(p)
             db.execute('update messages set body=?',('Generic hello',));db.commit();db.close()
-            with open_readonly_db(p) as db:r=compare(MAP,db)
+            with closing(open_readonly_db(p)) as db:r=compare(MAP,db)
             self.assertEqual(r['matches'][0]['match_status'],'title_only_unverified')
     def test_bad_project_id_not_silently_accepted(self):
         data=json.loads(json.dumps(MAP));data['conversation_provenance_crosswalk'][0]['related_project_ids']=['NOT-IN-ATLAS']
