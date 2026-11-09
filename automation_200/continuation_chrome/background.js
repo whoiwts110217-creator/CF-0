@@ -9,6 +9,7 @@ let statePromise;
 let stateWrites=Promise.resolve();
 let live=null;
 let launching=false;
+let cancelRequested=false;
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 const stamp=()=>new Date().toISOString();
 const getState=()=>statePromise ||= chrome.storage.local.get(KEY).then(async data=>{
@@ -43,7 +44,7 @@ function save(patch={}){
   return operation;
 }
 const debuggerTarget=tabId=>({tabId});
-const ensureActive=()=>{if(!live||live.stop)throw Error('STOP_REQUESTED');};
+const ensureActive=()=>{if(cancelRequested||!live||live.stop)throw Error('STOP_REQUESTED');};
 const cd=async(method,params={})=>{
   ensureActive();return chrome.debugger.sendCommand(debuggerTarget(live.tabId),method,params);
 };
@@ -152,8 +153,10 @@ async function waitUntil(check,timeoutMs,expectedId,{allowNavigation=false}={}){
 async function attachOneTab(){
   const tab=await selectedTab();
   live={tabId:tab.id,stop:false,escapes:0,attached:false,dialogIssue:null,popupCount:0};
+  if(cancelRequested)throw Error('STOP_REQUESTED');
   await chrome.debugger.attach(debuggerTarget(tab.id),'1.3');
   live.attached=true;
+  ensureActive();
   await cd('Page.enable');
   await save({selectedTabId:tab.id,phase:'running',reason:null,lastResult:'Attached to one existing Chrome ChatGPT tab; no new tab created.'});
   return tab;
@@ -219,6 +222,7 @@ async function execute({mode,maxChats=1}){
   const toDo=(mode==='current'?q:q.filter(x=>!s.completed.includes(x.id))).slice(0,maxChats);
   let outcome='completed';
   try{
+    if(cancelRequested)throw Error('STOP_REQUESTED');
     // Attach can fail (permission revoked, tab closed, Chrome debugger conflict).
     // Cleanup MUST still run, or the dead "live" marker blocks every future run.
     await attachOneTab();
@@ -235,7 +239,7 @@ async function execute({mode,maxChats=1}){
   }catch(error){
     outcome='needs_review';
     const reason=live?.dialogIssue||error.message||'UNKNOWN_ERROR';
-    const ownerStop=live?.stopReason==='USER_STOP';
+    const ownerStop=cancelRequested||live?.stopReason==='USER_STOP';
     await save(s=>{
       const beforeSend=s.attempt?.status==='pre_send';
       const uncertain=!!s.attempt&&!beforeSend;
@@ -326,25 +330,41 @@ chrome.runtime.onMessage.addListener((message,sender,sendResponse)=>{
       case 'CONTINUE_CURRENT': {
         if(live||launching)throw Error('ALREADY_RUNNING');
         if(!s.account)throw Error('SELECT_ACCOUNT_FIRST');
-        const tab=await selectedTab();if(!chatId(tab.url))throw Error('OPEN_A_CONVERSATION_FIRST');
         launching=true;
-        void execute({mode:'current',maxChats:1}).catch(async e=>{
-          await save({phase:'needs_review',reason:e.message,lastResult:'Start failed: '+e.message});
-        }).finally(()=>{launching=false;});
-        return {ok:true,message:'Requested one-chat test using existing tab.'};
+        cancelRequested=false;
+        try{
+          const tab=await selectedTab();
+          if(!chatId(tab.url))throw Error('OPEN_A_CONVERSATION_FIRST');
+          if(cancelRequested)throw Error('STOP_REQUESTED');
+          void execute({mode:'current',maxChats:1}).catch(async e=>{
+            await save({phase:'needs_review',reason:e.message,lastResult:'Start failed: '+e.message});
+          }).finally(()=>{launching=false;});
+          return {ok:true,message:'Requested one-chat test using existing tab.'};
+        }catch(e){
+          launching=false;
+          throw e;
+        }
       }
       case 'START': {
         if(live||launching)throw Error('ALREADY_RUNNING');
         if(!s.account)throw Error('SELECT_ACCOUNT_FIRST');
         if(!s.queue.length)throw Error('IMPORT_QUEUE_FIRST');
-        await selectedTab();
         launching=true;
-        void execute({mode:'queue',maxChats:message.maxChats}).catch(async e=>{
-          await save({phase:'needs_review',reason:e.message,lastResult:'Start failed: '+e.message});
-        }).finally(()=>{launching=false;});
-        return {ok:true,message:'Requested imported queue using existing tab.'};
+        cancelRequested=false;
+        try{
+          await selectedTab();
+          if(cancelRequested)throw Error('STOP_REQUESTED');
+          void execute({mode:'queue',maxChats:message.maxChats}).catch(async e=>{
+            await save({phase:'needs_review',reason:e.message,lastResult:'Start failed: '+e.message});
+          }).finally(()=>{launching=false;});
+          return {ok:true,message:'Requested imported queue using existing tab.'};
+        }catch(e){
+          launching=false;
+          throw e;
+        }
       }
       case 'STOP':
+        cancelRequested=true;
         if(live){
           // Set cancellation synchronously, BEFORE the first await.
           live.stop=true;live.stopReason='USER_STOP';
