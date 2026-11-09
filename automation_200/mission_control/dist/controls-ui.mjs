@@ -64,7 +64,20 @@ function draw() {
       row.append(description,actions);
       return row;
     });
-    container.replaceChildren(...result);
+    if (name === "github") {
+      const matching=rows.filter(x=>x.source==="github");
+      const scheduled=matching.flatMap((x,i)=>x.trigger==="schedule"?[result[i]]:[]);
+      const other=matching.flatMap((x,i)=>x.trigger!=="schedule"?[result[i]]:[]);
+      const scheduleHead=element("h4","control-subheading","Scheduled ("+scheduled.length+")");
+      const scheduleList=element("div","control-rows");
+      scheduleList.append(...scheduled);
+      const details=element("details","control-optional-group");
+      const summary=element("summary",null,"Event-triggered and manual workflows ("+other.length+")");
+      const eventList=element("div","control-rows");
+      eventList.append(...other);
+      details.append(summary,eventList);
+      container.replaceChildren(scheduleHead,scheduleList,details);
+    } else container.replaceChildren(...result);
   }
   updatePlan();
   byId("control-chatgpt-count").textContent=privateAutomations===null
