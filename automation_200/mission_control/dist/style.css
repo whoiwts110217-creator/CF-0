@@ -329,3 +329,17 @@ footer { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 6p
   .gameful-lab .gameful-choices button { flex: 1 1 92px; }
   .gameful-lab .gameful-action { max-width: 100%; white-space: normal; }
 }
+
+
+/* v0.4 companion: permit existing automation source-status text to wrap on
+   narrow phones. Visual layout only; disabled/connected state is unchanged. */
+@media (max-width: 480px) {
+  .control-description { justify-items: stretch; }
+  .control-description :is(.control-title,.control-detail,.badge) {
+    display: block;
+    min-width: 0;
+    max-width: 100%;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+}
