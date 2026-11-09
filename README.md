@@ -19,11 +19,11 @@
 
 **Master continuity order:** [Read the public master operating prompt first](automation_200/MASTER_OPERATOR_PROMPT.md), then the [cross-archive, project and event continuity prompt](automation_200/MASTER_CONTINUITY_PROMPT.md) **before CF-0 decisions**. Work sessions then read the [current Work execution prompt](automation_200/WORK_COPY_PASTE_AUTOMATION_PROMPT.md) from public main. The public prompt describes how to recover and reconcile prior conversations, archives and workstreams without publishing private originals.
 
-**Live task evidence:** The [public task and issue dashboard](docs/TASKS_AND_ISSUES.md) summarizes the current source-backed registry and open issues. For task-specific verification use [the project status](docs/PROJECT_STATUS.md) and [public continuity evidence](docs/CONTINUITY.md). The currently checked-in relay **does not support remote Notepad launch**; previously observed Windows Notepad launches are historical, and restoration remains open. The optional HP heartbeat and independent scheduler correlation are still unverified.
+**Live task evidence.** The [public task and issue dashboard](docs/TASKS_AND_ISSUES.md) summarizes the registry and open issues. The [public HP health report](relay/health/latest.json) is available, and [November 8 Windows history](docs/CONTINUITY.md#november-8-hp-relay-evidence) records a scheduled relay run that overlaps the matched public pong. Exact receipt-to-run attribution is open. The current relay lacks remote Notepad launch. Earlier Windows Notepad launches remain historical and restoration is open.
 
 **[Filed concepts](concepts/README.md)** · **[Dreamkiller / BreachDungeon](concepts/dreamkiller/MASTER_CONCEPT_AND_CONTINUITY_PROMPT.md)** · **[November 7 cross-archive reconciliation](docs/CONTINUITY_RECONCILIATION_2026-11-07_DREAMKILLER.md)**
 
-**[What works](#what-works-today)** · **[Try the source](#explore-or-test)** · **[Current status and evidence](docs/PROJECT_STATUS.md)** · **[Full project index](docs/PUBLIC_DEVELOPMENT_SNAPSHOT_2026-11-06.md)**
+**[What works](#what-works-today)** · **[Try the source](#explore-or-test)** · **[Current status and evidence](docs/PROJECT_STATUS.md)** · **[Public project index](docs/PROJECTS.md)**
 
 ## The operating-environment thesis
 
@@ -35,15 +35,15 @@ The AI supplies reasoning; the environment supplies continuity, permissions, act
 
 The owner previously observed a bounded **ChatGPT → GitHub queue → Windows HP relay → public-safe receipt** pathway, including Notepad launches in the original November 5 milestone. Owner-provided Windows scheduler evidence also documents task starts. A later source regression removed `open_notepad`; the **current** public Python relay allows only `ping`, `hp_status`, and `sidecar_verify`. The legacy installer now refuses to claim that Notepad is working.
 
-**Current supported evidence:** public matching ping request/receipt hashes, SQLite/source-level idempotence tests, and passing cloud Windows CI. **Not established:** physical HP-origin attestation for a given public ping, automatic health publication, current Notepad control, arbitrary computer control or seven-day autonomous operation. The [dated continuity record](docs/CONTINUITY.md) separates those states.
+**Current evidence.** Public matching ping request and receipt hashes, the public HP heartbeat, owner-observed Windows scheduler history, SQLite idempotence tests, and passing Windows CI are documented. Exact HP receipt attribution, current Notepad control, arbitrary computer control, and seven-day autonomous operation remain open. [Public continuity record](docs/CONTINUITY.md)
 
 [See the November 5 HP demonstration and evidence](docs/CF0_FAST_LANE_MILESTONE_2026-11-05.md) · [See the November 6 continuity audit](automation_200/MASTER_MISSION_BOARD.md)
 
 ## What we're building next
 
-**Remove the human copy-and-paste loop.** The owner should set goals and approve consequential actions, not repeatedly copy PowerShell diagnostics into ChatGPT. The next deliverable is automatic, privacy-minimized HP health reporting through the existing bounded relay.
+**Remove the human copy-and-paste loop.** The owner sets goals and approves consequential actions. The next verification step is a relay record that directly links an automatic Windows run to a specific public receipt.
 
-The [read-only collector source](relay/cf_hp_health_snapshot.py) exists. **It is not yet deployed on the HP or publishing reports automatically.** Do not mistake a committed file for an installed capability.
+The [read-only collector](relay/cf_hp_health_snapshot.py) supports the [public-safe health feed](relay/health/latest.json).
 
 After that, develop an owner-controlled priority engine, then legitimate financial operations. Creative and scientific work can progress concurrently when resources permit.
 
@@ -79,7 +79,7 @@ This is a public, curated project archive—not a complete conversation export. 
 
 ### Optional HP health reporting
 
-A local, reversible opt-in is available for the existing HP relay: [one-click HP health reporting](relay/HEALTH_ONE_CLICK.md). This is source-only until the owner updates and activates it on the physical HP; CI is not HP evidence.
+The existing HP relay offers [local, reversible opt-in](relay/HEALTH_ONE_CLICK.md). The [current health report](relay/health/latest.json) shows the latest published data.
 
 **Cross-project continuity:** The [private local continuity store](continuity/README.md) now has an offline [CF-200 work-order bridge](continuity/workorder_bridge.py) that can link source-verified task IDs to existing project records only after explicit review. Code/tests are public; private data, owner approval, live HP deployment and automatic cross-account source recovery are separate unfinished milestones.
 

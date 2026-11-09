@@ -13,7 +13,8 @@ Caveman Focus is an experimental system for reducing repetitive work by coordina
 | Destination | Direct link |
 |---|---|
 | **Public website** | [Live public site](https://whoiwts110217-creator.github.io/CF-0/) (deployment URL derived from GitHub Pages convention; live reachability not independently confirmed) |
-| **Mission Control** | [Live Mission Control](https://whoiwts110217-creator.github.io/CF-0/mission-control/) (reachability not independently confirmed) · [Dashboard guide](../automation_200/mission_control/README.md) |
+| **Mission Control** | [Public Mission Control](https://cf0-mission-control.whoiwts110217.chatgpt.site) · [Dashboard guide](../automation_200/mission_control/README.md) |
+| **Public projects** | [Project index](PROJECTS.md) · [Current status](PROJECT_STATUS.md) |
 | **Master mission board** | [MASTER_MISSION_BOARD.md](../automation_200/MASTER_MISSION_BOARD.md) |
 | **Master operator prompt (read first)** | [MASTER_OPERATOR_PROMPT.md](../automation_200/MASTER_OPERATOR_PROMPT.md) |
 | **Continuity prompt (read second)** | [MASTER_CONTINUITY_PROMPT.md](../automation_200/MASTER_CONTINUITY_PROMPT.md) |
@@ -24,7 +25,7 @@ Caveman Focus is an experimental system for reducing repetitive work by coordina
 | **Dreamkiller iPhone GB/GBC emulator** | [Open installable web app](https://whoiwts110217-creator.github.io/CF-0/dreamkiller/) · [Emulator source/usage](../concepts/dreamkiller/iphone-emu/site/README.md) — Game Boy test ROM included, full Dreamkiller ROM not built |
 | **Filed creative concepts** | [Concepts](../concepts/README.md) · [Dreamkiller master concept](../concepts/dreamkiller/MASTER_CONCEPT_AND_CONTINUITY_PROMPT.md) |
 | **Public archive reconciliation** | [November 7 attribution and project continuity report](CONTINUITY_RECONCILIATION_2026-11-07_DREAMKILLER.md) |
-| **AI Tracker** | [Mission Control status](https://whoiwts110217-creator.github.io/CF-0/mission-control/#ai-tracker) · [Issue monitor](../ai_tracker/monitor_public_issue.py) · [Development branch](https://github.com/whoiwts110217-creator/CF-0/tree/feature/ai-agent-tracker/ai_tracker) |
+| **AI Tracker** | [Mission Control status](https://cf0-mission-control.whoiwts110217.chatgpt.site/#ai-tracker) · [Issue monitor](../ai_tracker/monitor_public_issue.py) · [Development branch](https://github.com/whoiwts110217-creator/CF-0/tree/feature/ai-agent-tracker/ai_tracker) |
 | **Open agent response thread** | [GitHub issue #16](https://github.com/whoiwts110217-creator/CF-0/issues/16) |
 
 Mission Control shows the most recently published public scan of Issue #16. Non-owner comments count replies from known accounts other than the repository owner. Contributions have a separate verification count.
@@ -54,7 +55,7 @@ Earlier cash-first efforts and earlier Sidecar prototypes are historical stages,
 
 ## Evidence and integrity
 
-The owner has demonstrated bounded HP command execution and automatic scheduled relay starts. The specific scheduled-run-to-public-receipt link remains uncorrelated. The health collector is source-only, not verified installed. A separate research scheduler is paused. See the [status record](PROJECT_STATUS.md) rather than treating a code commit as an operational result.
+Windows logged a scheduled run from **1:06:53 to 1:08:58 p.m.** on November 8. The matched public pong was committed at **1:07:21 p.m.** Direct ping-to-run attribution is open. The separate research scheduler is paused. [HP evidence](CONTINUITY.md#november-8-hp-relay-evidence) · [Latest public health report](../relay/health/latest.json)
 
 The original approximately 37-project list remains unrecovered. Prior experimental Sidecar and controller work is preserved in the [automation archive](AUTOMATION.md) and [operations ledger](OPERATIONS.md), not erased or presented as newly deployed. Neither unprovided conversations nor unverified discoveries should be invented.
 

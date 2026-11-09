@@ -1,5 +1,5 @@
 # CF-0 — Tasks & Issues
-**Public owner dashboard · Last source review: November 8, 2026, 10:49 p.m. Eastern**
+**Public owner dashboard · Source review November 8, 2026 (Eastern)**
 
 > **This is the short version.** See [the official 200-task registry](../automation_200/registry.json) for each work order, the [master mission board](../automation_200/MASTER_MISSION_BOARD.md) for technical history, and [GitHub Issues](https://github.com/whoiwts110217-creator/CF-0/issues) for discussion. This is a dated report, **not** a continuously live HP status display.
 
@@ -9,10 +9,11 @@
 |---|---|
 | CF-200 work orders | **84 verified / 200 total**; 116 planned |
 | Current verified progress | 42% of defined work orders; **not** 42% of the finished product |
-| Open GitHub issues | **4** confirmed in the November 8, 10:49 p.m. Eastern issue search ([#1](https://github.com/whoiwts110217-creator/CF-0/issues/1), [#3](https://github.com/whoiwts110217-creator/CF-0/issues/3), [#16](https://github.com/whoiwts110217-creator/CF-0/issues/16), [#21](https://github.com/whoiwts110217-creator/CF-0/issues/21))
-| Public task/issue refresh | **Working once** through existing enabled hourly CF-200 executor; ongoing reliability still being observed |
-| Public HP health | **Latest inspected report:** collected November 8, 10:17:06 p.m. Eastern; completed last receipt, 32 saved receipts, 10 ping receipts, no reported health error. This is self-reported public-safe telemetry, not Windows scheduler attestation. |
-| Unattended HP computer | **Unverified** — local Windows scheduling and matching receipt not independently correlated |
+| Open GitHub issues | **4** confirmed in the November 8 issue search ([#1](https://github.com/whoiwts110217-creator/CF-0/issues/1), [#3](https://github.com/whoiwts110217-creator/CF-0/issues/3), [#16](https://github.com/whoiwts110217-creator/CF-0/issues/16), [#21](https://github.com/whoiwts110217-creator/CF-0/issues/21)) |
+| Public task/issue refresh | The existing CF-200 executor [refreshed HP and issue evidence on November 8](https://github.com/whoiwts110217-creator/CF-0/commit/374c1f4630053cc96d5c38c2b0d2b36eb4b60e78). |
+| Public HP health | [Public health report](../relay/health/latest.json) collected at **11:22:11 p.m. Eastern on November 8**. 32 saved receipts, 10 pings, completed last receipt, and no reported error. |
+| Windows scheduled relay | **Observed.** Windows logged a scheduled run from **1:06:53 to 1:08:58 p.m.** on November 8. The matched public pong was committed at **1:07:21 p.m.** Direct ping-to-run attribution is open. [HP evidence](CONTINUITY.md#november-8-hp-relay-evidence) |
+| Seven-day unattended operation | Verification remains open. |
 | Donations/revenue | No new owner-confirmed receipts established by this dashboard |
 
 **Evidence:** [registry.json](../automation_200/registry.json), source blob `304ed3c72df0fb82b6a0eacf6f4dc2e971262c74`; [public continuity](PUBLIC_CONTINUITY_STATE.json); [first executor-produced dashboard refresh commit](https://github.com/whoiwts110217-creator/CF-0/commit/479c93ae8689279cb422771a504cd3be494763aa). A successful dashboard refresh is **not** proof of unattended HP operation.
@@ -47,7 +48,7 @@ Owner's order remains **P0 Automation → P1 Priority/continuity → P2 Finances
 | Issue / category | Why it matters | Next verification step |
 |---|---|---|
 | **Relay evidence adapter CI · P0** | [Draft PR #17](https://github.com/whoiwts110217-creator/CF-0/pull/17) contains isolated relay evidence tests, a deeply nested JSON regression, and an explicit no-merge integration gate, but the full branch test suite and cloud CI remain unconfirmed; do not merge or call these passing | Obtain a real full-suite test result and review against current main |
-| **HP automatic operation · P0** | A matched public command receipt alone does not prove a Windows scheduled run | Correlate public-safe receipt with real HP Task Scheduler time/exit evidence |
+| **HP receipt attribution · P0** | [A scheduled relay run overlaps a matched public receipt](CONTINUITY.md#november-8-hp-relay-evidence) | Correlate the request ID and outcome with the specific Windows invocation |
 | **Notepad regression · P0** | Historical owner-observed launches are not supported by the current public relay | Owner-approved local restoration; preserve relay allowlist |
 | **Project archive gap · P1** | Original ~37-project inventory still unrecovered; newer reconstructed lists are not the original | Private source audit with hashes and documented uncertainties |
 | **Donation website audit · P2** | Rendered layout, accessibility and actual payment link behavior not verified from available environment | Run authorized browser-level read-only audit |
@@ -55,11 +56,12 @@ Owner's order remains **P0 Automation → P1 Priority/continuity → P2 Finances
 
 The list distinguishes **operational blockers** from actual GitHub Issues; one need not have a GitHub issue number to be important.
 
-## Open GitHub Issues (last checked: November 8, 1:14 p.m. Eastern)
+## Open GitHub Issues (checked November 8, Eastern)
 
 - [**#1 — HP bridge acceptance:** private mailbox → real Windows round trip](https://github.com/whoiwts110217-creator/CF-0/issues/1)
 - [**#3 — Engineering feedback:** critique the autonomous relay and intervention design](https://github.com/whoiwts110217-creator/CF-0/issues/3)
 - [**#16 — Agent collaboration:** prove one real automation improvement](https://github.com/whoiwts110217-creator/CF-0/issues/16)
+- [**#21 — Clarity exercise and public feedback**](https://github.com/whoiwts110217-creator/CF-0/issues/21)
 
 [See current GitHub Issues directly](https://github.com/whoiwts110217-creator/CF-0/issues). If the Issues service cannot be read, the board must say **unknown**, never zero.
 
