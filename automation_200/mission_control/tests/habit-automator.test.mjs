@@ -1,6 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import {readFileSync} from "node:fs";
+import {spawnSync} from "node:child_process";
 import {fileURLToPath} from "node:url";
 import {dirname,join} from "node:path";
 import {SCHEMA,emptyState,normalizeStep,normalizeRoutine,parseState,dueInfo,safeLink,shortcutLink} from "../dist/habit-automator/core.mjs";
@@ -62,4 +63,13 @@ test("iPhone app shell exposes real controls and no advertised remote switch",()
   assert.match(sw,/if\(target.origin!==scope.origin/);
   assert.equal(manifest.display,"standalone");
   assert.equal(manifest.scope,"./");
+  assert.ok(manifest.icons.some(x=>x.src==="./icon-180.png"));
+  assert.match(page,/apple-touch-icon.*icon-180.png/);
+});
+
+test("iPhone module JavaScript sources pass node syntax check",()=>{
+  for(const file of ["app.mjs","core.mjs","service-worker.js"]){
+    const result=spawnSync(process.execPath,["--check",join(app,file)],{encoding:"utf8"});
+    assert.equal(result.status,0,result.stderr || file+" failed syntax check");
+  }
 });
