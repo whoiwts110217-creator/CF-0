@@ -94,3 +94,24 @@ The purpose of this page is *continuity of meaning and execution*. It is not a r
 ## Project/task integration source (2026-11-06)
 
 [The local-first work-order/project bridge](../continuity/workorder_bridge.py) adds versioned, **private** snapshots of the public CF-200 registry and explicitly reviewed project-to-task links, with conservative proposal-only relationship suggestions. This is executable source plus synthetic tests, **not** proof that the earlier private archive was automatically updated or that a work-order verification completed any parent project. No HP command, public capability, original project ID or legacy work-order ledger was altered.
+
+
+## November 9 — UCC-001 and Brainrot → Brainpower remix source handoff
+
+**Recorded owner intent:** every Caveman Focus branch must maintain explicit continuity; game-culture humor should draw broadly from mainstream gaming rather than imitate only GTA; playful hooks must produce useful understanding, not fabricated operational wins.
+
+**Stable identities:** universal cross-project continuity `UCC-001`; learning pilot `CF-EXP-GAME-LEARN-001`, linked to existing `CF-CORE`, `FIN-09` and `RES-04`. Neither creates a newly recovered historical original. [Continuity contract](UNIVERSAL_CONTINUITY_CONTRACT.md) · [Pilot method, safety and next acceptance](BRAINROT_TO_BRAINPOWER_2026-11-09.md).
+
+**Source changes under existing public repository editing authority:**
+- [Remix question/grade data](../automation_200/mission_control/dist/gameful.mjs): `b407ada2dcef0a8267033579870dbeff674965bd`, prior blob `65a27cf4ecc32c6641ccc970fb5fdcec5c78f40a`.
+- [Client-side quiz progression](../automation_200/mission_control/dist/gameful-ui.mjs): `9b41b164fd7402bb5755fbd09d4e8cc13e357e1a`, prior blob `48e3ab185498781b81f152d7733c6a83dc64bcc9`.
+- [Source regression and continuity tests](../automation_200/mission_control/tests/gameful.test.mjs): `79ab894a58747e67608e7c1a1c84ecf5e25b02b6`.
+- [Existing dashboard copy](../automation_200/mission_control/dist/index.html): `5a80989c5cbe273fb07940f11ec9276e9442c7b3`.
+- [Updated pilot methods and caveats](BRAINROT_TO_BRAINPOWER_2026-11-09.md): `38549506edd69f0ff5dffcf45cbe71477648a945`.
+
+**Verification as recorded at authorship:** connector source readback succeeded; the GitHub Actions build/test verdict for these particular commits and real phone/browser interaction were **not independently retrieved at authorship**. A source commit alone does not verify JS runtime or educational benefit. No private chats, bank data or user telemetry were published; no HP relay, AUTO-08 master switch, existing 200-task registry, grant, or payment status was changed.
+
+**Future acceptance:** (1) source-test the model, transfer answers, read-only UI and canonical prompt links; (2) inspect actual deployed interaction, especially on iPhone and keyboard; (3) for any learning-effect claim, perform an opt-in playful-versus-plain comparison with delayed recall and uncertainty disclosure. No participant results currently exist.
+
+**Rollback:** compare the source SHAs above, then revert only the individual gameful source/UI commits if regression appears; preserve this dated history and the unaffected Mission Control dashboard. **Next useful task:** verify CI and manual browser behavior, then add a controlled, privacy-preserving delayed-recall pilot only with consent and an explicit testing plan.
+
