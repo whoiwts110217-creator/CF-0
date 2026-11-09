@@ -598,7 +598,7 @@ ROGUE-03 was reproduced and accepted as a failure-mode test contribution. The sc
 **Control prompt:** [MASTER_OPERATOR_PROMPT.md](MASTER_OPERATOR_PROMPT.md)  
 **Mission control frontend:** [source and usage](mission_control/README.md)  
 **System of record:** [registry.json](registry.json) · [events.jsonl](events.jsonl) · [checkpoints/](checkpoints/)  
-**Current source registry:** **86/200 verified** as of November 9, 2026; [registry.json](registry.json) is authoritative.\
+**Current source registry:** **87/200 verified** as of November 9, 2026; [registry.json](registry.json) is authoritative.\
 **Last numbered checkpoint:** [084](checkpoints/checkpoint_084.json) (next numbered checkpoint 088).\
 **Public continuity handoff:** [docs/CONTINUITY.md](../docs/CONTINUITY.md) · [dated state](../docs/PUBLIC_CONTINUITY_STATE.json). Historical counts in the entries below remain snapshots, not live status.
 
@@ -1576,3 +1576,13 @@ The hourly public channel watchdog now runs priority selector and waiting-cycle 
 - **Other CI:** [Mission Control visibility 42646181014](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42646181014) and [AUTO-08 source tests 42646180777](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42646180777) passed. These do not prove signed-in live account control. [Watchdog 42648139912](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42648139912) passed. Historical external GitHub 403 remains a separate unclosed issue.
 - **HP:** Historical public report (32 receipts, 10 pings) is not a fresh HP read or proof of unattended Windows scheduler-wrapper provenance; no physical HP command, Notepad deployment, or allowlist change. No private archives or financial activity touched.
 - **Next three executable tasks:** (1) reconcile dashboard to authoritative 87/200 and live issue/approval status; (2) investigate independent watchdog packet-to-executor attribution using existing transport and trust boundaries; (3) inspect GitHub HTTP 403 environmental failure and preserve the failing evidence, without weakening controls.
+
+
+## November 9, 2026 — public continuity source drift repaired
+
+- **Preflight source blob SHAs:** [operator](MASTER_OPERATOR_PROMPT.md) `22ae58c3bc1a7513ef45e4c8267ea011a56bb357`; [continuity](MASTER_CONTINUITY_PROMPT.md) `6d0cf4ac809172d0525de288d87a340d1f01537c`; [Work self-reference](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) `150c6629ba1496c2b05d9f4afb31929ad142357e`. Public source is guidance only.
+- **Confirmed CI failure:** [Windows run 42659498650](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42659498650) reported 14 failures and one error in 205 tests, including stale public 86/200 state and obsolete registry blob `be6db...` against authoritative 87/200 and blob `81be05aa5a9a3306e7ca0f1005e4840373b4d365`. Updated public continuity JSON and project status to the exact registry and [CF-120 passing source CI 42648139693](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42648139693). No new work-order verification or HP execution claimed; follow-up CI still required.
+- **Separate approval guard failure:** [run 42659615152](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42659615152) reports PCE-008 and PCE-009 missing from approval bin. Do not invent approvals or bypass the guard; inspect genuine owner decisions and change log before repair.
+- **Actual GitHub issues:** [#1](https://github.com/whoiwts110217-creator/CF-0/issues/1), [#3](https://github.com/whoiwts110217-creator/CF-0/issues/3), [#16](https://github.com/whoiwts110217-creator/CF-0/issues/16), [#21](https://github.com/whoiwts110217-creator/CF-0/issues/21); pull requests are not counted as issues.
+- **HP evidence:** no new physical scheduler-wrapper correlation or Notepad deployment. Existing relay allowlist, schedules, registry/events, private sources and finances unchanged.
+- **Next three:** (1) check fresh Windows CI after source-state sync and address any remaining specific failure; (2) reconcile PCE-008/009 against actual prompt change records without fabricating owner approval; (3) inspect watchdog packet-to-executor evidence and independent HP scheduler provenance, retaining the trust boundary.
