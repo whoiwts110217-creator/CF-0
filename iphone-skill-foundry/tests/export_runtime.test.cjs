@@ -17,6 +17,7 @@ function harness(options = {}) {
   const clicks = [];
   const revocations = [];
   const scheduled = [];
+  const clipboardWrites = [];
   const mode = {value: "pack", checked: true};
   const get = id => {
     if (!elements.has(id)) {
@@ -52,7 +53,7 @@ function harness(options = {}) {
     async share() {
       if (options.shareError) throw Object.assign(new Error("Share rejected"), {name: options.shareError});
     },
-    clipboard: {async writeText() {}},
+    clipboard: {async writeText(value) {clipboardWrites.push(value);}},
   };
   const url = {
     createObjectURL() {
@@ -74,7 +75,7 @@ function harness(options = {}) {
   vm.runInContext(scripts[0], context, {filename: "generator.js"});
   vm.runInContext(scripts[1], context, {filename: "ui.js"});
   return {
-    context, clicks, revocations, scheduled,
+    context, clicks, revocations, scheduled, clipboardWrites,
     status() {return get("feedback").textContent;},
     async fire(id, kind = "click") {
       const fn = events.get(id + ":" + kind);
@@ -203,6 +204,12 @@ test("distinct local skill versions yield unrun checks with real SHA-256", async
   assert.equal(h.context.document.getElementById("reviewDownload").disabled, false);
   await h.fire("reviewCopy");
   assert.match(h.status(), /Unrun evaluation template copied/);
+  const packet = JSON.parse(h.clipboardWrites.at(-1));
+  assert.equal(packet.status,"needs_evidence");
+  assert.deepEqual(Object.keys(packet.hard_gates), []);
+  assert.ok(packet.test_runs.every(row => row.mode === "not_run" && row.baseline_pass === null));
+  assert.deepEqual(packet.judges, []);
+  assert.ok(!h.clipboardWrites.at(-1).includes(oldSource));
   await h.fire("reviewDownload");
   assert.equal(h.clicks.length, 1);
   assert.equal(h.clicks[0].name, "cf0-skill-evolution-unrun-evals.json");
