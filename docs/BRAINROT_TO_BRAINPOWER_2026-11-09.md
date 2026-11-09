@@ -86,3 +86,6 @@ The [read-only hosted browser verification](https://agent.tinyfish.ai/runs/072a0
 
 An unrelated stale workflow-count assertion in several CI runs around this change expected 20 workflows after a 21st file existed. Its later source revision corrects that expectation. [Full history, failure status, source SHAs, and rollback](CONTINUITY.md#november-9--brainrot--brainpower-v05-readable-text-and-public-source-count-continuation). Confirm a fresh CI run at the current combined source before calling the whole suite green.
 
+
+**Verified after the original v0.5 testing caveat:** [GitHub Actions run 42673680552](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42673680552) succeeded on commit `e9882d0f1df8bd0aeeff90d7ab76ea3f6d8cf056` with **43 passing Node tests, zero failures, and a passing headless Chromium mobile-width check**. Its checks included unchanged evidence with enlarged text, four widths, keyboard focus, source inventory, and increased-contrast rendering. Earlier red builds remain part of the [continuity history](CONTINUITY.md#november-9--brainrot--brainpower-v05-readable-text-and-public-source-count-continuation). This is an engineering verification, not an iPhone Safari/VoiceOver or educational efficacy result.
+
