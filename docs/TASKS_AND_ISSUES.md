@@ -1,5 +1,5 @@
 # CF-0 — Tasks & Issues
-**Public owner dashboard · Last source review: November 8, 2026, 3:30 p.m. Eastern**
+**Public owner dashboard · Last source review: November 8, 2026, 7:28 p.m. Eastern**
 
 > **This is the short version.** See [the official 200-task registry](../automation_200/registry.json) for each work order, the [master mission board](../automation_200/MASTER_MISSION_BOARD.md) for technical history, and [GitHub Issues](https://github.com/whoiwts110217-creator/CF-0/issues) for discussion. This is a dated report, **not** a continuously live HP status display.
 
@@ -18,6 +18,8 @@
 **Evidence:** [registry.json](../automation_200/registry.json), source blob `304ed3c72df0fb82b6a0eacf6f4dc2e971262c74`; [public continuity](PUBLIC_CONTINUITY_STATE.json); [first executor-produced dashboard refresh commit](https://github.com/whoiwts110217-creator/CF-0/commit/479c93ae8689279cb422771a504cd3be494763aa). A successful dashboard refresh is **not** proof of unattended HP operation.
 
 **CF-118 CI evidence update (November 8):** [GitHub Actions run #18](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42497038161) failed: eight dashboard tests passed, but five of seven retry-boundary tests errored with `KeyError: 'title'` in `priority_selector.select_tasks`. The current test fixture ([source](../automation_200/tests/test_retry_boundary_cf118.py), blob `44fa8f9192f4dbfeed25a7d252f0ecfa1b3585d6`) now supplies the missing titles; **a newer passing CI run has not been established**. Windows CI was added to the existing workflow, but configuration alone does not prove execution. CF-118 stays planned. The latest inspected public health report (blob `216115372d8241e5278c27d6906a11c0348ec296`) reports 32 receipts, 10 pings and no error, without scheduler attestation.
+
+**November 8, 7:28 p.m. update — CF-118:** [source fix](https://github.com/whoiwts110217-creator/CF-0/commit/128173dc6d0779cddeab522e11f80a25a4484a98) now rejects ambiguous duplicate-key retry journal records, with a [regression test](https://github.com/whoiwts110217-creator/CF-0/commit/b4fb12d2d759a34fe685d4333648454e927d8cd0). Narrow isolated parser behavior checked; **no new passing repository CI run confirmed**. [Mission-board evidence](../automation_200/MASTER_MISSION_BOARD.md). The registry remains **84 verified / 116 planned**, with four actual open GitHub issues ([#1](https://github.com/whoiwts110217-creator/CF-0/issues/1), [#3](https://github.com/whoiwts110217-creator/CF-0/issues/3), [#16](https://github.com/whoiwts110217-creator/CF-0/issues/16), [#21](https://github.com/whoiwts110217-creator/CF-0/issues/21)). Latest inspected HP public report collected **7:02 p.m. Eastern**, 32 receipts / 10 pings, last completed, no reported error; **unattended Windows schedule still unverified**. No new owner approval requested or granted.
 
 ## What is being worked on next?
 
