@@ -1,0 +1,31 @@
+name: CF-0 AUTO-08 Chrome Single-Tab Source Tests
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'automation_200/continuation_chrome/**'
+      - '.github/workflows/auto08-chrome-source.yml'
+  pull_request:
+    paths:
+      - 'automation_200/continuation_chrome/**'
+      - '.github/workflows/auto08-chrome-source.yml'
+permissions:
+  contents: read
+jobs:
+  source-only:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Test one-tab selection, overlay safety and unknown-result gating
+        run: node --test automation_200/continuation_chrome/tests/*.test.mjs
+      - name: Validate Chrome extension source syntax and manifest
+        run: |
+          node --check automation_200/continuation_chrome/background.js
+          node --check automation_200/continuation_chrome/core.mjs
+          node --check automation_200/continuation_chrome/popup.js
+          node --check automation_200/continuation_chrome/master-control.js
+          python -m json.tool automation_200/continuation_chrome/manifest.json > /dev/null
