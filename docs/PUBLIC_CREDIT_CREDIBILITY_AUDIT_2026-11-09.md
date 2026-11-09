@@ -57,3 +57,14 @@
 - Added a navigation link to this audit from `README.md` to make recommendations visible. This source update does **not** establish a deployed website, new sale, new project verification or legal rights.
 
 **Source boundaries:** The public pages could not be fully loaded via the available browser retrieval path in this review; this is **source-audit only**, not an independently reproduced public iPhone rendering. Use [public status](PROJECT_STATUS.md) and [registry](../automation_200/registry.json) for separately dated engineering counts. Do not confuse this editorial score with a measured community survey.
+
+
+## November 9 follow-up — public campaign wording corrected
+
+The earlier findings above are preserved as the dated audit baseline; the following are later **source-level corrections**, not evidence of live mobile deployment or a received donation.
+
+- [Campaign wording correction](https://github.com/whoiwts110217-creator/CF-0/commit/8c3702e9f3a43223e9c32a53a6f2cfbaac88115c): replaced unconditional “Give any amount and you're in” language with **optional recognition only after verified support and consent**, linked the existing free 60-second exercise, and separated financial acknowledgement from technical contributor credit. The Cash App destination and voluntary no-return terms were not changed.
+- [Technical Hall of Fame clarification](https://github.com/whoiwts110217-creator/CF-0/commit/b397714b0b616cfdedadc982c9416438ed97c629): added a cross-link distinguishing reviewed technical contributions from Founding Supporters.
+- At this source review, the [homepage](../index.html) showed a free learning challenge ahead of optional support and a distinct evidence section; [First Drop](../first-drop/index.html) explicitly differentiated donor and contributor recognition. Those main-branch changes existed independently of these two campaign-document commits. Their rendered iPhone experience and third-party support destination have **not** been newly independently verified by this follow-up.
+
+**Still open:** repo reuse-license decision and legally effective title/ownership documentation require authorized human decisions; current GitHub Actions failures and real-device acceptance remain separate; AUTO-08 signed-in end-to-end control, HP unattended provenance, donation receipts and iPhone-native app delivery are not established by these editorial corrections. No CF-200 work order was promoted. The original audit history remains intact.
