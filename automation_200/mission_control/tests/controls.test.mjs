@@ -7,8 +7,8 @@ test("every known scheduled channel is represented without exposing private task
   assert.equal(CHATGPT_PLACEHOLDER_COUNT,10);
   const workflowDir=new URL("../../../.github/workflows/",import.meta.url);
   const existing=readdirSync(workflowDir).filter(x=>x.endsWith(".yml")||x.endsWith(".yaml"));
-  const filesById=new Map(existing.map(name=>[name.replace(/\\.ya?ml$/,""),name]));
-  const scheduledFiles=existing.filter(name=>/(^|\\n)  schedule:/.test(readFileSync(new URL(name,workflowDir),"utf8")));
+  const filesById=new Map(existing.map(name=>[name.replace(/\.ya?ml$/,""),name]));
+  const scheduledFiles=existing.filter(name=>/(^|\n)  schedule:/.test(readFileSync(new URL(name,workflowDir),"utf8")));
   assert.equal(SOURCES.github.length,existing.length,"All workflow files must appear in public inventory");
   assert.equal(SOURCES.github.filter(x=>x.trigger==="schedule").length,scheduledFiles.length);
   assert.equal(SOURCES.github.filter(x=>x.trigger==="event").length,existing.length-scheduledFiles.length);
