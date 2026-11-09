@@ -11,6 +11,7 @@ import unittest
 from pathlib import Path
 
 from automation_200.public_continuity_check import ROOT, ContinuityError, check
+from relay.cf_public_relay import UUID
 
 FILES = (
     "docs/PUBLIC_CONTINUITY_STATE.json",
@@ -23,9 +24,15 @@ FILES = (
     "automation_200/registry.json",
     "relay/cf_public_relay.py",
     "relay/INSTALL_NOTEPAD_CONTROL.ps1",
-    "command_queue/inbox/aeccc8a2-217f-4786-aaaf-19b2fc9ff35a.json",
-    "command_queue/receipts/aeccc8a2-217f-4786-aaaf-19b2fc9ff35a.json",
 )
+
+
+def public_ping_id(root: Path) -> str:
+    state = json.loads((root / "docs/PUBLIC_CONTINUITY_STATE.json").read_text(encoding="utf-8"))
+    ping_id = state["hp"]["public_ping_request_id"]
+    if not isinstance(ping_id, str) or not UUID.fullmatch(ping_id):
+        raise ValueError("Invalid public ping request ID")
+    return ping_id
 
 
 class PublicContinuityTests(unittest.TestCase):
@@ -45,7 +52,9 @@ class PublicContinuityTests(unittest.TestCase):
     def prepare(self):
         td = tempfile.TemporaryDirectory()
         root = Path(td.name)
-        for f in FILES:
+        ping_id = public_ping_id(ROOT)
+        ping_files = (f"command_queue/inbox/{ping_id}.json", f"command_queue/receipts/{ping_id}.json")
+        for f in (*FILES, *ping_files):
             (root / f).parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(ROOT / f, root / f)
         cp = root / "automation_200/checkpoints"
@@ -112,7 +121,7 @@ class PublicContinuityTests(unittest.TestCase):
 
     def test_fake_ping_receipt_is_rejected(self):
         root = self.prepare()
-        p = root / "command_queue/receipts/aeccc8a2-217f-4786-aaaf-19b2fc9ff35a.json"
+        p = root / "command_queue" / "receipts" / f"{public_ping_id(root)}.json"
         j = json.loads(p.read_text())
         j["request_sha256"] = "0" * 64
         p.write_text(json.dumps(j))
