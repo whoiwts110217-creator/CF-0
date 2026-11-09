@@ -63,3 +63,20 @@ The owner requested an original, conservative adaptation of professional durable
 **Acceptance tests:** `node --test automation_200/continuation_chrome/tests/*.test.mjs`. These simulate the Chrome extension with a mock browser, not a real signed-in session. Verify one owner-approved conversation in the real account and review the visible actual result before broadening the queue.
 
 **Rollback:** revert this branch's `core.mjs`, `background.js` and matching tests. Leave stored `maybe_sent` attempts in need-of-review state rather than silently converting them into safe-to-retry attempts. No remote actions or account changes were introduced.
+
+## Optional no-export sidebar capture (2026-11-09)
+
+The owner can now build an **incomplete but useful private queue** without a ChatGPT export:
+
+1. In the single existing signed-in Chrome ChatGPT tab, keep the sidebar's conversation links visible. Open the CF-0 AUTO-08 extension popup and select the correct account *label* after checking the signed-in account yourself.
+2. Click **Capture visible sidebar chats**. The extension reads only currently visible links in the page's `nav` or `aside`; it stores at most 500 exact ChatGPT conversation IDs per capture in the extension-local queue. It does not read or upload transcript contents, call a ChatGPT private API, click links, create a tab or change the page.
+3. If the sidebar contains more conversations than it has rendered, use normal owner-controlled scrolling and capture again. Existing queue entries are deduplicated and prior completed IDs remain unchanged. **Zero captured does not mean there are zero chats.**
+4. Select a small sweep through **Start imported sweep**. It uses the same queue whether it came from an export or visible sidebar capture; it still reuses one tab and sends the literal `continue` sequentially, subject to all existing safety gates.
+
+**Account safety:** A visible URL and composer alone do not prove that a conversation from the selected account is open. Before typing, the runner now refuses a page with no rendered user/assistant history (`CONVERSATION_HISTORY_NOT_LOADED`). This can also block legitimately empty/temporarily loading or virtualized chats. It is deliberately fail-closed, but not proof of account ownership. The `primary` / `secondary` selector remains a manual label, not authenticated identity. A real signed-in one-chat test is still required.
+
+**Compatibility:** Chrome desktop extension only. This feature does not turn an iPhone Safari or iPhone Chrome web app into a native agent and does not prove it can discover *all* history. No background scan or separate web API has been introduced.
+
+**Verification:** `node --test automation_200/continuation_chrome/tests/*.test.mjs` covers strict link parsing, wrong-host rejection, repeat capture/deduplication, account-label queue separation, no-history refusal and no extra tabs. A passing source test does not prove that the current live ChatGPT sidebar markup exposes the same link structure.
+
+**Rollback:** Revert this branch's extension source, popup and matching tests. The existing private queue/checkpoint state remains local; back it up before uninstalling the extension. Do not erase unknown-send attempts or turn a failed capture into an inferred complete chat list.

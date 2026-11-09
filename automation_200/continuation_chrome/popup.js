@@ -6,11 +6,12 @@ async function refresh(){
   if(!r?.ok){$('status').textContent='Status unavailable';return;}
   const {state,tabs}=r;
   lastState=state;
-  $('status').textContent=`ChatGPT tabs: ${tabs.count} | ${tabs.reason}\nRunner: ${state.phase}${state.reason?' · '+state.reason:''}\nCompleted: ${state.completed?.length||0}`;
+  $('status').textContent=`ChatGPT tabs: ${tabs.count} | ${tabs.reason}\nRunner: ${state.phase}${state.reason?' · '+state.reason:''}\nCompleted: ${state.completed?.length||0}\nQueue: ${state.queue?.length||0}`;
   $('account').value=state.account||'';
   $('detail').textContent=state.lastResult||'Use Check tab, then Continue current chat once for the first live test.';
   const blocked=state.phase==='running'||state.phase==='needs_review'||!!state.attempt||!state.account;
   $('start').disabled=!state.queue?.length || tabs.count!==1 || blocked;
+  $('capture').disabled=tabs.count!==1 || blocked;
   $('current').disabled=tabs.count!==1||blocked;
   $('pause').disabled=!['running','paused','needs_review'].includes(state.phase);
   $('review').disabled=state.phase!=='needs_review';
@@ -24,6 +25,7 @@ const withFeedback=fn=>async()=>{
   }catch(e){await refresh();$('detail').textContent=e.message;}
 };
 $('check').addEventListener('click',withFeedback(()=>call({type:'STATUS'})));
+$('capture').addEventListener('click',withFeedback(()=>call({type:'CAPTURE_VISIBLE'})));
 $('account').addEventListener('change',withFeedback(()=>call({type:'SET_ACCOUNT',account:$('account').value})));
 $('queue').addEventListener('change',withFeedback(async()=>{
   const f=$('queue').files?.[0];if(!f)return {message:'No file selected'};

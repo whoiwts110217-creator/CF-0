@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-import {chatId,chatURL,eligibleTabs,pickSingleTab,importQueue,classifyOverlay,acknowledgedContinue,stableResponse,initialState,CONTINUE_TEXT} from '../core.mjs';
+import {chatId,chatURL,eligibleTabs,pickSingleTab,importQueue,capturedSidebarQueue,hasLoadedConversation,classifyOverlay,acknowledgedContinue,stableResponse,initialState,CONTINUE_TEXT} from '../core.mjs';
 const id='11111111-1111-4111-8111-111111111111';
 test('only existing, exactly one ChatGPT tab is eligible',()=>{
  assert.equal(pickSingleTab([{id:1,url:chatURL(id)},{id:2,url:'https://github.com'}]).id,1);
@@ -15,6 +15,23 @@ test('strict chat URL and private export parsing',()=>{
  assert.throws(()=>chatURL('nope'));
  assert.equal(importQueue([{id,title:'One'},{id,title:'Duplicate'}]).length,1);
  assert.throws(()=>importQueue({}));
+});
+test('visible sidebar capture is bounded, local and strict about ChatGPT routes',()=>{
+ const id2='22222222-2222-4222-8222-222222222222';
+ const links=['/c/'+id,chatURL(id),'https://chatgpt.com/c/'+id2,
+   'https://evil.com/c/'+id,'//evil.com/c/'+id,
+   'https://chatgpt.com/c/not-a-uuid'];
+ assert.deepEqual(capturedSidebarQueue(links).map(x=>x.id),[id,id2]);
+ assert.equal(capturedSidebarQueue([]).length,0);
+ assert.throws(()=>capturedSidebarQueue('not an array'),/INVALID_VISIBLE_SIDEBAR/);
+ assert.throws(()=>capturedSidebarQueue(Array(2001).fill('/c/'+id)),/INVALID_VISIBLE_SIDEBAR/);
+});
+test('a composer with no loaded conversation must fail closed',()=>{
+ assert.equal(hasLoadedConversation({userCount:0,assistantCount:0}),false);
+ assert.equal(hasLoadedConversation({userCount:1,assistantCount:0}),true);
+ assert.equal(hasLoadedConversation({userCount:0,assistantCount:1}),true);
+ assert.equal(hasLoadedConversation({userCount:NaN,assistantCount:2}),false);
+ assert.equal(hasLoadedConversation(null),false);
 });
 test('known harmless overlay resumes, unknown/approval/signin blocks',()=>{
  assert.equal(classifyOverlay({dialogVisible:true,dialogText:"What's new in ChatGPT"}),'DISMISS_WITH_ESCAPE');
@@ -57,6 +74,9 @@ test('extension uses Chrome tab + debugger, no mouse/new tab/unknown retry',()=>
  assert.match(bg,/status:'maybe_sent'/);
  assert.match(bg,/acknowledgedContinue\(s,before\.userCount\)/);
  assert.match(bg,/lastUserExactContinue/);
+ assert.match(bg,/CONVERSATION_HISTORY_NOT_LOADED/);
+ assert.match(bg,/case 'CAPTURE_VISIBLE'/);
+ assert.match(bridge,/isTrusted/);
  assert.match(bridge,/isTrusted/);
  assert.match(m,/whoiwts110217-creator\.github\.io/);
  assert.equal(CONTINUE_TEXT,'continue');

@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 const id='11111111-1111-4111-8111-111111111111';
 const chatUrl='https://chatgpt.com/c/'+id;
 
-function harness({stickyDialog=false,addSecondAfterSend=false,attachFailure=false,focusFailure=false}={}){
+function harness({stickyDialog=false,addSecondAfterSend=false,attachFailure=false,focusFailure=false,noHistory=false}={}){
   let state,hasSent=false,escapes=0,sends=0,attached=0,detached=0;
   const handlers={};
   const tab={id:23,url:chatUrl};
@@ -40,7 +40,7 @@ function harness({stickyDialog=false,addSecondAfterSend=false,attachFailure=fals
         const dialogVisible=stickyDialog;
         return [{result:{url:chatUrl,dialogVisible,dialogText:dialogVisible?"What's new in ChatGPT":'',
           signedOut:false,rateLimit:false,composerVisible:true,draft:'',
-          userCount:hasSent?2:1,assistantCount:hasSent?2:1,lastUserExactContinue:hasSent,
+           userCount:noHistory?0:hasSent?2:1,assistantCount:noHistory?0:hasSent?2:1,lastUserExactContinue:hasSent,
           lastAssistantSignature:hasSent?'50:33001':'20:10001',
           busy:false,stopVisible:false}}];
       }
@@ -119,4 +119,16 @@ test('pre-send focus failure preserves no-send evidence and permits safe acknowl
   assert.equal(h.metrics().sends,0);
   assert.equal((await send(h,{type:'ACK_PRE_SEND'})).ok,true);
   assert.equal((await send(h,{type:'STATUS'})).state.phase,'paused');
+});
+
+test('a conversation unavailable in the signed-in account cannot receive continue',{timeout:8000},async()=>{
+  const h=harness({noHistory:true});globalThis.chrome=h.chrome;
+  await import('../background.js?wrongaccount=' + Date.now());
+  assert.equal((await send(h,{type:'SET_ACCOUNT',account:'primary'})).ok,true);
+  assert.equal((await send(h,{type:'CONTINUE_CURRENT'})).ok,true);
+  const s=await until(h,x=>x.phase==='needs_review',6000);
+  assert.equal(s.reason,'CONVERSATION_HISTORY_NOT_LOADED');
+  assert.equal(s.attempt,null,'no command reached the keyboard');
+  assert.equal(h.metrics().sends,0);
+  assert.equal(h.metrics().detached,1);
 });
