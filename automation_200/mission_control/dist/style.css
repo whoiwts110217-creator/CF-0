@@ -189,3 +189,56 @@ footer { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 6p
 .runtime-inputs input[type="file"]::file-selector-button { padding: 7px 9px; margin-right: 7px; border-radius: 5px; border: 1px solid var(--line); background: var(--panel-inset); color: var(--text); cursor: pointer; }
 #clear-local-evidence { margin: 8px 0; border-color: var(--line); }
 #runtime-evidence strong { font-weight: 700; }
+
+/* Automation center control inventory: no false operational status or enabled remote actions. */
+.topbar nav { flex-wrap: wrap; gap: 9px 18px; }
+.control-center { margin: 18px 0 24px; padding: 22px; }
+.control-heading { align-items: start; gap: 10px 20px; flex-wrap: wrap; }
+.control-center h2 .badge { vertical-align: middle; margin-left: 8px; }
+.control-center h3 { margin: 0; font-size: 16px; line-height: 1.35; }
+.control-master-bar {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 10px;
+  margin: 19px 0 9px; padding: 15px; border: 1px solid #3c4c65;
+  border-radius: 9px; background: #121c2b;
+}
+.control-master-label { display: grid; grid-template-columns: auto auto; gap: 4px 9px; margin-right: auto; }
+.control-master-label > strong { font-size: 14px; }
+.control-master-label > small { grid-column: 1 / -1; max-width: 480px; color: var(--muted); font-size: 11px; }
+.control-master-label .badge { justify-self: start; }
+.control-master-switch input { width: 23px; min-height: 23px; height: 23px; margin: 0 8px; padding: 0; cursor: not-allowed; }
+.control-master-bar .control-action { margin: 0; }
+.control-action { border: 1px solid var(--line); color: #9cadc5; border-radius: 6px; padding: 6px 10px; min-height: 32px; background: #1b293d; font: 600 11px var(--mono); }
+.control-action:disabled { opacity: .55; cursor: not-allowed; }
+.control-note { color: var(--soft); font-size: 12px; margin: 10px 0; }
+.control-group-grid { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 13px; margin: 20px 0; align-items: start; }
+.control-group { min-width: 0; border: 1px solid var(--line); border-radius: 9px; background: var(--panel-inset); padding: 16px; }
+.control-group-heading { display: flex; align-items: start; justify-content: space-between; flex-wrap: wrap; gap: 4px 12px; }
+.control-meta { color: #99c6e3; font: 10px var(--mono); }
+.control-group > .aside-text { min-height: 50px; }
+.control-import { display: flex; align-items: end; flex-wrap: wrap; gap: 7px 14px; margin: 10px 0; }
+.control-import label { display: grid; gap: 6px; font-size: 12px; color: var(--muted); }
+.control-import input[type="file"] { padding: 6px; max-width: min(360px,100%); font-size: 11px; }
+.control-import input[type="file"]::file-selector-button { background: #21344e; color: var(--text); padding: 5px; border: 1px solid var(--line); border-radius: 4px; }
+.control-import .refresh { border-color: var(--line); }
+.control-rows { display: grid; gap: 6px; margin-top: 9px; }
+.control-row { display: grid; gap: 10px; padding: 11px; border-radius: 7px; border: 1px solid #334159; background: #1a2535; }
+.control-description { display: grid; gap: 5px; justify-items: start; min-width: 0; }
+.control-title { font-size: 13px; overflow-wrap: anywhere; }
+.control-detail { color: var(--muted); font-size: 11px; }
+.control-row-actions { display: flex; align-items: center; flex-wrap: wrap; gap: 8px; font-size: 12px; }
+.control-row-actions > .tiny-link { margin-right: auto; }
+.control-stage { display: inline-flex; align-items: center; gap: 5px; color: #d0dbed; white-space: nowrap; font-size: 11px; cursor: pointer; }
+.control-stage input { min-height: 16px; width: 16px; height: 16px; margin: 0; padding: 0; accent-color: #88c9ed; }
+.control-shutdown { border-top: 1px solid var(--line); padding-top: 17px; }
+.control-planner-actions { display: flex; flex-wrap: wrap; gap: 9px; margin: 12px 0; }
+.control-planner-actions button { border: 1px solid #476484; background: #1b3049; border-radius: 6px; padding: 8px 12px; color: #e5f1ff; cursor: pointer; font-size: 12px; }
+.control-planner-actions button:hover { border-color: #89cfff; }
+#control-plan-preview { white-space: pre-wrap; overflow-wrap: anywhere; background: #111824; color: #bfcfe5; font: 11px/1.65 var(--mono); padding: 14px; border: 1px solid var(--line); border-radius: 7px; max-height: 250px; overflow-y: auto; }
+@media (max-width: 900px) { .control-group-grid { grid-template-columns: 1fr; } }
+@media (max-width: 625px) {
+  .control-center { padding: 14px; }
+  .control-master-bar { align-items: start; }
+  .control-master-label { width: 100%; }
+  .control-center h2 .badge { display: table; margin: 6px 0 0; }
+  .topbar nav { gap: 10px 16px; }
+}
