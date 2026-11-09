@@ -14,3 +14,7 @@ GitHub Actions compiles with macOS and produces an unsigned IPA when passing. An
 Local evidence: Swift syntax parsed, Xcode project plist linted, 9 backend tests passed. This does not certify an Apple SDK build, signed installation, live accounts or automated HP actions.
 
 Continuity: CF-ACC-iOS-001; parent CF-0 Mission Control; UCC-001; existing main kept unchanged; rollback by leaving branch unmerged.
+
+## CI infrastructure diagnostic — November 9, 2026
+
+The first macOS Actions run [42674108840](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42674108840) failed before allocating a job, with GitHub annotation `Internal server error. Correlation ID: 9412ef56-7d1a-474d-9ecd-ad799b9c218e`. This does **not** establish Swift compilation failure. The GitHub failed-job rerun endpoint returned 403 (zero retryable jobs). A new push of this note requests a fresh macOS build. No credentials or automation privileges have been added.
