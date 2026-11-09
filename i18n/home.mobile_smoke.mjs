@@ -115,12 +115,12 @@ try {
     const r=d.querySelector('.nav-extra').getBoundingClientRect();
     return {viewport:innerWidth,scrollWidth:document.documentElement.scrollWidth,
       left:r.left,right:r.right,width:r.width,visible:r.width>0,
-      legacyLinks:[...d.querySelectorAll('a')].map(x=>x.textContent.trim())};
+      legacyLinks:[...d.querySelectorAll('a')].map(x=>x.getAttribute('href'))};
   })()`);
   console.log("390px expanded More menu:",JSON.stringify(menu));
   assert.ok(menu.scrollWidth <= 392, "Opening More menu must not cause horizontal scrolling");
   assert.ok(menu.left >= -2 && menu.right <= 392, "Open More menu must fit mobile screen");
-  assert.ok(menu.legacyLinks.includes("Mission Control") && menu.legacyLinks.includes("AI Tracker"), "Historic links remain reachable");
+  assert.ok(menu.legacyLinks.includes("./mission-control/") && menu.legacyLinks.some(x=>x?.includes("/ai_tracker")), "Historic links remain reachable");
 
   await evaluate(`(() => {
     document.querySelector('[data-set-language="en"]').click();
