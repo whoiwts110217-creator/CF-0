@@ -47,3 +47,20 @@ The v1.2 candidate adds a local SHA-256 fingerprint across Task Scheduler name, 
 - **Next 3:** Implement a signed, scoped *private* request and receipt validator using existing bridge transport without changing its current accepted actions.
 
 **Rollback:** Removing this new documentation file restores the prior public documentation state. The earlier skill, relay, Mission Control, task registry and schedules are unchanged. Future Work runs must re-fetch all three operating prompts from `main`; this page cannot authorize local operations.
+
+## v1.3 crash-safe candidate — November 9, 2026 (source-level, no deployment)
+
+**Continuity:** `CF0-P0-HP-CONTROL-SKILL-001`. Owner's instruction was to continue careful P0 work, preserve the existing HP relay and verify public updates. This is a separately packaged owner-local **REVIEW** candidate, not a live source cutover or a granted remote permission. v1.2 and the original v1.0 source remain intact.
+
+- Added an owner-local cross-process OS file lock around `pause`, `resume`, read-only pause-record review and owner-confirmed recovery reconciliation. Lock acquisition fails with `OTHER_HP_CONTROL_INSTANCE_BUSY`; the stable lock file is never deleted during normal release. No new background service or schedule.
+- A unique UUID operation ID and `attempting_pause` / `attempting_resume` record are saved **before** any Windows scheduler mutation. A crash or timeout remains an uncertain owner-local record; unknown outcomes are never blindly replayed.
+- Re-checks fixed task path, same-user principal, limited-runlevel identity digest and task state **after** typed owner confirmation, before changing the schedule. A second readback follows the attempt.
+- `review` only classifies records. `reconcile --task <fixed alias>` uses owner-local typed confirmation and repeated matching identity/state readback to settle evidence of an action that appears already completed. The reconciliation path does **not** enable/disable/start/stop Windows tasks. Legacy v1.1 records missing a fingerprint remain held for separate manual review.
+- **30/30 offline tests passed** on a Linux sandbox, including a real competing-process lock test and simulated Task Scheduler responses. Python syntax compilation passed; CLI correctly reported no Windows connection in this sandbox. **This does not establish Windows lock or Scheduler behavior on the HP.**
+- Candidate ZIP in owner conversation: `CF0_HP_Control_Skill_v1_3_Crash_Safe_REVIEW.zip`. SHA-256: `8a3b18a38b6f4822f2f082ec6fc8cc525ad050fe4d29126b9a609c91920032e2`. ZIP CRC passed and all **6 source files** matched the included manifest digests. The binary is **not** uploaded to public GitHub and is **not** installed on the owner's HP.
+
+**Public update limits:** No changes to `skills/cf0-hp-control/SKILL.md` (still v1.0), `relay/cf_public_relay.py` (public allowlist unchanged), `bridge/`, Windows scheduled tasks, Mission Control, private accounts, registry `automation_200/registry.json`, or append-only CF-200 verified evidence. This documentation entry is **not** a CF-200 completion or proof of an authenticated HP connection. Private archives were not opened or published.
+
+**Next acceptance gates, in order:** (1) isolate task identity, lock semantics, rollback and uncertain-state behavior in disposable *Windows CI* and a locally authorized HP pilot; (2) make child-process outcomes separately observable from schedule-disabled state; (3) design/test a precise owner-approved private command+receipt validator under PCA-004 without broadening the existing public relay or claiming a wired Mission Control switch. Preserve owner powers, exact AUTO-08 one-tab keyboard-only semantics and P0→P1→P2→P3 order.
+
+**Rollback:** revert only this new audit-doc update if the evidence is wrong; no executable or schedule rollback is needed because none was changed. Subsequent agents must re-fetch all three public operating prompts from current `main`, this audited candidate's evidence and the latest registry/CI before making a new claim.
