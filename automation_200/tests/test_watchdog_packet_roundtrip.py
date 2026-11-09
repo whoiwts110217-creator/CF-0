@@ -8,7 +8,7 @@ import json
 import unittest
 from pathlib import Path
 
-from automation_200.watchdog_handoff import build_handoff
+from automation_200.watchdog_handoff import build_handoff, handoff_digest
 from automation_200.watchdog_readback import (
     HANDOFF_STEP, REPO, WORKFLOW, record_readback,
 )
@@ -54,6 +54,7 @@ class WatchdogPacketRoundtripTests(unittest.TestCase):
         log = step_stamp.encode("ascii") + b" CF0_WORK_HANDOFF=" + packet + b"\n"
         result = record_readback(run, job, log)
         self.assertEqual(result["packet_sha256"], hashlib.sha256(packet).hexdigest())
+        self.assertEqual(result["packet_sha256"], handoff_digest(handoff))
         self.assertEqual(result["watchdog_run_id"], 1234)
         self.assertEqual(result["watchdog_run_attempt"], 1)
         self.assertFalse(result["execution_authorized"])
