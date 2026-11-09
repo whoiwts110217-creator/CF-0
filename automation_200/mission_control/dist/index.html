@@ -11,6 +11,7 @@
   <link rel="stylesheet" href="./style.css">
   <script type="module" src="./app.mjs"></script>
   <script type="module" src="./controls-ui.mjs"></script>
+  <script type="module" src="./gameful-ui.mjs"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to mission control</a>
@@ -101,6 +102,32 @@
           <p class="evidence-note">Scheduler verification requires a matching Windows task run and wrapper outcome.</p>
         </article>
       </div>
+    </section>
+
+
+    <section id="learning-lab" class="card gameful-lab" aria-labelledby="learning-lab-label">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">OPTIONAL / LEARNING EXPERIMENT</p>
+          <h2 id="learning-lab-label">Brainrot → Brainpower</h2>
+        </div>
+        <button id="gameful-toggle" class="gameful-action" type="button" aria-controls="gameful-content" aria-expanded="false">Start brainpower quest</button>
+      </div>
+      <p class="aside-text">A little videogame chaos with an actual purpose: make a prediction, check the evidence, and learn what the status really means. No loot boxes, streaks, tracking, accounts, or changes to real tasks.</p>
+      <div id="gameful-content" hidden>
+        <p id="gameful-genre" class="eyebrow">SOURCE EVIDENCE CHALLENGE</p>
+        <h3 id="gameful-title">The evidence quest</h3>
+        <p id="gameful-claim">Loading the first claim.</p>
+        <div class="gameful-choices">
+          <button type="button" data-gameful-answer="true">TRUE</button>
+          <button type="button" data-gameful-answer="false">FALSE</button>
+        </div>
+        <p id="gameful-result" role="status" aria-live="polite">Choose a prediction first.</p>
+        <p id="gameful-explanation"></p>
+        <a id="gameful-source" href="https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/PROJECT_STATUS.md" target="_blank" rel="noopener noreferrer" hidden>View evidence ↗</a>
+        <button type="button" id="gameful-next" class="gameful-action" hidden>Next encounter</button>
+      </div>
+      <p class="gameful-note">Local educational prototype; an answer here never establishes HP execution, math proof, donation or funding. <a href="https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/BRAINROT_TO_BRAINPOWER_2026-11-09.md">Method and evidence limitations ↗</a> · <a href="https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/UNIVERSAL_CONTINUITY_CONTRACT.md">Continuity contract ↗</a></p>
     </section>
 
 
