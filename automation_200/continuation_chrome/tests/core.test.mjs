@@ -1,6 +1,8 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
+import {execFileSync} from 'node:child_process';
+import {fileURLToPath} from 'node:url';
 import {chatId,chatURL,eligibleTabs,pickSingleTab,importQueue,accountSnapshot,capturedSidebarQueue,hasLoadedConversation,classifyOverlay,acknowledgedContinue,stableResponse,initialState,CONTINUE_TEXT} from '../core.mjs';
 const id='11111111-1111-4111-8111-111111111111';
 test('only existing, exactly one ChatGPT tab is eligible',()=>{
@@ -82,6 +84,18 @@ test('exact new continue acknowledgement is required; unrelated turns fail close
  assert.equal(acknowledgedContinue({userCount:2,lastUserExactContinue:true},2),false);
  assert.equal(acknowledgedContinue({userCount:3,lastUserExactContinue:true},NaN),false);
  assert.equal(acknowledgedContinue(null,2),false);
+});
+test('owner-visible STOP works during startup and UI scripts parse',()=>{
+ const bg=readFileSync(new URL('../background.js',import.meta.url),'utf8');
+ const popup=readFileSync(new URL('../popup.js',import.meta.url),'utf8');
+ const bridge=readFileSync(new URL('../master-control.js',import.meta.url),'utf8');
+ assert.match(bg,/STARTING_TAB_CHECK/);
+ assert.match(bg,/cancelRequested=true/);
+ assert.match(popup,/launching\|\|\['running','paused','needs_review'\]/);
+ assert.match(bridge,/stop\.disabled=!\(launching\|\|state\.phase==='running'\)/);
+ for(const name of ['popup.js','master-control.js']){
+   execFileSync(process.execPath,['--check',fileURLToPath(new URL('../'+name,import.meta.url))]);
+ }
 });
 test('extension uses Chrome tab + debugger, no mouse/new tab/unknown retry',()=>{
  const bg=readFileSync(new URL('../background.js',import.meta.url),'utf8');

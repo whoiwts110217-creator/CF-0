@@ -4,16 +4,16 @@ let lastState=null;
 async function refresh(){
   const r=await call({type:'STATUS'});
   if(!r?.ok){$('status').textContent='Status unavailable';return;}
-  const {state,tabs}=r;
+  const {state,tabs,launching}=r;
   lastState=state;
-  $('status').textContent=`ChatGPT tabs: ${tabs.count} | ${tabs.reason}\nRunner: ${state.phase}${state.reason?' · '+state.reason:''}\nCompleted: ${state.completed?.length||0}\nQueue: ${state.queue?.length||0}`;
+  $('status').textContent=`${launching&&tabs.reason==='STARTING_TAB_CHECK'?'Checking existing ChatGPT tab…':`ChatGPT tabs: ${tabs.count} | ${tabs.reason}`}\nRunner: ${launching?'starting':state.phase}${state.reason?' · '+state.reason:''}\nCompleted: ${state.completed?.length||0}\nQueue: ${state.queue?.length||0}`;
   $('account').value=state.account||'';
   $('detail').textContent=state.lastResult||'Use Check tab, then Continue current chat once for the first live test.';
-  const blocked=state.phase==='running'||state.phase==='needs_review'||!!state.attempt||!state.account;
+  const blocked=launching||state.phase==='running'||state.phase==='needs_review'||!!state.attempt||!state.account;
   $('start').disabled=!state.queue?.length || tabs.count!==1 || blocked;
   $('capture').disabled=tabs.count!==1 || blocked;
   $('current').disabled=tabs.count!==1||blocked;
-  $('pause').disabled=!['running','paused','needs_review'].includes(state.phase);
+  $('pause').disabled=!(launching||['running','paused','needs_review'].includes(state.phase));
   $('review').disabled=state.phase!=='needs_review';
   $('review').textContent=state.attempt?'Review uncertain send':'Clear pre-send blocker';
 }

@@ -4,8 +4,12 @@ import {chatId,chatURL,pickSingleTab,importQueue,accountSnapshot,capturedSidebar
 // All Chrome actions are attached to one explicitly selected existing ChatGPT tab ID.
 const KEY='auto08_state_v1';
 let statePromise;
+// All writes share one serialized queue. STOP must never be overwritten by
+// an older in-flight chrome.storage.local.set completion.
+let stateWrites=Promise.resolve();
 let live=null;
 let launching=false;
+let cancelRequested=false;
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 const stamp=()=>new Date().toISOString();
 const getState=()=>statePromise ||= chrome.storage.local.get(KEY).then(async data=>{
@@ -26,12 +30,21 @@ const getState=()=>statePromise ||= chrome.storage.local.get(KEY).then(async dat
   }
   return s;
 });
-async function save(patch={}){
-  const s=await getState();Object.assign(s,patch,{updatedAt:stamp()});
-  await chrome.storage.local.set({[KEY]:s});return s;
+function save(patch={}){
+  const operation=stateWrites.then(async()=>{
+    const s=await getState();
+    // Functional patches inspect the latest state *when the write executes*.
+    // This prevents STOP/catch from acting on an out-of-date attempt snapshot.
+    const next=typeof patch==='function' ? patch(s) : patch;
+    Object.assign(s,next,{updatedAt:stamp()});
+    await chrome.storage.local.set({[KEY]:s});
+    return s;
+  });
+  stateWrites=operation.then(()=>undefined,()=>undefined);
+  return operation;
 }
 const debuggerTarget=tabId=>({tabId});
-const ensureActive=()=>{if(!live||live.stop)throw Error('STOP_REQUESTED');};
+const ensureActive=()=>{if(cancelRequested||!live||live.stop)throw Error('STOP_REQUESTED');};
 const cd=async(method,params={})=>{
   ensureActive();return chrome.debugger.sendCommand(debuggerTarget(live.tabId),method,params);
 };
@@ -140,8 +153,10 @@ async function waitUntil(check,timeoutMs,expectedId,{allowNavigation=false}={}){
 async function attachOneTab(){
   const tab=await selectedTab();
   live={tabId:tab.id,stop:false,escapes:0,attached:false,dialogIssue:null,popupCount:0};
+  if(cancelRequested)throw Error('STOP_REQUESTED');
   await chrome.debugger.attach(debuggerTarget(tab.id),'1.3');
   live.attached=true;
+  ensureActive();
   await cd('Page.enable');
   await save({selectedTabId:tab.id,phase:'running',reason:null,lastResult:'Attached to one existing Chrome ChatGPT tab; no new tab created.'});
   return tab;
@@ -171,10 +186,12 @@ async function continueOne(id){
   if(before.stopVisible||before.busy)throw Error('ALREADY_RESPONDING');
   if(before.draft)throw Error('OWNER_DRAFT_PRESENT');
   await focusComposer();
+  ensureActive();
   // Durable side-effect boundary, BEFORE any keyboard action. If Chrome stops
   // after this point, never auto-retry; the exact send outcome is unknown.
   await save({attempt:{chatId:id,status:'maybe_sent',startedAt:stamp()},
     lastResult:'Keyboard send boundary armed; outcome may require review.'});
+  ensureActive();
   await cd('Input.insertText',{text:CONTINUE_TEXT});
   await key('Enter');
   await save({lastResult:'Sent continue; waiting for response to finish…'});
@@ -187,8 +204,11 @@ async function continueOne(id){
       blocker:!!live.dialogIssue},Date.now());
     return stable.ready;
   },240000,id);
-  const s=await getState();
-  await save({attempt:null,currentChat:null,completed:[...new Set([...s.completed,id])],lastResult:'Completed one chat and verified stable response.'});
+  ensureActive();
+  await save(s=>({attempt:null,currentChat:null,
+    completed:[...new Set([...s.completed,id])],
+    lastResult:'Completed one chat and verified stable response.'}));
+  ensureActive();
 }
 async function execute({mode,maxChats=1}){
   if(live)throw Error('ALREADY_RUNNING');
@@ -202,6 +222,7 @@ async function execute({mode,maxChats=1}){
   const toDo=(mode==='current'?q:q.filter(x=>!s.completed.includes(x.id))).slice(0,maxChats);
   let outcome='completed';
   try{
+    if(cancelRequested)throw Error('STOP_REQUESTED');
     // Attach can fail (permission revoked, tab closed, Chrome debugger conflict).
     // Cleanup MUST still run, or the dead "live" marker blocks every future run.
     await attachOneTab();
@@ -212,18 +233,27 @@ async function execute({mode,maxChats=1}){
       live.escapes=0;
       await continueOne(c.id);
     }
+    ensureActive();
     await save({phase:'idle',reason:null,lastResult:`Finished ${toDo.length} conversation(s) with the same Chrome tab.`});
+    ensureActive();
   }catch(error){
     outcome='needs_review';
     const reason=live?.dialogIssue||error.message||'UNKNOWN_ERROR';
-    const state=await getState();
-    const beforeSend=state.attempt?.status==='pre_send';
-    await save({phase:'needs_review',reason,
-      attempt:beforeSend?null:state.attempt,
-      currentChat:beforeSend?null:state.currentChat,
-      lastResult:beforeSend
-        ? `Stopped before keyboard send: ${reason}. Check the tab and acknowledge the pre-send blocker.`
-        : `Stopped after uncertain send boundary: ${reason}. Review the conversation; no automatic duplicate send.`});
+    const ownerStop=cancelRequested||live?.stopReason==='USER_STOP';
+    await save(s=>{
+      const beforeSend=s.attempt?.status==='pre_send';
+      const uncertain=!!s.attempt&&!beforeSend;
+      const paused=ownerStop&&!uncertain;
+      return {phase:paused?'paused':'needs_review',
+        reason:ownerStop?'USER_STOP':reason,
+        attempt:beforeSend?null:s.attempt,
+        currentChat:beforeSend?null:s.currentChat,
+        lastResult:paused
+          ? 'Stopped before the next keyboard send. No uncertain attempt is recorded; resume only when ready.'
+          : beforeSend
+            ? `Stopped before keyboard send: ${reason}. Check the tab and acknowledge the pre-send blocker.`
+            : `Stopped after uncertain send boundary: ${reason}. Review the conversation; no automatic duplicate send.`};
+    });
   }finally{
     if(live?.attached){try{await chrome.debugger.detach(debuggerTarget(live.tabId));}catch{}}
     live=null;
@@ -257,7 +287,13 @@ chrome.runtime.onMessage.addListener((message,sender,sendResponse)=>{
   (async()=>{
     const s=await getState();
     switch(message?.type){
-      case 'STATUS':return {ok:true,state:s,tabs:await tabsSnapshot()};
+      case 'STATUS':
+        // During launch preflight, don't block STATUS behind the same slow
+        // tab query the owner may be trying to cancel. STOP stays reachable.
+        return {ok:true,state:s,launching,
+          tabs:launching&&!live
+            ? {count:null,reason:'STARTING_TAB_CHECK',tabId:null,url:null}
+            : await tabsSnapshot()};
       case 'SET_ACCOUNT':{
         if(live||launching)throw Error('CANNOT_CHANGE_ACCOUNT_WHILE_RUNNING');
         if(!['primary','secondary'].includes(message.account))throw Error('SELECT_VALID_ACCOUNT');
@@ -300,28 +336,53 @@ chrome.runtime.onMessage.addListener((message,sender,sendResponse)=>{
       case 'CONTINUE_CURRENT': {
         if(live||launching)throw Error('ALREADY_RUNNING');
         if(!s.account)throw Error('SELECT_ACCOUNT_FIRST');
-        const tab=await selectedTab();if(!chatId(tab.url))throw Error('OPEN_A_CONVERSATION_FIRST');
         launching=true;
-        void execute({mode:'current',maxChats:1}).catch(async e=>{
-          await save({phase:'needs_review',reason:e.message,lastResult:'Start failed: '+e.message});
-        }).finally(()=>{launching=false;});
-        return {ok:true,message:'Requested one-chat test using existing tab.'};
+        cancelRequested=false;
+        try{
+          const tab=await selectedTab();
+          if(!chatId(tab.url))throw Error('OPEN_A_CONVERSATION_FIRST');
+          if(cancelRequested)throw Error('STOP_REQUESTED');
+          void execute({mode:'current',maxChats:1}).catch(async e=>{
+            await save({phase:'needs_review',reason:e.message,lastResult:'Start failed: '+e.message});
+          }).finally(()=>{launching=false;});
+          return {ok:true,message:'Requested one-chat test using existing tab.'};
+        }catch(e){
+          launching=false;
+          throw e;
+        }
       }
       case 'START': {
         if(live||launching)throw Error('ALREADY_RUNNING');
         if(!s.account)throw Error('SELECT_ACCOUNT_FIRST');
         if(!s.queue.length)throw Error('IMPORT_QUEUE_FIRST');
-        await selectedTab();
         launching=true;
-        void execute({mode:'queue',maxChats:message.maxChats}).catch(async e=>{
-          await save({phase:'needs_review',reason:e.message,lastResult:'Start failed: '+e.message});
-        }).finally(()=>{launching=false;});
-        return {ok:true,message:'Requested imported queue using existing tab.'};
+        cancelRequested=false;
+        try{
+          await selectedTab();
+          if(cancelRequested)throw Error('STOP_REQUESTED');
+          void execute({mode:'queue',maxChats:message.maxChats}).catch(async e=>{
+            await save({phase:'needs_review',reason:e.message,lastResult:'Start failed: '+e.message});
+          }).finally(()=>{launching=false;});
+          return {ok:true,message:'Requested imported queue using existing tab.'};
+        }catch(e){
+          launching=false;
+          throw e;
+        }
       }
       case 'STOP':
-        if(live){live.stop=true;await save({phase:'paused',reason:'USER_STOP',lastResult:'Stop requested. In-flight chat outcome requires review.'});}
-        else await save({phase:s.attempt?'needs_review':'paused',reason:'USER_STOP',lastResult:'Paused; no current runner.'});
-        return {ok:true,message:'Stop requested. Chrome remains open.'};
+        cancelRequested=true;
+        if(live){
+          // Set cancellation synchronously, BEFORE the first await.
+          live.stop=true;live.stopReason='USER_STOP';
+        }
+        await save(current=>{
+          const uncertain=!!current.attempt&&current.attempt.status!=='pre_send';
+          return {phase:uncertain?'needs_review':'paused',reason:'USER_STOP',
+            lastResult:uncertain
+              ? 'STOP accepted. The current send outcome is uncertain; inspect the chat before retrying.'
+              : 'STOP accepted. No uncertain send is recorded; future sends remain paused.'};
+        });
+        return {ok:true,message:'Stop accepted for AUTO-08. The Chrome tab remains open.'};
       case 'ACK_PRE_SEND': {
         if(live||launching)throw Error('CANNOT_CLEAR_WHILE_RUNNING');
         if(s.phase!=='needs_review'||s.attempt)throw Error('NO_SAFE_PRE_SEND_BLOCKER');
