@@ -55,3 +55,10 @@ A CF-0 operator may make bounded, public-safe **clarity/efficiency** changes dur
 | ID | Owner-authorized scope clarification | Result and boundary | Evidence / rollback |
 |---|---|---|---|
 | **PCE-006** | Narrow the existing **Master Operating Prompt** to a full four-surface controller audit: ChatGPT automations, every GitHub workflow (not only cron), owner-local Windows tasks, and keyboard-only one-tab AUTO-08. Distinguish public source from live control and staged research shutdown from actual pause. | **Applied as an editorial P0 acceptance clarification**, not a priority reorder or permission grant; all existing functionality, P0–P3 hierarchy, owner credit, privacy boundaries and HP allowlist preserved. No real task changed state. | [Operator scope commit](https://github.com/whoiwts110217-creator/CF-0/commit/ac917ce08cee9f5348d95f6fd52507d6c18b4cda) · [harsh audit](../docs/MASTER_CONTROLLER_AUDIT_2026-11-09.md) · [append-only event](PROMPT_CHANGE_LOG.jsonl) · rollback: revert operator commit with review. CI guard to verify. |
+
+
+## November 9 · Universal continuity, gameful learning, and non-deceptive presentation
+
+| ID | Owner-authorized editorial change | State and limits | Evidence |
+|---|---|---|---|
+| **PCE-007–009** | Owner requires **continuity for everything**: every project, tool, experiment, game-like presentation and funding effort must link source, parent, decision, verified status, privacy, rollback and next action via [UCC-001](../docs/UNIVERSAL_CONTINUITY_CONTRACT.md). | **Applied to the three canonical prompts** with no new permissions, financial obligation, verified CF-200 milestone or creator-credit change. [Brainrot → Brainpower](../docs/BRAINROT_TO_BRAINPOWER_2026-11-09.md) is a linked, optional source-stage experiment; no efficacy claim. | [Operator](MASTER_OPERATOR_PROMPT.md) · [Continuity](MASTER_CONTINUITY_PROMPT.md) · [Work](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) · [append-only before/after SHAs and commits](PROMPT_CHANGE_LOG.jsonl). Revert each commit with review if needed. |
