@@ -118,3 +118,11 @@ The Learning Lab's v0.5 readability and two presentation modes remain unchanged.
 **Rollback:** revert only the new static field data, learning-lab brief markup/styles, UI reveal/reset and tests. Preserve all previous learning material, original quiz jokes, current evidence links, Mission Control controls, roles and unrelated funding/HP records.
 
 **Next:** independently inspect the deployed public lab and whether an owner can follow the business brief to an actual funding-status entry. Do not fabricate an award or send messages just to pass the game.
+
+
+## Browser-stage gate regression and full progression — November 9
+
+A new computed-style test revealed an **actual evidence-exposure bug**: the source link could be rendered `display:inline-flex` before the user answered even while it had the `hidden` HTML attribute. [Failing CI 42680515065](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42680515065) is retained. A scoped CSS rule now makes `[hidden]` authoritative inside the optional lab. TRUE/FALSE buttons also carry a description of the *current* question for assistive navigation, updated with the remix claim.
+
+[Passing full source + Chromium CI 42681075971](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42681075971) and [website deployment 42681075732](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42681075732) verified the final code at `305a3ad1a03f158df1e614c4e84d08814ffc8edb`. The test now walks all four topics, all eight answers, gated proposed field-brief reveals and the final completion state, without account actions. The source-only scope remains `CF-EXP-GAME-LEARN-001`; this is neither evidence of delayed educational retention nor physical iPhone VoiceOver certification. [Detailed continuity, SHAs and rollback](CONTINUITY.md#november-9--cf-exp-game-learn-001-v06x-rendered-visibility-and-full-progression-repair).
+
