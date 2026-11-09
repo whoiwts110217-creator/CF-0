@@ -12,8 +12,8 @@ This dated report summarizes work orders, blockers, and GitHub issues. [Mission 
 
 | Measure | Verified source-backed state |
 |---|---|
-| CF-200 work orders | **86 verified / 200 total**; 114 planned |
-| Current verified progress | 43% of defined work orders; **not** 43% of the finished product |
+| CF-200 work orders | **87 verified / 200 total**; 113 planned |
+| Current verified progress | 43.5% of defined work orders; **not** 43% of the finished product |
 | Open GitHub issues | **4** confirmed in the November 9 issue search ([#1](https://github.com/whoiwts110217-creator/CF-0/issues/1), [#3](https://github.com/whoiwts110217-creator/CF-0/issues/3), [#16](https://github.com/whoiwts110217-creator/CF-0/issues/16), [#21](https://github.com/whoiwts110217-creator/CF-0/issues/21)) |
 | Public task/issue refresh | Existing CF-200 executor ran on demand November 9; [mission-board record](../automation_200/MASTER_MISSION_BOARD.md) and this dated refresh. |
 | Public HP health | [Latest public health report](../relay/health/latest.json) publishes its own collection time and receipt counts. Direct Windows scheduler attribution is tracked separately. |
@@ -21,7 +21,7 @@ This dated report summarizes work orders, blockers, and GitHub issues. [Mission 
 | Seven-day unattended operation | Verification remains open. |
 | Donations/revenue | No new owner-confirmed receipts established by this dashboard |
 
-**Evidence:** [registry.json](../automation_200/registry.json), source blob `be6db020b2723c38cbeb4b9d2fe1934a33c0e475`; [public continuity](PUBLIC_CONTINUITY_STATE.json); [first executor-produced dashboard refresh commit](https://github.com/whoiwts110217-creator/CF-0/commit/479c93ae8689279cb422771a504cd3be494763aa). A successful dashboard refresh is **not** proof of unattended HP operation.
+**Evidence:** [registry.json](../automation_200/registry.json), source blob `81be05aa5a9a3306e7ca0f1005e4840373b4d365`; [public continuity](PUBLIC_CONTINUITY_STATE.json); [first executor-produced dashboard refresh commit](https://github.com/whoiwts110217-creator/CF-0/commit/479c93ae8689279cb422771a504cd3be494763aa). A successful dashboard refresh is **not** proof of unattended HP operation.
 
 **CF-118 source integration passed.** The existing executor ran on demand on November 9 and added a [read-only adapter](../automation_200/attempt_history_cf118.py) from the existing retry journal to the decision engine. [Linux](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42564024841/job/128986476285) and [Windows](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42564024841/job/128986476096) passed the offline journal and retry-boundary tests. The [Windows integration job](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42576948195/job/129026687680) passed on the journal-adapter revision. The registry credits CF-118 at source level. Scheduled acceptance still requires a real run that carries attempt history forward and enforces the retry ceiling.
 
