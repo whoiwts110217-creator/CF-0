@@ -1,6 +1,7 @@
 """Exercise the Work handoff with synthetic GitHub responses and no HP access."""
 import base64
 import io
+import hashlib
 import json
 import unittest
 import urllib.error
@@ -64,7 +65,8 @@ class WatchdogHandoffTests(unittest.TestCase):
                     "--queue", str(queue_path), "--health", str(health_path),
                     "--commit", COMMIT, "--event", "schedule",
                 ]), 0)
-        proposal_text, line = output.getvalue().strip().rsplit("\n", 1)
+        proposal_text, line, digest_line = output.getvalue().strip().rsplit("\n", 2)
+        self.assertEqual(digest_line, "CF0_WORK_HANDOFF_SHA256=" + handoff.handoff_digest(json.loads(line.split("=", 1)[1])))
         self.assertTrue(line.startswith("CF0_WORK_HANDOFF="))
         record = json.loads(line.split("=", 1)[1])
         proposal = json.loads(proposal_text)
@@ -107,6 +109,18 @@ class WatchdogHandoffTests(unittest.TestCase):
                 )
                 self.assertEqual(record["public_queue"], {"state": "unavailable"})
                 self.assertEqual(record["hp"]["health_state"], "unavailable")
+
+    def test_digest_is_canonical_and_not_an_authority_token(self):
+        packet, _ = handoff.build_handoff(
+            REGISTRY, {}, {}, commit=COMMIT, event="schedule", now=NOW,
+        )
+        reordered = dict(reversed(list(packet.items())))
+        self.assertEqual(handoff.handoff_digest(packet), handoff.handoff_digest(reordered))
+        self.assertEqual(len(handoff.handoff_digest(packet)), 64)
+        self.assertNotIn("execution_authorized", handoff.handoff_digest(packet))
+        changed = {**packet, "source_commit": "b" * 40}
+        self.assertNotEqual(handoff.handoff_digest(packet), handoff.handoff_digest(changed))
+        self.assertFalse(packet["execution_authorized"])
 
     def test_missing_and_malformed_report_files(self):
         with TemporaryDirectory() as directory:
