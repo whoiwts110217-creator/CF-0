@@ -1,4 +1,4 @@
-import {chatId,chatURL,pickSingleTab,importQueue,classifyOverlay,stableResponse,initialState,CONTINUE_TEXT} from './core.mjs';
+import {chatId,chatURL,pickSingleTab,importQueue,classifyOverlay,acknowledgedContinue,stableResponse,initialState,CONTINUE_TEXT} from './core.mjs';
 
 // No network listener, no remote command endpoint, no private ChatGPT API, no mouse input.
 // All Chrome actions are attached to one explicitly selected existing ChatGPT tab ID.
@@ -12,8 +12,16 @@ const getState=()=>statePromise ||= chrome.storage.local.get(KEY).then(async dat
   const s=data[KEY] && data[KEY].schema==='cf0.auto08.chrome.v1' ? data[KEY] : initialState();
   // Browser extension can restart between steps: never silently resend an uncertain request.
   if(s.phase==='running') {
-    s.phase='needs_review';s.reason='SERVICE_WORKER_RESTART';
-    s.lastResult='Worker restarted mid-run; review the selected chat before retrying.';
+    // Persist a pre-send marker before navigation, and a maybe-sent marker
+    // BEFORE the first keyboard side effect. A restart in the former state
+    // cannot have dispatched this runner's command; the latter is uncertain.
+    const beforeSend=s.attempt?.status==='pre_send';
+    if(beforeSend){s.attempt=null;s.currentChat=null;}
+    s.phase='needs_review';
+    s.reason=beforeSend?'SERVICE_WORKER_RESTART_BEFORE_SEND':'SERVICE_WORKER_RESTART';
+    s.lastResult=beforeSend
+      ? 'Worker restarted before keyboard send; check the tab, then clear the pre-send blocker.'
+      : 'Worker restarted after an uncertain command boundary; inspect the conversation before retrying.';
     await chrome.storage.local.set({[KEY]:s});
   }
   return s;
@@ -46,6 +54,10 @@ function evaluateDOM(){
   const notices=[...document.querySelectorAll('[role="alert"], [data-testid*="toast"]')].filter(visible);
   const noticeText=notices.slice(0,3).map(e=>(e.innerText||'').slice(0,160)).join(' ');
   const editor=[...document.querySelectorAll('#prompt-textarea,[data-testid="composer-input"],[contenteditable="true"][role="textbox"]')].find(visible);
+  const users=document.querySelectorAll('[data-message-author-role="user"]');
+  const lastUser=users[users.length-1];
+  // Never return private user-message content to extension storage or logs.
+  const lastUserExactContinue=(lastUser?.innerText||'').trim()==='continue';
   const assistants=document.querySelectorAll('[data-message-author-role="assistant"]');
   const last=assistants[assistants.length-1];
   const raw=(last?.innerText||'').trim();
@@ -56,7 +68,7 @@ function evaluateDOM(){
   const stopVisible=[...document.querySelectorAll('[data-testid="stop-button"],button[aria-label*="Stop generating" i]')].some(visible);
   return {url:location.href,dialogVisible:!!dialog,dialogText,rateLimit:/too many requests|usage limit|rate limit|try again later/i.test(noticeText),
     signedOut,composerVisible:!!editor,draft:editor?(editor.innerText||editor.textContent||'').trim().slice(0,100):null,
-    userCount:document.querySelectorAll('[data-message-author-role="user"]').length,
+    userCount:users.length,lastUserExactContinue,
     assistantCount:assistants.length,lastAssistantSignature:raw?`${raw.length}:${hash>>>0}`:'',
     stopVisible,busy:!!last?.querySelector('[aria-busy="true"]')};
 }
@@ -141,7 +153,7 @@ async function navigate(id){
   await waitUntil(s=>s.composerVisible,40000,id,{allowNavigation:true});
 }
 async function continueOne(id){
-  await save({currentChat:id,attempt:{chatId:id,status:'in_flight',startedAt:stamp()},lastResult:'Navigating in selected tab…'});
+  await save({currentChat:id,attempt:{chatId:id,status:'pre_send',startedAt:stamp()},lastResult:'Navigating in selected tab; no keyboard send yet…'});
   await navigate(id);
   // The navigation wait verified the absence of known blocking overlays.
   // Refresh that evidence immediately before any keyboard input.
@@ -156,12 +168,17 @@ async function continueOne(id){
   if(before.stopVisible||before.busy)throw Error('ALREADY_RESPONDING');
   if(before.draft)throw Error('OWNER_DRAFT_PRESENT');
   await focusComposer();
+  // Durable side-effect boundary, BEFORE any keyboard action. If Chrome stops
+  // after this point, never auto-retry; the exact send outcome is unknown.
+  await save({attempt:{chatId:id,status:'maybe_sent',startedAt:stamp()},
+    lastResult:'Keyboard send boundary armed; outcome may require review.'});
   await cd('Input.insertText',{text:CONTINUE_TEXT});
   await key('Enter');
   await save({lastResult:'Sent continue; waiting for response to finish…'});
-  await waitUntil(s=>s.userCount>before.userCount,20000,id);
+  await waitUntil(s=>acknowledgedContinue(s,before.userCount),20000,id);
   let stable=null;
   await waitUntil(s=>{
+    if(!acknowledgedContinue(s,before.userCount))throw Error('CONTINUE_ACK_LOST');
     stable=stableResponse(stable,{...s, baselineUsers:before.userCount,
       baselineAssistants:before.assistantCount,lastAssistantText:s.lastAssistantSignature,
       blocker:!!live.dialogIssue},Date.now());
@@ -196,8 +213,14 @@ async function execute({mode,maxChats=1}){
   }catch(error){
     outcome='needs_review';
     const reason=live?.dialogIssue||error.message||'UNKNOWN_ERROR';
+    const state=await getState();
+    const beforeSend=state.attempt?.status==='pre_send';
     await save({phase:'needs_review',reason,
-      lastResult:`Stopped: ${reason}. Check the current conversation before retrying; no automatic duplicate send.`});
+      attempt:beforeSend?null:state.attempt,
+      currentChat:beforeSend?null:state.currentChat,
+      lastResult:beforeSend
+        ? `Stopped before keyboard send: ${reason}. Check the tab and acknowledge the pre-send blocker.`
+        : `Stopped after uncertain send boundary: ${reason}. Review the conversation; no automatic duplicate send.`});
   }finally{
     if(live?.attached){try{await chrome.debugger.detach(debuggerTarget(live.tabId));}catch{}}
     live=null;
