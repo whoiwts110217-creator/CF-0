@@ -87,10 +87,15 @@
               <dd><span id="health-badge" class="badge" data-tone="muted">Checking</span></dd>
             </div>
             <div>
+              <dt>Public cloud watchdog <a id="watchdog-link" class="tiny-link" hidden aria-label="Open latest cloud watchdog GitHub Actions run">Run <span class="external-icon" aria-hidden="true"></span></a></dt>
+              <dd><span id="watchdog-badge" class="badge" data-tone="muted">Checking</span></dd>
+            </div>
+            <div>
               <dt>Windows Scheduler correlation</dt>
               <dd><span class="badge" data-tone="amber">Unverified</span></dd>
             </div>
           </dl>
+          <p id="watchdog-note" class="evidence-note" role="status">The cloud watchdog is a read-only GitHub Actions check. It does not prove HP execution.</p>
           <p class="evidence-note">Scheduler verification requires a matching Windows task run and wrapper outcome.</p>
         </article>
       </div>
