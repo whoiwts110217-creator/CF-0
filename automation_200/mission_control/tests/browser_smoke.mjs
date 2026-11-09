@@ -165,6 +165,40 @@ try {
   assert.equal(playful.claim, open.claim);
   assert.equal(playful.explanation, grade.explanation);
   assert.equal(playful.focus, "gameful-explanation");
+
+  // Responsive and touch-target acceptance across four iPhone-like CSS widths.
+  // Browser engine remains Chromium; this is NOT physical iPhone Safari verification.
+  for (const width of [320, 360, 390, 430]) {
+    await send("Emulation.setDeviceMetricsOverride", { width, height: 844, deviceScaleFactor: 3, mobile: true });
+    await pause(100);
+    const measures = await evaluate(String.raw`(() => {
+      const root = document.getElementById("learning-lab");
+      const bounds = root.getBoundingClientRect();
+      const selectors = "#gameful-toggle,#gameful-mode,.gameful-choices button,#gameful-next,#gameful-source,.gameful-note a";
+      const targets = Array.from(root.querySelectorAll(selectors))
+        .filter(el => el.getClientRects().length && getComputedStyle(el).visibility !== "hidden")
+        .map(el => {
+          const r=el.getBoundingClientRect();
+          return {tag:el.tagName,id:el.id||el.textContent.trim().slice(0,25),width:Math.round(r.width),height:Math.round(r.height),left:Math.round(r.left),right:Math.round(r.right)};
+        });
+      return {viewport:innerWidth,scrollWidth:document.documentElement.scrollWidth,
+        labLeft:bounds.left,labRight:bounds.right,labClient:root.clientWidth,labScroll:root.scrollWidth,
+        targets,modeFont:getComputedStyle(document.getElementById("gameful-mode")).fontSize};
+    })()`);
+    console.log("Phone-width touch targets:",JSON.stringify({width,...measures}));
+    assert.equal(measures.viewport,width,"Expected emulated CSS viewport");
+    assert.ok(measures.labLeft >= -2 && measures.labRight <= width+2,"Lab must fit viewport at "+width);
+    assert.ok(measures.labScroll <= measures.labClient+2,"Lab content must not overflow horizontally at "+width);
+    assert.ok(measures.targets.length >= 6,"Required touch targets must be visible at "+width);
+    for (const target of measures.targets) {
+      assert.ok(target.width >= 44 && target.height >= 44,"Touch target must be at least 44x44 at "+width+": "+JSON.stringify(target));
+      assert.ok(target.left >= -2 && target.right <= width+2,"Target must stay inside viewport at "+width+": "+JSON.stringify(target));
+    }
+    assert.ok(parseFloat(measures.modeFont) >= 16,"Select text must avoid iOS autofocus zoom at "+width);
+  }
+  // Restore source smoke defaults before closing browser.
+  await send("Emulation.setDeviceMetricsOverride", { width: 390, height: 844, deviceScaleFactor: 3, mobile: true });
+
   console.log("PASS: phone-width Chromium keyboard/focus smoke; factual parity and master control preserved.");
 } finally {
   for (const p of pending.values()) { clearTimeout(p.timer); p.reject(Error("Browser test shutting down")); }
