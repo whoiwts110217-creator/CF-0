@@ -16,6 +16,7 @@
 | Public HP relay, health, and watchdog | [Health report](../relay/health/latest.json) available. [Windows scheduled run and receipt timing](CONTINUITY.md#november-8-hp-relay-evidence) documented. Exact ping attribution remains open. |
 | Domino Sidecar / Tactics | Recovered source and [November 8 Windows CI](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42520212910/job/128851859138) for the branch-rules repair. Physical HP deployment is open. |
 | Automation Controller | Reported container prototype for packet import, deduplication, and backups. |
+| Habit Automator (CF-HA-001) | [Local-first iPhone web app](https://whoiwts110217-creator.github.io/CF-0/mission-control/habit-automator/) for scheduled due display, guided routines, owner-marked receipts, private export and user-tapped Apple Shortcuts launcher. Source-stage app; does not itself run in the background or control ChatGPT/HP accounts. [Source limits](../automation_200/mission_control/dist/habit-automator/README.md). |
 | Continuity / two-account bridge | Local archive designs; automatic cross-account access unverified |
 | Guardian / Live Operator / Gap Foundry | Reported test packages; HP deployment unverified |
 | AI Tracker and Hall of Fame | [Public monitoring](AI_TRACKER_STATUS.json) and [one reviewed outside contribution](HALL_OF_FAME.md). |
