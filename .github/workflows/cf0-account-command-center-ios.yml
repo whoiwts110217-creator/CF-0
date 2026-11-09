@@ -1,0 +1,48 @@
+name: Account Command Center - unsigned iPhone build
+on:
+  push:
+    branches:
+      - feature/account-command-center-ios-v0-3
+    paths:
+      - 'apps/account-command-center/**'
+      - '.github/workflows/cf0-account-command-center-ios.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  compile-iphone:
+    runs-on: macos-15
+    steps:
+      - name: Checkout feature branch
+        uses: actions/checkout@v4
+      - name: Unpack reviewed native source
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/ACCNative"
+          unzip -q apps/account-command-center/CF0_Account_Command_Center_Native_iOS_v0.3.zip -d "$RUNNER_TEMP/ACCNative"
+      - name: Generate app and PWA icons
+        run: python3 "$RUNNER_TEMP/ACCNative/tools/make_icons.py"
+      - name: Validate Xcode project
+        run: plutil -lint "$RUNNER_TEMP/ACCNative/NativeApp/AccountCommandCenter.xcodeproj/project.pbxproj"
+      - name: Compile iPhone binary (NO APPLE SIGNING)
+        run: |
+          set -euo pipefail
+          xcodebuild -version
+          xcodebuild \
+            -project "$RUNNER_TEMP/ACCNative/NativeApp/AccountCommandCenter.xcodeproj" \
+            -scheme AccountCommandCenter \
+            -configuration Release \
+            -sdk iphoneos \
+            -destination 'generic/platform=iOS' \
+            -derivedDataPath "$RUNNER_TEMP/ACCBuild" \
+            CODE_SIGNING_ALLOWED=NO build
+          mkdir -p "$RUNNER_TEMP/Unsigned/Payload"
+          cp -R "$RUNNER_TEMP/ACCBuild/Build/Products/Release-iphoneos/AccountCommandCenter.app" "$RUNNER_TEMP/Unsigned/Payload/"
+          cd "$RUNNER_TEMP/Unsigned"
+          zip -qry "$GITHUB_WORKSPACE/AccountCommandCenter-UNSIGNED.ipa" Payload
+      - name: Upload unsigned IPA (not directly installable)
+        uses: actions/upload-artifact@v4
+        with:
+          name: AccountCommandCenter-UNSIGNED-REQUIRES-APPLE-SIGNING
+          path: AccountCommandCenter-UNSIGNED.ipa
+          if-no-files-found: error
