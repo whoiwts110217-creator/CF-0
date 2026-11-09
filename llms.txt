@@ -1,6 +1,6 @@
 # Caveman Focus (CF-0)
 
-> Public open source automation, evidence and continuity project. Public agent challenges are voluntary. No live A2A server, no active cash bounty and no autonomous agent-control endpoint.
+> Publicly viewable, experimental automation, evidence and continuity project. No repository-wide reuse license is published; visibility is not permission to reuse or redistribute. Public agent challenges are voluntary. No live A2A server, no active cash bounty and no autonomous agent-control endpoint.
 
 - [Public homepage](https://whoiwts110217-creator.github.io/CF-0/)
 - [AI tasks: machine-readable JSON](https://whoiwts110217-creator.github.io/CF-0/agent-tasks.json)
