@@ -67,6 +67,16 @@ export const COPY = {
     "fr": "Caveman Focus est une méthode en développement pour clarifier les idées, créer et automatiser des tâches utiles. Simplifier sans perdre l’essentiel, puis vérifier ce qui fonctionne réellement.",
     "pt": "Caveman Focus é uma estrutura em desenvolvimento para pensar com clareza, criar e automatizar tarefas úteis. Simplificamos sem perder o essencial e testamos o que realmente funciona."
   },
+  "Try the free 60-second exercise": {
+    "es": "Prueba el ejercicio gratuito de 60 segundos",
+    "fr": "Essayez l’exercice gratuit de 60 secondes",
+    "pt": "Experimente o exercício gratuito de 60 segundos"
+  },
+  "Support voluntarily — First Drop": {
+    "es": "Apoyo voluntario — Primera etapa",
+    "fr": "Soutien facultatif — Première vague",
+    "pt": "Apoio voluntário — Primeira etapa"
+  },
   "Explore the work": {
     "es": "Explorar el trabajo",
     "fr": "Découvrir les projets",
