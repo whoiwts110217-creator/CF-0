@@ -58,7 +58,7 @@ test("instrument covers all four original topics in all three distinct waves", (
 test("instrument and evaluator drafts never claim recruitment or live accounts", () => {
   assert.match(worksheet, /36–60.hour window/);
   assert.match(worksheet, /attrition separately/);
-  assert.match(worksheet, /without.*collecting research responses/);
+  assert.match(worksheet, /not collecting research responses/);
   for (const file of [worksheet, JSON.stringify(instrument)]) {
     assert.doesNotMatch(file, /localStorage\.|sessionStorage\.|navigator\.sendBeacon|fetch\(|new WebSocket|api_key|access_token/i);
   }
