@@ -40,7 +40,7 @@ class AttemptHistoryTests(unittest.TestCase):
         base = json.loads(event(1, 10))
         for key, value in [("reviewed", False), ("task_id", "CF-999"),
                            ("occurred_at", 1001), ("result", "ok"),
-                           ("evidence_ref", "bad\\nlink")]:
+                           ("evidence_ref", "bad" + chr(10) + "link")]:
             record = dict(base, **{key: value})
             with self.subTest(key=key), self.assertRaises(ValueError):
                 replay_reviewed_attempts(registry(), [json.dumps(record)], now=1000)
