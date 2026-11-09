@@ -343,3 +343,14 @@ footer { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 6p
     overflow-wrap: anywhere;
   }
 }
+
+
+/* Avoid single-line evidence badges widening other intact dashboard sections at
+   mid-size phone widths (e.g., 430px). Preserve all badges and their text. */
+@media (max-width: 480px) {
+  .badge {
+    max-width: 100%;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+}
