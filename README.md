@@ -4,6 +4,8 @@
 
 **[FIRST DROP — Public landing page and founding Hall of Fame (any amount)](https://whoiwts110217-creator.github.io/CF-0/first-drop/)** · [Read and share the public invitation](docs/FIRST_DROP_CAMPAIGN_2026-11-09.md). Voluntary support only; recognition follows confirmed contribution and name consent. No investment or return is promised.
 
+**[$5 CLARITY CHECK — one public README/webpage critique, request before payment](https://whoiwts110217-creator.github.io/CF-0/clarity-check/)** — A narrow manual pilot, separate from the existing $15 Clarity Brief and free tool. No accepted orders or sales claimed.
+
 **[SHARE CAVEMAN FOCUS — public copy for builders, critics, and founding supporters](docs/SHARE_CAVEMAN_FOCUS_2026-11-09.md)** — Free Clarity Card first; optional, transparent funding; community-rule-aware drafts, not claims of external posting.
 
 **[START HERE — site, Mission Control, master prompts, HP commands, AI Tracker](docs/START_HERE.md)**

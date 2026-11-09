@@ -1,0 +1,46 @@
+name: "Request a $5 Clarity Check (public project)"
+description: "One public URL, a short public critique, and no payment before written acceptance."
+title: "[Clarity Check] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **This is a manual, optional $5 service. Do not pay when opening a request.**
+        The request and delivered critique will be public. Do not include secrets, personal information, private documents, payment receipts, or credentials.
+        Free alternative: https://whoiwts110217-creator.github.io/CF-0/clarity-card/
+  - type: input
+    id: public-url
+    attributes:
+      label: "One public URL"
+      description: "A public README or webpage. The owner does not need access to your accounts."
+      placeholder: "https://github.com/example/project#readme"
+    validations:
+      required: true
+  - type: textarea
+    id: goal
+    attributes:
+      label: "What should a first-time reader understand or do?"
+      description: "One or two sentences; no personal or confidential information."
+      placeholder: "I want people to understand the purpose and find the install instructions."
+    validations:
+      required: true
+  - type: dropdown
+    id: focus
+    attributes:
+      label: "Choose a focus"
+      options:
+        - "Clarity of purpose"
+        - "Trust and evidence"
+        - "Next action / onboarding"
+        - "Not sure — choose the clearest issue"
+    validations:
+      required: true
+  - type: checkboxes
+    id: consent
+    attributes:
+      label: "Before submitting"
+      options:
+        - label: "I understand my request and feedback are public, and I will not post secrets or private content."
+          required: true
+        - label: "I understand this is a request, not an accepted paid order; payment happens only after written acceptance."
+          required: true

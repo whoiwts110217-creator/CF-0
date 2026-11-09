@@ -1,0 +1,39 @@
+name: Clarity Check $5 Pilot - source guards
+on:
+  push:
+    branches:
+      - feature/clarity-check-five-dollar-pilot-20261109
+    paths:
+      - 'clarity-check/**'
+      - '.github/ISSUE_TEMPLATE/clarity-check.yml'
+      - '.github/workflows/clarity-check-guards.yml'
+      - 'first-drop/**'
+      - '.github/workflows/publish-website.yml'
+      - 'sitemap.xml'
+  pull_request:
+    paths:
+      - 'clarity-check/**'
+      - '.github/ISSUE_TEMPLATE/clarity-check.yml'
+      - '.github/workflows/clarity-check-guards.yml'
+      - 'first-drop/**'
+      - '.github/workflows/publish-website.yml'
+      - 'sitemap.xml'
+permissions:
+  contents: read
+jobs:
+  verify-offer:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Check buyer safeguards and example
+        run: node --test clarity-check/tests/*.test.mjs
+      - name: Preserve existing free and donation paths
+        run: |
+          node --test first-drop/tests/*.test.mjs
+          node --test clarity-card/tests/*.test.mjs
+      - name: Check website deploy stages new offer and sitemap
+        run: |
+          grep -Fq 'cp clarity-check/index.html _site/clarity-check/index.html' .github/workflows/publish-website.yml
+          grep -Fq 'clarity-check/' sitemap.xml
+          grep -Fq 'href="../clarity-check/"' first-drop/index.html
+          grep -Fq 'Do not pay' clarity-check/index.html
