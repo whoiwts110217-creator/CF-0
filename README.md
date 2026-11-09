@@ -2,6 +2,8 @@
 
 **[SUPPORT CAVEMAN FOCUS — voluntary donation appeal](https://caveman-focus-support.whoiwts110217.chatgpt.site)** — Optional support for independent work; contributions are not tax-deductible charitable donations, purchases, or investments. No verified receipts are claimed.
 
+**[FIRST DROP — Join the founding Caveman Focus Hall of Fame (any amount)](https://caveman-focus-support.whoiwts110217.chatgpt.site/hall-of-fame)** · [Read and share the public invitation](docs/FIRST_DROP_CAMPAIGN_2026-11-09.md). Voluntary support only; recognition follows confirmed contribution and name consent. No investment or return is promised.
+
 **[START HERE — site, Mission Control, master prompts, HP commands, AI Tracker](docs/START_HERE.md)**
 
 **[PUBLIC TASKS & ISSUES](docs/TASKS_AND_ISSUES.md) — what we're doing, what's blocked, and what needs your decision**
