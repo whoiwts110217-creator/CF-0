@@ -3,7 +3,7 @@
   "owner": "Kiara Lynn Rose Smith",
   "project": "Caveman Focus",
   "target": 200,
-  "completed": 86,
+  "completed": 87,
   "checkpoint_every": 4,
   "status": "WORK_IN_PROGRESS",
   "note": "A planned item is not a completed task. Physical HP outcomes require owner-HP evidence.",
@@ -1551,8 +1551,8 @@
       "depends_on": [
         "CF-119"
       ],
-      "status": "planned",
-      "evidence": null,
+      "status": "verified",
+      "evidence": "Source-only read-only 200-task HTML registry view automation_200/registry_view.py; four acceptance tests automation_200/tests/test_registry_view_cf120.py all passed in Windows CI https://github.com/whoiwts110217-creator/CF-0/actions/runs/42648139693 on commit e6804a1a73586dfe06990a9a980e4f0f28edfcee. Full 205-test regression passed. No live HP deployment or authenticated control implied.",
       "authority": "owner-reviewed",
       "physical_hp_required": false
     },
