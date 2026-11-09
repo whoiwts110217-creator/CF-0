@@ -172,3 +172,12 @@ footer { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 6p
 }
 .pagination button { width: 45px; font: 600 11px var(--mono); }
 .task-info a { color: var(--mint); text-decoration: underline; }
+
+/* Read-only restricted-task visibility and capability catalog. */
+.restriction-toggle { display: inline-flex; align-items: center; gap: 7px; white-space: nowrap; font-size: 13px; color: var(--muted); cursor: pointer; }
+.restriction-toggle input { accent-color: var(--mint); width: 16px; height: 16px; }
+.access-power { display: block; margin-top: 5px; color: var(--muted); font-size: 11px; max-width: 270px; white-space: normal; }
+.tool-table-scroll { overflow-x: auto; }
+#tool-power table { width: 100%; }
+#tool-power td { vertical-align: top; }
+#restriction-summary { margin: 4px 0 10px; }
