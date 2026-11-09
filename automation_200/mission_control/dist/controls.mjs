@@ -14,6 +14,7 @@ export const SOURCES = Object.freeze({
     {"id":"bridge-tests","title":"Bridge regression tests","trigger":"event","detail":"On matching source push or manual dispatch","research":false},
     {"id":"cf0-hp-control-windows-probe","title":"HP control Windows source probe","trigger":"event","detail":"Source-only Windows probe workflow; does not establish owner HP deployment or control","research":false},
     {"id":"cf0-relay-tests","title":"Public relay Windows tests","trigger":"event","detail":"On source push, pull request or manual dispatch","research":false},
+    {"id":"clarity-check-guards","title":"$5 Clarity Check offer safeguards","trigger":"event","detail":"Source-only tests for public buyer intake, no-prepayment warnings and preservation of the free Clarity Card; not live orders or revenue","research":false},
     {"id":"dashboard-guard","title":"Dashboard regression guard","trigger":"event","detail":"On matching source push, pull request or manual dispatch","research":false},
     {"id":"dreamkiller-browser-smoke","title":"Dreamkiller browser smoke test","trigger":"event","detail":"On source push, pull request or manual dispatch","research":false},
     {"id":"dreamkiller-chapter01","title":"Dreamkiller chapter 01","trigger":"event","detail":"On matching source push or manual dispatch","research":false},
