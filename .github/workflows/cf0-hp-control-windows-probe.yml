@@ -5,6 +5,7 @@ on:
       - 'skills/cf0-hp-control/tests/windows_disposable_probe.ps1'
       - '.github/workflows/cf0-hp-control-windows-probe.yml'
       - 'skills/cf0-hp-control/tests/windows_lock_probe.py'
+      - 'skills/cf0-hp-control/tests/windows_identity_drift_probe.ps1'
   workflow_dispatch:
 
 permissions:
@@ -28,6 +29,10 @@ jobs:
       - name: Windows cross-process lock contention probe
         shell: pwsh
         run: python ./skills/cf0-hp-control/tests/windows_lock_probe.py
+      - name: Windows owner-reviewed configuration digest drift probe
+        shell: pwsh
+        run: |
+          & ./skills/cf0-hp-control/tests/windows_identity_drift_probe.ps1
       - name: Explicit evidence boundary
         shell: pwsh
         run: |
