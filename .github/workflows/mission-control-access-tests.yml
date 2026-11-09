@@ -3,10 +3,22 @@ on:
   push:
     paths:
       - 'automation_200/mission_control/**'
+      - 'index.html'
+      - 'first-drop/**'
+      - 'docs/FIRST_DROP_CAMPAIGN_2026-11-09.md'
+      - 'docs/HALL_OF_FAME.md'
+      - 'i18n/**'
+      - 'tests/test_public_frontdoor.py'
       - '.github/workflows/mission-control-access-tests.yml'
   pull_request:
     paths:
       - 'automation_200/mission_control/**'
+      - 'index.html'
+      - 'first-drop/**'
+      - 'docs/FIRST_DROP_CAMPAIGN_2026-11-09.md'
+      - 'docs/HALL_OF_FAME.md'
+      - 'i18n/**'
+      - 'tests/test_public_frontdoor.py'
       - '.github/workflows/mission-control-access-tests.yml'
 permissions:
   contents: read
@@ -21,5 +33,7 @@ jobs:
           node-version: '22'
       - name: Test Mission Control read-only model and access labels
         run: node --test automation_200/mission_control/tests/*.test.mjs
+      - name: Validate public free exercise, consent and contributor boundaries
+        run: python -m unittest discover -s tests -p 'test_public_frontdoor.py' -v
       - name: Test learning lab at phone-width Chromium viewport
         run: node automation_200/mission_control/tests/browser_smoke.mjs
