@@ -49,3 +49,17 @@ These are pure source-level checks; passing does not establish functioning Chrom
 **Already installed?** After updating this unpacked extension folder, open `chrome://extensions` and use its **Reload** control. Private checkpoints should be backed up before moving/deleting the folder. Stop the runner before reloading; unexpected reload during a send deliberately leaves an uncertain outcome for review.
 
 **Operational limit:** These safeguards are test-covered source behavior. They cannot detect arbitrary **Windows CMD/UAC** popups or verify the owner's real Chrome account; Chrome prompts outside the page and unrecognized dialogs may require human action. The live signed-in one-chat smoke test remains the acceptance gate. Don't interpret a CI green check as that live acceptance.
+
+## Evidence-gated continuation: business reliability hardening (2026-11-09)
+
+The owner requested an original, conservative adaptation of professional durable-workflow practices. No third-party framework or code is imported. The existing Chrome extension remains **owner-local**, **single-tab**, **keyboard-only**, and **not yet verified with a live signed-in account**.
+
+**Side-effect checkpoint.** Each conversation begins with a persisted `pre_send` attempt during navigation and editor focus. Immediately before the first keyboard action, the worker persists `maybe_sent`. If the worker dies before that boundary, it can clear the pre-send attempt and request owner acknowledgement. If it dies afterward, a retry is **blocked** until the owner examines the actual conversation. A `maybe_sent` marker is not proof that ChatGPT received the message; it is a reason not to resend blindly. Legacy `in_flight` attempts remain uncertain, preserving earlier state compatibility.
+
+**Actual acknowledgement.** A new user-turn count alone is insufficient. The extension now requires exactly one new visible user turn and a boolean DOM check that its entire visible text equals literal `continue`; private message contents are not saved in extension state, logs, or GitHub. Only after that check and a later stable assistant response can the conversation be recorded as complete. A changed ChatGPT DOM, hidden/virtualized message, or concurrent human submission may cause a conservative stop. Review the tab; do not bypass it with an unverified automatic retry.
+
+**Account identity is still unverified.** Choosing `primary` or `secondary` is a local label, not a verified ChatGPT login. The owner must confirm the signed-in account before a live test. This patch does **not** claim to authenticate the account, control Safari/iPhone, provide a universal master switch, or establish an unattended sweep.
+
+**Acceptance tests:** `node --test automation_200/continuation_chrome/tests/*.test.mjs`. These simulate the Chrome extension with a mock browser, not a real signed-in session. Verify one owner-approved conversation in the real account and review the visible actual result before broadening the queue.
+
+**Rollback:** revert this branch's `core.mjs`, `background.js` and matching tests. Leave stored `maybe_sent` attempts in need-of-review state rather than silently converting them into safe-to-retry attempts. No remote actions or account changes were introduced.

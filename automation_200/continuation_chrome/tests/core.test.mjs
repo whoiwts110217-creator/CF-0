@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-import {chatId,chatURL,eligibleTabs,pickSingleTab,importQueue,classifyOverlay,stableResponse,initialState,CONTINUE_TEXT} from '../core.mjs';
+import {chatId,chatURL,eligibleTabs,pickSingleTab,importQueue,classifyOverlay,acknowledgedContinue,stableResponse,initialState,CONTINUE_TEXT} from '../core.mjs';
 const id='11111111-1111-4111-8111-111111111111';
 test('only existing, exactly one ChatGPT tab is eligible',()=>{
  assert.equal(pickSingleTab([{id:1,url:chatURL(id)},{id:2,url:'https://github.com'}]).id,1);
@@ -24,13 +24,23 @@ test('known harmless overlay resumes, unknown/approval/signin blocks',()=>{
  assert.equal(classifyOverlay({dialogVisible:false}),'CLEAR');
 });
 test('completion requires new user and assistant turns, no Stop, stable answer',()=>{
- const x={baselineUsers:1,baselineAssistants:1,userCount:2,assistantCount:2,lastAssistantText:'30:123',stopVisible:false,busy:false,blocker:false};
+ const x={baselineUsers:1,baselineAssistants:1,userCount:2,assistantCount:2,lastAssistantText:'30:123',lastUserExactContinue:true,stopVisible:false,busy:false,blocker:false};
  let s=stableResponse(null,x,1000,6000);
  assert.equal(s.ready,false);
  s=stableResponse(s,x,7500,6000);
  assert.equal(s.ready,true);
  assert.equal(stableResponse(s,{...x,stopVisible:true},8500,6000).ready,false);
  assert.equal(stableResponse(s,{...x,userCount:1},8500,6000).ready,false);
+ assert.equal(stableResponse(s,{...x,userCount:3},8500,6000).ready,false);
+ assert.equal(stableResponse(s,{...x,lastUserExactContinue:false},8500,6000).ready,false);
+});
+test('exact new continue acknowledgement is required; unrelated turns fail closed',()=>{
+ assert.equal(acknowledgedContinue({userCount:3,lastUserExactContinue:true},2),true);
+ assert.equal(acknowledgedContinue({userCount:3,lastUserExactContinue:false},2),false);
+ assert.equal(acknowledgedContinue({userCount:4,lastUserExactContinue:true},2),false);
+ assert.equal(acknowledgedContinue({userCount:2,lastUserExactContinue:true},2),false);
+ assert.equal(acknowledgedContinue({userCount:3,lastUserExactContinue:true},NaN),false);
+ assert.equal(acknowledgedContinue(null,2),false);
 });
 test('extension uses Chrome tab + debugger, no mouse/new tab/unknown retry',()=>{
  const bg=readFileSync(new URL('../background.js',import.meta.url),'utf8');
@@ -43,6 +53,10 @@ test('extension uses Chrome tab + debugger, no mouse/new tab/unknown retry',()=>
  assert.match(bg,/Page\.navigate/);
  assert.doesNotMatch(bg,/chrome\.tabs\.create|chrome\.windows\.create|\.mouse\.|\.click\(/);
  assert.match(bg,/SERVICE_WORKER_RESTART/);
+ assert.match(bg,/status:'pre_send'/);
+ assert.match(bg,/status:'maybe_sent'/);
+ assert.match(bg,/acknowledgedContinue\(s,before\.userCount\)/);
+ assert.match(bg,/lastUserExactContinue/);
  assert.match(bridge,/isTrusted/);
  assert.match(m,/whoiwts110217-creator\.github\.io/);
  assert.equal(CONTINUE_TEXT,'continue');
