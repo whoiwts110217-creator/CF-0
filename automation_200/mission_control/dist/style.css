@@ -493,3 +493,9 @@ footer { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 6p
   .gameful-field-brief { padding: 12px; }
   .gameful-field-brief #gameful-field-link { max-width: 100%; }
 }
+
+
+/* Hidden is authoritative inside the optional learning lab.
+   An authored inline-flex selector previously overrode [hidden] on the source link,
+   showing an evidence link before the learner answered. Scope to this lab only. */
+.gameful-lab [hidden] { display: none !important; }
