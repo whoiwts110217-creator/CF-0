@@ -74,8 +74,13 @@ def record_readback(run: dict, job: dict, log: bytes) -> dict:
         raise ValueError("expected one bounded watchdog packet")
     log_stamp, raw = packets[0]
     # Older watchdog logs have no digest line; validate it when emitted.
-    digest_lines = [match.group(1).decode("ascii") for line in log.splitlines()
-                    if (match := DIGEST_LINE.fullmatch(line))]
+    # Fail closed if an emitted digest marker is malformed rather than ignoring it.
+    digest_markers = [line for line in log.splitlines()
+                      if b" CF0_WORK_HANDOFF_SHA256=" in line]
+    if any(DIGEST_LINE.fullmatch(line) is None for line in digest_markers):
+        raise ValueError("malformed watchdog digest marker")
+    digest_lines = [DIGEST_LINE.fullmatch(line).group(1).decode("ascii")
+                    for line in digest_markers]
     if len(digest_lines) > 1 or (digest_lines and digest_lines[0] != hashlib.sha256(raw).hexdigest()):
         raise ValueError("watchdog logged digest does not match packet bytes")
     try:
