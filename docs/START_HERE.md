@@ -12,8 +12,8 @@ Caveman Focus is an experimental system for reducing repetitive work by coordina
 
 | Destination | Direct link |
 |---|---|
-| **Public website** | [Live public site](https://whoiwts110217-creator.github.io/CF-0/) (deployment URL derived from GitHub Pages convention; live reachability not independently confirmed) |
-| **Mission Control** | [Public Mission Control](https://cf0-mission-control.whoiwts110217.chatgpt.site) · [Dashboard guide](../automation_200/mission_control/README.md) |
+| **Public website** | [Caveman Focus on GitHub Pages](https://whoiwts110217-creator.github.io/CF-0/) |
+| **Mission Control** | [GitHub Pages dashboard](https://whoiwts110217-creator.github.io/CF-0/mission-control/) · [Restricted tasks](https://whoiwts110217-creator.github.io/CF-0/mission-control/#work-orders) · [Tools and task power](https://whoiwts110217-creator.github.io/CF-0/mission-control/#tool-power) · [Dashboard guide](../automation_200/mission_control/README.md) |
 | **Public projects** | [Project index](PROJECTS.md) · [Current status](PROJECT_STATUS.md) |
 | **Master mission board** | [MASTER_MISSION_BOARD.md](../automation_200/MASTER_MISSION_BOARD.md) |
 | **Master operator prompt (read first)** | [MASTER_OPERATOR_PROMPT.md](../automation_200/MASTER_OPERATOR_PROMPT.md) |
@@ -22,13 +22,26 @@ Caveman Focus is an experimental system for reducing repetitive work by coordina
 | **Full framework audit & future restart readiness** | [November 7 audit and preservation-first vNext playbook](CF0_FRAMEWORK_AUDIT_AND_RESTART_PREP_2026-11-07.md) · [Read-only gate code](../automation_200/restart_readiness.py) · [Release tests](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42368649742) |
 | **Prompt change approvals & notes** | [Review approval bin](../automation_200/PROMPT_CHANGE_BIN.md) · [Revision log](../automation_200/PROMPT_CHANGE_LOG.jsonl) · [CI guard](https://github.com/whoiwts110217-creator/CF-0/actions/workflows/prompt-efficiency-guard.yml) |
 | **BLANK / CF-FW follow-along business documentary** | [Proposed business-reset pilot and six-episode production procedure](CF_FW_BLANK_FOLLOW_ALONG_BUSINESS_RESET_DOCUMENTARY_v0_1.md) · [Proposed project registry](PROJECTS.md) |
-| **Dreamkiller iPhone GB/GBC emulator** | [Open installable web app](https://whoiwts110217-creator.github.io/CF-0/dreamkiller/) · [Emulator source/usage](../concepts/dreamkiller/iphone-emu/site/README.md) — Game Boy test ROM included, full Dreamkiller ROM not built |
+| **Dreamkiller iPhone GB/GBC emulator** | [Open installable web app](https://whoiwts110217-creator.github.io/CF-0/dreamkiller/) · [Emulator source/usage](../concepts/dreamkiller/iphone-emu/site/README.md) · [v0.2 prototype scope and compatibility](../concepts/dreamkiller/rom_v0_2/README.md) |
 | **Filed creative concepts** | [Concepts](../concepts/README.md) · [Dreamkiller master concept](../concepts/dreamkiller/MASTER_CONCEPT_AND_CONTINUITY_PROMPT.md) |
 | **Public archive reconciliation** | [November 7 attribution and project continuity report](CONTINUITY_RECONCILIATION_2026-11-07_DREAMKILLER.md) |
-| **AI Tracker** | [Mission Control status](https://cf0-mission-control.whoiwts110217.chatgpt.site/#ai-tracker) · [Issue monitor](../ai_tracker/monitor_public_issue.py) · [Development branch](https://github.com/whoiwts110217-creator/CF-0/tree/feature/ai-agent-tracker/ai_tracker) |
+| **AI Tracker** | [Mission Control status](https://whoiwts110217-creator.github.io/CF-0/mission-control/#ai-tracker) · [Issue monitor](../ai_tracker/monitor_public_issue.py) · [Development branch](https://github.com/whoiwts110217-creator/CF-0/tree/feature/ai-agent-tracker/ai_tracker) |
 | **Open agent response thread** | [GitHub issue #16](https://github.com/whoiwts110217-creator/CF-0/issues/16) |
 
 Mission Control shows the most recently published public scan of Issue #16. Non-owner comments count replies from known accounts other than the repository owner. Contributions have a separate verification count.
+
+## How the work fits together
+
+| Layer | Where to work | What establishes the state |
+|---|---|---|
+| **Owner direction** | Read the three operator prompts in order, then check the [approval bin](../automation_200/PROMPT_CHANGE_BIN.md). | Explicit owner instructions govern changes. The [capability contract](../automation_200/OWNER_CAPABILITY_CONTRACT.json) describes the public source and its limits. |
+| **Project continuity** | Use the [public project index](PROJECTS.md) for workstreams and the private integrated master and atlas for original source history. | Project identity follows its original sources and decisions. The [public continuity record](CONTINUITY.md) summarizes releasable evidence and archive gaps. |
+| **Work selection** | Check the [mission board](../automation_200/MASTER_MISSION_BOARD.md), the [decision engine](../automation_200/DECISION_ENGINE.md), and [resumable focus handoffs](../automation_200/RESUMABLE_FOCUS.md). | Dependency, authority, and evidence gates determine which work can proceed. The focus planner can record a checkpoint for later resumption. |
+| **Execution and feedback** | Use the authorized Work executor for cloud tasks, GitHub Actions for source tests, and the existing [allowlisted relay](../relay/) for approved HP operations. | The [CF-200 registry](../automation_200/registry.json) and [event ledger](../automation_200/events.jsonl) record verified work. A scheduled Windows result needs a wrapper outcome tied to the matched request and receipt. |
+| **Reporting** | Open [Mission Control](https://whoiwts110217-creator.github.io/CF-0/mission-control/) or the [dated task and issue summary](TASKS_AND_ISSUES.md). | Mission Control labels the GitHub commit it read or the commit of the bundled fallback. The [health file](../relay/health/latest.json) is a separate public report. |
+| **Funding and delivery** | Follow the [business workstream](BUSINESS.md) for offers, delivery, and funding. | Verified payments come from actual settlement evidence. Public records contain project-level summaries. |
+
+The separately hosted [Mission Control copy](https://cf0-mission-control.whoiwts110217.chatgpt.site/) may lag the GitHub Pages build.
 
 ### Your HP command-window shortcuts
 

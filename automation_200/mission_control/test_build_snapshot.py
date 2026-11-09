@@ -33,6 +33,33 @@ class SnapshotTests(unittest.TestCase):
         self.assertNotIn("ping", data)
         self.assertEqual(set(data), {"commit", "registry", "state", "health"})
 
+    def test_bundles_tool_power_and_health_availability_without_raw_details(self):
+        contract = self.root / "automation_200/OWNER_CAPABILITY_CONTRACT.json"
+        contract.write_text(json.dumps({
+            "schema": "cf0.owner_capability_contract.v1",
+            "critical_documents": {"private_master_library_path": "test private path"},
+            "capabilities": [
+                {"id": "public_relay_ping", "status": "active_source", "evidence": "test detail"},
+                {"id": "notepad_owner_launch", "status": "regression_open"},
+            ],
+        }))
+        health = self.root / "relay/health/latest.json"
+        health.parent.mkdir(parents=True)
+        health.write_text(json.dumps({"schema": "cf0.hp_health.v1", "receipt_count": 32}))
+        data = snapshot.build(self.root, "b" * 40)
+        self.assertEqual(data["health"], "available")
+        self.assertEqual(data["contract"], {
+            "schema": "cf0.owner_capability_contract.v1",
+            "capabilities": [
+                {"id": "public_relay_ping", "status": "active_source"},
+                {"id": "notepad_owner_launch", "status": "regression_open"},
+            ],
+        })
+        for invalid in ('{"schema":"wrong"}', 'null', 'not JSON', ' ' * 1025):
+            with self.subTest(invalid=invalid[:20]):
+                health.write_text(invalid)
+                self.assertEqual(snapshot.build(self.root, "b" * 40)["health"], "invalid")
+
     def test_rejects_invalid_sha_and_count(self):
         with self.assertRaises(ValueError):
             snapshot.build(self.root, "main")

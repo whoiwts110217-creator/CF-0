@@ -1,4 +1,4 @@
-import { dashboardModel, filterTasks, GITHUB, loadLive, REPO, REGISTRY, TRACKER, trackerModel } from "./model.mjs";
+import { dashboardModel, filterTasks, GITHUB, HEALTH, loadLive, REPO, REGISTRY, TRACKER, trackerModel } from "./model.mjs";
 import { taskAccess, contractTools, summarizeAccess } from "./access.mjs";
 
 const byId = id => document.getElementById(id);
@@ -175,6 +175,10 @@ function render(model, mode) {
   if (ping === "matched") badge("ping-badge", "Receipt matched", "mint");
   else badge("ping-badge", ping === "unconfirmed" ? "Unconfirmed" : "Unavailable", "muted");
   badge("health-badge", ...healthBadges[health]);
+  const healthLink = byId("health-link");
+  healthLink.hidden = health !== "available";
+  if (health === "available") healthLink.href = pinned + HEALTH;
+  else healthLink.removeAttribute("href");
 
   badge("source-badge", mode === "github" ? "GitHub main" : "Bundled snapshot", mode === "github" ? "mint" : "muted");
   search.disabled = false;
