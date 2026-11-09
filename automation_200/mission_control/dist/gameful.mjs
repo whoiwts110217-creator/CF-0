@@ -12,6 +12,9 @@ export const MISSIONS = Object.freeze([
     sourceText: "Read the project evidence",
     sourceUrl: "https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/PROJECT_STATUS.md",
     takeaway: "Matched evidence is not the same as independently verified execution.",
+    fieldAction: "Compare one recorded scheduled task run and its wrapper result with the exact public receipt. Mark the local run unverified until all three correlate.",
+    fieldEvidence: "Acceptance: timestamped scheduler run, wrapper outcome, and matching receipt ID/digest. A public receipt alone is insufficient.",
+    fieldUrl: "https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/PROJECT_STATUS.md",
     transferClaim: "A Windows scheduled run tied to its wrapper result and exact receipt would provide stronger evidence of unattended execution than a public receipt alone.",
     transferCorrect: true,
     transferExplanation: "Yes. Source identity, local scheduled-run evidence, and a matching request/receipt need to be correlated. Even then, report exactly what the evidence establishes."
@@ -25,6 +28,9 @@ export const MISSIONS = Object.freeze([
     sourceText: "Read the business boundary",
     sourceUrl: "https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/BUSINESS.md",
     takeaway: "Submitted is not funded; a proposal is not revenue.",
+    fieldAction: "Check the grant response and track the application as submitted, awarded, or paid. Record money received only after the settlement is verified.",
+    fieldEvidence: "Acceptance: award decision evidence and a confirmed payment for income. A submission acknowledgment is only submission evidence.",
+    fieldUrl: "https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/BUSINESS.md",
     transferClaim: "An automated confirmation that a grant application was received is the same evidence as money actually deposited.",
     transferCorrect: false,
     transferExplanation: "No. A receipt acknowledgment shows submission was received, not an award or payment. Check award terms and actual settlement separately."
@@ -38,6 +44,9 @@ export const MISSIONS = Object.freeze([
     sourceText: "Read the research status",
     sourceUrl: "https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/RESEARCH.md",
     takeaway: "Tests inform proof; they do not replace a general argument.",
+    fieldAction: "Write one falsifiable research prediction, its test conditions, and the result that would disprove it. Keep the proof question separate.",
+    fieldEvidence: "Acceptance: reproducible protocol and preserved result or counterexample. Numerical agreement alone is not a universal proof.",
+    fieldUrl: "https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/RESEARCH.md",
     transferClaim: "One valid counterexample can refute a universal statement, even after a million examples seemed to confirm it.",
     transferCorrect: true,
     transferExplanation: "Correct. A single genuine counterexample falsifies a universal claim. Many confirmations do not automatically prove it."
@@ -51,6 +60,9 @@ export const MISSIONS = Object.freeze([
     sourceText: "Read the universal continuity contract",
     sourceUrl: "https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/UNIVERSAL_CONTINUITY_CONTRACT.md",
     takeaway: "Keep originals, corrections and evidence linked.",
+    fieldAction: "Link one correction to its original version, the failing test, the exact new source version, and the rerun result.",
+    fieldEvidence: "Acceptance: both old and new sources remain recoverable, with an explicit reason for the revision and a rollback path.",
+    fieldUrl: "https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/UNIVERSAL_CONTINUITY_CONTRACT.md",
     transferClaim: "If a later build passes, the earlier failing test and its version can be replaced without noting what changed.",
     transferCorrect: false,
     transferExplanation: "No. Keep the older failure, the correction, and the newer result linked by version. That is how another operator can recover the reasoning."
