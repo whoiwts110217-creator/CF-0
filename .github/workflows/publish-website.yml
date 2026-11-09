@@ -77,7 +77,7 @@ jobs:
           mkdir -p _site/mission-control
           cp -R automation_200/mission_control/dist/. _site/mission-control/
           mkdir -p _site/skill-foundry
-          cp iphone-skill-foundry/index.html iphone-skill-foundry/manifest.webmanifest iphone-skill-foundry/icon.svg iphone-skill-foundry/sw.js _site/skill-foundry/
+          cp iphone-skill-foundry/index.html iphone-skill-foundry/manifest.webmanifest iphone-skill-foundry/icon.svg iphone-skill-foundry/apple-touch-icon.png iphone-skill-foundry/sw.js _site/skill-foundry/
           mkdir -p _site/dreamkiller
           cp -R concepts/dreamkiller/iphone-emu/site/. _site/dreamkiller/
           cp concepts/dreamkiller/rom_v0_2/dreamkiller_road_v0_2.gb _site/dreamkiller/road-v02.gb
