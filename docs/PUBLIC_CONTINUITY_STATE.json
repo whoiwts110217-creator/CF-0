@@ -1,6 +1,6 @@
 {
   "schema": "cf0.public_continuity.v1",
-  "as_of_date_et": "2026-11-07",
+  "as_of_date_et": "2026-11-08",
   "record_type": "dated_source_evidence_not_live_hp_heartbeat",
   "mission": "sustainable_generational_wealth",
   "priority_order": [
@@ -18,14 +18,25 @@
     "evidence": "https://github.com/whoiwts110217-creator/CF-0/actions/runs/42414383595",
     "meaning": "Verified source-level work orders with individual evidence; not percentage of finished product or HP uptime",
     "registry_git_blob_sha1": "304ed3c72df0fb82b6a0eacf6f4dc2e971262c74",
-    "registry_exact_raw_bytes_imported_into_private_store": false
+    "registry_exact_raw_bytes_imported_into_private_store": true,
+    "private_registry_import_scope": "pinned_snapshot"
   },
   "hp": {
-    "public_ping_request_id": "aeccc8a2-217f-4786-aaaf-19b2fc9ff35a",
+    "public_ping_request_id": "be51a949-74ba-4fd1-b049-ac83a46f5387",
     "public_ping_result": "completed_matched_request_sha256",
     "physical_device_and_scheduler_correlation": "unverified",
-    "optional_public_health_latest": "not_published_at_last_check",
-    "fully_unattended_7_days": "unverified"
+    "optional_public_health_latest": "published_at_last_check",
+    "fully_unattended_7_days": "unverified",
+    "owner_observed_scheduler_window": {
+      "evidence_kind": "owner_provided_windows_task_scheduler_history",
+      "local_timezone_assumed": "America/Detroit",
+      "task_started_at_et": "2026-11-08T13:06:53-05:00",
+      "task_completed_at_et": "2026-11-08T13:08:58-05:00",
+      "receipt_commit_at_et": "2026-11-08T13:07:21-05:00",
+      "receipt_commit_sha": "c483125b437c996337f962780e7c1990bb27b082",
+      "relationship": "timing_match_only",
+      "evidence_path": "docs/CONTINUITY.md#november-8-hp-relay-evidence"
+    }
   },
   "notepad": {
     "historical_owner_observed_launches": true,
@@ -70,6 +81,15 @@
       "private_original_conversation_exports_indexed": 0,
       "original_project_membership_still_unverified": true,
       "full_git_registry_snapshot_imported_into_private_store": false
+    },
+    "latest_private_recovery": {
+      "version": "v7",
+      "as_of_date_et": "2026-11-08",
+      "source_artifacts_preserved": 27,
+      "reconstructed_entries": 62,
+      "original_chat_exports_indexed": 0,
+      "approved_cf200_project_task_links": 0,
+      "restore_verified": true
     }
   },
   "finance": {

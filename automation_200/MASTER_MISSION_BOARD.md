@@ -1,3 +1,11 @@
+## November 8, 2026 Eastern · Public project and HP evidence refresh
+
+- **Public source read.** Read the [Operator](MASTER_OPERATOR_PROMPT.md), [Continuity](MASTER_CONTINUITY_PROMPT.md), and [Work](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) prompts in order at [public main 06a15ba](https://github.com/whoiwts110217-creator/CF-0/commit/06a15bad4e6cacc4b1690bc6297a762af41ce36f). Work blob `5da1a390f31ee8f57e5829ef368062f9215c28ac`. The next Work run should fetch the three current prompts in the same order.
+- **Public index and dashboard.** The [project index](../docs/PROJECTS.md) includes the public automation, support, AI Tracker, and creative workstreams. The [task dashboard](../docs/TASKS_AND_ISSUES.md) links all four checked open issues. The exact registry and checkpoint 084 agree on **84 of 200 verified work orders**.
+- **HP evidence.** Owner-provided scheduler history records a relay run from 1:06:53 to 1:08:58 p.m. Eastern. The digest-matched public receipt was committed at 1:07:21 p.m. Eastern. [Evidence and limits](../docs/CONTINUITY.md#november-8-hp-relay-evidence)
+- **Validation.** The public continuity and dashboard checks passed locally, along with 34 existing dashboard, retry, and Mission Control tests.
+- **Open verification.** Link the request and outcome directly to a Windows run. For the separate handoff, look for a saved executor decision that identifies the watchdog packet it used.
+
 ## November 8, 2026, 10:49 p.m. Eastern — fresh dashboard/HP source reconciliation
 
 - **Ordered public-main preflight:** [operator](MASTER_OPERATOR_PROMPT.md) blob `f8f0c94c28cd28cc0402daf4f21bd875e1417932`; [continuity](MASTER_CONTINUITY_PROMPT.md) blob `cac63dead1e00592c1d12ea6562639b02893d81f`; [Work self-reference](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) blob `5da1a390f31ee8f57e5829ef368062f9215c28ac`, each fetched in required order. Next run must fetch the current [Work prompt](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) again.
