@@ -1,4 +1,4 @@
-import {chatId,chatURL,pickSingleTab,importQueue,classifyOverlay,acknowledgedContinue,stableResponse,initialState,CONTINUE_TEXT} from './core.mjs';
+import {chatId,chatURL,pickSingleTab,importQueue,capturedSidebarQueue,hasLoadedConversation,classifyOverlay,acknowledgedContinue,stableResponse,initialState,CONTINUE_TEXT} from './core.mjs';
 
 // No network listener, no remote command endpoint, no private ChatGPT API, no mouse input.
 // All Chrome actions are attached to one explicitly selected existing ChatGPT tab ID.
@@ -165,6 +165,9 @@ async function continueOne(id){
     if(await handleOverlay(before))throw Error('PERSISTENT_POPUP');
   }
   if(!before.composerVisible)throw Error('COMPOSER_NOT_READY');
+  // Other-account/missing-history pages may still display a usable composer.
+  // Do not turn the failed navigation into a fresh ChatGPT conversation.
+  if(!hasLoadedConversation(before))throw Error('CONVERSATION_HISTORY_NOT_LOADED');
   if(before.stopVisible||before.busy)throw Error('ALREADY_RESPONDING');
   if(before.draft)throw Error('OWNER_DRAFT_PRESENT');
   await focusComposer();
@@ -270,6 +273,27 @@ chrome.runtime.onMessage.addListener((message,sender,sendResponse)=>{
         const queue=importQueue(message.raw);
         await save({queue,completed:[],phase:'idle',reason:null});
         return {ok:true,message:`Loaded ${queue.length} private conversation IDs. No messages sent.`};
+      }
+      case 'CAPTURE_VISIBLE':{
+        if(live||launching)throw Error('CANNOT_CAPTURE_WHILE_RUNNING');
+        if(!s.account)throw Error('SELECT_ACCOUNT_FIRST');
+        if(s.attempt||s.phase==='needs_review')throw Error('UNRESOLVED_ATTEMPT_REQUIRES_REVIEW');
+        const tab=await selectedTab();
+        const result=await chrome.scripting.executeScript({target:{tabId:tab.id},func:()=>{
+          const visible=e=>{try{const c=getComputedStyle(e);return c.visibility!=='hidden'&&c.display!=='none'&&!!e.getClientRects().length;}catch{return false;}};
+          const links=[...document.querySelectorAll('nav a[href],aside a[href]')].filter(visible)
+            .slice(0,2000).map(a=>a.getAttribute('href')).filter(x=>typeof x==='string');
+          return {url:location.href,links};
+        }});
+        const scan=result?.[0]?.result;
+        if(!scan || new URL(scan.url).origin!=='https://chatgpt.com')throw Error('WRONG_PAGE_ORIGIN');
+        const found=capturedSidebarQueue(scan.links);
+        const seen=new Set(s.queue.map(x=>x.id));
+        const added=found.filter(x=>!seen.has(x.id));
+        if(added.length){
+          await save({queue:[...s.queue,...added],lastResult:`Captured ${added.length} additional visible sidebar chats; account identity remains owner-selected and unverified.`});
+        }
+        return {ok:true,message:`Captured ${found.length} visible chats (${added.length} new; ${s.queue.length+added.length} queued). This is not a full account discovery. No message sent.`};
       }
       case 'CONTINUE_CURRENT': {
         if(live||launching)throw Error('ALREADY_RUNNING');
