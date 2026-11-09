@@ -1,5 +1,7 @@
 # Start Here — Caveman Focus
 
+**[FIRST DROP — Caveman Focus Hall of Fame](https://caveman-focus-support.whoiwts110217.chatgpt.site/hall-of-fame)** · [Share the public donation appeal](FIRST_DROP_CAMPAIGN_2026-11-09.md). Contributions of any amount are voluntary; public recognition is consent-based and requires verified payment.
+
 **[Public tasks and issues](TASKS_AND_ISSUES.md) — clear priorities, current blockers, open GitHub issues, and approvals needed**
 
 **Creator/developer:** David Smith  
