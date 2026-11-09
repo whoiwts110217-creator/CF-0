@@ -1,5 +1,6 @@
-// Optional no-storage learning mini-game; never writes to the dashboard source model.
-import { MISSIONS, gradeMission } from "./gameful.mjs";
+// CF-EXP-GAME-LEARN-001 v0.2: opt-in, no-storage micro-learning.
+// Purely local DOM interaction: never modifies Mission Control's real source model.
+import { MISSIONS, gradeMission, gradeTransfer } from "./gameful.mjs";
 
 const get = id => document.getElementById(id);
 const toggle = get("gameful-toggle");
@@ -13,19 +14,40 @@ const source = get("gameful-source");
 const next = get("gameful-next");
 const answers = Array.from(document.querySelectorAll("[data-gameful-answer]"));
 let index = 0;
-let answered = false;
+let phase = "guess";
 
-function show() {
+function setSource(mission) {
+  source.href = mission.sourceUrl;
+  source.textContent = mission.sourceText + " ↗";
+  source.hidden = false;
+}
+
+function displayGuess() {
   const mission = MISSIONS[index];
-  answered = false;
-  genre.textContent = mission.genre + " / " + (index + 1) + " OF " + MISSIONS.length;
+  phase = "guess";
+  genre.textContent = mission.genre + " / MISSION " + (index + 1) + " OF " + MISSIONS.length;
   heading.textContent = mission.title;
   claim.textContent = mission.claim;
-  result.textContent = "Choose TRUE or FALSE before revealing the explanation.";
+  result.textContent = "Predict TRUE or FALSE, then see the evidence.";
   result.dataset.tone = "neutral";
   explanation.textContent = "";
-  source.removeAttribute("href");
   source.hidden = true;
+  source.removeAttribute("href");
+  next.hidden = true;
+  answers.forEach(button => { button.disabled = false; });
+}
+
+function displayTransfer() {
+  const mission = MISSIONS[index];
+  phase = "transfer";
+  genre.textContent = mission.genre + " / REMIX CHALLENGE";
+  heading.textContent = mission.title + " — REMIX";
+  claim.textContent = mission.transferClaim;
+  result.textContent = "New situation. Apply the rule without looking at the first answer.";
+  result.dataset.tone = "neutral";
+  explanation.textContent = "";
+  source.hidden = true;
+  source.removeAttribute("href");
   next.hidden = true;
   answers.forEach(button => { button.disabled = false; });
 }
@@ -34,33 +56,48 @@ toggle.addEventListener("click", () => {
   content.hidden = !content.hidden;
   toggle.setAttribute("aria-expanded", String(!content.hidden));
   toggle.textContent = content.hidden ? "Start brainpower quest" : "Close brainpower quest";
-  if (!content.hidden) show();
+  if (!content.hidden) {
+    index = 0;
+    displayGuess();
+  }
 });
 
 for (const button of answers) {
   button.addEventListener("click", () => {
-    if (answered) return;
+    const guess = button.dataset.gamefulAnswer === "true";
     const mission = MISSIONS[index];
-    const grade = gradeMission(mission.id, button.dataset.gamefulAnswer === "true");
-    if (!grade) return;
-    answered = true;
-    result.textContent = grade.message;
-    result.dataset.tone = grade.correct ? "pass" : "retry";
-    explanation.textContent = grade.explanation + " Takeaway: " + grade.takeaway;
-    source.href = grade.sourceUrl;
-    source.textContent = grade.sourceText + " ↗";
-    source.hidden = false;
-    answers.forEach(choice => { choice.disabled = true; });
-    if (index + 1 < MISSIONS.length) {
+    if (phase === "guess") {
+      const graded = gradeMission(mission.id, guess);
+      if (!graded) return;
+      phase = "reveal";
+      result.textContent = graded.message;
+      result.dataset.tone = graded.correct ? "pass" : "retry";
+      explanation.textContent = graded.explanation + " Takeaway: " + graded.takeaway;
+      setSource(mission);
+      next.textContent = "Try the remix (new example)";
       next.hidden = false;
+    } else if (phase === "transfer") {
+      const graded = gradeTransfer(mission.id, guess);
+      if (!graded) return;
+      phase = "transfer-reveal";
+      result.textContent = graded.message;
+      result.dataset.tone = graded.correct ? "pass" : "retry";
+      explanation.textContent = graded.explanation;
+      setSource(mission);
       next.textContent = "Next encounter";
+      next.hidden = index + 1 >= MISSIONS.length;
+      if (next.hidden) result.textContent += " QUEST ENDED — no account or real-world results changed.";
     } else {
-      next.hidden = true;
-      result.textContent += " ALL ENCOUNTERS FINISHED. No account state or rewards were changed.";
+      return;
     }
+    answers.forEach(choice => { choice.disabled = true; });
   });
 }
 
 next.addEventListener("click", () => {
-  if (answered && index + 1 < MISSIONS.length) { index++; show(); }
+  if (phase === "reveal") displayTransfer();
+  else if (phase === "transfer-reveal" && index + 1 < MISSIONS.length) {
+    index++;
+    displayGuess();
+  }
 });
