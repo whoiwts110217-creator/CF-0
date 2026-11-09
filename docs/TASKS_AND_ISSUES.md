@@ -1,7 +1,15 @@
 # CF-0 — Tasks & Issues
-**Public owner dashboard · Source review November 8, 2026 (Eastern)**
+**Public owner dashboard · Source review November 9, 2026 (Eastern)**
 
 > **This is the short version.** See [the official 200-task registry](../automation_200/registry.json) for each work order, the [master mission board](../automation_200/MASTER_MISSION_BOARD.md) for technical history, and [GitHub Issues](https://github.com/whoiwts110217-creator/CF-0/issues) for discussion. This is a dated report, **not** a continuously live HP status display.
+
+## November 9, 2026 — new source work, CI gate and unresolved limits
+
+- **Automation executed on demand:** invoked the existing enabled hourly CF-200 executor once, without creating or changing its schedule. No manual PowerShell/GitHub clipboard paste or new HP command was required for this review.
+- **CF-118 improvement:** [adapter](../automation_200/attempt_history_cf118.py) now reads the existing hash-chained [retry journal](../automation_200/retry_evidence.py) and feeds **read-only** failure evidence into the existing decision engine's cooldown and three-failure ceiling. [Source commit](https://github.com/whoiwts110217-creator/CF-0/commit/d207d68b4eb70dc2c719d2b960cd71e4a4fe2ca1); [integration regression tests](https://github.com/whoiwts110217-creator/CF-0/commit/a50d7f76e01fedc25858f3177ea9da38f20209bd). Prior source revision passed [Windows CI 42576431266](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42576431266), but the **current integration revision** has [Windows CI 42576948195](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42576948195) **not yet confirmed passing** at this review. Leave CF-118 planned until its acceptance evidence is checked.
+- **Source-backed status:** 84/200 verified, 116 planned, registry blob `304ed3c72df0fb82b6a0eacf6f4dc2e971262c74`; latest numbered checkpoint 084. Four open GitHub issues from the current filtered search: [#1](https://github.com/whoiwts110217-creator/CF-0/issues/1), [#3](https://github.com/whoiwts110217-creator/CF-0/issues/3), [#16](https://github.com/whoiwts110217-creator/CF-0/issues/16), [#21](https://github.com/whoiwts110217-creator/CF-0/issues/21). Five approval-bin proposals (PCA-001 through PCA-005) still await explicit owner decisions; **none were applied**.
+- **HP visibility:** latest [sanitized self-report](../relay/health/latest.json), blob `0e063e236a784e73a462b77db32085821d7bea33`, collected `2026-11-09T06:37:08+00:00`: 32 receipts, 10 pings, last completed. The owner-observed scheduler window on November 8 is useful historical evidence but has **not** independently authenticated continuous unattended HP operation.
+- **Next source-safe work:** (1) check the integration CI and correct failures; (2) keep CF-118's single journal and no unauthenticated retry execution; (3) review CF-119's HP authority gate after CF-118 qualifies, while HP-local installation, real device identity, and private archive imports remain permission/evidence gated.
 
 ## Status at a glance
 
@@ -10,8 +18,8 @@
 | CF-200 work orders | **84 verified / 200 total**; 116 planned |
 | Current verified progress | 42% of defined work orders; **not** 42% of the finished product |
 | Open GitHub issues | **4** confirmed in the November 8 issue search ([#1](https://github.com/whoiwts110217-creator/CF-0/issues/1), [#3](https://github.com/whoiwts110217-creator/CF-0/issues/3), [#16](https://github.com/whoiwts110217-creator/CF-0/issues/16), [#21](https://github.com/whoiwts110217-creator/CF-0/issues/21)) |
-| Public task/issue refresh | The existing CF-200 executor [refreshed HP and issue evidence on November 8](https://github.com/whoiwts110217-creator/CF-0/commit/374c1f4630053cc96d5c38c2b0d2b36eb4b60e78). |
-| Public HP health | [Public health report](../relay/health/latest.json) collected at **11:22:11 p.m. Eastern on November 8**. 32 saved receipts, 10 pings, completed last receipt, and no reported error. |
+| Public task/issue refresh | Existing CF-200 executor ran on demand November 9; [mission-board record](../automation_200/MASTER_MISSION_BOARD.md) and this dated refresh. |
+| Public HP health | [Public health report](../relay/health/latest.json) collected at **1:37:08 a.m. Eastern on November 9**. 32 saved receipts, 10 pings, completed last receipt, and no reported error. Public self-report, not independent scheduler attestation. |
 | Windows scheduled relay | **Observed.** Windows logged a scheduled run from **1:06:53 to 1:08:58 p.m.** on November 8. The matched public pong was committed at **1:07:21 p.m.** Direct ping-to-run attribution is open. [HP evidence](CONTINUITY.md#november-8-hp-relay-evidence) |
 | Seven-day unattended operation | Verification remains open. |
 | Donations/revenue | No new owner-confirmed receipts established by this dashboard |
