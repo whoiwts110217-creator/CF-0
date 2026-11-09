@@ -9,7 +9,7 @@ test("index retains only metadata and deduplicates", () => {
     {id:"../../other", title:"Invalid"}];
   assert.deepEqual(importConversationIndex(rows), [{
     id:"123e4567-e89b-12d3-a456-426614174000",
-    title:"First", selected:true, status:"queued"
+    title:"First", selected:true, status:"queued", completedPass:0
   }]);
 });
 test("serial sends exactly one continue after previous completion", async () => {
@@ -71,4 +71,17 @@ test("checkpoint is schema-marked and local-only",()=>{
   const save=makeCheckpoint({account:"secondary",queue});
   assert.equal(save.schema,"cf0.auto08.private_checkpoint.v1");
   assert.equal(save.queue.length,1);
+});
+
+test("checkpoint resume skips completed chats within same pass", async () => {
+  const queue = importConversationIndex([
+    {id:"123e4567-e89b-12d3-a456-426614174000"},
+    {id:"123e4567-e89b-12d3-a456-426614174001"}]);
+  queue[0].status = "completed";
+  queue[0].completedPass = 2;
+  const visited = [];
+  const result = await runSerial({queue, initialPass:2, maxPasses:2,
+    driver:{async sendAndWait({chatId}){visited.push(chatId);return {status:"completed"};}}});
+  assert.equal(result.status,"completed");
+  assert.deepEqual(visited,[queue[1].id]);
 });
