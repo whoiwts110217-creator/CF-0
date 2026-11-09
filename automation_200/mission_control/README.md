@@ -114,3 +114,6 @@ The optional Brainrot → Brainpower quiz offers **Larger lesson text** without 
 
 The **GitHub workflow count** in the separate automation control center is now rendered from `controls.mjs` via `controls-ui.mjs`, not hardcoded in the static HTML. The source inventory in the observed release listed 21 workflows (5 scheduled / 16 event/manual); the public master switch remained disconnected. Unreconciled older CI runs with a stale 20-workflow expectation are recorded in the [continuity file](../../docs/CONTINUITY.md#november-9--brainrot--brainpower-v05-readable-text-and-public-source-count-continuation). Source count is not live running state, nor a new remote-control permission.
 
+
+**Latest passing engineering evidence (v0.5):** [CI run 42673680552](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42673680552) — 43 Node source tests passed and the headless Chromium responsive/keyboard/contrast smoke passed on commit `e9882d0f1df8bd0aeeff90d7ab76ea3f6d8cf056`. This resolves the earlier *provisional* CI status of the same feature while retaining the historic failing tests. The [live public browser run](https://agent.tinyfish.ai/runs/072a04d9-a7a5-4d1f-90b3-c7f0794e5c4f) independently observed the new readable-text option; neither constitutes physical iPhone Safari/VoiceOver certification.
+
