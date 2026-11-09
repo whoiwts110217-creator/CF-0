@@ -24,6 +24,7 @@ main{padding:60px 0 45px}small,.eyebrow{font-weight:750;letter-spacing:.12em;tex
 .btns{display:flex;gap:11px;flex-wrap:wrap;margin:28px 0}.btn{display:inline-block;padding:12px 17px;background:var(--hi);color:#172318;text-decoration:none;border:1px solid var(--hi);border-radius:9px;font-weight:750}.btn.alt{background:transparent;color:var(--text);border-color:var(--line)}.btn:hover{filter:brightness(1.12)}
 section{padding:32px 0;border-top:1px solid var(--line)}.panel{background:var(--card);border:1px solid var(--line);padding:24px;border-radius:14px}.muted{color:var(--dim)}ul{padding-left:22px}li{margin:10px 0}
 .band{border:1px solid var(--line);border-radius:12px;padding:17px 20px;margin:25px 0;font-weight:750}footer{padding:25px 0 45px;border-top:1px solid var(--line);font-size:.9rem;color:var(--dim)}footer a{color:var(--text)}
+button.btn{cursor:pointer;font-family:inherit;font-size:1rem}button.btn:focus-visible{outline:3px solid var(--hi);outline-offset:3px}
 </style>
 </head>
 <body>
@@ -50,6 +51,11 @@ section{padding:32px 0;border-top:1px solid var(--line)}.panel{background:var(--
 <p><a href="https://caveman-focus-support.whoiwts110217.chatgpt.site/hall-of-fame">Visit the separate Hall of Fame campaign page</a> (third-party hosted; availability not independently confirmed).</p></section>
 <section id="share"><h2>Can't contribute? Share the invitation.</h2>
 <p>Sharing with people who might care about public experiments, making complicated things clearer, or independent creative work is also useful. Choose a platform and add your own words.</p>
+<div class="btns" id="quick-share-actions">
+<button class="btn" type="button" id="share-clarity-card">Share free Clarity Card</button>
+<button class="btn alt" type="button" id="copy-first-drop">Copy invitation link</button>
+</div>
+<p class="muted" id="share-feedback" role="status" aria-live="polite">Use your phone’s sharing options, or copy the link to send it yourself.</p>
 <div class="btns">
 <a class="btn alt" href="https://twitter.com/intent/tweet?text=Caveman%20Focus%20FIRST%20DROP%20%E2%80%94%20join%20the%20founding%20Hall%20of%20Fame%20by%20supporting%20an%20experimental%20public%20project%20with%20any%20amount.%20No%20investment%20or%20promised%20return.&amp;url=https%3A%2F%2Fwhoiwts110217-creator.github.io%2FCF-0%2Ffirst-drop%2F" target="_blank" rel="noopener noreferrer">Share on X</a>
 <a class="btn alt" href="https://bsky.app/intent/compose?text=Caveman%20Focus%20FIRST%20DROP%20%E2%80%94%20join%20the%20founding%20Hall%20of%20Fame%20by%20supporting%20an%20experimental%20public%20project%20with%20any%20amount.%20No%20investment%20or%20promised%20return.%20https%3A%2F%2Fwhoiwts110217-creator.github.io%2FCF-0%2Ffirst-drop%2F" target="_blank" rel="noopener noreferrer">Share on Bluesky</a>
@@ -64,4 +70,49 @@ section{padding:32px 0;border-top:1px solid var(--line)}.panel{background:var(--
 <p><a href="https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/FIRST_DROP_CAMPAIGN_2026-11-09.md">Read the complete first-drop appeal</a> · <a href="https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/PUBLIC_CREDIT_CREDIBILITY_AUDIT_2026-11-09.md">Review the public credibility audit</a>.</p></section>
 </main>
 <footer><div class="wrap"><strong>Caveman Focus</strong> · Created and developed by David Smith; designated owner and intended generational beneficiary: Kiara Lynn Rose Smith. The designation alone does not prove a legal ownership transfer.</div></footer>
+<script>
+(() => {
+  "use strict";
+  const freeToolUrl = "https://whoiwts110217-creator.github.io/CF-0/clarity-card/";
+  const firstDropUrl = "https://whoiwts110217-creator.github.io/CF-0/first-drop/";
+  const feedback = document.getElementById("share-feedback");
+  const setFeedback = (message) => { feedback.textContent = message; };
+
+  async function copyLink(url) {
+    if (navigator.clipboard && window.isSecureContext) {
+      try {
+        await navigator.clipboard.writeText(url);
+        setFeedback("Link copied. Send it wherever sharing is welcome.");
+        return;
+      } catch (_) { /* Provide the manual copy fallback below. */ }
+    }
+    window.prompt("Copy this link and share it yourself:", url);
+    setFeedback("Copy the link from the dialog and share it where appropriate.");
+  }
+
+  document.getElementById("share-clarity-card").addEventListener("click", async () => {
+    if (typeof navigator.share === "function") {
+      try {
+        await navigator.share({
+          title: "Caveman Focus — free Clarity Card",
+          text: "Try a free worksheet for turning a confusing question into a testable next step.",
+          url: freeToolUrl
+        });
+        setFeedback("Sharing dialog closed.");
+        return;
+      } catch (error) {
+        if (error && error.name === "AbortError") {
+          setFeedback("Sharing canceled; nothing was posted by this page.");
+          return;
+        }
+      }
+    }
+    await copyLink(freeToolUrl);
+  });
+
+  document.getElementById("copy-first-drop").addEventListener("click", () => {
+    copyLink(firstDropUrl);
+  });
+})();
+</script>
 </body></html>
