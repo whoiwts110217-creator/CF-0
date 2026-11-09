@@ -1,11 +1,14 @@
 import { dashboardModel, filterTasks, GITHUB, HEALTH, loadLive, REPO, REGISTRY, TRACKER, trackerModel } from "./model.mjs";
 import { taskAccess, contractTools, summarizeAccess } from "./access.mjs";
+import { parseLocalDecision, parseLocalFocus, localTaskEvidence, localFocusSummary } from "./runtime.mjs";
 
 const byId = id => document.getElementById(id);
 const refresh = byId("refresh");
 const search = byId("search");
 const filter = byId("filter");
 const showRestricted = byId("show-restricted");
+const localDecisionFile = byId("local-decision-file");
+const localFocusFile = byId("local-focus-file");
 const previous = byId("previous");
 const next = byId("next");
 const pageSize = 8;
@@ -17,6 +20,8 @@ const checkedTime = new Intl.DateTimeFormat("en-US", {
 let page = 0;
 let current;
 let source = "snapshot";
+let localDecision = null;
+let localFocus = null;
 
 function badge(id, text, tone) {
   const element = byId(id);
@@ -38,6 +43,7 @@ function appendEvidence(container, evidence) {
 }
 
 function taskRow(task, access) {
+  const local = localTaskEvidence(task.id, localDecision, localFocus);
   const row = document.createElement("tr");
   const id = row.insertCell();
   id.className = "task-id";
@@ -53,6 +59,7 @@ function taskRow(task, access) {
     task.physical_hp_required ? "Requires evidence from the physical HP" : "",
     "Source authority label: " + (task.authority || "unspecified") + " (not live execution authorization)",
     "Access gate: " + access.label,
+    ...local.notes.map(note => "LOCAL FILE (not authenticated): " + note),
   ].filter(Boolean).join("\n");
   info.append("\n");
   appendEvidence(info, task.evidence || "Evidence pending");
@@ -72,6 +79,12 @@ function taskRow(task, access) {
   power.className = "access-power";
   power.textContent = access.power;
   accessCell.append(accessLabel, power);
+  if (local.notes.length) {
+    const details = document.createElement("small");
+    details.className = "access-power";
+    details.textContent = local.notes.join(" · ");
+    accessCell.append(details);
+  }
   return row;
 }
 
@@ -80,13 +93,14 @@ function renderTasks() {
   const counts = summarizeAccess(current.tasks);
   const statuses = new Map(current.tasks.map(task => [task.id, task.status]));
   const allMatches = filterTasks(current.tasks, filter.value, search.value);
-  const matches = showRestricted.checked ? allMatches : allMatches.filter(task => !taskAccess(task, statuses).restricted);
+  const matches = showRestricted.checked ? allMatches : allMatches.filter(task =>
+    !taskAccess(task, statuses).restricted && !localTaskEvidence(task.id, localDecision, localFocus).localHold);
   const hidden = allMatches.length - matches.length;
   byId("restriction-summary").textContent =
     counts.verified + " verified · " + counts.source_candidate + " source candidates · " +
     (current.tasks.length - counts.verified - counts.source_candidate) + " held by access or dependencies." +
     (hidden ? " " + hidden + " restricted task(s) hidden by this filter." : "") +
-    " These are source-only classifications, not permission to execute.";
+    " Public classifications are source-only; imported local holds are separately labeled and never grant execution.";
   const total = matches.length;
   const pages = Math.max(1, Math.ceil(total / pageSize));
   page = Math.max(0, Math.min(page, pages - 1));
@@ -102,6 +116,15 @@ function renderTasks() {
   byId("results").textContent = total ? (start + 1) + "–" + Math.min(start + pageSize, total) + " of " + total : "0 results";
   previous.disabled = page === 0;
   next.disabled = page + 1 >= pages;
+}
+
+function renderLocalEvidence() {
+  byId("local-decision-status").textContent = localDecision
+    ? "Imported local proposal: " + localDecision.selected.length + " source-work candidate(s), " +
+      localDecision.heldTotal + " reported holds (" + localDecision.sampledHolds +
+      " identified by task ID). Unverified local file; no source commit attestation."
+    : "Not connected — no local decision report selected.";
+  byId("local-focus-status").textContent = localFocusSummary(localFocus);
 }
 
 function renderTools() {
@@ -150,6 +173,13 @@ const healthBadges = {
 };
 
 function render(model, mode) {
+  if (current && current.commit !== model.commit) {
+    localDecision = null;
+    localFocus = null;
+    localDecisionFile.value = "";
+    localFocusFile.value = "";
+    byId("local-import-status").textContent = "Source commit changed: previous local overlays cleared. Reimport only matching private records.";
+  }
   current = model;
   source = mode;
   const { commit, target, verified, checkpoint, ping, receiptPath, health } = model;
@@ -186,6 +216,7 @@ function render(model, mode) {
   showRestricted.disabled = false;
   renderTasks();
   renderTools();
+  renderLocalEvidence();
 }
 
 async function refreshFromGitHub() {
@@ -252,6 +283,39 @@ async function start() {
   }
   await Promise.all([refreshFromGitHub(), refreshAITracker()]);
 }
+
+async function importLocalFile(input, parse, key) {
+  if (!current || !input.files?.[0]) return;
+  const file = input.files[0];
+  // No upload or permanent browser storage: read from the selected File in memory.
+  try {
+    if (file.size > 65536) throw new Error("file_too_large");
+    const parsed = parse(JSON.parse(await file.text()), current.tasks);
+    if (key === "decision") localDecision = parsed;
+    else localFocus = parsed;
+    byId("local-import-status").textContent = "Local " + key + " file parsed in this browser only. Not authenticated; no upload or action executed.";
+  } catch {
+    if (key === "decision") localDecision = null;
+    else localFocus = null;
+    byId("local-import-status").textContent = "Local " + key + " file rejected. Verify its schema and task IDs against the current registry.";
+  }
+  page = 0;
+  renderTasks();
+  renderLocalEvidence();
+}
+
+localDecisionFile.addEventListener("change", () => importLocalFile(localDecisionFile, parseLocalDecision, "decision"));
+localFocusFile.addEventListener("change", () => importLocalFile(localFocusFile, parseLocalFocus, "focus"));
+byId("clear-local-evidence").addEventListener("click", () => {
+  localDecision = null;
+  localFocus = null;
+  localDecisionFile.value = "";
+  localFocusFile.value = "";
+  byId("local-import-status").textContent = "Local overlays cleared from this view.";
+  page = 0;
+  renderTasks();
+  renderLocalEvidence();
+});
 
 search.addEventListener("input", () => { page = 0; renderTasks(); });
 filter.addEventListener("change", () => { page = 0; renderTasks(); });
