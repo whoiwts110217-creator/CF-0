@@ -284,3 +284,48 @@ footer { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 6p
 .gameful-lab[data-learning-mode="plain"] .gameful-action,
 .gameful-lab[data-learning-mode="plain"] .gameful-choices button { background: #253143; border-color: #64748b; }
 @media (max-width: 625px) { .gameful-mode-line { align-items: stretch; } #gameful-mode { width: 100%; } }
+
+
+/* CF-EXP-GAME-LEARN-001 v0.4: phone-size and assistive input hardening.
+   Scoped to the optional learning lab. Does not affect owner controls. */
+.gameful-lab .gameful-action,
+.gameful-lab .gameful-choices button {
+  min-width: 44px;
+  min-height: 44px;
+  padding: 12px 16px;
+  line-height: 1.25;
+  touch-action: manipulation;
+}
+.gameful-lab #gameful-mode {
+  min-height: 44px;
+  min-width: 44px;
+  font-size: 16px; /* Avoid Safari zooming a select whose text is smaller than 16px. */
+  line-height: 1.25;
+}
+.gameful-lab #gameful-source,
+.gameful-lab .gameful-note a {
+  display: inline-flex;
+  align-items: center;
+  min-width: 44px;
+  min-height: 44px;
+  padding-block: 9px;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+  touch-action: manipulation;
+}
+.gameful-lab :is(button,select,a):focus-visible,
+.gameful-lab #gameful-title:focus,
+.gameful-lab #gameful-explanation:focus {
+  outline: 3px solid #a8e8ff;
+  outline-offset: 3px;
+}
+.gameful-lab #gameful-title:focus,
+.gameful-lab #gameful-explanation:focus {
+  scroll-margin-top: 24px;
+}
+@media (max-width: 390px) {
+  .gameful-lab #gameful-content { padding: 12px; }
+  .gameful-lab .gameful-choices { gap: 10px; }
+  .gameful-lab .gameful-choices button { flex: 1 1 92px; }
+  .gameful-lab .gameful-action { max-width: 100%; white-space: normal; }
+}
