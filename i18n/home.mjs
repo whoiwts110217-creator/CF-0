@@ -7,6 +7,16 @@ export const LOCALES = Object.freeze({
   "pt": "Português"
 });
 export const COPY = {
+  "Explore the $15 Clarity Brief pilot (inquiries only)": {
+    "es": "Explorar el piloto Clarity Brief de 15 $ (solo consultas)",
+    "fr": "Découvrir le projet Clarity Brief à 15 $ (demandes seulement)",
+    "pt": "Conheça o piloto Clarity Brief de US$ 15 (apenas consultas)"
+  },
+  "— a separately scoped public-safe service, not a donation or active checkout.": {
+    "es": "— un servicio separado y limitado a información pública, no una donación ni una compra activa.",
+    "fr": "— un service distinct limité aux informations publiques, ni un don ni un paiement actif.",
+    "pt": "— um serviço separado para informações públicas, não uma doação nem uma compra ativa."
+  },
   "Skip to main content": {
     "es": "Ir al contenido principal",
     "fr": "Aller au contenu principal",
