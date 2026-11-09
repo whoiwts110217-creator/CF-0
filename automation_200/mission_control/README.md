@@ -99,3 +99,7 @@ The optional [learning lab](https://whoiwts110217-creator.github.io/CF-0/mission
 
 **Deployment evidence:** see workflow runs after these commits; GitHub CI source checks and Pages success are separate from a real iPhone UI inspection. No HP permissions, automation schedules, or CF-200 registry updates are implicated.
 
+## Responsive keyboard smoke check — November 9
+
+The [dependency-free Chromium smoke script](tests/browser_smoke.mjs) is called by the [Mission Control CI workflow](https://github.com/whoiwts110217-creator/CF-0/blob/main/.github/workflows/mission-control-access-tests.yml) and uses the real local dashboard files, no external control adapter. It emulates a 390×844px mobile viewport, checks overflow, keyboard Tab/Enter answer selection, explanation focus and identical source facts across Plain and Playful. [Passing CI run 42668440686](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42668440686) showed 35/35 source tests and a passing browser smoke. The previous failed key-synthesis check and correction are in [continuity](../../docs/CONTINUITY.md#november-9--mobile-width-chromium-browser-acceptance-and-keyboard-repair). **This does not prove physical iPhone Safari or VoiceOver**, and no new signed-in account/HP behavior was enabled. Locally, use `node tests/browser_smoke.mjs` where headless Google Chrome is installed.
+
