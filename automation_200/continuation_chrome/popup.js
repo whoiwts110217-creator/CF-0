@@ -24,7 +24,7 @@ const withFeedback=fn=>async()=>{
     $('detail').textContent=(r?.ok===false?'Error: '+r.error:r?.message)||'Request received';
   }catch(e){await refresh();$('detail').textContent=e.message;}
 };
-$('check').addEventListener('click',withFeedback(()=>call({type:'STATUS'})));
+$('check').addEventListener('click',withFeedback(()=>call({type:'PREFLIGHT'})));
 $('capture').addEventListener('click',withFeedback(()=>call({type:'CAPTURE_VISIBLE'})));
 $('account').addEventListener('change',withFeedback(()=>call({type:'SET_ACCOUNT',account:$('account').value})));
 $('queue').addEventListener('change',withFeedback(async()=>{

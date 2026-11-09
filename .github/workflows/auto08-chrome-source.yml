@@ -29,3 +29,12 @@ jobs:
           node --check automation_200/continuation_chrome/popup.js
           node --check automation_200/continuation_chrome/master-control.js
           python -m json.tool automation_200/continuation_chrome/manifest.json > /dev/null
+      - name: Build permission-checked owner-installable Chrome extension
+        run: python automation_200/continuation_chrome/package.py "$RUNNER_TEMP/cf0-auto08-chrome"
+      - name: Upload owner-installable Chrome extension ZIP
+        uses: actions/upload-artifact@v4
+        with:
+          name: CF0-AUTO08-Chrome-v0.1.5
+          path: ${{ runner.temp }}/cf0-auto08-chrome/
+          if-no-files-found: error
+          retention-days: 30

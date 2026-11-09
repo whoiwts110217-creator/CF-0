@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
 import {execFileSync} from 'node:child_process';
 import {fileURLToPath} from 'node:url';
-import {chatId,chatURL,eligibleTabs,pickSingleTab,importQueue,accountSnapshot,capturedSidebarQueue,hasLoadedConversation,classifyOverlay,acknowledgedContinue,stableResponse,initialState,CONTINUE_TEXT} from '../core.mjs';
+import {chatId,chatURL,eligibleTabs,pickSingleTab,importQueue,accountSnapshot,capturedSidebarQueue,hasLoadedConversation,classifyOverlay,readinessVerdict,acknowledgedContinue,stableResponse,initialState,CONTINUE_TEXT} from '../core.mjs';
 const id='11111111-1111-4111-8111-111111111111';
 test('only existing, exactly one ChatGPT tab is eligible',()=>{
  assert.equal(pickSingleTab([{id:1,url:chatURL(id)},{id:2,url:'https://github.com'}]).id,1);
@@ -58,6 +58,18 @@ test('legacy pre-selection imports migrate without data loss',()=>{
  assert.deepEqual(state.queue.map(x=>x.id),[id]);
  assert.deepEqual(state.completed,[id]);
  assert.equal(state.profiles.secondary.completed[0],id);
+});
+test('readiness verdict inspects visible current chat, never grants account identity',()=>{
+  const base={url:chatURL(id),userCount:1,assistantCount:1,
+    composerVisible:true,draft:'',signedOut:false,
+    dialogVisible:false,dialogText:'',stopVisible:false,busy:false};
+  assert.equal(readinessVerdict(base,id),'READY_ACCOUNT_UNVERIFIED');
+  assert.equal(readinessVerdict({...base,userCount:0,assistantCount:0},id),'CONVERSATION_HISTORY_NOT_LOADED');
+  assert.equal(readinessVerdict({...base,draft:'unsent draft'},id),'OWNER_DRAFT_PRESENT');
+  assert.equal(readinessVerdict({...base,stopVisible:true},id),'ALREADY_RESPONDING');
+  assert.equal(readinessVerdict({...base,dialogVisible:true,dialogText:'Approve purchase'},id),'NEEDS_OWNER_REVIEW');
+  assert.equal(readinessVerdict({...base,url:'https://chatgpt.com/'},id),'PAGE_CONTENT_MISMATCH');
+  assert.equal(readinessVerdict(base,'invalid'),'OPEN_A_CONVERSATION_FIRST');
 });
 test('known harmless overlay resumes, unknown/approval/signin blocks',()=>{
  assert.equal(classifyOverlay({dialogVisible:true,dialogText:"What's new in ChatGPT"}),'DISMISS_WITH_ESCAPE');

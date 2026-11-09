@@ -1,4 +1,4 @@
-import {chatId,chatURL,pickSingleTab,importQueue,accountSnapshot,capturedSidebarQueue,hasLoadedConversation,classifyOverlay,acknowledgedContinue,stableResponse,initialState,CONTINUE_TEXT} from './core.mjs';
+import {chatId,chatURL,pickSingleTab,importQueue,accountSnapshot,capturedSidebarQueue,hasLoadedConversation,classifyOverlay,readinessVerdict,acknowledgedContinue,stableResponse,initialState,CONTINUE_TEXT} from './core.mjs';
 
 // No network listener, no remote command endpoint, no private ChatGPT API, no mouse input.
 // All Chrome actions are attached to one explicitly selected existing ChatGPT tab ID.
@@ -294,6 +294,31 @@ chrome.runtime.onMessage.addListener((message,sender,sendResponse)=>{
           tabs:launching&&!live
             ? {count:null,reason:'STARTING_TAB_CHECK',tabId:null,url:null}
             : await tabsSnapshot()};
+      case 'PREFLIGHT':{
+        if(live||launching)throw Error('RUNNER_ALREADY_ACTIVE');
+        if(!s.account)return {ok:true,ready:false,reason:'SELECT_ACCOUNT_FIRST',
+          message:'Choose the manually verified account label; no message sent.'};
+        if(s.phase==='needs_review'||s.attempt)return {ok:true,ready:false,
+          reason:'UNRESOLVED_ATTEMPT_REQUIRES_REVIEW',
+          message:'Review the uncertain attempt first. No message sent.'};
+        const tab=await selectedTab();
+        const expected=chatId(tab.url);
+        if(!expected)return {ok:true,ready:false,reason:'OPEN_A_CONVERSATION_FIRST',
+          message:'Open one existing conversation, not a new-chat page. No message sent.'};
+        let scan;
+        try{
+          const result=await chrome.scripting.executeScript({target:{tabId:tab.id},func:evaluateDOM});
+          scan=result?.[0]?.result;
+        }catch{
+          return {ok:true,ready:false,reason:'PAGE_INSPECTION_UNAVAILABLE',
+            message:'Cannot inspect the current conversation. No message sent.'};
+        }
+        const reason=readinessVerdict(scan,expected);
+        return {ok:true,ready:reason==='READY_ACCOUNT_UNVERIFIED',reason,
+          message:reason==='READY_ACCOUNT_UNVERIFIED'
+            ? 'Page checks pass. Account identity is NOT verified: inspect the signed-in ChatGPT account yourself before Continue current chat once. No message sent.'
+            : `Readiness blocked: ${reason}. No message sent or tab changed.`};
+      }
       case 'SET_ACCOUNT':{
         if(live||launching)throw Error('CANNOT_CHANGE_ACCOUNT_WHILE_RUNNING');
         if(!['primary','secondary'].includes(message.account))throw Error('SELECT_VALID_ACCOUNT');
