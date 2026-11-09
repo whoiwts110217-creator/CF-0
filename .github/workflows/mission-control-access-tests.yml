@@ -4,6 +4,8 @@ on:
     paths:
       - 'automation_200/mission_control/**'
       - 'i18n/**'
+      - 'clarity-brief/**'
+      - '.github/ISSUE_TEMPLATE/clarity-brief-pilot.yml'
       - 'clarity-card/**'
       - 'first-drop/**'
       - 'index.html'
@@ -12,6 +14,8 @@ on:
     paths:
       - 'automation_200/mission_control/**'
       - 'i18n/**'
+      - 'clarity-brief/**'
+      - '.github/ISSUE_TEMPLATE/clarity-brief-pilot.yml'
       - 'clarity-card/**'
       - 'first-drop/**'
       - 'index.html'
@@ -33,5 +37,7 @@ jobs:
         run: node --test clarity-card/tests/*.test.mjs
       - name: Test learning lab at phone-width Chromium viewport
         run: node automation_200/mission_control/tests/browser_smoke.mjs
+      - name: Test $15 Clarity Brief public-safe service inquiry and existing links
+        run: node --test clarity-brief/tests/*.test.mjs
       - name: Test first-visit homepage at 390px and Spanish switch
         run: node i18n/home.mobile_smoke.mjs
