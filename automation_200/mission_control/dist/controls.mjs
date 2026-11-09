@@ -4,6 +4,7 @@ export const SOURCE_DATE = "2026-11-09";
 const gh = "https://github.com/whoiwts110217-creator/CF-0";
 export const SOURCES = Object.freeze({
   github: Object.freeze([
+    {"id":"auto08-chrome-source","title":"AUTO-08 Chrome extension source tests","trigger":"event","detail":"On extension source push or pull request; tests do not prove live Chrome operation","research":false},
     {"id":"ai-tracker-monitor","title":"AI Tracker response monitor","trigger":"schedule","detail":"Every six hours (17 */6 * * *)","research":true},
     {"id":"cf0-abund-daily","title":"Abund.ai daily discussions","trigger":"schedule","detail":"Five daily cron slots","research":true},
     {"id":"cf0-abund-discovery","title":"Abund.ai task discovery","trigger":"schedule","detail":"Every six hours (41 */6 * * *)","research":true},
