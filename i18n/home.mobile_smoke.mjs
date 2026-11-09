@@ -136,7 +136,7 @@ try {
       menuOpen:document.querySelector('.more-nav').open,lang:document.documentElement.lang,outliers};
   })()`);
   console.log("390px English layout after switch:", JSON.stringify(englishLayout));
-  assert.ok(englishLayout.scrollWidth<=392,"Language switching must not cause horizontal scrolling");
+  assert.ok(englishLayout.viewport<=392 && englishLayout.scrollWidth<=392,"Language switching must not expand the 390px layout viewport");
   console.log("PASS: 390px Chromium first visit, Spanish evidence, no overflow, More menu, free demo and English switch.");
 } finally {
   try { socket?.close(); } catch {}
