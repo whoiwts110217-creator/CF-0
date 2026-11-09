@@ -428,3 +428,35 @@ footer { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 6p
   .gameful-lab #gameful-mode { border: 2px solid ButtonText; }
   .gameful-lab #gameful-content { border: 1px solid CanvasText; }
 }
+
+
+/* CF-EXP-GAME-LEARN-001: progressive on-device acceptance guide.
+   Details remain closed by default; no telemetry, persistence or app claim. */
+.gameful-lab .gameful-device-check {
+  margin-top: 14px;
+  padding: 3px 12px 10px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  color: var(--muted);
+  font-size: 14px;
+}
+.gameful-lab .gameful-device-check summary {
+  display: list-item;
+  min-height: 44px;
+  padding: 12px 0;
+  color: var(--text);
+  cursor: pointer;
+  font-weight: 650;
+}
+.gameful-lab .gameful-device-check :is(p, li) {
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+.gameful-lab .gameful-device-check ol {
+  padding-inline-start: 23px;
+  margin: 8px 0;
+}
+.gameful-lab .gameful-device-check summary:focus-visible {
+  outline: 3px solid #a8e8ff;
+  outline-offset: 3px;
+}
