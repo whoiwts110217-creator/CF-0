@@ -57,6 +57,16 @@ The older ~37-item original project list remains missing. The 17 named rows, sep
 
 No complete original chat export, original ~37 list, RH proof, independent weeklong account autonomy, current live Notepad launch, or verified outside revenue is established by this protocol.
 
+## 7A. Supplemental browser capture recovered — private v8 (November 9, 2026)
+
+The owner-controlled Library now includes a **separate-account, browser-captured ZIP**, independently read and SHA-256 validated in a private assistant working environment. This later recovery supplements—not contradicts—the **dated November 8 v7 snapshot with zero indexed conversations**. The browser archive contains **95 named conversation records and 757 captured user/assistant message records**, with a self-declared scope of 78 visible conversation windows, 15 checked selected branches, and two partially rendered branches. The official full-account export and alternative branches are **not** established. These records must not be called 95 complete conversations.
+
+A **new private v8 snapshot**, created as a separate artifact rather than replacing v7, indexes this browser capture: it preserves 62 reconstructed project records, 141 prior project-source links and 110 prior hash-linked events, and records two new bounded source/index events. A fresh offline restore and checks of original hashes, SQLite integrity, foreign keys and event hashes passed. This backup is **in the assistant's working artifact space, not verified installed on the HP or uploaded to the owner's persistent Library**. A verified source archive may still contain incomplete or mutually conflicting rendered views.
+
+**Outstanding ambiguities:** 44 captured message identifiers recur in different conversations; 12 have differing text hashes. One conversation has differing titles in its index and structured record. Preserve every occurrence and both title labels; do not deduplicate or silently choose a canonical version. The supplemental private crosswalk identifies 21 selected owner statements in eight threads with message IDs and exact captured wording; those proposed project links are not owner-approved atlas edges.
+
+**Public boundary:** publish only these aggregate coverage and evidence limits. Never commit the original ZIP, readable transcripts, full private SQLite, private message index, hashed per-message comparison, or sensitive conversation content to CF-0. This update changes no account/HP authority, existing priority, cash claim, CF-200 registry, or accepted original-project count.
+
 ## 8. Required output and acceptance
 
 Every audit run reports:
