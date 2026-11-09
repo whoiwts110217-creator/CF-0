@@ -287,7 +287,13 @@ chrome.runtime.onMessage.addListener((message,sender,sendResponse)=>{
   (async()=>{
     const s=await getState();
     switch(message?.type){
-      case 'STATUS':return {ok:true,state:s,tabs:await tabsSnapshot()};
+      case 'STATUS':
+        // During launch preflight, don't block STATUS behind the same slow
+        // tab query the owner may be trying to cancel. STOP stays reachable.
+        return {ok:true,state:s,launching,
+          tabs:launching&&!live
+            ? {count:null,reason:'STARTING_TAB_CHECK',tabId:null,url:null}
+            : await tabsSnapshot()};
       case 'SET_ACCOUNT':{
         if(live||launching)throw Error('CANNOT_CHANGE_ACCOUNT_WHILE_RUNNING');
         if(!['primary','secondary'].includes(message.account))throw Error('SELECT_VALID_ACCOUNT');
