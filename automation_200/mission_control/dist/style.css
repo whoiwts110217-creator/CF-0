@@ -242,3 +242,30 @@ footer { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 6p
   .control-center h2 .badge { display: table; margin: 6px 0 0; }
   .topbar nav { gap: 10px 16px; }
 }
+
+
+/* CF-EXP-GAME-LEARN-001: additive, optional learning layer */
+.gameful-lab { margin-block: 16px; border-color: #41556b; background: linear-gradient(115deg, #172531, #1b202f 85%); }
+.gameful-lab .section-heading { align-items: center; }
+.gameful-action, .gameful-choices button {
+  border: 1px solid #6b9cb7; background: #243f54; border-radius: 7px;
+  color: #e8f9ff; padding: 10px 14px; cursor: pointer; font-size: 13px; font-weight: 700;
+}
+.gameful-action:hover, .gameful-choices button:not(:disabled):hover { background: #355872; border-color: #a2ddec; }
+.gameful-choices button:disabled { cursor: not-allowed; opacity: .55; }
+#gameful-content { margin-top: 15px; padding: 18px; background: #101a27; border: 1px solid #48657b; border-radius: 9px; }
+#gameful-content[hidden], #gameful-next[hidden], #gameful-source[hidden] { display: none; }
+#gameful-content h3 { font-size: clamp(19px, 3.5vw, 29px); margin: 5px 0 8px; color: #b5e9ff; letter-spacing: -.025em; }
+#gameful-claim { font-size: 15px; line-height: 1.6; }
+.gameful-choices { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+#gameful-result { margin-top: 14px; font-weight: 700; color: #dceaf6; }
+#gameful-result[data-tone="pass"] { color: #8ce1bb; }
+#gameful-result[data-tone="retry"] { color: #ffd38a; }
+#gameful-explanation { color: #bccde0; }
+#gameful-source, .gameful-note a { color: #91d5ee; text-decoration: underline; text-underline-offset: 3px; }
+#gameful-next { margin-top: 12px; }
+.gameful-note { color: #a9b5c9; font-size: 12px; margin-bottom: 0; }
+@media (max-width: 625px) {
+  .gameful-lab { padding: 14px; }
+  .gameful-lab .section-heading { align-items: start; flex-direction: column; }
+}
