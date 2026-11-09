@@ -6,6 +6,7 @@ on:
       - 'index.html'
       - 'first-drop/**'
       - 'clarity-card/**'
+      - 'clarity-brief/**'
       - 'sitemap.xml'
       - 'i18n/**'
       - 'agent-tasks.json'
@@ -52,6 +53,8 @@ jobs:
         run: node --test i18n/home.test.mjs
       - name: Test public Clarity Card tool and funding boundaries
         run: node --test clarity-card/tests/*.test.mjs
+      - name: Test paid pilot disclosures and public inquiry
+        run: node --test clarity-brief/tests/*.test.mjs
       - name: Build commit-pinned public Mission Control fallback
         run: python automation_200/mission_control/build_snapshot.py
       - name: Rebuild Dreamkiller v0.2 cartridge from public source
@@ -77,6 +80,8 @@ jobs:
           cp first-drop/index.html _site/first-drop/index.html
           mkdir -p _site/clarity-card
           cp clarity-card/index.html _site/clarity-card/index.html
+          mkdir -p _site/clarity-brief
+          cp clarity-brief/index.html _site/clarity-brief/index.html
           mkdir -p _site/i18n
           cp i18n/home.mjs _site/i18n/home.mjs
           cp agent-tasks.json _site/agent-tasks.json
@@ -100,6 +105,8 @@ jobs:
           assert 'src="./i18n/home.mjs"' in home
           assert Path("_site/sitemap.xml").is_file(), "first-drop sitemap not staged"
           assert Path("_site/clarity-card/index.html").is_file(), "Clarity Card not staged"
+          assert Path("_site/clarity-brief/index.html").is_file(), "Clarity Brief offer not staged"
+          assert '/clarity-brief/' in Path("_site/sitemap.xml").read_text(encoding="utf-8"), "Service sitemap missing"
           first_drop = Path("_site/first-drop/index.html").read_text(encoding="utf-8")
           assert "Founding Hall of Fame" in first_drop
           assert "https://cash.app/$LAZYBLACKBEAN" in first_drop
