@@ -30,7 +30,7 @@ export const SOURCES = Object.freeze({
     {id:"CavemanFocusHPBridge",title:"CF-0 HP Bridge",detail:"Separate optional owner-local worker; current installation/status not verified",research:false}
   ]),
   continuation: Object.freeze([
-    {id:"auto08",title:"AUTO-08 conversation continuation",detail:"Keyboard-only, single-tab runner in source; no signed-in executor connected to this dashboard",research:false}
+    {id:"auto08",title:"AUTO-08 conversation continuation",detail:"Owner-local Chrome extension can check and attach to exactly one existing ChatGPT tab without new tabs or mouse controls. Requires installation and a live smoke test.",research:false}
   ])
 });
 export const GITHUB_BASE = gh;
@@ -53,7 +53,7 @@ export function records(privateAutomations = null) {
     ...slots,
     ...SOURCES.github.map(x=>({...x,source:"github",url:gh+"/actions/workflows/"+x.id+".yml"})),
     ...SOURCES.windows.map(x=>({...x,source:"windows",url:gh+"/blob/main/relay/URGENT_STOP_AND_RESUME.md"})),
-    ...SOURCES.continuation.map(x=>({...x,source:"continuation",url:gh+"/tree/main/automation_200/continuation_keyboard"}))
+    ...SOURCES.continuation.map(x=>({...x,source:"continuation",url:gh+"/tree/main/automation_200/continuation_chrome"}))
   ];
 }
 
