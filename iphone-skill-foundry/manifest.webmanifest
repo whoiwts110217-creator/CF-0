@@ -1,0 +1,23 @@
+{
+  "name": "Caveman Focus Skill Foundry",
+  "short_name": "Skill Foundry",
+  "description": "Create and test original AI skill instructions on iPhone",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#06101a",
+  "theme_color": "#07121c",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    }
+  ]
+}

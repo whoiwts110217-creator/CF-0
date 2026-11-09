@@ -14,6 +14,7 @@ on:
       - 'concepts/dreamkiller/rom_v0_2/**'
       - 'concepts/dreamkiller/iphone-emu/tests/**'
       - 'automation_200/mission_control/dist/**'
+      - 'iphone-skill-foundry/**'
       - 'automation_200/mission_control/tests/**'
       - 'automation_200/mission_control/build_snapshot.py'
       - 'automation_200/mission_control/test_build_snapshot.py'
@@ -61,6 +62,8 @@ jobs:
       # independently failing Dreamkiller Browser ROM Compatibility workflow.
       # A prototype game's blank frame must not prevent the CF-0 public status,
       # Mission Control, and English-first homepage from deploying.
+      - name: Validate Skill Foundry iPhone web app
+        run: python -m unittest discover -s iphone-skill-foundry/tests -p 'test_*.py' -v
       - name: Stage curated public website and Dreamkiller emulator
         shell: bash
         run: |
@@ -75,6 +78,8 @@ jobs:
           cp llms.txt _site/llms.txt
           mkdir -p _site/mission-control
           cp -R automation_200/mission_control/dist/. _site/mission-control/
+          mkdir -p _site/skill-foundry
+          cp iphone-skill-foundry/index.html iphone-skill-foundry/manifest.webmanifest iphone-skill-foundry/icon.svg iphone-skill-foundry/apple-touch-icon.png iphone-skill-foundry/sw.js _site/skill-foundry/
           mkdir -p _site/dreamkiller
           cp -R concepts/dreamkiller/iphone-emu/site/. _site/dreamkiller/
           cp concepts/dreamkiller/rom_v0_2/dreamkiller_road_v0_2.gb _site/dreamkiller/road-v02.gb
@@ -102,6 +107,8 @@ jobs:
           assert tasks["challenge_url"].startswith("https://github.com/")
           assert Path("_site/llms.txt").stat().st_size > 100
           assert Path("_site/dreamkiller/index.html").is_file()
+          assert Path("_site/skill-foundry/index.html").is_file(), "Skill Foundry missing from staged site"
+          assert Path("_site/skill-foundry/sw.js").is_file(), "Skill Foundry offline worker missing"
           assert Path("_site/dreamkiller/GameBoy.min.js").stat().st_size > 500000
           assert Path("_site/dreamkiller/road-test.gb").stat().st_size == 32768
           assert Path("_site/dreamkiller/road-v01.gb").stat().st_size == 32768

@@ -1,0 +1,22 @@
+name: Skill Foundry iPhone Checks
+
+on:
+  pull_request:
+    paths:
+      - 'iphone-skill-foundry/**'
+      - '.github/workflows/publish-website.yml'
+      - '.github/workflows/iphone-skill-foundry-ci.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate iPhone help, manifest, and local-only app package
+        run: python3 -m unittest discover -s iphone-skill-foundry/tests -p 'test_*.py' -v
+      - name: Validate service worker syntax
+        run: node --check iphone-skill-foundry/sw.js
