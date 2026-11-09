@@ -7,6 +7,211 @@ export const LOCALES = Object.freeze({
   "pt": "Português"
 });
 export const COPY = {
+  "Skip to main content": {
+    "es": "Ir al contenido principal",
+    "fr": "Aller au contenu principal",
+    "pt": "Ir para o conteúdo principal"
+  },
+  "Try it": {
+    "es": "Pruébalo",
+    "fr": "Essayer",
+    "pt": "Experimente"
+  },
+  "What works": {
+    "es": "Qué funciona",
+    "fr": "Ce qui fonctionne",
+    "pt": "O que funciona"
+  },
+  "More": {
+    "es": "Más",
+    "fr": "Plus",
+    "pt": "Mais"
+  },
+  "Try a free clarity challenge": {
+    "es": "Prueba gratis un reto de claridad",
+    "fr": "Essayer un défi de clarté gratuit",
+    "pt": "Experimente um desafio de clareza gratuito"
+  },
+  "See what works": {
+    "es": "Ver qué funciona",
+    "fr": "Voir ce qui fonctionne",
+    "pt": "Veja o que funciona"
+  },
+  "Support if you choose": {
+    "es": "Apoya si quieres",
+    "fr": "Soutenir si vous le souhaitez",
+    "pt": "Apoie se quiser"
+  },
+  "Explore the method without a purchase. Real results, open questions, and unfinished systems are labeled separately.": {
+    "es": "Explora el método sin pagar. Los resultados reales, las preguntas abiertas y los sistemas incompletos se señalan por separado.",
+    "fr": "Explorez la méthode sans achat. Les résultats réels, les questions ouvertes et les systèmes inachevés sont distingués.",
+    "pt": "Explore o método sem comprar nada. Resultados reais, questões em aberto e sistemas inacabados são identificados separadamente."
+  },
+  "Start here · No account required to explore": {
+    "es": "Empieza aquí · No necesitas una cuenta para explorar",
+    "fr": "Commencez ici · Aucun compte nécessaire pour découvrir",
+    "pt": "Comece aqui · Não é preciso ter conta para explorar"
+  },
+  "Try the thinking method.": {
+    "es": "Prueba el método de razonamiento.",
+    "fr": "Essayez la méthode de réflexion.",
+    "pt": "Experimente o método de raciocínio."
+  },
+  "The free learning challenge asks you to decide what evidence can and cannot prove. It is an educational prototype, not a finished AI controller.": {
+    "es": "El reto gratuito te invita a decidir qué puede y qué no puede demostrar una prueba. Es un prototipo educativo, no un controlador de IA terminado.",
+    "fr": "Ce défi gratuit vous invite à déterminer ce que les éléments disponibles permettent ou non de prouver. C'est un prototype pédagogique, pas un contrôleur IA achevé.",
+    "pt": "O desafio gratuito convida você a decidir o que as evidências podem ou não comprovar. É um protótipo educacional, não um controlador de IA pronto."
+  },
+  "Give it a quick test.": {
+    "es": "Haz una prueba rápida.",
+    "fr": "Faites un essai rapide.",
+    "pt": "Faça um teste rápido."
+  },
+  "Open a short challenge in Mission Control. Make a choice before you read the explanation, then compare your guess with the evidence.": {
+    "es": "Abre un reto breve en el Centro de control. Elige antes de leer la explicación y compara tu respuesta con las pruebas.",
+    "fr": "Ouvrez un court défi dans le centre de contrôle. Faites votre choix avant de lire l'explication, puis comparez votre réponse aux éléments disponibles.",
+    "pt": "Abra um desafio curto na Central de controle. Faça sua escolha antes de ler a explicação e compare seu palpite com as evidências."
+  },
+  "Open the free challenge": {
+    "es": "Abrir el reto gratuito",
+    "fr": "Ouvrir le défi gratuit",
+    "pt": "Abrir o desafio gratuito"
+  },
+  "Give feedback": {
+    "es": "Enviar comentarios",
+    "fr": "Donner un avis",
+    "pt": "Enviar comentários"
+  },
+  "Make a guess": {
+    "es": "Haz una suposición",
+    "fr": "Faites une hypothèse initiale",
+    "pt": "Dê um palpite"
+  },
+  "Choose what you think the evidence means.": {
+    "es": "Elige lo que crees que significan las pruebas.",
+    "fr": "Choisissez ce que les éléments présentés signifient selon vous.",
+    "pt": "Escolha o que você acha que as evidências significam."
+  },
+  "Check the evidence": {
+    "es": "Comprueba las pruebas",
+    "fr": "Examinez les preuves",
+    "pt": "Confira as evidências"
+  },
+  "See what the public record actually establishes.": {
+    "es": "Observa lo que realmente establece el registro público.",
+    "fr": "Voyez ce que le dossier public établit réellement.",
+    "pt": "Veja o que o registro público realmente comprova."
+  },
+  "Keep the limit": {
+    "es": "Reconoce los límites",
+    "fr": "Gardez les limites à l'esprit",
+    "pt": "Reconheça os limites"
+  },
+  "Separate a useful result from an unproven claim.": {
+    "es": "Distingue un resultado útil de una afirmación no demostrada.",
+    "fr": "Distinguez un résultat utile d'une affirmation non prouvée.",
+    "pt": "Separe um resultado útil de uma afirmação não comprovada."
+  },
+  "Public reality check": {
+    "es": "Comprobación pública de la realidad",
+    "fr": "État réel du projet",
+    "pt": "Verificação pública da realidade"
+  },
+  "Built in public. Still being tested.": {
+    "es": "Desarrollado en público. Todavía en pruebas.",
+    "fr": "Construit publiquement. Encore en cours de test.",
+    "pt": "Desenvolvido em público. Ainda em testes."
+  },
+  "We distinguish code that exists, automated tests that pass, and results that still need real-world verification.": {
+    "es": "Distinguimos el código existente, las pruebas automatizadas aprobadas y los resultados que aún necesitan verificación real.",
+    "fr": "Nous distinguons le code existant, les tests automatisés réussis et les résultats qui exigent encore une vérification réelle.",
+    "pt": "Distinguimos código existente, testes automatizados aprovados e resultados que ainda precisam de verificação no mundo real."
+  },
+  "SOURCE": {
+    "es": "CÓDIGO",
+    "fr": "SOURCE",
+    "pt": "CÓDIGO"
+  },
+  "What exists": {
+    "es": "Lo que existe",
+    "fr": "Ce qui existe",
+    "pt": "O que existe"
+  },
+  "Public code, project records, a restricted relay, and a read-only Mission Control dashboard.": {
+    "es": "Código público, registros del proyecto, un sistema de retransmisión restringido y un panel de control de solo lectura.",
+    "fr": "Du code public, des dossiers de projet, un relais restreint et un tableau de bord en lecture seule.",
+    "pt": "Código público, registros de projeto, um retransmissor restrito e um painel de controle somente leitura."
+  },
+  "Explore the source": {
+    "es": "Explorar el código fuente",
+    "fr": "Explorer le code source",
+    "pt": "Explorar o código-fonte"
+  },
+  "TESTS": {
+    "es": "PRUEBAS",
+    "fr": "TESTS",
+    "pt": "TESTES"
+  },
+  "What we can check": {
+    "es": "Lo que podemos comprobar",
+    "fr": "Ce que nous pouvons vérifier",
+    "pt": "O que podemos verificar"
+  },
+  "Source tests and recorded work orders have evidence links. A passing test does not prove a physical computer ran unattended.": {
+    "es": "Las pruebas de código y las tareas registradas tienen enlaces de evidencia. Una prueba aprobada no demuestra que un ordenador físico haya funcionado sin supervisión.",
+    "fr": "Les tests de code et les tâches enregistrées comportent des liens de preuve. Un test réussi ne prouve pas qu'un ordinateur physique a fonctionné sans surveillance.",
+    "pt": "Testes de código e tarefas registradas têm links de evidências. Um teste aprovado não comprova que um computador físico funcionou sem supervisão."
+  },
+  "Review documented results": {
+    "es": "Consultar los resultados documentados",
+    "fr": "Consulter les résultats documentés",
+    "pt": "Ver os resultados documentados"
+  },
+  "OPEN": {
+    "es": "PENDIENTE",
+    "fr": "EN COURS",
+    "pt": "PENDENTE"
+  },
+  "What is still missing": {
+    "es": "Lo que sigue pendiente",
+    "fr": "Ce qui reste à accomplir",
+    "pt": "O que ainda falta"
+  },
+  "Reliable master controls, real signed-in Chrome continuation, and verified sustained operation remain unfinished.": {
+    "es": "Siguen pendientes el control maestro fiable, la continuación real en Chrome con sesión iniciada y el funcionamiento continuo verificado.",
+    "fr": "Le contrôle central fiable, la reprise réelle dans Chrome avec une session connectée et le fonctionnement prolongé vérifié restent inachevés.",
+    "pt": "O controle central confiável, a continuação real no Chrome com login e a operação contínua verificada ainda não estão concluídos."
+  },
+  "See the unresolved work": {
+    "es": "Ver el trabajo pendiente",
+    "fr": "Voir les problèmes non résolus",
+    "pt": "Veja o trabalho pendente"
+  },
+  "Created and developed by David Smith. Kiara Lynn Rose Smith is the designated owner and intended generational beneficiary under the recorded project plan; the public record does not establish a completed legal transfer.": {
+    "es": "Creado y desarrollado por David Smith. Kiara Lynn Rose Smith es la propietaria designada y beneficiaria generacional prevista según el plan documentado; el registro público no demuestra una transferencia legal completada.",
+    "fr": "Créé et développé par David Smith. Kiara Lynn Rose Smith est la propriétaire désignée et la bénéficiaire générationnelle prévue selon le plan documenté ; le dossier public ne prouve pas qu'un transfert juridique a été achevé.",
+    "pt": "Criado e desenvolvido por David Smith. Kiara Lynn Rose Smith é a proprietária designada e beneficiária geracional pretendida segundo o plano registrado; o registro público não comprova uma transferência legal concluída."
+  },
+  "Read the public credit and credibility audit": {
+    "es": "Leer la auditoría pública de reconocimiento y credibilidad",
+    "fr": "Lire l'audit public des crédits et de la crédibilité",
+    "pt": "Leia a auditoria pública de créditos e credibilidade"
+  },
+  "Founding supporters are recognized for confirmed voluntary support with consent. Technical contributors receive separate credit for reviewed work; neither form of recognition grants ownership or financial returns.": {
+    "es": "Los colaboradores fundadores reciben reconocimiento por apoyo voluntario confirmado y con consentimiento. Los colaboradores técnicos reciben crédito separado por su trabajo revisado; ninguno de los dos reconocimientos concede propiedad ni beneficios financieros.",
+    "fr": "Les premiers soutiens sont remerciés pour leur contribution volontaire confirmée et avec leur consentement. Les contributeurs techniques sont crédités séparément pour leur travail examiné ; aucune de ces reconnaissances ne confère de propriété ni de rendement financier.",
+    "pt": "Apoiadores fundadores recebem reconhecimento por apoio voluntário confirmado e com consentimento. Colaboradores técnicos recebem créditos separados pelo trabalho analisado; nenhum reconhecimento concede propriedade ou retorno financeiro."
+  },
+  "See recognized contributions": {
+    "es": "Ver contribuciones reconocidas",
+    "fr": "Voir les contributions reconnues",
+    "pt": "Veja as contribuições reconhecidas"
+  },
+  "Independent work in progress · developed by David Smith · legal ownership transfer not independently established. Public updates and source:": {
+    "es": "Trabajo independiente en curso · desarrollado por David Smith · transferencia legal de propiedad no verificada de forma independiente. Actualizaciones públicas y código:",
+    "fr": "Travail indépendant en cours · développé par David Smith · transfert de propriété juridique non établi de manière indépendante. Actualités publiques et code :",
+    "pt": "Trabalho independente em andamento · desenvolvido por David Smith · transferência legal de propriedade não comprovada de forma independente. Atualizações públicas e código:"
+  },
   "AI agents": {
     "es": "Agentes de IA",
     "fr": "Agents IA",
