@@ -1,4 +1,4 @@
-import {chatId,chatURL,pickSingleTab,importQueue,capturedSidebarQueue,hasLoadedConversation,classifyOverlay,acknowledgedContinue,stableResponse,initialState,CONTINUE_TEXT} from './core.mjs';
+import {chatId,chatURL,pickSingleTab,importQueue,accountSnapshot,capturedSidebarQueue,hasLoadedConversation,classifyOverlay,acknowledgedContinue,stableResponse,initialState,CONTINUE_TEXT} from './core.mjs';
 
 // No network listener, no remote command endpoint, no private ChatGPT API, no mouse input.
 // All Chrome actions are attached to one explicitly selected existing ChatGPT tab ID.
@@ -263,7 +263,7 @@ chrome.runtime.onMessage.addListener((message,sender,sendResponse)=>{
         if(!['primary','secondary'].includes(message.account))throw Error('SELECT_VALID_ACCOUNT');
         if(s.attempt)throw Error('UNRESOLVED_ATTEMPT_REQUIRES_REVIEW');
         if(s.phase==='needs_review')throw Error('CLEAR_BLOCKER_BEFORE_ACCOUNT_CHANGE');
-        await save({account:message.account,completed:s.account===message.account?s.completed:[],queue:s.account===message.account?s.queue:[],phase:'idle',reason:null});
+        await save({...accountSnapshot(s,message.account),phase:'idle',reason:null});
         return {ok:true,message:'Account label selected. Verify the ChatGPT login in the tab; this is not an identity check.'};
       }
       case 'IMPORT_QUEUE':{
@@ -271,8 +271,10 @@ chrome.runtime.onMessage.addListener((message,sender,sendResponse)=>{
         // Reimport must NEVER erase an uncertain send and allow a duplicate.
         if(s.attempt||s.phase==='needs_review')throw Error('UNRESOLVED_ATTEMPT_REQUIRES_REVIEW');
         const queue=importQueue(message.raw);
-        await save({queue,completed:[],phase:'idle',reason:null});
-        return {ok:true,message:`Loaded ${queue.length} private conversation IDs. No messages sent.`};
+        // Reimport replaces the queue but cannot erase the completed history;
+        // otherwise a previously completed conversation could be sent again.
+        await save({queue,phase:'idle',reason:null});
+        return {ok:true,message:`Loaded ${queue.length} private conversation IDs; ${s.completed.length} prior completed checkpoints preserved. No messages sent.`};
       }
       case 'CAPTURE_VISIBLE':{
         if(live||launching)throw Error('CANNOT_CAPTURE_WHILE_RUNNING');

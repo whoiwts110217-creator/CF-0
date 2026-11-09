@@ -80,3 +80,15 @@ The owner can now build an **incomplete but useful private queue** without a Cha
 **Verification:** `node --test automation_200/continuation_chrome/tests/*.test.mjs` covers strict link parsing, wrong-host rejection, repeat capture/deduplication, account-label queue separation, no-history refusal and no extra tabs. A passing source test does not prove that the current live ChatGPT sidebar markup exposes the same link structure.
 
 **Rollback:** Revert this branch's extension source, popup and matching tests. The existing private queue/checkpoint state remains local; back it up before uninstalling the extension. Do not erase unknown-send attempts or turn a failed capture into an inferred complete chat list.
+
+## Account-label checkpoint preservation (v0.1.3 · November 9, 2026)
+
+**Fixed failure mode:** Prior to v0.1.3, importing an existing conversation list reset `completed=[]`, allowing previously completed chats to be selected again. Switching the manually selected account label also discarded the prior label's local queue and checkpoints. Both behaviors risk repeated `continue` sends and loss of useful progress.
+
+**Current source behavior:** The extension now preserves the existing completed history when a queue is reimported under the same selected label. It keeps separate queue and completed snapshots for the `primary` and `secondary` labels in the **existing extension-local** `auto08_state_v1` store, and restores them when switching back. This is an additive migration: old extension state with only `account`, `queue`, and `completed` is copied into that label's snapshot on the next switch. There is no new storage permission, cloud sync, exported conversation content, or automatic account login.
+
+**Important limitations:** Account labels are **not** authenticated provider identities; switching the label does not switch the signed-in ChatGPT account. The owner must inspect the real logged-in account and one existing Chrome tab before sending. Current-history replays and an explicit manual `Continue current chat once` are still possible by owner command; this fix prevents accidental duplicates from loss of the batch completion list. An uncertain `maybe_sent` attempt remains review-blocked across account switching and imports. Uninstalling or clearing extension storage can still destroy local checkpoints.
+
+**Verification:** `node --test automation_200/continuation_chrome/tests/*.test.mjs` covers legacy migration, separated labels, reimport preservation and rejection of malformed list inputs; GitHub Actions validates in a synthetic browser environment. Live owner-account operation remains unverified.
+
+**Rollback:** Restore the previous extension version via the Git history of the v0.1.3 changes. Existing `profiles` snapshots are purely additive; reverting to older code loses the ability to switch between them without data loss, so back up the private Chrome extension state locally first and do **not** clear pending uncertain attempts.

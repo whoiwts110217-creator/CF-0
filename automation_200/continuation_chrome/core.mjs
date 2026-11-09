@@ -91,8 +91,38 @@ export function stableResponse(prev, current, now, settleMs=8000) {
   if (prev?.text !== text || !Number.isFinite(prev?.since)) return {ready:false,text,since:now};
   return {ready:now-prev.since>=settleMs, text, since:prev.since};
 }
+// Account labels are owner-selected, not authenticated ChatGPT identities.
+// Maintain independent local queues/completion receipts when the owner switches
+// labels. Migrates the legacy single-active-account v1 state without dropping
+// earlier checkpoints. No account information leaves Chrome extension storage.
+export function accountSnapshot(state, nextAccount) {
+  if (!['primary','secondary'].includes(nextAccount)) throw Error('SELECT_VALID_ACCOUNT');
+  const src = state && typeof state === 'object' ? state : {};
+  const profiles = {};
+  for(const label of ['primary','secondary']){
+    const saved=src.profiles?.[label];
+    if(saved && Array.isArray(saved.queue) && Array.isArray(saved.completed)){
+      profiles[label]={queue:[...saved.queue],completed:[...saved.completed]};
+    }
+  }
+  // Always snapshot the currently active legacy fields. They are authoritative
+  // until the next account switch; a stored profile may be one step behind.
+  if(['primary','secondary'].includes(src.account)){
+    profiles[src.account]={queue:Array.isArray(src.queue)?[...src.queue]:[],
+      completed:Array.isArray(src.completed)?[...src.completed]:[]};
+  }
+  // Preserve an older pre-selection import rather than throwing it away.
+  if(!src.account && !profiles[nextAccount]){
+    profiles[nextAccount]={queue:Array.isArray(src.queue)?[...src.queue]:[],
+      completed:Array.isArray(src.completed)?[...src.completed]:[]};
+  }
+  const destination=profiles[nextAccount]||{queue:[],completed:[]};
+  return {profiles,account:nextAccount,
+    queue:[...destination.queue],completed:[...destination.completed]};
+}
+
 export function initialState() {
   return {schema:'cf0.auto08.chrome.v1', account:null, selectedTabId:null,
-    phase:'idle', reason:'NOT_CONNECTED', queue:[], completed:[], currentChat:null,
+    phase:'idle', reason:'NOT_CONNECTED', queue:[], completed:[], profiles:{}, currentChat:null,
     attempt:null, updatedAt:null, lastResult:null, maxChats:1};
 }

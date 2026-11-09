@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {readFileSync} from 'node:fs';
-import {chatId,chatURL,eligibleTabs,pickSingleTab,importQueue,capturedSidebarQueue,hasLoadedConversation,classifyOverlay,acknowledgedContinue,stableResponse,initialState,CONTINUE_TEXT} from '../core.mjs';
+import {chatId,chatURL,eligibleTabs,pickSingleTab,importQueue,accountSnapshot,capturedSidebarQueue,hasLoadedConversation,classifyOverlay,acknowledgedContinue,stableResponse,initialState,CONTINUE_TEXT} from '../core.mjs';
 const id='11111111-1111-4111-8111-111111111111';
 test('only existing, exactly one ChatGPT tab is eligible',()=>{
  assert.equal(pickSingleTab([{id:1,url:chatURL(id)},{id:2,url:'https://github.com'}]).id,1);
@@ -32,6 +32,30 @@ test('a composer with no loaded conversation must fail closed',()=>{
  assert.equal(hasLoadedConversation({userCount:0,assistantCount:1}),true);
  assert.equal(hasLoadedConversation({userCount:NaN,assistantCount:2}),false);
  assert.equal(hasLoadedConversation(null),false);
+});
+test('owner-selected account labels preserve two independent queues and checkpoints',()=>{
+ const first='11111111-1111-4111-8111-111111111111';
+ const other='22222222-2222-4222-8222-222222222222';
+ let s={...initialState(),account:'primary',queue:[{id:first}],completed:[first]};
+ s={...s,...accountSnapshot(s,'secondary')};
+ assert.deepEqual(s.queue,[]);
+ assert.deepEqual(s.completed,[]);
+ s={...s,queue:[{id:other}],completed:[other]};
+ s={...s,...accountSnapshot(s,'primary')};
+ assert.deepEqual(s.queue.map(x=>x.id),[first]);
+ assert.deepEqual(s.completed,[first]);
+ s={...s,...accountSnapshot(s,'secondary')};
+ assert.deepEqual(s.queue.map(x=>x.id),[other]);
+ assert.deepEqual(s.completed,[other]);
+ assert.throws(()=>accountSnapshot(s,'unknown'),/SELECT_VALID_ACCOUNT/);
+});
+test('legacy pre-selection imports migrate without data loss',()=>{
+ const id='11111111-1111-4111-8111-111111111111';
+ const old={...initialState(),queue:[{id}],completed:[id]};
+ const state=accountSnapshot(old,'secondary');
+ assert.deepEqual(state.queue.map(x=>x.id),[id]);
+ assert.deepEqual(state.completed,[id]);
+ assert.equal(state.profiles.secondary.completed[0],id);
 });
 test('known harmless overlay resumes, unknown/approval/signin blocks',()=>{
  assert.equal(classifyOverlay({dialogVisible:true,dialogText:"What's new in ChatGPT"}),'DISMISS_WITH_ESCAPE');
