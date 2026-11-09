@@ -62,11 +62,16 @@ test("source HTML exposes all four categories with a disabled master switch and 
   const html=readFileSync(new URL("../dist/index.html",import.meta.url),"utf8");
   const ui=readFileSync(new URL("../dist/controls-ui.mjs",import.meta.url),"utf8");
   for(const id of ["automation-controls","control-chatgpt","control-github","control-windows",
-    "control-continuation","control-stage-research","control-copy-stage","control-plan-preview"])
+    "control-continuation","control-stage-research","control-copy-stage","control-plan-preview",
+    "control-github-count","control-github-description"])
     assert.ok(html.includes('id="'+id+'"'),"Missing "+id);
   assert.match(html,/type="checkbox" role="switch" disabled/);
   assert.match(html,/src="\.\/controls-ui\.mjs"/);
   assert.match(ui,/addEventListener\("change",importPrivate\)/);
   assert.match(ui,/disabled=true/);
+  assert.match(ui,/const workflowRecords=rows\.filter/);
+  assert.match(ui,/control-github-count/);
+  assert.match(ui,/control-github-description/);
+  assert.doesNotMatch(html,/20 workflows: 5 scheduled, 15 event\/manual/);
   assert.doesNotMatch(ui,/fetch\(|sendMessage\(|exec\(|localStorage\.|sessionStorage\./);
 });
