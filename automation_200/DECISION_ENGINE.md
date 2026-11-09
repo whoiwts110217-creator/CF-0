@@ -24,6 +24,16 @@ The [decision engine](decision_engine.py) refuses physical-HP work, every HP-ins
 
 The existing [CF-118 retry journal](retry_evidence.py) remains the only local durable failure log; [its adapter](attempt_history_cf118.py) can generate a bounded *proposal* from reviewed local journal evidence. This does not silently activate the journal in a scheduled executor, establish independent failure provenance, or authorize a retry.
 
+## Watchdog packet readback
+
+For the existing Work executor, use the latest completed successful scheduled [Channel Evidence Watchdog run](https://github.com/whoiwts110217-creator/CF-0/actions/workflows/cf0-channel-watchdog.yml) on `main`. Read the full GitHub REST run and matching `audit` job metadata from `actions/runs/<run-id>` and `actions/jobs/<job-id>`. Obtain the decoded log for that same job through the existing GitHub connection. Use the following command in a checkout with those inputs.
+
+```sh
+python -m automation_200.watchdog_readback --run-metadata run.json --job-metadata job.json --job-log job.log
+```
+
+The readback records the run, attempt, job, source commit, and SHA-256 of the exact compact JSON payload after `CF0_WORK_HANDOFF=`. In the same saved Work result, cite that readback and separately record the actual selected or held task and its outcome. Check the current registry and owner gates before making a decision. Missing or ambiguous evidence leaves consumption unverified. A manual readback demonstrates retrieval. A scheduled handoff needs a matching result from an actual scheduled Work run. HP origin and execution authority require their own evidence.
+
 ## Reproducible commands
 
 From the CF-0 repository root:
