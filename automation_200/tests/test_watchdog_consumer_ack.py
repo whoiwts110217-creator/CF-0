@@ -1,0 +1,36 @@
+import unittest
+from automation_200.watchdog_consumer_ack import verify_consumer_ack
+
+
+class ConsumerAckTests(unittest.TestCase):
+    def setUp(self):
+        self.producer = {"schema": "cf0.work_handoff_readback.v1",
+                         "watchdog_run_id": 42689054389, "watchdog_run_attempt": 1,
+                         "packet_sha256": "a" * 64, "execution_authorized": False}
+        self.ack = {"schema": "cf0.executor_packet_decision.v1",
+                    "watchdog_run_id": 42689054389, "watchdog_run_attempt": 1,
+                    "packet_sha256": "a" * 64, "executor_run_id": "synthetic-test-1",
+                    "decision": "deferred", "execution_authorized": False}
+
+    def test_matching_synthetic_decision_is_only_source_correlation(self):
+        result = verify_consumer_ack(self.producer, self.ack)
+        self.assertTrue(result["correlated"])
+        self.assertFalse(result["execution_authorized"])
+        self.assertFalse(result["hp_identity_attested"])
+        self.assertEqual(result["decision"], "deferred")
+
+    def test_mismatch_and_authority_drift_fail_closed(self):
+        for patch in ({"watchdog_run_id": 1}, {"watchdog_run_attempt": 2},
+                      {"packet_sha256": "b" * 64}, {"executor_run_id": "../bad"},
+                      {"decision": "execute_hp"}, {"execution_authorized": True},
+                      {"schema": "unknown"}, {"watchdog_run_id": True}):
+            with self.subTest(patch=patch), self.assertRaises(ValueError):
+                verify_consumer_ack(self.producer, {**self.ack, **patch})
+        with self.assertRaises(ValueError):
+            verify_consumer_ack({**self.producer, "execution_authorized": True}, self.ack)
+        with self.assertRaises(ValueError):
+            verify_consumer_ack(self.producer, {**self.ack, "unexpected": "data"})
+
+
+if __name__ == "__main__":
+    unittest.main()
