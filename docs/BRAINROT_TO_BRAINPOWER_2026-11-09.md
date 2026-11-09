@@ -37,3 +37,15 @@ Pilot 10–20 voluntarily participating learners, if later specifically authoriz
 **Present engineering acceptance:** new lab is isolated from existing dashboard calculations, holds no account authority, does not change registry data, does not write browser storage and passes source regression checks. **Open:** actual browser usability, independent learning outcomes and attribution across future versions.
 
 **Next action:** source-test the lab, verify it on the deployed GitHub Pages dashboard, then consider a small opt-in comparison without user profiling.
+
+
+## v0.2 — apply the lesson, not just guess it
+
+**Implementation:** [gameful.mjs](../automation_200/mission_control/dist/gameful.mjs) provides four original prompts and four second-stage *remix* prompts; [gameful-ui.mjs](../automation_200/mission_control/dist/gameful-ui.mjs) presents each pair in order. The user must make a fresh true/false prediction in a *different scenario* before proceeding to the next encounter. Both true and false answers occur in the remix stage to reduce a trivial always-false strategy. [Source tests](../automation_200/mission_control/tests/gameful.test.mjs) check all answer keys, source links, continuity parents and zero account/storage authority. **Unit tests do not prove live browser usability or actual learning.**
+
+**Continuity:** same stable ID `CF-EXP-GAME-LEARN-001`; parents `FIN-09`, `CF-CORE`, `RES-04`; user directive from November 9, 2026 ("mainstream video games," no single franchise; "everything needs to be continuity"). No new original entry is added to the historical 62-project reconstruction. The feature is source-only and optional; no new avatar assets or third-party logos, no one-time purchase hooks, no deceptive fake achievement, no notification requirement, no infinite feed, and no saved scores. These are familiar *genres* (mystery, strategy, science puzzle, RPG), not copyrighted character impersonations.
+
+**Important validity limit:** immediate transfer within the same session can show that a participant responded to a new example. It cannot demonstrate durable learning, because the explanation precedes the remix and the learner has recently seen the rule. The next stage is an opt-in **delayed recall** check 48 hours later, with a differently worded prompt, and a plain-language comparison version. Such a pilot needs consent, honest participation counts, and separate evidence. No user telemetry has been collected by this page.
+
+**Reproducibility checklist:** run `node --test automation_200/mission_control/tests/*.test.mjs`; inspect the GitHub Pages build with a real browser; confirm the original dashboard source, controls and automation master switch are unchanged; verify a new quiz ends without implying revenue/HP proof; register commits and failures in the normal continuity trail. Rollback only the new `gameful*.mjs` files and isolated learning-lab DOM if the feature regresses; preserve the original dashboard and this project history. 
+
