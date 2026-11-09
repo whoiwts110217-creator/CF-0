@@ -14,7 +14,15 @@ The public cloud can now produce a testable **proposal** for which eligible CF-2
 4. Use the existing [priority selector](priority_selector.py) for eligible work. An explicit owner priority may move an eligible task earlier but cannot bypass a dependency, failed-retry ceiling or HP gate.
 5. Output at most four ready proposals, per-task reasoning and counts of held tasks. No selected task is auto-executed. A scheduled executor must inspect the source and perform only work separately authorized by its operating rules.
 
-The latest missing HP report should not block independent tests, code repairs or bounded finance/creative drafting. Failed tasks are not automatically retried forever, and no source patch counts as a verified real-HP work order.
+Missing, stale or fresh public HP reports must not block independent tests, code repairs or bounded finance/creative drafting. Failed tasks are not automatically retried forever, and no source patch counts as a verified real-HP work order.
+
+## CF-119 — explicit HP authority proof boundary (source-level)
+
+The [HP authority gate](hp_authority_gate.py) now supplies the cloud selector's hardware/owner-local holds and an explicit read-only `hp_proof_gate` result. It does **not** issue credentials or grant access. Even an owner-supplied public heartbeat, correctly matched public receipt, overlapping Windows scheduler timestamp, and unverified statement of approval cannot prove that the observed device is the authorized HP or that an HP action was authorized. All diagnostic inputs leave `hp_execution_authorized=false`.
+
+The [decision engine](decision_engine.py) refuses physical-HP work, every HP-install stream entry, the enumerated owner-local tasks, and malformed physical-HP flags; selected ordinary work is always `propose_source_work_only`. Owner preference can reorder eligible source proposals but **never** turn a proposal into an HP command. Real owner-local opt-in, device/scheduler provenance, and capability rollback remain separate requirements. [Negative regression tests](tests/test_hp_authority_gate_cf119.py) cover forged confidence claims, malformed flags, and owner overrides without accessing a machine.
+
+The existing [CF-118 retry journal](retry_evidence.py) remains the only local durable failure log; [its adapter](attempt_history_cf118.py) can generate a bounded *proposal* from reviewed local journal evidence. This does not silently activate the journal in a scheduled executor, establish independent failure provenance, or authorize a retry.
 
 ## Reproducible commands
 
