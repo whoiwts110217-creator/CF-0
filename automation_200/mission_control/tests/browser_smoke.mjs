@@ -69,7 +69,13 @@ async function evaluate(expression) {
 async function key(keyName) {
   const keyCode = keyName === "Tab" ? 9 : 13;
   const code = keyName === "Tab" ? "Tab" : "Enter";
-  await send("Input.dispatchKeyEvent", { type: "keyDown", key: keyName, code, windowsVirtualKeyCode: keyCode, nativeVirtualKeyCode: keyCode });
+  if (keyName === "Enter") {
+    // CDP Enter needs a char event on some Chromium versions to activate buttons.
+    await send("Input.dispatchKeyEvent", { type: "rawKeyDown", key: keyName, code, windowsVirtualKeyCode: keyCode, nativeVirtualKeyCode: keyCode });
+    await send("Input.dispatchKeyEvent", { type: "char", key: keyName, code, text: "\r", unmodifiedText: "\r", windowsVirtualKeyCode: keyCode, nativeVirtualKeyCode: keyCode });
+  } else {
+    await send("Input.dispatchKeyEvent", { type: "keyDown", key: keyName, code, windowsVirtualKeyCode: keyCode, nativeVirtualKeyCode: keyCode });
+  }
   await send("Input.dispatchKeyEvent", { type: "keyUp", key: keyName, code, windowsVirtualKeyCode: keyCode, nativeVirtualKeyCode: keyCode });
 }
 async function waitFor(test, label) {
@@ -125,6 +131,7 @@ try {
   const falseFocused = await evaluate("document.activeElement?.dataset?.gamefulAnswer");
   assert.equal(falseFocused, "false", "Tab from heading should reach false answer");
   await key("Enter");
+  await waitFor("document.getElementById('gameful-result').textContent.includes('Correct')", "keyboard answer feedback");
   const grade = await evaluate(`({feedback:document.getElementById('gameful-result').textContent,
     focus:document.activeElement?.id,explanation:document.getElementById('gameful-explanation').textContent,
     source:document.getElementById('gameful-source').href,nextHidden:document.getElementById('gameful-next').hidden})`);
