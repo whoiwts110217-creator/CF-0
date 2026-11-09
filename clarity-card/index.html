@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#12211a">
+<meta name="description" content="Make a clear, testable action plan from a hard question. Free, private, no sign-in. Created as an experimental Caveman Focus worksheet.">
+<title>Clarity Card — Free Evidence-to-Action Worksheet | Caveman Focus</title>
+<link rel="canonical" href="https://whoiwts110217-creator.github.io/CF-0/clarity-card/">
+<style>
+:root{color-scheme:dark;--bg:#12211a;--panel:#1e3027;--panel2:#15271e;--text:#f4f7ef;--muted:#c4d1c7;--line:#567365;--accent:#cce994;--focus:#ecfca7}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font:16px/1.55 system-ui,-apple-system,"Segoe UI",sans-serif}
+a{color:var(--accent)}a:focus-visible,button:focus-visible,textarea:focus-visible,input:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
+.wrap{width:min(1020px,calc(100% - 32px));margin:auto}.skip{position:absolute;left:10px;top:-100px;background:var(--accent);color:var(--bg);padding:8px}.skip:focus{top:10px}
+header{border-bottom:1px solid var(--line);padding:14px 0}header .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.brand{font-weight:850;letter-spacing:.09em;text-decoration:none;color:var(--text)}.brand span{color:var(--accent)}nav{display:flex;flex-wrap:wrap;gap:12px}
+nav a{display:inline-flex;min-height:44px;align-items:center}
+.hero{padding:42px 0 28px}.eyebrow{text-transform:uppercase;letter-spacing:.13em;color:var(--accent);font-size:.76rem;font-weight:800}
+h1{font-size:clamp(2rem,6vw,3.65rem);line-height:1.09;margin:8px 0 15px;letter-spacing:-.04em}h2{font-size:1.28rem;line-height:1.3}h3{font-size:1.07rem}
+.lead{max-width:720px;color:var(--muted);font-size:1.1rem}.tiny{color:var(--muted);font-size:.91rem}.layout{display:grid;grid-template-columns:1fr 1fr;gap:22px;padding:12px 0 28px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:22px;min-width:0}
+.field{margin:16px 0}.field label{display:block;font-weight:750;margin-bottom:7px}.field small{display:block;font-size:.84rem;color:var(--muted);margin-bottom:8px}
+textarea{display:block;width:100%;min-height:76px;padding:11px 12px;background:var(--panel2);color:var(--text);border:1px solid #829c8a;border-radius:9px;font:inherit;resize:vertical}
+textarea::placeholder{color:#afc0b2}.actions{display:flex;gap:9px;flex-wrap:wrap;margin:16px 0}.btn{appearance:none;display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:9px 14px;border:1px solid var(--accent);border-radius:9px;background:var(--accent);color:#17261a;font:inherit;font-weight:780;text-decoration:none;cursor:pointer}
+.btn.alt{background:transparent;color:var(--text);border-color:#83998b}.btn:hover{filter:brightness(1.08)}
+#card-preview{white-space:pre-wrap;overflow-wrap:anywhere;background:#14241c;border:1px solid var(--line);border-radius:10px;min-height:250px;padding:17px;font:inherit;line-height:1.66}
+details{border:1px solid var(--line);border-radius:10px;margin:16px 0;padding:12px}summary{cursor:pointer;font-weight:730;padding:7px 0}
+.status{min-height:24px;color:var(--accent)}.section{padding:18px 0 35px}.support{border:1px solid #748965;border-radius:14px;padding:22px;background:var(--panel2)}
+footer{border-top:1px solid var(--line);padding:25px 0 50px;color:var(--muted);font-size:.89rem}
+@media(max-width:760px){.layout{grid-template-columns:1fr}.hero{padding-top:28px}.panel{padding:16px}nav{gap:9px}}
+@media print{*{color:#121a14!important;background:white!important;border-color:#999!important;box-shadow:none!important}.no-print,header,footer,#editor{display:none!important}.layout{display:block}.layout>.panel{border:0;padding:0}#card-preview{min-height:0;white-space:pre-wrap;font-size:11pt}.hero{padding:0 0 12px}a{text-decoration:none!important}body{font-size:11pt}}
+</style>
+</head>
+<body>
+<a class="skip" href="#editor">Skip to worksheet</a>
+<header class="no-print"><div class="wrap"><a class="brand" href="../">CAVEMAN <span>FOCUS</span></a><nav aria-label="Main navigation"><a href="../">Home</a><a href="../mission-control/#learning-lab">Learning Lab</a><a href="../first-drop/">Support</a></nav></div></header>
+<main class="wrap">
+<div class="hero"><p class="eyebrow">Free tool · No sign-in · No account connection</p><h1>One hard question. One clear next step.</h1><p class="lead">The Clarity Card is a small evidence-to-action worksheet. It helps you turn a vague problem into something you can actually test, without pretending a guess is proof.</p>
+<p class="tiny">Your writing stays in this browser page. This tool does not send, save, or track responses. Download a text file or print your work if you want to keep it. It is a planning aid, not professional legal, medical or financial advice.</p></div>
+<div class="layout">
+<section class="panel" id="editor" aria-labelledby="worksheet-title">
+<h2 id="worksheet-title">Build your card</h2>
+<p class="tiny">Fill any fields you want. The card updates immediately.</p>
+<form id="clarity-form">
+<div class="field"><label for="problem">1 · What is the real question?</label><small>One sentence. Avoid trying to solve everything at once.</small><textarea id="problem" maxlength="650" placeholder="What am I trying to learn, decide, or improve?"></textarea></div>
+<div class="field"><label for="guess">2 · What's your first guess?</label><small>A starting idea, not a confirmed result.</small><textarea id="guess" maxlength="650" placeholder="My current guess is…"></textarea></div>
+<div class="field"><label for="hypothesis">3 · What could be tested?</label><small>Make a prediction you could get wrong.</small><textarea id="hypothesis" maxlength="650" placeholder="If X, I expect to observe Y under Z conditions…"></textarea></div>
+<div class="field"><label for="evidence">4 · What evidence do you actually have?</label><small>Include the source, observation date, or say “not collected yet.”</small><textarea id="evidence" maxlength="900" placeholder="I observed… The source is…"></textarea></div>
+<div class="field"><label for="alternative">5 · What would change your mind?</label><small>Think of counterexamples, confounders, or missing evidence.</small><textarea id="alternative" maxlength="650" placeholder="I would reconsider if…"></textarea></div>
+<div class="field"><label for="action">6 · What's the smallest useful next action?</label><small>Prefer something you can safely complete and check.</small><textarea id="action" maxlength="650" placeholder="Next I will…"></textarea></div>
+<div class="field"><label for="criterion">7 · What would count as completion?</label><small>Set a result you could verify; “I tried” is not “it worked.”</small><textarea id="criterion" maxlength="650" placeholder="I can count this as tested when…"></textarea></div>
+<div class="actions"><button class="btn" type="button" id="example">Show example</button><button class="btn alt" type="reset">Clear card</button></div>
+</form>
+</section>
+<section class="panel" aria-labelledby="preview-title">
+<h2 id="preview-title">Your Clarity Card</h2><p class="tiny">Preview — editable only through the worksheet on the left/above.</p>
+<div id="card-preview" role="region" aria-label="Clarity Card preview" tabindex="0"></div>
+<div class="actions no-print"><button class="btn" id="download" type="button">Save as .txt</button><button class="btn alt" id="copy" type="button">Copy card</button><button class="btn alt" id="print" type="button">Print / Save PDF</button></div>
+<p class="status no-print" id="status" role="status" aria-live="polite"></p>
+<details class="no-print"><summary>What the example demonstrates</summary><p>The sample explores whether strangers can understand a public project page. It includes a proposed test, not fabricated visitor findings. Use it as a model for a specific, falsifiable next step.</p></details>
+</section>
+</div>
+<section class="section no-print"><div class="support">
+<h2>Free to use. Support is optional.</h2>
+<p>This working worksheet is public and free. If it genuinely helps, you can voluntarily support ongoing Caveman Focus experiments. A suggested $5 is **not** a required price; any amount, or nothing, is fine. Giving does not buy ownership, special access, or a financial return.</p>
+<div class="actions"><a class="btn" href="https://cash.app/$LAZYBLACKBEAN" target="_blank" rel="noopener noreferrer">Optional support · Cash App</a><a class="btn alt" href="../first-drop/">How support works</a><a class="btn alt" href="https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/PROJECT_STATUS.md" target="_blank" rel="noopener noreferrer">See project evidence</a></div>
+<p class="tiny">This page does not process payments or know whether a contribution occurred. Confirm the Cash App recipient inside the payment app before sending anything.</p>
+</div></section>
+</main>
+<footer class="no-print"><div class="wrap">Caveman Focus · An experimental clarity tool. Created and developed by David Smith; designated owner and intended generational beneficiary: Kiara Lynn Rose Smith under the project's recorded plan (not independent legal-transfer proof). <a href="https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/BUSINESS.md">Funding and evidence boundaries</a>.</div></footer>
+<script>
+"use strict";
+(() => {
+  // Browser-local only: no network requests, cookies, storage, account links, or telemetry.
+  const ids = ["problem","guess","hypothesis","evidence","alternative","action","criterion"];
+  const labels = ["Question","Guess (not proof)","Testable hypothesis","Evidence & sources","Possible disconfirmation","Smallest next action","Acceptance / verification"];
+  const fields = ids.map(id => document.getElementById(id));
+  const preview = document.getElementById("card-preview");
+  const status = document.getElementById("status");
+  const form = document.getElementById("clarity-form");
+  function renderText(){
+    let lines=["CAVEMAN FOCUS · CLARITY CARD","Guess → Hypothesis → Evidence → Test → Recheck",""];
+    for(let i=0;i<ids.length;i++){
+      const value=fields[i].value.trim();
+      lines.push(labels[i]+":");
+      lines.push(value || "(not recorded)");
+      lines.push("");
+    }
+    lines.push("STATUS: Draft worksheet. Nothing here is proof of a completed project.");
+    return lines.join("\n");
+  }
+  function update(){preview.textContent=renderText();status.textContent="";}
+  fields.forEach(field=>field.addEventListener("input",update));
+  document.getElementById("example").addEventListener("click",()=>{
+    const values=[
+      "Can a first-time visitor explain what our project actually does?",
+      "The homepage may be too technical for someone new.",
+      "After a one-minute read, at least 2 of 3 consenting volunteers will describe the same basic purpose in their own words.",
+      "Not collected yet. Source page: the current public homepage.",
+      "If they consistently explain the purpose correctly, or disagree for different reasons, revise my guess.",
+      "Ask three willing people to read the homepage once; record their own descriptions without names or private details.",
+      "Record three responses, the page version and date, and compare them against a predefined plain-language description."
+    ];
+    fields.forEach((el,i)=>{el.value=values[i]});
+    update();fields[0].focus();status.textContent="Loaded a proposed example. No visitor study was performed.";
+  });
+  form.addEventListener("reset",()=>{requestAnimationFrame(()=>{update();status.textContent="Card cleared."})});
+  document.getElementById("download").addEventListener("click",()=>{
+    const blob=new Blob([renderText()],{type:"text/plain;charset=utf-8"});
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement("a");a.href=url;a.download="caveman-focus-clarity-card.txt";
+    document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000);
+    status.textContent="Text file offered for download. Check your browser's downloads.";
+  });
+  document.getElementById("copy").addEventListener("click",async()=>{
+    try{if(!navigator.clipboard?.writeText)throw Error("Clipboard unavailable");
+      await navigator.clipboard.writeText(renderText());status.textContent="Clarity Card copied.";
+    }catch{status.textContent="Clipboard access isn't available here. Use Save as .txt or Print / Save PDF instead."}
+  });
+  document.getElementById("print").addEventListener("click",()=>window.print());
+  update();
+})();
+</script>
+</body>
+</html>
