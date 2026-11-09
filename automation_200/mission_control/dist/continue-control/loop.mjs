@@ -23,7 +23,7 @@ export function importConversationIndex(raw) {
       title: typeof item.title === "string" && item.title.trim()
         ? item.title.trim().slice(0, 160) : "Untitled conversation",
       selected: true,
-      status: "queued"
+      status: "queued", completedPass: 0
     });
   }
   return result;
@@ -40,7 +40,8 @@ export function makeCheckpoint({account, queue, pass = 0, events = []}) {
   return {
     schema: "cf0.auto08.private_checkpoint.v1",
     // The human user downloads this locally; never publish it to public GitHub.
-    account, pass, queue: queue.map(x => ({id:x.id, title:x.title, selected:!!x.selected, status:x.status})),
+    account, pass, queue: queue.map(x => ({id:x.id, title:x.title, selected:!!x.selected, status:x.status,
+      completedPass:Number.isSafeInteger(x.completedPass) && x.completedPass >= 0 ? x.completedPass : 0})),
     events: events.slice(-1000)
   };
 }
@@ -58,6 +59,11 @@ export async function runSerial({queue, driver, onEvent = () => {},
   for (let pass = initialPass; pass <= maxPasses; pass++) {
     for (const chat of eligible) {
       if (signal?.aborted) return {status:"stopped", pass, sent, finished};
+      // Skip only provably completed work in the current pass on checkpoint resumption.
+      if (Number.isSafeInteger(chat.completedPass) && chat.completedPass >= pass) {
+        onEvent({type:"checkpoint_skip", pass, chatId:chat.id});
+        continue;
+      }
       // Never resume chat if a previous attempt's outcome is unknown.
       if (chat.status === "unknown") return {status:"needs_review", pass, chatId:chat.id, sent, finished};
       onEvent({type:"starting", pass, chatId:chat.id});
@@ -80,6 +86,7 @@ export async function runSerial({queue, driver, onEvent = () => {},
         return {status:"needs_review", pass, chatId:chat.id, sent, finished};
       }
       chat.status = "completed";
+      chat.completedPass = pass;
       finished++;
       onEvent({type:"completed", pass, chatId:chat.id});
       if (signal?.aborted) return {status:"stopped", pass, sent, finished};
