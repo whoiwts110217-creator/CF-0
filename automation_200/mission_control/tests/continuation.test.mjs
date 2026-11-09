@@ -1,7 +1,7 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import {CONTINUE_MESSAGE, importConversationIndex, selectionSummary,
-  makeCheckpoint, runSerial} from "../continue-control/loop.mjs";
+  makeCheckpoint, runSerial} from "../dist/continue-control/loop.mjs";
 
 test("index retains only metadata and deduplicates", () => {
   const rows = [{id:"123e4567-e89b-12d3-a456-426614174000", title:"First", mapping:{secret:"not retained"}},
