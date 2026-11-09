@@ -2,19 +2,23 @@
 
 **November 9, 2026 · Public invitation · Voluntary support**
 
-**First drop. Get your name in the Caveman Focus Hall of Fame.**
+**First Drop — help build Caveman Focus, with optional Founding Supporters recognition.**
 
-We're opening the doors to our first wave of supporters. **Give any amount and you're in.** If you've ever wanted to get in on something while it's still being built, here's your chance.
+We're opening the doors to our first wave of supporters. **Any amount is welcome; verified supporters may opt into public recognition.** If you've ever wanted to get in on something while it's still being built, here's your chance.
 
 Caveman Focus is a developing project about making complicated questions easier to understand, ideas easier to test, and useful AI-assisted tools easier to build and share. It starts with a simple habit: **guess → hypothesis → evidence → proof**. We're documenting experiments, progress, and failures publicly—not pretending the unfinished system is already complete.
 
 Every contribution helps keep the work moving. There is no minimum amount and nothing to buy. If you don't want to give, don't. If you do, it helps. Nothing more, nothing less.
 
-**[Get in on the first drop · Cash App $LAZYBLACKBEAN](https://cash.app/$LAZYBLACKBEAN)**
+**[Try the free 60-second clarity exercise](https://github.com/whoiwts110217-creator/CF-0/issues/21)** — open to everyone; paying is not required.
+
+**[Support the First Drop · Cash App $LAZYBLACKBEAN](https://cash.app/$LAZYBLACKBEAN)**
 
 **[See the Hall of Fame invitation and supporter wall](https://caveman-focus-support.whoiwts110217.chatgpt.site/hall-of-fame)**
 
-Want your name on the wall? Put **"Hall of Fame"** and the name or handle you'd like shown in your Cash App payment note. We'll add supporter names only after the contribution and chosen public name are confirmed; anonymous support is welcome.
+Want your name on the Founding Supporters wall? Put **"Hall of Fame"** and the name or handle you'd like shown in your Cash App payment note. We'll add supporter names only after the contribution and chosen public name are confirmed; anonymous support is welcome.
+
+The separate [Contributors & Discoveries Hall of Fame](HALL_OF_FAME.md) records reviewed technical contributions, not financial support. Neither supporter recognition nor a donation confers authorship, technical verification, or ownership.
 
 No financial return, token, NFT, investment stake, special access, or prize is being sold or promised. Contributions are voluntary support for an independent project, **not tax-deductible charitable donations**. Hall of Fame recognition is a thank-you, not a financial entitlement.
 
