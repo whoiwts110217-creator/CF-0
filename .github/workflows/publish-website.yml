@@ -52,6 +52,8 @@ jobs:
         run: node --test i18n/home.test.mjs
       - name: Test public Clarity Card tool and funding boundaries
         run: node --test clarity-card/tests/*.test.mjs
+      - name: Test First Drop iPhone sharing and copy fallbacks
+        run: node --test first-drop/tests/*.test.mjs
       - name: Build commit-pinned public Mission Control fallback
         run: python automation_200/mission_control/build_snapshot.py
       - name: Rebuild Dreamkiller v0.2 cartridge from public source
