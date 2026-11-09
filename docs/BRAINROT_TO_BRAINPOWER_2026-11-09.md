@@ -54,3 +54,16 @@ Pilot 10–20 voluntarily participating learners, if later specifically authoriz
 
 A versioned [plain-versus-playful evaluation protocol](BRAINROT_LEARNING_PILOT_PROTOCOL_V0_1.md) now defines equivalent teaching content, baseline, immediate transfer and delayed recall, recruitment/consent boundaries, attrition reporting, privacy and disconfirmation. This is **a draft protocol**, not collected participant results. No autonomous reminders or tracking were enabled.
 
+
+## v0.3 — Plain vs. Playful presentation (November 9)
+
+The original learning lab now supports **two owner-selectable presentation modes**. `Playful` uses familiar game-mission and remix language. `Plain` uses neutral evidence-exercise headings, button labels and success messages. **Both read the same four original questions, four remix questions, answer keys, explanations, takeaways and evidence links** from the pre-existing `gameful.mjs` source.
+
+**Implementation links:** [presentation functions](../automation_200/mission_control/dist/gameful-modes.mjs), [UI mode locking](../automation_200/mission_control/dist/gameful-ui.mjs), [source parity tests](../automation_200/mission_control/tests/gameful.test.mjs), [simulated browser-DOM interaction test](../automation_200/mission_control/tests/gameful-ui-dom.test.mjs), [Mission Control](https://whoiwts110217-creator.github.io/CF-0/mission-control/#learning-lab).
+
+**Design rule:** the user selects a mode *before* opening the exercise. The choice is locked during that run and can be changed after closing/restarting. It is not written to browser storage, sent to a server, or linked to a user. The page does **not** randomize users, count participation or compare outcomes. This is a demonstration and engineering prerequisite for a later consent-based evaluation, **not an experiment demonstrating improvement**.
+
+**Continuity:** still `CF-EXP-GAME-LEARN-001` with related parent records `FIN-09`, `CF-CORE`, `RES-04` under [UCC-001](UNIVERSAL_CONTINUITY_CONTRACT.md). The public `CF-200` verified work-order count and owner permissions are unchanged by this educational feature. New code was added to existing Mission Control without replacing its control center or HP/AUTO-08 functionality.
+
+**Open acceptance:** real iPhone/desktop browser interaction, cross-browser accessibility, any durable learning effect, and a properly randomized opt-in evaluation. Revert the mode-specific selector and `gameful-modes.mjs` if it regresses without removing the original v0.2 educational content or the documented chronology.
+
