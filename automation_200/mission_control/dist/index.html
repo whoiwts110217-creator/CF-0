@@ -10,6 +10,7 @@
   <link rel="icon" href="./mark.svg" type="image/svg+xml">
   <link rel="stylesheet" href="./style.css">
   <script type="module" src="./app.mjs"></script>
+  <script type="module" src="./controls-ui.mjs"></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to mission control</a>
@@ -21,6 +22,7 @@
       </a>
       <nav aria-label="Main navigation">
         <a href="#overview">Overview</a>
+        <a href="#automation-controls">Automation controls</a>
         <a href="#work-orders">Work orders</a>
         <a href="#tool-power">Tool power</a>
         <a href="#runtime-evidence">Local evidence</a>
@@ -98,6 +100,79 @@
           <p id="watchdog-note" class="evidence-note" role="status">The cloud watchdog is a read-only GitHub Actions check. It does not prove HP execution.</p>
           <p class="evidence-note">Scheduler verification requires a matching Windows task run and wrapper outcome.</p>
         </article>
+      </div>
+    </section>
+
+
+    <section id="automation-controls" class="card control-center" aria-labelledby="automation-controls-title">
+      <div class="section-heading control-heading">
+        <div>
+          <p class="eyebrow">08 / MASTER AUTOMATION CONTROLS</p>
+          <h2 id="automation-controls-title">Automation control center <span class="badge" data-tone="amber">Controls not connected</span></h2>
+        </div>
+        <a class="tiny-link" href="https://github.com/whoiwts110217-creator/CF-0/tree/main/automation_200/continuation_keyboard">AUTO-08 keyboard source <span class="external-icon" aria-hidden="true"></span></a>
+      </div>
+      <p class="aside-text">One place for ChatGPT tasks, scheduled GitHub workflows, local Windows workers, and the one-tab continuation runner. <strong>This dashboard is currently a display and shutdown-planning surface, not an executor.</strong> A switch marked unavailable has no effect on any account or machine.</p>
+      <div class="control-master-bar">
+        <div class="control-master-label">
+          <strong>Master automation switch</strong>
+          <span class="badge" data-tone="amber">DISCONNECTED</span>
+          <small>Requires authenticated account, GitHub, and owner-local adapters before operation.</small>
+        </div>
+        <label class="control-master-switch"><span class="sr-only">Master switch unavailable</span><input type="checkbox" role="switch" disabled aria-label="Master automation switch: unavailable, not connected"></label>
+        <button type="button" class="control-action" disabled>Start all</button>
+        <button type="button" class="control-action" disabled>Pause all</button>
+        <button type="button" class="control-action" disabled>Emergency stop</button>
+      </div>
+      <p id="control-source-date" class="control-note" role="status">Loading public source inventory; no remote controls connected.</p>
+
+      <div class="control-group-grid">
+        <section class="control-group" aria-labelledby="control-chatgpt-title">
+          <div class="control-group-heading">
+            <h3 id="control-chatgpt-title">ChatGPT cloud automations</h3>
+            <span id="control-chatgpt-count" class="control-meta">10 private slots — last count</span>
+          </div>
+          <p class="aside-text">Private task names, schedules and reported enablement are <strong>not published to public GitHub</strong>. Optionally import a local task inventory for this browser session. This does not read your account, upload the file or change scheduled tasks.</p>
+          <div class="control-import">
+            <label>Load private inventory <input id="control-private-file" type="file" accept=".json,application/json"></label>
+            <button type="button" class="refresh" id="control-clear-private">Clear imported names</button>
+          </div>
+          <p id="control-import-status" class="control-note" role="status">No private file loaded. Placeholder slots shown instead.</p>
+          <div id="control-chatgpt" class="control-rows"><p class="aside-text">Task display loading.</p></div>
+        </section>
+
+        <section class="control-group" aria-labelledby="control-github-title">
+          <div class="control-group-heading"><h3 id="control-github-title">GitHub scheduled workflows</h3><span class="control-meta">5 scheduled workflows in repository source</span></div>
+          <p class="aside-text">GitHub Actions source schedules, not current execution state. Viewing a workflow does not pause it.</p>
+          <div id="control-github" class="control-rows"><p class="aside-text">Workflow display loading.</p></div>
+        </section>
+
+        <section class="control-group" aria-labelledby="control-windows-title">
+          <div class="control-group-heading"><h3 id="control-windows-title">Windows scheduled workers</h3><span class="control-meta">Owner-local / not connected</span></div>
+          <p class="aside-text">Includes the CF-0 Fast Lane likely associated with a recurring PowerShell window. An owner-local status check is required before saying what is running. This dashboard cannot terminate local processes.</p>
+          <div id="control-windows" class="control-rows"><p class="aside-text">Windows worker display loading.</p></div>
+        </section>
+
+        <section class="control-group" aria-labelledby="control-continuation-title">
+          <div class="control-group-heading"><h3 id="control-continuation-title">AUTO-08 continuation runner</h3><span class="control-meta">One tab / keyboard first</span></div>
+          <p class="aside-text">Uses an owner-local runner design that navigates the same tab, types <code>continue</code> via keyboard, then waits for completion. A real signed-in browser smoke test and adapter connection are still required.</p>
+          <div id="control-continuation" class="control-rows"><p class="aside-text">Continuation display loading.</p></div>
+        </section>
+      </div>
+
+      <div class="control-shutdown">
+        <div class="section-heading">
+          <div><h3>Research shutdown planner</h3><p class="aside-text">Staging is reversible in this browser session and <strong>never executes shutdown</strong>.</p></div>
+          <span class="badge" data-tone="muted">DRAFT ONLY</span>
+        </div>
+        <div class="control-planner-actions">
+          <button type="button" id="control-stage-research">Stage known research tasks</button>
+          <button type="button" id="control-clear-stage">Clear staged list</button>
+          <button type="button" id="control-copy-stage">Copy shutdown plan</button>
+        </div>
+        <p id="control-stage-status" role="status" class="control-note">No tasks staged.</p>
+        <p id="control-copy-status" role="status" class="control-note">Grant monitoring and core automation are not automatically selected for shutdown.</p>
+        <pre id="control-plan-preview" tabindex="0" aria-label="Proposed shutdown text, safe to select and copy">Select tasks above to prepare a plan; no execution.</pre>
       </div>
     </section>
 
