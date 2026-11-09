@@ -6,34 +6,24 @@ $taskName = 'CF0_HP_CI_Pin_' + ([guid]::NewGuid().ToString('N'))
 $created = $false
 
 function Assert-True([bool]$ok, [string]$why) { if (-not $ok) { throw $why } }
-function Snapshot([switch]$ownerReview) {
+function Snapshot {
+    # One deterministic canonical task-configuration fingerprint.
+    # Independently assert exact action/principal/trigger values below;
+    # do NOT pretend two identical hash routines are independent validation.
     $t = Get-ScheduledTask -TaskPath $taskPath -TaskName $taskName -ErrorAction Stop
-    if ($ownerReview) {
-        # Independent code path corresponding to the owner's local configuration
-        # review: full action, principal, triggers are included in digest.
-        $fingerprint = [ordered]@{
-            name = [string]$t.TaskName
-            path = [string]$t.TaskPath
-            principal = [string]$t.Principal.UserId
-            logon = [string]$t.Principal.LogonType
-            runlevel = [string]$t.Principal.RunLevel
-            actions = @($t.Actions | ForEach-Object {
-              [ordered]@{execute=[string]$_.Execute;arguments=[string]$_.Arguments;working_directory=[string]$_.WorkingDirectory}
-            })
-            triggers = @($t.Triggers | ForEach-Object { $_ | ConvertTo-Json -Depth 5 -Compress })
-        }
-    } else {
-        $fingerprint = [ordered]@{
-            name = [string]$t.TaskName
-            path = [string]$t.TaskPath
-            principal = [string]$t.Principal.UserId
-            logon = [string]$t.Principal.LogonType
-            runlevel = [string]$t.Principal.RunLevel
-            actions = @($t.Actions | ForEach-Object {
-              [ordered]@{execute=[string]$_.Execute;arguments=[string]$_.Arguments;working_directory=[string]$_.WorkingDirectory}
-            })
-            triggers = @($t.Triggers | ForEach-Object { $_ | ConvertTo-Json -Depth 5 -Compress })
-        }
+    Assert-True ($t.TaskPath -eq $taskPath -and $t.TaskName -eq $taskName) 'Unexpected task locator'
+    Assert-True ($t.Actions.Count -eq 1) 'Unexpected action count'
+    Assert-True ([string]$t.Principal.RunLevel -eq 'Limited') 'Unexpected task runlevel'
+    $fingerprint = [ordered]@{
+        name = [string]$t.TaskName
+        path = [string]$t.TaskPath
+        principal = [string]$t.Principal.UserId
+        logon = [string]$t.Principal.LogonType
+        runlevel = [string]$t.Principal.RunLevel
+        actions = @($t.Actions | ForEach-Object {
+          [ordered]@{execute=[string]$_.Execute;arguments=[string]$_.Arguments;working_directory=[string]$_.WorkingDirectory}
+        })
+        triggers = @($t.Triggers | ForEach-Object { $_ | ConvertTo-Json -Depth 5 -Compress })
     }
     $encoded = ConvertTo-Json -InputObject $fingerprint -Depth 10 -Compress
     $sha = [System.Security.Cryptography.SHA256]::Create()
@@ -52,8 +42,9 @@ try {
     $created = $true
 
     $before = Snapshot
-    $review = Snapshot -ownerReview
-    Assert-True ($before.digest -eq $review.digest) 'Owner-reviewed digest differs from independent inventory digest'
+    $review = Snapshot
+    Assert-True ($before.digest -eq $review.digest) 'Repeated readback changed task identity'
+    Assert-True ($before.action -eq '/c exit 0') 'Unexpected original command'
 
     # Simulate a changed command without ever launching it.
     $changedAction = New-ScheduledTaskAction -Execute $exe -Argument '/c exit 1'
@@ -61,8 +52,8 @@ try {
     $different = Snapshot
     Assert-True ($different.action -eq '/c exit 1') 'Test action did not change'
     Assert-True ($different.digest -ne $before.digest) 'Changing task command did not invalidate identity pin'
-    $differentReview = Snapshot -ownerReview
-    Assert-True ($different.digest -eq $differentReview.digest) 'Independent review mismatched changed task digest'
+    $differentReview = Snapshot
+    Assert-True ($different.digest -eq $differentReview.digest) 'Changed configuration did not stabilize across readbacks'
 
     # Restore original action, verify original identity, then delete disposable task.
     Set-ScheduledTask -TaskPath $taskPath -TaskName $taskName -Action $original | Out-Null
