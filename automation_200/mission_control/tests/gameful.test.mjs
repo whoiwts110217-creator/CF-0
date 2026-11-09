@@ -11,6 +11,10 @@ test("gameful lessons teach source boundaries without invented real-world result
   for (const mission of MISSIONS) {
     assert.ok(mission.sourceUrl.startsWith("https://github.com/whoiwts110217-creator/CF-0/blob/main/"));
     assert.match(mission.explanation, /\S/);
+    assert.ok(mission.fieldAction.length > 30, mission.id + " must have concrete follow-up");
+    assert.match(mission.fieldEvidence, /^Acceptance:/, mission.id + " must state its evidence gate");
+    assert.ok(mission.fieldUrl.startsWith("https://github.com/whoiwts110217-creator/CF-0/blob/main/"), mission.id);
+    assert.doesNotMatch(mission.fieldAction + mission.fieldEvidence, /guaranteed payout|automatically funded|mission awarded/i);
     assert.equal(gradeMission(mission.id, mission.correct)?.correct, true);
     assert.equal(gradeMission(mission.id, !mission.correct)?.correct, false);
     assert.match(gradeMission(mission.id, mission.correct)?.message, /quiz question, not the real-world project/);
@@ -38,6 +42,11 @@ test("learning lab is opt-in and has no background authority or storage", () => 
   const html = readFileSync(new URL("../dist/index.html", import.meta.url), "utf8");
   const ui = readFileSync(new URL("../dist/gameful-ui.mjs", import.meta.url), "utf8");
   assert.ok(html.includes('id="learning-lab"'));
+  assert.ok(html.includes('id="gameful-field-brief"'));
+  assert.ok(html.includes('id="gameful-field-link"'));
+  assert.ok(html.includes('This is a proposed action, not a completed task.'));
+  assert.ok(ui.includes('showFieldBrief(mission)'));
+  assert.ok(ui.includes('fieldBrief.hidden = true'));
   assert.ok(html.includes('id="gameful-content" hidden'));
   assert.ok(html.includes('src="./gameful-ui.mjs"'));
   assert.ok(html.includes('id="automation-controls"'));
