@@ -1,0 +1,121 @@
+{
+  "schema": "cf0.gameful_learning_assessment_draft.v2",
+  "continuity_id": "CF-EXP-GAME-LEARN-001",
+  "parent_ids": [
+    "CF-CORE",
+    "FIN-09",
+    "RES-04"
+  ],
+  "supersedes_candidate": "research/gameful_learning/ASSESSMENT_KEY_DRAFT_V0_1.json",
+  "status": "replacement_candidate_not_validated",
+  "study_active": false,
+  "no_collection": true,
+  "source_missions": "automation_200/mission_control/dist/gameful.mjs",
+  "review_warning": "PUBLIC DEVELOPMENT KEY. NOT BLINDED, NOT PRETESTED; alternative forms may differ in difficulty. No randomized allocation, recruitment, responses, or actual delayed recall.",
+  "scoring_notes": "One correct binary response = one point; score ranges 0–4 per completed wave. Missing and attrition reported separately; not silently counted wrong. 50% guessing per item; do not infer efficacy from a four-item score.",
+  "recommended_next": "Independent subject-matter and psychometric review of response validity and parallel-form difficulty; do not administer without owner consent and private allocation/key controls.",
+  "sources": {
+    "receipt": "https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/PROJECT_STATUS.md",
+    "funding": "https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/BUSINESS.md",
+    "hypothesis": "https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/RESEARCH.md",
+    "continuity": "https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/UNIVERSAL_CONTINUITY_CONTRACT.md"
+  },
+  "items": [
+    {
+      "id": "B2-CONT",
+      "phase": "baseline",
+      "topic": "continuity",
+      "statement": "A game developer preserves the crash report, the repaired build and the passing retest. The archive keeps evidence of both the failure and the repair.",
+      "answer": true,
+      "reason": "Preserving the original crash and the later correction supports reconstructing what changed."
+    },
+    {
+      "id": "B2-FUND",
+      "phase": "baseline",
+      "topic": "funding",
+      "statement": "A crowdfunding platform marks a pledge as approved, but no transfer to the creator has been confirmed. The approval establishes that the creator received the cash.",
+      "answer": false,
+      "reason": "An approved pledge and a verified bank settlement are different evidence states."
+    },
+    {
+      "id": "B2-EXEC",
+      "phase": "baseline",
+      "topic": "receipt",
+      "statement": "A monitoring site displays a backup request stamped with a laptop's name. This stamp establishes that the laptop's scheduled backup finished unattended.",
+      "answer": false,
+      "reason": "A remote label/receipt does not establish a specific local scheduler run."
+    },
+    {
+      "id": "B2-PROOF",
+      "phase": "baseline",
+      "topic": "hypothesis",
+      "statement": "A sorting routine is claimed to return ascending order for every allowed input. One valid input produces descending order, contradicting that universal claim.",
+      "answer": true,
+      "reason": "One valid counterexample within the stated domain refutes the claim."
+    },
+    {
+      "id": "I2-PROOF",
+      "phase": "immediate",
+      "topic": "hypothesis",
+      "statement": "A weather program passes 80,000 numerical tests. Those results establish its advertised accuracy for every possible future input.",
+      "answer": false,
+      "reason": "Finite test successes do not alone prove an unrestricted universal claim."
+    },
+    {
+      "id": "I2-EXEC",
+      "phase": "immediate",
+      "topic": "receipt",
+      "statement": "A workstation's scheduled media upload has a local run record linked to its wrapper result and a matching server receipt. The combined records support stronger attribution than the server receipt by itself.",
+      "answer": true,
+      "reason": "Correlated local run and wrapper evidence can strengthen attribution beyond a remote receipt."
+    },
+    {
+      "id": "I2-CONT",
+      "phase": "immediate",
+      "topic": "continuity",
+      "statement": "After reverting a faulty game update, a maintainer keeps the failing test, rollback revision and passing rerun. Another reviewer can then reconstruct the sequence.",
+      "answer": true,
+      "reason": "Linked source versions and both test outcomes improve reproducibility."
+    },
+    {
+      "id": "I2-FUND",
+      "phase": "immediate",
+      "topic": "funding",
+      "statement": "A freelance contract is signed and a client approves the invoice. Those records conclusively establish that payment reached the contractor's bank.",
+      "answer": false,
+      "reason": "A contract and invoice approval establish obligations/authorization, not bank settlement."
+    },
+    {
+      "id": "D2-FUND",
+      "phase": "delayed",
+      "topic": "funding",
+      "statement": "An online shop records an order, a card authorization and a later confirmed bank payout as separate events. This avoids calling authorization settled cash.",
+      "answer": true,
+      "reason": "Distinct payment states prevent authorizations from being mistaken for received funds."
+    },
+    {
+      "id": "D2-PROOF",
+      "phase": "delayed",
+      "topic": "hypothesis",
+      "statement": "A bridge simulation passes 9,000 allowed load tests. This test record establishes safety for every other allowed load that was never tested.",
+      "answer": false,
+      "reason": "A finite sample cannot by itself prove safety for all permitted loads."
+    },
+    {
+      "id": "D2-EXEC",
+      "phase": "delayed",
+      "topic": "receipt",
+      "statement": "A scheduled report has a machine-specific execution log, its wrapper result and an independently matched receipt. Together these offer stronger host-run evidence than a central queue message.",
+      "answer": true,
+      "reason": "Local evidence and matched external evidence support a stronger, qualified attribution claim."
+    },
+    {
+      "id": "D2-CONT",
+      "phase": "delayed",
+      "topic": "continuity",
+      "statement": "A design archive keeps only the final repaired file after a build failure. Rewriting the old failure entry as a pass preserves the complete audit trail.",
+      "answer": false,
+      "reason": "Overwriting the original failure destroys recoverable evidence of the earlier state."
+    }
+  ]
+}
