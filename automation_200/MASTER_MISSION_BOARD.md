@@ -1,3 +1,12 @@
+## November 9, 2026 · Watchdog readback negative-regression extension
+
+- **Source patch:** [commit f434afce](https://github.com/whoiwts110217-creator/CF-0/commit/f434afce896ca858874abc662d2b25966f3ee1ea) adds watchdog readback tests for boolean/zero identifiers, uppercase source commit, timestamp window drift, malformed UTC step timestamps, and malformed log framing. This tests the existing read-only correlation boundary; it does not consume a packet, execute a work order, or establish physical HP provenance.
+- **Verification:** GitHub source readback and CI status should be checked separately; no passing CI or new verified work order is asserted by the patch alone.
+- **Registry:** 86/200 verified as observed on public main before this source-only patch; no registry/events/checkpoint changes.
+- **HP:** Public health collected 2026-11-09T07:07:09Z reported 32 receipts and 10 pings; independent scheduled Windows task-to-receipt attribution remains open.
+- **Next three:** (1) confirm watchdog regression CI for f434afce, (2) save an executor decision bound to the exact watchdog run/attempt/job/packet digest, (3) obtain independent Windows wrapper-to-receipt correlation for unattended HP gate.
+- **Preflight:** Public main operator v1.0, continuity v1.0, and [Work self-reference v1.0](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) were retrieved in that order in this run; Work blob previously recorded as `5da1a390f31ee8f57e5829ef368062f9215c28ac` (not independently rehashed here). No owner copy/paste requested.
+
 ## November 9, 2026 · Watchdog packet readback
 
 - **Observed Work readback.** [Scheduled watchdog run 42575956006, attempt 1](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42575956006/job/129023601849) emitted its packet at 1:54:54 a.m. Eastern from `776b51916de47f7abd7f7a51e9836d0eab7dd8f3`. The exact compact JSON payload has SHA-256 `78ca04db34d65c33e23b120a592db6fa6d9163cce0c5f486464a2281b5feaea2`. The [readback check](watchdog_readback.py) matched the public run, job, attempt, and successful step time.
