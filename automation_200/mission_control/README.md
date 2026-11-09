@@ -31,3 +31,37 @@ The [Continuation panel](https://whoiwts110217-creator.github.io/CF-0/mission-co
 **Automatic master switch: DISCONNECTED.** The static site cannot access personal ChatGPT sessions or send messages. The browser UI deliberately disables the switch until a separately authorized supported executor exists; it must not be described as functioning continuous account autonomy. The separate source-level `continue-control/loop.mjs` implements a bounded, serial adapter contract: send exactly `continue`, wait for the adapter to confirm the full response completed, then advance, with stop, unknown-result hold, and per-pass duplicate prevention. Unit tests cover the contract; they do **not** prove any real ChatGPT conversation was controlled.
 
 See [owner intent and acceptance requirements](../../docs/AUTO_CONTINUATION_CONTROL_2026-11-09.md) and [PR #28](https://github.com/whoiwts110217-creator/CF-0/pull/28). The approved HP public-relay actions and all original CF-200 dashboard data remain unchanged.
+
+## Consolidated automation controls — November 9, 2026
+
+The **Automation control center** is a new section **within the restored original Mission Control**, at
+[Mission Control → Automation controls](https://whoiwts110217-creator.github.io/CF-0/mission-control/#automation-controls).
+
+It displays four automation categories without modifying the CF-200 registry or the existing dashboard:
+1. ChatGPT personal automations — ten private placeholder slots based on the last observed count. Public GitHub deliberately contains no private titles, IDs, emails, prompts or schedules.
+2. GitHub Actions — five scheduled workflows detected in public CF-0 `.github/workflows/` source. A cron in GitHub source is **not** a current running-state assertion.
+3. Windows — the Fast Lane, CF-0 Relay and optional HP Bridge, each marked owner-local state unverified. Local schedules can be present even if the computer is turned off or not signed in.
+4. AUTO-08 — keyboard-first, one-tab continuation code in `automation_200/continuation_keyboard/`, not a live panel executor.
+
+**All Start/Pause/Resume/Emergency-stop controls and the master switch are deliberately disabled.** This public static web page cannot control ChatGPT scheduled automations, Windows Scheduled Tasks or GitHub workflows without separate supported authenticated adapters. It does not submit `continue` to conversations. The disabled state is intentional, not a green running indication.
+
+The **research shutdown planner** *does* support local in-page staging by checkbox, 'Stage known research tasks', 'Clear staged list', and 'Copy shutdown plan'. **Staging only creates a draft for review** and does not stop, disable, update or cancel anything. Grant monitoring and core operational workers are not automatically selected by that research button. Verify live state before actually shutting down tasks through their separate authorized controls.
+
+### Optional private ChatGPT automation names
+
+Do **not** commit personal ChatGPT task inventories to public CF-0. A user can choose a local JSON file in the automation center, parsed in browser memory only (64 KiB maximum; no upload, network request or persistent local storage), with format:
+
+```json
+{
+  "schema": "cf0.private_automation_inventory.v1",
+  "automations": [
+    {"id": "private-task-1", "title": "Example research brief", "is_enabled": false, "research": true}
+  ]
+}
+```
+
+The import is a **dated owner-supplied snapshot**, not a live API. Only sanitized titles and reported enablement are displayed; imported IDs, prompts, links, credentials and extra properties are ignored. 'Clear imported names' drops the in-memory copy. Without an import, ten numbered placeholders are shown; that count may become stale.
+
+**Historical AUTO-08 note:** The earlier `/continue-control/` panel described above was reverted in [revert commit 7ca4e6c](https://github.com/whoiwts110217-creator/CF-0/commit/7ca4e6c6851ce0d7916f826e9a3f4753cb6e6118) when the user requested restoring the original dashboard. The separate keyboard runner was subsequently merged in [PR #32](https://github.com/whoiwts110217-creator/CF-0/pull/32). Do not treat the historic panel URL as deployed or operational. The new control center preserves the restored dashboard and introduces no unauthorized execution pathways.
+
+Tests: `node --test automation_200/mission_control/tests/*.test.mjs`. Source UI and tests do not independently prove account authentication, running status, an HP process, or a real pause. The owner may need to refresh GitHub Pages to see the current deployment.
