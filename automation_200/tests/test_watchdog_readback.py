@@ -87,3 +87,21 @@ class WatchdogReadbackTests(unittest.TestCase):
         ):
             with self.subTest(changes=changes), self.assertRaises(ValueError):
                 readback.record_readback(self.run, self.job, self.log_line(self.packet_bytes(**changes)))
+
+    def test_rejects_time_window_and_identity_edge_cases(self):
+        log = self.log_line()
+        cases = (
+            ({**self.run, "id": True}, self.job, log),
+            ({**self.run, "run_attempt": 0}, self.job, log),
+            ({**self.run, "head_sha": "A" * 40}, self.job, log),
+            (self.run, {**self.job, "id": True}, log),
+            (self.run, {**self.job, "steps": [{**self.step, "started_at": "2026-11-09T06:54:55Z"}]}, log),
+            (self.run, {**self.job, "steps": [{**self.step, "completed_at": "2026-11-09T06:54:53Z"}]}, log),
+            (self.run, {**self.job, "steps": [{**self.step, "started_at": "2026-11-09T06:54:54"}]}, log),
+            (self.run, {**self.job, "steps": [{**self.step, "completed_at": "2026-11-09T06:54:54+01:00"}]}, log),
+            (self.run, self.job, b"2026-11-09T06:54:55.8882137Z CF0_WORK_HANDOFF=" + self.packet_bytes() + b"\\n"),
+        )
+        for run, job, packet_log in cases:
+            with self.subTest(run_id=run.get("id"), job_id=job.get("id"), log=packet_log[:48]):
+                with self.assertRaises(ValueError):
+                    readback.record_readback(run, job, packet_log)
