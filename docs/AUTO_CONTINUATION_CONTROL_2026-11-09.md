@@ -1,0 +1,30 @@
+# AUTO-08 — Continuity Control master-switch recovery (owner direction, 2026-11-09)
+
+**Status: intent saved; conversation automation not deployed or authorized by this file.** Public-safe design/requirements only. Private chat originals, account sessions, tokens and exports must remain off the public repository.
+
+## Owner intent — preserve exactly
+One **Mission Control** panel should show all automation controls, task states, queues, priorities, and execution receipts. The dominant feature is a **single owner-controlled switch** for the signed-in ChatGPT account: visit every eligible conversation, send the literal message `continue`, **wait for that response to complete**, record the result, then advance to the next conversation. After finishing one sweep, continue further passes as configured, rather than opening all chats at once or merely pre-filling messages. The owner explicitly wants genuine execution, not a cosmetic switch or fabricated success log. Account selection must be explicit because two personal accounts are involved.
+
+The conversation carrying further interface details was said to be in the secondary/free account during a separate signed-in cloud-browser session. A previous session reported recovering **95 conversations / 757 messages** there. These figures are *historical, unverified in the present session*; do not publicly publish raw transcripts or assume the cloud-browser session remains accessible. First recovery action in an authorized signed-in Work session: locate the recent chat about **building the auto-control interface** and recover the exact direction before replacing work.
+
+## Required loop semantics
+
+1. **Connect and verify:** explicit account identity selection; authorized first-party/Work integration, if available. Never infer access from having a URL, and never capture passwords/cookies/session tokens into public GitHub.
+2. **Discover candidates:** obtain the complete accessible conversation list through a supported authorized means, then show the count and *allow exclusions*. Imported exports may be used for private indexing, but historical exports by themselves are not live chat control.
+3. **Arm:** master switch has an actual wired executor; if no supported executor is connected, show **Not connected / cannot start**, never fake a running state.
+4. **Serial execution:** for each eligible chat, navigate/open, verify correct thread, submit exactly one `continue`, wait until the response completes or a timeout/error is confirmed, and persist a per-chat receipt. No parallel flood of model runs. Do not send into a different account or a chat currently awaiting human input.
+5. **Advance:** move to the next eligible chat only after completion. At the end of a pass, continue a further pass *only* if the user enabled repeat, respecting rate/usage limits and explicit caps.
+6. **Stop/pause/restart:** owner kill switch; pause on sign-in loss, rate limits, safety/approval requirements, unavailable tools or unknown outcome; retry only when duplication risk is resolved. Resume from the durable checkpoint without restarting completed chats in the same pass.
+7. **Visibility:** selected account, number of chats discovered/eligible, active title/ID, pass, queued/done/skipped/failed, last completion and reason, run receipts and clear **manual vs autonomous** distinction.
+8. **Platform boundary:** a static GitHub Pages site cannot read personal ChatGPT history or send messages; the current public HP relay accepts only `ping`, `hp_status`, `sidecar_verify`. Do not silently add browser automation to that public relay. No paid API, scraping, or evasion of safeguards is authorized by this requirement.
+
+## Interface art direction
+Use the existing CF-0 Mission Control as the primary home. Dark charcoal/navy background, restrained **electric pale-blue / cyan glow**, structured utility/work-jacket seam shapes, reflective bands, dramatic but readable lighting, and original insignia/linework evocative of an anime emergency-response aesthetic. Inspiration: *Fire Force* jackets and luminous pale-blue accents; **do not reproduce characters, series logos or original art**. Keep primary controls high-contrast and non-decorative: absolutely no false active LEDs, flashy clutter or unreadable gradients. Mobile/iPhone layout matters.
+
+## Work session recovery handoff
+In the still-authorized cloud-browser Work session, sign in via the secure takeover if necessary. Search the secondary account for the *specific recent conversation* about the auto-control panel, extract user corrections and UI details privately, compare them with this file, and save a private provenance-linked record. Do **not** send `continue` to every chat as a substitute for implementing the actual control, and do not publicly expose account conversation content. Return exact coverage and the smallest viable supported execution bridge.
+
+## Delivery acceptance
+A visually wired **operator panel** is not completion of automatic execution. Completion requires a real signed-in account, a supported executor, a demonstrated small opt-in sweep with stable per-chat completion receipts, safe stop/resume, and permission/rate-limit behavior verified. Until then, label it *design/source prototype*, never *live*.
+
+Related: `automation_200/mission_control/`, `automation_200/MASTER_OPERATOR_PROMPT.md`, `automation_200/MASTER_CONTINUITY_PROMPT.md`, `automation_200/OWNER_CAPABILITY_CONTRACT.json`. Existing CF-200 registry/HP relay and its schedule remain unchanged.
