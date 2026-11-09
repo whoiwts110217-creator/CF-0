@@ -10,7 +10,7 @@ This dated report summarizes work orders, blockers, and GitHub issues. [Mission 
 | CF-200 work orders | **84 verified / 200 total**; 116 planned |
 | Current verified progress | 42% of defined work orders; **not** 42% of the finished product |
 | Open GitHub issues | **4** confirmed in the November 9 issue search ([#1](https://github.com/whoiwts110217-creator/CF-0/issues/1), [#3](https://github.com/whoiwts110217-creator/CF-0/issues/3), [#16](https://github.com/whoiwts110217-creator/CF-0/issues/16), [#21](https://github.com/whoiwts110217-creator/CF-0/issues/21)) |
-| Public task/issue refresh | The existing CF-200 executor [refreshed HP and issue evidence on November 8](https://github.com/whoiwts110217-creator/CF-0/commit/374c1f4630053cc96d5c38c2b0d2b36eb4b60e78). |
+| Public task/issue refresh | Existing CF-200 executor ran on demand November 9; [mission-board record](../automation_200/MASTER_MISSION_BOARD.md) and this dated refresh. |
 | Public HP health | [Latest public health report](../relay/health/latest.json) publishes its own collection time and receipt counts. Direct Windows scheduler attribution is tracked separately. |
 | Windows scheduled relay | **Observed.** Windows logged a scheduled run from **1:06:53 to 1:08:58 p.m.** on November 8. The matched public pong was committed at **1:07:21 p.m.** Direct ping-to-run attribution is open. [HP evidence](CONTINUITY.md#november-8-hp-relay-evidence) |
 | Seven-day unattended operation | Verification remains open. |
@@ -18,7 +18,7 @@ This dated report summarizes work orders, blockers, and GitHub issues. [Mission 
 
 **Evidence:** [registry.json](../automation_200/registry.json), source blob `304ed3c72df0fb82b6a0eacf6f4dc2e971262c74`; [public continuity](PUBLIC_CONTINUITY_STATE.json); [first executor-produced dashboard refresh commit](https://github.com/whoiwts110217-creator/CF-0/commit/479c93ae8689279cb422771a504cd3be494763aa). A successful dashboard refresh is **not** proof of unattended HP operation.
 
-**CF-118 source tests passed** on [Linux](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42564024841/job/128986476285) and [Windows](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42564024841/job/128986476096). These runs cover retry boundaries and the offline journal. CF-118 remains planned pending evidence that the scheduled executor carries attempt history across runs and enforces the retry ceiling.
+**CF-118 source integration passed.** The existing executor ran on demand on November 9 and added a [read-only adapter](../automation_200/attempt_history_cf118.py) from the existing retry journal to the decision engine. [Linux](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42564024841/job/128986476285) and [Windows](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42564024841/job/128986476096) passed the offline journal and retry-boundary tests. The [Windows integration job](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42576948195/job/129026687680) passed on the journal-adapter revision. CF-118 remains planned pending evidence that the scheduled executor carries attempt history across runs and enforces the retry ceiling.
 
 ## What is being worked on next?
 
