@@ -1,4 +1,6 @@
-# CF-0 Hall of Fame
+# CF-0 Hall of Fame — Contributors & Discoveries
+
+This record credits reviewed technical contributions, not donations. The separate [First Drop Founding Supporters invitation](FIRST_DROP_CAMPAIGN_2026-11-09.md) thanks voluntary supporters after payment verification and permission to show their names. Neither kind of recognition creates project ownership or validates scientific claims.
 
 ## Inaugural honoree
 
