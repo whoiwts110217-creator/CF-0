@@ -1,6 +1,6 @@
 // Offline shell only. No periodic/background automation, push, or cross-account interception.
 const CACHE="cf0-habit-automator-v1";
-const ASSETS=["./","./index.html","./app.mjs","./core.mjs","./icon.svg","./manifest.webmanifest"];
+const ASSETS=["./","./index.html","./app.mjs","./core.mjs","./icon.svg","./icon-180.png","./manifest.webmanifest"];
 self.addEventListener("install",event=>{
   event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(ASSETS)).then(()=>self.skipWaiting()));
 });
