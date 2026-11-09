@@ -1,6 +1,7 @@
 export const REPO = "whoiwts110217-creator/CF-0";
 export const GITHUB = "https://github.com/" + REPO;
 export const REGISTRY = "automation_200/registry.json";
+export const CAPABILITY_CONTRACT = "automation_200/OWNER_CAPABILITY_CONTRACT.json";
 export const STATE = "docs/PUBLIC_CONTINUITY_STATE.json";
 export const HEALTH = "relay/health/latest.json";
 export const TRACKER = "docs/AI_TRACKER_STATUS.json";
@@ -117,6 +118,7 @@ export async function dashboardModel(data) {
     ...model,
     commit: data.commit,
     checkpoint,
+    contract: data.contract?.schema === "cf0.owner_capability_contract.v1" ? data.contract : null,
     ping: matched ? "matched" : data.ping ? "unconfirmed" : "unavailable",
     receiptPath: matched ? paths.receipt : null,
     health: ["not_published", "available", "invalid"].includes(data.health) ? data.health : "unavailable",
@@ -153,15 +155,16 @@ export async function loadLive(fetcher = fetch, signal = AbortSignal.timeout(850
       || typeof commit !== "string" || !commitPattern.test(commit)) throw new Error("Invalid GitHub ref");
 
   const raw = "https://raw.githubusercontent.com/" + REPO + "/" + commit + "/";
-  const [registry, state, health] = await Promise.all([
+  const [registry, state, health, contract] = await Promise.all([
     getJson(fetcher, raw + REGISTRY, signal),
     getJson(fetcher, raw + STATE, signal).catch(() => null),
     healthAvailability(fetcher, raw + HEALTH, signal),
+    getJson(fetcher, raw + CAPABILITY_CONTRACT, signal).catch(() => null),
   ]);
   const paths = pingPaths(state);
   const ping = paths && await Promise.all([
     getJson(fetcher, raw + paths.inbox, signal),
     getJson(fetcher, raw + paths.receipt, signal),
   ]).then(([request, receipt]) => ({ request, receipt })).catch(() => null);
-  return dashboardModel({ commit, registry, state, ping, health });
+  return dashboardModel({ commit, registry, state, ping, health, contract });
 }
