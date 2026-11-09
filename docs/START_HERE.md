@@ -75,3 +75,8 @@ Windows logged a scheduled run from **1:06:53 to 1:08:58 p.m.** on November 8. T
 The original approximately 37-project list remains unrecovered. Prior experimental Sidecar and controller work is preserved in the [automation archive](AUTOMATION.md) and [operations ledger](OPERATIONS.md), not erased or presented as newly deployed. Neither unprovided conversations nor unverified discoveries should be invented.
 
 [Return to project home](../README.md)
+
+## Continuity across every feature (owner instruction, November 9)
+
+Before creating or changing *any* CF-0 branch, consult [Universal Continuity Contract UCC-001](UNIVERSAL_CONTINUITY_CONTRACT.md) after the three master operating prompts; connect it to the canonical project identity, source evidence, owner decisions and next safe action. The [Brainrot → Brainpower pilot](BRAINROT_TO_BRAINPOWER_2026-11-09.md) is an example of a linked gameful-learning experiment, not a new independent operating system or a validated educational result.
+
