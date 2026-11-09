@@ -11,8 +11,10 @@ on:
       - 'automation_200/priority_selector.py'
       - 'automation_200/decision_engine.py'
       - 'automation_200/watchdog_handoff.py'
+      - 'automation_200/watchdog_readback.py'
       - 'automation_200/tests/test_decision_engine.py'
       - 'automation_200/tests/test_watchdog_handoff.py'
+      - 'automation_200/tests/test_watchdog_readback.py'
       - 'automation_200/tests/test_priority_selector.py'
       - 'relay/tests/test_channel_audit.py'
       - 'relay/tests/test_hp_health_snapshot.py'
@@ -53,6 +55,7 @@ jobs:
         run: |
           python -m unittest discover -s automation_200/tests -p 'test_decision_engine.py' -v
           python -m unittest discover -s automation_200/tests -p 'test_watchdog_handoff.py' -v
+          python -m unittest discover -s automation_200/tests -p 'test_watchdog_readback.py' -v
       - name: Select founder-priority ready work (read-only)
         run: |
           python automation_200/validate_registry.py

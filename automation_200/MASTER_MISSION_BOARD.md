@@ -1,3 +1,10 @@
+## November 9, 2026 · Watchdog packet readback
+
+- **Observed Work readback.** [Scheduled watchdog run 42575956006, attempt 1](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42575956006/job/129023601849) emitted its packet at 1:54:54 a.m. Eastern from `776b51916de47f7abd7f7a51e9836d0eab7dd8f3`. The exact compact JSON payload has SHA-256 `78ca04db34d65c33e23b120a592db6fa6d9163cce0c5f486464a2281b5feaea2`. The [readback check](watchdog_readback.py) matched the public run, job, attempt, and successful step time.
+- **Work decision.** This on-demand Work session used that readback to advance packet traceability at **85/200 verified**. Current owner gates still hold device-dependent actions. The scheduled executor's saved result must independently cite its own packet and decision before scheduled consumption can be verified. Windows task-instance attribution remains open.
+- **Next existing Work run.** Use the [readback procedure](DECISION_ENGINE.md#watchdog-packet-readback) on the latest successful scheduled watchdog run on `main`. Record its run, attempt, job, commit, timestamp and exact packet digest alongside the Work decision and outcome. Decide against the current registry and authority gates. Keep the handoff unverified if the matching job log or metadata cannot be retrieved.
+- **Preflight.** Read the [operator](MASTER_OPERATOR_PROMPT.md), [continuity](MASTER_CONTINUITY_PROMPT.md), and [Work self-reference](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) in that order at public main `85ad786af1b67d16ac076f2c8d88cf74dfd793fc`. Work blob `5da1a390f31ee8f57e5829ef368062f9215c28ac`. Retrieve all three anew for the next run.
+
 ## November 9, 2026 · Operating structure and Mission Control fallback
 
 - [Start Here](../docs/START_HERE.md#how-the-work-fits-together) links the operating layers to their authority and evidence sources. The [public project index](../docs/PROJECTS.md) groups the workstreams and separates the historical Dreamkiller concept from the public prototype. The [task summary](../docs/TASKS_AND_ISSUES.md) distinguishes passing CF-118 offline tests from scheduled retry acceptance.
