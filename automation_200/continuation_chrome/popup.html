@@ -1,0 +1,20 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+:root {color-scheme:dark;font:13px system-ui}body{width:335px;margin:0;padding:18px;background:#121c2a;color:#ecf4ff}
+h1{font-size:19px;margin:0 0 7px}p{color:#b2c6dc;line-height:1.45}label{display:grid;gap:5px;margin:11px 0}
+button,select,input{font:inherit;padding:9px;background:#263952;color:#fff;border:1px solid #496685;border-radius:6px}
+button{cursor:pointer}button:disabled{opacity:.5;cursor:default}.grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+#status,#detail{white-space:pre-wrap;overflow-wrap:anywhere;padding:10px;background:#1b2c40;border:1px solid #36475f;border-radius:8px}
+small{color:#adc1d8}a{color:#8bd3ff}strong{color:#b9ecff}
+</style></head><body>
+<h1>CF-0 · AUTO-08</h1><p>One existing Chrome ChatGPT tab. Keyboard-only. No new tabs.</p>
+<div id="status" role="status">Checking Chrome tabs…</div>
+<label>Account you signed into in that tab<select id="account"><option value="">Select account</option><option value="primary">Primary</option><option value="secondary">Secondary</option></select></label>
+<div class="grid"><button id="check">Check tab</button><button id="current">Continue current chat once</button></div>
+<label>Optional: import conversation IDs from your private export<input type="file" id="queue" accept=".json,application/json"></label>
+<div class="grid"><button id="start">Start imported sweep</button><button id="pause">Pause / Stop</button></div>
+<button id="review" style="width:100%;margin-top:9px" disabled>Review blocked attempt</button>
+<p id="detail">Sign in to one ChatGPT tab first. Keep all account details private.</p>
+<p><small>Unrecognized dialogs, sign-in prompts, rate limits, and ambiguous sends pause the run for review. Closing this popup does not stop an active debugger session; Pause/Stop does.</small></p>
+<script type="module" src="popup.js"></script>
+</body></html>
