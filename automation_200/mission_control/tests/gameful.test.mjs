@@ -2,6 +2,7 @@ import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { MISSIONS, gradeMission, gradeTransfer } from "../dist/gameful.mjs";
+import { MODES, normalizeMode, lessonView, feedbackView } from "../dist/gameful-modes.mjs";
 
 test("gameful lessons teach source boundaries without invented real-world results", () => {
   assert.equal(MISSIONS.length, 4);
@@ -67,4 +68,47 @@ test("pilot has explicit continuity links in every canonical prompt", () => {
   assert.ok(pilot.includes("CF-CORE"));
   assert.ok(pilot.includes("RES-04"));
   assert.ok(pilot.includes("learning efficacy unverified"));
+});
+
+test("presentation modes keep content and grading identical", () => {
+  assert.deepEqual(MODES, ["playful", "plain"]);
+  assert.equal(normalizeMode("plain"), "plain");
+  assert.equal(normalizeMode("malformed"), "playful");
+  for (const [index, mission] of MISSIONS.entries()) {
+    for (const stage of ["guess", "transfer"]) {
+      const playful = lessonView(mission, "playful", index, stage);
+      const plain = lessonView(mission, "plain", index, stage);
+      for (const key of ["claim", "answer", "explanation", "sourceUrl", "takeaway"]) {
+        assert.deepEqual(playful[key], plain[key], mission.id + "/" + stage + "/" + key);
+      }
+      assert.notEqual(playful.heading, plain.heading);
+      assert.notEqual(playful.eyebrow, plain.eyebrow);
+      assert.notEqual(playful.instruction, plain.instruction);
+      const correct = stage === "guess" ? gradeMission(mission.id, mission.correct) : gradeTransfer(mission.id, mission.transferCorrect);
+      assert.match(feedbackView(correct, "playful", stage), /MISSION PASSED|REMIX CLEARED/);
+      assert.match(feedbackView(correct, "plain", stage), /Correct/);
+    }
+  }
+  assert.equal(lessonView(null, "plain", 0, "guess"), null);
+  assert.equal(lessonView(MISSIONS[0], "plain", -1, "guess"), null);
+  assert.equal(feedbackView(null, "plain", "guess"), null);
+});
+
+test("plain/playful selector remains opt-in, locked for a run, and does not control other modules", () => {
+  const html = readFileSync(new URL("../dist/index.html", import.meta.url), "utf8");
+  const ui = readFileSync(new URL("../dist/gameful-ui.mjs", import.meta.url), "utf8");
+  const modes = readFileSync(new URL("../dist/gameful-modes.mjs", import.meta.url), "utf8");
+  assert.ok(html.includes('id="gameful-mode"'));
+  assert.ok(html.includes('value="playful"'));
+  assert.ok(html.includes('value="plain"'));
+  assert.ok(html.includes('aria-describedby="gameful-mode-note"'));
+  assert.ok(ui.includes("modeSelect.disabled = !content.hidden"));
+  assert.ok(ui.includes('lab.dataset.learningMode = mode'));
+  assert.ok(html.includes('id="automation-controls"'));
+  assert.ok(html.includes('id="control-stage-research"'));
+  assert.ok(html.includes('id="work-orders"'));
+  assert.ok(html.includes('id="show-restricted"'));
+  for (const code of [ui, modes]) {
+    assert.doesNotMatch(code, /fetch\\(|localStorage|sessionStorage|sendMessage|window\\.open|postMessage|exec\\(|new WebSocket/);
+  }
 });
