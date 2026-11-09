@@ -78,6 +78,16 @@ async function key(keyName) {
   }
   await send("Input.dispatchKeyEvent", { type: "keyUp", key: keyName, code, windowsVirtualKeyCode: keyCode, nativeVirtualKeyCode: keyCode });
 }
+async function accessibilityNodes() {
+  const response = await send("Accessibility.getFullAXTree");
+  return (response.result?.nodes || []).filter(node => !node.ignored)
+    .map(node => ({ role: node.role?.value || "", name: node.name?.value || "" }));
+}
+function assertAccessible(nodes, role, name) {
+  assert.ok(nodes.some(node => node.role.toLowerCase() === role.toLowerCase() && node.name === name),
+    "Expected accessibility tree "+role+" named "+JSON.stringify(name)+", found: "+
+    JSON.stringify(nodes.filter(node => node.name.includes(name.slice(0,12))).slice(0,10)));
+}
 async function waitFor(test, label) {
   for (let i = 0; i < 80; i++) {
     if (await evaluate(test)) return;
@@ -98,6 +108,7 @@ try {
   };
   await send("Runtime.enable");
   await send("Page.enable");
+  await send("Accessibility.enable");
   // 390 CSS-pixel viewport: iPhone-width Chromium emulation, NOT an iPhone device.
   await send("Emulation.setDeviceMetricsOverride", { width: 390, height: 844, deviceScaleFactor: 3, mobile: true });
   await send("Page.navigate", { url: origin + "#learning-lab" });
@@ -116,6 +127,15 @@ try {
   assert.ok(initial.labWidth > 250, "Lab content should remain readable at phone width");
   assert.ok(initial.controls && initial.masterDisabled, "Existing disconnected master control must remain intact");
   assert.equal(initial.aria, "polite");
+  // Browser accessibility tree, not a VoiceOver or Safari screen-reader run.
+  const initialAx = await accessibilityNodes();
+  assertAccessible(initialAx, "combobox", "Presentation mode");
+  assertAccessible(initialAx, "checkbox", "Larger lesson text");
+  assertAccessible(initialAx, "button", "Start brainpower quest");
+  assert.ok(initialAx.some(node => node.role.toLowerCase() === "switch" &&
+    node.name.includes("Master automation switch") && node.name.includes("unavailable")),
+    "Disconnected owner master switch must be labelled and discoverable");
+  console.log("PASS: initial quiz controls and disconnected master have accessible names.");
 
   await evaluate(`(()=>{const m=document.getElementById('gameful-mode');m.value='plain';m.dispatchEvent(new Event('change',{bubbles:true}));document.getElementById('gameful-toggle').click()})()`);
   const open = await evaluate(`({header:document.getElementById('gameful-title').textContent,
@@ -125,6 +145,12 @@ try {
   assert.equal(open.header, "Checking execution evidence");
   assert.equal(open.focus, "gameful-title");
   assert.equal(open.locked, true);
+  const openedAx = await accessibilityNodes();
+  assertAccessible(openedAx, "heading", "Checking execution evidence");
+  assertAccessible(openedAx, "button", "TRUE");
+  assertAccessible(openedAx, "button", "FALSE");
+  assert.ok(openedAx.some(node => node.name.includes(open.claim)),
+    "Current evidence claim should be exposed in the accessibility tree");
 
   // Keyboard-only path: heading -> True -> False -> Enter -> explanation.
   await key("Tab"); await key("Tab");
@@ -140,6 +166,12 @@ try {
   assert.match(grade.explanation, /public command round-trip/);
   assert.ok(grade.source.endsWith("/docs/PROJECT_STATUS.md"));
   assert.equal(grade.nextHidden, false);
+  const gradedAx = await accessibilityNodes();
+  assert.ok(gradedAx.some(node => node.name.includes("public command round-trip")),
+    "Evidence explanation must remain in the accessibility tree after grading");
+  assert.ok(gradedAx.some(node => node.role.toLowerCase() === "link" &&
+    node.name.includes("Read the project evidence")),
+    "Evidence-source link must have a navigable accessible name");
 
   // Keyboard follows explanation -> source -> next; Enter opens second example.
   await key("Tab"); await key("Tab");
