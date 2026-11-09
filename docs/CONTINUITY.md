@@ -193,3 +193,6 @@ A read-only **hosted browser walkthrough** of [GitHub Pages Mission Control](htt
 
 **Rollback:** revert the v0.4 CSS commits individually after reviewing dependent source/tests; keep earlier working v0.3 Plain/Playful and all historical failures documented. **Next acceptance:** verify the newly published page and its source commit, then test actual iPhone Safari and VoiceOver separately when permitted; a later opt-in evaluation must be randomized and consensual before any learning-effect claim.
 
+
+**Post-test deployment readback:** the [public website build and GitHub Pages deployment for the strict mobile-width source, Actions run 42670070682](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42670070682), also completed **successfully** on commit `125377eabacb42c26d71795d2400ecee5d4403de`. This corroborates that the published artifact build succeeded after the source/mobile tests; it remains distinct from an actual iPhone Safari or VoiceOver run.
+
