@@ -23,7 +23,7 @@ class RegistryViewTests(unittest.TestCase):
         self.assertEqual(page.split("<tbody>", 1)[1].split("</tbody>", 1)[0].count("<tr>"), 200)
         self.assertIn(f'{self.registry["completed"]} verified / 200 total; {200 - self.registry["completed"]} planned', page)
         for task in self.registry["tasks"]:
-            self.assertEqual(page.count("<td>" + task["id"] + "</td>"), 1)
+            self.assertEqual(page.count("<tr><td>" + task["id"] + "</td>"), 1)
         self.assertIn(hashlib.sha256(self.source).hexdigest(), page)
 
     def test_escapes_untrusted_text_and_does_not_mutate_source(self):
