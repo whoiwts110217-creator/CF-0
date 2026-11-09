@@ -1,0 +1,25 @@
+{
+  "name": "Habit Automator — Caveman Focus",
+  "short_name": "Habit Automator",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#090f1d",
+  "theme_color": "#0a1020",
+  "description": "Local-first routine control companion to CF-0 Mission Control",
+  "icons": [
+    {
+      "src": "./icon-180.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
