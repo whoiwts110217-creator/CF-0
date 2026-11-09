@@ -95,3 +95,10 @@ The Learning Lab's v0.5 readability and two presentation modes remain unchanged.
 
 [Full source/Chromium CI](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42674408404) and [Pages deployment](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42674408782) both passed for `330cc35aa302`. [Independent public-browser readback](https://agent.tinyfish.ai/runs/b73eb15b-dbf7-4559-880d-3ebe4d388317) verified 22/5/17, disabled master switch, learning modes and Larger Text with unchanged first question. **Unverified:** physical iPhone Safari, VoiceOver, a randomized learning study and delayed retention. Full source/rollback [continuity entry](CONTINUITY.md#november-9--v051-cross-project-workflow-inventory-reconciliation).
 
+
+## v0.5.2 — accessibility-tree and optional owner-device guide
+
+[Chromium accessibility-tree checks](../automation_200/mission_control/tests/browser_smoke.mjs) verify that the source-labelled mode selector, Larger Text checkbox, quiz answer buttons, question, explanation/evidence link and DISCONNECTED automation master are discoverable as named browser accessibility nodes. The public lab now contains a collapsed native **Checking this page on iPhone Safari or VoiceOver** disclosure with four optional device-level checks and a clear no-upload/no-telemetry/no-certification boundary. It is informational and does not collect test results.
+
+[GitHub Actions CI 42677698076](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42677698076) and [Pages deployment 42677698440](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42677698440) **passed** on source commit `27b2bc1bf7b1f4f6b382a273dacdba07d1c3216d`. A [read-only hosted browser run](https://agent.tinyfish.ai/runs/3b3dc652-2e9e-4143-9828-c53444ffa192) observed the disclosure opening and closing, 22/5/17 source inventory and disconnected controls on the public page. [Continuity with source commits, evidence limits and rollback](CONTINUITY.md#november-9--brainrot--brainpower-v052-accessibility-tree-and-owner-device-handoff). None of this substitutes for physical iPhone Safari/VoiceOver testing or a retention study.
+
