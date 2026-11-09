@@ -19,6 +19,7 @@ export const SOURCES = Object.freeze({
     {"id":"dreamkiller-chapter01","title":"Dreamkiller chapter 01","trigger":"event","detail":"On matching source push or manual dispatch","research":false},
     {"id":"dreamkiller-v02-browser","title":"Dreamkiller v0.2 browser tests","trigger":"event","detail":"On matching source push or manual dispatch","research":false},
     {"id":"dreamkiller-v02","title":"Dreamkiller v0.2 build tests","trigger":"event","detail":"On matching source push or manual dispatch","research":false},
+    {"id":"iphone-skill-foundry-ci","title":"Skill Foundry iPhone source checks","trigger":"event","detail":"On matching pull request or manual dispatch; source checks only, not installed iPhone acceptance","research":false},
     {"id":"mission-control-access-tests","title":"Mission Control access visibility tests","trigger":"event","detail":"On source push or pull request","research":false},
     {"id":"one-time-agent-invitations","title":"One-time agent invitations","trigger":"event","detail":"On matching source push or manual dispatch","research":true},
     {"id":"prompt-efficiency-guard","title":"Prompt efficiency guard","trigger":"event","detail":"On source push or manual dispatch","research":false},
