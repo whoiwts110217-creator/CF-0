@@ -113,7 +113,15 @@
         </div>
         <button id="gameful-toggle" class="gameful-action" type="button" aria-controls="gameful-content" aria-expanded="false">Start brainpower quest</button>
       </div>
-      <p class="aside-text">A little videogame chaos with an actual purpose: predict, inspect the evidence, then fight a remix encounter to apply the lesson. No loot boxes, streaks, tracking, accounts, or changes to real tasks.</p>
+      <p class="aside-text">Try a video-game-style quest or a plain evidence exercise. Both ask for a prediction, explain the source, and test the same rule on a second example. No loot boxes, streaks, tracking, accounts, or changes to real tasks.</p>
+      <div class="gameful-mode-line">
+        <label for="gameful-mode">Presentation mode</label>
+        <select id="gameful-mode" aria-describedby="gameful-mode-note">
+          <option value="playful">Playful — game style</option>
+          <option value="plain">Plain — evidence style</option>
+        </select>
+        <p id="gameful-mode-note" class="gameful-mode-note">Both use identical questions, answer keys, explanations and source links. Choose before starting; this is a demonstration, not a randomized study.</p>
+      </div>
       <div id="gameful-content" hidden>
         <p id="gameful-genre" class="eyebrow">SOURCE EVIDENCE CHALLENGE</p>
         <h3 id="gameful-title">The evidence quest</h3>
