@@ -72,6 +72,11 @@ export const COPY = {
     "fr": "Ouvrez un court défi dans le centre de contrôle. Faites votre choix avant de lire l'explication, puis comparez votre réponse aux éléments disponibles.",
     "pt": "Abra um desafio curto na Central de controle. Faça sua escolha antes de ler a explicação e compare seu palpite com as evidências."
   },
+  "Build a free Clarity Card": {
+    "es": "Crear una tarjeta de claridad gratuita",
+    "fr": "Créer une fiche de clarté gratuite",
+    "pt": "Criar um cartão de clareza gratuito"
+  },
   "Open the free challenge": {
     "es": "Abrir el reto gratuito",
     "fr": "Ouvrir le défi gratuit",
