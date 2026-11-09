@@ -4,6 +4,7 @@ on:
     paths:
       - 'skills/cf0-hp-control/tests/windows_disposable_probe.ps1'
       - '.github/workflows/cf0-hp-control-windows-probe.yml'
+      - 'skills/cf0-hp-control/tests/windows_lock_probe.py'
   workflow_dispatch:
 
 permissions:
@@ -16,10 +17,17 @@ jobs:
     steps:
       - name: Checkout public source
         uses: actions/checkout@v4
+      - name: Set up Python for Windows byte-lock probe
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
       - name: Windows Task Scheduler reversible disposable test
         shell: pwsh
         run: |
           & ./skills/cf0-hp-control/tests/windows_disposable_probe.ps1
+      - name: Windows cross-process lock contention probe
+        shell: pwsh
+        run: python ./skills/cf0-hp-control/tests/windows_lock_probe.py
       - name: Explicit evidence boundary
         shell: pwsh
         run: |
