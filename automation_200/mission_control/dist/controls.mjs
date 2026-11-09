@@ -4,11 +4,25 @@ export const SOURCE_DATE = "2026-11-09";
 const gh = "https://github.com/whoiwts110217-creator/CF-0";
 export const SOURCES = Object.freeze({
   github: Object.freeze([
-    {id:"ai-tracker-monitor",title:"AI Tracker public response monitor",detail:"Scheduled every six hours (source cron: 17 */6 * * *)",research:true},
-    {id:"cf0-abund-daily",title:"Abund.ai daily discussions",detail:"Five scheduled daily slots in workflow source",research:true},
-    {id:"cf0-abund-discovery",title:"Abund.ai task discovery",detail:"Scheduled every six hours (source cron: 41 */6 * * *)",research:true},
-    {id:"cf0-channel-watchdog",title:"CF-0 channel evidence watchdog",detail:"Scheduled every five minutes; operational health, not a research brief",research:false},
-    {id:"cf0-release-gate",title:"CF-0 release gate",detail:"Daily scheduled release/readiness test",research:false}
+    {"id":"ai-tracker-monitor","title":"AI Tracker response monitor","trigger":"schedule","detail":"Every six hours (17 */6 * * *)","research":true},
+    {"id":"cf0-abund-daily","title":"Abund.ai daily discussions","trigger":"schedule","detail":"Five daily cron slots","research":true},
+    {"id":"cf0-abund-discovery","title":"Abund.ai task discovery","trigger":"schedule","detail":"Every six hours (41 */6 * * *)","research":true},
+    {"id":"cf0-channel-watchdog","title":"CF-0 channel evidence watchdog","trigger":"schedule","detail":"Every five minutes (*/5 * * * *), health only","research":false},
+    {"id":"cf0-release-gate","title":"CF-0 release/readiness gate","trigger":"schedule","detail":"Daily (17 9 * * *), validation only","research":false},
+    {"id":"agent-native-outreach-round-2","title":"Agent outreach round 2","trigger":"event","detail":"On matching source push or manual dispatch","research":true},
+    {"id":"bridge-tests","title":"Bridge regression tests","trigger":"event","detail":"On matching source push or manual dispatch","research":false},
+    {"id":"cf0-relay-tests","title":"Public relay Windows tests","trigger":"event","detail":"On source push, pull request or manual dispatch","research":false},
+    {"id":"dashboard-guard","title":"Dashboard regression guard","trigger":"event","detail":"On matching source push, pull request or manual dispatch","research":false},
+    {"id":"dreamkiller-browser-smoke","title":"Dreamkiller browser smoke test","trigger":"event","detail":"On source push, pull request or manual dispatch","research":false},
+    {"id":"dreamkiller-chapter01","title":"Dreamkiller chapter 01","trigger":"event","detail":"On matching source push or manual dispatch","research":false},
+    {"id":"dreamkiller-v02-browser","title":"Dreamkiller v0.2 browser tests","trigger":"event","detail":"On matching source push or manual dispatch","research":false},
+    {"id":"dreamkiller-v02","title":"Dreamkiller v0.2 build tests","trigger":"event","detail":"On matching source push or manual dispatch","research":false},
+    {"id":"mission-control-access-tests","title":"Mission Control access visibility tests","trigger":"event","detail":"On source push or pull request","research":false},
+    {"id":"one-time-agent-invitations","title":"One-time agent invitations","trigger":"event","detail":"On matching source push or manual dispatch","research":true},
+    {"id":"prompt-efficiency-guard","title":"Prompt efficiency guard","trigger":"event","detail":"On source push or manual dispatch","research":false},
+    {"id":"publish-website","title":"Publish Caveman Focus website","trigger":"event","detail":"On source push or manual dispatch","research":false},
+    {"id":"retry-agent-message-directory","title":"Retry agent message directory","trigger":"event","detail":"On matching source push or manual dispatch","research":true},
+    {"id":"verify-public-agent-invites","title":"Verify public agent invitations","trigger":"event","detail":"On matching source push or manual dispatch","research":true}
   ]),
   windows: Object.freeze([
     {id:"CavemanFocusCF0FastLane",title:"CF-0 Fast Lane",detail:"Owner-local 30-second poller; actual Windows status not connected",research:false},
@@ -23,7 +37,7 @@ export const GITHUB_BASE = gh;
 export const CHATGPT_PLACEHOLDER_COUNT = 10; // Only count is public; titles remain private until local import.
 export const inventoryStatus = item => item.source === "chatgpt"
   ? (item.reportedEnabled === true ? "Last reported enabled" : item.reportedEnabled === false ? "Last reported paused" : "State unknown")
-  : item.source === "github" ? "Schedule in source; runtime unknown" : "Local state unverified";
+  : item.source === "github" ? (item.trigger === "schedule" ? "Scheduled in source; live state unknown" : "Event/manual trigger in source; live state unknown") : "Local state unverified";
 
 export function records(privateAutomations = null) {
   const slots = privateAutomations === null

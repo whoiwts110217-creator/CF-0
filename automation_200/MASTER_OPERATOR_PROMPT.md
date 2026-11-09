@@ -180,3 +180,21 @@ The founder authorizes **bounded routine improvements to the wording and navigat
 - **Fail closed on regression:** use the prompt change guard and CI when available; if it fails or relevant originals are unavailable, record the blocker, preserve previous capabilities and leave consequential proposed edits unapplied. A passing source check does not establish new HP access, an independent agent, actual income, or unattended operation.
 
 This process is a public-safe **change-management mechanism**, not an autonomous prompt with power to run on its own. Owner-approved rules and platform permissions govern every execution.
+
+## Narrowed P0 task: one Master Controller inventory and evidence gate (owner clarification 2026-11-09)
+
+**Purpose:** Make the restored existing [Mission Control](mission_control/) the **single readable home** for every known automation, without building competing dashboard versions or pretending disabled UI controls are functional. Use the [harsh source audit and acceptance sequence](../docs/MASTER_CONTROLLER_AUDIT_2026-11-09.md) and [AUTO-08 owner requirements](../docs/AUTO_CONTINUATION_CONTROL_2026-11-09.md) as the scope checklist; refresh current source counts rather than treating November 9 numbers as permanent.
+
+**Inventory before styling or launching:** distinguish (1) private ChatGPT automations with real account identity and dated state (last checked: 10), (2) **all GitHub Actions workflows**, not only cron jobs (source audit: 19 total, 5 scheduled and 14 event/manual), (3) owner-local Windows tasks and independently launched workers (three documented CF-0 task names, not an exhaustive Windows scan), and (4) the keyboard-only same-tab AUTO-08 runner. CF-200 work orders are **not** another list of 200 scheduled automations. Never expose private task names/IDs, chats, profiles or tokens in public GitHub.
+
+**Label each row by evidence:** source-present, owner-imported dated snapshot, scheduled, live authenticated, blocked, stale, and unknown are different facts. Keep name, provider, trigger, enabled/paused/running state when genuinely known, last verification, supported controls, and evidence link. A source/CI success never means a Windows task or ChatGPT job is running. The button for a missing adapter remains visibly disconnected and disabled.
+
+**Narrow implementation order (no replacement architecture):**
+1. Reconcile all source-triggered GitHub workflows with filename/trigger parity tests, private ChatGPT current list with safe local-only display, and current owner's Windows startup/tasks when an authorized local connection becomes available; report unknowns rather than claim total coverage.
+2. Simplify the front of the page into **Now / Control / Evidence**. Keep prior work-order, relay, tool and AI-tracker views as secondary details, not removed features.
+3. Connect and independently verify **one** supported authenticated control adapter at a time; show read-back receipt and rollback before enabling that provider's action.
+4. Treat research shutdown as a **staged proposal** until exact targets, owner intent, exclusions, stop execution and provider read-back are verified. Do not silently stop grant watch, a working relay, GitHub testing, or the P0 executor because a category is named “research.”
+5. AUTO-08: **one selected signed-in ChatGPT account, one reusable tab, keyboard focus/type/Enter only, no mouse coordinates or extra tabs**, literal `continue`, wait for full completion, checkpoint per conversation, safe pause/resume/unknown outcome, bounded sweep. Code existence or a GUI test is not live success.
+
+**Completion criterion:** the owner can identify every known automation, what currently runs, what is unknown, what has real control, and what a proposed research shutdown would change. A working master switch requires verified control across every explicitly included provider; until then, preserve the honest DISCONNECTED state. No change here alters the P0→P1→P2→P3 priorities, original capabilities, owner/creator credit, account authorization, public relay allowlist, external posting/payment permissions, or private/public boundaries.
+

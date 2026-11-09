@@ -1,15 +1,27 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import {readFileSync} from "node:fs";
+import {readFileSync,readdirSync} from "node:fs";
 import {CHATGPT_PLACEHOLDER_COUNT,SOURCES,records,parsePrivateInventory,inventoryStatus,shutdownPlan} from "../dist/controls.mjs";
 
 test("every known scheduled channel is represented without exposing private task names",()=>{
   assert.equal(CHATGPT_PLACEHOLDER_COUNT,10);
-  assert.equal(SOURCES.github.length,5);
+  assert.equal(SOURCES.github.length,19);
+  assert.equal(SOURCES.github.filter(x=>x.trigger==="schedule").length,5);
+  assert.equal(SOURCES.github.filter(x=>x.trigger==="event").length,14);
+  const workflowDir=new URL("../../../.github/workflows/",import.meta.url);
+  const existing=readdirSync(workflowDir).filter(x=>x.endsWith(".yml")||x.endsWith(".yaml"));
+  assert.equal(existing.length,19);
+  assert.deepEqual(SOURCES.github.map(x=>x.id).sort(),existing.map(x=>x.replace(/\.ya?ml$/,"")).sort(),
+    "Dashboard inventory must match every workflow file in repo");
+  for(const row of SOURCES.github){
+    const f=readFileSync(new URL(row.id+".yml",workflowDir),"utf8");
+    const scheduled=/(^|\n)  schedule:/.test(f);
+    assert.equal(row.trigger==="schedule",scheduled,"Trigger mismatch for "+row.id);
+  }
   assert.equal(SOURCES.windows.length,3);
   assert.equal(SOURCES.continuation.length,1);
   const all=records();
-  assert.equal(all.length,19);
+  assert.equal(all.length,33);
   assert.equal(all.filter(x=>x.source==="chatgpt").length,10);
   assert.ok(all.filter(x=>x.source==="chatgpt").every(x=>x.title.startsWith("Private automation ")));
   assert.ok(all.filter(x=>x.source==="github").every(x=>x.url.startsWith("https://github.com/whoiwts110217-creator/CF-0/actions/workflows/")));

@@ -49,3 +49,9 @@ A CF-0 operator may make bounded, public-safe **clarity/efficiency** changes dur
 | ID | Specific owner-directed edit | Boundary | Evidence |
 |---|---|---|---|
 | **PCE-005** | Correct two outdated operator-prompt attribution statements: David Smith creator/developer; Kiara Lynn Rose Smith designated owner/beneficiary | Owner authorized this specific factual reconciliation; PCA-001 **remains pending** for future automatic authority/ownership edits | [Master operator](MASTER_OPERATOR_PROMPT.md) · [append-only revision log](PROMPT_CHANGE_LOG.jsonl) · [source reconciliation](../docs/CONTINUITY_RECONCILIATION_2026-11-07_DREAMKILLER.md) |
+
+## November 9 · Master Controller scope correction
+
+| ID | Owner-authorized scope clarification | Result and boundary | Evidence / rollback |
+|---|---|---|---|
+| **PCE-006** | Narrow the existing **Master Operating Prompt** to a full four-surface controller audit: ChatGPT automations, every GitHub workflow (not only cron), owner-local Windows tasks, and keyboard-only one-tab AUTO-08. Distinguish public source from live control and staged research shutdown from actual pause. | **Applied as an editorial P0 acceptance clarification**, not a priority reorder or permission grant; all existing functionality, P0–P3 hierarchy, owner credit, privacy boundaries and HP allowlist preserved. No real task changed state. | [Operator scope commit](https://github.com/whoiwts110217-creator/CF-0/commit/ac917ce08cee9f5348d95f6fd52507d6c18b4cda) · [harsh audit](../docs/MASTER_CONTROLLER_AUDIT_2026-11-09.md) · [append-only event](PROMPT_CHANGE_LOG.jsonl) · rollback: revert operator commit with review. CI guard to verify. |
