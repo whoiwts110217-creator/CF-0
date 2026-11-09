@@ -260,6 +260,22 @@ try {
   assert.match(fundingBrief.disclaimer,/No account or project state is changed/);
   console.log("Field-brief browser acceptance, funding:",JSON.stringify(fundingBrief));
 
+  // The real-world field brief must appear only after the transfer answer is graded.
+  await evaluate("document.querySelector('[data-gameful-answer=true]').click()");
+  await assertQuizVisibility({
+    "gameful-source":true,"gameful-next":true,"gameful-field-brief":true
+  },"transfer answer revealed");
+  const fieldState = await evaluate(`(()=>({
+    action:document.getElementById("gameful-field-action").textContent,
+    evidence:document.getElementById("gameful-field-evidence").textContent,
+    source:document.getElementById("gameful-field-link").href,
+    disclosure:document.querySelector("#gameful-field-brief .gameful-field-limit").textContent
+  }))()`);
+  assert.match(fieldState.evidence,/Acceptance:/);
+  assert.match(fieldState.disclosure,/proposed action, not a completed task/);
+  assert.ok(fieldState.source.startsWith("https://github.com/whoiwts110217-creator/CF-0/"));
+  console.log("PASS: field brief follows transfer grading and remains a proposal.");
+
   // The same question/explanation survives the voluntary mode switch.
   await evaluate(`(()=>{document.getElementById('gameful-toggle').click();
     const mode=document.getElementById('gameful-mode');
