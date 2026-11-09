@@ -14,7 +14,7 @@ class ConsumerAckTests(unittest.TestCase):
 
     def test_matching_synthetic_decision_is_only_source_correlation(self):
         result = verify_consumer_ack(self.producer, self.ack)
-        self.assertTrue(result["correlated"])
+        self.assertTrue(result["correlated"])\n        self.assertFalse(result["acknowledgement_origin_verified"])
         self.assertFalse(result["execution_authorized"])
         self.assertFalse(result["hp_identity_attested"])
         self.assertEqual(result["decision"], "deferred")
