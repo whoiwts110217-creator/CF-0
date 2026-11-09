@@ -81,7 +81,8 @@ async function key(keyName) {
 async function accessibilityNodes() {
   const response = await send("Accessibility.getFullAXTree");
   return (response.result?.nodes || []).filter(node => !node.ignored)
-    .map(node => ({ role: node.role?.value || "", name: node.name?.value || "" }));
+    .map(node => ({ role: node.role?.value || "", name: node.name?.value || "",
+      description: node.description?.value || "" }));
 }
 function assertAccessible(nodes, role, name) {
   assert.ok(nodes.some(node => node.role.toLowerCase() === role.toLowerCase() && node.name === name),
@@ -174,6 +175,11 @@ try {
   assertAccessible(openedAx, "heading", "Checking execution evidence");
   assertAccessible(openedAx, "button", "TRUE");
   assertAccessible(openedAx, "button", "FALSE");
+  for (const answer of ["TRUE","FALSE"]) {
+    assert.ok(openedAx.some(n => n.role.toLowerCase()==="button" && n.name===answer &&
+      n.description.includes(open.claim)),
+      "Assistive users should hear the current question when navigating to "+answer);
+  }
   assert.ok(openedAx.some(node => node.name.includes(open.claim)),
     "Current evidence claim should be exposed in the accessibility tree");
 
@@ -211,6 +217,10 @@ try {
   assert.equal(remix.focus, "gameful-title");
   assert.match(remix.heading, /second example/);
   assert.match(remix.claim, /stronger evidence/);
+  const remixAx = await accessibilityNodes();
+  assert.ok(remixAx.some(n => n.role.toLowerCase()==="button" && n.name==="TRUE" &&
+    n.description.includes(remix.claim)),
+    "Answer description must update to the transfer question, not the first question");
   await assertQuizVisibility({
     "gameful-source":false,"gameful-next":false,"gameful-field-brief":false
   },"new transfer question");
