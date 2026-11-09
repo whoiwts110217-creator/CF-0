@@ -110,8 +110,8 @@ button.btn{cursor:pointer;font-family:inherit;font-size:1rem}button.btn:focus-vi
     await copyLink(freeToolUrl);
   });
 
-  document.getElementById("copy-first-drop").addEventListener("click", () => {
-    copyLink(firstDropUrl);
+  document.getElementById("copy-first-drop").addEventListener("click", async () => {
+    await copyLink(firstDropUrl);
   });
 })();
 </script>
