@@ -14,6 +14,9 @@ function Snapshot {
     Assert-True ($t.TaskPath -eq $taskPath) 'Wrong task path'
     Assert-True ($t.TaskName -eq $taskName) 'Wrong task name'
     Assert-True ($t.Principal.RunLevel.ToString() -eq 'Limited') 'Elevated task detected'
+    $current = [Security.Principal.WindowsIdentity]::GetCurrent()
+    $taskUser = [string]$t.Principal.UserId
+    Assert-True (($taskUser -ieq $current.Name) -or ($taskUser -ieq $current.User.Value)) 'Wrong task principal'
     Assert-True ($t.Actions.Count -eq 1) 'Unexpected task actions'
     $expected = Join-Path $env:SystemRoot 'System32\cmd.exe'
     Assert-True ($t.Actions[0].Execute -ieq $expected) 'Unexpected executable'
