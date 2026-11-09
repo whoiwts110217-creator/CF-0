@@ -58,6 +58,10 @@ class GateTests(unittest.TestCase):
         del self.data["hard_gates"]["privacy_preserved"]
         self.assertEqual(self.check()["decision"], "needs_evidence")
 
+    def test_unknown_hard_gate_requires_evidence(self):
+        self.data["hard_gates"]["new_remote_access"] = True
+        self.assertEqual(self.check()["decision"], "needs_evidence")
+
     def test_synthetic_evidence_not_promoted(self):
         self.data["synthetic"] = True
         self.assertEqual(self.check()["decision"], "needs_evidence")
