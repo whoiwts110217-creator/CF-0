@@ -48,6 +48,8 @@ jobs:
         run: node --test automation_200/mission_control/tests/*.test.mjs
       - name: Test optional homepage languages
         run: node --test i18n/home.test.mjs
+      - name: Verify public free-entry and recognition claims
+        run: python -m unittest discover -s tests -p 'test_public_frontdoor.py' -v
       - name: Build commit-pinned public Mission Control fallback
         run: python automation_200/mission_control/build_snapshot.py
       - name: Rebuild Dreamkiller v0.2 cartridge from public source
