@@ -39,6 +39,30 @@ export function importQueue(raw) {
     return [{id, title:String(x.title || 'Untitled').slice(0,100)}];
   });
 }
+// A conversation URL plus composer is not proof the requested chat loaded.
+// On an empty/error page (including another account's inaccessible chat),
+// stop before issuing any keyboard input. This does not authenticate identity.
+export function hasLoadedConversation(snapshot) {
+  return Number.isSafeInteger(snapshot?.userCount) && snapshot.userCount >= 0 &&
+    Number.isSafeInteger(snapshot?.assistantCount) && snapshot.assistantCount >= 0 &&
+    snapshot.userCount + snapshot.assistantCount > 0;
+}
+
+// Only read already-rendered sidebar links: no private API, extra tab or
+// network request. Returned IDs stay in extension-local Chrome storage.
+export function capturedSidebarQueue(hrefs) {
+  if (!Array.isArray(hrefs) || hrefs.length > 2000) throw Error('INVALID_VISIBLE_SIDEBAR');
+  const ids = new Set();
+  for (const value of hrefs) {
+    if (typeof value !== 'string' || value.length > 1000) continue;
+    try {
+      const id=chatId(new URL(value,WORKSPACE).href);
+      if(id)ids.add(id);
+    } catch { /* Ignore invalid/untrusted anchors. */ }
+  }
+  return [...ids].slice(0,500).map(id=>({id,title:'Visible sidebar chat'}));
+}
+
 export function classifyOverlay(snapshot) {
   const text = String(snapshot?.dialogText || '').trim().toLowerCase();
   const url = String(snapshot?.url || '');
