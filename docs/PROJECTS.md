@@ -88,3 +88,9 @@ These links are a categorized index, not a new CF-200 verification or a producti
 | **CF-CONCEPT-DREAMKILLER-001** | [Dreamkiller / BreachDungeon](../concepts/dreamkiller/MASTER_CONCEPT_AND_CONTINUITY_PROMPT.md): new owner-directed Game Boy Color RPG concept by **David Smith**, designated owner **Kiara Lynn Rose Smith**. Related to but not a replacement for historical Breach Dungeon APK (**CR-10**); extends inspiration to SimpleMMO, integrates Caveman Focus from the first frame, engineered glitches, DK-000 and thirty C-laws. **Concept only:** no actual ROM, working MMO, hardware-tested glitch or owned franchise assets claimed. |
 
 [Concepts category](../concepts/README.md) · [Public source reconciliation](CONTINUITY_RECONCILIATION_2026-11-07_DREAMKILLER.md). Does not alter historical 17/18/~37/62 archive evidence or verify a CF-200 task.
+
+
+## November 9 — continuity and gameful learning branch
+
+- **UCC-001 (universal continuity):** [same source-linked contract for every workstream](UNIVERSAL_CONTINUITY_CONTRACT.md). Every feature, joke, research note, grant, game prototype, automation and future decision retains provenance, status, verification, privacy, rollback and next action.
+- **CF-EXP-GAME-LEARN-001 (Brainrot → Brainpower):** [research hypothesis, risks and test plan](BRAINROT_TO_BRAINPOWER_2026-11-09.md) and [optional Mission Control learning quiz](https://whoiwts110217-creator.github.io/CF-0/mission-control/#learning-lab). Linked to existing `FIN-09`, `CF-CORE` and `RES-04`. Source feature **does not** prove improvements in learning or modify any verified registry count. Public deployment and browser behavior require separate verification.
