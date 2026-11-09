@@ -1,0 +1,23 @@
+name: CF-0 Mission Control Access Visibility Tests
+on:
+  push:
+    paths:
+      - 'automation_200/mission_control/**'
+      - '.github/workflows/mission-control-access-tests.yml'
+  pull_request:
+    paths:
+      - 'automation_200/mission_control/**'
+      - '.github/workflows/mission-control-access-tests.yml'
+permissions:
+  contents: read
+jobs:
+  source-only-access-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Test Mission Control read-only model and access labels
+        run: node --test automation_200/mission_control/tests/*.test.mjs
