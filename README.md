@@ -17,7 +17,9 @@
 
 **Caveman Focus is an experimental automation and knowledge system** being built to coordinate AI-assisted work, make priorities follow its owner's decisions, and verify what actually happened. Its first practical target is a low-resource Windows PC: fewer manual commands, more useful automated work, and clear evidence for every result.
 
-**Project stage: public developer preview (November 6, 2026).** The source is available, but there is no stable, independently reproduced end-user release yet.
+**Project stage: public developer preview (November 6, 2026 baseline; later source updates exist).** The source is available, but there is no stable, independently reproduced end-user release yet.
+
+**[Public credibility and credit audit — November 9, 2026](docs/PUBLIC_CREDIT_CREDIBILITY_AUDIT_2026-11-09.md).** A source-based, severity-ranked review of authorship/owner designation, contributor vs donor recognition, licensing, evidence standards and usability. **No repository-wide reuse license is currently published**; public access alone does not grant reuse rights. The audit is not a legal determination or an end-to-end website test.
 
 **Executable archive continuity (source-only):** [local-first conversation and project index](continuity/README.md) now has an offline Python/SQLite importer, duplicate source origins, proposed claims and conflicting-claim detection. It is **not installed on the HP** and does **not** auto-retrieve other account histories. Originals and searchable chat text stay outside this public repo.
 
