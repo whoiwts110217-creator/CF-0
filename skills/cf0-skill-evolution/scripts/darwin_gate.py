@@ -145,7 +145,7 @@ def evaluate(baseline_path, candidate_path, evidence_path):
     if votes["better"] <= len(judge_ids) // 2:
         reasons.append("no majority of explicit better votes (ties are not approvals)")
 
-    if decision != "reject" and not (evidence.get("synthetic") is True or missing or bad_tests or not improvements or len(judge_ids) < 3
+    if decision != "reject" and not (evidence.get("synthetic") is True or unknown_gates or missing or bad_tests or not improvements or len(judge_ids) < 3
                     or len(judge_ids) % 2 == 0 or invalid_judges or len(orders) < 2
                     or votes["better"] <= len(judge_ids) // 2):
         decision = "owner_review_required"
