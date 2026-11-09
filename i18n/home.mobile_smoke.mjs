@@ -127,7 +127,16 @@ try {
     return true;
   })()`);
   await waitFor("document.documentElement.lang === 'en' && document.querySelector('h1')?.textContent.includes('Make the complicated')","English language switch");
-  assert.ok((await evaluate("document.documentElement.scrollWidth"))<=392,"Language switching must not cause horizontal scrolling");
+  const englishLayout = await evaluate(`(() => {
+    const viewport=innerWidth;
+    const outliers=[...document.querySelectorAll('body *')].map(e=>({e,r:e.getBoundingClientRect()}))
+      .filter(({e,r})=>r.width>0 && (r.right>viewport+2 || r.left < -2))
+      .slice(0,15).map(({e,r})=>({tag:e.tagName,id:e.id,cls:e.className?.toString().slice(0,80),left:r.left,right:r.right,width:r.width}));
+    return {viewport,scrollWidth:document.documentElement.scrollWidth,bodyWidth:document.body.scrollWidth,
+      menuOpen:document.querySelector('.more-nav').open,lang:document.documentElement.lang,outliers};
+  })()`);
+  console.log("390px English layout after switch:", JSON.stringify(englishLayout));
+  assert.ok(englishLayout.scrollWidth<=392,"Language switching must not cause horizontal scrolling");
   console.log("PASS: 390px Chromium first visit, Spanish evidence, no overflow, More menu, free demo and English switch.");
 } finally {
   try { socket?.close(); } catch {}
