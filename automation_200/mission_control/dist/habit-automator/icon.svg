@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192" role="img" aria-label="Habit Automator icon">
+<defs><linearGradient id="g" x1="0" x2="1" y1="0" y2="1"><stop stop-color="#b5ecff"/><stop offset="1" stop-color="#48a8df"/></linearGradient></defs>
+<rect width="192" height="192" rx="42" fill="#0b1528"/>
+<circle cx="96" cy="96" r="63" fill="none" stroke="#24435e" stroke-width="14"/>
+<path d="M96 32a64 64 0 0 1 64 64" fill="none" stroke="url(#g)" stroke-width="14" stroke-linecap="round"/>
+<path d="M63 103l22 23 44-58" fill="none" stroke="url(#g)" stroke-width="13" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="151" cy="40" r="7" fill="#ffc67c"/>
+</svg>
