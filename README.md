@@ -4,6 +4,8 @@
 
 **[FIRST DROP — Public landing page and founding Hall of Fame (any amount)](https://whoiwts110217-creator.github.io/CF-0/first-drop/)** · [Read and share the public invitation](docs/FIRST_DROP_CAMPAIGN_2026-11-09.md). Voluntary support only; recognition follows confirmed contribution and name consent. No investment or return is promised.
 
+**[SHARE CAVEMAN FOCUS — public copy for builders, critics, and founding supporters](docs/SHARE_CAVEMAN_FOCUS_2026-11-09.md)** — Free Clarity Card first; optional, transparent funding; community-rule-aware drafts, not claims of external posting.
+
 **[START HERE — site, Mission Control, master prompts, HP commands, AI Tracker](docs/START_HERE.md)**
 
 **[PUBLIC TASKS & ISSUES](docs/TASKS_AND_ISSUES.md) — what we're doing, what's blocked, and what needs your decision**
