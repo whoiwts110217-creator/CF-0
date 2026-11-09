@@ -1,0 +1,91 @@
+{
+  "schema": "cf0.gameful_review_candidates.v0.1",
+  "continuity_id": "CF-EXP-GAME-LEARN-001",
+  "parent_ids": [
+    "CF-CORE",
+    "FIN-09",
+    "RES-04"
+  ],
+  "researched_date": "2026-11-09",
+  "status": "public_candidates_only_no_contacts_sent",
+  "outreach_authorized": false,
+  "review_completed": false,
+  "costs_verified": false,
+  "note": "Candidates are not reviewers who agreed to participate. Contacts and services are grounded on official pages; program eligibility and prices require direct confirmation. No inquiry submitted.",
+  "existing_reviewer_packet": "research/gameful_learning/INDEPENDENT_REVIEW_PACKET_V0_3.md",
+  "candidates": [
+    {
+      "id": "R01",
+      "organization": "The Ohio State University — CETE Assessment Program",
+      "priority": 1,
+      "category": "published assessment consulting service",
+      "fit": "Explicit support for non-accreditation assessment item writing, test revision, validity evidence and psychometrics; most relevant preliminary inquiry for small public instrument.",
+      "official_service_url": "https://cete.osu.edu/assessment-consultation-services/",
+      "contact_method": "Official CETE general contact email / project contact listed on service page",
+      "contact": "cete@osu.edu",
+      "named_contact": "Dr. Bridget McHugh",
+      "scope_to_verify": "Will CETE consider a small, independent, public, non-commercial 12-item constructed-response educational research instrument? Are low/no-cost preliminary feedback, referrals or a limited fixed-scope quote possible?",
+      "fee_status": "not published / unknown",
+      "eligibility": "open-client language for clients not seeking accreditation, but individual startup projects not guaranteed",
+      "sent": false,
+      "engaged": false
+    },
+    {
+      "id": "R02",
+      "organization": "Buros Center for Testing — Psychometric Consulting",
+      "priority": 2,
+      "category": "independent psychometric consulting",
+      "fit": "Consultation/independent evaluation and measurement expertise. Important: standard Mental Measurements Yearbook review explicitly excludes research/public-domain instruments; enquire about separate consulting only.",
+      "official_service_url": "https://buros.org/psychometric-consulting/",
+      "restriction_source_url": "https://buros.org/resources/faq/",
+      "contact_method": "Psychometric Consulting contact on official site",
+      "contact": "tmoses2@buros.org",
+      "named_contact": "Tim Moses",
+      "scope_to_verify": "Can the separate consulting unit assess a small public-domain pilot instrument's content validity and scoring rubric? Do NOT request a standard Mental Measurements Yearbook test review. Ask minimum scope, price and referrals.",
+      "fee_status": "not published / unknown",
+      "eligibility": "research/public-domain excluded from standard published test reviews, consulting acceptance not established",
+      "sent": false,
+      "engaged": false
+    },
+    {
+      "id": "R03",
+      "organization": "Center for Assessment (NCIEA)",
+      "priority": 3,
+      "category": "assessment-system design and psychometrics consulting",
+      "fit": "Public services include performance assessment design and comparing assessment meaning over time; mostly works with states/districts. Small independent owner-run project fit uncertain.",
+      "official_service_url": "https://www.nciea.org/our-approach/what-we-work-on/",
+      "contact_url": "https://www.nciea.org/contact/",
+      "contact_method": "Official contact form (asks for user identity/contact information)",
+      "contact": null,
+      "scope_to_verify": "Ask whether independent rubric/item review for an early-stage non-school public pilot is in scope and whether a referral or low-cost educational consultation exists.",
+      "fee_status": "not published / unknown",
+      "eligibility": "primarily states, school districts and education-system clients; individual instrument inquiry may be declined",
+      "sent": false,
+      "engaged": false
+    }
+  ],
+  "resource_only": [
+    {
+      "name": "National Council on Measurement in Education (NCME) Ph.D. program/faculty directory",
+      "url": "https://ncme.org/students/graduate-programs/",
+      "purpose": "Potential academic faculty expertise discovery or later referral, NOT a review service or promise of availability."
+    }
+  ],
+  "excluded_shortcuts": [
+    {
+      "name": "Buros Mental Measurements Yearbook (MMY)",
+      "reason": "Its official FAQ excludes public-domain/research instruments from standard published test-review process. A separate consultant may still be asked."
+    },
+    {
+      "name": "University of Michigan CRLT individual consultation",
+      "reason": "Published consultations are for University of Michigan Ann Arbor affiliates, not automatically open to outside project owners.",
+      "url": "https://crlt.umich.edu/crlt-consultation-services"
+    },
+    {
+      "name": "Michigan State CTLI consultation",
+      "reason": "Published service supports MSU educators; no outside access confirmed.",
+      "url": "https://ctli.msu.edu/support/consultations"
+    }
+  ],
+  "permission_boundary": "PCA-003: any actual outbound requests, DMs, web form submissions or expenses require separate explicit owner authorization and scope. Merely publishing this shortlist is not outreach."
+}

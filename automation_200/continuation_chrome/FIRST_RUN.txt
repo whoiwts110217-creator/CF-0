@@ -1,0 +1,45 @@
+CAVEMAN FOCUS AUTO-08 — FIRST RUN (WINDOWS CHROME)
+==================================================
+
+This is a Chrome EXTENSION, not an iPhone app or installed Windows program.
+GitHub source checks do not prove it works in your signed-in account.
+
+1. Download the latest successful CF-0 AUTO-08 source-test Actions artifact.
+   Extract the artifact ZIP into a stable Windows folder.
+   Choose the folder that directly contains manifest.json.
+
+2. In desktop Chrome, enter chrome://extensions in the address bar.
+   Enable Developer mode, choose "Load unpacked", and select that folder.
+   Inspect the extension's permissions and confirm they match README.md.
+
+3. In the SAME Chrome profile, sign into the intended ChatGPT account and
+   VERIFY its identity visibly yourself. Keep exactly ONE chatgpt.com tab.
+   Open ONE existing conversation in that tab (not the new-chat page).
+
+4. Open the CF-0 AUTO-08 extension popup. Select the right owner-chosen
+   account label. A label DOES NOT sign in or authenticate the account.
+
+5. Choose "Check readiness (no send)" FIRST. It inspects the current page,
+   does not type, navigate, attach a debugger, or transmit any transcript.
+   A pass means the conversation looks ready, NOT identity verified.
+
+6. Only after independently confirming the ChatGPT login and the target
+   conversation, choose "Continue current chat once". Observe ONE exact
+   continue message and its completed answer in the same existing tab.
+   Do not start a sweep until the one-chat test actually succeeds.
+
+7. If an error, draft, popup, new tab, or uncertain send occurs, STOP and
+   inspect the conversation before trying again. The popup can review
+   uncertain attempts. Do not blindly delete or reset checkpoints.
+
+8. For later use, capture VISIBLE sidebar chats into the private local
+   queue or import your own private export. The sidebar is NOT a complete
+   history scan. Run bounded sweeps and check outcomes. Chrome stays open.
+
+NO ACCOUNT CREDENTIALS, CHAT EXPORTS OR RECEIPTS SHOULD BE UPLOADED TO
+PUBLIC GITHUB. NEVER POST PAYMENT OR PRIVATE IDENTITY DATA IN CI LOGS.
+
+Help/source:
+https://github.com/whoiwts110217-creator/CF-0/tree/main/automation_200/continuation_chrome
+Latest build runs:
+https://github.com/whoiwts110217-creator/CF-0/actions/workflows/auto08-chrome-source.yml

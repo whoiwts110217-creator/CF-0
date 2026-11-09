@@ -88,3 +88,20 @@ test("Navigation and multilingual homepage show the real free deliverable",()=>{
   assert.match(translations,/"pt": "Criar um cartão/);
   assert.match(sitemap,/\/CF-0\/clarity-card\//);
 });
+
+test("Clarity Card share metadata is canonical and truthful", () => {
+  const canonical = "https://whoiwts110217-creator.github.io/CF-0/clarity-card/";
+  assert.ok(html.includes('<link rel="canonical" href="' + canonical + '">'));
+  assert.ok(html.includes('<meta property="og:url" content="' + canonical + '">'));
+  assert.match(html, /name="robots" content="index,follow"/);
+  assert.match(html, /property="og:type" content="website"/);
+  assert.match(html, /property="og:site_name" content="Caveman Focus"/);
+  assert.match(html, /property="og:title" content="Free Clarity Card/);
+  assert.match(html, /property="og:description" content="Try a free, no-sign-in worksheet/);
+  assert.match(html, /name="twitter:card" content="summary"/);
+  assert.match(html, /name="twitter:title" content="Free Clarity Card/);
+  assert.match(html, /name="twitter:description" content="Turn a complicated question/);
+  assert.match(html, /Support is optional/);
+  assert.doesNotMatch(html, /property="og:image"/, "No unverified social image is advertised");
+  assert.doesNotMatch(html, /article:published_time/, "Not an article");
+});
