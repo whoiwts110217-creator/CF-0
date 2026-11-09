@@ -5,6 +5,7 @@ const test = require("node:test");
 const fs = require("node:fs");
 const path = require("node:path");
 const vm = require("node:vm");
+const { webcrypto, createHash } = require("node:crypto");
 
 const html = fs.readFileSync(path.join(__dirname, "..", "index.html"), "utf8");
 const scripts = [...html.matchAll(/<script\b[^>]*>([\s\S]*?)<\/script>/gi)].map(m => m[1]);
@@ -65,7 +66,7 @@ function harness(options = {}) {
   }
   const context = vm.createContext({
     module: {exports: {}}, TextEncoder, TextDecoder, Uint8Array, Uint32Array, DataView,
-    Blob, File: options.noFile ? undefined : FakeFile,
+    Blob, File: options.noFile ? undefined : FakeFile, crypto: options.noCrypto ? undefined : webcrypto,
     URL: url, URLSearchParams, console, document, navigator, location: {search: "", protocol: "http:"},
     localStorage: {getItem() {return null;}, setItem() {}},
     window: {addEventListener() {}}, setTimeout(fn, ms) {scheduled.push({fn, ms});},
@@ -181,4 +182,87 @@ test("existing forge, preview and test controls remain wired", async () => {
   assert.match(h.context.document.getElementById("testResults").textContent, /checks passed/);
   await h.fire("skillForm", "submit");
   assert.match(h.status(), /Forged \d+ files locally/);
+});
+
+
+test("local skill review demands an older and newer document", async () => {
+  const h = harness();
+  await h.fire("reviewCompareFiles");
+  assert.match(h.context.document.getElementById("reviewResults").textContent, /Select an older SKILL/i);
+  assert.equal(h.context.document.getElementById("reviewDownload").disabled, true);
+});
+
+test("distinct local skill versions yield unrun checks with real SHA-256", async () => {
+  const h = harness();
+  const oldSource = "Old skill document text that must stay local and private";
+  const newSource = "A revised document";
+  h.context.document.getElementById("reviewBaseline").files = [new Blob([oldSource])];
+  h.context.document.getElementById("reviewCandidate").files = [new Blob([newSource])];
+  await h.fire("reviewCompareFiles");
+  assert.match(h.context.document.getElementById("reviewResults").textContent, /TWO DISTINCT FILES — NOT YET EVALUATED/);
+  assert.equal(h.context.document.getElementById("reviewDownload").disabled, false);
+  await h.fire("reviewCopy");
+  assert.match(h.status(), /Unrun evaluation template copied/);
+  await h.fire("reviewDownload");
+  assert.equal(h.clicks.length, 1);
+  assert.equal(h.clicks[0].name, "cf0-skill-evolution-unrun-evals.json");
+  assert.match(h.status(), /download requested/i);
+  // Ensure displayed hashes are actual content digests, not claimed model scores.
+  const expected = createHash("sha256").update(oldSource).digest("hex");
+  assert.ok(h.context.document.getElementById("reviewResults").textContent.includes(expected));
+  assert.ok(!h.context.document.getElementById("reviewResults").textContent.includes(oldSource));
+});
+
+test("identical skill bytes are explicitly rejected", async () => {
+  const h = harness();
+  h.context.document.getElementById("reviewBaseline").files = [new Blob(["Same exact skill"])];
+  h.context.document.getElementById("reviewCandidate").files = [new Blob(["Same exact skill"])];
+  await h.fire("reviewCompareFiles");
+  assert.match(h.context.document.getElementById("reviewResults").textContent, /SAME FILE CONTENT/);
+  assert.match(h.context.document.getElementById("reviewResults").textContent, /rejected/i);
+});
+
+test("uses generated skill as the new version without uploading it", async () => {
+  const h = harness();
+  h.context.document.getElementById("reviewBaseline").files = [new Blob(["Prior instruction file"])];
+  await h.fire("reviewCompareGenerated");
+  assert.match(h.context.document.getElementById("reviewResults").textContent, /TWO DISTINCT FILES/);
+});
+
+test("blocks files larger than the declared local cap", async () => {
+  const h = harness();
+  h.context.document.getElementById("reviewBaseline").files = [new Blob(["x".repeat(262145)])];
+  h.context.document.getElementById("reviewCandidate").files = [new Blob(["Valid revised skill"])];
+  await h.fire("reviewCompareFiles");
+  assert.match(h.context.document.getElementById("reviewResults").textContent, /256 KB or smaller/);
+  assert.equal(h.context.document.getElementById("reviewDownload").disabled, true);
+});
+
+test("rejects invalid UTF-8 rather than normalizing different bytes", async () => {
+  const h = harness();
+  h.context.document.getElementById("reviewBaseline").files = [new Blob([new Uint8Array([0xff,0xfe])])];
+  h.context.document.getElementById("reviewCandidate").files = [new Blob(["Good skill"])];
+  await h.fire("reviewCompareFiles");
+  assert.match(h.context.document.getElementById("reviewResults").textContent, /Cannot compare:/);
+  assert.equal(h.context.document.getElementById("reviewDownload").disabled, true);
+});
+
+test("fails visibly when secure SHA-256 is unavailable", async () => {
+  const h = harness({noCrypto: true});
+  h.context.document.getElementById("reviewBaseline").files = [new Blob(["Old skill"])];
+  h.context.document.getElementById("reviewCandidate").files = [new Blob(["New skill"])];
+  await h.fire("reviewCompareFiles");
+  assert.match(h.context.document.getElementById("reviewResults").textContent, /SHA-256 hashing is not available/);
+  assert.equal(h.context.document.getElementById("reviewDownload").disabled, true);
+});
+
+test("changing a comparison file invalidates previously prepared review", async () => {
+  const h = harness();
+  h.context.document.getElementById("reviewBaseline").files = [new Blob(["Old skill"])];
+  h.context.document.getElementById("reviewCandidate").files = [new Blob(["New skill"])];
+  await h.fire("reviewCompareFiles");
+  assert.equal(h.context.document.getElementById("reviewDownload").disabled, false);
+  await h.fire("reviewCandidate", "change");
+  assert.equal(h.context.document.getElementById("reviewDownload").disabled, true);
+  assert.match(h.context.document.getElementById("reviewResults").textContent, /unrun evaluation/i);
 });
