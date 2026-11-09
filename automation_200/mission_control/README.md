@@ -92,3 +92,10 @@ When manually installed via Chrome's developer-mode **Load unpacked**, a matchin
 
 **v0.2 remix follow-up:** The optional lesson now asks a second differently worded application question after each initial answer, with both true and false keys. [Automated source and continuity checks](tests/gameful.test.mjs) passed in [CI run 42663949373](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42663949373), and the [Pages build](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42663949334) passed. Actual device interaction and educational improvement remain unproven. [Evaluation protocol](../../docs/BRAINROT_LEARNING_PILOT_PROTOCOL_V0_1.md) describes how to test those claims responsibly without turning the page into a tracking product.
 
+
+## Learning lab Plain / Playful demonstration — v0.3, November 9
+
+The optional [learning lab](https://whoiwts110217-creator.github.io/CF-0/mission-control/#learning-lab) now offers **Plain** (neutral evidence exercise) and **Playful** (gaming-style mission) presentations. The [single factual mission source](dist/gameful.mjs) is unchanged. A [pure presentation adapter](dist/gameful-modes.mjs) varies only headings, instructions and feedback copy; [browser UI](dist/gameful-ui.mjs) locks selection while a run is open, and stores nothing. [Source parity tests](tests/gameful.test.mjs) and [DOM simulation test](tests/gameful-ui-dom.test.mjs) check content parity, mode lock/reset and absence of account/storage capabilities. No participant assignment, live collection, or learning-effectiveness claim exists. The [evaluation protocol](../../docs/BRAINROT_LEARNING_PILOT_PROTOCOL_V0_1.md) distinguishes this demo from a randomized study; [continuity contract](../../docs/UNIVERSAL_CONTINUITY_CONTRACT.md) preserves the existing project identity and parent links.
+
+**Deployment evidence:** see workflow runs after these commits; GitHub CI source checks and Pages success are separate from a real iPhone UI inspection. No HP permissions, automation schedules, or CF-200 registry updates are implicated.
+
