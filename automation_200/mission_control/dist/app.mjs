@@ -1,6 +1,7 @@
 import { dashboardModel, filterTasks, GITHUB, HEALTH, loadLive, REPO, REGISTRY, TRACKER, trackerModel } from "./model.mjs";
 import { taskAccess, contractTools, summarizeAccess } from "./access.mjs";
 import { parseLocalDecision, parseLocalFocus, localTaskEvidence, localFocusSummary } from "./runtime.mjs";
+import { loadWatchdog } from "./watchdog.mjs";
 
 const byId = id => document.getElementById(id);
 const refresh = byId("refresh");
@@ -262,6 +263,30 @@ function renderAITracker(tracker) {
   byId("ai-status-note").textContent = "Issue #16 checked " + checkedTime.format(tracker.checkedAt) + "." + scope;
 }
 
+async function refreshCloudWatchdog() {
+  try {
+    const run = await loadWatchdog();
+    const state = run.status === "completed"
+      ? run.conclusion === "success" ? ["Passed · cloud", "mint"] : ["Not passed · cloud", "amber"]
+      : ["Running / queued · cloud", "muted"];
+    badge("watchdog-badge", ...state);
+    const link = byId("watchdog-link");
+    link.hidden = false;
+    link.href = run.link;
+    const kind = run.event === "schedule" ? "scheduled" : run.event === "push" ? "push-triggered" : "manual";
+    byId("watchdog-note").textContent =
+      "Last " + kind + " cloud run " + checkedTime.format(run.createdAt) +
+      " · commit " + run.commit.slice(0, 8) +
+      ". This does not prove an HP task ran or that ChatGPT continued autonomously.";
+  } catch {
+    badge("watchdog-badge", "Unavailable", "amber");
+    byId("watchdog-link").hidden = true;
+    byId("watchdog-link").removeAttribute("href");
+    byId("watchdog-note").textContent =
+      "Cloud watchdog metadata unavailable. No conclusion about the HP or scheduled tasks can be drawn.";
+  }
+}
+
 async function refreshAITracker() {
   try {
     const response = await fetch(aiTrackerStatusURL + "?checked=" + Date.now(), {
@@ -281,7 +306,7 @@ async function start() {
   } catch {
     // A missing fallback does not block the current GitHub read.
   }
-  await Promise.all([refreshFromGitHub(), refreshAITracker()]);
+  await Promise.all([refreshFromGitHub(), refreshAITracker(), refreshCloudWatchdog()]);
 }
 
 async function importLocalFile(input, parse, key) {
@@ -322,5 +347,5 @@ filter.addEventListener("change", () => { page = 0; renderTasks(); });
 showRestricted.addEventListener("change", () => { page = 0; renderTasks(); renderTools(); });
 previous.addEventListener("click", () => { page--; renderTasks(); });
 next.addEventListener("click", () => { page++; renderTasks(); });
-refresh.addEventListener("click", () => { refreshFromGitHub(); refreshAITracker(); });
+refresh.addEventListener("click", () => { refreshFromGitHub(); refreshAITracker(); refreshCloudWatchdog(); });
 start();
