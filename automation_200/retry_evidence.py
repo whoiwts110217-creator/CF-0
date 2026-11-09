@@ -33,6 +33,16 @@ def _read_snapshot(path):
     return data
 
 
+def _unique_object_pairs(pairs):
+    """Reject ambiguous duplicate JSON keys before integrity validation."""
+    result = {}
+    for key, value in pairs:
+        if key in result:
+            raise ValueError("duplicate retry journal JSON key")
+        result[key] = value
+    return result
+
+
 def _parse_events(data, allowed_ids):
     # An interrupted write can leave a valid JSON object without its line
     # terminator. Never accept that ambiguous tail as completed evidence.
@@ -43,7 +53,7 @@ def _parse_events(data, allowed_ids):
         if not line.strip():
             raise ValueError("retry journal contains an empty record")
         try:
-            event = json.loads(line)
+            event = json.loads(line, object_pairs_hook=_unique_object_pairs)
         except (ValueError, TypeError) as exc:
             raise ValueError("invalid retry journal JSON") from exc
         if not isinstance(event, dict) or set(event) != {"task", "failures", "failed_at", "previous", "digest"}:
