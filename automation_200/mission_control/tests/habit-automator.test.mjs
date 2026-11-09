@@ -73,3 +73,15 @@ test("iPhone module JavaScript sources pass node syntax check",()=>{
     assert.equal(result.status,0,result.stderr || file+" failed syntax check");
   }
 });
+
+
+test("untrusted backups cannot invent valid-looking missing IDs or active progress",()=>{
+  const step=normalizeStep({type:"check",label:"Owner confirms"});
+  assert.equal(step.id,"step-0");
+  const original=normalizeRoutine({title:"Unnamed ID",schedule:{type:"manual"},steps:[{type:"check",label:"Check"}]});
+  assert.equal(original.id,"routine-0");
+  const imported=parseState({schema:SCHEMA,routines:[original],history:[],active:{
+    routineId:"routine-0",startedAt:new Date(2026,10,9).toISOString(),completedStepIds:["ghost-step","step-0"]
+  }});
+  assert.deepEqual(imported.active.completedStepIds,["step-0"]);
+});
