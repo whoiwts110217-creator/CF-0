@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import re
 import time
@@ -63,6 +64,15 @@ def build_handoff(registry, queue, health, *, commit, event, now):
     }, proposal
 
 
+def handoff_digest(handoff: dict) -> str:
+    """Stable digest of sanitized packet; does not attest the consumer or HP."""
+    canonical = json.dumps(
+        handoff, sort_keys=True, separators=(",", ":"), ensure_ascii=True,
+        allow_nan=False,
+    ).encode("utf-8")
+    return hashlib.sha256(canonical).hexdigest()
+
+
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--queue", type=Path, required=True)
@@ -79,6 +89,7 @@ def main(argv=None) -> int:
     )
     print(json.dumps(proposal, sort_keys=True, indent=2))
     print("CF0_WORK_HANDOFF=" + json.dumps(handoff, sort_keys=True, separators=(",", ":")))
+    print("CF0_WORK_HANDOFF_SHA256=" + handoff_digest(handoff))
     return 0
 
 
