@@ -30,7 +30,7 @@ with open(sys.argv[1], 'r+b') as stream:
 with tempfile.TemporaryDirectory(prefix="cf0_hp_lock_ci_") as folder:
     path = pathlib.Path(folder) / "operations.lock"
     with path.open("w+b") as stream:
-        stream.write(b"\\0")
+        stream.write(b"\0")
         stream.flush()
         os.fsync(stream.fileno())
         stream.seek(0)
