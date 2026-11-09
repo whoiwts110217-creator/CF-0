@@ -62,3 +62,10 @@ A CF-0 operator may make bounded, public-safe **clarity/efficiency** changes dur
 | ID | Owner-authorized editorial change | State and limits | Evidence |
 |---|---|---|---|
 | **PCE-007** / **PCE-008** / **PCE-009** | Owner requires **continuity for everything**: every project, tool, experiment, game-like presentation and funding effort must link source, parent, decision, verified status, privacy, rollback and next action via [UCC-001](../docs/UNIVERSAL_CONTINUITY_CONTRACT.md). | **Applied to the three canonical prompts** with no new permissions, financial obligation, verified CF-200 milestone or creator-credit change. [Brainrot → Brainpower](../docs/BRAINROT_TO_BRAINPOWER_2026-11-09.md) is a linked, optional source-stage experiment; no efficacy claim. | [Operator](MASTER_OPERATOR_PROMPT.md) · [Continuity](MASTER_CONTINUITY_PROMPT.md) · [Work](WORK_COPY_PASTE_AUTOMATION_PROMPT.md) · [append-only before/after SHAs and commits](PROMPT_CHANGE_LOG.jsonl). Revert each commit with review if needed. |
+
+
+## November 9 · Truth reconstruction from originals, not assistant memory
+
+| ID | Owner-directed editorial addition | Scope and verification | Evidence and rollback |
+|---|---|---|---|
+| **PCE-010** | Link the current [Master Continuity Prompt](MASTER_CONTINUITY_PROMPT.md) to public-safe [TRUTH-001](../docs/SOURCE_TRUTH_RECONSTRUCTION_PROTOCOL.md) for original-word, calculation, archive, project, habit and external-fact audits | **Applied** as additive guidance; retains three-prompt read order, existing UCC-001, creator/owner credit, P0–P3, approval boundaries, HP allowlist and private data protections. The 20 reviewed conversation titles are secondary evidence, not original transcripts. No CF-200 item, payment or device run verified by this edit. | [Protocol commit](https://github.com/whoiwts110217-creator/CF-0/commit/e8c9e9a4a8cfb77998f37d0cd46d24cac04f4644) · [master link commit](https://github.com/whoiwts110217-creator/CF-0/commit/a008812953ac3b9fefed1f01465f9f2798e0b9d1) · [event](PROMPT_CHANGE_LOG.jsonl). Readback of protocol passed; prompt/CI validation pending. Rollback: reviewed revert of the linked commits. |
