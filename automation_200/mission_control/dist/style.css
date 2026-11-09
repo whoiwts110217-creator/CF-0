@@ -460,3 +460,36 @@ footer { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 6p
   outline: 3px solid #a8e8ff;
   outline-offset: 3px;
 }
+
+/* CF-EXP-GAME-LEARN-001 v0.6: evidence-gated, read-only field brief. */
+#gameful-field-brief[hidden] { display: none; }
+.gameful-field-brief {
+  margin-top: 18px;
+  padding: 16px;
+  background: #142b31;
+  border: 1px solid #6599a4;
+  border-left: 4px solid #b5e9ff;
+  border-radius: 9px;
+  overflow-wrap: anywhere;
+}
+.gameful-field-brief h4 {
+  margin: 0 0 8px;
+  color: #d5f7ff;
+  font-size: clamp(1.02rem, 3vw, 1.2rem);
+}
+.gameful-field-brief p { margin: 8px 0; line-height: 1.6; }
+.gameful-field-brief #gameful-field-evidence { color: #c2e5d4; }
+.gameful-field-brief #gameful-field-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding-block: 6px;
+  color: #a9e5ff;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.gameful-field-brief .gameful-field-limit { color: #b8c7d9; font-size: .84rem; }
+@media (max-width: 625px) {
+  .gameful-field-brief { padding: 12px; }
+  .gameful-field-brief #gameful-field-link { max-width: 100%; }
+}
