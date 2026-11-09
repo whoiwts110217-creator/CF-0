@@ -67,6 +67,9 @@ async function scan(){
 async function focusComposer(){
   ensureActive();const result=await chrome.scripting.executeScript({target:{tabId:live.tabId},func:()=>{
     const visible=el=>{const c=getComputedStyle(el);return c.visibility!=='hidden'&&c.display!=='none'&&!!el.getClientRects().length;};
+    // A modal can appear after the preceding scan but before we focus the editor.
+    const modal=[...document.querySelectorAll('[role="dialog"],[aria-modal="true"]')].some(visible);
+    if(modal)return 'BLOCKING_DIALOG';
     const editor=[...document.querySelectorAll('#prompt-textarea,[data-testid="composer-input"],[contenteditable="true"][role="textbox"]')].find(visible);
     if(!editor)return 'MISSING_COMPOSER';
     if((editor.innerText||editor.textContent||'').trim())return 'OWNER_DRAFT_PRESENT';
@@ -81,10 +84,14 @@ async function key(name){
 }
 async function handleOverlay(snapshot){
   const c=classifyOverlay(snapshot);
-  if(c==='CLEAR')return;
+  if(c==='CLEAR')return false;
   if(c==='DISMISS_WITH_ESCAPE'){
     if(++live.escapes>2)throw Error('REPEATED_POPUP');
-    await key('Escape');await sleep(500);return;
+    await key('Escape');
+    // Never proceed using the OLD snapshot: the dialog could still be visible.
+    // The caller must rescan and prove the obstruction disappeared first.
+    await sleep(500);
+    return true;
   }
   throw Error(c);
 }
@@ -94,6 +101,9 @@ async function waitUntil(check,timeoutMs,expectedId,{allowNavigation=false}={}){
   let lastError;
   while(Date.now()<deadline){
     ensureActive();
+    const tabs=await tabsSnapshot();
+    if(tabs.reason!=='ONE_TAB_READY'||tabs.tabId!==live.tabId)
+      throw Error('CHATGPT_TAB_COUNT_CHANGED');
     const tab=await chrome.tabs.get(live.tabId).catch(()=>null);
     if(!tab)throw Error('TAB_CLOSED');
     if(chatId(tab.url)!==expectedId) {
@@ -103,7 +113,12 @@ async function waitUntil(check,timeoutMs,expectedId,{allowNavigation=false}={}){
     }
     let snap;
     try{snap=await scan();}catch(e){lastError=e;await sleep(600);continue;}
-    await handleOverlay(snap);
+    if(snap.url&&chatId(snap.url)!==expectedId){
+      if(allowNavigation&&Date.now()<navigationGrace){await sleep(400);continue;}
+      throw Error('PAGE_CONTENT_MISMATCH');
+    }
+    const dismissed=await handleOverlay(snap);
+    if(dismissed)continue; // Check the FRESH DOM before typing or marking completion.
     const ok=await check(snap);
     if(ok)return snap;
     await sleep(800);
@@ -128,8 +143,15 @@ async function navigate(id){
 async function continueOne(id){
   await save({currentChat:id,attempt:{chatId:id,status:'in_flight',startedAt:stamp()},lastResult:'Navigating in selected tab…'});
   await navigate(id);
-  const before=await scan();
-  await handleOverlay(before);
+  // The navigation wait verified the absence of known blocking overlays.
+  // Refresh that evidence immediately before any keyboard input.
+  let before=await scan();
+  if(before.url&&chatId(before.url)!==id)throw Error('PAGE_CONTENT_MISMATCH');
+  if(await handleOverlay(before)){
+    await waitUntil(s=>s.composerVisible,20000,id);
+    before=await scan();
+    if(await handleOverlay(before))throw Error('PERSISTENT_POPUP');
+  }
   if(!before.composerVisible)throw Error('COMPOSER_NOT_READY');
   if(before.stopVisible||before.busy)throw Error('ALREADY_RESPONDING');
   if(before.draft)throw Error('OWNER_DRAFT_PRESENT');
@@ -146,7 +168,7 @@ async function continueOne(id){
     return stable.ready;
   },240000,id);
   const s=await getState();
-  await save({attempt:null,currentChat:null,completed:[...s.completed,id],lastResult:'Completed one chat and verified stable response.'});
+  await save({attempt:null,currentChat:null,completed:[...new Set([...s.completed,id])],lastResult:'Completed one chat and verified stable response.'});
 }
 async function execute({mode,maxChats=1}){
   if(live)throw Error('ALREADY_RUNNING');
@@ -157,10 +179,12 @@ async function execute({mode,maxChats=1}){
   const q=mode==='current'?[{id:chatId(tab.url)}]:s.queue;
   if(!q.length||q.some(x=>!x?.id))throw Error('NO_CONVERSATION_SELECTED');
   if(!Number.isSafeInteger(maxChats)||maxChats<1||maxChats>100)throw Error('INVALID_CHAT_LIMIT');
-  await attachOneTab();
   const toDo=(mode==='current'?q:q.filter(x=>!s.completed.includes(x.id))).slice(0,maxChats);
   let outcome='completed';
   try{
+    // Attach can fail (permission revoked, tab closed, Chrome debugger conflict).
+    // Cleanup MUST still run, or the dead "live" marker blocks every future run.
+    await attachOneTab();
     for(const c of toDo){
       ensureActive();
       const count=(await tabsSnapshot());
@@ -211,13 +235,17 @@ chrome.runtime.onMessage.addListener((message,sender,sendResponse)=>{
       case 'SET_ACCOUNT':{
         if(live||launching)throw Error('CANNOT_CHANGE_ACCOUNT_WHILE_RUNNING');
         if(!['primary','secondary'].includes(message.account))throw Error('SELECT_VALID_ACCOUNT');
-        if(s.account&&s.account!==message.account&&s.attempt)throw Error('UNRESOLVED_ATTEMPT');
+        if(s.attempt)throw Error('UNRESOLVED_ATTEMPT_REQUIRES_REVIEW');
+        if(s.phase==='needs_review')throw Error('CLEAR_BLOCKER_BEFORE_ACCOUNT_CHANGE');
         await save({account:message.account,completed:s.account===message.account?s.completed:[],queue:s.account===message.account?s.queue:[],phase:'idle',reason:null});
         return {ok:true,message:'Account label selected. Verify the ChatGPT login in the tab; this is not an identity check.'};
       }
       case 'IMPORT_QUEUE':{
-        if(live||launching)throw Error('RUNNING');const queue=importQueue(message.raw);
-        await save({queue,completed:[],attempt:null,phase:'idle',reason:null});
+        if(live||launching)throw Error('RUNNING');
+        // Reimport must NEVER erase an uncertain send and allow a duplicate.
+        if(s.attempt||s.phase==='needs_review')throw Error('UNRESOLVED_ATTEMPT_REQUIRES_REVIEW');
+        const queue=importQueue(message.raw);
+        await save({queue,completed:[],phase:'idle',reason:null});
         return {ok:true,message:`Loaded ${queue.length} private conversation IDs. No messages sent.`};
       }
       case 'CONTINUE_CURRENT': {
@@ -245,6 +273,15 @@ chrome.runtime.onMessage.addListener((message,sender,sendResponse)=>{
         if(live){live.stop=true;await save({phase:'paused',reason:'USER_STOP',lastResult:'Stop requested. In-flight chat outcome requires review.'});}
         else await save({phase:s.attempt?'needs_review':'paused',reason:'USER_STOP',lastResult:'Paused; no current runner.'});
         return {ok:true,message:'Stop requested. Chrome remains open.'};
+      case 'ACK_PRE_SEND': {
+        if(live||launching)throw Error('CANNOT_CLEAR_WHILE_RUNNING');
+        if(s.phase!=='needs_review'||s.attempt)throw Error('NO_SAFE_PRE_SEND_BLOCKER');
+        const tabs=await tabsSnapshot();
+        if(tabs.reason!=='ONE_TAB_READY')throw Error('ONE_CHATGPT_TAB_REQUIRED');
+        await save({phase:'paused',reason:'PRE_SEND_BLOCKER_ACKNOWLEDGED',
+          lastResult:'Owner acknowledged a blocker with no in-flight send. Runner remains paused until started again.'});
+        return {ok:true,message:'Pre-send blocker acknowledged. Start again only after inspecting the tab.'};
+      }
       case 'REVIEW_ATTEMPT': {
         if(live||launching)throw Error('CANNOT_REVIEW_WHILE_RUNNING');
         if(!s.attempt || s.phase!=='needs_review')throw Error('NO_UNCERTAIN_ATTEMPT');
