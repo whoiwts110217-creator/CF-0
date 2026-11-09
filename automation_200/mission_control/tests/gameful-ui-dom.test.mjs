@@ -13,12 +13,14 @@ class FakeElement {
     this.textContent = "";
     this.listeners = new Map();
     this.href = "";
+    this.focusedCount = 0;
   }
   addEventListener(type, callback) { this.listeners.set(type, callback); }
   setAttribute(name, value) { this.attributes[name] = String(value); }
   removeAttribute(name) { delete this.attributes[name]; }
   click() { this.listeners.get("click")?.(); }
   change() { this.listeners.get("change")?.(); }
+  focus() { this.focusedCount += 1; }
 }
 
 test("mode switch preserves identical facts across a full guess/remix and reset", async () => {
@@ -59,18 +61,22 @@ test("mode switch preserves identical facts across a full guess/remix and reset"
     assert.equal(mode.disabled, true);
     assert.equal(content.hidden, false);
     assert.equal(heading.textContent, "Checking execution evidence");
+    assert.equal(heading.focusedCount, 1, "Heading receives focus when lesson opens");
     assert.equal(claim.textContent, MISSIONS[0].claim);
     falseAnswer.click();
     assert.match(result.textContent, /Correct/);
     assert.equal(source.href, MISSIONS[0].sourceUrl);
     const plainExplanation = explanation.textContent;
     assert.match(plainExplanation, /public command round-trip/);
+    assert.equal(explanation.focusedCount, 1, "Explanation receives focus after grading");
     assert.equal(next.hidden, false);
     next.click();
     assert.equal(claim.textContent, MISSIONS[0].transferClaim);
+    assert.equal(heading.focusedCount, 2, "Focus moves to the second question");
     trueAnswer.click();
     assert.match(result.textContent, /Correct/);
     assert.equal(source.href, MISSIONS[0].sourceUrl);
+    assert.equal(explanation.focusedCount, 2, "Remix feedback is reachable");
 
     toggle.click();
     assert.equal(content.hidden, true);
@@ -81,6 +87,7 @@ test("mode switch preserves identical facts across a full guess/remix and reset"
     toggle.click();
     assert.equal(mode.disabled, true);
     assert.equal(heading.textContent, MISSIONS[0].title);
+    assert.equal(heading.focusedCount, 3, "New mode returns focus to the first question");
     assert.equal(claim.textContent, MISSIONS[0].claim);
     falseAnswer.click();
     assert.match(result.textContent, /MISSION PASSED/);
