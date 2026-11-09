@@ -141,3 +141,25 @@ The `CF-EXP-GAME-LEARN-001` v0.2 source at Git commit [`5a80989c5cbe273fb07940f1
 
 **Rollback and next step:** history/commits above permit reverting the additive selector, mode adapter and UI separately while preserving the older v0.2 quiz and dashboard. Next verify interactive behavior in a real browser (particularly iPhone), assess keyboard and screen-reader accessibility, then consider a separately authorized, consent-based comparison with genuine randomization and delayed recall. No owner copy/paste requested.
 
+
+## November 9 — live browser verification and quiz accessibility follow-up
+
+**Continuity identity:** `CF-EXP-GAME-LEARN-001` (Brainrot → Brainpower), parent/related `FIN-09`, `CF-CORE`, `RES-04`, governed by [UCC-001](UNIVERSAL_CONTINUITY_CONTRACT.md). This entry continues existing v0.3; it does not create another reconstructed project or claim a CF-200 verification.
+
+**Preflight sources re-read from current main:** three canonical operator prompts (blobs `22ae58c3bc1a7513ef45e4c8267ea011a56bb357`, `6d0cf4ac809172d0525de288d87a340d1f01537c`, `150c6629ba1496c2b05d9f4afb31929ad142357e`) in prescribed order; UCC-001 (blob `8a19cabe65c3d35e99cdf4a256154771da33d03c`), owner capability contract, approval bin, pilot method/protocol, previously published code and registry (87/200). This session did not review missing original ChatGPT conversations.
+
+### Independent public-page interaction readback
+
+A read-only **hosted browser walkthrough** of [GitHub Pages Mission Control](https://whoiwts110217-creator.github.io/CF-0/mission-control/#learning-lab) was completed November 9 via [public browser run 301602f0-4842-46c5-9abb-cdcc30349c4a](https://agent.tinyfish.ai/runs/301602f0-4842-46c5-9abb-cdcc30349c4a). The browser observed **Plain** selecting correctly, first topic showing its neutral heading, question answered FALSE, matching explanation and source link, remix answered TRUE, then close/reopen in **Playful** mode with the identical source question and explanation but a game-style heading. It also observed the original automation control center and disconnected/disabled master switch. No account action or form submission was performed. This verifies live page interactions in that browser, **not** iPhone Safari/VoiceOver, all eight question paths, financial results or a statistically evaluated learning outcome. The browser runner could **not** change to a phone-size viewport.
+
+### Focus and screen-reader support source change
+
+- [Source UI](../automation_200/mission_control/dist/gameful-ui.mjs), [commit `a833137`](https://github.com/whoiwts110217-creator/CF-0/commit/a83313733885e7686705be48a35d659611013b0d): keyboard focus moves to the new question heading on start/advance and to the source explanation after a graded answer, so users do not lose focus on disabled or hidden controls.
+- [Dashboard HTML](../automation_200/mission_control/dist/index.html), [commit `3152c94`](https://github.com/whoiwts110217-creator/CF-0/commit/3152c9496f855172fbab544c40f6ebbb4ee7491c): programmatically focusable heading/explanation; explanation is an `aria-live=polite` region with atomic text.
+- [DOM interaction tests](../automation_200/mission_control/tests/gameful-ui-dom.test.mjs), [commit `5b82059`](https://github.com/whoiwts110217-creator/CF-0/commit/5b8205961b247bb361579da61647cae85509a2c7): verifies focus changes during Plain start/grade/remix and switching to Playful. The [Mission Control regression suite (Actions run 42667660788)](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42667660788) **passed** on that exact source change.
+- The source-level focus test is **not** a substitute for a real keyboard, screen reader or Safari audit.
+
+**Invariants:** original master switch, AUTO-08, HP relay, grant/payment state, work-order registry and capability contract were not edited. The quiz remains a voluntary no-storage, no-user-tracking teaching interface and is not a randomized intervention.
+
+**Rollback:** review each specific commit and revert only source UI focus, HTML `tabindex`/live-region or its DOM tests if accessibility breaks, while preserving v0.3 Plain/Playful and historical evidence. **Next task:** verify published accessibility changes after the website deploy finishes and independently test a 390px class mobile viewport/actual iPhone Safari when available; do not falsely declare iPhone compatibility without that evidence.
+
