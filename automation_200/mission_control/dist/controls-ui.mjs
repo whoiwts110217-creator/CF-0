@@ -83,6 +83,14 @@ function draw() {
   byId("control-chatgpt-count").textContent=privateAutomations===null
     ? CHATGPT_PLACEHOLDER_COUNT+" private slots — last count, not a live read"
     : privateAutomations.length+" private tasks in user-selected file";
+  const workflowRecords=rows.filter(x=>x.source==="github");
+  const scheduledCount=workflowRecords.filter(x=>x.trigger==="schedule").length;
+  const otherCount=workflowRecords.length-scheduledCount;
+  byId("control-github-count").textContent=workflowRecords.length+
+    " workflows: "+scheduledCount+" scheduled, "+otherCount+" event/manual";
+  byId("control-github-description").textContent=scheduledCount+
+    " workflow(s) with cron schedules and "+otherCount+
+    " event/manual workflow(s) in the public source inventory. These are not live running-state queries.";
   byId("control-source-date").textContent="Public source inventory reviewed "+SOURCE_DATE+
     ". No connector is attached to these switches.";
 }
