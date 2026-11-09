@@ -4,6 +4,8 @@ on:
     branches: [main]
     paths:
       - 'index.html'
+      - 'first-drop/**'
+      - 'sitemap.xml'
       - 'i18n/**'
       - 'agent-tasks.json'
       - 'llms.txt'
@@ -62,6 +64,9 @@ jobs:
         run: |
           mkdir -p _site
           cp index.html _site/index.html
+          cp sitemap.xml _site/sitemap.xml
+          mkdir -p _site/first-drop
+          cp first-drop/index.html _site/first-drop/index.html
           mkdir -p _site/i18n
           cp i18n/home.mjs _site/i18n/home.mjs
           cp agent-tasks.json _site/agent-tasks.json
@@ -81,6 +86,12 @@ jobs:
           locale = Path("_site/i18n/home.mjs").read_text(encoding="utf-8")
           assert 'id="language-picker"' in home and 'id="current-language">EN' in home
           assert 'src="./i18n/home.mjs"' in home
+          assert Path("_site/sitemap.xml").is_file(), "first-drop sitemap not staged"
+          first_drop = Path("_site/first-drop/index.html").read_text(encoding="utf-8")
+          assert "Founding Hall of Fame" in first_drop
+          assert "https://cash.app/$LAZYBLACKBEAN" in first_drop
+          assert 'href="./first-drop/"' in home, "homepage missing first-drop link"
+          assert "https://whoiwts110217-creator.github.io/CF-0/first-drop/" in Path("_site/sitemap.xml").read_text(encoding="utf-8")
           assert '"Español"' in locale and '"Français"' in locale and '"Português"' in locale
           dashboard = Path("_site/mission-control/index.html").read_text(encoding="utf-8")
           import json
