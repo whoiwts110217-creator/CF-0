@@ -27,7 +27,7 @@ test('background attaches only existing Chrome ChatGPT tab and completes one key
       assert.equal(target.tabId,37);
       if(func.toString().includes('editor.focus()'))return [{result:'FOCUSED'}];
       return [{result:{url,dialogVisible:false,dialogText:'',rateLimit:false,signedOut:false,
-        composerVisible:true,draft:'',userCount,assistantCount,
+        composerVisible:true,draft:'',userCount,assistantCount,lastUserExactContinue:afterSend,
         lastAssistantSignature:afterSend?'32:16001':'20:20002',stopVisible:false,busy:false}}];
     }},
     runtime:{onMessage:{addListener:fn=>events.message=fn}}
