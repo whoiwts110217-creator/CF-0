@@ -48,6 +48,15 @@ class WatchdogReadbackTests(unittest.TestCase):
             "execution_authorized": False,
         })
 
+    def test_emitted_digest_matches_packet_and_rejects_mismatch_or_duplicate(self):
+        raw = self.packet_bytes()
+        prefix = b"2026-11-09T06:54:54.8882137Z CF0_WORK_HANDOFF_SHA256="
+        good = prefix + hashlib.sha256(raw).hexdigest().encode("ascii") + b"\n"
+        self.assertEqual(readback.record_readback(self.run, self.job, self.log_line() + good)["packet_sha256"], hashlib.sha256(raw).hexdigest())
+        for extra in (prefix + b"0" * 64 + b"\n", good + good):
+            with self.subTest(extra=extra[:90]), self.assertRaises(ValueError):
+                readback.record_readback(self.run, self.job, self.log_line() + extra)
+
     def test_requires_the_exact_successful_job_attempt_and_main_workflow(self):
         log = self.log_line()
         for run, job in (
