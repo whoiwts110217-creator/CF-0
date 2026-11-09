@@ -105,8 +105,8 @@ try {
   assert.equal(state.viewport, 390, "Mobile viewport meta must respect 390 CSS px");
   assert.ok(state.scrollWidth <= 392 && state.bodyWidth <= 392, "Initial homepage must not scroll horizontally");
   assert.ok(state.demo.left >= -2 && state.demo.right <= 392 && state.demo.height >= 40, "Free demo button must fit and be tappable");
-  assert.ok(state.menu.left >= -2 && state.menu.right <= 392, "More menu must be inside viewport");
-  assert.ok(state.lang.left >= -2 && state.lang.right <= 392, "Language picker must fit viewport");
+  assert.ok(state.menu.left >= -2 && state.menu.right <= 392 && state.menu.height >= 44, "More menu must fit and have a 44px tap target");
+  assert.ok(state.lang.left >= -2 && state.lang.right <= 392 && state.lang.height >= 44, "Language picker must fit and have a 44px tap target");
   assert.ok(state.evidence.includes("Todavía en pruebas"), "New evidence heading must translate");
   assert.equal(state.demoHref,"./mission-control/#learning-lab");
 
