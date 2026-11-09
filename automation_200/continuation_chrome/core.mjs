@@ -49,9 +49,19 @@ export function classifyOverlay(snapshot) {
   if (/^(what.s new|keyboard shortcuts|new in chatgpt|welcome to chatgpt|release notes)\b/.test(text)) return 'DISMISS_WITH_ESCAPE';
   return 'NEEDS_OWNER_REVIEW';
 }
+// A visible acknowledgement is not merely an extra user message: it must be
+// the sole new user turn, containing exactly the command the owner authorized.
+// Only a boolean is returned from the private ChatGPT DOM; no message text is saved.
+export function acknowledgedContinue(snapshot, baselineUsers) {
+  return Number.isSafeInteger(baselineUsers) && baselineUsers >= 0 &&
+    snapshot?.userCount === baselineUsers + 1 &&
+    snapshot.lastUserExactContinue === true;
+}
+
 export function stableResponse(prev, current, now, settleMs=8000) {
   if (!current || current.blocker || current.stopVisible || current.busy || !current.lastAssistantText ||
-      current.assistantCount <= current.baselineAssistants || current.userCount <= current.baselineUsers)
+      current.assistantCount <= current.baselineAssistants ||
+      !acknowledgedContinue(current, current.baselineUsers))
     return {ready:false, text:'', since:now};
   const text = current.lastAssistantText;
   if (prev?.text !== text || !Number.isFinite(prev?.since)) return {ready:false,text,since:now};
