@@ -20,7 +20,9 @@ The previous v1.1 candidate (delivered privately in the owner conversation, not 
 
 A separate **v1.2 review ZIP** was generated and integrity-checked in the current conversation; package SHA-256:
 
-`e6ea5b714d182f090a4632876a43c0768df96434dc263d9638fafd2cc46dd86a`
+`b0193d84877b0a4cc1fecc6905bad449ce6731701f887e5f99d3960f2b070918`
+
+A packaging self-check caught a stale audit-file hash in the first locally assembled ZIP manifest; the candidate was repacked in the owner conversation, every included file SHA-256 was independently checked against the embedded manifest (6/6 matched), and the ZIP passed CRC validation. Only the **verified replacement** ZIP hash above should be used. No executable or HP schedule was changed in this repack.
 
 The v1.2 candidate adds a local SHA-256 fingerprint across Task Scheduler name, root path, principal, actions and triggers; requires owner-principal and Limited run-level readback; and blocks or marks uncertain changed/unknown task identity on pause/resume. **19/19 mock tests passed**, Python syntax compiled. Private executable details are not returned by the inventory. This ZIP is an owner-chat attachment, **not available from public GitHub**. No code, executable, Windows schedule, token, bridge or HP deployment is changed by this documentation commit.
 
