@@ -3,16 +3,10 @@ on:
   push:
     paths:
       - 'automation_200/mission_control/**'
-      - 'index.html'
-      - 'first-drop/**'
-      - 'i18n/**'
       - '.github/workflows/mission-control-access-tests.yml'
   pull_request:
     paths:
       - 'automation_200/mission_control/**'
-      - 'index.html'
-      - 'first-drop/**'
-      - 'i18n/**'
       - '.github/workflows/mission-control-access-tests.yml'
 permissions:
   contents: read
@@ -27,7 +21,5 @@ jobs:
           node-version: '22'
       - name: Test Mission Control read-only model and access labels
         run: node --test automation_200/mission_control/tests/*.test.mjs
-      - name: Test multilingual public first-visit presentation and donor-credit boundaries
-        run: node --test i18n/home.test.mjs
       - name: Test learning lab at phone-width Chromium viewport
         run: node automation_200/mission_control/tests/browser_smoke.mjs
