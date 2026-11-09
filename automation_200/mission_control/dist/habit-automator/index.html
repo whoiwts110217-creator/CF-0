@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0a1020">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Habit Automator">
+<meta name="referrer" content="no-referrer">
+<meta name="description" content="A private local-first routine builder for Caveman Focus Mission Control.">
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="icon" type="image/svg+xml" href="./icon.svg">
+<link rel="apple-touch-icon" href="./icon.svg">
+<title>Habit Automator · CF-0</title>
+<style>
+:root{color-scheme:dark;--bg:#090f1d;--surface:#121c2d;--surface2:#16243a;--border:#283850;--white:#edf7ff;--muted:#a7bacf;--blue:#92deff;--electric:#54bbed;--amber:#ffc67c;--red:#ffaba3;--green:#9ee5c9;--font:system-ui,-apple-system,"Segoe UI",sans-serif}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--white);background:radial-gradient(circle at 86% 0%,#1b4260 0%,transparent 32%),linear-gradient(160deg,#0b1325 0%,#080e1b 72%);font:15px/1.5 var(--font);min-height:100vh}a{color:var(--blue);text-decoration:none}a:hover{text-decoration:underline}button,input,select{font:inherit}button,a,input,select{touch-action:manipulation}button{cursor:pointer}button:disabled{opacity:.5;cursor:not-allowed}a:focus-visible,button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--blue);outline-offset:3px}header{border-bottom:1px solid var(--border);background:#091121b3;backdrop-filter:blur(20px)}.wrap{width:min(1080px,calc(100% - 32px));margin:auto}.top{display:flex;align-items:center;justify-content:space-between;padding:15px 0;gap:14px}.brand{display:flex;align-items:center;gap:10px;letter-spacing:.05em;color:var(--white);font-size:14px;font-weight:800}.brand img{width:35px;height:35px}.brand small{display:block;font-size:9px;color:var(--muted);font-weight:600;letter-spacing:.16em}.back{border:1px solid var(--border);border-radius:8px;padding:8px 11px;color:var(--muted);font-size:12px}.back:hover{color:var(--white)}
+.hero{position:relative;overflow:hidden;padding:36px 0 28px}.hero:before{content:"";position:absolute;z-index:-1;top:6px;right:-50px;width:320px;height:320px;background:conic-gradient(from 210deg,transparent,#3382aa30,transparent,#f0a7591d,transparent);border-radius:50%;filter:blur(12px)}.eyebrow{font:700 11px/1.4 ui-monospace,Menlo,monospace;color:var(--blue);letter-spacing:.19em;text-transform:uppercase;margin:0 0 9px}h1{font-size:clamp(34px,7vw,59px);line-height:1.05;letter-spacing:-.06em;margin:0 0 13px}h2{font-size:22px;letter-spacing:-.035em;margin:0}h3{font-size:18px;letter-spacing:-.02em;margin:0}p{margin:0 0 12px}.hero p{max-width:670px;color:var(--muted)}.hero-actions{display:flex;gap:10px;flex-wrap:wrap;margin:22px 0 17px}.chipline{display:flex;gap:7px;align-items:center;color:var(--muted);font-size:12px}.chipline .dot{background:var(--green);width:7px;height:7px;border-radius:50%}
+.button,button.small,.link-action{border:1px solid var(--border);border-radius:9px;color:var(--white);background:#1b2a40;min-height:40px;padding:9px 15px;font-weight:650;display:inline-flex;align-items:center;justify-content:center;text-decoration:none}.button:hover,button.small:hover,.link-action:hover{background:#263b55;text-decoration:none}.button.primary,button.small.primary{background:linear-gradient(115deg,#a5e9ff,#65bfe7);color:#082036;border-color:#80c7ea}.button.primary:hover,button.small.primary:hover{background:#bceeff}.button.secondary{background:transparent}.small{font-size:12px!important;padding:7px 10px!important;min-height:34px!important}.subtle{background:transparent!important;color:var(--muted)!important}.danger-text{background:transparent!important;color:var(--red)!important}.help{display:inline-flex;margin-left:7px;border:1px solid #54708e;border-radius:99px;width:22px;height:22px;justify-content:center;align-items:center;color:var(--blue);background:transparent;font-size:12px;font-weight:700;vertical-align:middle}.help-note{color:var(--muted);border-left:2px solid var(--blue);padding:9px 12px;background:#1d2d412c;font-size:13px;margin-top:10px}.help-note[hidden]{display:none}
+main{padding-bottom:max(72px,env(safe-area-inset-bottom))}.stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:9px 0 26px}.metric{background:linear-gradient(145deg,#16283e,#111b2d);border:1px solid var(--border);border-radius:13px;padding:17px}.metric strong{display:block;color:var(--blue);font-size:30px;letter-spacing:-.07em}.metric small{display:block;color:var(--muted);font-size:12px}.section{margin:0 0 32px;scroll-margin-top:20px}.section-head{display:flex;justify-content:space-between;align-items:center;gap:9px;margin-bottom:13px;flex-wrap:wrap}.hint{color:var(--muted);font-size:13px;margin:6px 0 0}.templates{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.template{display:flex;gap:14px;text-align:left;align-items:center;min-height:87px;background:#142136;border:1px solid var(--border);padding:13px;border-radius:12px;color:var(--white)}.template:hover{border-color:#5da9d0;background:#1b2f48}.template-plus{flex:none;background:#22445a;color:var(--blue);display:grid;place-items:center;width:30px;height:30px;border-radius:9px;font-size:23px;font-weight:300}.template strong{display:block;font-size:14px}.template small{display:block;color:var(--muted);font-size:12px;line-height:1.4;margin-top:3px}.routine-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.routine-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:17px;display:flex;flex-direction:column;gap:7px;min-width:0}.routine-card.overdue{border-color:#5fa9d1}.routine-card p{color:var(--muted);font-size:13px;min-height:38px}.routine-top,.routine-bottom,.run-top{display:flex;justify-content:space-between;align-items:center;gap:8px}.routine-top{flex-wrap:wrap}.routine-bottom{margin-top:auto;align-items:flex-start;flex-direction:column;width:100%}.routine-bottom>small{color:var(--muted)}.actions{display:flex;gap:5px;flex-wrap:wrap}.routine-status,.receipt{border:1px solid #486071;border-radius:5px;color:#bddded;padding:3px 7px;font:700 10px ui-monospace,Menlo,monospace}.routine-status.due{border-color:#5a8a9e;background:#24465b;color:#b7ebff}.routine-status.paused{color:#f0c5a1;border-color:#9b7157}.routine-status.waiting{color:var(--green);border-color:#416c68}.muted{color:var(--muted)}.mono{font:11px ui-monospace,Menlo,monospace}.empty{color:var(--muted);padding:30px 20px;border:1px dashed #456077;border-radius:12px;background:#121e2b6b}
+.run-panel{background:linear-gradient(140deg,#192b44,#111d2f);padding:18px;border:1px solid #3f6079;border-radius:14px}.run-top{align-items:flex-start;flex-wrap:wrap}.run-top p:not(.eyebrow){color:var(--muted);font-size:13px}.progress-track{margin:16px 0;height:5px;background:#273e52;border-radius:9px;overflow:hidden}.progress-track>div{height:100%;background:var(--electric);transition:width .2s}.step-list{padding:0;margin:0;list-style:none;display:grid;gap:10px}.step-list li{border:1px solid var(--border);background:#0e1c2e;padding:12px;border-radius:10px}.step-title{display:flex;gap:11px;align-items:center}.step-title strong,.step-title small{display:block}.step-title small{color:var(--muted);font-size:12px}.step-number{background:#263c50;color:var(--blue);display:grid;place-items:center;min-width:30px;height:30px;border-radius:9px;font-weight:800}.step-done{opacity:.75}.step-done .step-number{color:#092a28;background:var(--green)}.step-actions{display:flex;justify-content:flex-end;gap:8px;flex-wrap:wrap;margin-top:11px}
+.panel{border:1px solid var(--border);background:var(--surface);border-radius:14px;padding:19px}.form-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}.field{display:flex;flex-direction:column;gap:5px}.field.full{grid-column:1/-1}.field label,fieldset legend{font-size:12px;color:#dceafa;font-weight:650}.field input,.field select{background:#0d1827;color:var(--white);border:1px solid #344b63;border-radius:8px;padding:11px;width:100%;min-height:44px}.field input::placeholder{color:#819ab0}fieldset{border:0;margin:0;padding:0}.weekdays{display:flex;gap:7px;flex-wrap:wrap;margin-top:5px}.weekdays label{font-size:12px;display:flex;align-items:center;gap:4px;padding:7px;border:1px solid var(--border);border-radius:7px}.step-builder{margin:18px 0 0;border-top:1px solid var(--border);padding-top:17px}.step-builder h3{margin-bottom:12px}.draft-steps{list-style:none;margin:0 0 13px;padding:0;display:grid;gap:6px}.draft-steps li{display:flex;justify-content:space-between;align-items:center;gap:10px;background:#19283b;padding:8px 11px;border-radius:8px}.draft-steps strong,.draft-steps small{display:block}.draft-steps strong{font-size:13px}.draft-steps small{font-size:11px;color:var(--muted);overflow-wrap:anywhere}.form-buttons{display:flex;gap:9px;flex-wrap:wrap;margin-top:18px}.history-entry{padding:12px 0;display:flex;justify-content:space-between;gap:9px;border-bottom:1px solid var(--border)}.history-entry strong,.history-entry small{display:block}.history-entry small{color:var(--muted);font-size:12px}.receipt{color:var(--green);height:fit-content;white-space:nowrap}.receipt.aborted{color:var(--amber)}
+.data-actions{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}.file-button{position:relative;overflow:hidden}.file-button input{position:absolute;inset:0;opacity:0;width:100%;cursor:pointer}.note{color:var(--muted);font-size:12px}.guide{display:grid;grid-template-columns:1fr 1fr;gap:10px}.guide article{border:1px solid var(--border);padding:14px;border-radius:12px;background:#101c2d}.guide strong{color:var(--blue)}.guide p{color:var(--muted);font-size:13px;margin:5px 0 0}footer{border-top:1px solid var(--border);padding:21px 0 40px;color:var(--muted);font-size:12px}.toast{position:sticky;bottom:calc(8px + env(safe-area-inset-bottom));z-index:10;border:1px solid #55728c;border-radius:10px;padding:9px 12px;background:#213953;box-shadow:0 10px 40px #0008;color:var(--white);font-size:12px;margin:0 auto 12px;width:min(720px,100%);text-align:center}.toast[data-tone=warn]{color:var(--amber);border-color:#9b7347}.toast[data-tone=ok]{color:var(--green);border-color:#4e8277}[hidden]{display:none!important}
+@media(max-width:700px){.wrap{width:min(100% - 26px,560px)}.hero{padding-top:29px}.stats{gap:7px}.metric{padding:13px 11px}.metric strong{font-size:27px}.metric small{font-size:10px}.templates,.routine-list,.form-grid,.guide{grid-template-columns:1fr}.routine-card p{min-height:unset}.section{margin-bottom:27px}.run-top button{width:100%}.panel{padding:15px}.step-actions{justify-content:flex-start}.back{font-size:11px}.routine-bottom .actions{gap:6px}.routine-bottom .actions button{min-width:55px}}
+@media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+</style>
+<script type="module" src="./app.mjs"></script>
+</head>
+<body>
+<header><div class="wrap top">
+<a href="../" class="brand"><img src="./icon.svg" alt=""><span>HABIT AUTOMATOR<small>CF-0 / MISSION CONTROL</small></span></a>
+<a class="back" href="../">← Mission Control</a>
+</div></header>
+<main class="wrap">
+<section class="hero">
+<p class="eyebrow">CF-HA-001 / LOCAL-FIRST AUTOMATION</p>
+<h1>Build habits.<br>Give them a system.</h1>
+<p>Organize repeat work into routines, launch approved actions, and keep receipts for what you actually completed. Your routines stay on this device unless you export them.</p>
+<div class="hero-actions"><button class="button primary" id="add-new" type="button">+ New routine</button><a class="button secondary" href="#routines">See my routines</a></div>
+<p class="chipline"><span class="dot"></span> No account connection · No background execution · No paid service</p>
+</section>
+
+<div class="stats" aria-label="Habit statistics">
+<div class="metric"><strong id="metric-routines">0</strong><small>My routines</small></div>
+<div class="metric"><strong id="metric-due">0</strong><small>Due to review</small></div>
+<div class="metric"><strong id="metric-finished">0</strong><small>Owner-marked runs</small></div>
+</div>
+
+<section id="presets" class="section">
+<div class="section-head"><div><p class="eyebrow">01 / START FAST</p><h2>Routine templates <button class="help" type="button" data-help="templates-help" aria-expanded="false" aria-label="What do templates do?">?</button></h2></div></div>
+<p id="templates-help" class="help-note" hidden>Templates create local editable drafts. They do not schedule an iPhone notification, read your accounts, or start a remote automation.</p>
+<div class="templates" id="template-list"></div>
+</section>
+
+<section id="routines" class="section">
+<div class="section-head"><div><p class="eyebrow">02 / MY SYSTEM</p><h2>Saved routines <button class="help" type="button" data-help="schedule-help" aria-expanded="false" aria-label="How scheduling works">?</button></h2></div></div>
+<p id="schedule-help" class="help-note" hidden>The schedule calculates when a routine is due when you open this app. iPhone Safari does not keep this page running in the background. For unattended time-based actions, configure a separate Apple Shortcuts Automation yourself.</p>
+<div id="routine-list" class="routine-list"></div>
+</section>
+
+<section id="run-anchor" class="section">
+<div class="section-head"><div><p class="eyebrow">03 / GUIDED EXECUTION</p><h2>Run a routine <button class="help" type="button" data-help="run-help" aria-expanded="false" aria-label="What counts as a finished run">?</button></h2></div></div>
+<p id="run-help" class="help-note" hidden>Website and Shortcuts buttons merely launch external actions on your tap. Marking a step means you personally confirmed it; it is not evidence from a bank, email provider, ChatGPT, or Windows HP relay.</p>
+<div id="run-panel" class="run-panel"></div>
+</section>
+
+<section id="builder" class="section">
+<div class="section-head"><div><p class="eyebrow">04 / WORKFLOW EDITOR</p><h2 id="builder-title">Create a routine</h2></div></div>
+<form class="panel" id="routine-form">
+<div class="form-grid">
+<div class="field full"><label for="routine-title">Routine name</label><input id="routine-title" maxlength="90" placeholder="Morning accountability check" required></div>
+<div class="field full"><label for="routine-description">Short description (optional)</label><input id="routine-description" maxlength="180" placeholder="What does completing it mean?"></div>
+<div class="field"><label for="routine-schedule">Repeat</label><select id="routine-schedule"><option value="daily">Every day</option><option value="weekly">Selected weekdays</option><option value="manual">Only when I tap Run</option></select></div>
+<div class="field" id="time-fields"><label for="routine-time">Local time</label><input type="time" id="routine-time" value="09:00"></div>
+<fieldset class="field full" id="day-fields" hidden><legend>Repeat on</legend><div class="weekdays">
+<label><input type="checkbox" name="weekday" value="1"> Mon</label><label><input type="checkbox" name="weekday" value="2"> Tue</label><label><input type="checkbox" name="weekday" value="3"> Wed</label><label><input type="checkbox" name="weekday" value="4"> Thu</label><label><input type="checkbox" name="weekday" value="5"> Fri</label><label><input type="checkbox" name="weekday" value="6"> Sat</label><label><input type="checkbox" name="weekday" value="0"> Sun</label>
+</div></fieldset>
+</div>
+<div class="step-builder">
+<h3>Actions <button class="help" type="button" data-help="steps-help" aria-expanded="false" aria-label="Action help">?</button></h3>
+<p id="steps-help" class="help-note" hidden><strong>Confirmation:</strong> a checklist item. <strong>Website:</strong> opens a HTTPS link you specify. <strong>Shortcut:</strong> opens an existing Apple Shortcut by its exact name; you must create it in the Shortcuts app and approve any permissions there. Launch does not automatically mark success.</p>
+<ol class="draft-steps" id="draft-steps"></ol>
+<div class="form-grid">
+<div class="field"><label for="step-type">Action type</label><select id="step-type"><option value="check">Confirmation</option><option value="link">Open website</option><option value="shortcut">Run iPhone Shortcut</option></select></div>
+<div class="field"><label for="step-label">What should happen?</label><input id="step-label" maxlength="100" placeholder="Review today's priorities"></div>
+<div class="field full" id="step-target-wrap" hidden><label id="step-target-label" for="step-target">HTTPS website address</label><input id="step-target" maxlength="1800" placeholder="https://example.org"></div>
+</div>
+<div class="form-buttons"><button type="button" id="add-step" class="button secondary">+ Add action</button></div>
+</div>
+<div class="form-buttons"><button type="submit" id="form-submit" class="button primary">Save routine</button><button type="button" id="cancel-edit" class="button secondary">Reset form</button></div>
+</form>
+</section>
+
+<section id="history" class="section">
+<div class="section-head"><div><p class="eyebrow">05 / AUDIT TRAIL</p><h2>My history</h2></div></div>
+<div class="panel"><div id="history-list"></div><p class="note">History is local, owner-marked evidence only. It does not change the CF-200 registry or prove external results.</p></div>
+</section>
+
+<section id="private-data" class="section">
+<div class="section-head"><div><p class="eyebrow">06 / BACKUP & CONTROL</p><h2>Your data, your device</h2></div></div>
+<div class="panel"><p id="storage-state" class="hint"></p><p class="note">Your routines and run history use private browser storage on this device. Safari can clear it; export a JSON backup to keep continuity. No cloud sync or other-account access is enabled.</p>
+<div class="data-actions"><button class="button secondary" type="button" id="backup">Export private backup</button><label class="button secondary file-button">Import backup <input id="restore" type="file" accept="application/json,.json" aria-label="Import Habit Automator JSON backup"></label><button class="button secondary" type="button" id="erase">Erase local data</button></div></div>
+</section>
+
+<section id="iphone" class="section">
+<div class="section-head"><div><p class="eyebrow">07 / IPHONE SETUP</p><h2>Put it on your Home Screen</h2></div></div>
+<div class="guide"><article><strong>Install app icon</strong><p>Open this page in Safari on your iPhone. Tap Share, choose <em>Add to Home Screen</em>, then Add. The app can open offline after its first successful load.</p></article><article><strong>Connect a Shortcut</strong><p>In Apple's Shortcuts app, create and name a Shortcut. Add a Shortcut step here using the exact same name. Tap the launch button when ready. Background scheduling must be configured separately inside Shortcuts.</p></article></div>
+</section>
+</main>
+<div class="toast" id="toast" role="status" aria-live="polite">Ready. Nothing runs without your action.</div>
+<footer><div class="wrap">Caveman Focus · Habit Automator v0.1 · CF-HA-001 · Creator/developer: David Smith · Designated owner: Kiara Lynn Rose Smith<br>Experimental local-first tool. No new permissions, automatic ChatGPT messages, HP commands, financial actions, or scheduled automations.</div></footer>
+</body>
+</html>
