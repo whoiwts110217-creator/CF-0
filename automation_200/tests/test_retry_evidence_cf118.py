@@ -158,6 +158,33 @@ class RetryEvidenceTests(unittest.TestCase):
             append_failure(path, allowed, "CF-118", 1001)
             self.assertEqual(read_events(path, allowed)[1]["CF-118"]["failures"], 2)
 
+    def test_interleaved_tasks_cannot_skip_a_failure_even_with_valid_hash(self):
+        # A new record with a valid digest must still advance its own task
+        # exactly once, even when another task is interleaved in the chain.
+        with tempfile.TemporaryDirectory() as root:
+            path = Path(root) / "attempts.jsonl"
+            ids = {"CF-118", "CF-119"}
+            append_failure(path, ids, "CF-118", 1000)
+            append_failure(path, ids, "CF-119", 1001)
+            valid = path.read_bytes()
+            lines = valid.decode("ascii").splitlines()
+            previous = json.loads(lines[-1])["digest"]
+            body = {"task": "CF-118", "failures": 3,
+                    "failed_at": 1002, "previous": previous}
+            digest = hashlib.sha256(json.dumps(
+                body, sort_keys=True, separators=(",", ":"),
+                ensure_ascii=True).encode("ascii")).hexdigest()
+            corrupted = valid + (json.dumps(dict(body, digest=digest)) + "\n").encode("ascii")
+            path.write_bytes(corrupted)
+            with self.assertRaisesRegex(ValueError, "sequence"):
+                read_events(path, ids)
+            with self.assertRaises(ValueError):
+                append_failure(path, ids, "CF-118", 1003)
+            self.assertEqual(path.read_bytes(), corrupted)
+            path.write_bytes(valid)
+            append_failure(path, ids, "CF-118", 1003)
+            self.assertEqual(read_events(path, ids)[1]["CF-118"]["failures"], 2)
+
     def test_reject_truncated_or_unknown_records(self):
         with tempfile.TemporaryDirectory() as root:
             path = Path(root) / "attempts.jsonl"
