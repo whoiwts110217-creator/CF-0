@@ -1,9 +1,11 @@
 import { dashboardModel, filterTasks, GITHUB, loadLive, REPO, REGISTRY, TRACKER, trackerModel } from "./model.mjs";
+import { taskAccess, contractTools, summarizeAccess } from "./access.mjs";
 
 const byId = id => document.getElementById(id);
 const refresh = byId("refresh");
 const search = byId("search");
 const filter = byId("filter");
+const showRestricted = byId("show-restricted");
 const previous = byId("previous");
 const next = byId("next");
 const pageSize = 8;
@@ -35,7 +37,7 @@ function appendEvidence(container, evidence) {
   container.append(evidence.slice(offset));
 }
 
-function taskRow(task) {
+function taskRow(task, access) {
   const row = document.createElement("tr");
   const id = row.insertCell();
   id.className = "task-id";
@@ -49,6 +51,8 @@ function taskRow(task) {
     task.stream.replaceAll("_", " "),
     task.depends_on.length ? "Depends on " + task.depends_on.join(", ") : "No dependencies",
     task.physical_hp_required ? "Requires evidence from the physical HP" : "",
+    "Source authority label: " + (task.authority || "unspecified") + " (not live execution authorization)",
+    "Access gate: " + access.label,
   ].filter(Boolean).join("\n");
   info.append("\n");
   appendEvidence(info, task.evidence || "Evidence pending");
@@ -59,27 +63,83 @@ function taskRow(task) {
   status.dataset.tone = task.status === "verified" ? "mint" : "muted";
   status.textContent = task.status === "verified" ? "Verified" : "Planned";
   row.insertCell().append(status);
+  const accessCell = row.insertCell();
+  const accessLabel = document.createElement("span");
+  accessLabel.className = "badge";
+  accessLabel.dataset.tone = access.restricted ? "amber" : "muted";
+  accessLabel.textContent = access.label;
+  const power = document.createElement("small");
+  power.className = "access-power";
+  power.textContent = access.power;
+  accessCell.append(accessLabel, power);
   return row;
 }
 
 function renderTasks() {
   if (!current) return;
-  const matches = filterTasks(current.tasks, filter.value, search.value);
+  const counts = summarizeAccess(current.tasks);
+  const statuses = new Map(current.tasks.map(task => [task.id, task.status]));
+  const allMatches = filterTasks(current.tasks, filter.value, search.value);
+  const matches = showRestricted.checked ? allMatches : allMatches.filter(task => !taskAccess(task, statuses).restricted);
+  const hidden = allMatches.length - matches.length;
+  byId("restriction-summary").textContent =
+    counts.verified + " verified · " + counts.source_candidate + " source candidates · " +
+    (current.tasks.length - counts.verified - counts.source_candidate) + " held by access or dependencies." +
+    (hidden ? " " + hidden + " restricted task(s) hidden by this filter." : "") +
+    " These are source-only classifications, not permission to execute.";
   const total = matches.length;
   const pages = Math.max(1, Math.ceil(total / pageSize));
   page = Math.max(0, Math.min(page, pages - 1));
   const start = page * pageSize;
   const tasks = byId("tasks");
-  tasks.replaceChildren(...matches.slice(start, start + pageSize).map(taskRow));
+  tasks.replaceChildren(...matches.slice(start, start + pageSize).map(task => taskRow(task, taskAccess(task, statuses))));
   if (!total) {
     const cell = tasks.insertRow().insertCell();
-    cell.colSpan = 3;
+    cell.colSpan = 4;
     cell.className = "empty";
     cell.textContent = "No work orders match these filters.";
   }
   byId("results").textContent = total ? (start + 1) + "–" + Math.min(start + pageSize, total) + " of " + total : "0 results";
   previous.disabled = page === 0;
   next.disabled = page + 1 >= pages;
+}
+
+function renderTools() {
+  if (!current) return;
+  const tools = contractTools(current.contract);
+  const rows = byId("tool-catalog");
+  if (tools === null) {
+    const row = document.createElement("tr");
+    const cell = row.insertCell();
+    cell.colSpan = 3;
+    cell.className = "empty";
+    cell.textContent = "Capability contract unavailable in this source snapshot. Open the linked contract on GitHub.";
+    rows.replaceChildren(row);
+    byId("tool-summary").textContent = "Cannot verify the tool inventory from the loaded source.";
+    return;
+  }
+  const shown = tools.filter(tool => showRestricted.checked || !tool.restricted);
+  const rendered = shown.map(tool => {
+    const row = document.createElement("tr");
+    const name = row.insertCell();
+    name.textContent = tool.name;
+    row.insertCell().textContent = tool.power;
+    const statusCell = row.insertCell();
+    const badge = document.createElement("span");
+    badge.className = "badge";
+    badge.dataset.tone = tool.restricted ? "amber" : "muted";
+    badge.textContent = tool.status === "active_source" ? "Source-present" : "Restricted · " + tool.status;
+    const note = document.createElement("small");
+    note.className = "access-power";
+    note.textContent = tool.note;
+    statusCell.append(badge, note);
+    return row;
+  });
+  rows.replaceChildren(...rendered);
+  byId("tool-summary").textContent = tools.length + " capability records from the public contract · " +
+    tools.filter(tool => tool.restricted).length + " restricted/regressed" +
+    (shown.length !== tools.length ? " · " + (tools.length - shown.length) + " hidden" : "") +
+    ". Source-present does not establish HP deployment, unattended execution or financial permission.";
 }
 
 const healthBadges = {
@@ -119,7 +179,9 @@ function render(model, mode) {
   badge("source-badge", mode === "github" ? "GitHub main" : "Bundled snapshot", mode === "github" ? "mint" : "muted");
   search.disabled = false;
   filter.disabled = false;
+  showRestricted.disabled = false;
   renderTasks();
+  renderTools();
 }
 
 async function refreshFromGitHub() {
@@ -189,6 +251,7 @@ async function start() {
 
 search.addEventListener("input", () => { page = 0; renderTasks(); });
 filter.addEventListener("change", () => { page = 0; renderTasks(); });
+showRestricted.addEventListener("change", () => { page = 0; renderTasks(); renderTools(); });
 previous.addEventListener("click", () => { page--; renderTasks(); });
 next.addEventListener("click", () => { page++; renderTasks(); });
 refresh.addEventListener("click", () => { refreshFromGitHub(); refreshAITracker(); });
