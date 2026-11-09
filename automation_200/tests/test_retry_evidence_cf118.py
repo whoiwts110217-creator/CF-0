@@ -136,6 +136,28 @@ class RetryEvidenceTests(unittest.TestCase):
                 append_failure(path, {"CF-118"}, "CF-118", 1001)
             self.assertEqual(path.read_bytes(), original)
 
+    def test_duplicate_json_key_rejected_even_with_valid_digest(self):
+        # JSON parsers ordinarily keep the final duplicate key, which would
+        # let a correctly hashed but ambiguous journal record be accepted.
+        with tempfile.TemporaryDirectory() as root:
+            path = Path(root) / "attempts.jsonl"
+            allowed = {"CF-118"}
+            append_failure(path, allowed, "CF-118", 1000)
+            valid = path.read_bytes()
+            record = json.loads(valid.decode("ascii"))
+            # Duplicate task field with identical value preserves the digest.
+            ambiguous = valid.replace(b'"task":"CF-118"', b'"task":"CF-118","task":"CF-118"', 1)
+            self.assertNotEqual(ambiguous, valid)
+            path.write_bytes(ambiguous)
+            with self.assertRaisesRegex(ValueError, "duplicate"):
+                read_events(path, allowed)
+            with self.assertRaisesRegex(ValueError, "duplicate"):
+                append_failure(path, allowed, "CF-118", 1001)
+            self.assertEqual(path.read_bytes(), ambiguous)
+            path.write_bytes(valid)
+            append_failure(path, allowed, "CF-118", 1001)
+            self.assertEqual(read_events(path, allowed)[1]["CF-118"]["failures"], 2)
+
     def test_reject_truncated_or_unknown_records(self):
         with tempfile.TemporaryDirectory() as root:
             path = Path(root) / "attempts.jsonl"
