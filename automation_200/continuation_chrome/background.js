@@ -81,10 +81,14 @@ async function key(name){
 }
 async function handleOverlay(snapshot){
   const c=classifyOverlay(snapshot);
-  if(c==='CLEAR')return;
+  if(c==='CLEAR')return false;
   if(c==='DISMISS_WITH_ESCAPE'){
     if(++live.escapes>2)throw Error('REPEATED_POPUP');
-    await key('Escape');await sleep(500);return;
+    await key('Escape');
+    // Never proceed using the OLD snapshot: the dialog could still be visible.
+    // The caller must rescan and prove the obstruction disappeared first.
+    await sleep(500);
+    return true;
   }
   throw Error(c);
 }
@@ -94,6 +98,9 @@ async function waitUntil(check,timeoutMs,expectedId,{allowNavigation=false}={}){
   let lastError;
   while(Date.now()<deadline){
     ensureActive();
+    const tabs=await tabsSnapshot();
+    if(tabs.reason!=='ONE_TAB_READY'||tabs.tabId!==live.tabId)
+      throw Error('CHATGPT_TAB_COUNT_CHANGED');
     const tab=await chrome.tabs.get(live.tabId).catch(()=>null);
     if(!tab)throw Error('TAB_CLOSED');
     if(chatId(tab.url)!==expectedId) {
@@ -103,7 +110,12 @@ async function waitUntil(check,timeoutMs,expectedId,{allowNavigation=false}={}){
     }
     let snap;
     try{snap=await scan();}catch(e){lastError=e;await sleep(600);continue;}
-    await handleOverlay(snap);
+    if(snap.url&&chatId(snap.url)!==expectedId){
+      if(allowNavigation&&Date.now()<navigationGrace){await sleep(400);continue;}
+      throw Error('PAGE_CONTENT_MISMATCH');
+    }
+    const dismissed=await handleOverlay(snap);
+    if(dismissed)continue; // Check the FRESH DOM before typing or marking completion.
     const ok=await check(snap);
     if(ok)return snap;
     await sleep(800);
@@ -128,8 +140,15 @@ async function navigate(id){
 async function continueOne(id){
   await save({currentChat:id,attempt:{chatId:id,status:'in_flight',startedAt:stamp()},lastResult:'Navigating in selected tab…'});
   await navigate(id);
-  const before=await scan();
-  await handleOverlay(before);
+  // The navigation wait verified the absence of known blocking overlays.
+  // Refresh that evidence immediately before any keyboard input.
+  let before=await scan();
+  if(before.url&&chatId(before.url)!==id)throw Error('PAGE_CONTENT_MISMATCH');
+  if(await handleOverlay(before)){
+    await waitUntil(s=>s.composerVisible,20000,id);
+    before=await scan();
+    if(await handleOverlay(before))throw Error('PERSISTENT_POPUP');
+  }
   if(!before.composerVisible)throw Error('COMPOSER_NOT_READY');
   if(before.stopVisible||before.busy)throw Error('ALREADY_RESPONDING');
   if(before.draft)throw Error('OWNER_DRAFT_PRESENT');
@@ -146,7 +165,7 @@ async function continueOne(id){
     return stable.ready;
   },240000,id);
   const s=await getState();
-  await save({attempt:null,currentChat:null,completed:[...s.completed,id],lastResult:'Completed one chat and verified stable response.'});
+  await save({attempt:null,currentChat:null,completed:[...new Set([...s.completed,id])],lastResult:'Completed one chat and verified stable response.'});
 }
 async function execute({mode,maxChats=1}){
   if(live)throw Error('ALREADY_RUNNING');
