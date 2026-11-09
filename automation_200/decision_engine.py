@@ -17,10 +17,12 @@ try:
     from .priority_selector import select_tasks
     from .validate_registry import check_registry
     from .task_context_expiry import held_task_contexts
+    from .hp_authority_gate import cloud_hold_reason, assess_public_proof, OWNER_LOCAL_EVIDENCE_IDS
 except ImportError:
     from priority_selector import select_tasks
     from validate_registry import check_registry
     from task_context_expiry import held_task_contexts
+    from hp_authority_gate import cloud_hold_reason, assess_public_proof, OWNER_LOCAL_EVIDENCE_IDS
 
 ROOT = Path(__file__).resolve().parent
 POLICY = "cf200.decision_proposal.v1"
@@ -31,12 +33,6 @@ HEALTH_STATES = frozenset({
 RETRY_LIMIT = 3
 RETRY_BASE_SECONDS = 300
 MAX_ATTEMPT_AGE = 10**12
-# The registry currently marks certain owner-local acceptance tasks as HP-free.
-# Explicitly hold these by ID rather than guessing from public task titles.
-OWNER_LOCAL_EVIDENCE_IDS = frozenset({
-    "CF-042", "CF-077", "CF-184", "CF-190", "CF-191", "CF-194",
-})
-
 
 def _attempts_valid(registry, attempts):
     ids = {t["id"] for t in registry["tasks"]}
@@ -98,12 +94,8 @@ def propose(registry, *, health_state="unavailable", now=None, limit=4,
             reasons[tid] = "explicitly_blocked"
         elif tid in context_holds:
             reasons[tid] = context_holds[tid]
-        elif task.get("physical_hp_required", False):
-            reasons[tid] = "physical_hp_required"
-        elif task["stream"] == "hp_install":
-            reasons[tid] = "hp_install_needs_local_review"
-        elif tid in OWNER_LOCAL_EVIDENCE_IDS:
-            reasons[tid] = "owner_local_evidence_required"
+        elif (hp_hold := cloud_hold_reason(task)) is not None:
+            reasons[tid] = hp_hold
         elif not all(status.get(d) == "verified" for d in task["depends_on"]):
             reasons[tid] = "dependencies_unverified"
         elif tid in attempts:
@@ -130,6 +122,7 @@ def propose(registry, *, health_state="unavailable", now=None, limit=4,
         "owner_priority_order": ["automation", "governance", "finance", "other"],
         "hp_health_state": health_state,
         "hp_identity_attested": False,
+        "hp_proof_gate": assess_public_proof(health_state=health_state),
         "selected": selected,
         "held_counts": counts,
         "held_examples": held_examples,
