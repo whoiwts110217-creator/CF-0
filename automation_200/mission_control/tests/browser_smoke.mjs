@@ -274,6 +274,27 @@ try {
   assert.ok(highContrast.pageWidth<=highContrast.viewport+1,"High contrast must preserve responsive layout");
   await send("Emulation.setEmulatedMedia", { features: [] });
 
+  // Optional owner-device instructions do not assert a completed physical iPhone test.
+  const deviceGuide = await evaluate(`(()=>{const d=document.getElementById("gameful-device-check");return {
+    exists:!!d,open:d?.open,steps:d?.querySelectorAll("li").length,
+    text:d?.textContent||"",scrollWidth:document.documentElement.scrollWidth
+  }})()`);
+  assert.equal(deviceGuide.exists,true,"On-device acceptance help should exist");
+  assert.equal(deviceGuide.open,false,"On-device acceptance help should be collapsed by default");
+  assert.equal(deviceGuide.steps,4,"Guide should have short, reproducible checks");
+  assert.match(deviceGuide.text,/VoiceOver/);
+  assert.match(deviceGuide.text,/does not automatically verify or report/i);
+  await evaluate("document.querySelector('#gameful-device-check summary').click()");
+  const openGuide = await evaluate(`(()=>({open:document.getElementById("gameful-device-check").open,
+    viewport:innerWidth,scrollWidth:document.documentElement.scrollWidth,
+    summaryHeight:document.querySelector("#gameful-device-check summary").getBoundingClientRect().height}))()`);
+  assert.equal(openGuide.open,true,"Guide opens without saving or submitting anything");
+  assert.ok(openGuide.summaryHeight >= 44,"On-device guide summary has a usable touch target");
+  assert.ok(openGuide.scrollWidth <= openGuide.viewport + 1,"Expanded guide must not cause sideways scrolling");
+  await evaluate("document.querySelector('#gameful-device-check summary').click()");
+  assert.equal(await evaluate("document.getElementById('gameful-device-check').open"),false);
+  console.log("PASS: optional device guide is collapsed by default and responsive when expanded.");
+
   // Restore source smoke defaults before closing browser.
   await send("Emulation.setDeviceMetricsOverride", { width: 390, height: 844, deviceScaleFactor: 3, mobile: true });
 
