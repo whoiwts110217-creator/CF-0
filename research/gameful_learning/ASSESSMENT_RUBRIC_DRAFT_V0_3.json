@@ -1,0 +1,259 @@
+{
+  "schema": "cf0.gameful_learning_constructed_response_draft.v0.3",
+  "continuity_id": "CF-EXP-GAME-LEARN-001",
+  "parent_ids": [
+    "CF-CORE",
+    "FIN-09",
+    "RES-04"
+  ],
+  "status": "public_development_candidate_not_validated",
+  "study_active": false,
+  "response_collection": false,
+  "randomized": false,
+  "no_automated_scoring": true,
+  "supersedes_for_review_only": [
+    "research/gameful_learning/ASSESSMENT_KEY_DRAFT_V0_1.json",
+    "research/gameful_learning/ASSESSMENT_KEY_DRAFT_V0_2.json"
+  ],
+  "intended_waves": [
+    "baseline",
+    "immediate",
+    "delayed"
+  ],
+  "item_prompt": "For this scenario, state (1) the strongest evidence-based conclusion and (2) one concrete reason or missing/present evidence that makes it justified. Answer each part in one sentence.",
+  "scoring": {
+    "unit": "two_facets_per_item",
+    "item_min": 0,
+    "item_max": 2,
+    "wave_min": 0,
+    "wave_max": 8,
+    "facet_conclusion": "one point if conclusion is materially consistent with reference; reject contrary categorical claims",
+    "facet_evidence": "one point if a specific reason or verification boundary is correctly explained; do not award for repeating the conclusion",
+    "missing": "missing/not_scored, never imputed as zero without prespecified rule",
+    "double_rating": "For any later consented study, two independent, condition-blinded human raters on a locked rubric; report agreement and adjudicate discrepancies; rubric has not been calibrated.",
+    "key_visibility": "PUBLIC development examples, no blinded validity"
+  },
+  "constraints": "No actual participants, iPhone collection, contact, browser tracking, researcher auto-grading, delayed retest or data storage.",
+  "source_refs": {
+    "receipt": "docs/PROJECT_STATUS.md",
+    "funding": "docs/BUSINESS.md",
+    "hypothesis": "docs/RESEARCH.md",
+    "continuity": "docs/UNIVERSAL_CONTINUITY_CONTRACT.md"
+  },
+  "items": [
+    {
+      "id": "B3-EXEC",
+      "wave": "baseline",
+      "topic": "receipt",
+      "scenario": "A public monitoring site displays a receipt confirming that a backup request for laptop L17 entered its queue. No laptop scheduler entry or local execution result is available.",
+      "reference_conclusion": "The remote queue acknowledgement is supported, but unattended execution on laptop L17 is not verified.",
+      "reference_reason": "A machine-specific scheduler record and its execution result would be needed, correlated to the receipt.",
+      "facet_conclusion_accept": [
+        "Queue/receipt acknowledgement established",
+        "No verified unattended laptop execution"
+      ],
+      "facet_evidence_accept": [
+        "Machine-specific scheduler or execution evidence missing",
+        "Match that evidence to the receipt"
+      ],
+      "common_invalid_claims": [
+        "Claiming the laptop definitely completed the backup"
+      ]
+    },
+    {
+      "id": "B3-FUND",
+      "wave": "baseline",
+      "topic": "funding",
+      "scenario": "A nonprofit first receives donor pledges. Later, its bank statement shows a settled deposit from the payment processor for those pledges.",
+      "reference_conclusion": "A confirmed deposit supports that the nonprofit received funds; the earlier pledges alone did not.",
+      "reference_reason": "The settlement/bank credit is stronger payment evidence than donor promises or authorizations.",
+      "facet_conclusion_accept": [
+        "Received funds supported by posted deposit",
+        "Pledge is not the settled payment"
+      ],
+      "facet_evidence_accept": [
+        "Bank settlement or confirmed credit is present",
+        "Different evidence level than pledge"
+      ],
+      "common_invalid_claims": [
+        "Only the pledge proves the cash arrived"
+      ]
+    },
+    {
+      "id": "B3-PROOF",
+      "wave": "baseline",
+      "topic": "hypothesis",
+      "scenario": "A developer claims that a function outputs an even number for every permitted integer. The function outputs 7 on one permitted input.",
+      "reference_conclusion": "The universal even-output claim is false.",
+      "reference_reason": "One valid permitted input with an odd output is a counterexample to an all-input claim.",
+      "facet_conclusion_accept": [
+        "Universal claim refuted"
+      ],
+      "facet_evidence_accept": [
+        "Odd output on permitted input is a valid counterexample"
+      ],
+      "common_invalid_claims": [
+        "Thousands of earlier passes preserve the universal claim"
+      ]
+    },
+    {
+      "id": "B3-CONT",
+      "wave": "baseline",
+      "topic": "continuity",
+      "scenario": "A software team keeps a crash report for version A, a change log for its fix in version B, and a passing rerun result for version B.",
+      "reference_conclusion": "The team has preserved a reconstructable failure-to-repair trail.",
+      "reference_reason": "The original failure, version-specific correction and rerun remain linked rather than overwritten.",
+      "facet_conclusion_accept": [
+        "Traceable history or audit trail preserved"
+      ],
+      "facet_evidence_accept": [
+        "Original failure and linked source revisions/retest retained"
+      ],
+      "common_invalid_claims": [
+        "The original failure is unnecessary once the fix passes"
+      ]
+    },
+    {
+      "id": "I3-FUND",
+      "wave": "immediate",
+      "topic": "funding",
+      "scenario": "A freelance client has signed a contract, approved an invoice, and initiated a card charge. The payment processor still labels the transfer pending.",
+      "reference_conclusion": "The records support an agreement and pending payment, not verified cash received.",
+      "reference_reason": "Settlement or a confirmed bank credit is not present, despite contract and authorization evidence.",
+      "facet_conclusion_accept": [
+        "Agreement/invoice/pending status established",
+        "Received funds not verified"
+      ],
+      "facet_evidence_accept": [
+        "Bank settlement evidence missing",
+        "Authorization is not bank receipt"
+      ],
+      "common_invalid_claims": [
+        "Approved invoice proves deposited funds"
+      ]
+    },
+    {
+      "id": "I3-EXEC",
+      "wave": "immediate",
+      "topic": "receipt",
+      "scenario": "A workstation has a timestamped scheduled task record identifying that host. Its wrapper reports a run outcome tied to the same request ID as a server receipt.",
+      "reference_conclusion": "The combined records support stronger attribution to a specific scheduled workstation run than the receipt alone.",
+      "reference_reason": "The host-local scheduled record, wrapper result and remote receipt can be correlated; their authenticity and limits still matter.",
+      "facet_conclusion_accept": [
+        "Stronger qualified host-run attribution"
+      ],
+      "facet_evidence_accept": [
+        "Correlated scheduler, wrapper and remote receipt",
+        "No unconditional claim of perfect proof"
+      ],
+      "common_invalid_claims": [
+        "A public receipt alone would offer equal attribution"
+      ]
+    },
+    {
+      "id": "I3-CONT",
+      "wave": "immediate",
+      "topic": "continuity",
+      "scenario": "A game patch fails a test. The team archives that failure, commits the repair with a new revision ID, and links a successful rerun.",
+      "reference_conclusion": "The failure and repair sequence is recoverable and auditable.",
+      "reference_reason": "The archived failing result, changed revision and successful retest form an evidence chain.",
+      "facet_conclusion_accept": [
+        "Auditable failure-to-fix sequence"
+      ],
+      "facet_evidence_accept": [
+        "Preserved failed result plus revision identity and rerun"
+      ],
+      "common_invalid_claims": [
+        "A later pass replaces the historical failure"
+      ]
+    },
+    {
+      "id": "I3-PROOF",
+      "wave": "immediate",
+      "topic": "hypothesis",
+      "scenario": "A forecasting script passes 80,000 finite input tests. Its author now claims the script is correct for every possible allowed input.",
+      "reference_conclusion": "The finite tests support only the checked cases, not the unrestricted universal claim.",
+      "reference_reason": "Finite successes alone do not establish all possible inputs; a general proof or valid refuting example is a different form of evidence.",
+      "facet_conclusion_accept": [
+        "Universal assertion not established by sample"
+      ],
+      "facet_evidence_accept": [
+        "Finite testing does not cover all allowed cases"
+      ],
+      "common_invalid_claims": [
+        "80,000 passing tests logically prove all cases"
+      ]
+    },
+    {
+      "id": "D3-PROOF",
+      "wave": "delayed",
+      "topic": "hypothesis",
+      "scenario": "A building simulation predicts that every permitted loading pattern is safe. A later test with a genuinely permitted pattern shows a structural failure.",
+      "reference_conclusion": "The universal safety prediction has been refuted.",
+      "reference_reason": "The valid failing load is a counterexample even if many other tested patterns passed.",
+      "facet_conclusion_accept": [
+        "Universal safety prediction falsified"
+      ],
+      "facet_evidence_accept": [
+        "One genuine allowed failure is sufficient as counterexample"
+      ],
+      "common_invalid_claims": [
+        "More previous passes erase the failing case"
+      ]
+    },
+    {
+      "id": "D3-EXEC",
+      "wave": "delayed",
+      "topic": "receipt",
+      "scenario": "Two cloud agents independently display 'completed' with the same ticket ID for a job intended for a named Windows computer. No on-device scheduler or run evidence is presented.",
+      "reference_conclusion": "The cloud reports may show status agreement but do not prove execution on that Windows computer.",
+      "reference_reason": "Host-specific execution records are absent; copied or agreed messages cannot authenticate local unattended work.",
+      "facet_conclusion_accept": [
+        "Remote agreement alone insufficient",
+        "Computer execution unverified"
+      ],
+      "facet_evidence_accept": [
+        "Need local scheduler or run record linked to ticket"
+      ],
+      "common_invalid_claims": [
+        "Same ticket shown twice proves computer execution"
+      ]
+    },
+    {
+      "id": "D3-CONT",
+      "wave": "delayed",
+      "topic": "continuity",
+      "scenario": "An engineer publishes a repaired version of a script, but deletes the original failing log and removes the identifier for the source version that failed.",
+      "reference_conclusion": "The historical trail is incomplete despite the repaired script.",
+      "reference_reason": "The original failed observation and its source identity can no longer be reconstructed from the remaining record.",
+      "facet_conclusion_accept": [
+        "Incomplete or unauditable history"
+      ],
+      "facet_evidence_accept": [
+        "Missing original failure and version linkage"
+      ],
+      "common_invalid_claims": [
+        "Working new version restores the deleted old evidence"
+      ]
+    },
+    {
+      "id": "D3-FUND",
+      "wave": "delayed",
+      "topic": "funding",
+      "scenario": "A small retailer's payout statement lists a transfer as scheduled for tomorrow. The business bank account has not yet credited the deposit.",
+      "reference_conclusion": "A payout is scheduled but receipt in the bank is not yet confirmed.",
+      "reference_reason": "A scheduled transfer is a promise/process state; confirming a posted bank credit is stronger evidence of receipt.",
+      "facet_conclusion_accept": [
+        "Scheduled payout known",
+        "Received cash not yet verified"
+      ],
+      "facet_evidence_accept": [
+        "Bank credit confirmation missing",
+        "Schedule not settlement"
+      ],
+      "common_invalid_claims": [
+        "A scheduled payout is already settled cash"
+      ]
+    }
+  ]
+}
