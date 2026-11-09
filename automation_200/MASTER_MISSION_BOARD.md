@@ -548,7 +548,7 @@ ROGUE-03 was reproduced and accepted as a failure-mode test contribution. The sc
 **Control prompt:** [MASTER_OPERATOR_PROMPT.md](MASTER_OPERATOR_PROMPT.md)  
 **Mission control frontend:** [source and usage](mission_control/README.md)  
 **System of record:** [registry.json](registry.json) · [events.jsonl](events.jsonl) · [checkpoints/](checkpoints/)  
-**Current source registry:** **84/200 verified** as of November 7, 2026; [registry.json](registry.json) is authoritative.\
+**Current source registry:** **85/200 verified** as of November 9, 2026; [registry.json](registry.json) is authoritative.\
 **Last numbered checkpoint:** [084](checkpoints/checkpoint_084.json) (next numbered checkpoint 088).\
 **Public continuity handoff:** [docs/CONTINUITY.md](../docs/CONTINUITY.md) · [dated state](../docs/PUBLIC_CONTINUITY_STATE.json). Historical counts in the entries below remain snapshots, not live status.
 
@@ -1435,3 +1435,10 @@ The hourly public channel watchdog now runs priority selector and waiting-cycle 
 - **HP evidence separately scoped:** [public health report](../relay/health/latest.json) collected `2026-11-09T06:37:08+00:00`, blob `0e063e236a784e73a462b77db32085821d7bea33`, reports `receipt_count=32`, `ping_receipt_count=10`, last receipt completed and no local reported error. The owner-observed November 8 scheduler window is historical; no independently authenticated association to this health report or an unattended Windows poll was established.
 - **Next three:** (1) inspect the latest integration workflow and fix any CF-118 failures before considering task acceptance; (2) maintain a single, read-only source-of-truth retry journal without unauthenticated success or automatic execution; (3) reconcile the public [Tasks & Issues dashboard](../docs/TASKS_AND_ISSUES.md) against the 84/200 registry, four observed open GitHub issues and the fresh health timestamp. No manual owner PowerShell or other clipboard input was requested.
 
+
+
+## November 9, 2026 — CF-118 source acceptance (85/200)
+
+- **CF-118 is now source-verified:** [existing hash-chained retry evidence](retry_evidence.py) feeds [read-only proposals](attempt_history_cf118.py) through the founder's existing decision engine. [Source]( https://github.com/whoiwts110217-creator/CF-0/commit/d207d68b4eb70dc2c719d2b960cd71e4a4fe2ca1 ) and [integration tests](https://github.com/whoiwts110217-creator/CF-0/commit/a50d7f76e01fedc25858f3177ea9da38f20209bd) passed [full Windows CI 42576948195](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42576948195); the CI log included all three new journal-adapter tests (all passed). This verifies source-level cooldown, retry ceiling and fail-closed invalid evidence handling only, **not** unattended task retry, physical HP execution or journal provenance authentication.
+- **Atomic state:** authoritative registry **85/200 verified**, 115 planned, CF-118 accepted after CF-117. Registry blob `3124e881d709de58e1150e9f612b15731b7169c6`; one append-only CF-118 acceptance event; public continuity, project status, mission board and task dashboard updated together. Checkpoint **084** remains last; next due **088**. Other project/HP/finance permissions and private source records unchanged.
+- **Next three:** (1) begin CF-119 HP authority proof gate as a source-level, dependency-safe task without assuming real HP identity, (2) inspect real HP schedule-to-receipt correlation only if independent evidence arrives through existing owner-approved channel, and (3) continue public project/donation readiness while keeping verified monetary receipts separate from drafts. No new scheduler or owner clipboard step.

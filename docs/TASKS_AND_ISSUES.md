@@ -7,8 +7,8 @@ This dated report summarizes work orders, blockers, and GitHub issues. [Mission 
 
 | Measure | Verified source-backed state |
 |---|---|
-| CF-200 work orders | **84 verified / 200 total**; 116 planned |
-| Current verified progress | 42% of defined work orders; **not** 42% of the finished product |
+| CF-200 work orders | **85 verified / 200 total**; 115 planned |
+| Current verified progress | 42.5% of defined work orders; **not** 42.5% of the finished product |
 | Open GitHub issues | **4** confirmed in the November 9 issue search ([#1](https://github.com/whoiwts110217-creator/CF-0/issues/1), [#3](https://github.com/whoiwts110217-creator/CF-0/issues/3), [#16](https://github.com/whoiwts110217-creator/CF-0/issues/16), [#21](https://github.com/whoiwts110217-creator/CF-0/issues/21)) |
 | Public task/issue refresh | Existing CF-200 executor ran on demand November 9; [mission-board record](../automation_200/MASTER_MISSION_BOARD.md) and this dated refresh. |
 | Public HP health | [Latest public health report](../relay/health/latest.json) publishes its own collection time and receipt counts. Direct Windows scheduler attribution is tracked separately. |
@@ -16,7 +16,7 @@ This dated report summarizes work orders, blockers, and GitHub issues. [Mission 
 | Seven-day unattended operation | Verification remains open. |
 | Donations/revenue | No new owner-confirmed receipts established by this dashboard |
 
-**Evidence:** [registry.json](../automation_200/registry.json), source blob `304ed3c72df0fb82b6a0eacf6f4dc2e971262c74`; [public continuity](PUBLIC_CONTINUITY_STATE.json); [first executor-produced dashboard refresh commit](https://github.com/whoiwts110217-creator/CF-0/commit/479c93ae8689279cb422771a504cd3be494763aa). A successful dashboard refresh is **not** proof of unattended HP operation.
+**Evidence:** [registry.json](../automation_200/registry.json), source blob `3124e881d709de58e1150e9f612b15731b7169c6`; [public continuity](PUBLIC_CONTINUITY_STATE.json); [first executor-produced dashboard refresh commit](https://github.com/whoiwts110217-creator/CF-0/commit/479c93ae8689279cb422771a504cd3be494763aa). A successful dashboard refresh is **not** proof of unattended HP operation.
 
 **CF-118 source integration passed.** The existing executor ran on demand on November 9 and added a [read-only adapter](../automation_200/attempt_history_cf118.py) from the existing retry journal to the decision engine. [Linux](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42564024841/job/128986476285) and [Windows](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42564024841/job/128986476096) passed the offline journal and retry-boundary tests. The [Windows integration job](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42576948195/job/129026687680) passed on the journal-adapter revision. CF-118 remains planned pending evidence that the scheduled executor carries attempt history across runs and enforces the retry ceiling.
 
@@ -84,3 +84,8 @@ The **existing enabled hourly CF-200 Four-Task Executor** (automation ID `6aeca9
 Every later update should revise the summary **in place** and preserve prior history in [Git commits](https://github.com/whoiwts110217-creator/CF-0/commits/main/docs/TASKS_AND_ISSUES.md), rather than stacking contradictory older status notes at the bottom. Re-read the current registry, issue list, approval bin and public continuity before a SHA-guarded write. If a check or write fails, keep the previous dashboard and clearly report stale/unknown state. Never fabricate progress or account activity.
 
 **Other links:** [Project index](PROJECTS.md) · [Start Here](START_HERE.md) · [Operator prompt](../automation_200/MASTER_OPERATOR_PROMPT.md) · [Work prompt](../automation_200/WORK_COPY_PASTE_AUTOMATION_PROMPT.md).
+
+
+## November 9 source acceptance follow-up (current authoritative state)
+
+CF-118 is **source verified**, not hardware deployed. The [current registry](../automation_200/registry.json) is **85/200**, 115 planned, source blob `3124e881d709de58e1150e9f612b15731b7169c6`. [Integration Windows run 42576948195](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42576948195) passed; the three new retry-journal adapter tests ran and passed in the job log. Checkpoint 084 remains last; next 088. The earlier November 8 CF-118 failure and planned-state paragraphs above are retained as **historical snapshots**. HP scheduled-run provenance, private archive recovery and revenue verification remain open. The next eligible source task is CF-119 (HP authority proof gate), which cannot grant real HP access from public metadata.
