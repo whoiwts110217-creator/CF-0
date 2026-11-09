@@ -1,0 +1,7 @@
+{
+  "schema": "cf0.synthetic_race.v1",
+  "not_a_real_task_claim": true,
+  "task_id": "CF-098",
+  "worker": "sim-a",
+  "warning": "fixture only; no worker authority"
+}
