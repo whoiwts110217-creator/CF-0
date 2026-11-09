@@ -82,3 +82,23 @@ Suggestions are explicitly **not approved links**. Only unambiguous stream class
 The existing owner Library archive was restored, ten additional original *artifact files* were ingested privately, then a **new** complete v2 ZIP was restored in an independent directory and audited. The private store contains 18 original source files, 62 reconstructed/unverified project identities, 134 project-source associations, 98 existing external references, and 91 hash-linked events. Both v1 and v2 remain saved privately under `/Caveman Focus/Master Records/`. No full original conversations.json exports have been indexed. The original approximately 37-project list is still not recovered.
 
 A dedicated CI smoke test at [tests/test_actual_cf200_registry.py](tests/test_actual_cf200_registry.py) imports the byte-exact **current checked-in** 200-task registry into a disposable source-test store and verifies task count, evidence, fingerprint and idempotence. That test does **not** populate the owner's private v2 backup. Until a subsequent separate private import and new backup occur, the owner's project-to-work-order links remain unreviewed and the private CF-200 snapshot is missing.
+
+
+## Private conversation title-to-original reconciliation (Merge v3, November 9)
+
+The original historical conversation titles in an owner-held **private** Merge v2 crosswalk can be checked against original ChatGPT exports **only after those exports are explicitly imported into the existing local continuity index**. The new [read-only candidate tool](conversation_crosswalk.py) uses this existing database; it creates no second continuity database, does not connect to ChatGPT, never sends "continue", and never imports private transcripts into public GitHub.
+
+**Private invocation (from CF-0 repo root):**
+
+```powershell
+py -3 -m continuity.local_index import-chatgpt "C:\Private\chat-export.zip"
+py -3 -m continuity.conversation_crosswalk --merge-map "C:\Private\CF0_Conversation_Idea_Map_v2_2026-11-09.json" --index "$env:LOCALAPPDATA\CavemanFocus\Continuity\continuity.sqlite3" --output "C:\Private\CF0_Merge_v3_Review.json"
+```
+
+Optional `--secondary-review "C:\Private\Caveman_Focus_Review_2026-11-08.md"` checks the exact secondary source file's SHA-256 before comparing. The script opens SQLite **read-only** and excludes partial/unverified imports. Identical normalized titles can generate **proposed matches** (a title plus matching terms is stronger than title alone); duplicate titles are flagged ambiguous. **No proposal becomes a canonical approved chat-to-project link automatically.** The report is private, can contain original conversation IDs, and refuses an output path inside the public source checkout. The 62 original reconstructed project identities are only validated against the private input map and never mutated.
+
+The owner-held v7 archive was actually checked in a temporary private directory: its SQLite index contained **zero original indexed conversations**, so 15 reviewed secondary conversation units yielded **zero** original chat candidates in that snapshot. This is an archive-coverage limitation, not a claim that those historical conversations never existed or are available to the Chrome AUTO-08 extension.
+
+**Source tests (synthetic only):** `python -m unittest continuity.tests.test_conversation_crosswalk -v`. Tested cases: missing export, hash-mismatch rejection, original-text corroboration (still review-only), duplicate title ambiguity, partial imports, no mutating unknown project IDs, no preapproval, and absent DB refusal. A passing test proves no live account access. Keep the source map, review file, original exports, and resulting report in private storage.
+
+**Continuity:** parent `CF-ARCH`; the historic `AUTO-08` (two-account bridge) and the newer Chrome AUTO-08 continuation code are different mechanisms with a documented naming collision. Do not merge identities without original source review. Rollback by deleting only this new read-only module/report; preserve the private v7 archive, the 62-entry atlas, and all original/derived prior maps.
