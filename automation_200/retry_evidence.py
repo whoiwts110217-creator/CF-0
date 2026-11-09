@@ -54,8 +54,10 @@ def _parse_events(data, allowed_ids):
             raise ValueError("retry journal contains an empty record")
         try:
             event = json.loads(line, object_pairs_hook=_unique_object_pairs)
-        except (ValueError, TypeError) as exc:
+        except json.JSONDecodeError as exc:
             raise ValueError("invalid retry journal JSON") from exc
+        except TypeError as exc:
+            raise ValueError("invalid retry journal JSON type") from exc
         if not isinstance(event, dict) or set(event) != {"task", "failures", "failed_at", "previous", "digest"}:
             raise ValueError("invalid retry journal event")
         task, failures, stamp = event["task"], event["failures"], event["failed_at"]
