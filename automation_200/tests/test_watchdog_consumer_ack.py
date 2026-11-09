@@ -20,6 +20,18 @@ class ConsumerAckTests(unittest.TestCase):
         self.assertFalse(result["hp_identity_attested"])
         self.assertEqual(result["decision"], "deferred")
 
+    def test_producer_readback_integrity_fail_closed(self):
+        for patch in ({"schema": "unknown"}, {"watchdog_run_id": True},
+                      {"watchdog_run_attempt": 0}, {"packet_sha256": "A" * 64},
+                      {"packet_sha256": "x" * 64},
+                      {"packet_sha256": None},
+                      {"execution_authorized": None}):
+            with self.subTest(patch=patch), self.assertRaises(ValueError):
+                verify_consumer_ack({**self.producer, **patch}, self.ack)
+        for invalid in (None, [], "not-a-readback"):
+            with self.subTest(invalid=invalid), self.assertRaises(ValueError):
+                verify_consumer_ack(invalid, self.ack)
+
     def test_mismatch_and_authority_drift_fail_closed(self):
         for patch in ({"watchdog_run_id": 1}, {"watchdog_run_attempt": 2},
                       {"packet_sha256": "b" * 64}, {"executor_run_id": "../bad"},
