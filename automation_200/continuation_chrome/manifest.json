@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "minimum_chrome_version": "118",
   "name": "CF-0 AUTO-08 Single ChatGPT Tab",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "description": "Owner-local, keyboard-only continuation of one selected ChatGPT Chrome tab with interruption monitoring.",
   "permissions": [
     "tabs",
