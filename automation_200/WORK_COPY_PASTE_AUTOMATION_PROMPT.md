@@ -68,3 +68,6 @@ If the proposed fix would change authority, owner credit, priority ordering, pri
 
 Each handoff should say: which prompts were read (blob SHAs); what safe efficiency change was made, if any; which bin IDs were applied or remain pending; evidence/CI status; which human copy/paste action was avoided; and which next authorized task follows. The bin and log do not replace the authoritative CF-200 registry or private continuity history.
 
+## Universal continuity handoff for all branches — November 9, 2026
+
+Following the mandatory three-prompt boot sequence, re-read [UCC-001](../docs/UNIVERSAL_CONTINUITY_CONTRACT.md) for any CF-0 change, including small experiments, funding content, creative work and gameful presentations. Every deliverable must include its parent/related project identity, source SHA, user decision, true evidence level, privacy and approval boundaries, rollback and next action. Specifically preserve [Brainrot → Brainpower](../docs/BRAINROT_TO_BRAINPOWER_2026-11-09.md) as optional evidence-graded learning research; do not silently change existing dashboard functions, AUTO-08 authority, scheduled work or real money states for a joke. The new cross-reference adds no tool permission and verifies no CF-200 task by itself.
