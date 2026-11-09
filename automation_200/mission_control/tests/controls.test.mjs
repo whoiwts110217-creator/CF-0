@@ -5,23 +5,26 @@ import {CHATGPT_PLACEHOLDER_COUNT,SOURCES,records,parsePrivateInventory,inventor
 
 test("every known scheduled channel is represented without exposing private task names",()=>{
   assert.equal(CHATGPT_PLACEHOLDER_COUNT,10);
-  assert.equal(SOURCES.github.length,21);
-  assert.equal(SOURCES.github.filter(x=>x.trigger==="schedule").length,5);
-  assert.equal(SOURCES.github.filter(x=>x.trigger==="event").length,16);
   const workflowDir=new URL("../../../.github/workflows/",import.meta.url);
   const existing=readdirSync(workflowDir).filter(x=>x.endsWith(".yml")||x.endsWith(".yaml"));
-  assert.equal(existing.length,21);
+  const filesById=new Map(existing.map(name=>[name.replace(/\\.ya?ml$/,""),name]));
+  const scheduledFiles=existing.filter(name=>/(^|\\n)  schedule:/.test(readFileSync(new URL(name,workflowDir),"utf8")));
+  assert.equal(SOURCES.github.length,existing.length,"All workflow files must appear in public inventory");
+  assert.equal(SOURCES.github.filter(x=>x.trigger==="schedule").length,scheduledFiles.length);
+  assert.equal(SOURCES.github.filter(x=>x.trigger==="event").length,existing.length-scheduledFiles.length);
   assert.deepEqual(SOURCES.github.map(x=>x.id).sort(),existing.map(x=>x.replace(/\.ya?ml$/,"")).sort(),
     "Dashboard inventory must match every workflow file in repo");
   for(const row of SOURCES.github){
-    const f=readFileSync(new URL(row.id+".yml",workflowDir),"utf8");
+    const filename=filesById.get(row.id);
+    assert.ok(filename,"Missing workflow file for "+row.id);
+    const f=readFileSync(new URL(filename,workflowDir),"utf8");
     const scheduled=/(^|\n)  schedule:/.test(f);
     assert.equal(row.trigger==="schedule",scheduled,"Trigger mismatch for "+row.id);
   }
   assert.equal(SOURCES.windows.length,3);
   assert.equal(SOURCES.continuation.length,1);
   const all=records();
-  assert.equal(all.length,35);
+  assert.equal(all.length,CHATGPT_PLACEHOLDER_COUNT+SOURCES.github.length+SOURCES.windows.length+SOURCES.continuation.length);
   assert.equal(all.filter(x=>x.source==="chatgpt").length,10);
   assert.ok(all.filter(x=>x.source==="chatgpt").every(x=>x.title.startsWith("Private automation ")));
   assert.ok(all.filter(x=>x.source==="github").every(x=>x.url.startsWith("https://github.com/whoiwts110217-creator/CF-0/actions/workflows/")));
