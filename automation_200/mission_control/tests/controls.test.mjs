@@ -21,7 +21,7 @@ test("every known scheduled channel is represented without exposing private task
   assert.equal(SOURCES.windows.length,3);
   assert.equal(SOURCES.continuation.length,1);
   const all=records();
-  assert.equal(all.length,19);
+  assert.equal(all.length,33);
   assert.equal(all.filter(x=>x.source==="chatgpt").length,10);
   assert.ok(all.filter(x=>x.source==="chatgpt").every(x=>x.title.startsWith("Private automation ")));
   assert.ok(all.filter(x=>x.source==="github").every(x=>x.url.startsWith("https://github.com/whoiwts110217-creator/CF-0/actions/workflows/")));
