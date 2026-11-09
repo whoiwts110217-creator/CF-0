@@ -4,7 +4,7 @@
 
 [Operating structure](START_HERE.md#how-the-work-fits-together) · [Current tasks and issues](TASKS_AND_ISSUES.md) · [Public continuity evidence](CONTINUITY.md) · [Mission Control](https://whoiwts110217-creator.github.io/CF-0/mission-control/)
 
-**Recovery evidence.** The November 8 audit records 27 preserved source artifacts and zero indexed full conversation exports. [Recovery summary](CONTINUITY.md#private-recovery-summary-v7)
+**Truth reconstruction:** [TRUTH-001 public protocol](SOURCE_TRUTH_RECONSTRUCTION_PROTOCOL.md) — original words, calculations, project/source versions, workflow patterns and public factual claims are audited separately from model summaries. The companion exact-source crosswalk remains private until publication review.\n\n**Recovery evidence.** The November 8 audit records 27 preserved source artifacts and zero indexed full conversation exports. [Recovery summary](CONTINUITY.md#private-recovery-summary-v7)
 
 **Shared objective:** reliable automation → owner-directed priorities → legitimate income → parallel creative and research projects, supporting sustainable generational wealth. The creative and business workstreams remain distinct while sharing the overall execution and evidence system.
 
