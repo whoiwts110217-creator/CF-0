@@ -36,6 +36,9 @@ class PublicFrontDoorTests(unittest.TestCase):
         first_drop = self.read("first-drop/index.html")
         translation = self.read("i18n/home.mjs")
         self.assertIn('Try the free 60-second exercise', first_drop)
+        self.assertIn('Support on Cash App — any amount', first_drop)
+        self.assertLess(first_drop.index('Try the free 60-second exercise'),
+                        first_drop.index('Support on Cash App — any amount'))
         self.assertIn('https://github.com/whoiwts110217-creator/CF-0/issues/21', first_drop)
         for label in ('Try the free 60-second exercise',
                       'Support voluntarily — First Drop'):
