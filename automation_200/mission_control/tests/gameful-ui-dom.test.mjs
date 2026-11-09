@@ -25,7 +25,7 @@ class FakeElement {
 
 test("mode switch preserves identical facts across a full guess/remix and reset", async () => {
   const ids = [
-    "learning-lab", "gameful-toggle", "gameful-mode", "gameful-content",
+    "learning-lab", "gameful-toggle", "gameful-mode", "gameful-large-text", "gameful-content",
     "gameful-title", "gameful-genre", "gameful-claim", "gameful-result",
     "gameful-explanation", "gameful-source", "gameful-next"
   ];
@@ -63,6 +63,12 @@ test("mode switch preserves identical facts across a full guess/remix and reset"
     assert.equal(heading.textContent, "Checking execution evidence");
     assert.equal(heading.focusedCount, 1, "Heading receives focus when lesson opens");
     assert.equal(claim.textContent, MISSIONS[0].claim);
+    const largeText = elements.get("gameful-large-text");
+    const originalQuestion = claim.textContent;
+    largeText.checked = true;
+    largeText.change();
+    assert.equal(elements.get("learning-lab").dataset.largeText, "true");
+    assert.equal(claim.textContent, originalQuestion, "Large text does not reset the exercise");
     falseAnswer.click();
     assert.match(result.textContent, /Correct/);
     assert.equal(source.href, MISSIONS[0].sourceUrl);
@@ -96,6 +102,9 @@ test("mode switch preserves identical facts across a full guess/remix and reset"
     toggle.click();
     assert.equal(mode.disabled, false);
     assert.equal(content.hidden, true);
+    largeText.checked = false;
+    largeText.change();
+    assert.equal(elements.get("learning-lab").dataset.largeText, "false");
   } finally {
     globalThis.document = oldDocument;
   }
