@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; connect-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; object-src 'none'; base-uri 'none'; form-action 'none'">
+  <meta name="theme-color" content="#071019">
+  <meta name="description" content="Private, local-first continuity queue and mission control for Caveman Focus. Automatic ChatGPT execution requires an authorized connector.">
+  <title>Continuity Control / Caveman Focus</title>
+  <link rel="icon" href="../mark.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./style.css">
+  <script type="module" src="./app.mjs"></script>
+</head>
+<body>
+  <a class="skip" href="#main">Skip to controls</a>
+  <div class="top"><div class="shell top-inner">
+    <a class="brand" href="../"><img src="../mark.svg" alt="" width="34" height="34"><span>CAVEMAN FOCUS <small>MISSION CONTROL / AUTO-08</small></span></a>
+    <nav aria-label="Main navigation"><a href="../">Main dashboard</a><a href="https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/AUTO_CONTINUATION_CONTROL_2026-11-09.md">Requirements</a><a href="https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/START_HERE.md">Start here</a></nav>
+  </div></div>
+  <main id="main" class="shell">
+    <section class="hero" aria-labelledby="heading">
+      <div class="hero-copy">
+        <span class="kicker"><span class="pulse"></span> AUTO-08 / OPERATOR CONSOLE</span>
+        <h1 id="heading">Continuity<br><em>Control.</em></h1>
+        <p>Your conversations. One queue. One stop control. Designed for actual completion receipts, not pretend automation.</p>
+        <div class="tags"><span>SERIAL ENGINE / SOURCE</span><span>TWO-ACCOUNT READY</span><span>LOCAL-FIRST</span></div>
+      </div>
+      <svg class="hero-art" viewBox="0 0 520 440" role="img" aria-label="Original abstract dark emergency responder jacket, with pale blue reflective seams and glowing utility strips">
+        <defs>
+          <linearGradient id="coat" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#26384a"/><stop offset=".55" stop-color="#101923"/><stop offset="1" stop-color="#060e17"/></linearGradient>
+          <linearGradient id="light" x1="0" x2="1"><stop stop-color="#1e627d" stop-opacity=".05"/><stop offset=".5" stop-color="#b0f4ff"/><stop offset="1" stop-color="#1e627d" stop-opacity=".05"/></linearGradient>
+          <filter id="glow"><feGaussianBlur stdDeviation="9"/></filter>
+        </defs>
+        <circle cx="292" cy="210" r="158" fill="none" stroke="#24526b" stroke-width="1" stroke-dasharray="3 11" opacity=".6"/>
+        <circle cx="292" cy="210" r="210" fill="none" stroke="#14334e" stroke-width="1" opacity=".5"/>
+        <path d="M189 92l-41 42-73 30-52 230h449l-49-230-80-30-40-42-58 29z" fill="url(#coat)" stroke="#57748a" stroke-width="3"/>
+        <path d="M190 92l57 32 59-32-21 72-38 35-37-35z" fill="#050d16" stroke="#91c8e0" stroke-opacity=".75" stroke-width="2"/>
+        <path d="M246 197v198M168 155l-22 240M331 153l24 242" stroke="#8bb7cd" stroke-opacity=".34" stroke-width="5"/>
+        <path d="M93 236h118M279 236h157M72 271h143M277 271h166" stroke="#80dffa" stroke-width="11" opacity=".52" filter="url(#glow)"/>
+        <path d="M93 236h118M279 236h157M72 271h143M277 271h166" stroke="url(#light)" stroke-width="5" stroke-linecap="square"/>
+        <path d="M25 395h446M156 324h182" stroke="#5ba2bb" opacity=".32" stroke-width="2"/>
+        <path d="M229 316l17 22 20-22-18-20z" fill="#152d40" stroke="#9deaff" stroke-width="2"/>
+        <circle cx="248" cy="317" r="4" fill="#c7f5ff"/>
+        <path d="M148 134l-45 78M342 134l50 78" stroke="#c5eafb" stroke-opacity=".3" stroke-width="2"/>
+        <path d="M190 92l57 32 59-32" fill="none" stroke="#d1f9ff" stroke-opacity=".4" stroke-width="2"/>
+      </svg>
+      <div class="hero-overlay" aria-hidden="true"></div>
+    </section>
+
+    <section class="control-grid" aria-label="Continuation controls">
+      <article class="panel switch-card">
+        <div class="section-title"><div><p class="kicker">01 / PRIMARY CONTROL</p><h2>Master continuation switch</h2></div><span class="status offline" id="executor-state">EXECUTOR DISCONNECTED</span></div>
+        <div class="switch-row">
+          <div><strong>CONTINUE ALL ELIGIBLE CHATS</strong><small>Send “continue” → wait for completion → next conversation → next pass</small></div>
+          <button id="master-switch" class="master-toggle" role="switch" aria-checked="false" type="button" disabled aria-label="Automatic execution unavailable: supported executor not connected"><span></span></button>
+        </div>
+        <p class="warning" id="switch-explanation">The control is intentionally disabled: this GitHub Pages interface cannot access or message either ChatGPT account. No executor has been connected.</p>
+        <div class="parameter-grid">
+          <label for="account">Account target<select id="account"><option value="">Choose account</option><option value="primary">Primary account</option><option value="secondary">Secondary / free account</option></select></label>
+          <label for="passes">Sweep limit<select id="passes"><option value="1">1 pass</option><option value="2">2 passes</option><option value="5">5 passes</option><option value="10">10 passes</option></select></label>
+        </div>
+        <div class="mini-status"><span>RUN <b id="run-status">Not started</b></span><span>PASS <b id="current-pass">0</b></span><span>AUTOMATIC COMPLETIONS <b id="auto-completed">0</b></span></div>
+      </article>
+
+      <article class="panel queue-card">
+        <div class="section-title"><div><p class="kicker">02 / PRIVATE INPUT</p><h2>Conversation queue</h2></div><span class="status" id="queue-state">NO INDEX</span></div>
+        <p class="small">Load an eligible <code>conversations.json</code> export or locally saved checkpoint. Only chat IDs and titles are held in this browser tab; messages are not uploaded.</p>
+        <label class="file-picker">Import local index / checkpoint <input id="import-file" type="file" accept=".json,application/json"></label>
+        <div class="stats"><div><strong id="total">0</strong><span>discovered</span></div><div><strong id="eligible">0</strong><span>eligible</span></div><div><strong id="excluded">0</strong><span>excluded</span></div></div>
+        <div class="queue-head"><label for="queue-search">Select chats</label><input id="queue-search" type="search" placeholder="Filter titles" disabled></div>
+        <div class="queue" id="queue-list" role="group" aria-label="Imported chat index"><p class="empty">Your queue will appear here after importing a local index.</p></div>
+        <div class="row-actions"><button id="select-all" type="button" disabled>Select all</button><button id="exclude-all" type="button" disabled>Exclude all</button><button id="save-checkpoint" type="button" disabled>Save private checkpoint</button></div>
+      </article>
+    </section>
+
+    <section class="lower">
+      <article class="panel">
+        <p class="kicker">03 / EXISTING WORK SESSION</p>
+        <h2>Recover the other account</h2>
+        <p class="small">A prior Work session reported indexing 95 chats / 757 messages from the secondary account. That is a historical report—not proof this tab has access. The next signed-in Work session should find the original auto-control chat and save its full instructions privately.</p>
+        <button class="action" id="copy-work" type="button">Copy Work recovery handoff</button>
+        <p class="small" id="copy-result" role="status">Use this in the Work session that already has access to the secondary account. Do not paste passwords here.</p>
+      </article>
+      <article class="panel">
+        <p class="kicker">04 / MANUAL FALLBACK</p>
+        <h2>Work through the queue</h2>
+        <p class="small">For a small manual review while automatic execution is disconnected: confirm the selected account is signed in, open a chat, paste the copied message, wait for its answer, and record completion yourself. Manual steps never count as automatic.</p>
+        <label class="confirm"><input id="signed-in" type="checkbox"> I confirmed the selected account is signed in to ChatGPT.</label>
+        <div class="row-actions"><button id="open-next" type="button" disabled>Open next chat + copy “continue”</button><button id="mark-reviewed" type="button" disabled>Mark manually reviewed</button></div>
+        <p class="small" id="manual-status" role="status">No manual review in progress.</p>
+      </article>
+    </section>
+    <p class="footer-note">AUTO-08 source prototype • Private chats stay out of public GitHub • No hidden API, automatic browser extraction or account credentials • <a href="../">Return to full Mission Control</a></p>
+  </main>
+</body>
+</html>
