@@ -11,18 +11,20 @@ async function refresh(){
     if(!row)return;
     const res=await send({type:'STATUS'});
     if(!res?.ok)return;
-    const {tabs,state}=res;
+    const {tabs,state,launching}=res;
     let note=row.querySelector('#cf0-chrome-adapter-status');
     if(!note){
       note=document.createElement('small');note.id='cf0-chrome-adapter-status';note.className='control-detail';
       note.style.color='#99d6ff';row.querySelector('.control-description')?.append(note);
     }
-    note.textContent=prefix+`${tabs.reason} (${tabs.count} ChatGPT tab${tabs.count===1?'':'s'}) · ${state.phase}`+
+    note.textContent=prefix+(launching&&tabs.reason==='STARTING_TAB_CHECK'
+      ? 'Starting · checking existing tab (STOP available)'
+      : `${tabs.reason} (${tabs.count} ChatGPT tab${tabs.count===1?'':'s'}) · ${state.phase}`)+
       (state.reason?' · '+state.reason:'');
     const btns=[...row.querySelectorAll('.control-row-actions button')];
     const start=btns.find(b=>b.textContent.trim()==='Start');
     const resume=btns.find(b=>b.textContent.trim()==='Resume');
-    const runnable=tabs.count===1&&state.account&&state.phase!=='running'&&!state.attempt&&state.phase!=='needs_review';
+    const runnable=!launching&&tabs.count===1&&state.account&&state.phase!=='running'&&!state.attempt&&state.phase!=='needs_review';
     if(start){start.disabled=!runnable;start.title=runnable?'Continue current chat once (Chrome extension; owner action)':'Select an account in the CF-0 extension popup and have exactly one ChatGPT tab open.';
       if(!start.dataset.cf0Wired){start.dataset.cf0Wired='1';start.addEventListener('click',async e=>{
         if(!e.isTrusted)return;
@@ -42,7 +44,7 @@ async function refresh(){
       stop.addEventListener('click',async e=>{if(!e.isTrusted)return;await send({type:'STOP'});refresh();});
       row.querySelector('.control-row-actions')?.append(stop);
     }
-    stop.disabled=state.phase!=='running';
+    stop.disabled=!(launching||state.phase==='running');
   }catch(e){/* Extension disabled or user closed dashboard. Never claim connection. */}
   finally{working=false;}
 }
