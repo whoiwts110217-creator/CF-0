@@ -2,15 +2,34 @@
   "manifest_version": 3,
   "minimum_chrome_version": "118",
   "name": "CF-0 AUTO-08 Single ChatGPT Tab",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Owner-local, keyboard-only continuation of one selected ChatGPT Chrome tab with interruption monitoring.",
-  "permissions": ["tabs", "debugger", "scripting", "storage"],
-  "host_permissions": ["https://chatgpt.com/*"],
-  "background": {"service_worker": "background.js", "type": "module"},
-  "action": {"default_title": "CF-0 AUTO-08", "default_popup": "popup.html"},
-  "content_scripts": [{
-    "matches": ["https://whoiwts110217-creator.github.io/CF-0/mission-control/*"],
-    "js": ["master-control.js"],
-    "run_at": "document_idle"
-  }]
+  "permissions": [
+    "tabs",
+    "debugger",
+    "scripting",
+    "storage"
+  ],
+  "host_permissions": [
+    "https://chatgpt.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "action": {
+    "default_title": "CF-0 AUTO-08",
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://whoiwts110217-creator.github.io/CF-0/mission-control/*"
+      ],
+      "js": [
+        "master-control.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ]
 }
