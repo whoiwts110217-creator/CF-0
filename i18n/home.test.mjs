@@ -51,3 +51,32 @@ test("Support and rewards disclosures have explicit human-reviewed translations"
     for (const locale of locales) assert.ok(COPY[text][locale].length > 70);
   }
 });
+
+
+test("A newcomer can try the method before being asked to donate", () => {
+  const primaryDemo = html.indexOf('<a class="btn" href="./mission-control/#learning-lab">Try a free clarity challenge</a>');
+  const support = html.indexOf('<section id="support">');
+  assert.ok(primaryDemo >= 0, "Free demo must be a prominent primary button");
+  assert.ok(support > primaryDemo, "The donation section must follow the free demonstration");
+  assert.match(html, /id="experience" class="quickstart"/);
+  assert.match(html, /id="evidence" aria-labelledby="evidence-title"/);
+  assert.match(html, /id="main-content"/);
+  assert.match(html, /href="#main-content">Skip to main content/);
+  assert.match(html, /<summary>More<\/summary>/);
+  assert.match(html, /href="\.\/mission-control\/#learning-lab"/);
+  assert.match(html, /href="https:\/\/github\.com\/whoiwts110217-creator\/CF-0\/blob\/main\/docs\/PROJECT_STATUS\.md"/);
+});
+test("Public proof and recognition stay accurately scoped", () => {
+  assert.match(html, /a passing test does not prove a physical computer ran unattended/i);
+  assert.match(html, /not establish a completed legal transfer/i);
+  assert.match(html, /Technical contributors receive separate credit for reviewed work/i);
+  assert.match(html, /neither form of recognition grants ownership or financial returns/i);
+  const ids = [...html.matchAll(/\sid="([^"]+)"/g)].map(m=>m[1]);
+  assert.equal(new Set(ids).size, ids.length, "Duplicate IDs break phone navigation");
+  const links = [...html.matchAll(/href="#([^"]+)"/g)].map(m=>m[1]);
+  for(const anchor of links) assert.ok(ids.includes(anchor), "Missing in-page anchor: "+anchor);
+  const firstDrop=readFileSync(new URL("../first-drop/index.html", import.meta.url), "utf8");
+  assert.match(firstDrop, /Try the free clarity challenge/);
+  assert.match(firstDrop, /Two different kinds of credit:/);
+  assert.match(firstDrop, /Donating does not buy technical credit or rights/);
+});
