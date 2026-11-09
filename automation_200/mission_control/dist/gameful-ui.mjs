@@ -16,6 +16,10 @@ const result = get("gameful-result");
 const explanation = get("gameful-explanation");
 const source = get("gameful-source");
 const next = get("gameful-next");
+const fieldBrief = get("gameful-field-brief");
+const fieldAction = get("gameful-field-action");
+const fieldEvidence = get("gameful-field-evidence");
+const fieldLink = get("gameful-field-link");
 const answers = Array.from(document.querySelectorAll("[data-gameful-answer]"));
 const moveFocus = element => { if (typeof element?.focus === "function") element.focus(); };
 let index = 0;
@@ -26,6 +30,14 @@ function setSource(mission) {
   source.href = mission.sourceUrl;
   source.textContent = mission.sourceText + " ↗";
   source.hidden = false;
+}
+
+function showFieldBrief(mission) {
+  // Public, static action plan only: no grant status, HP receipt, or bank data is read.
+  fieldAction.textContent = mission.fieldAction;
+  fieldEvidence.textContent = mission.fieldEvidence;
+  fieldLink.href = mission.fieldUrl;
+  fieldBrief.hidden = false;
 }
 
 function display(stage) {
@@ -41,6 +53,10 @@ function display(stage) {
   source.hidden = true;
   source.removeAttribute("href");
   next.hidden = true;
+  fieldBrief.hidden = true;
+  fieldAction.textContent = "";
+  fieldEvidence.textContent = "";
+  fieldLink.removeAttribute("href");
   answers.forEach(button => { button.disabled = false; });
   moveFocus(heading);
 }
@@ -106,6 +122,7 @@ for (const button of answers) {
       setSource(mission);
       next.textContent = mode === "plain" ? "Next topic" : "Next encounter";
       next.hidden = last;
+      showFieldBrief(mission);
     } else {
       return;
     }
