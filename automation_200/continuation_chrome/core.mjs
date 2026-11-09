@@ -76,6 +76,22 @@ export function classifyOverlay(snapshot) {
 // A visible acknowledgement is not merely an extra user message: it must be
 // the sole new user turn, containing exactly the command the owner authorized.
 // Only a boolean is returned from the private ChatGPT DOM; no message text is saved.
+// Owner-local, no-send readiness verdict. Never equate a matching URL or
+// rendered message history with verified account identity or owner consent.
+// Return only constant reason codes, never private content or login details.
+export function readinessVerdict(snapshot, expectedId) {
+  if (!CHAT_ID.test(expectedId||'')) return 'OPEN_A_CONVERSATION_FIRST';
+  if (chatId(snapshot?.url)!==expectedId) return 'PAGE_CONTENT_MISMATCH';
+  const overlay=classifyOverlay(snapshot);
+  if (overlay!=='CLEAR') return overlay==='DISMISS_WITH_ESCAPE'
+    ? 'INFORMATION_DIALOG_PRESENT' : overlay;
+  if (!hasLoadedConversation(snapshot)) return 'CONVERSATION_HISTORY_NOT_LOADED';
+  if (!snapshot.composerVisible) return 'COMPOSER_NOT_READY';
+  if (snapshot.stopVisible||snapshot.busy) return 'ALREADY_RESPONDING';
+  if (snapshot.draft) return 'OWNER_DRAFT_PRESENT';
+  return 'READY_ACCOUNT_UNVERIFIED';
+}
+
 export function acknowledgedContinue(snapshot, baselineUsers) {
   return Number.isSafeInteger(baselineUsers) && baselineUsers >= 0 &&
     snapshot?.userCount === baselineUsers + 1 &&
