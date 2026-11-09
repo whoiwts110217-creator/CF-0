@@ -115,3 +115,8 @@ The purpose of this page is *continuity of meaning and execution*. It is not a r
 
 **Rollback:** compare the source SHAs above, then revert only the individual gameful source/UI commits if regression appears; preserve this dated history and the unaffected Mission Control dashboard. **Next useful task:** verify CI and manual browser behavior, then add a controlled, privacy-preserving delayed-recall pilot only with consent and an explicit testing plan.
 
+
+### November 9 follow-up — source tests and deployment verified
+
+The `CF-EXP-GAME-LEARN-001` v0.2 source at Git commit [`5a80989c5cbe273fb07940f11ec9276e9442c7b3`](https://github.com/whoiwts110217-creator/CF-0/commit/5a80989c5cbe273fb07940f11ec9276e9442c7b3) passed [Mission Control read-only and gameful source tests, Actions run 42663949373](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42663949373). Its corresponding [GitHub Pages build and deployment, Actions run 42663949334](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42663949334) also passed, including public snapshot and staged-site checks. **Scope:** this confirms GitHub Actions test/build success for that commit, not independent visual/iPhone gameplay, comparative learning results, HP execution, payment verification or automatic conversation continuation. The previous authorship note remains as the earlier evidence boundary; this line adds later-confirmed evidence without replacing the original.
+
