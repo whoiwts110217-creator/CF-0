@@ -47,5 +47,10 @@ Pilot 10–20 voluntarily participating learners, if later specifically authoriz
 
 **Important validity limit:** immediate transfer within the same session can show that a participant responded to a new example. It cannot demonstrate durable learning, because the explanation precedes the remix and the learner has recently seen the rule. The next stage is an opt-in **delayed recall** check 48 hours later, with a differently worded prompt, and a plain-language comparison version. Such a pilot needs consent, honest participation counts, and separate evidence. No user telemetry has been collected by this page.
 
-**Reproducibility checklist:** run `node --test automation_200/mission_control/tests/*.test.mjs`; inspect the GitHub Pages build with a real browser; confirm the original dashboard source, controls and automation master switch are unchanged; verify a new quiz ends without implying revenue/HP proof; register commits and failures in the normal continuity trail. Rollback only the new `gameful*.mjs` files and isolated learning-lab DOM if the feature regresses; preserve the original dashboard and this project history. 
+**Reproducibility checklist:** run `node --test automation_200/mission_control/tests/*.test.mjs`; inspect the GitHub Pages build with a real browser; confirm the original dashboard source, controls and automation master switch are unchanged; verify a new quiz ends without implying revenue/HP proof; register commits and failures in the normal continuity trail. Rollback only the new `gameful*.mjs` files and isolated learning-lab DOM if the feature regresses; preserve the original dashboard and this project history.
+
+
+## Evaluation handoff (not yet a live study)
+
+A versioned [plain-versus-playful evaluation protocol](BRAINROT_LEARNING_PILOT_PROTOCOL_V0_1.md) now defines equivalent teaching content, baseline, immediate transfer and delayed recall, recruitment/consent boundaries, attrition reporting, privacy and disconfirmation. This is **a draft protocol**, not collected participant results. No autonomous reminders or tracking were enabled.
 
