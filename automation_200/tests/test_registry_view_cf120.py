@@ -20,7 +20,7 @@ class RegistryViewTests(unittest.TestCase):
     def test_all_200_ids_once_and_authoritative_counts(self):
         page = render(self.source)
         self.assertEqual(page.count("<tr>"), 200)
-        self.assertIn("86 verified / 200 total; 114 planned", page)
+        self.assertIn(f'{self.registry["completed"]} verified / 200 total; {200 - self.registry["completed"]} planned', page)
         for task in self.registry["tasks"]:
             self.assertEqual(page.count("<td>" + task["id"] + "</td>"), 1)
         self.assertIn(hashlib.sha256(self.source).hexdigest(), page)
