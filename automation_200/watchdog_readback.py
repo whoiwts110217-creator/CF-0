@@ -16,6 +16,7 @@ WORKFLOW = ".github/workflows/cf0-channel-watchdog.yml"
 HANDOFF_STEP = "Propose next source-only work under founder policy"
 MAX_LOG_BYTES = 512_000
 MAX_PACKET_BYTES = 8192
+DIGEST_LINE = re.compile(rb"(?:\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(?:\.\d{1,9})?Z) CF0_WORK_HANDOFF_SHA256=([a-f0-9]{64})")
 PACKET_LINE = re.compile(
     rb"(\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(?:\.\d{1,9})?Z) CF0_WORK_HANDOFF=(.*)"
 )
@@ -72,6 +73,11 @@ def record_readback(run: dict, job: dict, log: bytes) -> dict:
     if len(packets) != 1 or len(packets[0][1]) > MAX_PACKET_BYTES:
         raise ValueError("expected one bounded watchdog packet")
     log_stamp, raw = packets[0]
+    # Older watchdog logs have no digest line; validate it when emitted.
+    digest_lines = [match.group(1).decode("ascii") for line in log.splitlines()
+                    if (match := DIGEST_LINE.fullmatch(line))]
+    if len(digest_lines) > 1 or (digest_lines and digest_lines[0] != hashlib.sha256(raw).hexdigest()):
+        raise ValueError("watchdog logged digest does not match packet bytes")
     try:
         packet = json.loads(raw)
         canonical = json.dumps(packet, sort_keys=True, separators=(",", ":"), allow_nan=False).encode("ascii")
