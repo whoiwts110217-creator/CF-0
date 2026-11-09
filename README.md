@@ -19,7 +19,7 @@
 
 **Master continuity order:** [Read the public master operating prompt first](automation_200/MASTER_OPERATOR_PROMPT.md), then the [cross-archive, project and event continuity prompt](automation_200/MASTER_CONTINUITY_PROMPT.md) **before CF-0 decisions**. Work sessions then read the [current Work execution prompt](automation_200/WORK_COPY_PASTE_AUTOMATION_PROMPT.md) from public main. The public prompt describes how to recover and reconcile prior conversations, archives and workstreams without publishing private originals.
 
-**Live task evidence.** The [public task and issue dashboard](docs/TASKS_AND_ISSUES.md) summarizes the registry and open issues. The [public HP health report](relay/health/latest.json) is available, and [November 8 Windows history](docs/CONTINUITY.md#november-8-hp-relay-evidence) records a scheduled relay run that overlaps the matched public pong. Exact receipt-to-run attribution is open. The current relay lacks remote Notepad launch. Earlier Windows Notepad launches remain historical and restoration is open.
+**Status and evidence.** [Mission Control](https://whoiwts110217-creator.github.io/CF-0/mission-control/) reads commit-pinned public data. The [dated task and issue summary](docs/TASKS_AND_ISSUES.md) links to the registry and open issues. The [public HP health report](relay/health/latest.json) is available, and [November 8 Windows history](docs/CONTINUITY.md#november-8-hp-relay-evidence) records a scheduled relay run that overlaps the matched public pong. Exact receipt-to-run attribution is open. Earlier Windows Notepad launches remain historical and restoration is open.
 
 **[Filed concepts](concepts/README.md)** · **[Dreamkiller / BreachDungeon](concepts/dreamkiller/MASTER_CONCEPT_AND_CONTINUITY_PROMPT.md)** · **[November 7 cross-archive reconciliation](docs/CONTINUITY_RECONCILIATION_2026-11-07_DREAMKILLER.md)**
 
@@ -49,7 +49,7 @@ After that, develop an owner-controlled priority engine, then legitimate financi
 
 ## Explore or test
 
-- **New visitors:** [Start Here](docs/START_HERE.md) explains the project, its priorities and the evidence boundaries.
+- **New visitors:** [Start Here](docs/START_HERE.md) links the [operating structure](docs/START_HERE.md#how-the-work-fits-together), public projects, and the evidence behind each status.
 - **Developers:** inspect the [relay source](relay/), [CF-200 task engine](automation_200/), [tests](tests/) and [GitHub workflows](.github/workflows/). Start with offline, read-only tests. The public repository is **not** a turnkey remote-control installer.
 - **Reviewers:** use the [current status and evidence](docs/PROJECT_STATUS.md), [mission board](automation_200/MASTER_MISSION_BOARD.md), and [task registry](automation_200/registry.json) to distinguish code, tests, owner-HP observations and unverified goals.
 - **Broader work:** [project and research index](docs/PUBLIC_DEVELOPMENT_SNAPSHOT_2026-11-06.md), [master plan](docs/CAVEMAN_FOCUS_MASTER_PLAN.md), and [foundation](docs/FOUNDATION.md).

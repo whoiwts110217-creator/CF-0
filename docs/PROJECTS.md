@@ -1,26 +1,33 @@
 # Caveman Focus public project index
 
-**Updated November 8, 2026 (Eastern).** This grouped index tracks publicly documented projects and workstreams. The original list of approximately **37 projects** remains unrecovered. The separately held **62-entry reconstruction** includes subprojects and workstreams.
+**Updated November 9, 2026 (Eastern).** This grouped index tracks publicly documented projects and workstreams. The original list of approximately **37 projects** remains unrecovered. The separately held **62-entry reconstruction** includes subprojects and workstreams.
 
-[Current tasks and issues](TASKS_AND_ISSUES.md) · [Public continuity evidence](CONTINUITY.md) · [Mission Control](https://cf0-mission-control.whoiwts110217.chatgpt.site)
+[Operating structure](START_HERE.md#how-the-work-fits-together) · [Current tasks and issues](TASKS_AND_ISSUES.md) · [Public continuity evidence](CONTINUITY.md) · [Mission Control](https://whoiwts110217-creator.github.io/CF-0/mission-control/)
 
 **Recovery evidence.** The November 8 audit records 27 preserved source artifacts and zero indexed full conversation exports. [Recovery summary](CONTINUITY.md#private-recovery-summary-v7)
 
-**Shared objective:** reliable automation → owner-directed priorities → legitimate income → parallel creative and research projects, supporting sustainable generational wealth. The Book Machine's historical idea involves worlds described by books becoming explorable/tactile; it is not merely a book-summary app. The creative and business workstreams remain distinct while sharing the overall execution and evidence system.
+**Shared objective:** reliable automation → owner-directed priorities → legitimate income → parallel creative and research projects, supporting sustainable generational wealth. The creative and business workstreams remain distinct while sharing the overall execution and evidence system.
+
+### Operating system and continuity
 
 | Project / group | Status |
 |---|---|
-| Core Caveman Focus method / proposed mathematics | Framework preserved; original operators incomplete |
-| CF-200 work orders and owner priority engine | [Work-order progress](TASKS_AND_ISSUES.md) and [decision engine](../automation_200/decision_engine.py). CF-118 retry acceptance remains open. |
+| CF-200 work orders and owner priority engine | [Work-order progress](TASKS_AND_ISSUES.md), [decision engine](../automation_200/DECISION_ENGINE.md), and [resumable focus](../automation_200/RESUMABLE_FOCUS.md). CF-118 retry acceptance remains open. |
 | Public HP relay, health, and watchdog | [Health report](../relay/health/latest.json) available. [Windows scheduled run and receipt timing](CONTINUITY.md#november-8-hp-relay-evidence) documented. Exact ping attribution remains open. |
 | Domino Sidecar / Tactics | Recovered source and [November 8 Windows CI](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42520212910/job/128851859138) for the branch-rules repair. Physical HP deployment is open. |
 | Automation Controller | Reported container prototype for packet import, deduplication, and backups. |
 | Continuity / two-account bridge | Local archive designs; automatic cross-account access unverified |
 | Guardian / Live Operator / Gap Foundry | Reported test packages; HP deployment unverified |
+| AI Tracker and Hall of Fame | [Public monitoring](AI_TRACKER_STATUS.json) and [one reviewed outside contribution](HALL_OF_FAME.md). |
+
+### Science, philosophy and inventions
+
+| Project / group | Status |
+|---|---|
+| Core Caveman Focus method / proposed mathematics | Framework preserved; original operators incomplete |
 | Automatogenesis / Invention Claim Gate | Proposed research program and finite-model tooling |
 | Reality Compiler / Affordance Forge / Frontier / Ontological Genesis | Experimental capability research |
 | Single-Dot Universe research | Formal research and experiments. [Research overview](RESEARCH.md) |
-| Single-Dot Universe Book I | Separate literary project. |
 | Syntactic Mechanics | Exploratory structural theories |
 | Riemann Hypothesis | No proof or disproof |
 | Mixed Paint / inverse reconstruction | Partial historical recovery |
@@ -29,21 +36,32 @@
 | Familiarity and reverse-temporal theory | Exploratory |
 | Philosopher's Stone / magician threshold | Philosophical |
 | AI–human interaction / sentience categories | Exploratory |
+| Speculative cosmology topic queue | Topics for comparison and exploration. |
+| Friday Research Brief | Scheduled brief is paused in the November 8 review. |
+
+### Stories, worlds and games
+
+| Project / group | Status |
+|---|---|
+| Single-Dot Universe Book I | Separate literary project. |
 | Mushroomhead / Blue Water County / Poho | Original animated series |
 | SYNAPSE / Kyōji | SAO-inspired speculative story |
 | BROKEN LOGIC | Original story, incomplete recovered source |
 | Grandfather sunset / Elias Vale | Two literary treatments |
 | The Book Machine | Concept for fully explorable, tactile worlds from books. |
+| Breach Dungeon Android prototype | Historical CR-10 artifact, alongside the separately filed Dreamkiller Game Boy concept. |
+| Dreamkiller / BreachDungeon | [Original Game Boy concept](../concepts/dreamkiller/MASTER_CONCEPT_AND_CONTINUITY_PROMPT.md) and [v0.2 prototype](../concepts/dreamkiller/rom_v0_2/README.md). Emulator and hardware compatibility are separate test gates. |
+
+### Business, delivery and funding
+
+| Project / group | Status |
+|---|---|
 | Caveman Focus Support / Donation Growth | [Public support page](https://caveman-focus-support.whoiwts110217.chatgpt.site) and [clarity exercise](https://github.com/whoiwts110217-creator/CF-0/issues/21). Verified outside receipts remain open. |
 | Small grants | Grant preparation and research. The scheduled search is paused in the November 8 review. |
-| AI Tracker and Hall of Fame | [Public monitoring](AI_TRACKER_STATUS.json) and [one reviewed outside contribution](HALL_OF_FAME.md). |
 | Payment Watchtower / Cash App order handling | Proposed payment reconciliation and delivery workflow. |
 | Clarity Sheet / first-sale microproducts | [Public Clarity Sheet page](https://caveman-focus-clarity-sheet-nov03.whoiwts110217.chatgpt.site). Outside payment and delivery verification are open. |
 | Spreadsheet services / Chef Shell’s | Prepared examples and estimates. The cash pilot is paused in the November 8 review. |
 | Real-world adventure game / AR Grand Exchange | Long-range product design |
-| Speculative cosmology topic queue | Topics for comparison and exploration. |
-| Friday Research Brief | Scheduled brief is paused in the November 8 review. |
-| Breach Dungeon Android prototype | Historical CR-10 artifact, alongside the separately filed Dreamkiller Game Boy concept. |
 
 Creative scripts and full private histories remain in the owner-controlled archive until reviewed for publication.
 
@@ -63,7 +81,7 @@ CF-FW itself is a new owner-supplied parent designation in this project context.
 
 These links are a categorized index, not a new CF-200 verification or a production-site deployment.
 
-## Newly filed Game Boy RPG concept — November 7, 2026
+## Game Boy RPG concept at filing — November 7, 2026
 
 | Concept ID | Relationship and status |
 |---|---|
