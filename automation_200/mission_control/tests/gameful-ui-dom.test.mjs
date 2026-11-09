@@ -27,7 +27,8 @@ test("mode switch preserves identical facts across a full guess/remix and reset"
   const ids = [
     "learning-lab", "gameful-toggle", "gameful-mode", "gameful-large-text", "gameful-content",
     "gameful-title", "gameful-genre", "gameful-claim", "gameful-result",
-    "gameful-explanation", "gameful-source", "gameful-next"
+    "gameful-explanation", "gameful-source", "gameful-next",
+    "gameful-field-brief", "gameful-field-action", "gameful-field-evidence", "gameful-field-link"
   ];
   const elements = new Map(ids.map(id => [id, new FakeElement(id)]));
   const trueAnswer = new FakeElement("true-answer");
@@ -35,6 +36,7 @@ test("mode switch preserves identical facts across a full guess/remix and reset"
   trueAnswer.dataset.gamefulAnswer = "true";
   falseAnswer.dataset.gamefulAnswer = "false";
   elements.get("gameful-content").hidden = true;
+  elements.get("gameful-field-brief").hidden = true;
   elements.get("gameful-mode").value = "playful";
   const oldDocument = globalThis.document;
   globalThis.document = {
@@ -53,6 +55,10 @@ test("mode switch preserves identical facts across a full guess/remix and reset"
     const explanation = elements.get("gameful-explanation");
     const source = elements.get("gameful-source");
     const next = elements.get("gameful-next");
+    const field = elements.get("gameful-field-brief");
+    const fieldAction = elements.get("gameful-field-action");
+    const fieldEvidence = elements.get("gameful-field-evidence");
+    const fieldLink = elements.get("gameful-field-link");
 
     mode.value = "plain";
     mode.change();
@@ -76,6 +82,7 @@ test("mode switch preserves identical facts across a full guess/remix and reset"
     assert.match(plainExplanation, /public command round-trip/);
     assert.equal(explanation.focusedCount, 1, "Explanation receives focus after grading");
     assert.equal(next.hidden, false);
+    assert.equal(field.hidden, true, "No real-work task before second scenario");
     next.click();
     assert.equal(claim.textContent, MISSIONS[0].transferClaim);
     assert.equal(heading.focusedCount, 2, "Focus moves to the second question");
@@ -83,6 +90,11 @@ test("mode switch preserves identical facts across a full guess/remix and reset"
     assert.match(result.textContent, /Correct/);
     assert.equal(source.href, MISSIONS[0].sourceUrl);
     assert.equal(explanation.focusedCount, 2, "Remix feedback is reachable");
+    assert.equal(field.hidden, false, "Show a real-world action only after the remix");
+    assert.equal(fieldAction.textContent, MISSIONS[0].fieldAction);
+    assert.equal(fieldEvidence.textContent, MISSIONS[0].fieldEvidence);
+    assert.equal(fieldLink.href, MISSIONS[0].fieldUrl);
+    assert.notEqual(fieldAction.textContent, result.textContent, "Real task isn't a pretend quiz award");
 
     toggle.click();
     assert.equal(content.hidden, true);
@@ -93,6 +105,8 @@ test("mode switch preserves identical facts across a full guess/remix and reset"
     toggle.click();
     assert.equal(mode.disabled, true);
     assert.equal(heading.textContent, MISSIONS[0].title);
+    assert.equal(field.hidden, true, "Restart closes the earlier field brief");
+    assert.equal(fieldAction.textContent, "");
     assert.equal(heading.focusedCount, 3, "New mode returns focus to the first question");
     assert.equal(claim.textContent, MISSIONS[0].claim);
     falseAnswer.click();
