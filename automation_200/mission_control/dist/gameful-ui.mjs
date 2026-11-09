@@ -16,6 +16,7 @@ const explanation = get("gameful-explanation");
 const source = get("gameful-source");
 const next = get("gameful-next");
 const answers = Array.from(document.querySelectorAll("[data-gameful-answer]"));
+const moveFocus = element => { if (typeof element?.focus === "function") element.focus(); };
 let index = 0;
 let phase = "guess";
 let mode = "playful";
@@ -40,6 +41,7 @@ function display(stage) {
   source.removeAttribute("href");
   next.hidden = true;
   answers.forEach(button => { button.disabled = false; });
+  moveFocus(heading);
 }
 
 function displayGuess() { display("guess"); }
@@ -100,6 +102,7 @@ for (const button of answers) {
       return;
     }
     answers.forEach(choice => { choice.disabled = true; });
+    moveFocus(explanation);
   });
 }
 
