@@ -1,18 +1,28 @@
 const $=id=>document.getElementById(id);
 const call=async(data)=>chrome.runtime.sendMessage(data);
+let lastState=null;
 async function refresh(){
   const r=await call({type:'STATUS'});
   if(!r?.ok){$('status').textContent='Status unavailable';return;}
   const {state,tabs}=r;
+  lastState=state;
   $('status').textContent=`ChatGPT tabs: ${tabs.count} | ${tabs.reason}\nRunner: ${state.phase}${state.reason?' · '+state.reason:''}\nCompleted: ${state.completed?.length||0}`;
   $('account').value=state.account||'';
   $('detail').textContent=state.lastResult||'Use Check tab, then Continue current chat once for the first live test.';
-  $('start').disabled=!state.queue?.length || tabs.count!==1 || state.phase==='running';
-  $('current').disabled=tabs.count!==1||state.phase==='running';
+  const blocked=state.phase==='running'||state.phase==='needs_review'||!!state.attempt||!state.account;
+  $('start').disabled=!state.queue?.length || tabs.count!==1 || blocked;
+  $('current').disabled=tabs.count!==1||blocked;
   $('pause').disabled=!['running','paused','needs_review'].includes(state.phase);
-  $('review').disabled=!(state.phase==='needs_review'&&state.attempt);
+  $('review').disabled=state.phase!=='needs_review';
+  $('review').textContent=state.attempt?'Review uncertain send':'Clear pre-send blocker';
 }
-const withFeedback=fn=>async()=>{try{const r=await fn();$('detail').textContent=r?.message||r?.error||'Request received';}catch(e){$('detail').textContent=e.message;}await refresh();};
+const withFeedback=fn=>async()=>{
+  try{
+    const r=await fn();
+    await refresh();
+    $('detail').textContent=(r?.ok===false?'Error: '+r.error:r?.message)||'Request received';
+  }catch(e){await refresh();$('detail').textContent=e.message;}
+};
 $('check').addEventListener('click',withFeedback(()=>call({type:'STATUS'})));
 $('account').addEventListener('change',withFeedback(()=>call({type:'SET_ACCOUNT',account:$('account').value})));
 $('queue').addEventListener('change',withFeedback(async()=>{
@@ -26,6 +36,11 @@ $('pause').addEventListener('click',withFeedback(()=>call({type:'STOP'})));
 refresh();
 
 $('review').addEventListener('click',withFeedback(async()=>{
+  if(!lastState?.attempt){
+    if(lastState?.phase!=='needs_review')return {message:'No blocker to clear.'};
+    const ok=confirm('No send is recorded as in flight. Have you inspected the single ChatGPT tab and resolved the blocker?');
+    return ok ? call({type:'ACK_PRE_SEND'}) : {message:'Cancelled. No checkpoint changed.'};
+  }
   const decision=prompt('AFTER checking the conversation, type NOT_SENT if the message was not sent, or COMPLETED if it finished. Any other answer cancels:','');
   if(!['NOT_SENT','COMPLETED'].includes(decision))return {message:'Review cancelled; no checkpoint changed.'};
   return call({type:'REVIEW_ATTEMPT',decision});
