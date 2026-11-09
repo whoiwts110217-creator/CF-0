@@ -1,0 +1,118 @@
+{
+  "schema": "cf0.gameful_learning_assessment_draft.v1",
+  "continuity_id": "CF-EXP-GAME-LEARN-001",
+  "parent_ids": [
+    "CF-CORE",
+    "FIN-09",
+    "RES-04"
+  ],
+  "state": "draft_not_running",
+  "source_missions": "automation_200/mission_control/dist/gameful.mjs",
+  "design": "four matched topic families, three distinct short scenario sets, true/false with two of each answer per phase",
+  "no_collection": true,
+  "notes": "PUBLIC DEVELOPMENT KEY, NOT SECURE OR BLINDED. Do not present answer key during an evaluation. Do not recruit or collect responses without authorization/consent. Literal 48h outcome requires a genuinely separate session.",
+  "sources": {
+    "receipt": "https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/PROJECT_STATUS.md",
+    "funding": "https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/BUSINESS.md",
+    "hypothesis": "https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/RESEARCH.md",
+    "continuity": "https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/UNIVERSAL_CONTINUITY_CONTRACT.md"
+  },
+  "items": [
+    {
+      "id": "B-EXEC",
+      "phase": "baseline",
+      "topic": "receipt",
+      "question": "A cloud dashboard says “request processed” at noon. By itself, does that prove an unattended scheduled task ran on a particular laptop?",
+      "answer": false,
+      "reason": "A remote request acknowledgement does not identify the physical laptop or prove a scheduled, unattended execution."
+    },
+    {
+      "id": "B-FUND",
+      "phase": "baseline",
+      "topic": "funding",
+      "question": "A nonprofit receives a grant award letter but no transfer. Is it correct to record the award and cash received as separate states?",
+      "answer": true,
+      "reason": "An award and a confirmed settlement are distinct funding events."
+    },
+    {
+      "id": "B-PROOF",
+      "phase": "baseline",
+      "topic": "hypothesis",
+      "question": "A program is claimed to work for every allowed input. One genuine allowed input causes an error. Does that refute the universal claim?",
+      "answer": true,
+      "reason": "One valid counterexample defeats an every-input claim."
+    },
+    {
+      "id": "B-LOG",
+      "phase": "baseline",
+      "topic": "continuity",
+      "question": "A team deletes the failed test report as soon as the fix passes. Does deleting it make the change history more reproducible?",
+      "answer": false,
+      "reason": "The original failure is needed to reconstruct the bug, fix and testing sequence."
+    },
+    {
+      "id": "I-EXEC",
+      "phase": "immediate",
+      "topic": "receipt",
+      "question": "A verified scheduler entry from a named workstation, its execution-wrapper result and a matching server receipt provide stronger attribution than the server receipt alone.",
+      "answer": true,
+      "reason": "Correlated local and public execution evidence is stronger than the public acknowledgement alone; it is not an automatic guarantee."
+    },
+    {
+      "id": "I-FUND",
+      "phase": "immediate",
+      "topic": "funding",
+      "question": "A customer presses Pay, but the processor shows the charge as pending. Is that already verified settled cash?",
+      "answer": false,
+      "reason": "Payment initiated or pending is not the same as confirmed settlement."
+    },
+    {
+      "id": "I-PROOF",
+      "phase": "immediate",
+      "topic": "hypothesis",
+      "question": "An algorithm passes checks on 50,000 inputs. Does this alone prove it works for an unbounded set of possible inputs?",
+      "answer": false,
+      "reason": "A finite number of passing examples cannot alone establish an unbounded universal theorem."
+    },
+    {
+      "id": "I-LOG",
+      "phase": "immediate",
+      "topic": "continuity",
+      "question": "Linking the old failing test, changed source revision and successful rerun makes it easier for another reviewer to reconstruct a bug fix.",
+      "answer": true,
+      "reason": "The versioned trail explains the observed failure and subsequent correction."
+    },
+    {
+      "id": "D-EXEC",
+      "phase": "delayed",
+      "topic": "receipt",
+      "question": "Two chatbots display the same job ID and say “done.” Without a machine-specific run record, is this enough to prove one named computer performed the task unattended?",
+      "answer": false,
+      "reason": "Matching messages do not identify the machine or demonstrate its scheduler actually ran unattended."
+    },
+    {
+      "id": "D-FUND",
+      "phase": "delayed",
+      "topic": "funding",
+      "question": "A grant is publicly announced, but settlement has not been verified. Should project records distinguish the award from money actually received?",
+      "answer": true,
+      "reason": "Award and received money require separate evidence."
+    },
+    {
+      "id": "D-PROOF",
+      "phase": "delayed",
+      "topic": "hypothesis",
+      "question": "A simulation passed thousands of runs, then one valid scenario violates an “always safe” claim. Does that counterexample still refute the universal claim?",
+      "answer": true,
+      "reason": "Yes: a single genuine exception defeats an absolute all-cases assertion."
+    },
+    {
+      "id": "D-LOG",
+      "phase": "delayed",
+      "topic": "continuity",
+      "question": "An operator keeps the passing build and removes earlier failures because the problem is fixed. Does this preserve the complete auditable trail?",
+      "answer": false,
+      "reason": "Removing earlier failures loses provenance and impairs auditability."
+    }
+  ]
+}
