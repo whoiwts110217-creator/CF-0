@@ -52,5 +52,14 @@ test('local visible sidebar capture merges only valid IDs and preserves prior qu
   assert.equal(reads,2);
   assert.equal((await call({type:'SET_ACCOUNT',account:'secondary'})).ok,true);
   current=(await call({type:'STATUS'})).state;
-  assert.equal(current.queue.length,0,'switching account label must drop prior queue');
+  assert.equal(current.queue.length,0,'a different account label must not see prior account queue');
+  assert.equal((await call({type:'SET_ACCOUNT',account:'primary'})).ok,true);
+  current=(await call({type:'STATUS'})).state;
+  assert.deepEqual(current.queue.map(x=>x.id),[id1,id2],
+    'switching back must restore the original account queue, not destroy it');
+  assert.equal((await call({type:'IMPORT_QUEUE',raw:[{id:id1,title:'Known chat'}]})).ok,true);
+  current=(await call({type:'STATUS'})).state;
+  assert.deepEqual(current.queue.map(x=>x.id),[id1],
+    'import replaces the chosen account queue, never the other account');
+
 });
