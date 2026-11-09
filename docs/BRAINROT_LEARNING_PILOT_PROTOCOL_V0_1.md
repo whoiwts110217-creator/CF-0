@@ -40,3 +40,11 @@ With a sample this small, even a favorable score is a **pilot signal**, not a ca
 - Sailer & Homner (2020), [The Gamification of Learning: a Meta-analysis](https://doi.org/10.1007/s10648-019-09498-w) — evidence for gamification in studied educational contexts; does not validate this pilot.
 - Dunlosky et al. (2013), [Improving Students' Learning With Effective Learning Techniques](https://doi.org/10.1177/1529100612453266) — supports practice testing and distributed practice.
 - Ebster et al. (2026), [Taming the endless scroll? A systematic literature review](https://pubmed.ncbi.nlm.nih.gov/42287412/) — mainly observational associations about intensive short-form media exposure in youth, not proof that short-form humor is itself harmful or beneficial.
+
+
+## Dated implementation addendum — November 9, 2026 (v0.3)
+
+The earlier planning statement "plain version not yet implemented" described the state when this protocol was written. An **owner-selectable neutral/Playful demo implementation now exists** in [Mission Control](https://whoiwts110217-creator.github.io/CF-0/mission-control/#learning-lab); both modes use the same factual questions, explanation, answer keys and sources. [Pure presentation data](../automation_200/mission_control/dist/gameful-modes.mjs) · [mode UI](../automation_200/mission_control/dist/gameful-ui.mjs).
+
+**Critically, selection is self-chosen, not randomized.** It cannot estimate an effect of humor on learning. The public page does not recruit people, allocate study conditions, collect quiz results, or verify an actual 48-hour return. Future authorized research must implement independent random allocation and consent outside this self-selected public demonstration. This change does not amend the outcome measures in the protocol or retroactively claim study enrollment.
+
