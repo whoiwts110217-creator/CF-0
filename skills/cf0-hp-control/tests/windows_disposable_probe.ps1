@@ -16,7 +16,18 @@ function Snapshot {
     Assert-True ($t.Principal.RunLevel.ToString() -eq 'Limited') 'Elevated task detected'
     $current = [Security.Principal.WindowsIdentity]::GetCurrent()
     $taskUser = [string]$t.Principal.UserId
-    Assert-True (($taskUser -ieq $current.Name) -or ($taskUser -ieq $current.User.Value)) 'Wrong task principal'
+    # Task Scheduler may canonicalize the account name on Windows runners.
+    # Compare resolved SIDs rather than the display-name spelling.
+    try {
+        if ($taskUser -match '^S-1-') {
+            $taskSid = [Security.Principal.SecurityIdentifier]::new($taskUser)
+        } else {
+            $taskSid = ([Security.Principal.NTAccount]::new($taskUser)).Translate([Security.Principal.SecurityIdentifier])
+        }
+    } catch {
+        throw 'Unable to resolve task principal to a SID'
+    }
+    Assert-True ($taskSid.Value -eq $current.User.Value) 'Wrong task principal SID'
     Assert-True ($t.Actions.Count -eq 1) 'Unexpected task actions'
     $expected = Join-Path $env:SystemRoot 'System32\cmd.exe'
     Assert-True ($t.Actions[0].Execute -ieq $expected) 'Unexpected executable'
