@@ -57,6 +57,12 @@ class WatchdogReadbackTests(unittest.TestCase):
             with self.subTest(extra=extra[:90]), self.assertRaises(ValueError):
                 readback.record_readback(self.run, self.job, self.log_line() + extra)
 
+    def test_malformed_digest_marker_is_not_silently_ignored(self):
+        prefix = b"2026-11-09T06:54:54.8882137Z CF0_WORK_HANDOFF_SHA256="
+        for malformed in (b"bad", b"f" * 63, b"G" * 64, b"f" * 65):
+            with self.subTest(malformed=malformed), self.assertRaises(ValueError):
+                readback.record_readback(self.run, self.job, self.log_line() + prefix + malformed + b"\n")
+
     def test_requires_the_exact_successful_job_attempt_and_main_workflow(self):
         log = self.log_line()
         for run, job in (
