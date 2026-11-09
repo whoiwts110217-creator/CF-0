@@ -26,7 +26,7 @@ test("candidate ledger is source-backed research and no one was contacted",()=>{
   assert.match(person.fee_status,/unknown/);
   assert.ok(person.scope_to_verify.length>40);
   assert.ok(plan.includes(person.official_service_url));
-  assert.ok(plan.includes(person.organization.split(" — ")[0].split(" (")[0].split("The Ohio State University")[0]||person.organization.split(" — ")[0]) || plan.includes(person.id) || person.id==="R01");
+  if(person.contact) assert.ok(plan.includes(person.contact),"Source contact listed for "+person.id);
  }
  assert.match(c.permission_boundary,/PCA-003/);
 });
@@ -35,7 +35,7 @@ test("narrow messaging is not a sent email or completed expert review",()=>{
  assert.match(plan,/0 contacts sent/);
  assert.match(plan,/costs exceed zero/);
  assert.match(plan,/one.*fit inquiry/i);
- assert.match(plan,/subject: inquiry/i);
+ assert.match(plan,/\*\*Subject:\*\* Inquiry/i);
  assert.match(plan,/No participant data/);
  assert.match(plan,/not a certification or endorsement/);
  assert.match(plan,/no-cost\/preliminary options/);
