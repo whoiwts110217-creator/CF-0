@@ -92,3 +92,13 @@ The owner can now build an **incomplete but useful private queue** without a Cha
 **Verification:** `node --test automation_200/continuation_chrome/tests/*.test.mjs` covers legacy migration, separated labels, reimport preservation and rejection of malformed list inputs; GitHub Actions validates in a synthetic browser environment. Live owner-account operation remains unverified.
 
 **Rollback:** Restore the previous extension version via the Git history of the v0.1.3 changes. Existing `profiles` snapshots are purely additive; reverting to older code loses the ability to switch between them without data loss, so back up the private Chrome extension state locally first and do **not** clear pending uncertain attempts.
+
+## Reliable owner STOP (v0.1.4 · November 9, 2026)
+
+**Verified source defect:** an in-flight asynchronous extension storage write could race with STOP and overwrite the final visible state. A STOP during launch preflight was also not guaranteed to cancel a worker that had not yet attached the debugger. These are correctness problems for the existing owner's Stop/Pause controls, not new requested features.
+
+**Source repair:** writes to the existing extension-local state key are now serialized. STOP sets a synchronous cancellation flag before awaiting storage, including during launch preflight. The worker checks cancellation before keyboard effects and on completion. A STOP before the command boundary stays paused with no uncertain send; a STOP after the `maybe_sent` boundary preserves `needs_review`, which blocks an automatic resend. A verified completed answer remains marked completed even if STOP races with the last checkpoint write. Chrome is left open; no tab duplication or mouse action is introduced.
+
+**Synthetic regression tests:** `node --test automation_200/continuation_chrome/tests/*.test.mjs`. The new `stop.test.mjs` covers STOP during launch preflight, during editor focus, after Enter, and during a delayed completion storage write. A green source test does not prove that Chrome is running on the owner's actual machine or that a session is logged into the correct account.
+
+**Boundaries and rollback:** no network access, new permissions, scheduler, HP command, payment action, private export or authenticated-account discovery. Revert the feature commit if needed while retaining the private extension checkpoint data and manually inspecting any `maybe_sent` attempt before a resend. The `primary` and `secondary` labels remain manually selected and do not authenticate ChatGPT identity.
