@@ -26,14 +26,14 @@ Owner's order remains **P0 Automation → P1 Priority/continuity → P2 Finances
 
 | Category | Task | Plain-language purpose | Status |
 |---|---|---|---|
-| **P1 — Priorities** | **CF-118** | Enforce retry cooldowns and ceilings across runs | Planned; offline tests passed; scheduled acceptance open |
+| **P1 — Priorities** | **CF-119** | Add source-level HP authority proof gate; retain owner-local device restriction | Planned; CF-118 source prerequisite verified; no HP execution authorization |
 | **P1 — Priorities** | **CF-141** | Publish the source-backed master project index | Planned; source-only candidate |
 | **P2 — Finances** | **CF-122** | Publish a verified financial checkpoint only if evidence exists | Planned; evidence-dependent |
 | **P3 — Research** | **CF-161** | Preserve guess → hypothesis → evidence → proof | Planned; source-only candidate |
 
 **P0 evidence gate:** [draft PR #17](https://github.com/whoiwts110217-creator/CF-0/pull/17) remains subject to its [no-merge integration gate](https://github.com/whoiwts110217-creator/CF-0/blob/experiment/parallel-coordination-v1/experiments/parallel_coordination/INTEGRATION_GATE.md). The [HP continuity record](CONTINUITY.md#november-8-hp-relay-evidence) separately records the matched ping and overlapping scheduler window.
 
-**Other planned tasks:** **112** other work orders remain planned; many need dependencies or HP-local evidence. See the [registry](../automation_200/registry.json) for each acceptance condition. CF-100 and CF-110 are already verified and must not appear as planned candidates.
+**Other planned tasks:** **111** other work orders remain planned; many need dependencies or HP-local evidence. See the [registry](../automation_200/registry.json) for each acceptance condition. CF-100 and CF-110 are already verified and must not appear as planned candidates.
 
 ## Problems we know about
 
