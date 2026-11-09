@@ -2,6 +2,7 @@
 // Uses the actual local dashboard HTML/CSS/JS; does NOT assert iPhone Safari compatibility.
 // No external account authentication or browser automation permissions are used.
 import assert from "node:assert/strict";
+import { MISSIONS } from "../dist/gameful.mjs";
 import { spawn } from "node:child_process";
 import { createServer } from "node:http";
 import { readFile } from "node:fs/promises";
@@ -389,6 +390,46 @@ try {
   await evaluate("document.querySelector('#gameful-device-check summary').click()");
   assert.equal(await evaluate("document.getElementById('gameful-device-check').open"),false);
   console.log("PASS: optional device guide is collapsed by default and responsive when expanded.");
+
+  // Full four-topic end-to-end traversal. Purely ephemeral UI, no accounts.
+  await evaluate("document.getElementById('gameful-toggle').click()");
+  await evaluate("document.getElementById('gameful-toggle').click()");
+  for (const [i, mission] of MISSIONS.entries()) {
+    const before = await evaluate("document.getElementById('gameful-claim').textContent");
+    assert.equal(before,mission.claim,"Original question preserved for mission "+mission.id);
+    await assertQuizVisibility({"gameful-source":false,"gameful-next":false,
+      "gameful-field-brief":false},"mission "+mission.id+" unanswered");
+    const originalSelector = mission.correct ? '[data-gameful-answer="true"]' : '[data-gameful-answer="false"]';
+    await evaluate("document.querySelector("+JSON.stringify(originalSelector)+").click()");
+    await assertQuizVisibility({"gameful-source":true,"gameful-next":true,
+      "gameful-field-brief":false},"mission "+mission.id+" first answer");
+    const originalExplanation = await evaluate("document.getElementById('gameful-explanation').textContent");
+    assert.ok(originalExplanation.includes(mission.explanation),"Evidence explanation unchanged for "+mission.id);
+    await evaluate("document.getElementById('gameful-next').click()");
+    assert.equal(await evaluate("document.getElementById('gameful-claim').textContent"),
+      mission.transferClaim,"Second question preserved for "+mission.id);
+    await assertQuizVisibility({"gameful-source":false,"gameful-next":false,
+      "gameful-field-brief":false},"mission "+mission.id+" transfer unanswered");
+    const transferSelector = mission.transferCorrect ? '[data-gameful-answer="true"]' : '[data-gameful-answer="false"]';
+    await evaluate("document.querySelector("+JSON.stringify(transferSelector)+").click()");
+    await assertQuizVisibility({"gameful-source":true,"gameful-next":i!==MISSIONS.length-1,
+      "gameful-field-brief":true},"mission "+mission.id+" transfer explained");
+    const brief = await evaluate(String.raw`(()=>({
+      action:document.getElementById("gameful-field-action").textContent,
+      evidence:document.getElementById("gameful-field-evidence").textContent,
+      href:document.getElementById("gameful-field-link").href,
+      nextHidden:document.getElementById("gameful-next").hidden,
+      finalMessage:document.getElementById("gameful-result").textContent
+    }))()`);
+    assert.equal(brief.action,mission.fieldAction,"Action stays source-defined");
+    assert.equal(brief.evidence,mission.fieldEvidence,"Evidence gate stays source-defined");
+    assert.equal(brief.href,mission.fieldUrl,"Field brief points to the specified public record");
+    if(i===MISSIONS.length-1) {
+      assert.equal(brief.nextHidden,true,"Final mission must not expose another unavailable topic");
+      assert.match(brief.finalMessage,/QUEST ENDED/);
+    } else await evaluate("document.getElementById('gameful-next').click()");
+  }
+  console.log("PASS: all four topics, eight graded answers, field briefs and final state.");
 
   // Restore source smoke defaults before closing browser.
   await send("Emulation.setDeviceMetricsOverride", { width: 390, height: 844, deviceScaleFactor: 3, mobile: true });
