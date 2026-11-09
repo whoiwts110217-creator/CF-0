@@ -184,6 +184,41 @@ try {
   assert.match(remix.heading, /second example/);
   assert.match(remix.claim, /stronger evidence/);
 
+
+  // A passing mission must lead to a proposed, evidence-gated REAL task only
+  // after completing its second example. Validate in the actual browser DOM.
+  assert.equal(await evaluate("document.getElementById('gameful-field-brief').hidden"),true,
+    "The field brief must not be revealed by opening the second question alone");
+  await evaluate("document.querySelector('[data-gameful-answer=\"true\"]').click()");
+  const firstBrief = await evaluate("(()=>({hidden:document.getElementById('gameful-field-brief').hidden,action:document.getElementById('gameful-field-action').textContent,evidence:document.getElementById('gameful-field-evidence').textContent,url:document.getElementById('gameful-field-link').href,disclaimer:document.querySelector('.gameful-field-limit').textContent,linkHeight:document.getElementById('gameful-field-link').getBoundingClientRect().height,scrollWidth:document.documentElement.scrollWidth,viewport:innerWidth}))()");
+  assert.equal(firstBrief.hidden,false,"Completing the remix reveals real-world follow-up");
+  assert.match(firstBrief.action,/scheduled task run/);
+  assert.match(firstBrief.evidence,/^Acceptance:/);
+  assert.match(firstBrief.url,/docs\/PROJECT_STATUS\.md$/);
+  assert.match(firstBrief.disclaimer,/proposed action, not a completed task/);
+  assert.ok(firstBrief.linkHeight>=44 && firstBrief.scrollWidth<=firstBrief.viewport+1,
+    "Field evidence link remains tappable without horizontal overflow");
+  console.log("Field-brief browser acceptance, receipt:",JSON.stringify(firstBrief));
+
+  // Navigate to the precise funding quiz that was observed by the owner.
+  await evaluate("document.getElementById('gameful-next').click()");
+  assert.equal(await evaluate("document.getElementById('gameful-title').textContent"),"Checking funding claims");
+  assert.equal(await evaluate("document.getElementById('gameful-field-brief').hidden"),true,
+    "A new mission must clear the previous evidence brief");
+  await evaluate("document.querySelector('[data-gameful-answer=\"false\"]').click()");
+  assert.equal(await evaluate("document.getElementById('gameful-field-brief').hidden"),true,
+    "Correct funding guess is not real-world completion");
+  await evaluate("document.getElementById('gameful-next').click()");
+  await evaluate("document.querySelector('[data-gameful-answer=\"false\"]').click()");
+  const fundingBrief = await evaluate("(()=>({hidden:document.getElementById('gameful-field-brief').hidden,action:document.getElementById('gameful-field-action').textContent,evidence:document.getElementById('gameful-field-evidence').textContent,url:document.getElementById('gameful-field-link').href,disclaimer:document.querySelector('.gameful-field-limit').textContent}))()");
+  assert.equal(fundingBrief.hidden,false);
+  assert.match(fundingBrief.action,/grant response/);
+  assert.match(fundingBrief.action,/award|payment/);
+  assert.match(fundingBrief.evidence,/^Acceptance:.*confirmed payment/);
+  assert.match(fundingBrief.url,/docs\/BUSINESS\.md$/);
+  assert.match(fundingBrief.disclaimer,/No account or project state is changed/);
+  console.log("Field-brief browser acceptance, funding:",JSON.stringify(fundingBrief));
+
   // The same question/explanation survives the voluntary mode switch.
   await evaluate(`(()=>{document.getElementById('gameful-toggle').click();
     const mode=document.getElementById('gameful-mode');
