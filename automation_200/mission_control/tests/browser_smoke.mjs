@@ -166,6 +166,21 @@ try {
   assert.equal(playful.explanation, grade.explanation);
   assert.equal(playful.focus, "gameful-explanation");
 
+  // Large-text readability preference: changing size must preserve source facts.
+  await evaluate("(()=>{const box=document.getElementById('gameful-large-text');box.checked=true;box.dispatchEvent(new Event('change',{bubbles:true}))})()");
+  const sizeChange = await evaluate(String.raw`(()=>({
+    enabled:document.getElementById('learning-lab').dataset.largeText,
+    claim:document.getElementById('gameful-claim').textContent,
+    explanation:document.getElementById('gameful-explanation').textContent,
+    claimFont:parseFloat(getComputedStyle(document.getElementById('gameful-claim')).fontSize),
+    explanationFont:parseFloat(getComputedStyle(document.getElementById('gameful-explanation')).fontSize)
+  }))()`);
+  assert.equal(sizeChange.enabled,"true","Large text must be an accessible, local display state");
+  assert.equal(sizeChange.claim,open.claim,"Large text must not alter the question");
+  assert.equal(sizeChange.explanation,grade.explanation,"Large text must not alter answer evidence");
+  assert.ok(sizeChange.claimFont >= 21 && sizeChange.explanationFont >= 19,"Large text option must increase lesson fonts");
+  console.log("Large-text readability:",JSON.stringify(sizeChange));
+
   // Responsive and touch-target acceptance across four iPhone-like CSS widths.
   // Browser engine remains Chromium; this is NOT physical iPhone Safari verification.
   for (const width of [320, 360, 390, 430]) {
@@ -210,7 +225,23 @@ try {
       assert.ok(target.left >= -2 && target.right <= width+2,"Target must stay inside viewport at "+width+": "+JSON.stringify(target));
     }
     assert.ok(parseFloat(measures.modeFont) >= 16,"Select text must avoid iOS autofocus zoom at "+width);
+    assert.equal(await evaluate("document.getElementById('learning-lab').dataset.largeText"),"true","Large text remains on throughout responsive check");
+
   }
+  // System contrast is an OS/browser preference, not stored or inferred from user data.
+  await send("Emulation.setEmulatedMedia", { features: [{ name: "prefers-contrast", value: "more" }] });
+  const highContrast = await evaluate(String.raw`(()=>({
+    enabled:matchMedia("(prefers-contrast: more)").matches,
+    claimColor:getComputedStyle(document.getElementById("gameful-claim")).color,
+    explainColor:getComputedStyle(document.getElementById("gameful-explanation")).color,
+    pageWidth:document.documentElement.scrollWidth,viewport:innerWidth
+  }))()`);
+  console.log("High-contrast preference:",JSON.stringify(highContrast));
+  assert.equal(highContrast.enabled,true,"Chromium should emulate increased contrast");
+  assert.equal(highContrast.explainColor,"rgb(255, 255, 255)","Source explanation must receive high-contrast text color");
+  assert.ok(highContrast.pageWidth<=highContrast.viewport+1,"High contrast must preserve responsive layout");
+  await send("Emulation.setEmulatedMedia", { features: [] });
+
   // Restore source smoke defaults before closing browser.
   await send("Emulation.setDeviceMetricsOverride", { width: 390, height: 844, deviceScaleFactor: 3, mobile: true });
 
