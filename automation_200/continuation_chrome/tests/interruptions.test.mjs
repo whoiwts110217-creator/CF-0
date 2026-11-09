@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 const id='11111111-1111-4111-8111-111111111111';
 const chatUrl='https://chatgpt.com/c/'+id;
 
-function harness({stickyDialog=false,addSecondAfterSend=false}={}){
+function harness({stickyDialog=false,addSecondAfterSend=false,attachFailure=false}={}){
   let state,hasSent=false,escapes=0,sends=0,attached=0,detached=0;
   const handlers={};
   const tab={id:23,url:chatUrl};
@@ -20,7 +20,7 @@ function harness({stickyDialog=false,addSecondAfterSend=false}={}){
       onCreated:{addListener:fn=>handlers.created=fn}
     },
     debugger:{
-      attach:async t=>{assert.equal(t.tabId,23);attached++;},
+      attach:async t=>{assert.equal(t.tabId,23);attached++;if(attachFailure)throw Error('DEBUGGER_PERMISSION_DENIED');},
       detach:async()=>{detached++;},
       sendCommand:async(t,method,params)=>{
         assert.equal(t.tabId,23);
@@ -79,5 +79,31 @@ test('another ChatGPT tab appearing during generation halts without retry', {tim
   assert.equal(s.reason,'CHATGPT_TAB_COUNT_CHANGED');
   assert.equal(h.metrics().sends,1);
   assert.equal(s.attempt.status,'in_flight'); // Unknown result must not be retried blindly.
+  // A newly selected queue/account cannot discard a maybe-sent message.
+  const reset=await send(h,{type:'IMPORT_QUEUE',raw:[{id,title:'Same chat'}]});
+  assert.equal(reset.ok,false);
+  assert.match(reset.error,/UNRESOLVED_ATTEMPT/);
+  const relabel=await send(h,{type:'SET_ACCOUNT',account:'secondary'});
+  assert.equal(relabel.ok,false);
+  assert.match(relabel.error,/UNRESOLVED_ATTEMPT/);
+  const clear=await send(h,{type:'ACK_PRE_SEND'});
+  assert.equal(clear.ok,false);
   assert.equal(h.metrics().detached,1);
+});
+
+test('debugger attach refusal cleans up live marker and allows safe pre-send recovery',{timeout:8000},async()=>{
+  const h=harness({attachFailure:true});globalThis.chrome=h.chrome;
+  await import('../background.js?attachfailure=' + Date.now());
+  assert.equal((await send(h,{type:'SET_ACCOUNT',account:'primary'})).ok,true);
+  assert.equal((await send(h,{type:'CONTINUE_CURRENT'})).ok,true);
+  const s=await until(h,x=>x.phase==='needs_review',6000);
+  assert.equal(s.reason,'DEBUGGER_PERMISSION_DENIED');
+  assert.equal(s.attempt,null);
+  assert.equal(h.metrics().sends,0);
+  // No debugger session is attached; no stale live flag may prevent acknowledgement.
+  const ack=await send(h,{type:'ACK_PRE_SEND'});
+  assert.equal(ack.ok,true);
+  assert.equal((await send(h,{type:'STATUS'})).state.phase,'paused');
+  assert.equal(h.metrics().attached,1);
+  assert.equal(h.metrics().detached,0);
 });
