@@ -12,7 +12,7 @@
 
 | Project / group | Status |
 |---|---|
-| CF-200 work orders and owner priority engine | [Work-order progress](TASKS_AND_ISSUES.md), [decision engine](../automation_200/DECISION_ENGINE.md), and [resumable focus](../automation_200/RESUMABLE_FOCUS.md). CF-118 retry acceptance remains open. |
+| CF-200 work orders and owner priority engine | [Work-order progress](TASKS_AND_ISSUES.md), [decision engine](../automation_200/DECISION_ENGINE.md), and [resumable focus](../automation_200/RESUMABLE_FOCUS.md). CF-118 is source-verified. Scheduled retry evidence remains open. |
 | Public HP relay, health, and watchdog | [Health report](../relay/health/latest.json) available. [Windows scheduled run and receipt timing](CONTINUITY.md#november-8-hp-relay-evidence) documented. Exact ping attribution remains open. |
 | Domino Sidecar / Tactics | Recovered source and [November 8 Windows CI](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42520212910/job/128851859138) for the branch-rules repair. Physical HP deployment is open. |
 | Automation Controller | Reported container prototype for packet import, deduplication, and backups. |
