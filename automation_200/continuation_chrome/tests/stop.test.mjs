@@ -93,6 +93,11 @@ test('STOP during launch preflight cancels before attach and preserves pause', {
   await import('../background.js?stop-preflight='+Date.now());
   const start=h.call({type:'START',maxChats:1});
   await h.onTabs;
+  // A slow tab-query must not prevent STATUS or hide the owner's STOP control.
+  const during=await h.call({type:'STATUS'});
+  assert.equal(during.ok,true);
+  assert.equal(during.launching,true);
+  assert.equal(during.tabs.reason,'STARTING_TAB_CHECK');
   assert.equal((await h.call({type:'STOP'})).ok,true);
   h.releaseTabs();
   const started=await start;
