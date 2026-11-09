@@ -25,9 +25,11 @@ permissions:
   contents: read
   pages: write
   id-token: write
+# With frequent CF-0 commits, cancelling active Pages builds can starve all deployments.
+# Let one active build finish and keep the newest queued build; do not cancel running release.
 concurrency:
   group: cf0-public-website
-  cancel-in-progress: true
+  cancel-in-progress: false
 jobs:
   deploy:
     environment:
