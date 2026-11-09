@@ -109,6 +109,6 @@ test("plain/playful selector remains opt-in, locked for a run, and does not cont
   assert.ok(html.includes('id="work-orders"'));
   assert.ok(html.includes('id="show-restricted"'));
   for (const code of [ui, modes]) {
-    assert.doesNotMatch(code, /fetch\\(|localStorage|sessionStorage|sendMessage|window\\.open|postMessage|exec\\(|new WebSocket/);
+    for (const banned of ["fetch(", "localStorage", "sessionStorage", "sendMessage", "window.open", "postMessage", "exec(", "new WebSocket"]) assert.equal(code.includes(banned), false, banned);
   }
 });
