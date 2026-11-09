@@ -12,6 +12,7 @@ export const SOURCES = Object.freeze({
     {"id":"cf0-release-gate","title":"CF-0 release/readiness gate","trigger":"schedule","detail":"Daily (17 9 * * *), validation only","research":false},
     {"id":"agent-native-outreach-round-2","title":"Agent outreach round 2","trigger":"event","detail":"On matching source push or manual dispatch","research":true},
     {"id":"bridge-tests","title":"Bridge regression tests","trigger":"event","detail":"On matching source push or manual dispatch","research":false},
+    {"id":"cf0-hp-control-windows-probe","title":"HP control Windows source probe","trigger":"event","detail":"Source-only Windows probe workflow; does not establish owner HP deployment or control","research":false},
     {"id":"cf0-relay-tests","title":"Public relay Windows tests","trigger":"event","detail":"On source push, pull request or manual dispatch","research":false},
     {"id":"dashboard-guard","title":"Dashboard regression guard","trigger":"event","detail":"On matching source push, pull request or manual dispatch","research":false},
     {"id":"dreamkiller-browser-smoke","title":"Dreamkiller browser smoke test","trigger":"event","detail":"On source push, pull request or manual dispatch","research":false},
