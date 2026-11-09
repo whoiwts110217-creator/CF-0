@@ -102,3 +102,19 @@ The Learning Lab's v0.5 readability and two presentation modes remain unchanged.
 
 [GitHub Actions CI 42677698076](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42677698076) and [Pages deployment 42677698440](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42677698440) **passed** on source commit `27b2bc1bf7b1f4f6b382a273dacdba07d1c3216d`. A [read-only hosted browser run](https://agent.tinyfish.ai/runs/3b3dc652-2e9e-4143-9828-c53444ffa192) observed the disclosure opening and closing, 22/5/17 source inventory and disconnected controls on the public page. [Continuity with source commits, evidence limits and rollback](CONTINUITY.md#november-9--brainrot--brainpower-v052-accessibility-tree-and-owner-device-handoff). None of this substitutes for physical iPhone Safari/VoiceOver testing or a retention study.
 
+
+## v0.6 — From a correct quiz answer to a real evidence-gated task (November 9)
+
+**Trigger:** user reaction to `THE INVISIBLE PAYDAY` showed the prototype's biggest usability failure: it taught that grant submission is not revenue but did not lead to any real task. This is a **design correction**, not a claim of new grant money or live execution.
+
+**Same identity/parents:** `CF-EXP-GAME-LEARN-001`; `FIN-09`, `CF-CORE`, `RES-04` under [UCC-001](UNIVERSAL_CONTINUITY_CONTRACT.md). Keep the four existing mission statements, grading, immediate transfer, Plain/Playful content parity, opt-in presentation and privacy boundary unchanged.
+
+**New behavior:** Completing a second-scenario response reveals a read-only **NEXT: Real-world field brief** containing (1) one concrete suggested project action, (2) the acceptance evidence that would make it count, and (3) a link to the existing public record. Funding specifically requires distinguishing received application, verified award decision and actual payment; a submission is never booked as cash. Other briefs address scheduler/receipt correlation, falsifiable research, and preserved failure/version evidence. The brief resets on the next question or when the mode is restarted.
+
+**Safety and truth:** No buttons that submit applications, send emails, read accounts, change source records, copy private data or claim task completion. This feature generates no donation, execution receipt, verification or new CF-200 work order. All field tasks remain *proposed* until separately performed and accepted through existing authority and evidence channels.
+
+**Engineering acceptance:** [Mission Control source](../automation_200/mission_control/dist/gameful-ui.mjs); [mission definitions](../automation_200/mission_control/dist/gameful.mjs); [source assertions](../automation_200/mission_control/tests/gameful.test.mjs); [DOM interaction regression](../automation_200/mission_control/tests/gameful-ui-dom.test.mjs). Check the `gameful-field-brief` stays hidden until the remix, has a working source link and visible 44px minimum tap target on small screens, is screen-reader-reachable, and disappears on restart. A green CI check supports only code-level acceptance; real iPhone Safari and actual business outcomes still require independent verification.
+
+**Rollback:** revert only the new static field data, learning-lab brief markup/styles, UI reveal/reset and tests. Preserve all previous learning material, original quiz jokes, current evidence links, Mission Control controls, roles and unrelated funding/HP records.
+
+**Next:** independently inspect the deployed public lab and whether an owner can follow the business brief to an actual funding-status entry. Do not fabricate an award or send messages just to pass the game.
