@@ -768,9 +768,9 @@
   function selectedKey(){return $('previewFile').value;}
   function refresh(){if(!bundle)return;const keys=Object.keys(bundle.files),select=$('previewFile');select.innerHTML='';for(const key of keys){const o=document.createElement('option');o.value=key;o.textContent=key;select.appendChild(o);}select.disabled=false;select.value=keys[0];showFile();$('fileCount').textContent=keys.length;$('runStatus').textContent='DRAFT';['downloadZip','copyFile','copySynthesis','shareZip','downloadSelected'].forEach(k=>$(k).disabled=false);note(`Forged ${keys.length} files locally. Evaluation cases are NOT executed by the generator; verify behavior before treating a skill as proven.`);}
   function showFile(){$('preview').textContent=bundle?.files[selectedKey()]||'No file selected.';}
-  function forge(){bundle=SkillFoundry.build(getForm());refresh();}
+  function forge(){bundle=SkillFoundry.build(getForm());refresh();resetReview();}
   $('skillForm').addEventListener('submit',e=>{e.preventDefault();forge();$('results').scrollIntoView({behavior:'smooth',block:'start'});});
-  $('previewFile').addEventListener('change',showFile);
+  $('previewFile').addEventListener('change',()=>{showFile();resetReview();});
   $('copyFile').addEventListener('click',async()=>{try{await navigator.clipboard.writeText(bundle.files[selectedKey()]);note('Selected file copied.');}catch(err){note('Clipboard permission denied. Select the preview text and use Copy, or download the file.');}});
   $('copySynthesis').addEventListener('click',async()=>{if(!bundle)return;const key=Object.keys(bundle.files).find(k=>k.endsWith('SYNTHESIS_PROMPT.md'));try{await navigator.clipboard.writeText(bundle.files[key]);note('AI synthesis prompt copied. Paste it into an AI chat to refine and test the skill set.');}catch(e){$('previewFile').value=key;showFile();note('Clipboard unavailable. Synthesis prompt selected in preview for manual copying or download.');}});
   $('downloadZip').addEventListener('click',exportZip);
