@@ -7,6 +7,7 @@ const get = id => document.getElementById(id);
 const lab = get("learning-lab");
 const toggle = get("gameful-toggle");
 const modeSelect = get("gameful-mode");
+const largeTextSelect = get("gameful-large-text");
 const content = get("gameful-content");
 const heading = get("gameful-title");
 const genre = get("gameful-genre");
@@ -59,6 +60,13 @@ function updateMode() {
 // Close the exercise to choose another mode; neither mode stores responses.
 modeSelect.addEventListener("change", updateMode);
 updateMode();
+
+// Presentation-only accessibility preference: no storage, identity or grading changes.
+function updateTextSize() {
+  lab.dataset.largeText = String(largeTextSelect.checked);
+}
+largeTextSelect.addEventListener("change", updateTextSize);
+updateTextSize();
 
 toggle.addEventListener("click", () => {
   content.hidden = !content.hidden;
