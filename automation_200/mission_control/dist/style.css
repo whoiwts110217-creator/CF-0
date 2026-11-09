@@ -354,3 +354,77 @@ footer { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 6p
     overflow-wrap: anywhere;
   }
 }
+
+
+/* CF-EXP-GAME-LEARN-001 v0.5: optional, no-storage larger lesson text.
+   Only presentation changes; never alters grading, research data or controls. */
+.gameful-lab .gameful-accessibility {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 14px;
+  margin: 4px 0 14px;
+}
+.gameful-lab .gameful-accessibility label {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 650;
+}
+.gameful-lab #gameful-large-text {
+  margin: 0;
+  width: 22px;
+  min-width: 22px;
+  height: 22px;
+  min-height: 22px;
+  padding: 0;
+  accent-color: #92d9ef;
+}
+.gameful-lab .gameful-accessibility .gameful-mode-note { flex-basis: 100%; }
+.gameful-lab[data-large-text="true"] #gameful-content h3 {
+  font-size: clamp(25px, 5vw, 34px);
+  line-height: 1.22;
+  overflow-wrap: anywhere;
+}
+.gameful-lab[data-large-text="true"] #gameful-claim {
+  font-size: 21px;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+.gameful-lab[data-large-text="true"] #gameful-result {
+  font-size: 18px;
+  line-height: 1.5;
+}
+.gameful-lab[data-large-text="true"] #gameful-explanation {
+  font-size: 19px;
+  line-height: 1.58;
+  overflow-wrap: anywhere;
+}
+.gameful-lab[data-large-text="true"] #gameful-source,
+.gameful-lab[data-large-text="true"] .gameful-choices button,
+.gameful-lab[data-large-text="true"] #gameful-next {
+  font-size: 17px;
+}
+.gameful-lab[data-large-text="true"] .gameful-choices button {
+  flex: 1 1 100px;
+}
+.gameful-lab #gameful-large-text:focus-visible + span { outline: 2px solid #a8e8ff; }
+@media (prefers-contrast: more) {
+  .gameful-lab #gameful-content { background: #060b12; border-color: #e7f4ff; }
+  .gameful-lab #gameful-claim,
+  .gameful-lab #gameful-explanation { color: #ffffff; }
+  .gameful-lab #gameful-result { color: #ffffff; }
+  .gameful-lab .gameful-choices button:not(:disabled),
+  .gameful-lab .gameful-action:not(:disabled) { border: 2px solid #ffffff; }
+  .gameful-lab #gameful-source,
+  .gameful-lab .gameful-note a { color: #b7edff; text-decoration-thickness: 2px; }
+}
+@media (forced-colors: active) {
+  .gameful-lab .gameful-choices button,
+  .gameful-lab .gameful-action,
+  .gameful-lab #gameful-mode { border: 2px solid ButtonText; }
+  .gameful-lab #gameful-content { border: 1px solid CanvasText; }
+}
