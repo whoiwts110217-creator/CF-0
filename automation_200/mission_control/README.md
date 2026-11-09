@@ -19,3 +19,11 @@ Serve the dist folder with a static web server. The source distribution reads Gi
 Run the model and GitHub-loading tests using this command.
 
     node --test tests/*.test.mjs
+
+## AUTO-08 Continuity Control (source prototype, November 9, 2026)
+
+The [Continuation panel](https://whoiwts110217-creator.github.io/CF-0/mission-control/continue-control/) is a linked view in the existing Mission Control site. It adds an original dark, pale-blue reflective-jacket-inspired interface; explicit primary/secondary account selection; local-only import of conversation IDs/titles from a user-selected JSON export; local private checkpoint download; a copyable Work recovery handoff; and a clearly labeled manual fallback. No raw chat content is uploaded by the panel. Private checkpoint files must remain private.
+
+**Automatic master switch: DISCONNECTED.** The static site cannot access personal ChatGPT sessions or send messages. The browser UI deliberately disables the switch until a separately authorized supported executor exists; it must not be described as functioning continuous account autonomy. The separate source-level `continue-control/loop.mjs` implements a bounded, serial adapter contract: send exactly `continue`, wait for the adapter to confirm the full response completed, then advance, with stop, unknown-result hold, and per-pass duplicate prevention. Unit tests cover the contract; they do **not** prove any real ChatGPT conversation was controlled.
+
+See [owner intent and acceptance requirements](../../docs/AUTO_CONTINUATION_CONTROL_2026-11-09.md) and [PR #28](https://github.com/whoiwts110217-creator/CF-0/pull/28). The approved HP public-relay actions and all original CF-200 dashboard data remain unchanged.
