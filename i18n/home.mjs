@@ -286,6 +286,91 @@ export const COPY = {
     "es": "GitHub CF-0",
     "fr": "GitHub CF-0",
     "pt": "GitHub CF-0"
+  },
+  "First Drop": {
+    "es": "Primer lanzamiento",
+    "fr": "Premier lancement",
+    "pt": "Primeiro lançamento"
+  },
+  "First drop · The founding Hall of Fame is open": {
+    "es": "Primer lanzamiento · Ya está abierto el Salón de la Fama de los primeros colaboradores",
+    "fr": "Premier lancement · Le Hall of Fame des premiers soutiens est ouvert",
+    "pt": "Primeiro lançamento · O Hall da Fama dos primeiros apoiadores está aberto"
+  },
+  "Join the first drop — any amount": {
+    "es": "Únete al primer lanzamiento — cualquier cantidad",
+    "fr": "Participez au premier lancement — tout montant est bienvenu",
+    "pt": "Participe do primeiro lançamento — qualquer valor"
+  },
+  "First drop · Founding Hall of Fame": {
+    "es": "Primer lanzamiento · Salón de la Fama de los primeros colaboradores",
+    "fr": "Premier lancement · Hall of Fame des premiers soutiens",
+    "pt": "Primeiro lançamento · Hall da Fama dos primeiros apoiadores"
+  },
+  "Get in at the beginning.": {
+    "es": "Participa desde el principio.",
+    "fr": "Prenez part à l'aventure dès le début.",
+    "pt": "Participe desde o começo."
+  },
+  "Our first supporters can help build and share tools that make complicated questions easier to understand and ideas easier to test. Give any amount: there is no minimum. If you'd like public recognition, provide your preferred name or handle in your Cash App note; recognition follows contribution verification and consent. The initial planning goal is $50, not a claimed fundraising total.": {
+    "es": "Las primeras personas que nos apoyen pueden ayudarnos a crear y compartir herramientas que faciliten comprender preguntas complejas y poner a prueba las ideas. Contribuye con cualquier cantidad: no hay mínimo. Si deseas reconocimiento público, escribe en la nota de Cash App el nombre o alias que quieras mostrar; el reconocimiento requiere comprobar la aportación y contar con tu consentimiento. El objetivo inicial previsto es de 50 USD; no afirmamos haber recaudado esa cantidad.",
+    "fr": "Les premiers soutiens peuvent nous aider à créer et partager des outils pour mieux comprendre les questions complexes et tester les idées. Vous pouvez contribuer du montant de votre choix, sans minimum. Si vous souhaitez être cité publiquement, indiquez dans la note Cash App le nom ou pseudonyme à afficher ; la mention publique exige la vérification de la contribution et votre consentement. L'objectif initial envisagé est de 50 USD : ce n'est pas une somme présentée comme déjà collectée.",
+    "pt": "Os primeiros apoiadores podem ajudar a criar e compartilhar ferramentas que facilitam a compreensão de questões complexas e o teste de ideias. Contribua com qualquer valor, sem mínimo. Se quiser reconhecimento público, inclua na observação do Cash App o nome ou apelido que deseja mostrar; a divulgação exige a confirmação da contribuição e seu consentimento. A meta inicial planejada é de US$ 50, não um total que afirmamos já ter arrecadado."
+  },
+  "Contributions are voluntary, not a purchase, investment, or tax-deductible charitable donation; no financial return is promised.": {
+    "es": "Las aportaciones são voluntárias; no son compras, inversiones ni donaciones benéficas deducibles de impuestos. No se promete ningún rendimiento financiero.",
+    "fr": "Les contributions sont volontaires : il ne s'agit ni d'un achat, ni d'un investissement, ni d'un don caritatif déductible des impôts. Aucun rendement financier n'est promis.",
+    "pt": "As contribuições são voluntárias: não são compras, investimentos nem doações beneficentes dedutíveis de impostos. Não há promessa de retorno financeiro."
+  },
+  "View first-drop Hall of Fame": {
+    "es": "Ver el Salón de la Fama del primer lanzamiento",
+    "fr": "Voir le Hall of Fame du premier lancement",
+    "pt": "Ver o Hall da Fama do primeiro lançamento"
+  },
+  "Support through Cash App": {
+    "es": "Apoyar mediante Cash App",
+    "fr": "Contribuer via Cash App",
+    "pt": "Apoiar pelo Cash App"
+  },
+  "Share the invitation": {
+    "es": "Compartir la invitación",
+    "fr": "Partager l'invitation",
+    "pt": "Compartilhar o convite"
+  },
+  "Can't contribute right now? Sharing the public first-drop invitation also helps.": {
+    "es": "¿No puedes contribuir ahora? Compartir la invitación pública del primer lanzamiento también ayuda.",
+    "fr": "Vous ne pouvez pas contribuer pour l'instant ? Partager l'invitation publique au premier lancement nous aide aussi.",
+    "pt": "Não pode contribuir agora? Compartilhar o convite público do primeiro lançamento também ajuda."
+  },
+  "Open shareable post": {
+    "es": "Abrir publicación para compartir",
+    "fr": "Ouvrir la publication à partager",
+    "pt": "Abrir publicação para compartilhar"
+  },
+  "Share on X": {
+    "es": "Compartir en X",
+    "fr": "Partager sur X",
+    "pt": "Compartilhar no X"
+  },
+  "Share on Bluesky": {
+    "es": "Compartir en Bluesky",
+    "fr": "Partager sur Bluesky",
+    "pt": "Compartilhar no Bluesky"
+  },
+  "Share on Reddit": {
+    "es": "Compartir en Reddit",
+    "fr": "Partager sur Reddit",
+    "pt": "Compartilhar no Reddit"
+  },
+  "Share on Facebook": {
+    "es": "Compartir en Facebook",
+    "fr": "Partager sur Facebook",
+    "pt": "Compartilhar no Facebook"
+  },
+  "Share on LinkedIn": {
+    "es": "Compartir en LinkedIn",
+    "fr": "Partager sur LinkedIn",
+    "pt": "Compartilhar no LinkedIn"
   }
 };
 
