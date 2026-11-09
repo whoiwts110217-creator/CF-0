@@ -1,0 +1,50 @@
+name: "Clarity Brief — Public Pilot Inquiry"
+description: "Ask about a $15 one-page evidence-to-action pilot. This is a PUBLIC inquiry, not an order or payment."
+title: "[Clarity Brief inquiry] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        **This GitHub issue is public.** Do not include contact details, account data, health information, bank or payment details, confidential work, addresses, credentials, or other private data. The free worksheet is at https://whoiwts110217-creator.github.io/CF-0/clarity-card/ .
+
+        **Price if accepted:** $15 for one public-safe, human-reviewed one-page brief. This form neither places an order nor authorizes any charge. The owner must confirm the scope, delivery channel, ability to fulfill, and terms before accepting payment. The donation link is **not** a checkout.
+  - type: checkboxes
+    id: privacy-confirmation
+    attributes:
+      label: Public inquiry and privacy
+      options:
+        - label: "I understand this issue and my answers will be PUBLIC. I have not included personal, confidential, or sensitive information."
+          required: true
+        - label: "I understand this is an inquiry, not a purchase, paid order, or guarantee of acceptance."
+          required: true
+  - type: textarea
+    id: question
+    attributes:
+      label: One public-safe question
+      description: "Keep it narrowly scoped. Use a public topic, concept, website, or problem; never include private data."
+      placeholder: "What can be learned or decided from public evidence about…?"
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Public sources or facts already available
+      description: "Optional. Link only documents/pages you are authorized to share."
+      placeholder: "Public URL or sources to review; or write 'none yet'."
+    validations:
+      required: false
+  - type: textarea
+    id: decision
+    attributes:
+      label: What would a useful next step look like?
+      description: "Describe the decision, experiment, or small action you want to evaluate, without promises of an outcome."
+      placeholder: "I would like to know whether to test…"
+    validations:
+      required: true
+  - type: checkboxes
+    id: scope
+    attributes:
+      label: Pilot scope acknowledgment
+      options:
+        - label: "I want a public-safe evidence-to-action brief, not regulated medical, legal, tax, financial, or investment advice."
+          required: true
