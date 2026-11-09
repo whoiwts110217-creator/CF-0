@@ -200,7 +200,8 @@ try {
     if (measures.viewport !== width || measures.scrollWidth > width) {
       console.warn("Existing full dashboard has overflow at configured width",JSON.stringify({width,innerWidth:measures.viewport,scrollWidth:measures.scrollWidth,outliers:measures.outliers}));
     }
-    assert.ok(measures.viewport >= width,"Mobile viewport must not shrink below requested width");
+    assert.equal(measures.viewport, width, "Full dashboard viewport should match phone width");
+    assert.ok(measures.scrollWidth <= width + 1, "Full dashboard must not overflow horizontally at "+width);
     assert.ok(measures.labLeft >= -2 && measures.labRight <= width+2,"Lab must fit viewport at "+width);
     assert.ok(measures.labScroll <= measures.labClient+2,"Lab content must not overflow horizontally at "+width);
     assert.ok(measures.targets.length >= 6,"Required touch targets must be visible at "+width);
