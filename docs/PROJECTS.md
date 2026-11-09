@@ -94,3 +94,7 @@ These links are a categorized index, not a new CF-200 verification or a producti
 
 - **UCC-001 (universal continuity):** [same source-linked contract for every workstream](UNIVERSAL_CONTINUITY_CONTRACT.md). Every feature, joke, research note, grant, game prototype, automation and future decision retains provenance, status, verification, privacy, rollback and next action.
 - **CF-EXP-GAME-LEARN-001 (Brainrot → Brainpower):** [research hypothesis, risks and test plan](BRAINROT_TO_BRAINPOWER_2026-11-09.md) and [optional Mission Control learning quiz](https://whoiwts110217-creator.github.io/CF-0/mission-control/#learning-lab). Linked to existing `FIN-09`, `CF-CORE` and `RES-04`. Source feature **does not** prove improvements in learning or modify any verified registry count. Public deployment and browser behavior require separate verification.
+
+
+**Gameful-learning evaluation:** [CF-EXP-GAME-LEARN-001 pilot protocol](BRAINROT_LEARNING_PILOT_PROTOCOL_V0_1.md) designs a neutral-versus-gameful comparison and delayed recall assessment; no real participants have yet been tested. Parent project identity stays linked to `FIN-09` / `CF-CORE` / `RES-04`, rather than adding an original reconstructed project.
+
