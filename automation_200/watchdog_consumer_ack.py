@@ -34,7 +34,7 @@ def verify_consumer_ack(readback: dict, acknowledgement: dict) -> dict:
             or acknowledgement["decision"] not in DECISIONS
             or acknowledgement["execution_authorized"] is not False):
         raise ValueError("invalid or unauthorized executor decision")
-    return {"schema": "cf0.executor_packet_correlation.v1", "correlated": True,
+    # Matching untrusted JSON proves equality only, not independent executor origin.\n    return {"schema": "cf0.executor_packet_correlation.v1", "correlated": True,\n            "acknowledgement_origin_verified": False,
             "watchdog_run_id": readback["watchdog_run_id"],
             "watchdog_run_attempt": readback["watchdog_run_attempt"],
             "packet_sha256": digest, "executor_run_id": executor,
