@@ -4,7 +4,7 @@ import assert from 'node:assert/strict';
 const id='11111111-1111-4111-8111-111111111111';
 const chatUrl='https://chatgpt.com/c/'+id;
 
-function harness({stickyDialog=false,addSecondAfterSend=false,attachFailure=false}={}){
+function harness({stickyDialog=false,addSecondAfterSend=false,attachFailure=false,focusFailure=false}={}){
   let state,hasSent=false,escapes=0,sends=0,attached=0,detached=0;
   const handlers={};
   const tab={id:23,url:chatUrl};
@@ -36,11 +36,11 @@ function harness({stickyDialog=false,addSecondAfterSend=false,attachFailure=fals
     scripting:{
       executeScript:async({target,func})=>{
         assert.equal(target.tabId,23);
-        if(func.toString().includes('editor.focus()'))return [{result:'FOCUSED'}];
+        if(func.toString().includes('editor.focus()'))return [{result:focusFailure?'FOCUS_FAILED':'FOCUSED'}];
         const dialogVisible=stickyDialog;
         return [{result:{url:chatUrl,dialogVisible,dialogText:dialogVisible?"What's new in ChatGPT":'',
           signedOut:false,rateLimit:false,composerVisible:true,draft:'',
-          userCount:hasSent?2:1,assistantCount:hasSent?2:1,
+          userCount:hasSent?2:1,assistantCount:hasSent?2:1,lastUserExactContinue:hasSent,
           lastAssistantSignature:hasSent?'50:33001':'20:10001',
           busy:false,stopVisible:false}}];
       }
@@ -78,7 +78,7 @@ test('another ChatGPT tab appearing during generation halts without retry', {tim
   const s=await until(h,x=>x.phase==='needs_review',9000);
   assert.equal(s.reason,'CHATGPT_TAB_COUNT_CHANGED');
   assert.equal(h.metrics().sends,1);
-  assert.equal(s.attempt.status,'in_flight'); // Unknown result must not be retried blindly.
+  assert.equal(s.attempt.status,'maybe_sent'); // Unknown result must not be retried blindly.
   // A newly selected queue/account cannot discard a maybe-sent message.
   const reset=await send(h,{type:'IMPORT_QUEUE',raw:[{id,title:'Same chat'}]});
   assert.equal(reset.ok,false);
@@ -106,4 +106,17 @@ test('debugger attach refusal cleans up live marker and allows safe pre-send rec
   assert.equal((await send(h,{type:'STATUS'})).state.phase,'paused');
   assert.equal(h.metrics().attached,1);
   assert.equal(h.metrics().detached,0);
+});
+
+test('pre-send focus failure preserves no-send evidence and permits safe acknowledgement',{timeout:8000},async()=>{
+  const h=harness({focusFailure:true});globalThis.chrome=h.chrome;
+  await import('../background.js?presend=' + Date.now());
+  assert.equal((await send(h,{type:'SET_ACCOUNT',account:'primary'})).ok,true);
+  assert.equal((await send(h,{type:'CONTINUE_CURRENT'})).ok,true);
+  const state=await until(h,x=>x.phase==='needs_review',6000);
+  assert.equal(state.reason,'FOCUS_FAILED');
+  assert.equal(state.attempt,null,'no keyboard side effect was attempted');
+  assert.equal(h.metrics().sends,0);
+  assert.equal((await send(h,{type:'ACK_PRE_SEND'})).ok,true);
+  assert.equal((await send(h,{type:'STATUS'})).state.phase,'paused');
 });
