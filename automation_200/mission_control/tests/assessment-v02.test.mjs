@@ -72,3 +72,30 @@ test("development candidate has no data capture or account/network capabilities"
   assert.match(sheet, /attribution/);
   assert.match(review, /50%/);
 });
+
+
+test("candidate forms avoid verbatim question reuse and obvious token clones", () => {
+  // A lexical smoke check only. It does not prove psychometric parallelism,
+  // independent constructs, matched difficulty, or real transfer.
+  const stop = new Set("a an the and or this that is are as it its by to for with of in on from one every these those has have was were be after before alone than supports against claimed claim at no not so same more then can enough".split(" "));
+  const terms = value => new Set(value.toLowerCase().replace(/[^a-z0-9 ]/g," ")
+    .split(/\\s+/).filter(token => token.length > 2 && !stop.has(token)));
+  const overlap = (a,b) => {
+    const A=terms(a),B=terms(b);
+    const intersection=[...A].filter(word => B.has(word)).length;
+    return intersection/(A.size+B.size-intersection);
+  };
+  for(const topic of MISSIONS.map(x=>x.id)){
+    const items=key.items.filter(x=>x.topic===topic);
+    for(let i=0;i<items.length;i++)for(let j=i+1;j<items.length;j++){
+      assert.notEqual(items[i].statement,items[j].statement, "No verbatim cross-wave repeats");
+      assert.ok(overlap(items[i].statement,items[j].statement) < 0.4,
+        "Manual wording review warranted for "+items[i].id+" vs "+items[j].id);
+    }
+  }
+  for(const item of key.items) {
+    for(const earlier of original.items) {
+      assert.notEqual(item.statement,earlier.question,"Candidate must not silently copy earlier question");
+    }
+  }
+});
