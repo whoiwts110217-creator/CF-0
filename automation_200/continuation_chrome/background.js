@@ -179,10 +179,12 @@ async function execute({mode,maxChats=1}){
   const q=mode==='current'?[{id:chatId(tab.url)}]:s.queue;
   if(!q.length||q.some(x=>!x?.id))throw Error('NO_CONVERSATION_SELECTED');
   if(!Number.isSafeInteger(maxChats)||maxChats<1||maxChats>100)throw Error('INVALID_CHAT_LIMIT');
-  await attachOneTab();
   const toDo=(mode==='current'?q:q.filter(x=>!s.completed.includes(x.id))).slice(0,maxChats);
   let outcome='completed';
   try{
+    // Attach can fail (permission revoked, tab closed, Chrome debugger conflict).
+    // Cleanup MUST still run, or the dead "live" marker blocks every future run.
+    await attachOneTab();
     for(const c of toDo){
       ensureActive();
       const count=(await tabsSnapshot());
