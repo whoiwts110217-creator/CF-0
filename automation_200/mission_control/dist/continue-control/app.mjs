@@ -75,7 +75,8 @@ el("import-file").addEventListener("change", async event => {
       queue = importConversationIndex(data.queue).map(item => {
         const old = data.queue.find(q => q.id === item.id);
         return {...item, selected:old.selected !== false,
-          status:["queued","unknown","completed","reviewed_manual"].includes(old.status) ? old.status : "queued"};
+          status:["queued","unknown","completed","reviewed_manual"].includes(old.status) ? old.status : "queued",
+          completedPass:Number.isSafeInteger(old.completedPass) && old.completedPass >= 0 ? old.completedPass : 0};
       });
       if (["primary","secondary"].includes(data.account)) el("account").value = data.account;
       events = Array.isArray(data.events) ? data.events.slice(-1000) : [];
