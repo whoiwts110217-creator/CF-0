@@ -77,3 +77,12 @@ The existing [Mission Control learning lab](https://whoiwts110217-creator.github
 
 [Reproducible Chromium browser check](../automation_200/mission_control/tests/browser_smoke.mjs) at **320, 360, 390, and 430 CSS px** checks no document or lab overflow, touch target dimensions, source-content parity, and keyboard transitions. [Strict CI run 42670072384](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42670072384) passed. Earlier failure/fix chronology and rollback references are in [public continuity](CONTINUITY.md#november-9--brainrot--brainpower-v04-narrow-phone-hardening). Headless Chromium phone-width emulation does **not** verify an actual iPhone Safari or VoiceOver run, nor study outcomes. No activity collection, mode randomization or real-world project achievements were added.
 
+
+## v0.5 — reading size and system contrast (Nov 9)
+
+The optional [Mission Control lab](https://whoiwts110217-creator.github.io/CF-0/mission-control/#learning-lab) now has a **Larger lesson text** checkbox. It adjusts visible reading size locally while preserving the identical source questions, answer keys, explanations and progress in Plain and Playful modes. It does not store a setting or collect responses. CSS responds to system increased-contrast and forced-colors preferences.
+
+The [read-only hosted browser verification](https://agent.tinyfish.ai/runs/072a04d9-a7a5-4d1f-90b3-c7f0794e5c4f) found the checkbox operational with the original first claim and answer intact, the public workflow source count correctly rendered as 21 (5 scheduled, 16 event/manual), and the master automation switch still disconnected. Published source was displayed as `e3c9c811` during that run. This proves browser observation, **not** iPhone Safari/VoiceOver or a causal learning benefit.
+
+An unrelated stale workflow-count assertion in several CI runs around this change expected 20 workflows after a 21st file existed. Its later source revision corrects that expectation. [Full history, failure status, source SHAs, and rollback](CONTINUITY.md#november-9--brainrot--brainpower-v05-readable-text-and-public-source-count-continuation). Confirm a fresh CI run at the current combined source before calling the whole suite green.
+
