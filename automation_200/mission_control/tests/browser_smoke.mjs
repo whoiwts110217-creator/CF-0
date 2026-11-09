@@ -88,6 +88,28 @@ function assertAccessible(nodes, role, name) {
     "Expected accessibility tree "+role+" named "+JSON.stringify(name)+", found: "+
     JSON.stringify(nodes.filter(node => node.name.includes(name.slice(0,12))).slice(0,10)));
 }
+
+async function describeQuizVisibility() {
+  return await evaluate(String.raw`(()=>Object.fromEntries(
+    ["gameful-source","gameful-next","gameful-field-brief"].map(id=>{
+      const el=document.getElementById(id),css=getComputedStyle(el);
+      return [id,{hidden:el.hidden,display:css.display,visibility:css.visibility,
+        href:el.getAttribute("href")}];
+    })
+  ))()`);
+}
+async function assertQuizVisibility(expected, step) {
+  const state=await describeQuizVisibility();
+  for(const [id, shouldShow] of Object.entries(expected)) {
+    const el=state[id];
+    assert.ok(el,"Missing quiz control "+id+" at "+step);
+    assert.equal(el.hidden,!shouldShow,step+": hidden attribute for "+id);
+    assert.equal(el.display!=="none"&&el.visibility!=="hidden",shouldShow,
+      step+": computed style must "+(shouldShow?"show ":"hide ")+id+"; "+JSON.stringify(el));
+  }
+  return state;
+}
+
 async function waitFor(test, label) {
   for (let i = 0; i < 80; i++) {
     if (await evaluate(test)) return;
@@ -145,6 +167,9 @@ try {
   assert.equal(open.header, "Checking execution evidence");
   assert.equal(open.focus, "gameful-title");
   assert.equal(open.locked, true);
+  console.log("Quiz initial visibility:",JSON.stringify(await assertQuizVisibility({
+    "gameful-source":false,"gameful-next":false,"gameful-field-brief":false
+  },"unanswered question")));
   const openedAx = await accessibilityNodes();
   assertAccessible(openedAx, "heading", "Checking execution evidence");
   assertAccessible(openedAx, "button", "TRUE");
@@ -166,6 +191,9 @@ try {
   assert.match(grade.explanation, /public command round-trip/);
   assert.ok(grade.source.endsWith("/docs/PROJECT_STATUS.md"));
   assert.equal(grade.nextHidden, false);
+  await assertQuizVisibility({
+    "gameful-source":true,"gameful-next":true,"gameful-field-brief":false
+  },"first answer revealed");
   const gradedAx = await accessibilityNodes();
   assert.ok(gradedAx.some(node => node.name.includes("public command round-trip")),
     "Evidence explanation must remain in the accessibility tree after grading");
@@ -183,6 +211,9 @@ try {
   assert.equal(remix.focus, "gameful-title");
   assert.match(remix.heading, /second example/);
   assert.match(remix.claim, /stronger evidence/);
+  await assertQuizVisibility({
+    "gameful-source":false,"gameful-next":false,"gameful-field-brief":false
+  },"new transfer question");
 
 
   // A passing mission must lead to a proposed, evidence-gated REAL task only
@@ -232,6 +263,9 @@ try {
   assert.equal(playful.claim, open.claim);
   assert.equal(playful.explanation, grade.explanation);
   assert.equal(playful.focus, "gameful-explanation");
+  await assertQuizVisibility({
+    "gameful-source":true,"gameful-next":true,"gameful-field-brief":false
+  },"playful answer revealed");
 
   // Large-text readability preference: changing size must preserve source facts.
   await evaluate("(()=>{const box=document.getElementById('gameful-large-text');box.checked=true;box.dispatchEvent(new Event('change',{bubbles:true}))})()");
