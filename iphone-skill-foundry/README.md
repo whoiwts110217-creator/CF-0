@@ -13,3 +13,14 @@
 **Privacy:** no secrets or personal accounts stored on GitHub. User-entered private draft text remains in that browser's localStorage unless explicitly exported/shared. Don't enter confidential material on shared devices.
 
 **Rollback:** revert the isolated `iphone-skill-foundry/` addition and the single deployment copy step; no CF-200 registry progress is credited.
+
+## iPhone ZIP/File export recovery (source-stage hardening)
+
+1. For a ZIP, tap **Share / Files**, choose **Save to Files** when iOS supports file sharing, and confirm its location in Files. A returned share action does not prove the file was saved.
+2. If the Share Sheet is unavailable, the app **requests a browser download**. Check Safari's Downloads indicator and the Files app's Downloads folder. A download request is not a verified completed file.
+3. If that fails, choose **Download selected file**, or use **Copy file** to preserve the currently selected SKILL.md / EVALS.json / prompt text. **Export editable project** backs up the editable form as JSON. Download errors are shown next to the controls.
+4. On cancellation, nothing is silently downloaded; retry deliberately. Drafts stored in the current browser do not sync to other accounts or phones.
+
+**Verification:** new zero-dependency Node simulated-browser interaction tests cover ZIP structure, blocked download, supported/unsupported/cancelled/failed share, selected file, and editable-project fallback. Existing Python package checks remain. Physical iPhone and installed-home-screen flows still require device-level confirmation.
+
+**Continuity/permissions:** this narrow UI export improvement relates to CF-SKILL-FOUNDRY-001, UCC-001, and [CF0-SKILL-EVOL-001](../skills/cf0-skill-evolution/README.md) (proposed in draft PR #49). No remote API, new SDK, HP access, account control, financial action, background worker or automatic skill installation was added. Roll back by reverting the scoped export patch after review; preserve all existing draft data and functionality.
