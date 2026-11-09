@@ -37,3 +37,15 @@ This is **source code**, not an installed extension or a tested signed-in Chrome
 `node --test tests/*.test.mjs`
 
 These are pure source-level checks; passing does not establish functioning Chrome on the owner's machine. The public project master controller may still show "DISCONNECTED" if the owner-local extension is not installed or not available in the browser displaying it.
+
+## Interruption recovery / checkpoint repair (November 9 hardening)
+
+- The worker rechecks **exactly one** ChatGPT tab on **every reply-poll iteration**, rather than only at the start of a conversation. A second ChatGPT tab, closed target, unexpected navigation, sign-in screen or unknown modal stops further sends.
+- Recognized informational dialogs are dismissed with the Escape **keyboard** key (at most two attempts). The worker must **rescan the DOM and confirm the dialog has disappeared before continuing**; a persistent dialog is a blocker, never permission to type behind it.
+- The extension now blocks **queue reimports and account switches while a potentially sent `continue` needs review**. These actions cannot erase an uncertain attempt. The completion list is deduplicated.
+- If attachment failed before any chat send was recorded, the popup offers **Clear pre-send blocker** after the owner checks the tab. This only unblocks local state; it does not automatically start a run or approve unfamiliar prompts. If the attempt is uncertain, the popup instead requires the owner to inspect the actual chat and choose `NOT_SENT` or `COMPLETED`.
+- A denied Chrome debugger attach releases internal runner state. The existing Chrome session stays open. Closing or reloading the extension while a send is in flight still requires review; this does not claim uninterrupted autonomy.
+
+**Already installed?** After updating this unpacked extension folder, open `chrome://extensions` and use its **Reload** control. Private checkpoints should be backed up before moving/deleting the folder. Stop the runner before reloading; unexpected reload during a send deliberately leaves an uncertain outcome for review.
+
+**Operational limit:** These safeguards are test-covered source behavior. They cannot detect arbitrary **Windows CMD/UAC** popups or verify the owner's real Chrome account; Chrome prompts outside the page and unrecognized dialogs may require human action. The live signed-in one-chat smoke test remains the acceptance gate. Don't interpret a CI green check as that live acceptance.
