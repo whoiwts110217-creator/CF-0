@@ -181,3 +181,33 @@ footer { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 6p
 #tool-power table { width: 100%; }
 #tool-power td { vertical-align: top; }
 #restriction-summary { margin: 4px 0 10px; }
+
+
+/* AUTO-08: original dark response-gear visual language, with disciplined ice-blue accents. */
+body {
+  background:
+    radial-gradient(ellipse 710px 390px at 90% -4%, #215b7352, transparent),
+    radial-gradient(ellipse 660px 400px at -15% 60%, #0e344658, transparent),
+    linear-gradient(155deg, #08131e, #111b29 58%, #080f18);
+}
+.continuity-promo {
+  display:flex;align-items:center;justify-content:space-between;gap:20px;
+  margin:19px 0 16px;position:relative;overflow:hidden;
+  border-color:#3e6075;
+  background:
+    linear-gradient(122deg,transparent 75%,#80dbef14 75% 77%,transparent 77%),
+    linear-gradient(140deg,#10283a,#121c2c);
+}
+.continuity-promo::before {
+  content:"";position:absolute;pointer-events:none;inset:auto 0 0;
+  height:2px;background:linear-gradient(90deg,transparent,#a4efff,transparent);
+  box-shadow:0 -4px 20px #7edfff50;
+}
+.continuity-promo .eyebrow {color:#9de9fa}
+.continuity-promo .aside-text {max-width:760px;margin-bottom:0}
+.continuity-promo .button {background:#a7edff;color:#091c26;flex-shrink:0}
+.continuity-promo .button:hover {background:#d0f7ff;color:#081c26}
+@media (max-width:760px) {
+  .continuity-promo {display:block}
+  .continuity-promo .button {margin-top:16px}
+}
