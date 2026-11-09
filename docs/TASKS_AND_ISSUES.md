@@ -32,7 +32,6 @@ Owner's order remains **P0 Automation → P1 Priority/continuity → P2 Finances
 
 | Category | Task | Plain-language purpose | Status |
 |---|---|---|---|
-| **P1 — Priorities** | **CF-120** | Full 200-item read-only registry viewer | **Source verified** in [Windows CI 42648139693](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42648139693); no independent HP permission implied |
 | **P1 — Priorities** | **CF-141** | Publish the source-backed master project index | Planned; source-only candidate |
 | **P2 — Finances** | **CF-122** | Publish a verified financial checkpoint only if evidence exists | Planned; evidence-dependent |
 | **P3 — Research** | **CF-161** | Preserve guess → hypothesis → evidence → proof | Planned; source-only candidate |
