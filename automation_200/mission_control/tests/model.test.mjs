@@ -1,7 +1,7 @@
 import assert from "node:assert/strict";
 import { createHash } from "node:crypto";
 import { test } from "node:test";
-import { dashboardModel, filterTasks, GITHUB, HEALTH, loadLive, pingPaths, REGISTRY, registryModel, STATE, trackerModel } from "../dist/model.mjs";
+import { dashboardModel, filterTasks, GITHUB, HEALTH, loadLive, pingPaths, REGISTRY, registryModel, STATE, CAPABILITY_CONTRACT, trackerModel } from "../dist/model.mjs";
 
 const commit = "a".repeat(40);
 const id = "9b4a1726-f1c7-4efd-bcea-dba621ef87b0";
@@ -95,7 +95,8 @@ test("keeps registry progress when the dated checkpoint summary drifts", async (
 
 test("fetches evidence at one immutable commit and separates 404 from unavailable", async () => {
   const paths = pingPaths(state);
-  const documents = new Map([[REGISTRY, fixture], [STATE, state], [paths.inbox, request], [paths.receipt, receipt]]);
+  const contract = { schema: "cf0.owner_capability_contract.v1", capabilities: [{ id: "public_relay_ping", status: "active_source" }] };
+  const documents = new Map([[REGISTRY, fixture], [STATE, state], [CAPABILITY_CONTRACT, contract], [paths.inbox, request], [paths.receipt, receipt]]);
   const requested = [];
   const reply = (body, status = 200) => new Response(JSON.stringify(body), { status });
   const github = async (url, options) => {
@@ -110,7 +111,8 @@ test("fetches evidence at one immutable commit and separates 404 from unavailabl
   assert.equal(model.commit, commit);
   assert.equal(model.health, "not_published");
   assert.equal(model.ping, "matched");
-  assert.equal(requested.length, 6);
+  assert.equal(model.contract?.capabilities?.[0]?.id, "public_relay_ping");
+  assert.equal(requested.length, 7);
   assert.ok(requested.slice(1).every(url => url.includes("/" + commit + "/")));
   const blocked = (url, options) => url.endsWith(HEALTH) ? reply(null, 503) : github(url, options);
   assert.equal((await loadLive(blocked)).health, "unavailable");
