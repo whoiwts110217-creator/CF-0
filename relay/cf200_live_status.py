@@ -5,7 +5,7 @@ import queue
 import threading
 import tkinter as tk
 import urllib.request
-from datetime import datetime
+from datetime import datetime, timezone
 from tkinter.scrolledtext import ScrolledText
 
 if __package__:
@@ -59,6 +59,15 @@ def health_summary(report):
             or not isinstance(report["collected_utc"], str)
             or report["error"] not in (None, "malformed_receipt", "state_unavailable")):
         return "HP health: invalid public fields (scheduler origin UNVERIFIED)"
+    try:
+        stamp = datetime.fromisoformat(report["collected_utc"].replace("Z", "+00:00"))
+        if stamp.utcoffset() != timezone.utc.utcoffset(stamp):
+            raise ValueError("non-UTC heartbeat")
+        if (total > 0 and report["last_receipt_status"] is None
+                or total == 0 and report["last_receipt_status"] is not None):
+            raise ValueError("inconsistent last receipt")
+    except (ValueError, TypeError, OverflowError):
+        return "HP health: invalid public timestamp/status (scheduler origin UNVERIFIED)"
     return ("HP public heartbeat: " + report["collected_utc"][:48]
             + "; receipts=" + str(total) + "; pings=" + str(pings)
             + "; last=" + str(report["last_receipt_status"])
