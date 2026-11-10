@@ -12,7 +12,7 @@ Initial session retrieved these actual Git blobs: memory 9c15c103015699a9b166bf8
 - [Existing action rail](../link-vault/owner-actions.js) and [22 existing action records](../link-vault/owner-actions.json): source links, owner search, project IDs, dated snapshot and local-only manifest import.
 - [Existing Link Vault](../link-vault/index.html), [v4 PWA](../link-vault/sw.js), [Website workflow](../.github/workflows/publish-website.yml): ordered JS imports and asset staging, preserving existing links/backup.
 - [Mission Control](../automation_200/mission_control/dist/index.html) reciprocal navigation; [public context graph](PUBLIC_CONTEXT_GRAPH.json) includes CF-LINK-VAULT-001 and CF-SPIDER-001.
-- [Node tests](../link-vault/tests/spider-core.test.mjs), [Python tests](../link-vault/tests/test_owner_actions.py), [Spider source acceptance CI](../.github/workflows/spider-sphere-ci.yml).
+- [Node tests](../link-vault/tests/spider-core.test.mjs), [Python tests](../link-vault/tests/test_owner_actions.py), [existing Mission Control source CI](../.github/workflows/mission-control-access-tests.yml).
 
 **Observed during coding:** 9 source-level V8 deterministic assertions passed for duplicate and link rules, plus 3 deadline/stale checks. Do not treat these as complete CI/Pages acceptance. Inspect actual [PR checks](https://github.com/whoiwts110217-creator/CF-0/pull/113/checks) and [Pages runs](https://github.com/whoiwts110217-creator/CF-0/actions/workflows/publish-website.yml).
 
