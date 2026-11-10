@@ -1,8 +1,69 @@
 # cf.attr.v1=Q0FWRU1BTiBGT0NVU3xLSUFSQSBMWU5OLVJPU0UuIFNNSVRI
 # Owner-operated, non-admin check for the existing public-safe HP relay.
 # This does NOT grant ChatGPT arbitrary Windows access or reveal credentials.
-param([switch]$RunPoll, [switch]$OfflineOnly)
+param([switch]$RunPoll, [switch]$OfflineOnly, [switch]$MaintenanceAudit)
 $ErrorActionPreference = 'Stop'
+# Dedicated maintenance path: no Python, network, relay work, task changes,
+# credential reads, local database access, or public writes.
+if ($MaintenanceAudit) {
+    if ($RunPoll -or $OfflineOnly) {
+        Write-Host 'MAINTENANCE_AUDIT=INVALID_COMBINED_MODE'
+        exit 2
+    }
+    Write-Host 'MAINTENANCE_AUDIT=READ_ONLY'
+    $allDisabled = $true
+    $observed = 0
+    $tasks = @(
+        @{Name='CavemanFocusCF0Relay'; Label='RELAY'},
+        @{Name='CavemanFocusCF0FastLane'; Label='FAST_LANE'},
+        @{Name='CavemanFocusSupervisor'; Label='SUPERVISOR'}
+    )
+    foreach ($entry in $tasks) {
+        $state = 'NOT_VISIBLE'
+        try {
+            $task = Get-ScheduledTask -TaskName $entry.Name -ErrorAction Stop
+            if ($null -ne $task) {
+                $state = [string]$task.State
+                $observed++
+            }
+        } catch {
+            # Missing/denied enumeration is not evidence a task is disabled.
+        }
+        if ($state -ne 'Disabled') { $allDisabled = $false }
+        Write-Host ('TASK_' + $entry.Label + '=' + $state.ToUpperInvariant())
+    }
+    if ($allDisabled -and $observed -eq 3) {
+        Write-Host 'NAMED_TASKS_PAUSED=OBSERVED'
+    } else {
+        Write-Host 'NAMED_TASKS_PAUSED=NOT_ESTABLISHED'
+    }
+    # Only size, no drive letter, user, path, process/command line or token.
+    $freeMB = $null
+    try {
+        $driveRoot = [System.IO.Path]::GetPathRoot($env:LOCALAPPDATA)
+        if ([string]::IsNullOrWhiteSpace($driveRoot)) { throw 'No local profile drive' }
+        $drive = [System.IO.DriveInfo]::new($driveRoot)
+        if ($drive.IsReady) {
+            $freeMB = [int64][math]::Floor($drive.AvailableFreeSpace / 1MB)
+        }
+    } catch {
+        # Unknown must remain unknown; never imply the drive is safe to install.
+    }
+    if ($null -eq $freeMB) {
+        Write-Host 'LOCAL_DISK_FREE_MB=UNAVAILABLE'
+        Write-Host 'LOCAL_DISK_BELOW_2GIB=UNKNOWN'
+    } else {
+        Write-Host ('LOCAL_DISK_FREE_MB=' + $freeMB)
+        Write-Host ('LOCAL_DISK_BELOW_2GIB=' + $(if ($freeMB -lt 2048) { 'YES' } else { 'NO' }))
+    }
+    Write-Host 'NOTE=2GIB_IS_A_CAUTION_THRESHOLD_NOT_A_DEPLOYMENT_REQUIREMENT'
+    Write-Host 'HP_ORIGIN_PROOF=NOT_ESTABLISHED'
+    Write-Host 'SCHEDULER_TO_RECEIPT_PROOF=NOT_ESTABLISHED'
+    Write-Host 'TASK_OR_PROCESS_CHANGES=NONE'
+    Write-Host 'NEXT=Keep maintenance pause until the owner separately approves restart after preserving recovery data.'
+    exit 0
+}
+
 $taskName = 'CavemanFocusCF0Relay'
 $repoRoot = Split-Path -Parent $PSScriptRoot
 $worker = Join-Path $PSScriptRoot 'cf_public_relay.py'
