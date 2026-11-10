@@ -33,7 +33,7 @@ class ProjectIndexCF141Tests(unittest.TestCase):
 
     def test_original_37_and_reconstructed_62_stay_distinct(self):
         with self.assertRaisesRegex(ValueError, "ORIGINAL_PROJECT_GAP_MISSING"):
-            check_index(source=SOURCE.replace("37 projects", "37 projects recovered"))
+            check_index(source=SOURCE.replace("remains unrecovered.", "is now fully recovered."))
         with self.assertRaisesRegex(ValueError, "RECONSTRUCTION_GAP_MISSING"):
             check_index(source=SOURCE.replace("62-entry reconstruction", "uncited inventory"))
 
