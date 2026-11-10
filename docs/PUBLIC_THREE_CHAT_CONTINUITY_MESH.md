@@ -17,6 +17,7 @@ The [public topic graph](PUBLIC_CONTEXT_GRAPH.json) gives twelve explicitly sour
 1. **Fetch current public `main` in this mandatory order:** [Master Operator](../automation_200/MASTER_OPERATOR_PROMPT.md) → [Master Continuity](../automation_200/MASTER_CONTINUITY_PROMPT.md) → [Work Prompt](../automation_200/WORK_COPY_PASTE_AUTOMATION_PROMPT.md). Read full content (chunk when needed) and record exact blob SHAs. Do not infer latest from an earlier chat.
 2. Read [UCC-001](UNIVERSAL_CONTINUITY_CONTRACT.md), **this mesh**, [Mission Board](../automation_200/MASTER_MISSION_BOARD.md), [public project index](PROJECTS.md), [prompt approval bin](../automation_200/PROMPT_CHANGE_BIN.md), [prompt change log](../automation_200/PROMPT_CHANGE_LOG.jsonl), and relevant [registry](../automation_200/registry.json), [events](../automation_200/events.jsonl), current public state, CI/HP and source artifacts. Do not treat a stale board heading as live status.
 3. State what is **read/verified**, what is **stale/unknown**, the newest applicable explicit owner correction available in this session, and which original/private sources were **not accessible**. Identify the current task, parent and related project IDs, dependency edges, priority, permissions, and last verified result.
+   **Topic retention:** The currently selected owner topic, or the last verified public-safe `active_topic_id` when starting cold, remains the anchor. Follow neighboring links to gather evidence but return to that anchor before proposing actions. An unqualified `continue` resumes the existing anchor; if no reliable anchor exists, report the gap rather than choose an attractive adjacent project.
 4. Do an authorized measurable task, not another speculative top-level plan. If blocked, choose the next safe P0 action or deadline-sensitive permitted P2 work; do not erase other workstreams.
 5. Before changing a shared file, fetch its newest SHA, compare the relevant neighboring nodes/links and latest changes, use the SHA-guarded write, read the result back, and preserve a rollback path. On write conflict, re-fetch/reconcile; never overwrite another chat's intervening changes.
 6. Publish a **public-safe**, source-linked handoff to the existing authoritative board/index/log where appropriate. Prefer a distinct append-only event or workstream-specific record over competing complete copies. If no substantive change occurred, say **NO VERIFIED CHANGE** instead of manufacturing activity.
@@ -50,7 +51,10 @@ mesh_contract=CF-MESH-001
 worker_label=<A|B|C|other; local label only, no private chat/account IDs>
 public_main_commit=<actual SHA, or unknown>
 prompts_read=<three current blob SHAs, with full/partial scope>
+active_topic_id=<the user's selected topic; recover from last verified handoff, never guess from adjacent projects>
 project_ids=<parent + related + dependencies>
+supporting_links=<bounded related nodes consulted, none is a topic switch>
+return_to_topic=<the specific unfinished next action for active_topic_id>
 owner_correction=<verified latest available direction; otherwise unknown>
 last_change=<path, commit, evidence class, or NO VERIFIED CHANGE>
 connections_checked=<IDs and any connection_gap>
