@@ -22,14 +22,6 @@
       "status_origin": "read_on_demand"
     },
     {
-      "id": "CF-LEGAL-001",
-      "area": "P1",
-      "title": "Research publication rights, chain of title and lawful lockout continuity",
-      "public_anchor": "docs/PROVENANCE.md",
-      "source_type": "public",
-      "status_origin": "read_on_demand"
-    },
-    {
       "id": "CF-MESH-001",
       "area": "P1",
       "title": "Public three-chat continuity spiderweb",
