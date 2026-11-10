@@ -3,7 +3,7 @@
   "owner": "Kiara Lynn Rose Smith",
   "project": "Caveman Focus",
   "target": 200,
-  "completed": 87,
+  "completed": 91,
   "checkpoint_every": 4,
   "status": "WORK_IN_PROGRESS",
   "note": "A planned item is not a completed task. Physical HP outcomes require owner-HP evidence.",
@@ -1820,8 +1820,8 @@
       "title": "Publish master project index",
       "priority": 4,
       "depends_on": [],
-      "status": "planned",
-      "evidence": null,
+      "status": "verified",
+      "evidence": "CF-141 grouped public project index docs/PROJECTS.md, explicit distinct operating/research/creative/business groups with links; source PR #81 merged commit 48e17a7bd07582ee4c2d4137caec2852918a0a23, passing full Windows CI https://github.com/whoiwts110217-creator/CF-0/actions/runs/42747755570 including test_cf141_public_master_index_covers_distinct_domains. Source-level only, not full original archive recovery.",
       "authority": "owner-reviewed",
       "physical_hp_required": false
     },
@@ -1833,8 +1833,8 @@
       "depends_on": [
         "CF-141"
       ],
-      "status": "planned",
-      "evidence": null,
+      "status": "verified",
+      "evidence": "Explicitly preserved 17 named rows, inconsistent 18-entry summary, unrecovered approximately-37 original project list and secondary 62-entry atlas in docs/PROJECTS.md, with no false recovery; test_cf142_unrecovered_original_gap_not_silently_closed passed. Source https://github.com/whoiwts110217-creator/CF-0/commit/48e17a7bd07582ee4c2d4137caec2852918a0a23; full passing Windows CI https://github.com/whoiwts110217-creator/CF-0/actions/runs/42747755570. This verifies only public documentation/source acceptance, not complete archives, HP operation, research proof or financial outcomes.",
       "authority": "owner-reviewed",
       "physical_hp_required": false
     },
@@ -1846,8 +1846,8 @@
       "depends_on": [
         "CF-142"
       ],
-      "status": "planned",
-      "evidence": null,
+      "status": "verified",
+      "evidence": "Published explicit source-grade provenance map in docs/PROJECTS.md distinguishing public source, owner-observed receipt, secondary reconstruction, unpublished primary originals and hypotheses; test_cf143_source_grades_have_specific_linked_examples passed. Source https://github.com/whoiwts110217-creator/CF-0/commit/48e17a7bd07582ee4c2d4137caec2852918a0a23; full passing Windows CI https://github.com/whoiwts110217-creator/CF-0/actions/runs/42747755570. This verifies only public documentation/source acceptance, not complete archives, HP operation, research proof or financial outcomes.",
       "authority": "owner-reviewed",
       "physical_hp_required": false
     },
@@ -2078,8 +2078,8 @@
       "title": "Preserve guess-hypothesis-evidence-proof rule",
       "priority": 4,
       "depends_on": [],
-      "status": "planned",
-      "evidence": null,
+      "status": "verified",
+      "evidence": "Public Caveman Focus rulebook and project index preserve guess → hypothesis → evidence → proof and uncertainty safeguards; test_cf161_guess_hypothesis_evidence_proof_preserved_without_overclaim passed. Source https://github.com/whoiwts110217-creator/CF-0/commit/48e17a7bd07582ee4c2d4137caec2852918a0a23; full passing Windows CI https://github.com/whoiwts110217-creator/CF-0/actions/runs/42747755570. This verifies only public documentation/source acceptance, not complete archives, HP operation, research proof or financial outcomes.",
       "authority": "owner-reviewed",
       "physical_hp_required": false
     },

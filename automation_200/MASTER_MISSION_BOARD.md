@@ -1,3 +1,8 @@
+## November 9, 2026 — CF-200 source acceptance 091
+
+- [PR #81](https://github.com/whoiwts110217-creator/CF-0/pull/81) merged public archive/method provenance with four named passing acceptance tests; [full Windows CI](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42747755570). The original registry accepts **CF-141** (index) at [checkpoint 088](checkpoints/checkpoint_088.json), then **CF-142** (historical 17/18/~37/62 gap), **CF-143** (explicit source grades) and **CF-161** (guess → hypothesis → evidence → proof). **91/200 verified source/documentation work orders, 109 planned**; [append-only event evidence](events.jsonl) and [current dashboard](../docs/TASKS_AND_ISSUES.md) agree. Not full private recovery, HP operation, income or mathematical proof.
+- Concurrent owner/human collaboration, Mission Control and financial handoffs below are preserved as independent dated records. Exact HP scheduled origin, AUTO-08 live authenticated control and verified funds remain separate gates. Re-fetch three canonical prompts from current public main on every work run; do not re-run manual Notepad as a substitute for a scheduled record. Parent CF-200 / UCC-001 / CF-MESH-001. Rollback by reviewed revert retaining event history.
+
 ## November 9, 2026 — P0 Mission Control deployed after 26th-workflow parity repair
 
 - **Actual P0 regression fixed:** Adding the read-only daily `cf0-free-browser-promotion.yml` workflow made the old Mission Control inventory **25 vs 26**, breaking [Pages run 42748905470](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42748905470). [PR #91](https://github.com/whoiwts110217-creator/CF-0/pull/91) merged as [`e450de7`](https://github.com/whoiwts110217-creator/CF-0/commit/e450de7e06f904857047dfa79f0fa48d1c344c47), restoring exact source parity: **26 workflows = 6 scheduled + 20 event/manual**. It marks the new business monitor as a public GET-only scheduled check, not a marketing poster, live ChatGPT controller, or research shutdown target.
@@ -844,7 +849,7 @@ ROGUE-03 was reproduced and accepted as a failure-mode test contribution. The sc
 **Control prompt:** [MASTER_OPERATOR_PROMPT.md](MASTER_OPERATOR_PROMPT.md)  
 **Mission control frontend:** [source and usage](mission_control/README.md)  
 **System of record:** [registry.json](registry.json) · [events.jsonl](events.jsonl) · [checkpoints/](checkpoints/)  
-**Current source registry:** **87/200 verified** as of November 9, 2026; [registry.json](registry.json) is authoritative.\
+**Current source registry:** **91/200 verified** as of November 9, 2026; [registry.json](registry.json) is authoritative.\
 **Last numbered checkpoint:** [084](checkpoints/checkpoint_084.json) (next numbered checkpoint 088).\
 **Public continuity handoff:** [docs/CONTINUITY.md](../docs/CONTINUITY.md) · [dated state](../docs/PUBLIC_CONTINUITY_STATE.json). Historical counts in the entries below remain snapshots, not live status.
 
