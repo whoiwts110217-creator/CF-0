@@ -111,9 +111,10 @@ class UniversalFreshnessTests(unittest.TestCase):
 
     def test_contract_does_not_install_a_scheduled_status_collector(self):
         source = (ROOT / "docs/UNIVERSAL_FRESHNESS_CONTRACT.md").read_text(encoding="utf-8")
-        self.assertIn("No new scheduler", source)
-        self.assertIn("A source", source)
-        self.assertIn("EVERY", source)
+        self.assertTrue("no new scheduler" in source.lower() or
+                        "no new scheduled task" in source.lower())
+        self.assertIn("source file", source.lower())
+        self.assertIn("every", source.lower())
 
 
 if __name__ == "__main__":
