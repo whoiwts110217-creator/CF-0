@@ -1,10 +1,11 @@
 # Caveman Focus — CF-0
 
-**[SUPPORT CAVEMAN FOCUS — voluntary donation appeal](https://caveman-focus-support.whoiwts110217.chatgpt.site)** — Optional support for independent work; contributions are not tax-deductible charitable donations, purchases, or investments. No verified receipts are claimed.
 
-**[FIRST DROP — Public landing page and founding Hall of Fame (any amount)](https://whoiwts110217-creator.github.io/CF-0/first-drop/)** · [Read and share the public invitation](docs/FIRST_DROP_CAMPAIGN_2026-11-09.md). Voluntary support only; recognition follows confirmed contribution and name consent. No investment or return is promised.
+**START WITH A WORKING TOOL:** [Free Clarity Card](https://whoiwts110217-creator.github.io/CF-0/clarity-card/) — no signup or payment; turn a question into a hypothesis, evidence check and next step. You can save or print the result.
 
-**[$5 CLARITY CHECK — one public README/webpage critique, request before payment](https://whoiwts110217-creator.github.io/CF-0/clarity-check/)** — A narrow manual pilot, separate from the existing $15 Clarity Brief and free tool. No accepted orders or sales claimed.
+**SMALL MANUAL SERVICES:** [$5 Clarity Check — one public project page](https://whoiwts110217-creator.github.io/CF-0/clarity-check/) · [$15 Clarity Brief — one broader public-safe question](https://whoiwts110217-creator.github.io/CF-0/clarity-brief/). Both are pilot **inquiries, not paid checkouts**. The current issue-based inquiry requires a GitHub account and is public; don't include private information. No customer, accepted order, paid delivery or sale is independently verified.
+
+**OPTIONAL SUPPORT:** [First Drop + founding supporters](https://whoiwts110217-creator.github.io/CF-0/first-drop/) · [original voluntary support page](https://caveman-focus-support.whoiwts110217.chatgpt.site). Donations are separate from service purchases, are not tax-deductible charitable gifts or investments, and do not promise financial returns. No verified supporter count is claimed.
 
 **[SHARE CAVEMAN FOCUS — public copy for builders, critics, and founding supporters](docs/SHARE_CAVEMAN_FOCUS_2026-11-09.md)** — Free Clarity Card first; optional, transparent funding; community-rule-aware drafts, not claims of external posting.
 
