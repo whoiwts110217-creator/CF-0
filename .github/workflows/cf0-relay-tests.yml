@@ -5,6 +5,7 @@ on:
       - 'relay/**'
       - '*CF0*.bat'
       - 'RUN_HP_TAKEOVER_CHECK.bat'
+      - 'CHECK_CF0_MAINTENANCE_READ_ONLY.bat'
       - 'HP_TAKEOVER_README.md'
       - 'automation_200/**'
       - 'continuity/**'
@@ -82,6 +83,26 @@ jobs:
         run: |
           & powershell.exe -NoProfile -ExecutionPolicy Bypass -File relay/hp_takeover_check.ps1 -OfflineOnly
           if ($LASTEXITCODE -ne 0) { throw 'Offline HP diagnostic failed' }
+      - name: Read-only HP maintenance audit must never resume tasks
+        shell: pwsh
+        run: |
+          $out = @(& powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File relay/hp_takeover_check.ps1 -MaintenanceAudit)
+          if ($LASTEXITCODE -ne 0) { throw 'Maintenance status audit failed' }
+          $joined = $out -join "`n"
+          foreach ($required in @(
+            'MAINTENANCE_AUDIT=READ_ONLY',
+            'TASK_RELAY=',
+            'TASK_FAST_LANE=',
+            'TASK_SUPERVISOR=',
+            'LOCAL_DISK_FREE_MB=',
+            'LOCAL_DISK_BELOW_2GIB=',
+            'HP_ORIGIN_PROOF=NOT_ESTABLISHED',
+            'SCHEDULER_TO_RECEIPT_PROOF=NOT_ESTABLISHED',
+            'TASK_OR_PROCESS_CHANGES=NONE'
+          )) {
+            if (-not $joined.Contains($required)) { throw ('Maintenance audit missing: ' + $required) }
+          }
+          $global:LASTEXITCODE = 0
       - name: External Windows read-only relay smoke test without GitHub CLI
         shell: pwsh
         run: |
