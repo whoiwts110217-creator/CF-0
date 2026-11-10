@@ -139,5 +139,28 @@
     "verified_sales_or_donations": "not_established_from_inspected_evidence",
     "full_original_cross_account_conversation_recovery": "incomplete",
     "owner_rights_or_machine_permissions_changed": false
+  },
+  "execution_game_plan": {
+    "owner_direction_date_et": "2026-11-09",
+    "canonical_path": "docs/EXECUTION_GAME_PLAN_2026-11-09.md",
+    "stage": "active_priorities_acceptance_pending",
+    "three_outcomes": {
+      "authenticated_watchdog_to_executor_consumption": "unverified",
+      "physical_hp_scheduled_invocation_to_receipt": "unverified_separate_gate",
+      "one_chat_auto08_continue_stop_resume": "unverified",
+      "first_verified_paid_delivery_or_grant_payment": "not_established_from_inspected_evidence"
+    },
+    "bridge_builders_application_deadline": "2026-11-13",
+    "bridge_builders_state": "eligibility_unresolved_not_submitted",
+    "existing_cf200_executor_prompt_focus_updated": true,
+    "existing_cf200_schedule_changed": false,
+    "new_automations_created": false,
+    "owner_only_gates": [
+      "accurate applicant eligibility_and_declarations",
+      "authorized_browser_account_selection",
+      "separate_owner_local_hp_opt_in_if_required"
+    ],
+    "controls": "read_only_planning_no_new_external_authority",
+    "next_review_checkpoint_et": "2026-11-16"
   }
 }
