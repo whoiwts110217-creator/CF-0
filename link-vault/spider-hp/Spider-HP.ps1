@@ -8,7 +8,7 @@ with Windows. Real HP behavior is NOT established by source-only tests.
 #>
 [CmdletBinding()]
 param(
- [ValidateSet('Preflight','Validate','Inspect','Run','Stop','ResetStop')]
+ [ValidateSet('Preflight','NativeProbe','Validate','Inspect','Run','Stop','ResetStop')]
  [string]$Mode = 'Preflight',
  [string]$PlanPath = '',
  [ValidateSet('notepad','calculator')]
@@ -266,6 +266,11 @@ try {
      Write-Output 'NETWORK_LISTENER=NONE'
      Write-Output 'HP_LOCAL_ACTIONS=NOT_STARTED'
      Write-Output ('STOP_PENDING='+[bool](Test-Path -LiteralPath $StopPath))
+   }
+   NativeProbe {
+     ReadyUIA
+     Write-Output 'NATIVE_UIA_ASSEMBLIES=LOADED'
+     Write-Output 'DESKTOP_ACTIONS=NONE'
    }
    Stop {
      if(-not (Test-Path -LiteralPath $StopRoot)){New-Item -ItemType Directory -Path $StopRoot -Force|Out-Null}
