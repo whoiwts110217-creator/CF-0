@@ -69,7 +69,7 @@ export function parsePrivateInventory(input) {
   // A timestamp makes an owner-selected snapshot auditable, but cannot authenticate its origin.
   const observedAt=input.observed_at;
   if (observedAt !== undefined && (typeof observedAt!=="string"
-      || !/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?(?:Z|[+-]\\d{2}:\\d{2})$/.test(observedAt)
+      || !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d+)?(?:Z|[+-]\d{2}:\d{2})$/.test(observedAt)
       || !Number.isFinite(Date.parse(observedAt)))) throw new Error("Invalid snapshot observed_at.");
   const seen=new Set();
   return input.automations.map((a,i)=>{
