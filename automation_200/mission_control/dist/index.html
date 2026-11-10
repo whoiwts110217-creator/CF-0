@@ -171,7 +171,21 @@
         <a class="tiny-link" href="https://github.com/whoiwts110217-creator/CF-0/tree/main/automation_200/continuation_keyboard">AUTO-08 keyboard source <span class="external-icon" aria-hidden="true"></span></a>
       </div>
       <p class="aside-text">One place for ChatGPT tasks, scheduled GitHub workflows, local Windows workers, and the one-tab continuation runner. <strong>This dashboard is currently a display and shutdown-planning surface, not an executor.</strong> A switch marked unavailable has no effect on any account or machine.</p>
-      <div class="control-master-bar">
+      <nav class="control-quick-nav" aria-label="Automation center: Now, Control, Evidence">
+        <a href="#control-now">Now — known and unknown</a>
+        <a href="#control-master">Control — disconnected</a>
+        <a href="#control-evidence">Evidence — source and limits</a>
+      </nav>
+      <div id="control-now" class="control-overview" aria-label="Current automation status">
+        <h3>Now</h3>
+        <p>Public workflow definitions and historical owner-local entries are known; actual live state across ChatGPT, Windows and AUTO-08 is not authenticated here. No global running count is asserted.</p>
+        <p><strong>Attention:</strong> master controls remain disconnected; HP scheduled origin and a real AUTO-08 one-chat completion remain unverified.</p>
+      </div>
+      <div id="control-evidence" class="control-overview" aria-label="Automation evidence boundaries">
+        <h3>Evidence</h3>
+        <p>Each automation row states its evidence origin. Source presence, owner-imported snapshots and passing CI do not establish a currently running or controllable task. See <a href="#evidence-title">HP evidence</a> and <a href="#sources">public sources</a>.</p>
+      </div>
+      <div id="control-master" class="control-master-bar">
         <div class="control-master-label">
           <strong>Master automation switch</strong>
           <span class="badge" data-tone="amber">DISCONNECTED</span>
