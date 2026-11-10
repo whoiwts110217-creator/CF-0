@@ -9,6 +9,8 @@
 
 **[SHARE CAVEMAN FOCUS — public copy for builders, critics, and founding supporters](docs/SHARE_CAVEMAN_FOCUS_2026-11-09.md)** — Free Clarity Card first; optional, transparent funding; community-rule-aware drafts, not claims of external posting.
 
+**[CURRENT PUBLIC STATUS — November 9 cross-project audit](docs/PROJECT_STATUS.md)** — 87/200 source-verified CF-200 work orders; five enabled account automations at the dated check; HP/one-tab AUTO-08 autonomy still unproven; grant, service, archive, iPhone and skill-install status clearly separated from completed outcomes. Only sanitized public-safe evidence is shown.
+
 **[START HERE — site, Mission Control, master prompts, HP commands, AI Tracker](docs/START_HERE.md)**
 
 **[PUBLIC TASKS & ISSUES](docs/TASKS_AND_ISSUES.md) — what we're doing, what's blocked, and what needs your decision**
@@ -94,4 +96,4 @@ The existing HP relay offers [local, reversible opt-in](relay/HEALTH_ONE_CLICK.m
 
 **Cross-project continuity:** The [private local continuity store](continuity/README.md) now has an offline [CF-200 work-order bridge](continuity/workorder_bridge.py) that can link source-verified task IDs to existing project records only after explicit review. Code/tests are public; private data, owner approval, live HP deployment and automatic cross-account source recovery are separate unfinished milestones.
 
-**Continuity archival recovery v2 (Nov 6):** A private, restored-and-hash-audited continuity backup now preserves 18 source artifacts, 134 project-source links, 62 still-unverified reconstructed projects, and 91 events. [Public-safe evidence boundaries and exact-file CI test](docs/CONTINUITY.md). No original full conversation exports, deployed HP sync, verified revenue or lost original ~37-project list have been recovered by this milestone. The private backup is **not** in GitHub.
+**Historical continuity archival recovery v2 (Nov 6; see current v8 aggregate in the public status):** A private, restored-and-hash-audited continuity backup now preserves 18 source artifacts, 134 project-source links, 62 still-unverified reconstructed projects, and 91 events. [Public-safe evidence boundaries and exact-file CI test](docs/CONTINUITY.md). No original full conversation exports, deployed HP sync, verified revenue or lost original ~37-project list have been recovered by this milestone. The private backup is **not** in GitHub.
