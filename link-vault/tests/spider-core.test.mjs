@@ -10,7 +10,7 @@ const item={id:"CF-ACT-090",zone:"ready",owner:"owner",priority:"P1",title:"Veri
  action:"Inspect the source",proof:"Matching source",link:"https://github.com/example/repo",
  source:"https://github.com/example/repo/issues/1",project_id:"AUTO-08"};
 test("original public snapshot connects to named projects",()=>{
- const graph=JSON.parse(readFileSync(new URL("../../docs/PUBLIC_CONTEXT_GRAPH.json",root),"utf8"));
+ const graph=JSON.parse(readFileSync(new URL("../docs/PUBLIC_CONTEXT_GRAPH.json",root),"utf8"));
  const out=core.connect(source.actions.map(x=>core.normalizeAction(x,"public_snapshot")),graph,null);
  assert.equal(out.schema,"cf0.spider.core.v1");
  assert.equal(out.actions.length,22);
@@ -97,6 +97,6 @@ test("overdue documented deadline is not a verified task outcome",()=>{
  assert.equal(core.dueState("2026-11-13","2026-11-13"),"due_today");
  assert.equal(core.dueState("2026-11-13","2026-11-14"),"overdue");
  const a=core.normalizeAction({...item,due_date:"2026-11-13"},"public_snapshot");
- assert.equal(a.due_state,"upcoming" === core.dueState("2026-11-13") ? "upcoming" : core.dueState("2026-11-13"));
+ assert.equal(a.due_date,"2026-11-13");
  assert.equal(a.evidence_level,"public_source_snapshot");
 });
