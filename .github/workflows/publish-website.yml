@@ -87,6 +87,11 @@ jobs:
           python -m unittest discover -s concepts/dreamkiller/iphone-emu/tests -p 'test_*.py' -v
           node --check concepts/dreamkiller/iphone-emu/site/app.js
           node --check concepts/dreamkiller/iphone-emu/site/service-worker.js
+      - name: Validate updateable iPhone Link Vault
+        run: |
+          python -m unittest discover -s link-vault/tests -p "test_*.py" -v
+          node --check link-vault/enhance.js
+          node --check link-vault/sw.js
       # The ROM pixel-output compatibility test is preserved as a separate,
       # independently failing Dreamkiller Browser ROM Compatibility workflow.
       # A prototype game's blank frame must not prevent the CF-0 public status,
@@ -118,7 +123,7 @@ jobs:
           mkdir -p _site/skill-foundry
           cp iphone-skill-foundry/index.html iphone-skill-foundry/manifest.webmanifest iphone-skill-foundry/icon.svg iphone-skill-foundry/apple-touch-icon.png iphone-skill-foundry/sw.js _site/skill-foundry/
           mkdir -p _site/link-vault
-          cp link-vault/index.html link-vault/manifest.webmanifest link-vault/icon.svg link-vault/sw.js _site/link-vault/
+          cp link-vault/index.html link-vault/enhance.js link-vault/links.json link-vault/manifest.webmanifest link-vault/icon.svg link-vault/sw.js _site/link-vault/
           mkdir -p _site/dreamkiller
           cp -R concepts/dreamkiller/iphone-emu/site/. _site/dreamkiller/
           cp concepts/dreamkiller/rom_v0_2/dreamkiller_road_v0_2.gb _site/dreamkiller/road-v02.gb
@@ -156,6 +161,8 @@ jobs:
           assert Path("_site/link-vault/index.html").is_file(), "iPhone Link Vault missing"
           assert Path("_site/link-vault/manifest.webmanifest").is_file(), "Link Vault PWA manifest missing"
           assert Path("_site/link-vault/sw.js").is_file(), "Link Vault offline worker missing"
+          assert Path("_site/link-vault/links.json").is_file(), "Refreshable link catalog missing"
+          assert Path("_site/link-vault/enhance.js").is_file(), "Link Vault refresh logic missing"
           assert Path("_site/dreamkiller/GameBoy.min.js").stat().st_size > 500000
           assert Path("_site/dreamkiller/road-test.gb").stat().st_size == 32768
           assert Path("_site/dreamkiller/road-v01.gb").stat().st_size == 32768

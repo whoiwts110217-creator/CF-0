@@ -4,6 +4,8 @@
 
 This gateway's **`main` URL moves with the repository**. It is an up-to-date *route* to evidence, **not** proof every statement or external provider was just rechecked. For version/age decisions use [CF-FRESH-001](UNIVERSAL_FRESHNESS_CONTRACT.md), its [29-topic public-safe catalog](FRESHNESS_CATALOG.json) and the [read-only universal source resolver](../continuity/public_freshness.py). **Last reviewed for initial routing: November 10, 2026.** Always consult actual source timestamps, provider evidence and Git commits.
 
+**Lost among project names?** Open the [iPhone Link Vault / Jungle Compass](https://whoiwts110217-creator.github.io/CF-0/link-vault/) to choose by goal, search current public routes, and tap **Refresh public links**. The published [catalog](../link-vault/links.json) has a revision/date and offline fallback; catalog refresh checks link-list bytes, **not** external live account or payment status.
+
 ## Live/current vs old/historical
 
 | If you opened… | Don't rely on its old count or claim | Open the newest available evidence |

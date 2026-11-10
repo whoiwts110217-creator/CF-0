@@ -1,5 +1,7 @@
 # Caveman Focus — The Jungle Map
 
+**Can't find your way?** The [iPhone Link Vault / Jungle Compass](https://whoiwts110217-creator.github.io/CF-0/link-vault/) is a searchable Home Screen doorway to this dated map, the moving [Current Source Gateway](CURRENT_SOURCE_GATEWAY.md), Mission Control, the master bootstrap, funding and creative work. Tap **Refresh public links** for a newer catalog; a source update is not external-provider verification.
+
 
 > **DATED SNAPSHOT — NOT LIVE.** This map was compiled November 10, 2026 from a particular public source revision. **If you're reading it later, its counts, deadlines, and statuses may be old.** Open the [**Current Source Gateway**](CURRENT_SOURCE_GATEWAY.md) (moving `main` link) or [Mission Control](https://whoiwts110217-creator.github.io/CF-0/mission-control/) for a fresh GitHub registry read. Every project, idea, game, experiment, grant, archived source and task follows [CF-FRESH-001](UNIVERSAL_FRESHNESS_CONTRACT.md). Source-link freshness does not prove HP/account/payment activity.
 
