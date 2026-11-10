@@ -5,6 +5,7 @@ on:
     paths:
       - 'index.html'
       - 'first-drop/**'
+      - 'updates/**'
       - 'clarity-card/**'
       - 'clarity-brief/**'
       - 'clarity-check/**'
@@ -106,6 +107,8 @@ jobs:
           mkdir -p _site
           cp index.html _site/index.html
           cp sitemap.xml _site/sitemap.xml
+          mkdir -p _site/updates
+          cp updates/index.html updates/feed.xml _site/updates/
           mkdir -p _site/first-drop
           cp first-drop/index.html _site/first-drop/index.html
           mkdir -p _site/clarity-card
@@ -139,6 +142,13 @@ jobs:
           assert 'id="language-picker"' in home and 'id="current-language">EN' in home
           assert 'src="./i18n/home.mjs"' in home
           assert Path("_site/sitemap.xml").is_file(), "first-drop sitemap not staged"
+          assert Path("_site/updates/index.html").is_file(), "Owned updates page not staged"
+          assert Path("_site/updates/feed.xml").is_file(), "Owned RSS feed not staged"
+          from xml.etree import ElementTree as ET
+          feed = ET.parse("_site/updates/feed.xml").getroot()
+          assert feed.tag == "rss"
+          assert len(feed.findall("./channel/item")) >= 3, "Insufficient public release notes"
+          assert 'type="application/rss+xml"' in home, "Homepage RSS autodiscovery missing"
           assert Path("_site/clarity-card/index.html").is_file(), "Clarity Card not staged"
           assert Path("_site/clarity-brief/index.html").is_file(), "Clarity Brief offer not staged"
           assert Path("_site/clarity-check/index.html").is_file(), "$5 Clarity Check offer not staged"
