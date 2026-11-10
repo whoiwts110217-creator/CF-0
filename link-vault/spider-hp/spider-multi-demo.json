@@ -1,0 +1,4 @@
+{
+  "schema": "cf0.spider.hp_queue.v1",
+  "plans": ["notepad-inspect.json", "calculator-inspect.json"]
+}
