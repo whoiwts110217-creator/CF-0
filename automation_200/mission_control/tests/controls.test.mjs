@@ -4,7 +4,7 @@ import {readFileSync,readdirSync} from "node:fs";
 import {CHATGPT_PLACEHOLDER_COUNT,SOURCES,records,parsePrivateInventory,inventoryStatus,shutdownPlan} from "../dist/controls.mjs";
 
 test("every known scheduled channel is represented without exposing private task names",()=>{
-  assert.equal(CHATGPT_PLACEHOLDER_COUNT,10);
+  assert.equal(CHATGPT_PLACEHOLDER_COUNT,11);
   const workflowDir=new URL("../../../.github/workflows/",import.meta.url);
   const existing=readdirSync(workflowDir).filter(x=>x.endsWith(".yml")||x.endsWith(".yaml"));
   assert.equal(SOURCES.github.length,existing.length,"Every real workflow file must have a source-only inventory row");
@@ -22,7 +22,7 @@ test("every known scheduled channel is represented without exposing private task
   assert.equal(SOURCES.continuation.length,1);
   const all=records();
   assert.equal(all.length,CHATGPT_PLACEHOLDER_COUNT+SOURCES.github.length+SOURCES.windows.length+SOURCES.continuation.length);
-  assert.equal(all.filter(x=>x.source==="chatgpt").length,10);
+  assert.equal(all.filter(x=>x.source==="chatgpt").length,11);
   assert.ok(all.filter(x=>x.source==="chatgpt").every(x=>x.title.startsWith("Private automation ")));
   assert.ok(all.filter(x=>x.source==="github").every(x=>x.url.startsWith("https://github.com/whoiwts110217-creator/CF-0/actions/workflows/")));
 });
