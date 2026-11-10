@@ -1,5 +1,5 @@
 /* CF Link Vault: network-first for page + catalog, cached fallback when offline. */
-const CACHE="cf-link-vault-v4";
+const CACHE="cf-link-vault-v5";
 const ASSETS=["./","./index.html","./enhance.js","./links.json","./owner-actions.js","./spider-core.js","./spider-shell.js","./owner-actions.css","./owner-actions.json","./manifest.webmanifest","./icon.svg"];
 self.addEventListener("install",event=>{
  event.waitUntil(caches.open(CACHE).then(async cache=>{
