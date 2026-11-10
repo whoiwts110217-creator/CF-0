@@ -49,7 +49,7 @@ function CheckStep($step) {
    }
    if($selProps.Count -eq 0){Fail 'EMPTY_SELECTOR'}
    $hasExact=($selProps -contains 'name') -or ($selProps -contains 'automation_id')
-   if(-not $hasExact -and $step.op -in @('invoke','type_safe','assert_contains')){
+   if(-not $hasExact -and $step.op -eq 'invoke'){
       # a type-only selector can match an unexpected control
       Fail 'EXACT_UIA_SELECTOR_REQUIRED'
    }
@@ -69,7 +69,8 @@ function CheckStep($step) {
   }
  }
  if($step.op -eq 'type_safe'){
-   if($step.selector.control_type -notin @('Edit','Document')){
+   if(-not ($step.selector.PSObject.Properties.Name -contains 'control_type') -or
+      $step.selector.control_type -notin @('Edit','Document')){
       Fail 'TYPE_REQUIRES_EDIT_OR_DOCUMENT'
    }
  }
@@ -111,6 +112,13 @@ function GetTarget([string]$TargetApp){
 function ReadyUIA {
  Add-Type -AssemblyName 'UIAutomationClient' -ErrorAction Stop
  Add-Type -AssemblyName 'UIAutomationTypes' -ErrorAction Stop
+ Add-Type -TypeDefinition @'
+using System;
+using System.Runtime.InteropServices;
+public static class CF0SpiderForeground {
+ [DllImport("user32.dll")] public static extern IntPtr GetForegroundWindow();
+}
+'@ -ErrorAction Stop
 }
 function SelectControl($root,$sel) {
  $conds=New-Object 'System.Collections.Generic.List[System.Windows.Automation.Condition]'
@@ -228,9 +236,17 @@ function Run($plan){
              Fail 'REFUSE_TO_OVERWRITE_NONEMPTY_NOTEPAD'
            }
            $el.SetFocus()
+           Start-Sleep -Milliseconds 150
+           if([CF0SpiderForeground]::GetForegroundWindow().ToInt64() -ne
+              [long]$target.Current.NativeWindowHandle){
+             Fail 'NOTEPAD_NOT_FOREGROUND_REFUSE_TYPING'
+           }
            Add-Type -AssemblyName System.Windows.Forms -ErrorAction Stop
            # ValidText excludes SendKeys special tokens; no Enter or modifiers.
            [System.Windows.Forms.SendKeys]::SendWait([string]$step.text)
+           if((ReadValue $el).IndexOf([string]$step.text,[StringComparison]::Ordinal) -lt 0){
+             Fail 'TYPE_OUTCOME_NOT_CONFIRMED'
+           }
          }
          default {Fail 'UNSUPPORTED_OPERATION'}
        }
