@@ -84,6 +84,8 @@ jobs:
           if ($errors.Count -gt 0) { $errors | Format-List; throw 'Spider HP script PowerShell parser rejected source' }
           & powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File $path -Mode Preflight
           if ($LASTEXITCODE -ne 0) { throw 'Spider no-action preflight failed' }
+          $native = & powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File $path -Mode NativeProbe
+          if ($LASTEXITCODE -ne 0 -or ($native -join ' ') -notmatch 'NATIVE_UIA_ASSEMBLIES=LOADED') { throw 'Built-in Windows UIAutomation assembly probe failed' }
           foreach($plan in @('notepad-inspect.json','notepad-type-safe.json','calculator-inspect.json')) {
             & powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File $path -Mode Validate -PlanPath ("link-vault/spider-hp/"+$plan)
             if ($LASTEXITCODE -ne 0) { throw ('Spider plan rejected: '+$plan) }
