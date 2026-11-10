@@ -31,12 +31,13 @@ dialog{background:#0c1b29;color:var(--white);border:1px solid #5d8194;border-rad
 .foot-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:11px}.mini{background:transparent;border:1px solid #365a6f;color:#b8e5f0;border-radius:8px;padding:7px 9px;font-size:12px;font-weight:750;min-height:34px}.mini.warn{color:#f1c5ab}.local-hint{color:#a6bdcb;font-size:12px;line-height:1.6;padding:6px 3px}
 @media(min-width:670px){.route-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.route{min-height:128px}.compass{padding:28px}.radar{width:115px;height:115px;flex-basis:115px}}
 @media(max-width:380px){.compass{padding:15px}.route{padding:11px}.route strong{font-size:13px}.radar{width:65px;height:65px;flex-basis:65px}.radar-center{font-size:15px;padding:5px}}
-</style></head>
+</style><link rel="stylesheet" href="./owner-actions.css"></head>
 <body><main class="wrap">
 <header class="top"><div class="brand"><div class="mark" aria-hidden="true">C·F</div><div><div class="kicker">CAVEMAN FOCUS / MOBILE HUB</div><h1>LINK VAULT</h1></div></div><span class="tag">PUBLIC EDITION</span></header>
 <section class="hero"><div class="eyebrow-road"><span>⌖ YOU ARE HERE</span><span class="road-line"></span><span>CAVEMAN FOCUS / LINKS</span></div><h2>Every project.<br><em>One doorway.</em></h2><p>Your searchable launchpad for public Caveman Focus websites, operating prompts, projects, funding pages, iPhone tools and AI research. No sign-in required to browse.</p>
 <div class="stats"><span id="counts">Loading directory…</span><span id="catalog-status" role="status">Checking latest public catalog…</span><span>Personal edits stay on this device</span></div>
 <div class="action"><button type="button" id="refresh" class="btn primary">↻ Refresh public links</button><button type="button" id="install" class="btn primary">＋ Put on Home Screen</button><button type="button" id="add" class="btn">＋ Add my link</button><button type="button" id="export" class="btn ghost">Export my backup</button><label class="btn ghost" style="cursor:pointer">Import backup <input type="file" id="import" accept=".json,application/json" hidden></label></div></section>
+<nav aria-label="Quick action access"><a class="btn primary" style="display:inline-block;text-decoration:none;margin-bottom:10px" href="#owner-actions">⚡ My action sphere & side list ↓</a></nav>
 <section class="compass" aria-labelledby="compass-title">
 <div class="compass-head"><div><div class="kicker">JUNGLE COMPASS · CHOOSE A DESTINATION</div><h2 id="compass-title">Lost? Start here.</h2><p>You don't need to remember which project contains the answer. Pick what you're trying to do.</p></div><div class="radar" aria-hidden="true"><span class="north">N</span><span class="radar-center">CF</span></div></div>
 <div class="route-grid">
@@ -84,4 +85,4 @@ $("import").onchange=async e=>{const f=e.target.files?.[0];if(!f)return;try{if(f
 $("install").onclick=()=>{toast("In Safari: tap Share (square with ↑) → Add to Home Screen → Add.");const isIOS=/iP(hone|ad|od)/.test(navigator.userAgent);if(!isIOS)toast("On iPhone Safari: Share → Add to Home Screen → Add.")};
 if("serviceWorker" in navigator&&location.protocol==="https:"){navigator.serviceWorker.register("./sw.js").catch(()=>{})}
 render();
-</script><script src="./enhance.js" defer></script></body></html>
+</script><script src="./enhance.js" defer></script><script src="./owner-actions.js" defer></script></body></html>
