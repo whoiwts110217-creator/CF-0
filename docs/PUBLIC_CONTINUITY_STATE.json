@@ -82,17 +82,20 @@
       "full_git_registry_snapshot_imported_into_private_store": false
     },
     "latest_private_recovery": {
-      "version": "v7",
-      "as_of_date_et": "2026-11-08",
-      "source_artifacts_preserved": 27,
+      "version": "v8",
+      "as_of_date_et": "2026-11-09",
+      "source_kind": "private_separate_account_partial_browser_capture",
+      "captured_conversation_records": 95,
+      "captured_displayed_message_records": 757,
+      "complete_original_transcripts_proven": false,
       "reconstructed_entries": 62,
+      "source_artifacts_preserved": 28,
+      "private_hash_chain_events": 112,
       "original_chat_exports_indexed": 0,
-      "approved_cf200_project_task_links": 0,
-      "restore_verified": true,
-      "preserved_cf200_verified_counts": [
-        54,
-        84
-      ]
+      "verified_private_restore": true,
+      "original_approximately_37_project_list_recovered": false,
+      "prior_v7_snapshot": "preserved separately; earlier dated public observations retained in Git history",
+      "privacy": "all raw messages, identities, archive bytes and original URLs stay private"
     }
   },
   "finance": {
@@ -108,9 +111,33 @@
       "path": "concepts/dreamkiller/MASTER_CONCEPT_AND_CONTINUITY_PROMPT.md",
       "creator": "David Smith",
       "designated_owner": "Kiara Lynn Rose Smith",
-      "status": "filed_concept_not_built",
-      "historical_related_project": "CR-10 distinct historical APK"
+      "status": "v0_2_rom_source_and_limited_tests_passed_device_play_unverified",
+      "historical_related_project": "CR-10 distinct historical APK",
+      "rom_source": "concepts/dreamkiller/rom_v0_2/README.md"
     }
   },
-  "latest_public_reconciliation": "docs/CONTINUITY_RECONCILIATION_2026-11-07_DREAMKILLER.md"
+  "latest_public_reconciliation": "docs/CONTINUITY_RECONCILIATION_2026-11-07_DREAMKILLER.md",
+  "cross_project_audit": {
+    "as_of_date_et": "2026-11-09",
+    "evidence_scope": "public_repository_plus_account_automation_configuration_plus_sanitized_private_project_status",
+    "status_document": "docs/PROJECT_STATUS.md",
+    "active_chatgpt_automations": 5,
+    "not_enabled_chatgpt_automations": 6,
+    "paused_chatgpt_automations": 4,
+    "completed_chatgpt_automations": 2,
+    "auto08_full_single_tab_sweep": "unverified",
+    "watchdog_packet_to_executor_decision": "unverified",
+    "hp_scheduler_to_receipt_correlation": "unverified",
+    "skill_foundry_release_candidate": "github_pr_66_draft_unmerged",
+    "chatgpt_skill_install_workflow": "github_pr_65_open_unmerged_install_not_proven",
+    "ios_command_center": "github_pr_47_draft_unmerged_device_install_not_proven",
+    "clarity_card": "published",
+    "five_and_fifteen_dollar_services": "inquiry_only_no_verified_orders",
+    "no_login_customer_intake": "unpublished_unverified",
+    "hacker_initiative_2026": "application_submitted_no_award",
+    "bridge_builders_2026": "draft_not_submitted_application_deadline_2026_11_13",
+    "verified_sales_or_donations": "not_established_from_inspected_evidence",
+    "full_original_cross_account_conversation_recovery": "incomplete",
+    "owner_rights_or_machine_permissions_changed": false
+  }
 }
