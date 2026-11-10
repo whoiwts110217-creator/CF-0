@@ -167,7 +167,7 @@ async function navigate(id){
   if(chatId(tab.url)!==id)await cd('Page.navigate',{url:chatURL(id)});
   await waitUntil(s=>s.composerVisible,40000,id,{allowNavigation:true});
 }
-async function continueOne(id){
+async function continueOne(id,{advanceAfterAck=false}={}){
   await save({currentChat:id,attempt:{chatId:id,status:'pre_send',startedAt:stamp()},lastResult:'Navigating in selected tab; no keyboard send yet…'});
   await navigate(id);
   // The navigation wait verified the absence of known blocking overlays.
@@ -196,6 +196,17 @@ async function continueOne(id){
   await key('Enter');
   await save({lastResult:'Sent continue; waiting for response to finish…'});
   await waitUntil(s=>acknowledgedContinue(s,before.userCount),20000,id);
+  if(advanceAfterAck){
+    // Explicit owner-selected FAST mode: this is only a verified user-turn
+    // submission. Navigating immediately may interrupt reply generation.
+    // Do not call it a completed assistant response or silently retry it.
+    ensureActive();
+    await save(s=>({attempt:null,currentChat:null,
+      submitted:[...new Set([...(Array.isArray(s.submitted)?s.submitted:[]),id])],
+      lastResult:'Acknowledged literal continue submission; reply NOT verified (fast mode).'}));
+    ensureActive();
+    return;
+  }
   let stable=null;
   await waitUntil(s=>{
     if(!acknowledgedContinue(s,before.userCount))throw Error('CONTINUE_ACK_LOST');
@@ -210,7 +221,7 @@ async function continueOne(id){
     lastResult:'Completed one chat and verified stable response.'}));
   ensureActive();
 }
-async function execute({mode,maxChats=1}){
+async function execute({mode,maxChats=1,advanceAfterAck=false}){
   if(live)throw Error('ALREADY_RUNNING');
   const s=await getState();
   if(!['primary','secondary'].includes(s.account))throw Error('SELECT_ACCOUNT_FIRST');
@@ -219,7 +230,9 @@ async function execute({mode,maxChats=1}){
   const q=mode==='current'?[{id:chatId(tab.url)}]:s.queue;
   if(!q.length||q.some(x=>!x?.id))throw Error('NO_CONVERSATION_SELECTED');
   if(!Number.isSafeInteger(maxChats)||maxChats<1||maxChats>100)throw Error('INVALID_CHAT_LIMIT');
-  const toDo=(mode==='current'?q:q.filter(x=>!s.completed.includes(x.id))).slice(0,maxChats);
+  if(advanceAfterAck && mode!=='queue')throw Error('FAST_MODE_QUEUE_ONLY');
+  const alreadySubmitted=Array.isArray(s.submitted)?s.submitted:[];
+  const toDo=(mode==='current'?q:q.filter(x=>!s.completed.includes(x.id)&&!alreadySubmitted.includes(x.id))).slice(0,maxChats);
   let outcome='completed';
   try{
     if(cancelRequested)throw Error('STOP_REQUESTED');
@@ -231,10 +244,12 @@ async function execute({mode,maxChats=1}){
       const count=(await tabsSnapshot());
       if(count.count!==1||count.tabId!==live.tabId)throw Error('CHATGPT_TAB_COUNT_CHANGED');
       live.escapes=0;
-      await continueOne(c.id);
+      await continueOne(c.id,{advanceAfterAck});
     }
     ensureActive();
-    await save({phase:'idle',reason:null,lastResult:`Finished ${toDo.length} conversation(s) with the same Chrome tab.`});
+    await save({phase:'idle',reason:null,lastResult:advanceAfterAck
+      ? `Acknowledged ${toDo.length} continue submission(s) in one tab. Replies NOT verified.`
+      : `Finished ${toDo.length} conversation(s) with the same Chrome tab.`});
     ensureActive();
   }catch(error){
     outcome='needs_review';
@@ -385,7 +400,8 @@ chrome.runtime.onMessage.addListener((message,sender,sendResponse)=>{
         try{
           await selectedTab();
           if(cancelRequested)throw Error('STOP_REQUESTED');
-          void execute({mode:'queue',maxChats:message.maxChats}).catch(async e=>{
+          void execute({mode:'queue',maxChats:message.maxChats,
+            advanceAfterAck:message.advanceAfterAck===true}).catch(async e=>{
             await save({phase:'needs_review',reason:e.message,lastResult:'Start failed: '+e.message});
           }).finally(()=>{launching=false;});
           return {ok:true,message:'Requested imported queue using existing tab.'};
