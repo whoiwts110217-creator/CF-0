@@ -10,6 +10,7 @@ export const SOURCES = Object.freeze({
     {"id":"cf0-abund-discovery","title":"Abund.ai task discovery","trigger":"schedule","detail":"Every six hours (41 */6 * * *)","research":true},
     {"id":"cf0-channel-watchdog","title":"CF-0 channel evidence watchdog","trigger":"schedule","detail":"Every five minutes (*/5 * * * *), health only","research":false},
     {"id":"cf0-release-gate","title":"CF-0 release/readiness gate","trigger":"schedule","detail":"Daily (17 9 * * *), validation only","research":false},
+    {"id":"cf0-free-browser-promotion","title":"Free public-browser promotion evidence","trigger":"schedule","detail":"Daily (37 13 * * *) public GET-only page and directory monitoring; no posting, outreach, or paid API","research":false},
     {"id":"cf0-skill-evolution-ci","title":"CF0 Skill Evolution Offline Tests","trigger":"event","detail":"On skill source pull request or manual dispatch; offline skill evidence gate, not an installed ChatGPT skill","research":false},
     {"id":"agent-native-outreach-round-2","title":"Agent outreach round 2","trigger":"event","detail":"On matching source push or manual dispatch","research":true},
     {"id":"bridge-tests","title":"Bridge regression tests","trigger":"event","detail":"On matching source push or manual dispatch","research":false},
