@@ -56,6 +56,7 @@ button.btn{cursor:pointer;font-family:inherit;font-size:1rem}button.btn:focus-vi
 <p>Sharing with people who might care about public experiments, making complicated things clearer, or independent creative work is also useful. Choose a platform and add your own words.</p>
 <div class="btns" id="quick-share-actions">
 <button class="btn" type="button" id="share-clarity-card">Share free Clarity Card</button>
+<button class="btn alt" type="button" id="share-first-drop">Share First Drop invitation</button>
 <button class="btn alt" type="button" id="copy-first-drop">Copy invitation link</button>
 </div>
 <p class="muted" id="share-feedback" role="status" aria-live="polite">Use your phone’s sharing options, or copy the link to send it yourself.</p>
@@ -111,6 +112,26 @@ button.btn{cursor:pointer;font-family:inherit;font-size:1rem}button.btn:focus-vi
       }
     }
     await copyLink(freeToolUrl);
+  });
+
+  document.getElementById("share-first-drop").addEventListener("click", async () => {
+    if (typeof navigator.share === "function") {
+      try {
+        await navigator.share({
+          title: "Caveman Focus — First Drop invitation",
+          text: "Explore Caveman Focus in public and optionally support the project with any amount. No investment or financial return is promised.",
+          url: firstDropUrl
+        });
+        setFeedback("Sharing dialog closed. Posting or sending is controlled by you.");
+        return;
+      } catch (error) {
+        if (error && error.name === "AbortError") {
+          setFeedback("Sharing canceled; nothing was posted by this page.");
+          return;
+        }
+      }
+    }
+    await copyLink(firstDropUrl);
   });
 
   document.getElementById("copy-first-drop").addEventListener("click", async () => {
