@@ -5,6 +5,8 @@
 
 
 
+**FOLLOW CAVEMAN FOCUS INDEPENDENTLY:** [Public updates](https://whoiwts110217-creator.github.io/CF-0/updates/) · [Free RSS feed](https://whoiwts110217-creator.github.io/CF-0/updates/feed.xml). These are owned project pages, not external social accounts or evidence of followers.
+
 **START WITH A WORKING TOOL:** [Free Clarity Card](https://whoiwts110217-creator.github.io/CF-0/clarity-card/) — no signup or payment; turn a question into a hypothesis, evidence check and next step. You can save or print the result.
 
 **SMALL MANUAL SERVICES:** [$5 Clarity Check — one public project page](https://whoiwts110217-creator.github.io/CF-0/clarity-check/) · [$15 Clarity Brief — one broader public-safe question](https://whoiwts110217-creator.github.io/CF-0/clarity-brief/). Both are pilot **inquiries, not paid checkouts**. The current issue-based inquiry requires a GitHub account and is public; don't include private information. No customer, accepted order, paid delivery or sale is independently verified.
