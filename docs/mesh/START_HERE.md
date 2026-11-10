@@ -1,5 +1,9 @@
 # CF-MESH-001 — One-link cold-start for three chats
 
+
+> **UNIVERSAL FRESHNESS CHECK:** Any older chat, source snapshot, task, story, science note, project or grant claim must be checked against [Current Source Gateway](../CURRENT_SOURCE_GATEWAY.md) and [CF-FRESH-001](../UNIVERSAL_FRESHNESS_CONTRACT.md) before presenting it as current. The public entrypoint is a moving `main` link; private original state remains private. This is additional source navigation, **not** a new scheduler or cross-account read.
+
+
 **Public entrypoint.** Give this URL to a new chat: https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/mesh/START_HERE.md
 
 **Selected subject:** The owner's current topic is the anchor. A bare **continue** means resume the last unambiguously established active topic and perform a substantial authorized work session, not wander to an adjacent subject, generate another plan or stop at a token micro-checkpoint.
