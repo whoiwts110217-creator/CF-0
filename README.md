@@ -9,6 +9,8 @@
 
 **[SHARE CAVEMAN FOCUS — public copy for builders, critics, and founding supporters](docs/SHARE_CAVEMAN_FOCUS_2026-11-09.md)** — Free Clarity Card first; optional, transparent funding; community-rule-aware drafts, not claims of external posting.
 
+**[CURRENT EXECUTION GAME PLAN — prove one automation handoff, one owner-controlled ChatGPT action, one verified commercial result](docs/EXECUTION_GAME_PLAN_2026-11-09.md)** — Existing CF-200 executor is focused on these acceptance gates; Bridge Builders eligibility is time-sensitive before November 13. Status is *in progress*, not three achieved outcomes.
+
 **[CURRENT PUBLIC STATUS — November 9 cross-project audit](docs/PROJECT_STATUS.md)** — 87/200 source-verified CF-200 work orders; five enabled account automations at the dated check; HP/one-tab AUTO-08 autonomy still unproven; grant, service, archive, iPhone and skill-install status clearly separated from completed outcomes. Only sanitized public-safe evidence is shown.
 
 **[START HERE — site, Mission Control, master prompts, HP commands, AI Tracker](docs/START_HERE.md)**
