@@ -28,6 +28,7 @@
 .getting-started,.install-guide{margin:14px 0;border:1px solid #3d6674;border-radius:9px;padding:10px 14px;color:#cfeaf3;background:#0d2835}.getting-started summary,.install-guide summary{cursor:pointer;color:#a9f2fb;font-weight:750;font-size:.88rem;padding:2px 0;touch-action:manipulation}.getting-started ol{margin:12px 0 5px;padding-left:20px}.getting-started li{margin-bottom:6px}.install-guide p{font-size:.85rem}
 @media(max-width:450px){.hero{padding-top:22px;padding-bottom:20px}.hero h2{font-size:2rem}.hero p{font-size:.9rem}.section-head{gap:9px}.section-head h3{font-size:1.03rem}.actions .action-help{flex:0 0 40px}}
 
+.review-upload{display:block;width:100%;border:1px solid var(--edge);border-radius:7px;background:#071721;color:#dceef4;min-height:49px;padding:10px;font:inherit;font-size:16px}.review-upload::file-selector-button{border:1px solid #468092;border-radius:5px;padding:7px;background:#113342;color:#d5f5f9;margin-right:9px}.review-small{font-size:.78rem;color:#a6c6d2;margin:7px 0 10px}.review-results{min-height:100px;max-height:330px}.review-choice{margin-top:5px}.review-copy{font-size:.8rem}
 </style>
   <title>
    Skill Foundry v0.2 | Caveman Focus
@@ -500,7 +501,7 @@
        ?
       </button>
       <div class="field-help action-help-content" hidden="True" id="action-help-downloadZip" role="note">
-       Creates an archive containing every generated skill, prompt, and evaluation. Open it in the iPhone Files app.
+       Requests a ZIP download of every generated file. On iPhone, check Safari Downloads or the Files app. If nothing appears, try Share / Files or Download selected file. The browser cannot confirm a successful save.
       </div>
       <button class="secondary" disabled="" id="copyFile" type="button">
        Copy file
@@ -521,7 +522,7 @@
        ?
       </button>
       <div class="field-help action-help-content" hidden="True" id="action-help-shareZip" role="note">
-       Opens the iOS Share Sheet so you can save the ZIP into Files or send it to another app.
+       Uses the iOS Share Sheet when supported so you can choose Save to Files. If file sharing is unavailable, requests a ZIP download instead. If cancelled, nothing is confirmed saved.
       </div>
      </div>
      <div class="actions lower">
@@ -568,6 +569,46 @@
       Tests the local generator. This is not a test of an external account or AI agent.
      </div>
      <pre class="tests" id="testResults">Not run yet.</pre>
+     <div class="section-head inner" id="skill-review">
+      <span class="num">07</span>
+      <div>
+       <h3>Compare skill versions</h3>
+       <p>Inspect differences locally. Prepare tests without claiming AI improvement.</p>
+       <button aria-controls="reviewHelp" aria-expanded="false" aria-label="Explain skill comparison" class="help-toggle section-help-button" type="button">?</button>
+       <div class="field-help section-help" hidden id="reviewHelp" role="note">
+        <strong>What does comparing skills mean?</strong>
+        <p>Choose an older SKILL.md and a newer one, or compare the older file to a skill created above. This checks actual bytes and creates an unrun test checklist. To establish that a new skill works better, independently run the same real tasks before and after and review the results. Nothing is installed or uploaded.</p>
+       </div>
+      </div>
+     </div>
+     <div class="field">
+      <div class="label-row">
+       <label for="reviewBaseline">1 · Older SKILL.md</label>
+       <button aria-controls="reviewBaselineHelp" aria-expanded="false" aria-label="Help: older skill" class="help-toggle" type="button">?</button>
+      </div>
+      <div class="field-help" hidden id="reviewBaselineHelp" role="note">Select the version you want to improve. The file stays in this browser session and is not sent to GitHub.</div>
+      <input class="review-upload" id="reviewBaseline" type="file" accept=".md,text/markdown,text/plain"/>
+     </div>
+     <div class="field">
+      <div class="label-row">
+       <label for="reviewCandidate">2 · New SKILL.md (optional)</label>
+       <button aria-controls="reviewCandidateHelp" aria-expanded="false" aria-label="Help: newer skill" class="help-toggle" type="button">?</button>
+      </div>
+      <div class="field-help" hidden id="reviewCandidateHelp" role="note">Choose a separate revised file. Or skip this field and use the currently selected generated SKILL.md from the preview above.</div>
+      <input class="review-upload" id="reviewCandidate" type="file" accept=".md,text/markdown,text/plain"/>
+      <p class="review-small">Choose two files, or select a generated SKILL.md in the preview above to use as the new version.</p>
+     </div>
+     <div class="actions review-choice">
+      <button class="secondary" id="reviewCompareFiles" type="button">Compare chosen files</button>
+      <button class="secondary" id="reviewCompareGenerated" type="button">Compare with generated skill</button>
+     </div>
+     <pre class="tests review-results" aria-live="polite" id="reviewResults">Not compared. No skills have been evaluated.</pre>
+     <div class="actions">
+      <button class="secondary" disabled id="reviewDownload" type="button">Download test checklist (.json)</button>
+      <button aria-controls="reviewDownloadHelp" aria-expanded="false" aria-label="Help: evaluation checklist" class="help-toggle action-help" type="button">?</button>
+      <div class="field-help action-help-content" hidden id="reviewDownloadHelp" role="note">Downloads a JSON template with SHA-256 hashes and three UNRUN task scenarios. It contains no source file text, votes, or invented test results. Python gate execution and independent agents are separate.</div>
+      <button class="secondary" disabled id="reviewCopy" type="button">Copy test checklist</button>
+     </div>
     </section>
    </main>
    <footer>
@@ -706,20 +747,70 @@
   function setForm(v){fieldIds.forEach(k=>{if(k in v)$(k).value=v[k];});document.querySelector(`input[name=mode][value=${v.mode==='single'?'single':'pack'}]`).checked=true;}
   function getForm(){const v={};fieldIds.forEach(k=>v[k]=$(k).value);v.mode=document.querySelector('input[name=mode]:checked').value;return v;}
   function note(message){$('feedback').textContent=message;}
-  function blobFile(filename,blob){const href=URL.createObjectURL(blob);const a=document.createElement('a');a.href=href;a.download=filename;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(href),15000);}
+  function blobFile(filename,blob){
+    if(!blob||!Number.isFinite(blob.size)||blob.size<1)throw Error('Generated file is empty');
+    const href=URL.createObjectURL(blob),a=document.createElement('a');
+    try{a.href=href;a.download=filename;document.body.appendChild(a);a.click();}
+    catch(err){URL.revokeObjectURL(href);throw err;}
+    finally{a.remove();}
+    // Safari may need time to process the download; never claim a completed save.
+    setTimeout(()=>URL.revokeObjectURL(href),60000);
+  }
+  function requestDownload(filename,blob,label){
+    blobFile(filename,blob);
+    note(label+' download requested. Verify it in Safari Downloads or Files; if absent, try Share / Files or Download selected file.');
+  }
+  function exportZip(){
+    if(!bundle)return;
+    try{requestDownload(SkillFoundry.slugify(bundle.spec.name)+'.zip',SkillFoundry.zip(bundle.files),'ZIP');}
+    catch(err){note('ZIP download could not start. Try Share / Files, Download selected file, or Copy file.');}
+  }
   function selectedKey(){return $('previewFile').value;}
   function refresh(){if(!bundle)return;const keys=Object.keys(bundle.files),select=$('previewFile');select.innerHTML='';for(const key of keys){const o=document.createElement('option');o.value=key;o.textContent=key;select.appendChild(o);}select.disabled=false;select.value=keys[0];showFile();$('fileCount').textContent=keys.length;$('runStatus').textContent='DRAFT';['downloadZip','copyFile','copySynthesis','shareZip','downloadSelected'].forEach(k=>$(k).disabled=false);note(`Forged ${keys.length} files locally. Evaluation cases are NOT executed by the generator; verify behavior before treating a skill as proven.`);}
   function showFile(){$('preview').textContent=bundle?.files[selectedKey()]||'No file selected.';}
-  function forge(){bundle=SkillFoundry.build(getForm());refresh();}
+  function forge(){bundle=SkillFoundry.build(getForm());refresh();resetReview();}
   $('skillForm').addEventListener('submit',e=>{e.preventDefault();forge();$('results').scrollIntoView({behavior:'smooth',block:'start'});});
-  $('previewFile').addEventListener('change',showFile);
+  $('previewFile').addEventListener('change',()=>{showFile();resetReview();});
   $('copyFile').addEventListener('click',async()=>{try{await navigator.clipboard.writeText(bundle.files[selectedKey()]);note('Selected file copied.');}catch(err){note('Clipboard permission denied. Select the preview text and use Copy, or download the file.');}});
   $('copySynthesis').addEventListener('click',async()=>{if(!bundle)return;const key=Object.keys(bundle.files).find(k=>k.endsWith('SYNTHESIS_PROMPT.md'));try{await navigator.clipboard.writeText(bundle.files[key]);note('AI synthesis prompt copied. Paste it into an AI chat to refine and test the skill set.');}catch(e){$('previewFile').value=key;showFile();note('Clipboard unavailable. Synthesis prompt selected in preview for manual copying or download.');}});
-  $('downloadZip').addEventListener('click',()=>{if(!bundle)return;blobFile(SkillFoundry.slugify(bundle.spec.name)+'.zip',SkillFoundry.zip(bundle.files));note('Skill pack exported as ZIP. On iPhone, find it in Safari Downloads / Files.');});
-  $('downloadSelected').addEventListener('click',()=>{if(!bundle)return;const key=selectedKey(),filename=key.split('/').slice(-1)[0];blobFile(filename,new Blob([bundle.files[key]],{type:filename.endsWith('.json')?'application/json':'text/markdown;charset=utf-8'}));});
-  $('shareZip').addEventListener('click',async()=>{if(!bundle)return;const filename=SkillFoundry.slugify(bundle.spec.name)+'.zip';const file=new File([SkillFoundry.zip(bundle.files)],filename,{type:'application/zip'});try{if(navigator.canShare?.({files:[file]})&&navigator.share){await navigator.share({files:[file],title:'CF Skill Foundry Skill Pack'});note('System share sheet opened.');}else{blobFile(filename,file);note('Share files unavailable here; ZIP downloaded instead.');}}catch(e){if(e?.name!=='AbortError')note('Share failed; you can use Download ZIP.');}});
+  $('downloadZip').addEventListener('click',exportZip);
+  $('downloadSelected').addEventListener('click',()=>{
+    if(!bundle)return;
+    try{
+      const key=selectedKey(),filename=key.split('/').slice(-1)[0];
+      requestDownload(filename,new Blob([bundle.files[key]],{type:filename.endsWith('.json')?'application/json':'text/markdown;charset=utf-8'}),'Selected file');
+    }catch(err){note('Selected file download could not start. You can use Copy file or select and copy the preview text.');}
+  });
+  $('shareZip').addEventListener('click',async()=>{
+    if(!bundle)return;
+    let filename,archive;
+    try{filename=SkillFoundry.slugify(bundle.spec.name)+'.zip';archive=SkillFoundry.zip(bundle.files);}
+    catch(err){note('ZIP creation failed. Try Download selected file or Copy file.');return;}
+    let file=null,canShareFiles=false;
+    try{
+      if(typeof File==='function'){file=new File([archive],filename,{type:'application/zip'});}
+      if(file&&typeof navigator.share==='function'&&typeof navigator.canShare==='function'){
+        canShareFiles=navigator.canShare({files:[file]})===true;
+      }
+    }catch(err){canShareFiles=false;}
+    if(!canShareFiles){
+      try{requestDownload(filename,archive,'ZIP (sharing unsupported)');}
+      catch(err){note('Sharing and downloads are unavailable in this browser. Use Download selected file or Copy file.');}
+      return;
+    }
+    try{
+      await navigator.share({files:[file],title:'CF Skill Foundry Skill Pack'});
+      note('Share action returned. Confirm the ZIP was saved to Files; the app cannot verify a completed save.');
+    }catch(err){
+      if(err&&err.name==='AbortError')note('Share cancelled. Nothing has been confirmed saved.');
+      else note('Share failed. Tap Download ZIP, or download/copy an individual file.');
+    }
+  });
   $('saveDraft').addEventListener('click',()=>{try{localStorage.setItem(K,JSON.stringify(getForm()));note('Draft saved locally on this device/browser. Export JSON for a portable backup.');}catch(e){note('Local storage unavailable in this browser; use Export editable project instead.');}});
-  $('exportDraft').addEventListener('click',()=>blobFile('cf-skill-foundry-project.json',new Blob([JSON.stringify(getForm(),null,2)],{type:'application/json'})));
+  $('exportDraft').addEventListener('click',()=>{
+    try{requestDownload('cf-skill-foundry-project.json',new Blob([JSON.stringify(getForm(),null,2)],{type:'application/json'}),'Editable project');}
+    catch(err){note('Editable-project export could not start. Save a draft in this browser or copy field text.');}
+  });
   $('importDraft').addEventListener('change',async e=>{try{const f=e.target.files[0];if(!f)return;if(f.size>500000)throw Error('Project exceeds 500 KB');const obj=JSON.parse(await f.text());if(typeof obj!=='object'||typeof obj.name!=='string')throw Error('Not a Skill Foundry project');setForm(obj);forge();note('Project imported and recompiled locally.');}catch(err){note('Import failed: '+err.message);}e.target.value='';});
   $('selfTest').addEventListener('click',async()=>{const results=[];const check=(name,fn)=>{try{if(!fn())throw Error('failed assertion');results.push('PASS '+name);}catch(e){results.push('FAIL '+name+': '+e.message);}};
     check('Compiles a multi-skill pack',()=>Object.keys(SkillFoundry.build(presets.focus).files).filter(x=>x.endsWith('/SKILL.md')).length===5);
@@ -740,6 +831,87 @@
     const expanded=btn.getAttribute('aria-expanded')==='true';
     btn.setAttribute('aria-expanded',String(!expanded));
     target.hidden=expanded;
+  });
+
+  // CF0-SKILL-EVOL-001: read-only, on-device skill-review PREPARATION; no external evaluation.
+  let reviewPacket=null;
+  function resetReview(){
+    reviewPacket=null;$('reviewDownload').disabled=true;$('reviewCopy').disabled=true;
+    $('reviewResults').textContent='Choose an older SKILL.md and a newer version to prepare an unrun evaluation.';
+  }
+  async function localSkillData(file){
+    if(!file||typeof file.arrayBuffer!=='function'||!Number.isFinite(file.size))throw Error('Choose a local skill file first.');
+    if(file.size>262144)throw Error('Skill files must be 256 KB or smaller.');
+    if(file.size<1)throw Error('The selected skill file is empty.');
+    const raw=new Uint8Array(await file.arrayBuffer());
+    if(raw.byteLength>262144)throw Error('Skill file exceeds the 256 KB limit.');
+    const body=new TextDecoder('utf-8',{fatal:true}).decode(raw);
+    if(!body.trim()||body.includes('\u0000'))throw Error('Choose a nonempty UTF-8 text skill.');
+    if(typeof crypto==='undefined'||!crypto.subtle||typeof crypto.subtle.digest!=='function')throw Error('Secure local SHA-256 hashing is not available in this browser.');
+    const hash=Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',raw))).map(b=>b.toString(16).padStart(2,'0')).join('');
+    return {hash,bytes:raw.byteLength,lines:body.split('\n').length,text:body};
+  }
+  function testRow(id,kind){
+    return {id,kind,mode:'not_run',baseline_pass:null,candidate_pass:null,baseline_output_ref:'',candidate_output_ref:''};
+  }
+  async function buildReview(beforeFile,afterFile){
+    const [before,after]=await Promise.all([localSkillData(beforeFile),localSkillData(afterFile)]);
+    const same=before.hash===after.hash;
+    return {
+      schema:'cf0.skill_evolution_evidence_template.v1',experiment_id:'LOCAL-REVIEW-UNRUN',
+      status:same?'reject_identical':'needs_evidence',synthetic:false,
+      baseline_sha256:before.hash,candidate_sha256:after.hash,
+      baseline_bytes:before.bytes,candidate_bytes:after.bytes,
+      baseline_lines:before.lines,candidate_lines:after.lines,
+      hard_gates:{},test_runs:[testRow('normal','normal'),testRow('ambiguous','ambiguous'),testRow('failure','failure')],
+      judges:[],owner_review_required:true,
+      note:'This is an UNRUN test template, not proof of skill performance. Pin the actual before/after files, run held-out tasks using independent agents, preserve output references and review permission/capability gates. The local page never checks external execution or installs a skill.'
+    };
+  }
+  async function compareSkills(useGenerated){
+    reviewPacket=null;$('reviewDownload').disabled=true;$('reviewCopy').disabled=true;
+    const original=$('reviewBaseline').files?.[0];
+    let candidate=$('reviewCandidate').files?.[0];
+    if(useGenerated){
+      const key=selectedKey();
+      if(!bundle||!key||!key.endsWith('/SKILL.md')){
+        $('reviewResults').textContent='Choose a generated SKILL.md in the preview selector first.';return;
+      }
+      const raw=new TextEncoder().encode(bundle.files[key]);
+      candidate={name:'generated-SKILL.md',size:raw.byteLength,arrayBuffer:async()=>raw.buffer};
+    }
+    if(!original||!candidate){
+      $('reviewResults').textContent='Select an older SKILL.md and a newer SKILL.md, or use the currently generated skill.';return;
+    }
+    $('reviewResults').textContent='Comparing selected files locally...';
+    try{
+      const result=await buildReview(original,candidate);
+      reviewPacket=JSON.stringify(result,null,2)+'\n';
+      $('reviewDownload').disabled=false;$('reviewCopy').disabled=false;
+      $('reviewResults').textContent=(result.status==='reject_identical'?
+        'SAME FILE CONTENT — rejected as an improvement comparison.':
+        'TWO DISTINCT FILES — NOT YET EVALUATED.')+
+        '\n\nBaseline SHA-256: '+result.baseline_sha256+
+        '\nCandidate SHA-256: '+result.candidate_sha256+
+        '\nSize: '+result.baseline_bytes+' → '+result.candidate_bytes+' bytes'+
+        '\nRequired: actual normal, ambiguous and failure tests; safety review; genuinely independent paired judgments.'+
+        '\nNo file contents were copied to the checklist.';
+    }catch(err){
+      $('reviewResults').textContent='Cannot compare: '+(err?.message||'unknown local error')+' No files were uploaded.';
+    }
+  }
+  $('reviewCompareFiles').addEventListener('click',()=>compareSkills(false));
+  $('reviewCompareGenerated').addEventListener('click',()=>compareSkills(true));
+  ['reviewBaseline','reviewCandidate'].forEach(id=>$(id).addEventListener('change',resetReview));
+  $('reviewDownload').addEventListener('click',()=>{
+    if(!reviewPacket)return;
+    try{requestDownload('cf0-skill-evolution-unrun-evals.json',new Blob([reviewPacket],{type:'application/json'}),'Unrun evaluation template');}
+    catch(err){$('reviewResults').textContent+='\nDownload unavailable. Use Copy test checklist.';}
+  });
+  $('reviewCopy').addEventListener('click',async()=>{
+    if(!reviewPacket)return;
+    try{await navigator.clipboard.writeText(reviewPacket);note('Unrun evaluation template copied. Not evidence of AI improvement.');}
+    catch(err){$('reviewResults').textContent=reviewPacket;note('Clipboard unavailable. Review checklist is displayed below for manual copying.');}
   });
   const params=new URLSearchParams(location.search);try{const saved=JSON.parse(localStorage.getItem(K)||'null');setForm(saved||presets[params.get('preset')==='iphone'?'iphone':'focus']);}catch(_){setForm(presets.focus);}forge();
   if('serviceWorker' in navigator&&location.protocol==='https:'){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js').catch(()=>{}));}

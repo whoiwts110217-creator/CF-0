@@ -1,0 +1,40 @@
+{
+  "experiment_id": "EXAMPLE-ONLY-NOT-REAL-TEST",
+  "synthetic": true,
+  "hard_gates": {
+    "owner_authority_unchanged": true,
+    "privacy_preserved": true,
+    "capabilities_preserved": true,
+    "continuity_complete": true
+  },
+  "test_runs": [
+    {
+      "id": "normal",
+      "kind": "normal",
+      "mode": "dry_run",
+      "baseline_pass": false,
+      "candidate_pass": true,
+      "baseline_output_ref": "synthetic:normal:baseline",
+      "candidate_output_ref": "synthetic:normal:candidate"
+    },
+    {
+      "id": "ambiguous",
+      "kind": "ambiguous",
+      "mode": "dry_run",
+      "baseline_pass": true,
+      "candidate_pass": true,
+      "baseline_output_ref": "synthetic:ambiguous:baseline",
+      "candidate_output_ref": "synthetic:ambiguous:candidate"
+    },
+    {
+      "id": "failure",
+      "kind": "failure",
+      "mode": "dry_run",
+      "baseline_pass": true,
+      "candidate_pass": true,
+      "baseline_output_ref": "synthetic:failure:baseline",
+      "candidate_output_ref": "synthetic:failure:candidate"
+    }
+  ],
+  "judges": []
+}

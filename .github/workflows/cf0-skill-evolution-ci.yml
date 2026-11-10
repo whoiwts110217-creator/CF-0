@@ -1,0 +1,21 @@
+name: CF0 Skill Evolution Offline Tests
+
+on:
+  pull_request:
+    paths:
+      - "skills/cf0-skill-evolution/**"
+      - ".github/workflows/cf0-skill-evolution-ci.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  offline-gate-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify evidence gate with Python stdlib only
+        run: python3 -m unittest discover -s skills/cf0-skill-evolution/tests -p "test_*.py" -v
+      - name: Check the skill gate is syntactically valid
+        run: python3 -m py_compile skills/cf0-skill-evolution/scripts/darwin_gate.py

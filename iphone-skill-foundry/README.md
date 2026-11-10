@@ -13,3 +13,24 @@
 **Privacy:** no secrets or personal accounts stored on GitHub. User-entered private draft text remains in that browser's localStorage unless explicitly exported/shared. Don't enter confidential material on shared devices.
 
 **Rollback:** revert the isolated `iphone-skill-foundry/` addition and the single deployment copy step; no CF-200 registry progress is credited.
+
+## iPhone ZIP/File export recovery (source-stage hardening)
+
+1. For a ZIP, tap **Share / Files**, choose **Save to Files** when iOS supports file sharing, and confirm its location in Files. A returned share action does not prove the file was saved.
+2. If the Share Sheet is unavailable, the app **requests a browser download**. Check Safari's Downloads indicator and the Files app's Downloads folder. A download request is not a verified completed file.
+3. If that fails, choose **Download selected file**, or use **Copy file** to preserve the currently selected SKILL.md / EVALS.json / prompt text. **Export editable project** backs up the editable form as JSON. Download errors are shown next to the controls.
+4. On cancellation, nothing is silently downloaded; retry deliberately. Drafts stored in the current browser do not sync to other accounts or phones.
+
+**Verification:** new zero-dependency Node simulated-browser interaction tests cover ZIP structure, blocked download, supported/unsupported/cancelled/failed share, selected file, and editable-project fallback. Existing Python package checks remain. Physical iPhone and installed-home-screen flows still require device-level confirmation.
+
+**Continuity/permissions:** this narrow UI export improvement relates to CF-SKILL-FOUNDRY-001, UCC-001, and [CF0-SKILL-EVOL-001](https://github.com/whoiwts110217-creator/CF-0/pull/49) (draft PR; not merged into main). No remote API, new SDK, HP access, account control, financial action, background worker or automatic skill installation was added. Roll back by reverting the scoped export patch after review; preserve all existing draft data and functionality.
+
+## Skill Evolution local comparison (proposed v0.3)
+
+**Not an AI benchmark or installer.** The existing on-device Foundry now has a small **Compare skill versions** panel below the generator self-tests. Select an **older SKILL.md** plus a revised SKILL.md from Files, or select a generated SKILL.md above and choose **Compare with generated skill**. No special account or subscription is needed.
+
+The panel computes raw-file SHA-256 hashes using the browser's secure Web Crypto API, distinguishes identical content from a genuine byte-level edit, and creates a compact JSON **unrun evaluation template** with normal, ambiguous, and failure cases. The checklist deliberately contains **no full input text, agent results, positive verdict or reviewer votes**. Missing safety gates and independent agent evaluations must be filled with real evidence outside the browser before a proposed skill could be approved. A changed file is **not** a proven improvement.
+
+For iPhone Safari: open the site after deployment, choose the older Markdown document from Files, select the generated SKILL.md in the existing file preview, tap **Compare with generated skill**, then **Copy test checklist** or **Download test checklist (.json)**. The iOS Files/download/share permissions and actual on-device runtime are separately unverified. If local SHA-256 is unavailable, the panel fails closed. Source files are read only in the current session and never transmitted, persisted, or embedded in the checklist. User-facing status and results are text, not a new automated reviewer.
+
+**Source continuity:** extension of existing `CF-SKILL-FOUNDRY-001`, related to `CF0-SKILL-EVOL-001` [draft PR #49](https://github.com/whoiwts110217-creator/CF-0/pull/49), UCC-001 and AUTO-08. This change builds on the separate [export repair PR #51](https://github.com/whoiwts110217-creator/CF-0/pull/51); it is not a production replacement. Preserve old exports, help buttons, self-tests, and local-only behavior. Rollback: revert this isolated review addition on its dependent branch. No CF-200 work order is promoted by adding this documentation.

@@ -18,5 +18,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Validate iPhone help, manifest, and local-only app package
         run: python3 -m unittest discover -s iphone-skill-foundry/tests -p 'test_*.py' -v
+      - name: Exercise ZIP and iPhone share failure paths in a simulated browser
+        run: node --test iphone-skill-foundry/tests/export_runtime.test.cjs
       - name: Validate service worker syntax
         run: node --check iphone-skill-foundry/sw.js
