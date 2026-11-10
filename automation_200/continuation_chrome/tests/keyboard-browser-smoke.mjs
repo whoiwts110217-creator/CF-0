@@ -9,19 +9,26 @@ import { join } from "node:path";
 
 const pause = ms => new Promise(resolve => setTimeout(resolve, ms));
 const profile = await mkdtemp(join(tmpdir(), "cf0-auto08-keyboard-"));
-const port = 10000 + (process.pid % 30000);
+// Let Chrome choose a free ephemeral port. Chromium writes it to the
+// private temporary profile's DevToolsActivePort file once it is ready.
 const chrome = spawn(process.env.CF0_CHROME || "google-chrome", [
   "--headless=new", "--disable-gpu", "--no-sandbox", "--disable-dev-shm-usage",
   "--no-first-run", "--no-default-browser-check", "--no-proxy-server",
-  "--remote-debugging-port=" + port, "--user-data-dir=" + profile, "about:blank"
-], { stdio: "ignore" });
-let socket, nextId = 0;
+  "--remote-debugging-port=0", "--user-data-dir=" + profile, "about:blank"
+], { stdio: ["ignore","ignore","pipe"] });
+let socket, nextId = 0, startupError = null, stderr = "";
+chrome.on("error", error => { startupError = error; });
+chrome.stderr.on("data", chunk => { stderr = (stderr + String(chunk)).slice(-2500); });
 const pending = new Map();
 
 async function awaitDebugger() {
-  for (let i = 0; i < 150; i++) {
-    if (chrome.exitCode !== null) throw Error("Chrome exited before debugger attached");
+  for (let i = 0; i < 450; i++) {
+    if (startupError || chrome.exitCode !== null || chrome.signalCode !== null)
+      throw Error("Chrome exited before debugger: "+(startupError?.message || chrome.exitCode || chrome.signalCode)+". "+stderr.slice(-900));
     try {
+      const active = await readFile(join(profile, "DevToolsActivePort"), "utf8");
+      const port = Number(active.split(/\r?\n/)[0]);
+      if (!Number.isSafeInteger(port) || port < 1 || port > 65535) throw Error("Invalid Chrome port");
       const response = await fetch("http://127.0.0.1:" + port + "/json");
       if (response.ok) {
         const pages = await response.json();
@@ -31,7 +38,7 @@ async function awaitDebugger() {
     } catch {}
     await pause(100);
   }
-  throw Error("Chrome debugger not available");
+  throw Error("Chrome debugger not available after 45 seconds. "+stderr.slice(-900));
 }
 function cd(method, params = {}) {
   return new Promise((resolve, reject) => {
