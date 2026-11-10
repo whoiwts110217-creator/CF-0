@@ -1,6 +1,6 @@
 {
   "schema": "cf0.public_continuity.v1",
-  "as_of_date_et": "2026-11-09",
+  "as_of_date_et": "2026-11-10",
   "record_type": "dated_source_evidence_not_live_hp_heartbeat",
   "mission": "sustainable_generational_wealth",
   "priority_order": [
@@ -35,6 +35,23 @@
       "receipt_commit_sha": "c483125b437c996337f962780e7c1990bb27b082",
       "relationship": "timing_match_only",
       "evidence_path": "docs/CONTINUITY.md#november-8-hp-relay-evidence"
+    },
+    "owner_observed_maintenance": {
+      "state": "three_named_windows_tasks_disabled_by_owner",
+      "evidence_source": "https://github.com/whoiwts110217-creator/CF-0/issues/95",
+      "named_task_scopes": [
+        "existing_CavemanFocusCF0Relay",
+        "existing_CavemanFocusCF0FastLane",
+        "existing_CavemanFocusSupervisor"
+      ],
+      "local_process_scan_clear_in_reported_scope": true,
+      "private_recovery_material_preserved": true,
+      "previous_low_disk_approximation": "approximately 0.96 GB reported; not independently retested",
+      "current_physical_state_attested": false,
+      "auto_restart_authorized": false,
+      "source_only_maintenance_checker": "CHECK_CF0_MAINTENANCE_READ_ONLY.bat",
+      "source_ci_run": "https://github.com/whoiwts110217-creator/CF-0/actions/runs/42853305529",
+      "owner_local_checker_executed": false
     }
   },
   "notepad": {
@@ -219,7 +236,26 @@
       ],
       "boundary": "Two separate native completed CF-200 results matched two distinct public watchdog packets; the second was push-triggered (first schedule-triggered). Neither result proves cloud-provider cryptographic attestation, hardware HP scheduler origin, a live AUTO-08 interaction, or an executed CF-200 task. Python exact-source correlator was run on projected fields not raw full private payloads."
     },
-    "bridge_builders_followup": "Do not assume not-submitted; owner reported done/sent, but connected Gmail had no application confirmation or funder acknowledgement when checked. Existing watch continues through Nov 13; avoid duplicate submission or changing applicant declaration without the owner's confirmation of a failure."
+    "bridge_builders_followup": "Do not assume not-submitted; owner reported done/sent, but connected Gmail had no application confirmation or funder acknowledgement when checked. Existing watch continues through Nov 13; avoid duplicate submission or changing applicant declaration without the owner's confirmation of a failure.",
+    "auto08_source_release": {
+      "version": "0.1.7",
+      "status": "source_ci_and_zip_build_passed_live_owner_browser_unverified",
+      "source_merge": "https://github.com/whoiwts110217-creator/CF-0/commit/35d25817c0e084cd14b759d93c320bc6376702b2",
+      "inert_keyboard_and_unit_tests": "https://github.com/whoiwts110217-creator/CF-0/actions/runs/42855066137",
+      "package_artifact": "https://github.com/whoiwts110217-creator/CF-0/actions/runs/42855066137/artifacts/13781399879",
+      "existing_extension_local_checkpoint_safety": "preserve_maybe_sent_submitted_completed_on_owner_update",
+      "physical_owner_account_signin_test_passed": false,
+      "user_iPhone_app_supported": false
+    },
+    "commercial_intake": {
+      "existing_paid_pilots": "5_dollar_clarity_check_and_15_dollar_clarity_brief_inquiry_only",
+      "public_issue_flow": "requires_github_login",
+      "existing_private_google_form": "reported_draft_not_accessible_in_connected_drive_form_search",
+      "no_login_responder_url_verified": false,
+      "owner_gate": "REQUIRED_BEFORE_GATE_to_publish_and_test_the_existing_form_responder_url",
+      "external_buyer_paid_order": "not_verified_by_latest_bounded_mail_search",
+      "funding_application": "owner_reported_bridge_builders_sent_no_independent_funder_receipt"
+    }
   },
   "website_deployment": {
     "evidence_as_of_utc": "2026-11-10T02:58:47Z",
