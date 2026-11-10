@@ -24,7 +24,7 @@ Exit status 0 means **eligible for owner review**, not approved or deployed. Exi
 
 ## Integrity and evidence standard
 
-- Before and after skill files must be genuinely different and independently versioned.
+- Before and after skill files must be genuinely different and independently versioned. Evidence JSON MUST include `baseline_sha256` and `candidate_sha256` as the SHA-256 values of the **exact** files passed to the Python gate (64 lowercase hex characters). The gate rejects stale or swapped valid hashes and holds incomplete hashes at `needs_evidence`. Matching hashes establish file identity only; they do **not** authenticate the claimed agent test outcomes.
 - `test_runs`: at least three distinct IDs spanning normal, ambiguous and failure; `mode=full_test`; both `*_pass` booleans and `*_output_ref` references to actual results.
 - `judges`: odd number ≥3 unique real reviewers, with both candidate-first and baseline-first order represented; explicit majority of `better` votes. Synthetic identities are not real independent reviewers.
 - Four hard gates must be `true`: `owner_authority_unchanged`, `privacy_preserved`, `capabilities_preserved`, `continuity_complete`. A single explicit `false` forces rejection.
