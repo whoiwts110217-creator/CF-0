@@ -126,3 +126,15 @@ A new [inert Chromium contenteditable smoke](tests/keyboard-browser-smoke.mjs) e
 
 **Next acceptance (still blocked on owner-local Chrome):** follow the existing install/preflight instructions above with a deliberately chosen signed-in account, then run the one-chat send on a safe selected conversation and inspect its completion and pause/stop evidence. Preserve local checkpoints and stop on unknown outcomes. This update does not grant remote account access, start AUTO-08 automatically, or alter the separate static Mission Control master switch. Rollback: remove the isolated test and its CI workflow step; do not change `background.js`.
 
+
+## Optional acknowledged-submit fast sweep (v0.1.6 · 2026-11-09)
+
+**Owner's later explicit correction:** For a broad continuation sweep, do not have to wait for each ChatGPT response to finish; submit the exact literal `continue`, verify the new user turn, and move to the next conversation. This is a **new optional mode**, not a silent replacement of the original completion-verified runner.
+
+In the local extension popup, check **Fast sweep** before **Start imported sweep**. The default (unchecked) still waits for each stable assistant response and records it under **Completed**. The fast mode still performs the exact per-thread loaded-history, no-draft, one-tab and known-blocker checks, persists its `maybe_sent` side-effect boundary, and requires a new visible user turn whose entire text equals `continue`. Once that exact submission is acknowledged, it stores the conversation ID under **Submitted (reply unverified)** and navigates to the next eligible queued ID in the same tab.
+
+**Important distinction:** A submitted message is not a completed answer. Navigating away while generation is active might interrupt its answer; no attempt is made to prove otherwise. The fast-mode checkpoint is independent of `completed` and is excluded from future automatic queue passes to prevent duplicate sends. This checkpoint persists per manually selected account label (which is *not* verified identity); legacy checkpoint records migrate without a reset. An uncertain send is still review-blocked. Current-chat one-shot smoke test remains the older completion-verified path.
+
+Start with **one** owner-approved existing chat on a visibly verified ChatGPT account, then a small bounded batch. Verify the live result before considering this deployed. The source tests include a mocked two-chat queue with no assistant replies and a test that a rerun never resends a fast-submitted chat; GitHub CI is not proof of a live account or iPhone compatibility. No cloud browser charges, API, new tabs, public transcript exports, HP relay permissions or GitHub Mission Control master-switch activation are introduced.
+
+**Rollback:** uncheck the fast option (default safe mode) or revert v0.1.6 source changes. Do not clear the owner's local submitted/completed/uncertain records when reverting; older versions do not understand fast-submitted checkpoints and may re-send those chats. Backup the private local extension state before downgrading, or treat the existing queue as unsafe to replay until manually reconciled.
