@@ -63,5 +63,20 @@ class ConsumerAckTests(unittest.TestCase):
                 self.assertFalse(result["hp_identity_attested"])
 
 
+    def test_identity_type_confusion_and_replay_fail_closed(self):
+        for key in ("watchdog_run_id", "watchdog_run_attempt"):
+            for invalid in (True, False, 1.0, "1", 0, -1, None):
+                with self.subTest(side="producer", key=key, invalid=invalid), self.assertRaises(ValueError):
+                    verify_consumer_ack({**self.producer, key: invalid}, self.ack)
+                with self.subTest(side="executor", key=key, invalid=invalid), self.assertRaises(ValueError):
+                    verify_consumer_ack(self.producer, {**self.ack, key: invalid})
+        for invalid in ("A" * 64, "g" * 64, "a" * 63, "a" * 65, None, 0):
+            with self.subTest(digest=invalid), self.assertRaises(ValueError):
+                verify_consumer_ack(self.producer, {**self.ack, "packet_sha256": invalid})
+        for invalid in ("", " spaced ", "../traversal", "a" * 129, None, 7):
+            with self.subTest(executor=invalid), self.assertRaises(ValueError):
+                verify_consumer_ack(self.producer, {**self.ack, "executor_run_id": invalid})
+
+
 if __name__ == "__main__":
     unittest.main()
