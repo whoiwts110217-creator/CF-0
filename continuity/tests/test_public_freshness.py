@@ -89,5 +89,32 @@ class UniversalFreshnessTests(unittest.TestCase):
             self.assertEqual(entry["status_origin"], "read_on_demand")
 
 
+    def test_all_owner_entrypoints_link_old_sources_to_current_gateway(self):
+        routes = {
+            "README.md": "docs/CURRENT_SOURCE_GATEWAY.md",
+            "docs/OWNER_JUNGLE_MAP.md": "CURRENT_SOURCE_GATEWAY.md",
+            "docs/PROJECTS.md": "CURRENT_SOURCE_GATEWAY.md",
+            "docs/START_HERE.md": "CURRENT_SOURCE_GATEWAY.md",
+            "docs/PROJECT_STATUS.md": "CURRENT_SOURCE_GATEWAY.md",
+            "docs/mesh/START_HERE.md": "../CURRENT_SOURCE_GATEWAY.md",
+            "docs/UNIVERSAL_CONTINUITY_CONTRACT.md": "CURRENT_SOURCE_GATEWAY.md",
+            "automation_200/mission_control/dist/index.html": "/blob/main/docs/CURRENT_SOURCE_GATEWAY.md",
+        }
+        for path, expected in routes.items():
+            with self.subTest(path=path):
+                content = (ROOT / path).read_text(encoding="utf-8")
+                self.assertIn(expected, content)
+        gateway = (ROOT / "docs/CURRENT_SOURCE_GATEWAY.md").read_text(encoding="utf-8")
+        self.assertIn("https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/CURRENT_SOURCE_GATEWAY.md", gateway)
+        self.assertIn("Mission Control", gateway)
+        self.assertIn("private", gateway.lower())
+
+    def test_contract_does_not_install_a_scheduled_status_collector(self):
+        source = (ROOT / "docs/UNIVERSAL_FRESHNESS_CONTRACT.md").read_text(encoding="utf-8")
+        self.assertIn("No new scheduler", source)
+        self.assertIn("A source", source)
+        self.assertIn("EVERY", source)
+
+
 if __name__ == "__main__":
     unittest.main()
