@@ -4,6 +4,7 @@ This section is **public by owner direction**. It reports documented Caveman Foc
 
 - [November 5, 2026 evidence checkpoint](2026-11-05_PROJECT_FINANCES.md)
 - [Business and fundraising context](../docs/BUSINESS.md)
+- [November 9, 2026 buyer-channel outreach and no-login inquiry evidence](donation_growth/FIN09_BUYER_OUTREACH_AND_INTAKE_2026-11-09.md)
 - [Public-release policy](../docs/PUBLICATION_POLICY.md)
 
 When reliable new evidence appears, publish a dated project-level update with gross receipts, refunds, project costs, net project cash flow, known obligations, eligible restricted funds, provenance and caveats. Do not silently replace old estimates with fiction. Source transactions should be reviewed/redacted before publication.
