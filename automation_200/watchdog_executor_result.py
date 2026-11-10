@@ -42,6 +42,46 @@ def _no_duplicate_keys(pairs):
     return obj
 
 
+
+# v2 omits the executor's provider-assigned run ID because it may be unknown
+# until the native automation record is written. Bind it *only* from that
+# independently retrieved completed run. Existing v1 records stay supported.
+V2_KEYS = frozenset({
+    "schema", "watchdog_run_id", "watchdog_run_attempt", "watchdog_job_id",
+    "source_commit", "packet_sha256", "decision", "execution_authorized",
+})
+
+
+def _validate_provider_bound_decision(readback: dict, ack: dict, run_id: str) -> tuple[dict, str]:
+    if not isinstance(ack, dict):
+        raise ValueError("invalid executor decision")
+    schema = ack.get("schema")
+    if schema == "cf0.executor_packet_decision.v1":
+        correlation = verify_consumer_ack(readback, ack)
+        if correlation["executor_run_id"] != run_id:
+            raise ValueError("executor decision was not made by this recorded run")
+        return correlation, "executor_self_report_matches_provider"
+    if schema != "cf0.executor_packet_decision.v2" or set(ack) != V2_KEYS:
+        raise ValueError("invalid provider-bound decision schema")
+    if (not isinstance(readback, dict)
+            or type(ack["watchdog_job_id"]) is not int
+            or ack["watchdog_job_id"] <= 0
+            or ack["watchdog_job_id"] != readback.get("watchdog_job_id")
+            or not isinstance(ack["source_commit"], str)
+            or ack["source_commit"] != readback.get("source_commit")
+            or not re.fullmatch(r"[a-f0-9]{40}", ack["source_commit"])):
+        raise ValueError("watchdog job or source commit mismatch")
+    # All source identity, digest, decision and authorization conditions are
+    # validated by the original strict v1 contract. The executor_run_id is
+    # supplied from provider metadata, never from the model's response.
+    v1 = dict(ack)
+    v1["schema"] = "cf0.executor_packet_decision.v1"
+    del v1["watchdog_job_id"]
+    del v1["source_commit"]
+    v1["executor_run_id"] = run_id
+    return verify_consumer_ack(readback, v1), "independent_provider_record"
+
+
 def correlate_recorded_executor_result(readback: dict, automation: dict) -> dict:
     """Check exact packet ID/digest against a completed provider-recorded reply.
 
@@ -80,9 +120,7 @@ def correlate_recorded_executor_result(readback: dict, automation: dict) -> dict
                          parse_constant=lambda _: (_ for _ in ()).throw(ValueError("nonfinite value")))
     except (TypeError, ValueError, RecursionError):
         raise ValueError("invalid executor decision JSON") from None
-    correlation = verify_consumer_ack(readback, ack)
-    if correlation["executor_run_id"] != run_id:
-        raise ValueError("executor decision was not made by this recorded run")
+    correlation, run_id_source = _validate_provider_bound_decision(readback, ack, run_id)
     if (not isinstance(readback, dict)
             or "packet_assembled_utc" not in readback):
         raise ValueError("missing original packet timestamp")
@@ -97,6 +135,7 @@ def correlate_recorded_executor_result(readback: dict, automation: dict) -> dict
     return {
         **correlation,
         "recorded_completed_result_matched": True,
+        "executor_run_id_source": run_id_source,
         "provider_origin_cryptographically_attested": False,
         "hp_identity_attested": False,
         "execution_authorized": False,

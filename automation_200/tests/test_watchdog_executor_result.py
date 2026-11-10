@@ -110,6 +110,79 @@ class RecordedExecutorTests(unittest.TestCase):
                     self.record,
                 )
 
+    def _v2_fixture(self):
+        readback = {
+            **self.readback,
+            "watchdog_job_id": 456,
+            "source_commit": "c" * 40,
+        }
+        decision = {
+            "schema": "cf0.executor_packet_decision.v2",
+            "watchdog_run_id": readback["watchdog_run_id"],
+            "watchdog_run_attempt": readback["watchdog_run_attempt"],
+            "watchdog_job_id": readback["watchdog_job_id"],
+            "source_commit": readback["source_commit"],
+            "packet_sha256": readback["packet_sha256"],
+            "decision": "deferred",
+            "execution_authorized": False,
+        }
+        record = self.with_result(content_text=MARKER + json.dumps(decision))
+        return readback, decision, record
+
+    def test_v2_provider_bind_uses_native_run_identity(self):
+        readback, decision, record = self._v2_fixture()
+        self.assertNotIn("executor_run_id", decision)
+        matched = correlate_recorded_executor_result(readback, record)
+        self.assertTrue(matched["correlated"])
+        self.assertEqual(matched["executor_run_id"], "exec-4")
+        self.assertEqual(matched["executor_run_id_source"], "independent_provider_record")
+        self.assertEqual(matched["decision"], "deferred")
+        self.assertFalse(matched["execution_authorized"])
+        self.assertFalse(matched["acknowledgement_origin_verified"])
+        self.assertFalse(matched["provider_origin_cryptographically_attested"])
+        self.assertFalse(matched["hp_identity_attested"])
+
+    def test_v2_rejects_extra_self_claimed_identity_and_wrong_packet(self):
+        readback, decision, _ = self._v2_fixture()
+        variations = (
+            {"executor_run_id": "invented"},
+            {"watchdog_job_id": 789},
+            {"watchdog_run_id": 15},
+            {"watchdog_run_attempt": 3},
+            {"source_commit": "e" * 40},
+            {"source_commit": "not-a-commit"},
+            {"packet_sha256": "b" * 64},
+            {"decision": "executed"},
+            {"execution_authorized": True},
+        )
+        for change in variations:
+            with self.subTest(change=change):
+                record = self.with_result(content_text=MARKER + json.dumps({**decision, **change}))
+                with self.assertRaises(ValueError):
+                    correlate_recorded_executor_result(readback, record)
+
+    def test_v2_rejects_missing_provider_or_stale_fabricated_result(self):
+        readback, decision, record = self._v2_fixture()
+        for bad in (
+            self.with_result(content_text="No packet consumed."),
+            self.with_result(content_text=MARKER + json.dumps(decision),
+                             content_truncated=True),
+            self.with_result(content_text=MARKER + json.dumps(decision),
+                             run_id="another-run"),
+        ):
+            with self.subTest(result=bad["run_details"]["latest_result"]):
+                with self.assertRaises(ValueError):
+                    correlate_recorded_executor_result(readback, bad)
+
+    def test_v2_missing_fields_rejected(self):
+        readback, decision, _ = self._v2_fixture()
+        for key in ("watchdog_job_id", "source_commit", "decision"):
+            with self.subTest(key=key):
+                incomplete = {name: value for name, value in decision.items() if name != key}
+                record = self.with_result(content_text=MARKER + json.dumps(incomplete))
+                with self.assertRaises(ValueError):
+                    correlate_recorded_executor_result(readback, record)
+
     def test_non_dictionary_and_missing_run_are_not_decisions(self):
         for record in (None, [], {}, {"run_details": {}}):
             with self.subTest(record=record), self.assertRaises(ValueError):
