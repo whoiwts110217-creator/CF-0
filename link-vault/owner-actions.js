@@ -28,6 +28,7 @@ const html=[
 ].join("");
 const compass=document.querySelector(".compass");if(!compass)return;
 compass.insertAdjacentHTML("afterend",html);
+if(location.hash==="#owner-actions"&&typeof requestAnimationFrame==="function")requestAnimationFrame(()=>get("owner-actions").scrollIntoView({block:"start"}));
 function validData(data){
  if(!data||data.schema!=="cf.link.vault.owner_view.v1"||typeof data.revision!=="string"||!Array.isArray(data.actions)||data.actions.length<1||data.actions.length>75)throw Error("Wrong action view schema");
  const ids=new Set();for(const a of data.actions){
