@@ -22,6 +22,8 @@ jobs:
           node-version: '22'
       - name: Test one-tab selection, overlay safety and unknown-result gating
         run: node --test automation_200/continuation_chrome/tests/*.test.mjs
+      - name: Probe exactly-once keyboard submission in inert Chromium editor
+        run: node automation_200/continuation_chrome/tests/keyboard-browser-smoke.mjs
       - name: Validate Chrome extension source syntax and manifest
         run: |
           node --check automation_200/continuation_chrome/background.js
