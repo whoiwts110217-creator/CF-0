@@ -135,7 +135,7 @@
     "five_and_fifteen_dollar_services": "inquiry_only_no_verified_orders",
     "no_login_customer_intake": "unpublished_unverified",
     "hacker_initiative_2026": "application_submitted_no_award",
-    "bridge_builders_2026": "draft_not_submitted_application_deadline_2026_11_13",
+    "bridge_builders_2026": "owner_reported_sent_unverified_submission_confirmation_award_and_payment",
     "verified_sales_or_donations": "not_established_from_inspected_evidence",
     "full_original_cross_account_conversation_recovery": "incomplete",
     "owner_rights_or_machine_permissions_changed": false
@@ -145,13 +145,13 @@
     "canonical_path": "docs/EXECUTION_GAME_PLAN_2026-11-09.md",
     "stage": "active_priorities_acceptance_pending",
     "three_outcomes": {
-      "authenticated_watchdog_to_executor_consumption": "unverified",
+      "authenticated_watchdog_to_executor_consumption": "provider_recorded_source_only_packet_correlation_passed_origin_not_cryptographically_attested",
       "physical_hp_scheduled_invocation_to_receipt": "unverified_separate_gate",
       "one_chat_auto08_continue_stop_resume": "unverified",
       "first_verified_paid_delivery_or_grant_payment": "not_established_from_inspected_evidence"
     },
     "bridge_builders_application_deadline": "2026-11-13",
-    "bridge_builders_state": "eligibility_unresolved_not_submitted",
+    "bridge_builders_state": "owner_reported_sent_submission_confirmation_not_independently_verified",
     "existing_cf200_executor_prompt_focus_updated": true,
     "existing_cf200_schedule_changed": false,
     "new_automations_created": false,
@@ -170,10 +170,29 @@
       "source_commit": "3e2072b29a9197dcc0de1f7f1113087c35523bbc",
       "packet_sha256": "4b78c477a1a7f4ac0be169c425212ef01d0caf070c460653ecc8d3af3b1b4e22",
       "packet_execution_authorized": false,
-      "cloud_executor_decision": "not_yet_verified",
+      "cloud_executor_decision": "native_provider_record_contains_one_matching_v2_accepted_source_only_decision",
       "hp_scheduler_to_receipt": "not_yet_verified",
-      "readback_note": "Normalized GitHub jobs connector omitted some metadata; raw read-only Actions run-jobs endpoint exposed attempt, SHA and step timing. No provider-native executor acknowledgement confirmed."
-    }
+      "readback_note": "Original scheduled watchdog run, full native job metadata and source log checked. Native completed CF-200 provider record contains one matching v2 source-only acceptance marker, nontruncated and after the packet time. The canonical packet SHA-256 was independently recomputed. This is structural/provider-recorded evidence; exact repository Python correlator has not been run against the native private record, nor is provider origin cryptographically attested or HP origin verified."
+    },
+    "cloud_handoff_acceptance": {
+      "evidence_level": "native_provider_recorded_structural_match_with_independent_public_sha256",
+      "github_watchdog_run_id": 42731696560,
+      "github_watchdog_attempt": 1,
+      "github_watchdog_job_id": 129551040021,
+      "watchdog_source_commit": "3e2072b29a9197dcc0de1f7f1113087c35523bbc",
+      "packet_sha256": "4b78c477a1a7f4ac0be169c425212ef01d0caf070c460653ecc8d3af3b1b4e22",
+      "executor_provider_record_completed_at_utc": "2026-11-10T02:31:18.461486Z",
+      "exactly_one_v2_marker": true,
+      "decision": "accepted_source_only",
+      "execution_authorized": false,
+      "metadata_and_digest_fields_matched": true,
+      "private_provider_run_id_publicly_exposed": false,
+      "provider_identity_cryptographically_attested": false,
+      "hp_scheduler_origin_verified": false,
+      "live_python_correlation_function_executed": false,
+      "actual_task_execution_proved": false
+    },
+    "bridge_builders_followup": "Do not assume not-submitted; owner reported done/sent, but connected Gmail had no application confirmation or funder acknowledgement when checked. Existing watch continues through Nov 13; avoid duplicate submission or changing applicant declaration without the owner's confirmation of a failure."
   },
   "website_deployment": {
     "evidence_as_of_utc": "2026-11-10T02:58:47Z",
