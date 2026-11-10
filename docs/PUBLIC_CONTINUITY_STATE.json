@@ -172,7 +172,7 @@
       "packet_execution_authorized": false,
       "cloud_executor_decision": "native_provider_record_contains_one_matching_v2_accepted_source_only_decision",
       "hp_scheduler_to_receipt": "not_yet_verified",
-      "readback_note": "Original scheduled watchdog run, full native job metadata and source log checked. Native completed CF-200 provider record contains one matching v2 source-only acceptance marker, nontruncated and after the packet time. The canonical packet SHA-256 was independently recomputed. This is structural/provider-recorded evidence; exact repository Python correlator has not been run against the native private record, nor is provider origin cryptographically attested or HP origin verified."
+      "readback_note": "Real original GitHub packet/jobs/step/digest checked; exact main-branch Python validator passed against source-observed projected native fields with six negative mutation rejections. Full raw private provider response was not handed to the Python runner, and independent cryptographic ChatGPT identity and HP scheduler origin remain unverified."
     },
     "cloud_handoff_acceptance": {
       "evidence_level": "native_provider_recorded_structural_match_with_independent_public_sha256",
@@ -190,7 +190,17 @@
       "provider_identity_cryptographically_attested": false,
       "hp_scheduler_origin_verified": false,
       "live_python_correlation_function_executed": false,
-      "actual_task_execution_proved": false
+      "actual_task_execution_proved": false,
+      "python_source_correlator_projected_native_record": "passed",
+      "python_source_code_git_blob_shas": {
+        "consumer_ack": "2a84212f14282c497fc00e608dce456452bfe279",
+        "executor_result": "42e2a87484da84538ef60f4d25f8771f15456a7c"
+      },
+      "negative_mutation_cases_rejected": 6,
+      "canonical_packet_hash_recomputed_in_python": true,
+      "full_unmodified_native_provider_record_executed_in_python": false,
+      "private_test_script_publicly_published": false,
+      "test_note": "Original SHA-confirmed Python modules executed locally using exact source-observed packet/ack fields and reconstructed native provider completion metadata. One provider-native completed response inspected independently; raw complete private response was not transferred as Python fixture. No cryptographic attestation, HP origin or work order acceptance claimed."
     },
     "bridge_builders_followup": "Do not assume not-submitted; owner reported done/sent, but connected Gmail had no application confirmation or funder acknowledgement when checked. Existing watch continues through Nov 13; avoid duplicate submission or changing applicant declaration without the owner's confirmation of a failure."
   },
