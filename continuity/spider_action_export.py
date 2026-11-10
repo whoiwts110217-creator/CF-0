@@ -21,7 +21,7 @@ from .local_index import ROOT, default_state, safe_state
 
 UUID = re.compile(r"^[0-9a-fA-F]{8}-(?:[0-9a-fA-F]{4}-){3}[0-9a-fA-F]{12}$")
 SOURCE = re.compile(r"^sha256:[0-9a-f]{64}$")
-IDENT = re.compile(r"^[A-Za-z0-9_.:-]{1,100}$")
+IDENT = re.compile(r"^[A-Za-z0-9_.:\-]{1,100}$")
 DANGER = re.compile(
     r"(?i)\b(password|passcode|one.time passcode|otp|2fa|recovery code|"
     r"api key|secret key|private key|access.token|social security|ssn)\b"
