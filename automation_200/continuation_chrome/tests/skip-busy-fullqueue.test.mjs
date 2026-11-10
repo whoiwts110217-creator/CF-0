@@ -53,7 +53,7 @@ test('fast 17-chat sweep skips three busy pre-send threads, reaches the other 14
       const p=pages[current];
       return [{result:{
         url:tab.url,dialogVisible:false,dialogText:'',rateLimit:false,signedOut:false,
-        composerVisible:true,draft:'',userCount:p.users,assistantCount:p.assistants,
+        composerVisible:!busy.has(current),draft:'',userCount:p.users,assistantCount:p.assistants,
         lastUserExactContinue:p.acked,lastAssistantSignature:'old',
         stopVisible:busy.has(current),busy:busy.has(current)
       }}];
