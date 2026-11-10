@@ -61,6 +61,24 @@ function render(){
   if(a.project_id)card.append(make("p","oa-thread","Thread: "+a.project_id+(a.project_checked?" · linked project":" · source mapping pending")+(a.conflict?" · CONFLICT":"")));
   if(a.origin==="owner_local")card.append(make("p","oa-thread","PRIVATE · imported into this browser's memory only"));
   if(a.review_required)card.append(make("p","oa-warning","Possible action · NEEDS YOUR REVIEW · not confirmed outstanding"));
+  if(a.origin==="owner_local"){
+   const holder=make("label","oa-project-label","Connect privately to existing project");
+   const picker=make("select","oa-project-select");
+   const choices=[{id:"UNRESOLVED",title:"No project selected"}].concat(
+    graph&&graph.schema==="cf0.public_topic_graph.v1"&&Array.isArray(graph.nodes)?
+     graph.nodes.filter(n=>/^[A-Z][A-Z0-9-]{1,60}$/.test(n.id)).map(n=>({id:n.id,title:n.title})):[]);
+   for(const choice of choices){
+    const option=make("option",null,choice.id+" · "+choice.title);option.value=choice.id;picker.append(option);
+   }
+   picker.value=choices.some(o=>o.id===a.project_id)?a.project_id:"UNRESOLVED";
+   picker.onchange=()=>{
+    const item=privateActions.find(x=>x.id===a.id);
+    if(!item||!choices.some(o=>o.id===picker.value))return;
+    item.project_id=picker.value;
+    render();get("oa-status").textContent="Project link set locally · no public changes";
+   };
+   holder.append(picker);card.append(holder);
+  }
   if(a.conflict)card.append(make("p","oa-warning","Source disagreement — inspect originals before resolving"));
   if(a.due_date)card.append(make("p",a.due_state==="overdue"?"oa-warning":"oa-thread","Documented deadline: "+a.due_date+" · "+a.due_state));
   const buttons=make("div","oa-item-buttons");
