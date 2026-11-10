@@ -262,6 +262,11 @@ export const COPY = {
     "fr": "Instructions principales",
     "pt": "Instruções principais"
   },
+  "Link Vault / Jungle Compass": {
+    "es": "Bóveda de enlaces / Brújula de la jungla",
+    "fr": "Coffre à liens / Boussole de la jungle",
+    "pt": "Cofre de links / Bússola da selva"
+  },
   "All Links": {
     "es": "Todos los enlaces",
     "fr": "Tous les liens",
