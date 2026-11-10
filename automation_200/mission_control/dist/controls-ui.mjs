@@ -83,7 +83,7 @@ function draw() {
   updatePlan();
   byId("control-chatgpt-count").textContent=privateAutomations===null
     ? CHATGPT_PLACEHOLDER_COUNT+" private slots — last count, not a live read"
-    : privateAutomations.length+" private tasks in user-selected file";
+    : privateAutomations.length+" private tasks in user-selected file (not authenticated)";
   const workflowRecords=rows.filter(x=>x.source==="github");
   const scheduledCount=workflowRecords.filter(x=>x.trigger==="schedule").length;
   const otherCount=workflowRecords.length-scheduledCount;
@@ -112,7 +112,7 @@ async function importPrivate(){
     staged.clear();
     draw();
     byId("control-import-status").textContent=
-      "Local-only inventory loaded for this page session. No upload, account action or saved browser storage.";
+      "Owner-supplied snapshot loaded in this page only. Observation time appears per row when provided. Not provider-authenticated; no upload, account action or saved storage.";
   } catch {
     privateAutomations=null;
     staged.clear();
