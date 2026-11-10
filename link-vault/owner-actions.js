@@ -105,7 +105,7 @@ get("oa-cf200").addEventListener("click",async()=>{
   const value=JSON.parse(raw);
   if(value.schema!=="CF200.1"||value.target!==200||!Array.isArray(value.tasks)||value.tasks.length!==200||
      !Number.isInteger(value.completed)||value.completed<0||value.completed>200||
-     value.tasks.some(task=>!/^CF-\\d{3}$/.test(task.id)||!["planned","verified"].includes(task.status)))
+     value.tasks.some(task=>!/^CF-\d{3}$/.test(task.id)||!["planned","verified"].includes(task.status)))
      throw Error("Registry schema or count mismatch");
   registry=value;
   status.textContent="CF-200 "+value.completed+"/200 source-verified · not HP/payment proof";
