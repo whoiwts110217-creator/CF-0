@@ -1,0 +1,213 @@
+{
+  "schema": "cf0.public_topic_graph.v1",
+  "contract": "CF-MESH-001",
+  "notes": "Public navigation index only. Not a private conversation archive, verified task state, automatic context window or execution authority. Nodes below cover verified public entrypoints and are deliberately not claimed to be the full historical inventory.",
+  "boot_sources": [
+    "automation_200/MASTER_OPERATOR_PROMPT.md",
+    "automation_200/MASTER_CONTINUITY_PROMPT.md",
+    "automation_200/WORK_COPY_PASTE_AUTOMATION_PROMPT.md"
+  ],
+  "nodes": [
+    {
+      "id": "CF-CORE",
+      "title": "Caveman Focus core framework and project index",
+      "source": "docs/PROJECTS.md",
+      "parent": null,
+      "related": [
+        "CF-200",
+        "UCC-001",
+        "FIN-09",
+        "CF-CONCEPT-DREAMKILLER-001"
+      ],
+      "depends_on": [],
+      "aliases": [
+        "caveman focus",
+        "projects",
+        "core"
+      ]
+    },
+    {
+      "id": "UCC-001",
+      "title": "Universal continuity contract",
+      "source": "docs/UNIVERSAL_CONTINUITY_CONTRACT.md",
+      "parent": "CF-CORE",
+      "related": [
+        "CF-MESH-001",
+        "CF-200"
+      ],
+      "depends_on": [],
+      "aliases": [
+        "continuity",
+        "universal continuity"
+      ]
+    },
+    {
+      "id": "CF-MESH-001",
+      "title": "Public three-chat continuity spiderweb",
+      "source": "docs/PUBLIC_THREE_CHAT_CONTINUITY_MESH.md",
+      "parent": "UCC-001",
+      "related": [
+        "CF-200",
+        "AUTO-08",
+        "CF-P1"
+      ],
+      "depends_on": [],
+      "aliases": [
+        "mesh",
+        "spiderweb",
+        "three chats",
+        "shared memory"
+      ]
+    },
+    {
+      "id": "CF-200",
+      "title": "CF-200 automation registry and operating execution",
+      "source": "automation_200/registry.json",
+      "parent": "CF-CORE",
+      "related": [
+        "CF-MESH-001",
+        "AUTO-08",
+        "CF-HP",
+        "CF-P1"
+      ],
+      "depends_on": [
+        "UCC-001"
+      ],
+      "aliases": [
+        "work orders",
+        "executor",
+        "automation"
+      ]
+    },
+    {
+      "id": "AUTO-08",
+      "title": "Single-tab ChatGPT conversation continuation",
+      "source": "docs/AUTO_CONTINUATION_CONTROL_2026-11-09.md",
+      "parent": "CF-200",
+      "related": [
+        "CF-MESH-001",
+        "CF-HA-001",
+        "CF-HP"
+      ],
+      "depends_on": [
+        "UCC-001"
+      ],
+      "aliases": [
+        "continue runner",
+        "auto continue",
+        "one tab"
+      ]
+    },
+    {
+      "id": "CF-HP",
+      "title": "Public HP relay and provenance gates",
+      "source": "docs/MASTER_CONTROLLER_P0_STATUS_RECONCILIATION_2026-11-09.md",
+      "parent": "CF-200",
+      "related": [
+        "AUTO-08"
+      ],
+      "depends_on": [
+        "UCC-001"
+      ],
+      "aliases": [
+        "hp",
+        "relay",
+        "windows"
+      ]
+    },
+    {
+      "id": "CF-P1",
+      "title": "Owner-directed prioritization and resumable focus",
+      "source": "automation_200/RESUMABLE_FOCUS.md",
+      "parent": "CF-CORE",
+      "related": [
+        "CF-MESH-001",
+        "CF-200"
+      ],
+      "depends_on": [],
+      "aliases": [
+        "priority",
+        "focus",
+        "topic drift"
+      ]
+    },
+    {
+      "id": "CF-HA-001",
+      "title": "Habit Automator and local-first routines",
+      "source": "docs/PROJECTS.md",
+      "parent": "CF-200",
+      "related": [
+        "AUTO-08"
+      ],
+      "depends_on": [],
+      "aliases": [
+        "habit automator",
+        "habits"
+      ]
+    },
+    {
+      "id": "FIN-09",
+      "title": "Reality-as-game and business learning branch",
+      "source": "docs/PROJECTS.md",
+      "parent": "CF-CORE",
+      "related": [
+        "CF-EXP-GAME-LEARN-001"
+      ],
+      "depends_on": [],
+      "aliases": [
+        "finance",
+        "business",
+        "game economy"
+      ]
+    },
+    {
+      "id": "RES-04",
+      "title": "Epistemic boundaries and evidence-based research",
+      "source": "docs/BRAINROT_TO_BRAINPOWER_2026-11-09.md",
+      "parent": "CF-CORE",
+      "related": [
+        "CF-EXP-GAME-LEARN-001"
+      ],
+      "depends_on": [],
+      "aliases": [
+        "research evidence",
+        "proof"
+      ]
+    },
+    {
+      "id": "CF-EXP-GAME-LEARN-001",
+      "title": "Brainrot to Brainpower learning pilot",
+      "source": "docs/BRAINROT_TO_BRAINPOWER_2026-11-09.md",
+      "parent": "CF-CORE",
+      "related": [
+        "FIN-09",
+        "RES-04",
+        "CF-CONCEPT-DREAMKILLER-001"
+      ],
+      "depends_on": [
+        "UCC-001"
+      ],
+      "aliases": [
+        "brainrot",
+        "learning lab",
+        "gameful learning"
+      ]
+    },
+    {
+      "id": "CF-CONCEPT-DREAMKILLER-001",
+      "title": "Dreamkiller Game Boy concept",
+      "source": "concepts/dreamkiller/MASTER_CONCEPT_AND_CONTINUITY_PROMPT.md",
+      "parent": "CF-CORE",
+      "related": [
+        "CF-EXP-GAME-LEARN-001"
+      ],
+      "depends_on": [
+        "UCC-001"
+      ],
+      "aliases": [
+        "dreamkiller",
+        "breach dungeon"
+      ]
+    }
+  ]
+}
