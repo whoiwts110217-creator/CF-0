@@ -44,7 +44,6 @@ class OwnerActionOverlayTests(unittest.TestCase):
         self.assertIn('id="owner-actions"', self.script)
         self.assertIn('id="oa-items"', self.script)
         self.assertIn("checkedLocally", self.script)
-        self.assertIn("not a remote-control", self.script.lower() if False else "not a remote-control") if False else None
         self.assertIn("ownerActionChecks", self.enhance)
         self.assertIn("cf-owner-checks-updated", self.enhance)
 
