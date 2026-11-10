@@ -198,6 +198,11 @@ class HttpRepo:
         # Only fixed, public-safe reason codes leave the HTTP boundary.
         except urllib.error.HTTPError as e:
             if e.code==404 and method=='GET': return None
+            # GitHub's 403 can mean several different things. Record only a
+            # literal rate-budget header observation, not an inferred cause.
+            # Never read/echo body, URL, token, Retry-After or arbitrary headers.
+            if e.code==403 and e.headers and e.headers.get('X-RateLimit-Remaining')=='0':
+                raise RelayError('github_http_403_rate_budget_zero') from None
             raise RelayError('github_http_'+str(e.code)) from None
         except (urllib.error.URLError,TimeoutError,OSError):
             raise RelayError('github_unreachable') from None
