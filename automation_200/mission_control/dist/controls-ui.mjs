@@ -1,4 +1,4 @@
-import {records,parsePrivateInventory,inventoryStatus,shutdownPlan,CHATGPT_PLACEHOLDER_COUNT,SOURCE_DATE} from "./controls.mjs";
+import {records,parsePrivateInventory,inventoryStatus,shutdownPlan,CHATGPT_PLACEHOLDER_COUNT,CHATGPT_COUNT_OBSERVED_DATE,SOURCE_DATE} from "./controls.mjs";
 
 const byId=id=>document.getElementById(id);
 const groups=[
@@ -82,7 +82,7 @@ function draw() {
   }
   updatePlan();
   byId("control-chatgpt-count").textContent=privateAutomations===null
-    ? CHATGPT_PLACEHOLDER_COUNT+" private slots — last count, not a live read"
+    ? CHATGPT_PLACEHOLDER_COUNT+" private slots — account count checked "+CHATGPT_COUNT_OBSERVED_DATE+", not a live read"
     : privateAutomations.length+" private tasks in user-selected file";
   const workflowRecords=rows.filter(x=>x.source==="github");
   const scheduledCount=workflowRecords.filter(x=>x.trigger==="schedule").length;
