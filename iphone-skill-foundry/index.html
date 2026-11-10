@@ -772,7 +772,7 @@
   $('skillForm').addEventListener('submit',e=>{e.preventDefault();forge();$('results').scrollIntoView({behavior:'smooth',block:'start'});});
   $('previewFile').addEventListener('change',()=>{showFile();resetReview();});
   $('copyFile').addEventListener('click',async()=>{try{await navigator.clipboard.writeText(bundle.files[selectedKey()]);note('Selected file copied.');}catch(err){note('Clipboard permission denied. Select the preview text and use Copy, or download the file.');}});
-  $('copySynthesis').addEventListener('click',async()=>{if(!bundle)return;const key=Object.keys(bundle.files).find(k=>k.endsWith('SYNTHESIS_PROMPT.md'));try{await navigator.clipboard.writeText(bundle.files[key]);note('AI synthesis prompt copied. Paste it into an AI chat to refine and test the skill set.');}catch(e){$('previewFile').value=key;showFile();note('Clipboard unavailable. Synthesis prompt selected in preview for manual copying or download.');}});
+  $('copySynthesis').addEventListener('click',async()=>{if(!bundle)return;const key=Object.keys(bundle.files).find(k=>k.endsWith('SYNTHESIS_PROMPT.md'));try{await navigator.clipboard.writeText(bundle.files[key]);note('AI synthesis prompt copied. Paste it into an AI chat to refine and test the skill set.');}catch(e){$('previewFile').value=key;showFile();resetReview();note('Clipboard unavailable. Synthesis prompt selected in preview for manual copying or download.');}});
   $('downloadZip').addEventListener('click',exportZip);
   $('downloadSelected').addEventListener('click',()=>{
     if(!bundle)return;
@@ -835,7 +835,9 @@
 
   // CF0-SKILL-EVOL-001: read-only, on-device skill-review PREPARATION; no external evaluation.
   let reviewPacket=null;
+  let reviewEpoch=0; // Invalidate in-flight hashes after a file, preview, or draft changes.
   function resetReview(){
+    reviewEpoch+=1;
     reviewPacket=null;$('reviewDownload').disabled=true;$('reviewCopy').disabled=true;
     $('reviewResults').textContent='Choose an older SKILL.md and a newer version to prepare an unrun evaluation.';
   }
@@ -869,6 +871,7 @@
     };
   }
   async function compareSkills(useGenerated){
+    const epoch=++reviewEpoch;
     reviewPacket=null;$('reviewDownload').disabled=true;$('reviewCopy').disabled=true;
     const original=$('reviewBaseline').files?.[0];
     let candidate=$('reviewCandidate').files?.[0];
@@ -886,6 +889,7 @@
     $('reviewResults').textContent='Comparing selected files locally...';
     try{
       const result=await buildReview(original,candidate);
+      if(epoch!==reviewEpoch)return; // Never publish a stale result after a newer selection.
       reviewPacket=JSON.stringify(result,null,2)+'\n';
       $('reviewDownload').disabled=false;$('reviewCopy').disabled=false;
       $('reviewResults').textContent=(result.status==='reject_identical'?
@@ -897,6 +901,7 @@
         '\nRequired: actual normal, ambiguous and failure tests; safety review; genuinely independent paired judgments.'+
         '\nNo file contents were copied to the checklist.';
     }catch(err){
+      if(epoch!==reviewEpoch)return;
       $('reviewResults').textContent='Cannot compare: '+(err?.message||'unknown local error')+' No files were uploaded.';
     }
   }
