@@ -74,6 +74,25 @@ class GateTests(unittest.TestCase):
         self.data["candidate_sha256"] = old
         self.assertEqual(self.check()["decision"], "reject")
 
+    def test_iphone_foundry_unrun_template_cannot_pass_release_gate(self):
+        # Schema produced by the iPhone Foundry on-device comparison (draft PR #60):
+        # valid hashes but no actual execution, no human safety review or judges.
+        self.data["schema"] = "cf0.skill_evolution_evidence_template.v1"
+        self.data["status"] = "needs_evidence"
+        self.data["synthetic"] = False
+        self.data["hard_gates"] = {}
+        for row in self.data["test_runs"]:
+            row["mode"] = "not_run"
+            row["baseline_pass"] = None
+            row["candidate_pass"] = None
+            row["baseline_output_ref"] = ""
+            row["candidate_output_ref"] = ""
+        self.data["judges"] = []
+        report = self.check()
+        self.assertTrue(report["hashes_match"])
+        self.assertEqual(report["decision"], "needs_evidence")
+        self.assertFalse(report["publishing_authorized"])
+
     def test_identical_versions_reject(self):
         (self.path / "after").write_text("original", encoding="utf-8")
         self.assertEqual(self.check()["decision"], "reject")
