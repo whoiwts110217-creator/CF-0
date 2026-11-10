@@ -168,7 +168,9 @@ async function navigate(id){
   ensureActive();
   const tab=await chrome.tabs.get(live.tabId);
   if(chatId(tab.url)!==id)await cd('Page.navigate',{url:chatURL(id)});
-  await waitUntil(s=>s.composerVisible,40000,id,{allowNavigation:true});
+  // A busy conversation may hide the editor. Detect it before waiting for a
+  // composer that cannot appear until generation stops.
+  await waitUntil(s=>s.composerVisible||s.stopVisible||s.busy,40000,id,{allowNavigation:true});
 }
 async function continueOne(id,{advanceAfterAck=false}={}){
   await save({currentChat:id,attempt:{chatId:id,status:'pre_send',startedAt:stamp()},lastResult:'Navigating in selected tab; no keyboard send yet…'});
@@ -182,11 +184,11 @@ async function continueOne(id,{advanceAfterAck=false}={}){
     before=await scan();
     if(await handleOverlay(before))throw Error('PERSISTENT_POPUP');
   }
-  if(!before.composerVisible)throw Error('COMPOSER_NOT_READY');
   // Other-account/missing-history pages may still display a usable composer.
   // Do not turn the failed navigation into a fresh ChatGPT conversation.
   if(!hasLoadedConversation(before))throw Error('CONVERSATION_HISTORY_NOT_LOADED');
   if(before.stopVisible||before.busy)throw Error('ALREADY_RESPONDING');
+  if(!before.composerVisible)throw Error('COMPOSER_NOT_READY');
   if(before.draft)throw Error('OWNER_DRAFT_PRESENT');
   await focusComposer();
   ensureActive();
@@ -236,6 +238,9 @@ async function execute({mode,maxChats=1,advanceAfterAck=false}){
   if(advanceAfterAck && mode!=='queue')throw Error('FAST_MODE_QUEUE_ONLY');
   const alreadySubmitted=Array.isArray(s.submitted)?s.submitted:[];
   const toDo=(mode==='current'?q:q.filter(x=>!s.completed.includes(x.id)&&!alreadySubmitted.includes(x.id))).slice(0,maxChats);
+  // A busy thread is only deferred for THIS sweep. Do not mark it submitted
+  // or completed, so a future owner-initiated sweep can reconsider it.
+  const skippedBusy=[];
   let outcome='completed';
   try{
     if(cancelRequested)throw Error('STOP_REQUESTED');
@@ -247,12 +252,29 @@ async function execute({mode,maxChats=1,advanceAfterAck=false}){
       const count=(await tabsSnapshot());
       if(count.count!==1||count.tabId!==live.tabId)throw Error('CHATGPT_TAB_COUNT_CHANGED');
       live.escapes=0;
-      await continueOne(c.id,{advanceAfterAck});
+      try {
+        await continueOne(c.id,{advanceAfterAck});
+      } catch(error) {
+        // The owner requested full-queue coverage: skip an already-generating
+        // chat *only* when no keyboard command has begun. Never swallow
+        // unknown sends, owner drafts, sign-in, tab changes or STOP.
+        const attempt=(await getState()).attempt;
+        if(mode==='queue' && error?.message==='ALREADY_RESPONDING' &&
+           attempt?.chatId===c.id && attempt.status==='pre_send' &&
+           !cancelRequested && !live?.stop){
+          skippedBusy.push(c.id);
+          await save({attempt:null,currentChat:null,
+            lastResult:`Skipped busy chat ${skippedBusy.length}; no continue was sent. Moving to next chat.`});
+          continue;
+        }
+        throw error;
+      }
     }
     ensureActive();
+    const worked=toDo.length-skippedBusy.length;
     await save({phase:'idle',reason:null,lastResult:advanceAfterAck
-      ? `Acknowledged ${toDo.length} continue submission(s) in one tab. Replies NOT verified.`
-      : `Finished ${toDo.length} conversation(s) with the same Chrome tab.`});
+      ? `Acknowledged ${worked} continue submission(s); skipped ${skippedBusy.length} busy chat(s). Replies NOT verified.`
+      : `Finished ${worked} conversation(s); skipped ${skippedBusy.length} busy chat(s) in the same Chrome tab.`});
     ensureActive();
   }catch(error){
     outcome='needs_review';
