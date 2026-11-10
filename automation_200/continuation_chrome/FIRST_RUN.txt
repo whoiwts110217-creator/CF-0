@@ -43,6 +43,22 @@ GitHub source checks do not prove it works in your signed-in account.
    Fast-mode submitted IDs stay in a separate local checkpoint list to
    prevent duplicate submissions. Start with a tiny owner-approved batch.
 
+   New optional BOOTSTRAP + WORK mode (v0.1.7):
+   - Select "Bootstrap current chat once" for a live one-chat test that
+     reads the canonical public GitHub memory-bootstrap pointer and asks
+     the chat to resume its own substantive authorized work. Check the
+     visible sent message and completed reply before expanding the queue.
+   - For a bounded multi-chat sweep, check "Bootstrap + work" before
+     "Start imported sweep". Leave Fast unchecked if you need a verified
+     assistant answer in each chat. If Fast is checked, only the exact
+     submitted user message is confirmed, NOT work completion.
+   - A plain continue send DOES NOT count as a bootstrap send. Separate
+     bootstrap-sent and bootstrap-completed checkpoints prevent replay.
+   - The other account must be signed in in Chrome, and you must verify
+     its identity yourself. Account labels alone do not authenticate.
+   - User passwords, cookies, chat exports and personal chat content
+     never go to public GitHub or a browser automation provider.
+
 NO ACCOUNT CREDENTIALS, CHAT EXPORTS OR RECEIPTS SHOULD BE UPLOADED TO
 PUBLIC GITHUB. NEVER POST PAYMENT OR PRIVATE IDENTITY DATA IN CI LOGS.
 
