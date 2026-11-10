@@ -17,6 +17,7 @@ Caveman Focus is an experimental system for reducing repetitive work by coordina
 | **Public website** | [Caveman Focus on GitHub Pages](https://whoiwts110217-creator.github.io/CF-0/) |
 | **Mission Control** | [GitHub Pages dashboard](https://whoiwts110217-creator.github.io/CF-0/mission-control/) · [Restricted tasks](https://whoiwts110217-creator.github.io/CF-0/mission-control/#work-orders) · [Tools and task power](https://whoiwts110217-creator.github.io/CF-0/mission-control/#tool-power) · [Dashboard guide](../automation_200/mission_control/README.md) |
 | **Habit Automator (iPhone installable web app)** | [Open Habit Automator](https://whoiwts110217-creator.github.io/CF-0/mission-control/habit-automator/) · [Source and safety limits](../automation_200/mission_control/dist/habit-automator/README.md) |
+| **Three-chat public continuity** | [Single-link cold start](mesh/START_HERE.md) · [topic graph](PUBLIC_CONTEXT_GRAPH.json) · [public-safe handoff ledger](mesh/handoff_events.jsonl) · [source-level validator](../continuity/public_mesh_handoff.py) |
 | **Public projects** | [Project index](PROJECTS.md) · [Current status](PROJECT_STATUS.md) |
 | **Master mission board** | [MASTER_MISSION_BOARD.md](../automation_200/MASTER_MISSION_BOARD.md) |
 | **Master operator prompt (read first)** | [MASTER_OPERATOR_PROMPT.md](../automation_200/MASTER_OPERATOR_PROMPT.md) |

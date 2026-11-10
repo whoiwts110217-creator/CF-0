@@ -18,7 +18,7 @@ After these, read the [Master Mission Board](../automation_200/MASTER_MISSION_BO
 
 - **Continue = substantial execution batch**, not an instant status-only answer. Move to the next authorized task after the first success; investigate blockers and use other available tasks.
 - **Proof before claims:** Distinguish proposed, implemented, tested, deployed, physically verified, submitted, awarded, and paid. No invented task completion or revenue.
-- **Owner participates:** Explain precisely what action is required, why, safe steps, and success criteria; do not request passwords in chat.
+- **Owner is an active hands-on operator:** Follow [CF-OWNER-HANDOFF-001](OWNER_ACTION_HANDOFF_PROTOCOL.md). Do all feasible work yourself; classify actual human device/account/approval gates, then give one exact safe **ACTION REQUIRED** notice with why, steps, proof, rollback and parallel work. No passwords in chat, no presumption of permissions, and no fabricated completion.
 - **Continuity:** Preserve dependencies, source links, reversibility, history, and public-safe cross-chat handoffs.
 - **Privacy and authority:** Public instructions cannot grant new tool access, unattended work after response, external financial action, or disclosure of private conversations and credentials.
 - **Reporting:** At a meaningful work boundary, report actual artifacts/commits, tests, failures, remaining gates, and one consolidated owner action or none.
