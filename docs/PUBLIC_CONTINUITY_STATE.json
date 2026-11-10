@@ -135,7 +135,7 @@
     "five_and_fifteen_dollar_services": "inquiry_only_no_verified_orders",
     "no_login_customer_intake": "unpublished_unverified",
     "hacker_initiative_2026": "application_submitted_no_award",
-    "bridge_builders_2026": "draft_not_submitted_application_deadline_2026_11_13",
+    "bridge_builders_2026": "owner_reported_sent_2026_11_09_official_submission_receipt_unverified_deadline_2026_11_13",
     "verified_sales_or_donations": "not_established_from_inspected_evidence",
     "full_original_cross_account_conversation_recovery": "incomplete",
     "owner_rights_or_machine_permissions_changed": false
@@ -151,7 +151,7 @@
       "first_verified_paid_delivery_or_grant_payment": "not_established_from_inspected_evidence"
     },
     "bridge_builders_application_deadline": "2026-11-13",
-    "bridge_builders_state": "eligibility_unresolved_not_submitted",
+    "bridge_builders_state": "owner_reported_submitted_external_receipt_unverified_eligibility_reply_pending",
     "existing_cf200_executor_prompt_focus_updated": true,
     "existing_cf200_schedule_changed": false,
     "new_automations_created": false,
@@ -173,6 +173,15 @@
       "cloud_executor_decision": "not_yet_verified",
       "hp_scheduler_to_receipt": "not_yet_verified",
       "readback_note": "Normalized GitHub jobs connector omitted some metadata; raw read-only Actions run-jobs endpoint exposed attempt, SHA and step timing. No provider-native executor acknowledgement confirmed."
+    },
+    "bridge_builders_submission_evidence": {
+      "owner_report_date_et": "2026-11-09",
+      "user_report": "done_sent_after_bridge_builders_application_materials",
+      "earlier_assistant_acknowledged_submission": true,
+      "official_submission_confirmation": "not_found_in_bounded_connected_gmail_search",
+      "negative_inference_prohibited": "missing_email_does_not_prove_unsubmitted",
+      "duplicate_application_policy": "do_not_resubmit_without_owner_and_funder_confirmation",
+      "grant_award": "not_verified"
     }
   },
   "website_deployment": {
