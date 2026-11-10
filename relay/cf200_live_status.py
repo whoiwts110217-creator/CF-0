@@ -103,7 +103,8 @@ def snapshot():
             + "Source: https://github.com/" + REPO + "\n"
             + "Latest GitHub Actions: " + ci + "\n"
             + "Next HP verification: correlate Windows scheduled run and wrapper outcome with ping receipt.\n\n"
-            + hp + "\n"\n            + probe_summary() + "\n"
+            + hp + "\n"
+            + probe_summary() + "\n"
             + "HP unattended schedule: NOT VERIFIED without Windows scheduler evidence\n"
             + "This window runs on your Windows desktop only after local launch.\n"
             + "Public commit metadata does not prove CI passed or HP ran.\n")
