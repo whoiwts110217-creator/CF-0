@@ -2,6 +2,12 @@
 
 This is **source code**, not an installed extension or a tested signed-in Chrome deployment. It is an optional alternative to the older Playwright CLI. It attaches to **one already open Chrome ChatGPT tab** via Chrome's `debugger` permission and uses CDP keyboard commands without any mouse clicks, screenshots, new tabs or public ChatGPT APIs. It does not require a Chrome debugging port, restarting Chrome, a paid API, or a conversation export for the initial one-chat test.
 
+## Source release v0.1.7 — STOP/queued-START safety and identifiable ZIP
+
+[PR #97](https://github.com/whoiwts110217-creator/CF-0/pull/97) fixed an actual source race: when a newer STOP arrived while an earlier START or CONTINUE_CURRENT waited for extension storage, the older command could still proceed to tab inspection. That fix passed [source-only CI](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42842901344); the manifest had nevertheless remained `0.1.6`, making an older and newer ZIP indistinguishable by version. **v0.1.7** identifies the safety change, and the existing source-test workflow now rejects a mismatched manifest/artifact label.
+
+**Owner upgrade gate:** Only after owner review and preserving existing Chrome-local account labels, completed/submitted IDs and any `maybe_sent` checkpoints, update the same stable unpacked extension folder and press Chrome's **Reload** control. Do not uninstall, clear Chrome extension storage, open extra ChatGPT tabs, or treat this ZIP as an iPhone app. Unknown send outcomes remain review-blocked. The latest source-only package is not live signed-in AUTO-08 acceptance; initial testing still uses one deliberately selected low-stakes account/chat with readiness → one `continue` → completion → STOP/resume.
+
 ## Install on your Windows Chrome (one-time)
 
 1. Get this `continuation_chrome/` folder from the CF-0 repository or the ZIP. Keep it in a stable local folder.
@@ -139,8 +145,15 @@ Start with **one** owner-approved existing chat on a visibly verified ChatGPT ac
 
 **Rollback:** uncheck the fast option (default safe mode) or revert v0.1.6 source changes. Do not clear the owner's local submitted/completed/uncertain records when reverting; older versions do not understand fast-submitted checkpoints and may re-send those chats. Backup the private local extension state before downgrading, or treat the existing queue as unsafe to replay until manually reconciled.
 
+## Full-queue busy-chat skip (November 10; source-only candidate)
 
-## Source-linked bootstrap dispatch (v0.1.7 · November 10, 2026)
+During an explicitly started **imported queue sweep**, a thread visibly generating a response is **deferred without sending `continue`** when the controller still holds that thread's `pre_send` checkpoint. The runner moves to the next queued thread rather than ending a 17-chat pass after the first busy chat. The deferred thread is **neither submitted nor completed** and can be considered on a later owner-initiated sweep. The final popup result reports submitted/completed and busy-skipped counts separately. A single-chat smoke test still treats a busy thread as a blocker.
+
+This does **not** silently waive the safeguards for an uncertain `maybe_sent` message, an unsent owner draft, sign-in/account verification, unknown dialog, new tab, rate limit or owner STOP. Those cases retain the existing stop/review behavior. The extension still uses **one existing signed-in Chrome tab**, keyboard-only literal `continue`, and manually verified account labels. Fast mode acknowledges *submission*, not answer completion. **Navigating away from an actively generating chat may interrupt that generation; this mode cannot guarantee unattended work continues inside every previous thread.** That tradeoff is inherent to using one visible browser tab.
+
+Source regression: [skip-busy-fullqueue.test.mjs](tests/skip-busy-fullqueue.test.mjs) simulates 17 conversations with three busy threads, asserts fourteen distinct fast submissions and subsequent recovery of only the deferred three without resending the first fourteen. The test is synthetic. Live signed-in one-chat and queue acceptance still require the owner on Windows Chrome. Rollback: revert the specific source PR, but preserve the installed extension's private `submitted`, `completed` and uncertain attempts before downgrading.
+
+## Source-linked bootstrap dispatch (v0.1.8 · November 10, 2026)
 
 **Owner correction:** The cross-chat assignment was not simply to send `continue`. The intended instruction is: sign into the chosen ChatGPT account and tell each eligible existing conversation to retrieve the **current public [ChatGPT Memory Bootstrap](../../docs/CHATGPT_MEMORY_BOOTSTRAP.md)**, follow its **three master prompts in order**, reconcile its own distinct project context and current evidence, and perform substantive authorized work. Sending plain `continue` to a chat does **not** satisfy that requirement.
 
