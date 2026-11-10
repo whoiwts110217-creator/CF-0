@@ -1,4 +1,5 @@
 import json
+import hashlib
 import sys
 import tempfile
 import unittest
@@ -33,6 +34,8 @@ class GateTests(unittest.TestCase):
         (self.path / "before").write_text("original", encoding="utf-8")
         (self.path / "after").write_text("improved", encoding="utf-8")
         self.data = fixture()
+        self.data["baseline_sha256"] = hashlib.sha256(b"original").hexdigest()
+        self.data["candidate_sha256"] = hashlib.sha256(b"improved").hexdigest()
 
     def check(self):
         (self.path / "evidence.json").write_text(json.dumps(self.data), encoding="utf-8")
@@ -41,6 +44,35 @@ class GateTests(unittest.TestCase):
     def test_good_shape_only_goes_to_owner_review(self):
         self.assertEqual(self.check()["decision"], "owner_review_required")
         self.assertFalse(self.check()["publishing_authorized"])
+
+    def test_bound_version_hashes_match_original_bytes(self):
+        report = self.check()
+        self.assertTrue(report["hashes_match"])
+        self.assertEqual(report["baseline_sha256"], self.data["baseline_sha256"])
+        self.assertEqual(report["candidate_sha256"], self.data["candidate_sha256"])
+        self.assertEqual(report["decision"], "owner_review_required")
+
+    def test_missing_version_hash_needs_evidence(self):
+        del self.data["baseline_sha256"]
+        report = self.check()
+        self.assertEqual(report["decision"], "needs_evidence")
+        self.assertFalse(report["hashes_match"])
+
+    def test_malformed_version_hash_needs_evidence(self):
+        self.data["candidate_sha256"] = "wrong-hash"
+        self.assertEqual(self.check()["decision"], "needs_evidence")
+
+    def test_different_skill_bytes_reject_stale_claim(self):
+        (self.path / "after").write_text("new unpinned draft", encoding="utf-8")
+        report = self.check()
+        self.assertEqual(report["decision"], "reject")
+        self.assertFalse(report["hashes_match"])
+
+    def test_swapped_version_hashes_reject(self):
+        old = self.data["baseline_sha256"]
+        self.data["baseline_sha256"] = self.data["candidate_sha256"]
+        self.data["candidate_sha256"] = old
+        self.assertEqual(self.check()["decision"], "reject")
 
     def test_identical_versions_reject(self):
         (self.path / "after").write_text("original", encoding="utf-8")
