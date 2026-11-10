@@ -83,8 +83,8 @@ try {
   const ready = await evaluate("(" + setupDOM.toString() + ")()");
   assert.equal(ready, true, "Synthetic editor must have focus");
   const source = await readFile(new URL("../background.js", import.meta.url), "utf8");
-  assert.match(source, /const text=bootstrap\\?BOOTSTRAP_TEXT:CONTINUE_TEXT/);
-  assert.match(source, /Input\\.insertText',\\{text\\}/);
+  assert.match(source, /const text=bootstrap\?BOOTSTRAP_TEXT:CONTINUE_TEXT/);
+  assert.match(source, /Input\.insertText',\{text\}/);
   assert.match(source, /type:'rawKeyDown'[\s\S]*type:'keyUp'/);
   // Exactly the three commands currently used by the owner-local extension:
   // insertText('continue') + physical Enter key-down and key-up.
