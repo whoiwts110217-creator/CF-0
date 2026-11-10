@@ -19,8 +19,13 @@ self.addEventListener("fetch",event=>{
    const cache=await caches.open(CACHE);
    const hot=req.mode==="navigate" || /\/(index\.html|links\.json|enhance\.js)$/.test(u.pathname);
    if(hot){
-     try{const network=await fetch(req);if(network.ok)await cache.put(req,network.clone());return network}
-     catch(_){return await cache.match(req,{ignoreSearch:true}) || await cache.match("./index.html") || Response.error()}
+     const key=u.pathname.endsWith("/links.json")?"./links.json":u.pathname.endsWith("/enhance.js")?"./enhance.js":"./index.html";
+     try{const network=await fetch(req);if(network.ok)await cache.put(key,network.clone());return network}
+     catch(_){
+       const saved=await cache.match(key);
+       if(saved)return saved;
+       return req.mode==="navigate" ? (await cache.match("./index.html") || Response.error()) : Response.error();
+     }
    }
    const cached=await cache.match(req,{ignoreSearch:true});
    if(cached)return cached;
