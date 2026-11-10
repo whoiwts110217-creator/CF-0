@@ -1,4 +1,8 @@
 # Caveman Focus — The Jungle Map
+
+
+> **DATED SNAPSHOT — NOT LIVE.** This map was compiled November 10, 2026 from a particular public source revision. **If you're reading it later, its counts, deadlines, and statuses may be old.** Open the [**Current Source Gateway**](CURRENT_SOURCE_GATEWAY.md) (moving `main` link) or [Mission Control](https://whoiwts110217-creator.github.io/CF-0/mission-control/) for a fresh GitHub registry read. Every project, idea, game, experiment, grant, archived source and task follows [CF-FRESH-001](UNIVERSAL_FRESHNESS_CONTRACT.md). Source-link freshness does not prove HP/account/payment activity.
+
 ### Owner's field guide · source snapshot: November 10, 2026, Eastern
 
 **Start here when the whole system feels scattered.** This is a public-safe *navigation and attention map*, not a new 200-task registry, a live account controller, a private transcript export, or permission to activate anything. The [authoritative CF-200 registry](../automation_200/registry.json), [current source status](PUBLIC_CONTINUITY_STATE.json), and [mission board](../automation_200/MASTER_MISSION_BOARD.md) outrank any stale number here. Source observed at public `main` commit `ac1c1dd1a8cae4a0b5060b6909422bf63a83187f`.
