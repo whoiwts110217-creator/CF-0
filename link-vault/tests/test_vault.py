@@ -56,7 +56,7 @@ class LinkVaultSourceTest(unittest.TestCase):
         self.assertIn("CF-Link-Vault-Personal-Backup.json",self.script)
         self.assertIn("Offline / not checked now",self.script)
         self.assertIn("cf-link-vault-v2",self.sw)
-        self.assertIn('"/links.json"',self.sw)
+        self.assertIn("./links.json",self.sw)
         self.assertIn("if(hot)",self.sw)
         self.assertIn("cache.match(req,{ignoreSearch:true})",self.sw)
         self.assertNotIn("chatgpt.com/c/",self.html)
