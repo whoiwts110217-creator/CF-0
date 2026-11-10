@@ -93,6 +93,9 @@ jobs:
           python -m unittest discover -s link-vault/tests -p "test_*.py" -v
           node --check link-vault/enhance.js
           node --check link-vault/owner-actions.js
+          node --check link-vault/spider-core.js
+          node --check link-vault/spider-shell.js
+          node --test link-vault/tests/*.test.mjs
           node --check link-vault/sw.js
           python -m json.tool link-vault/owner-actions.json > /dev/null
       # The ROM pixel-output compatibility test is preserved as a separate,
@@ -128,7 +131,7 @@ jobs:
           mkdir -p _site/skill-foundry
           cp iphone-skill-foundry/index.html iphone-skill-foundry/manifest.webmanifest iphone-skill-foundry/icon.svg iphone-skill-foundry/apple-touch-icon.png iphone-skill-foundry/sw.js _site/skill-foundry/
           mkdir -p _site/link-vault
-          cp link-vault/index.html link-vault/enhance.js link-vault/links.json link-vault/owner-actions.js link-vault/owner-actions.css link-vault/owner-actions.json link-vault/manifest.webmanifest link-vault/icon.svg link-vault/sw.js _site/link-vault/
+          cp link-vault/index.html link-vault/enhance.js link-vault/links.json link-vault/owner-actions.js link-vault/spider-core.js link-vault/spider-shell.js link-vault/owner-actions.css link-vault/owner-actions.json link-vault/manifest.webmanifest link-vault/icon.svg link-vault/sw.js _site/link-vault/
           mkdir -p _site/dreamkiller
           cp -R concepts/dreamkiller/iphone-emu/site/. _site/dreamkiller/
           cp concepts/dreamkiller/rom_v0_2/dreamkiller_road_v0_2.gb _site/dreamkiller/road-v02.gb
@@ -173,9 +176,11 @@ jobs:
           assert Path("_site/link-vault/index.html").is_file(), "iPhone Link Vault missing"
           assert Path("_site/link-vault/manifest.webmanifest").is_file(), "Link Vault PWA manifest missing"
           assert Path("_site/link-vault/sw.js").is_file(), "Link Vault offline worker missing"
-          for new_asset in ("owner-actions.js","owner-actions.css","owner-actions.json"):
+          for new_asset in ("owner-actions.js","spider-core.js","spider-shell.js","owner-actions.css","owner-actions.json"):
               assert Path("_site/link-vault",new_asset).is_file(), f"Link Vault action overlay missing: {new_asset}"
-          assert 'href="./owner-actions.css"' in Path("_site/link-vault/index.html").read_text(encoding="utf-8")
+          page = Path("_site/link-vault/index.html").read_text(encoding="utf-8")
+          assert 'href="./owner-actions.css"' in page
+          assert page.index("spider-core.js") < page.index("owner-actions.js") < page.index("spider-shell.js")
           assert Path("_site/link-vault/links.json").is_file(), "Refreshable link catalog missing"
           assert Path("_site/link-vault/enhance.js").is_file(), "Link Vault refresh logic missing"
           assert Path("_site/dreamkiller/GameBoy.min.js").stat().st_size > 500000
