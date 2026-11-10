@@ -1,6 +1,6 @@
 {
   "schema": "cf.link.vault.owner_view.v1",
-  "revision": "2026-11-10.1",
+  "revision": "2026-11-10.2",
   "as_of": "2026-11-10",
   "source_note": "Public-safe snapshot derived from CF-0 canonical sources and owner handoffs. This is a navigation overlay, not the authoritative task registry, live status monitor, or full private-chat export.",
   "actions": [
@@ -255,6 +255,62 @@
       "source": "https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/OWNER_JUNGLE_MAP.md",
       "proof": "Actual provider reply and separate settled payment proof",
       "caution": "No invented income."
+    },
+    {
+      "id": "CF-ACT-019",
+      "zone": "conditional",
+      "owner": "owner",
+      "priority": "P2",
+      "title": "Approve final outside donation listings",
+      "detail": "Public donation pages exist, but an external listing, directory submission or payment is not verified by the reviewed public records.",
+      "action": "When a real platform is ready to submit, review the truthful campaign text and confirm any required account identity/human challenge in the official site.",
+      "link": "https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/FIRST_DROP_CAMPAIGN_2026-11-09.md",
+      "label": "Campaign source",
+      "source": "https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/FREE_BROWSER_PROMOTION_2026-11-09.md",
+      "proof": "Accepted external listing URL or official status, not just a draft",
+      "caution": "Do not present a voluntary donation as a product sale or promise an award."
+    },
+    {
+      "id": "CF-ACT-020",
+      "zone": "conditional",
+      "owner": "owner",
+      "priority": "Accounts",
+      "title": "Complete social signup verification at a real gate",
+      "detail": "Social account creation experiments on Bluesky, Substack and Medium lacked independently confirmed completed registrations; some required owner-provided personal sign-in details or human verification.",
+      "action": "When an assistant identifies the exact blocked provider, complete its official registration, email verification or human challenge yourself. No password in chat; no paid subscription.",
+      "link": "https://github.com/whoiwts110217-creator/CF-0/blob/main/automation_200/MASTER_MISSION_BOARD.md",
+      "label": "Account setup status",
+      "source": "https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/OWNER_ACTION_HANDOFF_PROTOCOL.md",
+      "proof": "Official account shows signed in and can post, without fabricated signup",
+      "caution": "Only choose accounts you want associated with the public project."
+    },
+    {
+      "id": "CF-ACT-021",
+      "zone": "optional",
+      "owner": "owner",
+      "priority": "iPhone",
+      "title": "Test Skill Foundry on the actual iPhone",
+      "detail": "Source-level app assets and tests exist; physical Safari install/export/skill activation remain independent acceptance gates.",
+      "action": "When ready, open the public Skill Foundry on the iPhone and check one low-stakes skill export/import, recording what actually worked.",
+      "link": "https://whoiwts110217-creator.github.io/CF-0/skill-foundry/",
+      "label": "Skill Foundry app",
+      "source": "https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/START_HERE.md",
+      "proof": "Owner-observed Safari interaction and safe output file",
+      "caution": "A generated skill file is not proof it has been installed in this ChatGPT account."
+    },
+    {
+      "id": "CF-ACT-022",
+      "zone": "optional",
+      "owner": "owner",
+      "priority": "P1",
+      "title": "Give the priority engine one real decision/override",
+      "detail": "Source-based priority selection is not the same as the owner testing an override and confirming the resulting task choice.",
+      "action": "When you disagree with the next selected work order, state the override and expected result; the assistant should record the decision against the existing task ID.",
+      "link": "https://github.com/whoiwts110217-creator/CF-0/blob/main/automation_200/DECISION_ENGINE.md",
+      "label": "Priority engine",
+      "source": "https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/OWNER_ACTION_HANDOFF_PROTOCOL.md",
+      "proof": "Owner decision linked to one task and actual subsequent result",
+      "caution": "No need to micromanage routine source-safe work."
     }
   ]
 }
