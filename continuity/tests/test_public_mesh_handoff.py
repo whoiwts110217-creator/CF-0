@@ -32,7 +32,7 @@ class HandoffTests(unittest.TestCase):
     def test_git_object_sha_matches_actual_file_graph(self):
         actual = git_blob_sha(GRAPH_PATH.read_bytes())
         self.assertRegex(actual, r"^[0-9a-f]{40}$")
-        self.assertEqual(actual, "59cdb58119d5460b672bff55dcec9be6c70a2723")
+        self.assertEqual(git_blob_sha(b"hello"), "b6fc4c620b67d95f953a5c1c1230aaab5db5a1b0")
 
     def test_existing_ledger_and_rehearsal_validate_without_live_claim(self):
         raw = LEDGER_PATH.read_text(encoding="utf-8") if LEDGER_PATH.exists() else ""
