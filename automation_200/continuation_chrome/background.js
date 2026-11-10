@@ -169,7 +169,9 @@ async function navigate(id){
   ensureActive();
   const tab=await chrome.tabs.get(live.tabId);
   if(chatId(tab.url)!==id)await cd('Page.navigate',{url:chatURL(id)});
-  await waitUntil(s=>s.composerVisible,40000,id,{allowNavigation:true});
+  // Busy conversations may hide the editor; detect them without waiting for
+  // a composer that will not appear until generation stops.
+  await waitUntil(s=>s.composerVisible||s.stopVisible||s.busy,40000,id,{allowNavigation:true});
 }
 async function continueOne(id,{advanceAfterAck=false,bootstrap=false}={}){
   const text=bootstrap?BOOTSTRAP_TEXT:CONTINUE_TEXT;
@@ -185,11 +187,11 @@ async function continueOne(id,{advanceAfterAck=false,bootstrap=false}={}){
     before=await scan();
     if(await handleOverlay(before))throw Error('PERSISTENT_POPUP');
   }
-  if(!before.composerVisible)throw Error('COMPOSER_NOT_READY');
   // Other-account/missing-history pages may still display a usable composer.
   // Do not turn the failed navigation into a fresh ChatGPT conversation.
   if(!hasLoadedConversation(before))throw Error('CONVERSATION_HISTORY_NOT_LOADED');
   if(before.stopVisible||before.busy)throw Error('ALREADY_RESPONDING');
+  if(!before.composerVisible)throw Error('COMPOSER_NOT_READY');
   if(before.draft)throw Error('OWNER_DRAFT_PRESENT');
   if(bootstrap && before.lastUserExactCommand){
     await save(s=>({attempt:null,currentChat:null,
@@ -255,6 +257,8 @@ async function execute({mode,maxChats=1,advanceAfterAck=false,bootstrap=false}){
   const toDo=(mode==='current'?q:q.filter(x=>bootstrap
     ?!alreadyBootstrapped.includes(x.id)
     :!s.completed.includes(x.id)&&!alreadySubmitted.includes(x.id))).slice(0,maxChats);
+  // Busy chats are deferred only for this sweep; never mark them sent.
+  const skippedBusy=[];
   let outcome='completed';
   let sentCount=0,alreadyVisibleCount=0;
   try{
@@ -267,18 +271,33 @@ async function execute({mode,maxChats=1,advanceAfterAck=false,bootstrap=false}){
       const count=(await tabsSnapshot());
       if(count.count!==1||count.tabId!==live.tabId)throw Error('CHATGPT_TAB_COUNT_CHANGED');
       live.escapes=0;
-      const result=await continueOne(c.id,{advanceAfterAck,bootstrap});
-      if(result?.status==='already_visible')alreadyVisibleCount++;
-      else if(result?.status==='sent')sentCount++;
+      try {
+        const result=await continueOne(c.id,{advanceAfterAck,bootstrap});
+        if(result?.status==='already_visible')alreadyVisibleCount++;
+        else if(result?.status==='sent')sentCount++;
+      } catch(error) {
+        // Only skip an actively responding thread BEFORE the first keyboard
+        // side effect. Never swallow an uncertain send, STOP or login issue.
+        const attempt=(await getState()).attempt;
+        if(mode==='queue' && error?.message==='ALREADY_RESPONDING' &&
+           attempt?.chatId===c.id && attempt.status==='pre_send' &&
+           !cancelRequested && !live?.stop){
+          skippedBusy.push(c.id);
+          await save({attempt:null,currentChat:null,
+            lastResult:`Skipped busy chat ${skippedBusy.length}; no instruction sent. Moving to next chat.`});
+          continue;
+        }
+        throw error;
+      }
     }
     ensureActive();
     await save({phase:'idle',reason:null,lastResult:bootstrap
       ? (advanceAfterAck
-        ? `Bootstrap exactly submitted in ${sentCount} new chat(s); ${alreadyVisibleCount} already contained the exact command; replies NOT verified.`
-        : `Bootstrap stable replies verified in ${sentCount} chat(s); ${alreadyVisibleCount} chats already contained the exact command (response not verified).`)
+        ? `Bootstrap exactly submitted in ${sentCount} new chat(s); ${alreadyVisibleCount} already contained the exact command; skipped ${skippedBusy.length} busy chat(s); replies NOT verified.`
+        : `Bootstrap stable replies verified in ${sentCount} chat(s); ${alreadyVisibleCount} already contained the command; skipped ${skippedBusy.length} busy chat(s).`)
       : advanceAfterAck
-        ? `Acknowledged ${sentCount} continue submission(s) in one tab. Replies NOT verified.`
-        : `Finished ${sentCount} conversation(s) with the same Chrome tab.`});
+        ? `Acknowledged ${sentCount} continue submission(s) in one tab; skipped ${skippedBusy.length} busy chat(s). Replies NOT verified.`
+        : `Finished ${sentCount} conversation(s); skipped ${skippedBusy.length} busy chat(s) in the same Chrome tab.`});
     ensureActive();
   }catch(error){
     outcome='needs_review';
