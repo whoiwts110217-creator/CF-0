@@ -115,7 +115,7 @@ def audit(root: Path = ROOT) -> list[str]:
                     errors.append(f"Invalid nested prompt change at line {n} item {i}")
                     continue
                 path = change.get("path")
-                if path not in PROMPTS or path in paths_seen:
+                if not isinstance(path, str) or path not in PROMPTS or path in paths_seen:
                     errors.append(f"Unknown or duplicated prompt path at line {n} item {i}")
                     continue
                 paths_seen.add(path)
