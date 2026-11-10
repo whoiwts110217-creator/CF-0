@@ -1,5 +1,7 @@
 # Caveman Focus public project index
 
+**Owner's field guide:** [The Jungle Map — priorities, every major workstream, current blockers and what needs you](OWNER_JUNGLE_MAP.md). This is a dated public-safe view derived from the authoritative registry, not another task queue or live HP control.
+
 **Updated November 9, 2026 (Eastern).**
 
 **Cold-start spiderweb for three chats:** [One-link bootstrap](mesh/START_HERE.md) · [source-only handoff ledger](mesh/handoff_events.jsonl) · [handoff chain verifier](../continuity/public_mesh_handoff.py) · [CF-MESH-001 public continuity contract](PUBLIC_THREE_CHAT_CONTINUITY_MESH.md) · [machine-readable public topic graph](PUBLIC_CONTEXT_GRAPH.json) · [read-only topic resolver](../continuity/public_topic_router.py). The current topic stays the anchor: these links recover directly connected workstreams without switching the user's subject or implying access to private conversations. This is a bounded public index, not the entire original archive. This grouped index tracks publicly documented projects and workstreams. The original list of approximately **37 projects** remains unrecovered. The separately held **62-entry reconstruction** includes subprojects and workstreams.
