@@ -1,5 +1,12 @@
 # AUTO-08: Chrome one-tab monitor (owner-local Chrome extension)
 
+## Source release v0.1.9 — unanswered-user-turn duplicate-send guard
+
+Chrome's page can sometimes show a usable composer without a Stop button while the latest user turn is still unanswered. Previous AUTO-08 source relied on the visible busy/Stop indicators, which could allow another `continue` to be submitted. v0.1.9 adds a **read-only trailing-role check** to readiness and the pre-send boundary: when the last rendered message is from the user, the runner refuses to send, records `UNANSWERED_USER_TURN`, and requires an owner inspection. Only a boolean about the last role leaves the page; no private message text is persisted. Node mock tests check that no keyboard input is issued in this case.
+
+This is an additional fail-closed safety rule for the public **AUTO-08** source; it does not modify the separately installed owner-local **Master Continuation Switch v1.3.0**, repair its timeout receipt, migrate extension-local checkpoints, or prove signed-in Chrome operation. Owner must STOP/export old v1.3 checkpoints before deciding whether to switch implementations. Keep only one actively controlling extension. Do not run any ChatGPT sends without a deliberate low-stakes owner acceptance.
+
+
 This is **source code**, not an installed extension or a tested signed-in Chrome deployment. It is an optional alternative to the older Playwright CLI. It attaches to **one already open Chrome ChatGPT tab** via Chrome's `debugger` permission and uses CDP keyboard commands without any mouse clicks, screenshots, new tabs or public ChatGPT APIs. It does not require a Chrome debugging port, restarting Chrome, a paid API, or a conversation export for the initial one-chat test.
 
 ## Source release v0.1.7 — STOP/queued-START safety and identifiable ZIP
