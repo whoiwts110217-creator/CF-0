@@ -1,4 +1,5 @@
 """CF-0 prompt-change governance checks: source integrity and regression examples."""
+import json
 import tempfile
 import unittest
 from pathlib import Path
@@ -45,6 +46,40 @@ class PromptChangeGuardTests(unittest.TestCase):
             self.assertTrue(any("latest recorded blob" in p for p in audit(root)))
             (root / LOG).unlink()
             self.assertTrue(any("Missing append-only" in p for p in audit(root)))
+
+
+    def test_multipath_integrity_rejects_invalid_subcommits_and_paths(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            self.fixture(root)
+            log = root / LOG
+            original = log.read_text(encoding="utf-8").splitlines()
+            rows = [json.loads(line) for line in original]
+            index = next(i for i, event in enumerate(rows) if event["id"] == "PCE-012")
+            self.assertEqual(len(rows[index]["paths"]), 3)
+            for problem, mutate in (
+                ("Invalid nested commit SHA", lambda record: record["paths"][0].update(commit="not-a-sha")),
+                ("Invalid nested result blob SHA", lambda record: record["paths"][0].update(after_blob_sha="bad")),
+                ("Unknown or duplicated prompt path", lambda record: record["paths"][1].update(path=record["paths"][0]["path"])),
+            ):
+                with self.subTest(problem=problem):
+                    changed = [json.loads(line) for line in original]
+                    mutate(changed[index])
+                    log.write_text("\n".join(json.dumps(v, separators=(",", ":")) for v in changed)+"\n", encoding="utf-8")
+                    self.assertTrue(any(problem in p for p in audit(root)))
+            log.write_text("\n".join(original)+"\n", encoding="utf-8")
+            self.assertEqual(audit(root), [], "Unmodified multi-prompt history must be accepted")
+
+    def test_multipath_must_not_claim_extra_authority_or_hide_missing_records(self):
+        with tempfile.TemporaryDirectory() as d:
+            root = Path(d)
+            self.fixture(root)
+            log = root / LOG
+            rows = [json.loads(line) for line in log.read_text(encoding="utf-8").splitlines()]
+            index = next(i for i, event in enumerate(rows) if event["id"] == "PCE-012")
+            rows[index]["paths"] = []
+            log.write_text("\n".join(json.dumps(v) for v in rows)+"\n", encoding="utf-8")
+            self.assertTrue(any("Invalid multi-path change record" in p for p in audit(root)))
 
 
 if __name__ == "__main__":
