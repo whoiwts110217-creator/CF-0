@@ -154,7 +154,7 @@ class HandoffTests(unittest.TestCase):
             validate_events(altered, GRAPH)
 
     def test_invalid_jsonl_or_extra_blank_line_fail_closed(self):
-        for value in ("not json\n", "\n", '{"schema": 0}\n"):
+        for value in ("not json\n", "\n", '{"schema": 0}\n'):
             with self.subTest(value=value), self.assertRaises(HandoffError):
                 validate_events(value, GRAPH)
 
