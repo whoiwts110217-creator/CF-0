@@ -104,6 +104,54 @@ class FreePromotionMonitorTests(unittest.TestCase):
         self.assertNotIn("donation received", summary)
         self.assertIn("not_public_as_checked", summary)
 
+
+    def test_browser_denies_page_initiated_writes(self):
+        class Request:
+            def __init__(self, method):
+                self.method = method
+
+        class Route:
+            def __init__(self, method):
+                self.request = Request(method)
+                self.outcome = None
+
+            def continue_(self):
+                self.outcome = "allowed"
+
+            def abort(self):
+                self.outcome = "blocked"
+
+        for method in ("GET", "HEAD"):
+            with self.subTest(method=method):
+                route = Route(method)
+                monitor.enforce_get_only(route)
+                self.assertEqual(route.outcome, "allowed")
+        for method in ("POST", "PUT", "PATCH", "DELETE", "OPTIONS"):
+            with self.subTest(method=method):
+                route = Route(method)
+                monitor.enforce_get_only(route)
+                self.assertEqual(route.outcome, "blocked")
+
+    def test_expected_public_payment_anchor_without_following_link(self):
+        self.assertTrue(monitor.has_expected_cash_app_anchor(
+            ["https://cash.app/$LAZYBLACKBEAN", "https://example.com/"]
+        ))
+        for link in (
+            "https://cash.app/$OTHER",
+            "http://cash.app/$LAZYBLACKBEAN",
+            "https://cash.app.evil.example/$LAZYBLACKBEAN",
+            "https://example.com/?next=https://cash.app/$LAZYBLACKBEAN",
+        ):
+            with self.subTest(link=link):
+                self.assertFalse(monitor.has_expected_cash_app_anchor([link]))
+        self.assertFalse(monitor.has_expected_cash_app_anchor([]))
+
+    def test_live_browser_registration_has_explicit_request_guard(self):
+        source = MODULE.read_text(encoding="utf-8")
+        self.assertIn('context.route("**/*", enforce_get_only)', source)
+        self.assertIn('expected_cash_app_anchor_present', source)
+        self.assertNotIn('page.goto("https://cash.app', source)
+
     def test_script_has_no_form_or_outbound_post_mechanism(self):
         source = MODULE.read_text(encoding="utf-8")
         self.assertIn("page.goto(", source)
