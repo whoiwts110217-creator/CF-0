@@ -105,3 +105,13 @@ test("Clarity Card share metadata is canonical and truthful", () => {
   assert.doesNotMatch(html, /property="og:image"/, "No unverified social image is advertised");
   assert.doesNotMatch(html, /article:published_time/, "Not an article");
 });
+
+test("Hype Star general text badge is qualified, non-endorsing and contains no tracking script", () => {
+  assert.match(html, /class="hypestar-badge hypestar-badge--text"/);
+  assert.match(html, /data-hypestar-theme="auto"/);
+  assert.match(html, /https:\/\/hypestar\.org\/\?utm_source=supporter_badge&amp;utm_medium=referral&amp;utm_campaign=hype_star_badge/);
+  assert.match(html, /rel="noopener nofollow"/);
+  assert.match(html, /directory link; not a listing or endorsement/);
+  assert.doesNotMatch(html, /Listed on Hype Star/);
+  assert.doesNotMatch(html, /hypestar\.org\/badges\//, "Text badge needs no remote image");
+});
