@@ -244,6 +244,22 @@
       "public_anchor": "docs/CONTINUITY.md",
       "source_type": "private_originals_not_published",
       "status_origin": "read_on_demand"
+    },
+    {
+      "id": "CF-LINK-VAULT-001",
+      "area": "P1",
+      "title": "Existing iPhone Link Vault and owner action sphere",
+      "public_anchor": "link-vault/README.md",
+      "source_type": "public",
+      "status_origin": "read_on_demand"
+    },
+    {
+      "id": "CF-SPIDER-001",
+      "area": "P1",
+      "title": "Spider/Sphere linked source and Work handoff",
+      "public_anchor": "docs/SPIDER_SPHERE_WORK_HANDOFF_2026-11-10.md",
+      "source_type": "public",
+      "status_origin": "read_on_demand"
     }
   ]
 }
