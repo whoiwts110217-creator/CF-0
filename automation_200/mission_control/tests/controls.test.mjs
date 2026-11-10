@@ -38,7 +38,8 @@ test("private imported names are in-memory display data only and never treated a
   assert.equal("id" in a[0],false);
   assert.equal(records(a).filter(x=>x.source==="chatgpt").length,2);
   assert.match(inventoryStatus(records(a)[0]),/Last reported enabled/);
-  assert.match(inventoryStatus(records(a)[1]),/Last reported paused/);
+  assert.match(inventoryStatus(records(a)[1]),/Last reported not enabled/);
+  assert.doesNotMatch(inventoryStatus(records(a)[1]),/Last reported paused/);
 });
 test("rejects invalid imports and duplicate task identifiers",()=>{
   assert.throws(()=>parsePrivateInventory({schema:"x",automations:[]}));

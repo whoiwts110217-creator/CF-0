@@ -21,6 +21,8 @@ export const SOURCES = Object.freeze({
     {"id":"dreamkiller-chapter01","title":"Dreamkiller chapter 01","trigger":"event","detail":"On matching source push or manual dispatch","research":false},
     {"id":"dreamkiller-v02-browser","title":"Dreamkiller v0.2 browser tests","trigger":"event","detail":"On matching source push or manual dispatch","research":false},
     {"id":"dreamkiller-v02","title":"Dreamkiller v0.2 build tests","trigger":"event","detail":"On matching source push or manual dispatch","research":false},
+    {"id":"cf0-skill-evolution-ci","title":"CF0 Skill Evolution Offline Tests","trigger":"event","detail":"On matching pull requests or manual dispatch; offline evidence-gate tests, not an autonomous agent","research":false},
+    {"id":"iphone-skill-foundry-browser-smoke","title":"Skill Foundry Browser Smoke Tests","trigger":"event","detail":"On matching pull requests or manual dispatch; synthetic Chromium/WebKit tests, not a deployed iPhone app","research":false},
     {"id":"iphone-skill-foundry-ci","title":"Skill Foundry iPhone checks","trigger":"event","detail":"On matching pull requests or manual dispatch; local-only package tests, not an installed iPhone app","research":false},
     {"id":"iphone-skill-foundry-browser-smoke","title":"Skill Foundry Chromium and WebKit smoke","trigger":"event","detail":"On matching pull requests or manual dispatch; Linux browser source tests, not a signed iPhone app","research":false},
     {"id":"mission-control-access-tests","title":"Mission Control access visibility tests","trigger":"event","detail":"On source push or pull request","research":false},
@@ -42,7 +44,7 @@ export const SOURCES = Object.freeze({
 export const GITHUB_BASE = gh;
 export const CHATGPT_PLACEHOLDER_COUNT = 11; // Only count is public; titles remain private until local import.
 export const inventoryStatus = item => item.source === "chatgpt"
-  ? (item.reportedEnabled === true ? "Last reported enabled" : item.reportedEnabled === false ? "Last reported paused" : "State unknown")
+  ? (item.reportedEnabled === true ? "Last reported enabled" : item.reportedEnabled === false ? "Last reported not enabled (pause/completion not distinguished)" : "State unknown")
   : item.source === "github" ? (item.trigger === "schedule" ? "Scheduled in source; live state unknown" : "Event/manual trigger in source; live state unknown") : "Local state unverified";
 
 export function records(privateAutomations = null) {
