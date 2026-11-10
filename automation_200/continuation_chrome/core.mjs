@@ -1,6 +1,9 @@
 // Pure functions, safe for browser and Node tests. No Chrome API calls here.
 export const CHATGPT_HOST = 'chatgpt.com';
 export const CONTINUE_TEXT = 'continue';
+// Fixed owner-directed bootstrap message. Deliberately one line so the exact
+// submitted user turn can be checked without storing private transcript text.
+export const BOOTSTRAP_TEXT = 'BOOTSTRAP & CONTINUE: Open the current public https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/CHATGPT_MEMORY_BOOTSTRAP.md and read its three linked master prompts in order from main. Reconcile this chat\'s distinct original goals, existing source evidence, and current owner corrections. Do a substantial authorized work session now: implement, test, verify, and write back a source-linked handoff where permitted. Do not publish private material or take unapproved external actions. If retrieval or permissions block the work, explain the exact blocker and advance safe work in this chat.';
 export const CHAT_ID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 export const WORKSPACE = 'https://chatgpt.com';
 
@@ -98,6 +101,14 @@ export function acknowledgedContinue(snapshot, baselineUsers) {
     snapshot.lastUserExactContinue === true;
 }
 
+export function acknowledgedExactCommand(snapshot, baselineUsers) {
+  // The DOM agent checks literal equality locally; only this boolean leaves
+  // the page. Never copy or log any other user turn text.
+  return Number.isSafeInteger(baselineUsers) && baselineUsers >= 0 &&
+    snapshot?.userCount === baselineUsers + 1 &&
+    snapshot.lastUserExactCommand === true;
+}
+
 export function stableResponse(prev, current, now, settleMs=8000) {
   if (!current || current.blocker || current.stopVisible || current.busy || !current.lastAssistantText ||
       current.assistantCount <= current.baselineAssistants ||
@@ -119,7 +130,9 @@ export function accountSnapshot(state, nextAccount) {
     const saved=src.profiles?.[label];
     if(saved && Array.isArray(saved.queue) && Array.isArray(saved.completed)){
       profiles[label]={queue:[...saved.queue],completed:[...saved.completed],
-        submitted:Array.isArray(saved.submitted)?[...saved.submitted]:[]};
+        submitted:Array.isArray(saved.submitted)?[...saved.submitted]:[],
+        bootstrapSent:Array.isArray(saved.bootstrapSent)?[...saved.bootstrapSent]:[],
+        bootstrapCompleted:Array.isArray(saved.bootstrapCompleted)?[...saved.bootstrapCompleted]:[]};
     }
   }
   // Always snapshot the currently active legacy fields. They are authoritative
@@ -127,22 +140,28 @@ export function accountSnapshot(state, nextAccount) {
   if(['primary','secondary'].includes(src.account)){
     profiles[src.account]={queue:Array.isArray(src.queue)?[...src.queue]:[],
       completed:Array.isArray(src.completed)?[...src.completed]:[],
-      submitted:Array.isArray(src.submitted)?[...src.submitted]:[]};
+      submitted:Array.isArray(src.submitted)?[...src.submitted]:[],
+      bootstrapSent:Array.isArray(src.bootstrapSent)?[...src.bootstrapSent]:[],
+      bootstrapCompleted:Array.isArray(src.bootstrapCompleted)?[...src.bootstrapCompleted]:[]};
   }
   // Preserve an older pre-selection import rather than throwing it away.
   if(!src.account && !profiles[nextAccount]){
     profiles[nextAccount]={queue:Array.isArray(src.queue)?[...src.queue]:[],
       completed:Array.isArray(src.completed)?[...src.completed]:[],
-      submitted:Array.isArray(src.submitted)?[...src.submitted]:[]};
+      submitted:Array.isArray(src.submitted)?[...src.submitted]:[],
+      bootstrapSent:Array.isArray(src.bootstrapSent)?[...src.bootstrapSent]:[],
+      bootstrapCompleted:Array.isArray(src.bootstrapCompleted)?[...src.bootstrapCompleted]:[]};
   }
-  const destination=profiles[nextAccount]||{queue:[],completed:[],submitted:[]};
+  const destination=profiles[nextAccount]||{queue:[],completed:[],submitted:[],bootstrapSent:[],bootstrapCompleted:[]};
   return {profiles,account:nextAccount,
     queue:[...destination.queue],completed:[...destination.completed],
-    submitted:[...destination.submitted]};
+    submitted:[...destination.submitted],
+    bootstrapSent:[...destination.bootstrapSent],
+    bootstrapCompleted:[...destination.bootstrapCompleted]};
 }
 
 export function initialState() {
   return {schema:'cf0.auto08.chrome.v1', account:null, selectedTabId:null,
-    phase:'idle', reason:'NOT_CONNECTED', queue:[], completed:[], submitted:[], profiles:{}, currentChat:null,
+    phase:'idle', reason:'NOT_CONNECTED', queue:[], completed:[], submitted:[], bootstrapSent:[], bootstrapCompleted:[], profiles:{}, currentChat:null,
     attempt:null, updatedAt:null, lastResult:null, maxChats:1};
 }
