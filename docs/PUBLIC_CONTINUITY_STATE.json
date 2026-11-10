@@ -161,6 +161,18 @@
       "separate_owner_local_hp_opt_in_if_required"
     ],
     "controls": "read_only_planning_no_new_external_authority",
-    "next_review_checkpoint_et": "2026-11-16"
+    "next_review_checkpoint_et": "2026-11-16",
+    "watchdog_producer_evidence": {
+      "status": "public_gitHub_run_metadata_job_and_canonical_digest_cross_checked",
+      "scheduled_run_id": 42731696560,
+      "run_attempt": 1,
+      "job_id": 129551040021,
+      "source_commit": "3e2072b29a9197dcc0de1f7f1113087c35523bbc",
+      "packet_sha256": "4b78c477a1a7f4ac0be169c425212ef01d0caf070c460653ecc8d3af3b1b4e22",
+      "packet_execution_authorized": false,
+      "cloud_executor_decision": "not_yet_verified",
+      "hp_scheduler_to_receipt": "not_yet_verified",
+      "readback_note": "Normalized GitHub jobs connector omitted some metadata; raw read-only Actions run-jobs endpoint exposed attempt, SHA and step timing. No provider-native executor acknowledgement confirmed."
+    }
   }
 }
