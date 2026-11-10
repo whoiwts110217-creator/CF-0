@@ -36,6 +36,13 @@ GitHub source checks do not prove it works in your signed-in account.
    queue or import your own private export. The sidebar is NOT a complete
    history scan. Run bounded sweeps and check outcomes. Chrome stays open.
 
+   New optional FAST checkbox (v0.1.6): after a literal continue is
+   visibly acknowledged in each chat, advance without waiting for the
+   assistant's answer. This does NOT certify a finished answer; navigating
+   can interrupt generation. The original wait mode remains the default.
+   Fast-mode submitted IDs stay in a separate local checkpoint list to
+   prevent duplicate submissions. Start with a tiny owner-approved batch.
+
 NO ACCOUNT CREDENTIALS, CHAT EXPORTS OR RECEIPTS SHOULD BE UPLOADED TO
 PUBLIC GITHUB. NEVER POST PAYMENT OR PRIVATE IDENTITY DATA IN CI LOGS.
 

@@ -14,6 +14,8 @@ small{color:#adc1d8}a{color:#8bd3ff}strong{color:#b9ecff}
 <button id="capture" style="width:100%" title="Reads only currently visible sidebar chats; capture again as the list changes">Capture visible sidebar chats</button>
 <p><small>Visible-chat capture stays in this Chrome profile. It does not find every conversation or verify which account is signed in.</small></p>
 <label>Optional: import conversation IDs from your private export<input type="file" id="queue" accept=".json,application/json"></label>
+<label><input type="checkbox" id="fast" style="width:auto;vertical-align:middle"> Fast sweep: verify each <code>continue</code> was submitted, then advance without waiting for its reply.</label>
+<p><small>Fast mode records <strong>submitted, reply unverified</strong>, not completed. Navigating away may interrupt the answer. Normal wait-for-completion remains the default. Keep batches small.</small></p>
 <div class="grid"><button id="start">Start imported sweep</button><button id="pause">Pause / Stop</button></div>
 <button id="review" style="width:100%;margin-top:9px" disabled>Review blocked attempt</button>
 <p id="detail">Sign in to one ChatGPT tab first. Keep all account details private.</p>
