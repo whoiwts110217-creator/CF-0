@@ -11,11 +11,13 @@ small{color:#adc1d8}a{color:#8bd3ff}strong{color:#b9ecff}
 <div id="status" role="status">Checking Chrome tabs…</div>
 <label>Account you signed into in that tab<select id="account"><option value="">Select account</option><option value="primary">Primary</option><option value="secondary">Secondary</option></select></label>
 <div class="grid"><button id="check" title="Inspect the current conversation without sending messages or attaching the debugger">Check readiness (no send)</button><button id="current">Continue current chat once</button></div>
+<button id="bootstrapCurrent" style="width:100%" title="Send one source-linked bootstrap instruction and verify its answer in the current ChatGPT chat">Bootstrap current chat once</button>
 <button id="capture" style="width:100%" title="Reads only currently visible sidebar chats; capture again as the list changes">Capture visible sidebar chats</button>
 <p><small>Visible-chat capture stays in this Chrome profile. It does not find every conversation or verify which account is signed in.</small></p>
 <label>Optional: import conversation IDs from your private export<input type="file" id="queue" accept=".json,application/json"></label>
-<label><input type="checkbox" id="fast" style="width:auto;vertical-align:middle"> Fast sweep: verify each <code>continue</code> was submitted, then advance without waiting for its reply.</label>
-<p><small>Fast mode records <strong>submitted, reply unverified</strong>, not completed. Navigating away may interrupt the answer. Normal wait-for-completion remains the default. Keep batches small.</small></p>
+<label><input type="checkbox" id="bootstrap" style="width:auto;vertical-align:middle"> Bootstrap + work: send each eligible chat the current GitHub memory-bootstrap link and instructions to perform a full work session.</label>
+<label><input type="checkbox" id="fast" style="width:auto;vertical-align:middle"> Fast sweep: verify each submitted instruction, then advance without waiting for its reply.</label>
+<p><small>Bootstrap mode uses a separate per-account checkpoint; chats already sent plain <code>continue</code> still need bootstrap. Fast mode records <strong>submitted, reply unverified</strong>; navigation can interrupt ongoing work. Normal wait-for-completion remains the default. Keep batches small.</small></p>
 <div class="grid"><button id="start">Start imported sweep</button><button id="pause">Pause / Stop</button></div>
 <button id="review" style="width:100%;margin-top:9px" disabled>Review blocked attempt</button>
 <p id="detail">Sign in to one ChatGPT tab first. Keep all account details private.</p>

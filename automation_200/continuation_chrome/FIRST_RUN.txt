@@ -2,9 +2,9 @@ CAVEMAN FOCUS AUTO-08 — FIRST RUN (WINDOWS CHROME)
 ==================================================
 
 This is a Chrome EXTENSION, not an iPhone app or installed Windows program.
-Release v0.1.7: STOP cancels a queued START/CONTINUE_CURRENT even while
+Release v0.1.8 includes the v0.1.7 safety fix: STOP cancels a queued START/CONTINUE_CURRENT even while
 Chrome storage is pending, before tab inspection or any keyboard effects.
-The package version now distinguishes this safety fix from older v0.1.6 ZIPs.
+The package also adds the owner-requested GitHub bootstrap sweep.
 Preserve existing account-label queues and maybe_sent checkpoints; do NOT
 uninstall/clear old extension storage to upgrade. Reload after a reviewed update.
 
@@ -48,6 +48,24 @@ GitHub source checks do not prove it works in your signed-in account.
    can interrupt generation. The original wait mode remains the default.
    Fast-mode submitted IDs stay in a separate local checkpoint list to
    prevent duplicate submissions. Start with a tiny owner-approved batch.
+
+   New optional BOOTSTRAP + WORK mode (v0.1.8):
+   - Select "Bootstrap current chat once" for a live one-chat test that
+     reads the canonical public GitHub memory-bootstrap pointer and asks
+     the chat to resume its own substantive authorized work. Check the
+     visible sent message and completed reply before expanding the queue.
+   - For a bounded multi-chat sweep, check "Bootstrap + work" before
+     "Start imported sweep". Leave Fast unchecked if you need a verified
+     assistant answer in each chat. If Fast is checked, only the exact
+     submitted user message is confirmed, NOT work completion.
+   - A plain continue send DOES NOT count as a bootstrap send. Separate
+     bootstrap-sent and bootstrap-completed checkpoints prevent replay.
+   - The other account must be signed in in Chrome, and you must verify
+     its identity yourself. Account labels alone do not authenticate.
+   - User passwords, cookies, chat exports and personal chat content
+     never go to public GitHub or a browser automation provider.
+
+
 
 NO ACCOUNT CREDENTIALS, CHAT EXPORTS OR RECEIPTS SHOULD BE UPLOADED TO
 PUBLIC GITHUB. NEVER POST PAYMENT OR PRIVATE IDENTITY DATA IN CI LOGS.
