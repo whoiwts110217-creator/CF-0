@@ -16,6 +16,21 @@
     const m=/^https:\/\/([^/?#]+)(?:[/?#]|$)/i.exec(x);
     return !!m&&!m[1].includes("@")&&/^[a-z0-9][a-z0-9.:-]*$/i.test(m[1])&&!m[1].includes("..");
   }
+  function snapshotAge(asOf, today){
+    if(!/^\d{4}-\d{2}-\d{2}$/.test(asOf||""))return "unknown";
+    const current=today||new Date().toISOString().slice(0,10);
+    if(!/^\d{4}-\d{2}-\d{2}$/.test(current))return "unknown";
+    const start=Date.parse(asOf+"T00:00:00Z"),end=Date.parse(current+"T00:00:00Z");
+    if(!Number.isFinite(start)||!Number.isFinite(end))return "unknown";
+    const days=Math.round((end-start)/86400000);
+    return days<0?"future_conflict":days>7?"stale":"dated_snapshot";
+  }
+  function dueState(dueDate,today){
+    if(!dueDate)return "not_provided";
+    if(!/^\d{4}-\d{2}-\d{2}$/.test(dueDate))return "invalid";
+    const current=today||new Date().toISOString().slice(0,10);
+    return current>dueDate?"overdue":current===dueDate?"due_today":"upcoming";
+  }
   function normalizeAction(a,origin){
     const local=origin==="owner_local";
     if(!a||typeof a!=="object"||!(local?/^LOCAL-[A-Za-z0-9_-]{1,40}$/:/^CF-ACT-\d{3}$/).test(a.id))throw Error("Invalid action ID");
@@ -25,13 +40,15 @@
     if(!/^[A-Z][A-Z0-9-]{1,60}$/.test(project_id))throw Error("Invalid project ID");
     const task_ids=Array.isArray(a.task_ids)?unique(a.task_ids):[];
     if(task_ids.some(id=>!/^CF-\d{3}$/.test(id)))throw Error("Unverified task ID format");
+    const due_date=val(a.due_date,10);
+    if(dueState(due_date)==="invalid")throw Error("Invalid due date");
     const equivalence_key=val(a.equivalence_key,120);
     if(equivalence_key&&!/^[A-Za-z0-9_.:-]{1,120}$/.test(equivalence_key))throw Error("Invalid equivalence key");
     return {id:a.id,view_ids:[a.id],origin:local?"owner_local":"public_snapshot",
       zone:a.zone,owner:a.owner,priority:val(a.priority,70),title:val(a.title,160),
       detail:val(a.detail,750),action:val(a.action,750),link:a.link,label:val(a.label,160),
       source:a.source,evidence_urls:[a.source],proof:val(a.proof,750),caution:val(a.caution,750),
-      project_id,task_ids,equivalence_key,conflict:false,conflict_details:[],
+      project_id,task_ids,equivalence_key,due_date,due_state:dueState(due_date),conflict:false,conflict_details:[],
       evidence_level:local?"owner_imported_unverified":"public_source_snapshot"};
   }
   function coalesce(records){
@@ -96,5 +113,5 @@
     return actions.filter(a=>(lane==="done"?!!checks[a.id]:zones.includes(a.zone)&&(lane!=="mine"||!checks[a.id]))&&
       (!q||[a.id,a.title,a.action,a.project_id,a.project_title].some(s=>String(s||"").toLowerCase().includes(q))));
   }
-  return Object.freeze({SCHEMA,normalizeAction,coalesce,connect,validateManifest,selectLane,safeUrl});
+  return Object.freeze({SCHEMA,normalizeAction,coalesce,connect,validateManifest,selectLane,safeUrl,snapshotAge,dueState});
 });
