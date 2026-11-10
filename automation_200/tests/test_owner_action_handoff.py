@@ -25,7 +25,7 @@ class OwnerActionHandoffTests(unittest.TestCase):
                      "REQUIRED_NOW", "UNSAFE_OR_UNSUPPORTED",
                      "ACTION REQUIRED", "Success looks like:",
                      "How we verify:", "Rollback:",
-                     "No passwords in chat"):
+                     "never ask the owner to paste passwords"):
             with self.subTest(term=term):
                 self.assertIn(term.lower(), content.lower())
 
