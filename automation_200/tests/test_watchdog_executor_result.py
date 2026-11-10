@@ -183,6 +183,58 @@ class RecordedExecutorTests(unittest.TestCase):
                 with self.assertRaises(ValueError):
                     correlate_recorded_executor_result(readback, record)
 
+    def test_actual_provider_native_top_level_result_is_supported(self):
+        # Matches Automations.peek: latest_result is a sibling of run_details,
+        # not nested within it. Do not require a fabricated model run ID.
+        readback, decision, nested = self._v2_fixture()
+        native = {
+            "run_details": {
+                "last_run": nested["run_details"]["last_run"],
+            },
+            "latest_result": nested["run_details"]["latest_result"],
+        }
+        matched = correlate_recorded_executor_result(readback, native)
+        self.assertTrue(matched["recorded_completed_result_matched"])
+        self.assertEqual(matched["executor_run_id_source"],
+                         "independent_provider_record")
+        self.assertFalse(matched["execution_authorized"])
+        self.assertFalse(matched["hp_identity_attested"])
+
+    def test_conflicting_native_and_nested_results_fail_closed(self):
+        readback, decision, nested = self._v2_fixture()
+        top = dict(nested["run_details"]["latest_result"])
+        top["content_text"] = "A contradictory provider result"
+        mixed = {
+            "run_details": nested["run_details"],
+            "latest_result": top,
+        }
+        with self.assertRaisesRegex(ValueError, "conflicting recorded"):
+            correlate_recorded_executor_result(readback, mixed)
+
+    def test_matching_duplicate_positions_are_unambiguous(self):
+        readback, decision, nested = self._v2_fixture()
+        duplicated = {
+            "run_details": nested["run_details"],
+            "latest_result": dict(nested["run_details"]["latest_result"]),
+        }
+        self.assertTrue(correlate_recorded_executor_result(
+            readback, duplicated)["correlated"])
+
+    def test_missing_or_null_native_result_does_not_fall_back_silently(self):
+        readback, decision, nested = self._v2_fixture()
+        native = {
+            "run_details": {
+                "last_run": nested["run_details"]["last_run"],
+                "latest_result": nested["run_details"]["latest_result"],
+            },
+            "latest_result": None,
+        }
+        with self.assertRaises(ValueError):
+            correlate_recorded_executor_result(readback, native)
+        del native["run_details"]["latest_result"]
+        with self.assertRaises(ValueError):
+            correlate_recorded_executor_result(readback, native)
+
     def test_non_dictionary_and_missing_run_are_not_decisions(self):
         for record in (None, [], {}, {"run_details": {}}):
             with self.subTest(record=record), self.assertRaises(ValueError):
