@@ -62,7 +62,7 @@ class OwnerActionOverlayTests(unittest.TestCase):
         for name in ("owner-actions.js", "spider-core.js", "spider-shell.js", "owner-actions.css", "owner-actions.json"):
             self.assertTrue((ROOT / name).is_file())
             self.assertIn("./" + name, self.sw)
-        self.assertIn("cf-link-vault-v4", self.sw)
+        self.assertIn("cf-link-vault-v5", self.sw)
 
     def test_public_data_excludes_private_tokens_and_raw_chat_links(self):
         for item in self.data["actions"]:
