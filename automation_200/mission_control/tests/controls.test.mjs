@@ -75,3 +75,22 @@ test("source HTML exposes all four categories with a disabled master switch and 
   assert.doesNotMatch(html,/20 workflows: 5 scheduled, 15 event\/manual/);
   assert.doesNotMatch(ui,/fetch\(|sendMessage\(|exec\(|localStorage\.|sessionStorage\./);
 });
+
+
+test("master controller orientation retains every provider and fails closed on unverified controls",()=>{
+  const html=readFileSync(new URL("../dist/index.html",import.meta.url),"utf8");
+  const ui=readFileSync(new URL("../dist/controls-ui.mjs",import.meta.url),"utf8");
+  for(const id of ["control-now","control-master","control-evidence","control-chatgpt","control-github","control-windows","control-continuation","control-stage-research"])
+    assert.ok(html.includes('id="'+id+'"'),"Missing existing controller feature "+id);
+  for(const target of ["control-now","control-master","control-evidence"])
+    assert.ok(html.includes('href="#'+target+'"'),"Missing quick navigation to "+target);
+  assert.match(html,/No global running count is asserted/);
+  assert.match(html,/master controls remain disconnected/i);
+  assert.match(html,/role="switch" disabled/);
+  assert.match(ui,/Evidence: public workflow source only; current enabled\/running state not queried/);
+  assert.match(ui,/Evidence: documented owner-local task; physical status not queried/);
+  assert.match(ui,/Evidence: Chrome runner source only; installed\/live control not verified/);
+  assert.match(ui,/Evidence: historic placeholder; no account readback/);
+  assert.match(ui,/disabled=true/);
+  assert.doesNotMatch(ui,/fetch\(|sendMessage\(|exec\(|localStorage\.|sessionStorage\./);
+});
