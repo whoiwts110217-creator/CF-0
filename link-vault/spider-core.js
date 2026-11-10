@@ -31,11 +31,23 @@
     const current=today||new Date().toISOString().slice(0,10);
     return current>dueDate?"overdue":current===dueDate?"due_today":"upcoming";
   }
+  function safePrivateRef(x){
+    return typeof x==="string" &&
+      /^indexed-chat:sha256:[a-f0-9]{64}:[A-Za-z0-9_.:-]{1,100}:[A-Za-z0-9_.:-]{1,100}$/.test(x);
+  }
   function normalizeAction(a,origin){
     const local=origin==="owner_local";
     if(!a||typeof a!=="object"||!(local?/^LOCAL-[A-Za-z0-9_-]{1,40}$/:/^CF-ACT-\d{3}$/).test(a.id))throw Error("Invalid action ID");
-    if(!ZONES.includes(a.zone)||!["owner","assistant"].includes(a.owner)||!val(a.title,160)||
-       !val(a.action,750)||!safeUrl(a.link)||!safeUrl(a.source))throw Error("Invalid action fields");
+    const hasUrl=safeUrl(a.link),hasSource=safeUrl(a.source);
+    const source_ref=local&&safePrivateRef(a.source_ref)?a.source_ref:"";
+    if((a.link&&!hasUrl)||(a.source&&!hasSource)||
+       (!source_ref&&(!hasUrl||!hasSource))||
+       (local&&a.source_ref&&!source_ref)||
+       !ZONES.includes(a.zone)||!["owner","assistant"].includes(a.owner)||
+       !val(a.title,160)||!val(a.action,750))throw Error("Invalid action fields");
+    const sources=local&&Array.isArray(a.source_refs)?a.source_refs:[];
+    if(sources.length>32||sources.some(ref=>!safePrivateRef(ref))||
+       (source_ref&&sources.length&&!sources.includes(source_ref)))throw Error("Invalid private source references");
     const project_id=val(a.project_id,64)||"UNRESOLVED";
     if(!/^[A-Z][A-Z0-9-]{1,60}$/.test(project_id))throw Error("Invalid project ID");
     const task_ids=Array.isArray(a.task_ids)?unique(a.task_ids):[];
@@ -47,7 +59,9 @@
     return {id:a.id,view_ids:[a.id],origin:local?"owner_local":"public_snapshot",
       zone:a.zone,owner:a.owner,priority:val(a.priority,70),title:val(a.title,160),
       detail:val(a.detail,750),action:val(a.action,750),link:a.link,label:val(a.label,160),
-      source:a.source,evidence_urls:[a.source],proof:val(a.proof,750),caution:val(a.caution,750),
+      source:hasSource?a.source:"",source_ref,source_refs:unique(source_ref?[source_ref,...sources]:[]),
+      evidence_urls:hasSource?[a.source]:[],proof:val(a.proof,750),caution:val(a.caution,750),
+      review_required:local&&a.review_required===true, evidence_role:local?val(a.evidence_role,40):"",
       project_id,task_ids,equivalence_key,due_date,due_state:dueState(due_date),conflict:false,conflict_details:[],
       evidence_level:local?"owner_imported_unverified":"public_source_snapshot"};
   }
@@ -62,10 +76,11 @@
       }
       ids.set(a.id,a);
       const key=a.project_id+(a.equivalence_key?"|eq:"+a.equivalence_key:"|id:"+a.id);
-      if(!groups.has(key)){groups.set(key,{...a,view_ids:[...a.view_ids],evidence_urls:[...a.evidence_urls],task_ids:[...a.task_ids],conflict_details:[]});continue;}
+      if(!groups.has(key)){groups.set(key,{...a,view_ids:[...a.view_ids],evidence_urls:[...a.evidence_urls],source_refs:[...a.source_refs],task_ids:[...a.task_ids],conflict_details:[]});continue;}
       const b=groups.get(key);
       b.view_ids=unique(b.view_ids.concat(a.view_ids));
       b.evidence_urls=unique(b.evidence_urls.concat(a.evidence_urls));
+      b.source_refs=unique(b.source_refs.concat(a.source_refs));
       b.task_ids=unique(b.task_ids.concat(a.task_ids));
       if(b.zone!==a.zone||b.owner!==a.owner||b.action!==a.action||b.proof!==a.proof){
         b.conflict=true;b.conflict_details.push("Contradictory action/owner/status/proof at "+a.id);
@@ -113,5 +128,5 @@
     return actions.filter(a=>(lane==="done"?!!checks[a.id]:zones.includes(a.zone)&&(lane!=="mine"||!checks[a.id]))&&
       (!q||[a.id,a.title,a.action,a.project_id,a.project_title].some(s=>String(s||"").toLowerCase().includes(q))));
   }
-  return Object.freeze({SCHEMA,normalizeAction,coalesce,connect,validateManifest,selectLane,safeUrl,snapshotAge,dueState});
+  return Object.freeze({SCHEMA,normalizeAction,coalesce,connect,validateManifest,selectLane,safeUrl,safePrivateRef,snapshotAge,dueState});
 });
