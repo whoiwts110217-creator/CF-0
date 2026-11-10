@@ -2,7 +2,8 @@
 const fs = require('node:fs');
 const vm = require('node:vm');
 const assert = require('node:assert/strict');
-const { TextEncoder, Blob } = require('node:buffer');
+const { TextEncoder } = require('node:util');
+const { Blob } = require('node:buffer');
 const path = require('node:path');
 const html=fs.readFileSync(path.join(__dirname, '..', 'index.html'), 'utf8');
 const scripts=[...html.matchAll(/<script>([\s\S]*?)<\/script>/g)].map(m=>m[1]);
