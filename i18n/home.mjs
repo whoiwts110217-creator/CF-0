@@ -7,6 +7,11 @@ export const LOCALES = Object.freeze({
   "pt": "Português"
 });
 export const COPY = {
+  "My action sphere / side list": {
+    "es": "Mi esfera de acciones / lista lateral",
+    "fr": "Ma sphère d’actions / liste latérale",
+    "pt": "Minha esfera de ações / lista lateral"
+  },
   "Explore the $15 Clarity Brief pilot (inquiries only)": {
     "es": "Explorar el piloto Clarity Brief de 15 $ (solo consultas)",
     "fr": "Découvrir le projet Clarity Brief à 15 $ (demandes seulement)",
