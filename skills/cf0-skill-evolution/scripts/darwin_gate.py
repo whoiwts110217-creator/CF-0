@@ -52,6 +52,20 @@ def evaluate(baseline_path, candidate_path, evidence_path):
     evidence, evidence_sha = evidence_file(evidence_path)
     reasons = []
     decision = "needs_evidence"
+    # Bind claimed experiment evidence to the exact SKILL.md bytes under evaluation.
+    # Matching hashes do not authenticate who executed tests or wrote the claims.
+    actual_base = sha256(base)
+    actual_cand = sha256(cand)
+    valid_digest = lambda v: isinstance(v, str) and len(v) == 64 and all(k in "0123456789abcdef" for k in v)
+    supplied_base = evidence.get("baseline_sha256")
+    supplied_cand = evidence.get("candidate_sha256")
+    hashes_supplied = valid_digest(supplied_base) and valid_digest(supplied_cand)
+    hashes_match = hashes_supplied and supplied_base == actual_base and supplied_cand == actual_cand
+    if not hashes_supplied:
+        reasons.append("missing or malformed version-bound SHA-256 evidence (64 lowercase hex chars required)")
+    elif not hashes_match:
+        reasons.append("evidence references different baseline/candidate file bytes")
+        decision = "reject"
     if evidence.get("synthetic") is True:
         reasons.append("synthetic evidence cannot establish a real skill gain")
     hard_gates = evidence.get("hard_gates", {})
@@ -145,7 +159,7 @@ def evaluate(baseline_path, candidate_path, evidence_path):
     if votes["better"] <= len(judge_ids) // 2:
         reasons.append("no majority of explicit better votes (ties are not approvals)")
 
-    if decision != "reject" and not (evidence.get("synthetic") is True or unknown_gates or missing or bad_tests or not improvements or len(judge_ids) < 3
+    if decision != "reject" and not (evidence.get("synthetic") is True or not hashes_match or unknown_gates or missing or bad_tests or not improvements or len(judge_ids) < 3
                     or len(judge_ids) % 2 == 0 or invalid_judges or len(orders) < 2
                     or votes["better"] <= len(judge_ids) // 2):
         decision = "owner_review_required"
@@ -156,8 +170,9 @@ def evaluate(baseline_path, candidate_path, evidence_path):
         "experiment_id": evidence.get("experiment_id", "unidentified"),
         "decision": decision,
         "evidence_level": "source-level evidence validation only; tests/judges not independently authenticated",
-        "baseline_sha256": sha256(base),
-        "candidate_sha256": sha256(cand),
+        "baseline_sha256": actual_base,
+        "hashes_match": bool(hashes_match),
+        "candidate_sha256": actual_cand,
         "evidence_sha256": evidence_sha,
         "distinct_versions": base != cand,
         "test_count": len(ids),
