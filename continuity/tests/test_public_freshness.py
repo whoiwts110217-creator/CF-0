@@ -1,4 +1,5 @@
 """Universal public-source freshness routing and privacy boundaries."""
+import subprocess
 import tempfile
 import unittest
 from pathlib import Path
@@ -64,6 +65,19 @@ class UniversalFreshnessTests(unittest.TestCase):
             link.symlink_to(root / "original.txt")
             with self.assertRaisesRegex(ValueError, "SYMLINK"):
                 safe_public_file("shortcut.txt", root)
+
+    def test_git_internal_and_untracked_private_files_are_not_public(self):
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            subprocess.run(["git", "init", "-q"], cwd=root, check=True, capture_output=True)
+            (root / "public.md").write_text("public", encoding="utf-8")
+            (root / "private.txt").write_text("private data", encoding="utf-8")
+            subprocess.run(["git", "add", "public.md"], cwd=root, check=True, capture_output=True)
+            self.assertTrue(safe_public_file("public.md", root).is_file())
+            with self.assertRaisesRegex(ValueError, "UNTRACKED"):
+                safe_public_file("private.txt", root)
+            with self.assertRaisesRegex(ValueError, "INVALID_PUBLIC_PATH"):
+                safe_public_file(".git/config", root)
 
     def test_synthetic_file_change_is_detected_without_external_network(self):
         with tempfile.TemporaryDirectory() as td:
