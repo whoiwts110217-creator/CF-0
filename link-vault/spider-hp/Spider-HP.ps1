@@ -115,21 +115,29 @@ function ReadyUIA {
 function SelectControl($root,$sel) {
  $conds=New-Object 'System.Collections.Generic.List[System.Windows.Automation.Condition]'
  if($sel.PSObject.Properties.Name -contains 'name'){
-   $conds.Add((New-Object System.Windows.Automation.PropertyCondition(
-     [System.Windows.Automation.AutomationElement]::NameProperty,[string]$sel.name)))
+   $conds.Add([System.Windows.Automation.PropertyCondition]::new(
+     [System.Windows.Automation.AutomationElement]::NameProperty,[string]$sel.name))
  }
  if($sel.PSObject.Properties.Name -contains 'automation_id'){
-   $conds.Add((New-Object System.Windows.Automation.PropertyCondition(
-     [System.Windows.Automation.AutomationElement]::AutomationIdProperty,[string]$sel.automation_id)))
+   $conds.Add([System.Windows.Automation.PropertyCondition]::new(
+     [System.Windows.Automation.AutomationElement]::AutomationIdProperty,[string]$sel.automation_id))
  }
  if($sel.PSObject.Properties.Name -contains 'control_type'){
-   $kind=[System.Windows.Automation.ControlType]::($sel.control_type)
-   $conds.Add((New-Object System.Windows.Automation.PropertyCondition(
-     [System.Windows.Automation.AutomationElement]::ControlTypeProperty,$kind)))
+   $kind=switch($sel.control_type){
+     'Document' {[System.Windows.Automation.ControlType]::Document}
+     'Edit' {[System.Windows.Automation.ControlType]::Edit}
+     'Button' {[System.Windows.Automation.ControlType]::Button}
+     'Text' {[System.Windows.Automation.ControlType]::Text}
+     'Pane' {[System.Windows.Automation.ControlType]::Pane}
+     'Window' {[System.Windows.Automation.ControlType]::Window}
+     default {Fail 'UNKNOWN_CONTROL_TYPE'}
+   }
+   $conds.Add([System.Windows.Automation.PropertyCondition]::new(
+     [System.Windows.Automation.AutomationElement]::ControlTypeProperty,$kind))
  }
  if($conds.Count -eq 0){Fail 'EMPTY_SELECTOR'}
  $condition=if($conds.Count -eq 1){$conds[0]}else{
-   New-Object System.Windows.Automation.AndCondition -ArgumentList (,[System.Windows.Automation.Condition[]]$conds.ToArray())
+   [System.Windows.Automation.AndCondition]::new([System.Windows.Automation.Condition[]]$conds.ToArray())
  }
  $all=$root.FindAll([System.Windows.Automation.TreeScope]::Descendants,$condition)
  if($all.Count -ne 1){Fail ('SELECTOR_COUNT_'+$all.Count)}
