@@ -67,6 +67,18 @@ A **new private v8 snapshot**, created as a separate artifact rather than replac
 
 **Public boundary:** publish only these aggregate coverage and evidence limits. Never commit the original ZIP, readable transcripts, full private SQLite, private message index, hashed per-message comparison, or sensitive conversation content to CF-0. This update changes no account/HP authority, existing priority, cash claim, CF-200 registry, or accepted original-project count.
 
+## 7B. Read-only v8.1 reconciliation — November 9, 2026
+
+**Continuity:** UCC-001 → TRUTH-001. A **private, read-only** offline audit of the other-account browser-capture ZIP against the private v8 continuity ZIP and the older 20-title secondary review produced the following bounded findings. Exact original browser ZIP bytes were preserved inside the private backup. The browser ZIP passed its **193** SHA-256 listed-member checks; the backup passed **29** declared-member checks; SQLite integrity/foreign keys and **112** historical event-chain digests passed. **All 757 captured message IDs, roles and text bodies matched exactly** between browser source and SQLite. The separate account supplied **381 user** and **376 assistant** rendered messages.
+
+**Critical new metadata distinction:** **659** indexed message timestamp values agreed with the captured source turn timestamps. For **98 assistant messages**, the SQLite `sent_at` is NULL even though the source **turn** has a timestamp. A turn time must not be silently promoted into an individual assistant-message send time. The source ZIP remains intact, so these source turn timestamps are recoverable without inventing message metadata.
+
+**Identity reconciliation:** Of **20** historical conversation titles in a **different account's secondary review**, **zero exact titles matched** this other-account capture. This does not prove any original conversations missing from either account, and it authorizes **zero** cross-account project or conversation merges. The audit preserved **44** reused message-ID groups across conversation contexts, **12** with distinct text-body hashes; neither the repeats nor differences establish which captured wording is canon. **21** previously selected exact owner statements were reverified. A single index-vs-structured title mismatch also remains.
+
+**Verification:** Three offline regression tests passed: original index/body comparison, altered archive member rejection and altered owner quotation rejection. All raw source files, conversation IDs, exact user words, conflict tables and test reports remain **private**; none were pushed to the public repository. This audit did not produce a new v9 backup, alter v8, verify CF-200 work orders, grant machine/account rights, verify income or finish the original ~37-project recovery.
+
+**Next:** obtain official original account-separated exports when accessible. Match using source account and actual conversation/message IDs, preserving branch/attachment and timestamp uncertainty. **Rollback:** revert this documentation paragraph through reviewed Git history; no runtime functionality changed.
+
 ## 8. Required output and acceptance
 
 Every audit run reports:
