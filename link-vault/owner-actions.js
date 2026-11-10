@@ -23,7 +23,7 @@ const html=[
 '<aside class="oa-rail" aria-label="Consolidated action side list"><div class="oa-rail-top"><h3>Side list · action rail</h3><span id="oa-count" class="oa-count">Loading…</span></div><div class="oa-tabs">',
 '<button type="button" class="oa-tab" data-view="mine" aria-pressed="true">My turn</button><button type="button" class="oa-tab" data-view="later" aria-pressed="false">Later</button><button type="button" class="oa-tab" data-view="waiting" aria-pressed="false">Waiting</button><button type="button" class="oa-tab" data-view="assistant" aria-pressed="false">AI work</button><button type="button" class="oa-tab" data-view="all" aria-pressed="false">All</button><button type="button" class="oa-tab" data-view="done" aria-pressed="false">Checked locally</button>',
 '</div><label class="oa-search-label" for="oa-search">Find an action or project</label><input id="oa-search" type="search" class="oa-search" placeholder="Search action, source, project ID" autocomplete="off"><div id="oa-items" class="oa-items" aria-live="polite"><p class="oa-empty">Loading public action view…</p></div></aside></div>',
-'<div class="oa-tools"><button type="button" id="oa-refresh" class="btn primary">↻ Refresh action view</button><button type="button" id="oa-export" class="btn">↓ Backup my checks</button><label class="oa-small oa-import">Import private action manifest <input id="oa-import" type="file" accept="application/json,.json" aria-label="Import a local private action manifest JSON"></label><a class="oa-small" target="_blank" rel="noopener noreferrer" href="https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/OWNER_JUNGLE_MAP.md">Full project map ↗</a><span id="oa-status" class="oa-status" role="status">Not checked yet</span></div>',
+'<div class="oa-tools"><button type="button" id="oa-refresh" class="btn primary">↻ Refresh action view</button><button type="button" id="oa-cf200" class="btn">↻ Check CF-200 source</button><span id="oa-cf200-status" class="oa-status" role="status">CF-200 not checked</span><button type="button" id="oa-export" class="btn">↓ Backup my checks</button><label class="oa-small oa-import">Import private action manifest <input id="oa-import" type="file" accept="application/json,.json" aria-label="Import a local private action manifest JSON"></label><a class="oa-small" target="_blank" rel="noopener noreferrer" href="https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/OWNER_JUNGLE_MAP.md">Full project map ↗</a><span id="oa-status" class="oa-status" role="status">Not checked yet</span></div>',
 '<p class="oa-note">Dated public-safe overlay, not a second task registry, automatic scan of private chats, or verified completion log. Checkmarks stay in this browser unless exported. Never put personal contacts, passwords or raw exports on public GitHub.</p></section>'
 ].join("");
 const compass=document.querySelector(".compass");if(!compass)return;
@@ -95,6 +95,25 @@ async function refresh(){
 }
 document.querySelectorAll("#owner-actions [data-view]").forEach(b=>b.addEventListener("click",()=>show(b.dataset.view)));
 get("oa-search").addEventListener("input",event=>{query=event.target.value;render()});
+get("oa-cf200").addEventListener("click",async()=>{
+ const button=get("oa-cf200"),status=get("oa-cf200-status");button.disabled=true;
+ status.textContent="Reading public work-order source…";
+ try{
+  const response=await fetch("https://raw.githubusercontent.com/whoiwts110217-creator/CF-0/main/automation_200/registry.json",{cache:"no-store",credentials:"omit"});
+  if(!response.ok)throw Error("HTTP "+response.status);
+  const raw=await response.text();if(raw.length>175000)throw Error("Registry too large");
+  const value=JSON.parse(raw);
+  if(value.schema!=="CF200.1"||value.target!==200||!Array.isArray(value.tasks)||value.tasks.length!==200||
+     !Number.isInteger(value.completed)||value.completed<0||value.completed>200||
+     value.tasks.some(task=>!/^CF-\\d{3}$/.test(task.id)||!["planned","verified"].includes(task.status)))
+     throw Error("Registry schema or count mismatch");
+  registry=value;
+  status.textContent="CF-200 "+value.completed+"/200 source-verified · not HP/payment proof";
+  render();
+ }catch(_){
+  registry=null;status.textContent="CF-200 unavailable or invalid · status unknown";render();
+ }finally{button.disabled=false}
+});
 get("oa-import").addEventListener("change",async event=>{
  const file=event.target.files&&event.target.files[0];if(!file)return;
  try{
