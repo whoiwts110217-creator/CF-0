@@ -24,6 +24,12 @@ on:
       - 'automation_200/mission_control/test_build_snapshot.py'
       - 'automation_200/registry.json'
       - 'docs/PUBLIC_CONTINUITY_STATE.json'
+      - 'docs/CURRENT_SOURCE_GATEWAY.md'
+      - 'docs/FRESHNESS_CATALOG.json'
+      - 'docs/UNIVERSAL_FRESHNESS_CONTRACT.md'
+      - 'docs/OWNER_JUNGLE_MAP.md'
+      - 'continuity/public_freshness.py'
+      - 'continuity/tests/test_public_freshness.py'
       - '.github/workflows/publish-website.yml'
   # Recovery: dispatch a NEW workflow run after a Pages queue failure.
   # Do not rerun only the failed deploy job: upload-pages-artifact can create
@@ -55,6 +61,10 @@ jobs:
         run: python -m unittest discover -s automation_200/mission_control -p 'test_build_snapshot.py'
       - name: Test Mission Control source loading
         run: node --test automation_200/mission_control/tests/*.test.mjs
+      - name: Validate universal latest-source routes for every indexed project family
+        run: |
+          python -m continuity.public_freshness
+          python -m unittest discover -s continuity/tests -p 'test_public_freshness.py' -v
       - name: Test optional homepage languages
         run: node --test i18n/home.test.mjs
       - name: Test public Clarity Card tool and funding boundaries

@@ -1,5 +1,9 @@
 # Caveman Focus public project index
 
+
+> **CURRENT ROUTES, DATED CLAIMS:** For **any** Caveman Focus project or artifact, use the [Current Source Gateway](CURRENT_SOURCE_GATEWAY.md) to find the moving latest evidence. Older numbers and date-stamped observations below remain historical. The [universal freshness policy](UNIVERSAL_FRESHNESS_CONTRACT.md) applies to all branches; this project list is not a live external account or private archive scanner.
+
+
 **Owner's field guide:** [The Jungle Map — priorities, every major workstream, current blockers and what needs you](OWNER_JUNGLE_MAP.md). This is a dated public-safe view derived from the authoritative registry, not another task queue or live HP control.
 
 **Updated November 9, 2026 (Eastern).**

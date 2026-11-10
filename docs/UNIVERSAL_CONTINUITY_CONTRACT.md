@@ -25,6 +25,12 @@ Every new artifact or modification must be traceable with the following fields, 
 - `next_action` and `rollback`: one actionable next step, and how to reverse a change without erasing history.
 - `event_ref`: append to the applicable existing event/decision record when actually executed. The CF-200 registry is reserved for its 200 defined work orders; unrelated experiments do **not** inflate its verified count.
 
+## Freshness is universal, not a property of one document
+
+The owner's November 10 correction applies the Jungle Map's old-to-current logic to **EVERY** project, task, experiment, story, automation, financial initiative, private source, future idea and status claim. Use the **[CF-FRESH-001 Universal Freshness Contract](UNIVERSAL_FRESHNESS_CONTRACT.md)**, [Current Source Gateway](CURRENT_SOURCE_GATEWAY.md), and [read-only source resolver](../continuity/public_freshness.py).
+
+An old UCC-001 handoff is a historical snapshot even if its file remains at the latest public path. Re-check its exact Git blob/source version and separately verify provider-live/device/account/financial claims. A mismatch is **STALE**, a missing source or timestamp is **UNKNOWN**, and a matching local checkout is only **same public source bytes**, not proof of running systems or financial outcomes. All new records keep a moving latest-source route without erasing the original record. Private material retains a private-safe pointer, not a public original URL or copied bytes. This is an additive source-navigation requirement, not authority to revise permissions, restart HP schedules, publish private data, spend funds or make a new scheduler.
+
 ## The continuity loop
 
 **Recover → identify → cross-reference → compare → implement → test → record → link → hand off → resume.**

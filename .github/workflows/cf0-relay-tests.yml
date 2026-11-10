@@ -12,6 +12,10 @@ on:
       - 'docs/CONTINUITY.md'
       - 'docs/PUBLIC_CONTINUITY_STATE.json'
       - 'docs/PROJECTS.md'
+      - 'docs/OWNER_JUNGLE_MAP.md'
+      - 'docs/CURRENT_SOURCE_GATEWAY.md'
+      - 'docs/UNIVERSAL_FRESHNESS_CONTRACT.md'
+      - 'docs/FRESHNESS_CATALOG.json'
       - 'docs/PUBLIC_DEVELOPMENT_SNAPSHOT_2026-11-06.md'
       - 'README.md'
       - '.github/workflows/cf0-relay-tests.yml'
@@ -43,6 +47,8 @@ jobs:
         run: python -m automation_200.public_continuity_check
       - name: Test private-local continuity engine using synthetic-only archives
         run: python -m unittest discover -s continuity/tests -v
+      - name: Audit moving current-source routes for every catalogued and future public family
+        run: python -m continuity.public_freshness
       - name: Verify 200-item ledger
         run: python automation_200/checkpoints.py validate
       - name: Parse Windows PowerShell scripts

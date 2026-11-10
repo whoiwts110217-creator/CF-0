@@ -1,5 +1,9 @@
 # Start Here — Caveman Focus
 
+
+> **Old document? Start with the [Current Source Gateway](CURRENT_SOURCE_GATEWAY.md).** It leads to the newest public project and task sources, marks snapshots as historical, and explains what still needs real provider/owner evidence. [CF-FRESH-001](UNIVERSAL_FRESHNESS_CONTRACT.md) applies to **everything**, not only the Jungle Map.
+
+
 **[FIRST DROP — Caveman Focus Hall of Fame](https://caveman-focus-support.whoiwts110217.chatgpt.site/hall-of-fame)** · [Share the public donation appeal](FIRST_DROP_CAMPAIGN_2026-11-09.md). Contributions of any amount are voluntary; public recognition is consent-based and requires verified payment.
 
 **[FREE BROWSER PROMOTION CHECK — no TinyFish charges](FREE_BROWSER_PROMOTION_2026-11-09.md)** · [View real GitHub Actions browser-run evidence](https://github.com/whoiwts110217-creator/CF-0/actions/workflows/cf0-free-browser-promotion.yml). Checks public campaign pages and directory review status; no accounts, posts, donations or HP access.\n\n**[Public tasks and issues](TASKS_AND_ISSUES.md) — clear priorities, current blockers, open GitHub issues, and approvals needed**

@@ -1,5 +1,9 @@
 # Caveman Focus — Current public status
 
+
+> **This page mixes current summaries with dated history.** For the freshest available source links, open [Current Source Gateway](CURRENT_SOURCE_GATEWAY.md), [live-registry Mission Control](https://whoiwts110217-creator.github.io/CF-0/mission-control/) or the [authoritative registry](../automation_200/registry.json). Do not read a passing public CI run as an HP or payment receipt. [Universal freshness rule](UNIVERSAL_FRESHNESS_CONTRACT.md).
+
+
 **Source-verified snapshot · November 9, 2026 (Eastern).** This is a dated source/document check, **not** a live HP heartbeat. For stable handoffs, use the [public continuity record](CONTINUITY.md) and [machine-readable status](PUBLIC_CONTINUITY_STATE.json).
 
 
