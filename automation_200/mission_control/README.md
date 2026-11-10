@@ -38,7 +38,7 @@ The **Automation control center** is a new section **within the restored origina
 [Mission Control → Automation controls](https://whoiwts110217-creator.github.io/CF-0/mission-control/#automation-controls).
 
 It displays four automation categories without modifying the CF-200 registry or the existing dashboard:
-1. ChatGPT personal automations — ten private placeholder slots based on the last observed count. Public GitHub deliberately contains no private titles, IDs, emails, prompts or schedules.
+1. ChatGPT personal automations — eleven private placeholder slots based on the latest observed count (2026-11-09; five enabled, six disabled). Public GitHub deliberately contains no private titles, IDs, emails, prompts or schedules.
 2. GitHub Actions — five scheduled workflows detected in public CF-0 `.github/workflows/` source. A cron in GitHub source is **not** a current running-state assertion.
 3. Windows — the Fast Lane, CF-0 Relay and optional HP Bridge, each marked owner-local state unverified. Local schedules can be present even if the computer is turned off or not signed in.
 4. AUTO-08 — keyboard-first, one-tab continuation code in `automation_200/continuation_keyboard/`, not a live panel executor.
@@ -60,7 +60,7 @@ Do **not** commit personal ChatGPT task inventories to public CF-0. A user can c
 }
 ```
 
-The import is a **dated owner-supplied snapshot**, not a live API. Only sanitized titles and reported enablement are displayed; imported IDs, prompts, links, credentials and extra properties are ignored. 'Clear imported names' drops the in-memory copy. Without an import, ten numbered placeholders are shown; that count may become stale.
+The import is a **dated owner-supplied snapshot**, not a live API. Only sanitized titles and reported enablement are displayed; imported IDs, prompts, links, credentials and extra properties are ignored. 'Clear imported names' drops the in-memory copy. Without an import, eleven numbered placeholders are shown; that dated count may become stale. Optional top-level `observed_at` in offset-aware ISO 8601 format (for example `2026-11-09T20:00:00-05:00`) labels an owner-supplied snapshot; it does not authenticate a provider read.
 
 **Historical AUTO-08 note:** The earlier `/continue-control/` panel described above was reverted in [revert commit 7ca4e6c](https://github.com/whoiwts110217-creator/CF-0/commit/7ca4e6c6851ce0d7916f826e9a3f4753cb6e6118) when the user requested restoring the original dashboard. The separate keyboard runner was subsequently merged in [PR #32](https://github.com/whoiwts110217-creator/CF-0/pull/32). Do not treat the historic panel URL as deployed or operational. The new control center preserves the restored dashboard and introduces no unauthorized execution pathways.
 
