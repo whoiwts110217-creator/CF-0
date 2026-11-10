@@ -71,6 +71,11 @@ function evaluateDOM(expectedMessage){
   const noticeText=notices.slice(0,3).map(e=>(e.innerText||'').slice(0,160)).join(' ');
   const editor=[...document.querySelectorAll('#prompt-textarea,[data-testid="composer-input"],[contenteditable="true"][role="textbox"]')].find(visible);
   const users=document.querySelectorAll('[data-message-author-role="user"]');
+  // A previously submitted user turn with no subsequent assistant message may
+  // be awaiting a reply even when the page's Stop button is not visible.
+  // Return only a boolean, never private message content.
+  const turns=document.querySelectorAll('[data-message-author-role="user"],[data-message-author-role="assistant"]');
+  const lastTurnIsUser=turns.length>0 && turns[turns.length-1].getAttribute('data-message-author-role')==='user';
   const lastUser=users[users.length-1];
   // Never return private user-message content to extension storage or logs.
   const lastUserExactContinue=(lastUser?.innerText||'').trim()==='continue';
@@ -85,7 +90,7 @@ function evaluateDOM(expectedMessage){
   const stopVisible=[...document.querySelectorAll('[data-testid="stop-button"],button[aria-label*="Stop generating" i]')].some(visible);
   return {url:location.href,dialogVisible:!!dialog,dialogText,rateLimit:/too many requests|usage limit|rate limit|try again later/i.test(noticeText),
     signedOut,composerVisible:!!editor,draft:editor?(editor.innerText||editor.textContent||'').trim().slice(0,100):null,
-    userCount:users.length,lastUserExactContinue,lastUserExactCommand,
+    userCount:users.length,lastTurnIsUser,lastUserExactContinue,lastUserExactCommand,
     assistantCount:assistants.length,lastAssistantSignature:raw?`${raw.length}:${hash>>>0}`:'',
     stopVisible,busy:!!last?.querySelector('[aria-busy="true"]')};
 }
@@ -191,6 +196,9 @@ async function continueOne(id,{advanceAfterAck=false,bootstrap=false}={}){
   // Do not turn the failed navigation into a fresh ChatGPT conversation.
   if(!hasLoadedConversation(before))throw Error('CONVERSATION_HISTORY_NOT_LOADED');
   if(before.stopVisible||before.busy)throw Error('ALREADY_RESPONDING');
+  // Fail closed on a trailing, unanswered user turn even if Chrome temporarily
+  // hides the stop/generating indicators. Never double-submit another continue.
+  if(before.lastTurnIsUser===true)throw Error('UNANSWERED_USER_TURN');
   if(!before.composerVisible)throw Error('COMPOSER_NOT_READY');
   if(before.draft)throw Error('OWNER_DRAFT_PRESENT');
   if(bootstrap && before.lastUserExactCommand){
