@@ -51,3 +51,9 @@
 @media(prefers-reduced-motion:reduce){
  .spider-bot{transition:none}.spider-leg,.spider-signal{animation:none}
 }
+
+/* Private source references are never URLs; display them as selectable text. */
+.oa-pointer{font-family:ui-monospace,SFMono-Regular,Consolas,monospace;font-size:10px!important;
+  overflow-wrap:anywhere;word-break:break-word;color:#b8d5e6!important}
+.oa-item .oa-warning{font-weight:720;line-height:1.45}
+#oa-clear-private:disabled{opacity:.45;cursor:not-allowed}
