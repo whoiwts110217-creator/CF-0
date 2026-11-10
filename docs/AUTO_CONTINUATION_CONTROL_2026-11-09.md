@@ -28,3 +28,13 @@ In the still-authorized cloud-browser Work session, sign in via the secure takeo
 A visually wired **operator panel** is not completion of automatic execution. Completion requires a real signed-in account, a supported executor, a demonstrated small opt-in sweep with stable per-chat completion receipts, safe stop/resume, and permission/rate-limit behavior verified. Until then, label it *design/source prototype*, never *live*.
 
 Related: `automation_200/mission_control/`, `automation_200/MASTER_OPERATOR_PROMPT.md`, `automation_200/MASTER_CONTINUITY_PROMPT.md`, `automation_200/OWNER_CAPABILITY_CONTRACT.json`. Existing CF-200 registry/HP relay and its schedule remain unchanged.
+
+
+## Owner-local Chrome extension keyboard integration evidence (November 9)
+
+The source-level `continuation_chrome/background.js` still uses **one** keyboard `continue` insertion and `rawKeyDown("Enter")` / `keyUp("Enter")` after saving a `maybe_sent` checkpoint. A suspected Enter delivery mismatch was investigated using **real headless Chromium** and a synthetic contenteditable field (not a private ChatGPT page). Contrary to that suspicion, the original sequence produced exactly **one** submitted `continue`; no key-input change was made to avoid an unnecessary duplicate-send risk.
+
+[New regression smoke](../automation_200/continuation_chrome/tests/keyboard-browser-smoke.mjs) (creation commit [`3f1636b`](https://github.com/whoiwts110217-creator/CF-0/commit/3f1636befb58fff625a490417b7ff5121c9200be)) was added to the [AUTO-08 Chrome source workflow](../.github/workflows/auto08-chrome-source.yml) ([commit `39e811d`](https://github.com/whoiwts110217-creator/CF-0/commit/39e811d81a3b8b7ce95eb1397840d5ad6fc7ca8b)). [Actions run 42728127448](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42728127448) **passed** the **28 existing extension Node tests**, real inert Chromium keyboard integration, syntax/manifest checks, and owner-installable extension ZIP build/upload. This is *real synthetic browser test evidence*, not authenticated owner-Chrome acceptance.
+
+**Remaining critical gate:** owner-selected and visually verified ChatGPT account, installed unpacked extension and explicitly opt-in **one chat** send/ack/complete receipt observed on the actual device. Until that happens, AUTO-08 is not certified live, and the static Mission Control master control stays disconnected. No ChatGPT conversation, account credentials, HP relay or CF-200 registry record was touched by this smoke. The test is reversible independently of the working extension; see the extension [README](../automation_200/continuation_chrome/README.md) for installation and troubleshooting.
+
