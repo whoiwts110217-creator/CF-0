@@ -103,3 +103,12 @@ test("the UI preserves active run step identities during edits",()=>{
   assert.match(ui,/function beginEdit\(id\)[\s\S]*?state\.active\?\.routineId===id/);
   assert.match(ui,/function submitRoutine\(event\)[\s\S]*?state\.active\?\.routineId===existing\.id/);
 });
+
+test("backup import never claims persistent success if local storage rejects the write",()=>{
+  const ui=readFileSync(join(app,"app.mjs"),"utf8");
+  assert.match(ui,/storageReady=true; return true;/);
+  assert.match(ui,/storageReady=false;[^\n]+return false;/);
+  assert.match(ui,/state=imported;const persisted=save\(\);/);
+  assert.match(ui,/announce\(persisted \? "Private backup restored on this device\." : "Backup loaded for this session only\./);
+  assert.match(ui,/persisted\?"ok":"warn"/);
+});
