@@ -46,6 +46,14 @@ class OwnerActionOverlayTests(unittest.TestCase):
         self.assertIn("checkedLocally", self.script)
         self.assertIn("cf-spider-view", self.script)
         self.assertIn("core.connect", self.script)
+        self.assertIn("indexed-chat", (ROOT / "spider-core.js").read_text(encoding="utf-8"))
+        self.assertIn("oa-clear-private", self.script)
+        self.assertIn("oa-project-select", self.script)
+        self.assertIn("Project link set locally", self.script)
+        self.assertIn("privateActions=[]", self.script)
+        self.assertIn("I checked — add to My turn", self.script)
+        self.assertIn('if(a.source&&urlOK(a.source))', self.script)
+
         self.assertIn('id="oa-cf200"', self.script)
         self.assertIn("/main/automation_200/registry.json", self.script)
         self.assertIn("not HP/payment proof", self.script)
@@ -62,7 +70,7 @@ class OwnerActionOverlayTests(unittest.TestCase):
         for name in ("owner-actions.js", "spider-core.js", "spider-shell.js", "owner-actions.css", "owner-actions.json"):
             self.assertTrue((ROOT / name).is_file())
             self.assertIn("./" + name, self.sw)
-        self.assertIn("cf-link-vault-v4", self.sw)
+        self.assertIn("cf-link-vault-v5", self.sw)
 
     def test_public_data_excludes_private_tokens_and_raw_chat_links(self):
         for item in self.data["actions"]:

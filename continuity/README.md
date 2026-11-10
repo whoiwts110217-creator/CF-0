@@ -14,6 +14,23 @@
 - Creates **portable private ZIP backups** using a consistent SQLite snapshot, SHA-256 file manifest and all preserved originals. Restore verifies every member and refuses to overwrite existing state; no private data is published by this action.
 - Works offline with Python 3.10+ standard library and SQLite. No API keys, subscriptions, local AI, GitHub access, payment/account connections or unrestricted desktop automation.
 
+## Spider/Sphere private action bridge (source-stage, review required)
+
+[CF-SPIDER-001](../docs/SPIDER_SPHERE_PROJECT_CHAT_PROMPT.md) **reuses this existing private index**; it does not create a second archive, task registry or GitHub upload channel. [spider_action_export.py](spider_action_export.py) scans **only complete, already indexed text conversations** in read-only SQLite mode and prepares a private `cf0.spider.action_manifest.v1` for the existing [Sphere/Link Vault](https://whoiwts110217-creator.github.io/CF-0/link-vault/#owner-actions). It finds conservative owner-language and explicit `ACTION REQUIRED` patterns, skips messages mentioning credential-like material, merges repeated identical message IDs across different export versions while preserving separate indexed source refs, and limits output to 100 review-only candidates. It does **not** establish that anything is still outstanding, the wording is correct, a named user is the actor, or a source is current.
+
+From a local, reviewed copy of CF-0 with Python 3.10+, using an **owner-supplied** genuine ChatGPT export (the existing importer supports ZIP or `conversations.json`):
+
+```powershell
+py -3 -m continuity.local_index import-chatgpt "C:\path\to\your-private-chat-export.zip"
+py -3 -m continuity.spider_action_export --output "$env:LOCALAPPDATA\CavemanFocus\Continuity\Spider_Actions_PRIVATE.json"
+```
+
+The command's destination must be outside the public checkout and not already exist; it refuses overwrite. Output goes to owner-controlled private storage. **Do not upload or commit that JSON.** Open the existing Sphere → **Import private action manifest** → select the private output from Files. Suggestions appear under **Later** (not **My turn**) with an `indexed-chat:sha256:...` private source pointer and, where the original export contains a valid UUID, a *possible* ChatGPT conversation link. A pointer is never fabricated into a web link. Read the original; only then tap **I checked — add to My turn** to promote a suggestion **locally**. **Clear private import** removes all candidates from current page memory; normal reload also clears them. The page never uploads them to GitHub and never writes their text to browser storage.
+
+Small files and unreadable/other-modality messages are not fully recovered by this heuristic. ChatGPT account access, actual owner identity, current resolution, private ZIP presence, and a real on-HP installation are **unverified** until observed. The exporter checks no external provider and prints only aggregate counts (not titles, excerpts, email or source IDs) to stdout. Duplicate source archives must be deliberately indexed; nothing scans your folders or inbox without approval. Use `--limit 1..100`, `--source-id sha256:...`, `--state-dir` if needed. The scan is bounded to 200,000 indexed text messages and reports truncation; it never claims all history.
+
+**Privacy/space:** The current indexer preserves the original supplied export locally and uses SQLite, which can temporarily require substantial free disk space. Confirm space on low-storage Windows devices before importing; do not run a heavy archive recovery unattended. The private store is not encrypted at rest. This is a user-directed, offline source-to-UI bridge, not a new subscription, scheduler, cross-account authorization, automatic completed-work detection or financial capability. [Synthetic-only tests](tests/test_spider_action_export.py) verify read-only extraction, provenance, source dedup, partial-import exclusion, refusal of public checkout output, and no private stdout.
+
 ## Private storage and safe use
 
 By default the private database and preserved originals live under **`%LOCALAPPDATA%\CavemanFocus\Continuity` on Windows**, or `~/.caveman_focus_continuity` elsewhere. You can pass `--state-dir` to use another private directory. The code refuses a state path inside the current public CF-0 repository.

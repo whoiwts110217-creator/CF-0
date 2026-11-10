@@ -100,3 +100,50 @@ test("overdue documented deadline is not a verified task outcome",()=>{
  assert.equal(a.due_date,"2026-11-13");
  assert.equal(a.evidence_level,"public_source_snapshot");
 });
+
+test("indexed private actions can be reviewed without invented web URLs",()=>{
+ const digest="a".repeat(64);
+ const ref="indexed-chat:sha256:"+digest+":source-ordinal:0:msg-1";
+ const local={id:"LOCAL-"+"b".repeat(24),zone:"conditional",owner:"owner",priority:"REVIEW",
+   title:"Review action",action:"Check the original private message",source_ref:ref,
+   source_refs:[ref],source:"",link:"",review_required:true,project_id:"UNRESOLVED"};
+ const out=core.validateManifest({schema:"cf0.spider.action_manifest.v1",actions:[local]});
+ assert.equal(out.length,1);
+ assert.equal(out[0].source,"");
+ assert.equal(out[0].link,"");
+ assert.deepEqual(out[0].source_refs,[ref]);
+ assert.equal(out[0].review_required,true);
+ assert.equal(out[0].origin,"owner_local");
+ assert.equal(out[0].evidence_level,"owner_imported_unverified");
+});
+test("private indexed duplicates retain every actual private source pointer",()=>{
+ const first="indexed-chat:sha256:"+"a".repeat(64)+":source-ordinal:0:m1";
+ const second="indexed-chat:sha256:"+"b".repeat(64)+":source-ordinal:0:m1";
+ const base={id:"LOCAL-"+"f".repeat(24),zone:"conditional",owner:"owner",
+   title:"Review",action:"Check private source",source_ref:first,source_refs:[first],
+   project_id:"UNRESOLVED",link:"",source:""};
+ const a=core.normalizeAction(base,"owner_local");
+ const b=core.normalizeAction({...base,source_ref:second,source_refs:[second]},"owner_local");
+ const merged=core.coalesce([a,b]);
+ assert.equal(merged.length,1);
+ assert.deepEqual(merged[0].source_refs,[first,second]);
+ assert.deepEqual(merged[0].evidence_urls,[]);
+});
+test("private import rejects fake locators, credentials and mismatched ref lists",()=>{
+ const valid="indexed-chat:sha256:"+"b".repeat(64)+":c1:m1";
+ const row={id:"LOCAL-X",zone:"conditional",owner:"owner",title:"Review",
+   action:"Check source",project_id:"UNRESOLVED",source_ref:valid};
+ assert.throws(()=>core.normalizeAction({...row,source_ref:"file:///home/private/secrets.json"},"owner_local"),/Invalid action/);
+ assert.throws(()=>core.normalizeAction({...row,source_refs:["indexed-chat:fake"]},"owner_local"),/Invalid private source/);
+ assert.throws(()=>core.normalizeAction({...row,link:"https://user:password@chatgpt.com/c/id"},"owner_local"),/Invalid action/);
+ assert.throws(()=>core.normalizeAction({...row,id:"CF-ACT-101"},"public_snapshot"),/Invalid action/);
+ assert.throws(()=>core.validateManifest({schema:"cf0.spider.action_manifest.v1",actions:[row,row]}),/Duplicate imported/);
+});
+test("review-only entries stay out of urgent My turn until owner changes the lane",()=>{
+ const ref="indexed-chat:sha256:"+"c".repeat(64)+":c1:m1";
+ const a=core.normalizeAction({id:"LOCAL-1234",zone:"conditional",owner:"owner",
+   title:"Possible",action:"Verify",source_ref:ref,review_required:true},"owner_local");
+ assert.equal(core.selectLane(core.coalesce([a]),"mine",{},"").length,0);
+ assert.equal(core.selectLane(core.coalesce([a]),"later",{},"").length,1);
+ assert.equal(core.connect([a],null,null).provenance.private_upload,false);
+});

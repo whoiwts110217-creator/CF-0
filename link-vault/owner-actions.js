@@ -23,8 +23,8 @@ const html=[
 '<aside class="oa-rail" aria-label="Consolidated action side list"><div class="oa-rail-top"><h3>Side list · action rail</h3><span id="oa-count" class="oa-count">Loading…</span></div><div class="oa-tabs">',
 '<button type="button" class="oa-tab" data-view="mine" aria-pressed="true">My turn</button><button type="button" class="oa-tab" data-view="later" aria-pressed="false">Later</button><button type="button" class="oa-tab" data-view="waiting" aria-pressed="false">Waiting</button><button type="button" class="oa-tab" data-view="assistant" aria-pressed="false">AI work</button><button type="button" class="oa-tab" data-view="all" aria-pressed="false">All</button><button type="button" class="oa-tab" data-view="done" aria-pressed="false">Checked locally</button>',
 '</div><label class="oa-search-label" for="oa-search">Find an action or project</label><input id="oa-search" type="search" class="oa-search" placeholder="Search action, source, project ID" autocomplete="off"><div id="oa-items" class="oa-items" aria-live="polite"><p class="oa-empty">Loading public action view…</p></div></aside></div>',
-'<div class="oa-tools"><button type="button" id="oa-refresh" class="btn primary">↻ Refresh action view</button><button type="button" id="oa-cf200" class="btn">↻ Check CF-200 source</button><span id="oa-cf200-status" class="oa-status" role="status">CF-200 not checked</span><button type="button" id="oa-export" class="btn">↓ Backup my checks</button><label class="oa-small oa-import">Import private action manifest <input id="oa-import" type="file" accept="application/json,.json" aria-label="Import a local private action manifest JSON"></label><a class="oa-small" target="_blank" rel="noopener noreferrer" href="https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/OWNER_JUNGLE_MAP.md">Full project map ↗</a><span id="oa-status" class="oa-status" role="status">Not checked yet</span></div>',
-'<p class="oa-note">Dated public-safe overlay, not a second task registry, automatic scan of private chats, or verified completion log. Checkmarks stay in this browser unless exported. Never put personal contacts, passwords or raw exports on public GitHub.</p></section>'
+'<div class="oa-tools"><button type="button" id="oa-refresh" class="btn primary">↻ Refresh action view</button><button type="button" id="oa-cf200" class="btn">↻ Check CF-200 source</button><span id="oa-cf200-status" class="oa-status" role="status">CF-200 not checked</span><button type="button" id="oa-export" class="btn">↓ Backup my checks</button><label class="oa-small oa-import">Import private action manifest <input id="oa-import" type="file" accept="application/json,.json" aria-label="Import a local private action manifest JSON"></label><button type="button" id="oa-clear-private" class="btn" disabled>Clear private import</button><a class="oa-small" target="_blank" rel="noopener noreferrer" href="https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/OWNER_JUNGLE_MAP.md">Full project map ↗</a><span id="oa-status" class="oa-status" role="status">Not checked yet</span></div>',
+'<p class="oa-note">Dated public-safe overlay, not a second task registry, automatic scan of private chats, or verified completion log. A reviewed import is a local candidate, not a fresh provider verification. Checkmarks stay in this browser unless exported. Never put personal contacts, passwords or raw exports on public GitHub.</p></section>'
 ].join("");
 const compass=document.querySelector(".compass");if(!compass)return;
 compass.insertAdjacentHTML("afterend",html);
@@ -60,18 +60,57 @@ function render(){
   card.append(top,make("h4",null,a.title),make("p",null,a.action));
   if(a.project_id)card.append(make("p","oa-thread","Thread: "+a.project_id+(a.project_checked?" · linked project":" · source mapping pending")+(a.conflict?" · CONFLICT":"")));
   if(a.origin==="owner_local")card.append(make("p","oa-thread","PRIVATE · imported into this browser's memory only"));
+  if(a.review_required)card.append(make("p","oa-warning","Possible action · NEEDS YOUR REVIEW · not confirmed outstanding"));
+  if(a.origin==="owner_local"){
+   const holder=make("label","oa-project-label","Connect privately to existing project");
+   const picker=make("select","oa-project-select");
+   const choices=[{id:"UNRESOLVED",title:"No project selected"}].concat(
+    graph&&graph.schema==="cf0.public_topic_graph.v1"&&Array.isArray(graph.nodes)?
+     graph.nodes.filter(n=>/^[A-Z][A-Z0-9-]{1,60}$/.test(n.id)).map(n=>({id:n.id,title:n.title})):[]);
+   for(const choice of choices){
+    const option=make("option",null,choice.id+" · "+choice.title);option.value=choice.id;picker.append(option);
+   }
+   picker.value=choices.some(o=>o.id===a.project_id)?a.project_id:"UNRESOLVED";
+   picker.onchange=()=>{
+    const item=privateActions.find(x=>x.id===a.id);
+    if(!item||!choices.some(o=>o.id===picker.value))return;
+    item.project_id=picker.value;
+    render();get("oa-status").textContent="Project link set locally · no public changes";
+   };
+   holder.append(picker);card.append(holder);
+  }
   if(a.conflict)card.append(make("p","oa-warning","Source disagreement — inspect originals before resolving"));
   if(a.due_date)card.append(make("p",a.due_state==="overdue"?"oa-warning":"oa-thread","Documented deadline: "+a.due_date+" · "+a.due_state));
-  const buttons=make("div","oa-item-buttons");const link=make("a","oa-small main",a.label+" ↗");link.href=a.link;link.target="_blank";link.rel="noopener noreferrer";buttons.append(link);
+  const buttons=make("div","oa-item-buttons");
+  if(a.link&&urlOK(a.link)){
+   const link=make("a","oa-small main",(a.label||"Open source")+" ↗");link.href=a.link;link.target="_blank";link.rel="noopener noreferrer";buttons.append(link);
+  }else buttons.append(make("span","oa-small","Private indexed source · no web link"));
   const trace=make("button","oa-small oa-inspect","Trace thread");trace.type="button";buttons.append(trace);
-  if(a.owner==="owner"&&a.zone!=="waiting"){
+  if(a.origin==="owner_local"&&a.review_required){
+   const accept=make("button","oa-small","I checked — add to My turn");accept.type="button";
+   accept.onclick=()=>{
+    const item=privateActions.find(x=>x.id===a.id);
+    if(!item)return;
+    item.review_required=false;item.zone="ready";item.priority="LOCALLY REVIEWED";
+    show("mine");get("oa-status").textContent="Owner-reviewed locally · not externally verified";
+   };
+   buttons.append(accept);
+  }
+  if(a.owner==="owner"&&a.zone!=="waiting"&&!a.review_required){
    const button=make("button","oa-small",checks[a.id]?"↶ Undo local check":"✓ I handled this locally");button.type="button";
    button.onclick=()=>{if(checks[a.id])delete checks[a.id];else checks[a.id]=new Date().toISOString();save();render()};buttons.append(button);
   }
   card.append(buttons);
   const detail=make("details");detail.append(make("summary",null,"Why · proof · original source"));
   detail.append(make("p",null,"Context: "+a.detail),make("p",null,"Proof: "+a.proof),make("p",null,"Caution: "+a.caution));
-  const src=make("a","oa-small","Original source ↗");src.href=a.source;src.target="_blank";src.rel="noopener noreferrer";detail.append(src);
+  if(a.source&&urlOK(a.source)){
+   const src=make("a","oa-small","Original source ↗");src.href=a.source;src.target="_blank";src.rel="noopener noreferrer";detail.append(src);
+  }
+  if(a.source_refs&&a.source_refs.length){
+   detail.append(make("p","oa-pointer","Indexed private evidence: "+a.source_refs.length+" source pointer(s) · not publicly fetchable"));
+   for(const sourceRef of a.source_refs.slice(0,2))detail.append(make("p","oa-pointer",sourceRef));
+  }
+  if(a.review_required)detail.append(make("p","oa-warning","Candidate only. Read the original before promoting to an action; the request may already be resolved."));
   if(a.project_source&&/^[A-Za-z0-9_./-]+$/.test(a.project_source)){
    const project=make("a","oa-small","Parent project ↗");project.href=BASE+a.project_source;
    project.target="_blank";project.rel="noopener noreferrer";detail.append(project);
@@ -114,12 +153,20 @@ get("oa-cf200").addEventListener("click",async()=>{
   registry=null;status.textContent="CF-200 unavailable or invalid · status unknown";render();
  }finally{button.disabled=false}
 });
+get("oa-clear-private").addEventListener("click",()=>{
+ privateActions=[];
+ get("oa-clear-private").disabled=true;
+ get("oa-status").textContent="Private import cleared from current page memory";
+ render();
+});
 get("oa-import").addEventListener("change",async event=>{
  const file=event.target.files&&event.target.files[0];if(!file)return;
  try{
   if(file.size>150000)throw Error("File too large (150 KB maximum)");
   if(!window.CFSpiderCore)throw Error("Spider Core unavailable");
-  privateActions=window.CFSpiderCore.validateManifest(JSON.parse(await file.text()));
+  const imported=window.CFSpiderCore.validateManifest(JSON.parse(await file.text()));
+  privateActions=imported;
+  get("oa-clear-private").disabled=false;
   get("oa-status").textContent=privateActions.length+" private entries in memory only — never uploaded";
   render();
  }catch(err){get("oa-status").textContent="Import rejected: "+String(err.message||err).slice(0,100)}
