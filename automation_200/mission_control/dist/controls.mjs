@@ -51,7 +51,7 @@ export function records(privateAutomations = null) {
       }))
     : privateAutomations.map((entry,index)=>({
        ...entry, id:"task-"+index, source:"chatgpt",
-       detail:"Last reported state from user-selected private file; not a live connection."
+       detail:"Owner-supplied snapshot"+(entry.observedAt ? " observed "+entry.observedAt : " (date unknown)")+"; not an authenticated live connection."
       }));
   return [
     ...slots,
@@ -66,6 +66,11 @@ export function parsePrivateInventory(input) {
       || !Array.isArray(input.automations) || input.automations.length > 50) {
     throw new Error("Expected cf0.private_automation_inventory.v1 with up to 50 automations.");
   }
+  // A timestamp makes an owner-selected snapshot auditable, but cannot authenticate its origin.
+  const observedAt=input.observed_at;
+  if (observedAt !== undefined && (typeof observedAt!=="string"
+      || !/^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(?:\\.\\d+)?(?:Z|[+-]\\d{2}:\\d{2})$/.test(observedAt)
+      || !Number.isFinite(Date.parse(observedAt)))) throw new Error("Invalid snapshot observed_at.");
   const seen=new Set();
   return input.automations.map((a,i)=>{
     if (!a || typeof a.title!=="string" || !a.title.trim() || a.title.length > 140
@@ -74,7 +79,7 @@ export function parsePrivateInventory(input) {
     seen.add(a.id);
     return {title:a.title.trim(), reportedEnabled:a.is_enabled,
       // Do not expose task ids, prompts, environments, or URLs in rendered HTML.
-      research:typeof a.research==="boolean" ? a.research : false};
+      research:typeof a.research==="boolean" ? a.research : false, observedAt:observedAt||null};
   });
 }
 
