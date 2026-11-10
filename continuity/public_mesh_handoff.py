@@ -88,9 +88,9 @@ def validate_events(raw, graph, *, root=None):
             raise HandoffError("invalid_jsonl_event") from exc
         if type(event) is not dict or set(event) != EVENT_FIELDS:
             raise HandoffError("invalid_event_fields")
-        if event["schema"] != SCHEMA or event["kind"] not in KINDS:
+        if event["schema"] != SCHEMA or type(event["kind"]) is not str or event["kind"] not in KINDS:
             raise HandoffError("invalid_event_kind")
-        if event["worker_label"] not in WORKERS:
+        if type(event["worker_label"]) is not str or event["worker_label"] not in WORKERS:
             raise HandoffError("unknown_worker_label")
         eid = event["event_id"]
         if type(eid) is not str or not EVENT_ID.fullmatch(eid) or eid in seen_ids:
