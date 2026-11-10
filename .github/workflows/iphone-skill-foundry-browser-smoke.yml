@@ -18,7 +18,9 @@ jobs:
       matrix:
         engine: [chromium, webkit]
     runs-on: ubuntu-24.04
-    timeout-minutes: 12
+    # WebKit's apt dependencies can consume ~12 minutes on a cold Ubuntu runner;
+    # keep a bounded allowance for actual tests before cancelling.
+    timeout-minutes: 20
     env:
       CF0_BROWSER_ENGINE: ${{ matrix.engine }}
     steps:
