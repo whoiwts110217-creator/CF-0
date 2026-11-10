@@ -31,6 +31,7 @@ on:
       - 'continuity/public_freshness.py'
       - 'continuity/tests/test_public_freshness.py'
       - '.github/workflows/publish-website.yml'
+      - 'site_deploy/**'
   # Recovery: dispatch a NEW workflow run after a Pages queue failure.
   # Do not rerun only the failed deploy job: upload-pages-artifact can create
   # another artifact named github-pages in the same run, and deploy-pages
@@ -73,6 +74,8 @@ jobs:
         run: node --test clarity-brief/tests/*.test.mjs
       - name: Test $5 public-page buyer and intake safeguards
         run: node --test clarity-check/tests/*.test.mjs
+      - name: Test live Pages readback verifier (offline)
+        run: python -m unittest discover -s site_deploy/tests -p 'test_*.py' -v
       - name: Test First Drop iPhone sharing and copy fallbacks
         run: node --test first-drop/tests/*.test.mjs
       - name: Build commit-pinned public Mission Control fallback
@@ -120,6 +123,7 @@ jobs:
           cp -R concepts/dreamkiller/iphone-emu/site/. _site/dreamkiller/
           cp concepts/dreamkiller/rom_v0_2/dreamkiller_road_v0_2.gb _site/dreamkiller/road-v02.gb
           printf '%s\n' 'User-agent: *' 'Allow: /' > _site/robots.txt
+          python -m site_deploy.verify_live write-manifest _site "$GITHUB_SHA" "$GITHUB_RUN_ID"
       - name: Verify owner navigation links in staged site
         shell: bash
         run: |
@@ -179,3 +183,7 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+      - name: Verify live Pages release identity and essential public routes
+        env:
+          PAGES_URL: ${{ steps.deployment.outputs.page_url }}
+        run: python -m site_deploy.verify_live verify "$PAGES_URL" "$GITHUB_SHA" "$GITHUB_RUN_ID"
