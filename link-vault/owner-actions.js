@@ -7,7 +7,7 @@ const CHECKS="cf_link_vault_owner_action_checks_v1",CACHE="cf_link_vault_owner_a
 const zones={now:"Do now",soon:"Deadline",ready:"Ready to test",conditional:"Only if needed",optional:"Optional",waiting:"Watching / hold",assistant:"Assistant work"};
 const views={mine:["now","soon","ready"],later:["conditional","optional"],waiting:["waiting"],assistant:["assistant"],all:Object.keys(zones),done:[]};
 const urlOK=value=>{try{const u=new URL(value);return u.protocol==="https:"&&!u.username&&!u.password}catch(_){return false}};
-let catalog=[],revision="not loaded",view="mine",checks={};
+let catalog=[],revision="not loaded",view="mine",checks={},graph=null,registry=null,privateActions=[],query="";
 try{const saved=JSON.parse(localStorage.getItem(CHECKS)||"{}");if(saved&&typeof saved==="object"&&!Array.isArray(saved))checks=Object.fromEntries(Object.entries(saved).filter(([k,v])=>/^CF-ACT-\d{3}$/.test(k)&&typeof v==="string"&&v.length<50))}catch(_){}
 const html=[
 '<section class="oa-shell" id="owner-actions" aria-labelledby="oa-title">',
@@ -22,8 +22,8 @@ const html=[
 '</div><p class="oa-legend">Interactive navigation, not a remote-control switch. Neither HP execution nor account access is implied.</p></div>',
 '<aside class="oa-rail" aria-label="Consolidated action side list"><div class="oa-rail-top"><h3>Side list · action rail</h3><span id="oa-count" class="oa-count">Loading…</span></div><div class="oa-tabs">',
 '<button type="button" class="oa-tab" data-view="mine" aria-pressed="true">My turn</button><button type="button" class="oa-tab" data-view="later" aria-pressed="false">Later</button><button type="button" class="oa-tab" data-view="waiting" aria-pressed="false">Waiting</button><button type="button" class="oa-tab" data-view="assistant" aria-pressed="false">AI work</button><button type="button" class="oa-tab" data-view="all" aria-pressed="false">All</button><button type="button" class="oa-tab" data-view="done" aria-pressed="false">Checked locally</button>',
-'</div><div id="oa-items" class="oa-items" aria-live="polite"><p class="oa-empty">Loading public action view…</p></div></aside></div>',
-'<div class="oa-tools"><button type="button" id="oa-refresh" class="btn primary">↻ Refresh action view</button><button type="button" id="oa-export" class="btn">↓ Backup my checks</button><a class="oa-small" target="_blank" rel="noopener noreferrer" href="https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/OWNER_JUNGLE_MAP.md">Full project map ↗</a><span id="oa-status" class="oa-status" role="status">Not checked yet</span></div>',
+'</div><label class="oa-search-label" for="oa-search">Find an action or project</label><input id="oa-search" type="search" class="oa-search" placeholder="Search action, source, project ID" autocomplete="off"><div id="oa-items" class="oa-items" aria-live="polite"><p class="oa-empty">Loading public action view…</p></div></aside></div>',
+'<div class="oa-tools"><button type="button" id="oa-refresh" class="btn primary">↻ Refresh action view</button><button type="button" id="oa-cf200" class="btn">↻ Check CF-200 source</button><span id="oa-cf200-status" class="oa-status" role="status">CF-200 not checked</span><button type="button" id="oa-export" class="btn">↓ Backup my checks</button><label class="oa-small oa-import">Import private action manifest <input id="oa-import" type="file" accept="application/json,.json" aria-label="Import a local private action manifest JSON"></label><a class="oa-small" target="_blank" rel="noopener noreferrer" href="https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/OWNER_JUNGLE_MAP.md">Full project map ↗</a><span id="oa-status" class="oa-status" role="status">Not checked yet</span></div>',
 '<p class="oa-note">Dated public-safe overlay, not a second task registry, automatic scan of private chats, or verified completion log. Checkmarks stay in this browser unless exported. Never put personal contacts, passwords or raw exports on public GitHub.</p></section>'
 ].join("");
 const compass=document.querySelector(".compass");if(!compass)return;
@@ -39,18 +39,31 @@ function validData(data){
 }
 const make=(tag,cls,txt)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(txt!==undefined)e.textContent=txt;return e};
 function save(){try{localStorage.setItem(CHECKS,JSON.stringify(checks))}catch(_){get("oa-status").textContent="Local storage unavailable — export checks"}}
-function show(next){view=next;for(const b of document.querySelectorAll("#owner-actions [data-view]"))b.setAttribute("aria-pressed",String(b.dataset.view===view));render()}
+function show(next){view=next;for(const b of document.querySelectorAll("#owner-actions [data-view]"))b.setAttribute("aria-pressed",String(b.dataset.view===view));render();window.dispatchEvent(new CustomEvent("cf-spider-view",{detail:{view}}))}
 function render(){
  const list=get("oa-items");list.replaceChildren();
- const priority=catalog.filter(a=>a.owner==="owner"&&["now","soon","ready"].includes(a.zone)&&!checks[a.id]).length;
- const items=catalog.filter(a=>view==="done"?!!checks[a.id]:views[view].includes(a.zone)&&(view!=="mine"||!checks[a.id]));
+ let all=catalog;
+ const core=window.CFSpiderCore;
+ if(core){
+  try{
+   const publicRows=catalog.map(a=>core.normalizeAction(a,"public_snapshot"));
+   all=core.connect(publicRows.concat(privateActions),graph,registry).actions;
+  }catch(_){get("oa-status").textContent="Spider source conflict — showing raw public snapshot";all=catalog}
+ }
+ const priority=all.filter(a=>a.owner==="owner"&&["now","soon","ready"].includes(a.zone)&&!checks[a.id]).length;
+ const items=core?core.selectLane(all,view,checks,query):all.filter(a=>view==="done"?!!checks[a.id]:views[view].includes(a.zone)&&(view!=="mine"||!checks[a.id]));
  get("oa-count").textContent=items.length+" shown · "+priority+" priority";
  if(!items.length){list.append(make("p","oa-empty",catalog.length?"No items in this lane. Select All for everything.":"Offline and no saved action view. Retry refresh online."));return}
  for(const a of items){
-  const card=make("article","oa-item");card.dataset.zone=a.zone;card.dataset.done=checks[a.id]?"true":"false";
+  const card=make("article","oa-item");card.dataset.zone=a.zone;card.dataset.actionId=a.id;card.dataset.done=checks[a.id]?"true":"false";
   const top=make("div","oa-item-top");top.append(make("span","oa-pill",zones[a.zone]),make("span","oa-pill",a.priority));
   card.append(top,make("h4",null,a.title),make("p",null,a.action));
+  if(a.project_id)card.append(make("p","oa-thread","Thread: "+a.project_id+(a.project_checked?" · linked project":" · source mapping pending")+(a.conflict?" · CONFLICT":"")));
+  if(a.origin==="owner_local")card.append(make("p","oa-thread","PRIVATE · imported into this browser's memory only"));
+  if(a.conflict)card.append(make("p","oa-warning","Source disagreement — inspect originals before resolving"));
+  if(a.due_date)card.append(make("p",a.due_state==="overdue"?"oa-warning":"oa-thread","Documented deadline: "+a.due_date+" · "+a.due_state));
   const buttons=make("div","oa-item-buttons");const link=make("a","oa-small main",a.label+" ↗");link.href=a.link;link.target="_blank";link.rel="noopener noreferrer";buttons.append(link);
+  const trace=make("button","oa-small oa-inspect","Trace thread");trace.type="button";buttons.append(trace);
   if(a.owner==="owner"&&a.zone!=="waiting"){
    const button=make("button","oa-small",checks[a.id]?"↶ Undo local check":"✓ I handled this locally");button.type="button";
    button.onclick=()=>{if(checks[a.id])delete checks[a.id];else checks[a.id]=new Date().toISOString();save();render()};buttons.append(button);
@@ -59,10 +72,16 @@ function render(){
   const detail=make("details");detail.append(make("summary",null,"Why · proof · original source"));
   detail.append(make("p",null,"Context: "+a.detail),make("p",null,"Proof: "+a.proof),make("p",null,"Caution: "+a.caution));
   const src=make("a","oa-small","Original source ↗");src.href=a.source;src.target="_blank";src.rel="noopener noreferrer";detail.append(src);
+  if(a.project_source&&/^[A-Za-z0-9_./-]+$/.test(a.project_source)){
+   const project=make("a","oa-small","Parent project ↗");project.href=BASE+a.project_source;
+   project.target="_blank";project.rel="noopener noreferrer";detail.append(project);
+  }
+  if(a.work_orders&&a.work_orders.length)detail.append(make("p",null,"Explicit CF-200 references: "+a.work_orders.map(t=>t.id+" ("+t.status+")").join(", ")));
+  if(a.evidence_urls&&a.evidence_urls.length>1)detail.append(make("p",null,"Corroborating source links: "+a.evidence_urls.length));
   card.append(detail);list.append(card);
  }
 }
-function adopt(data,network){validData(data);catalog=data.actions;revision=data.revision;get("oa-status").textContent=(network?"Public view refreshed":"Saved view · not checked now")+" · "+revision+" · "+data.as_of;render()}
+function adopt(data,network){validData(data);catalog=data.actions;revision=data.revision;get("oa-status").textContent=(network?"Public snapshot fetched":"Saved snapshot, not checked now")+" · "+revision+" · "+data.as_of+" · "+(window.CFSpiderCore?window.CFSpiderCore.snapshotAge(data.as_of):"age unknown")+" (not provider verification)";render()}
 async function refresh(){
  const button=get("oa-refresh");button.disabled=true;get("oa-status").textContent="Checking public view…";
  try{
@@ -75,6 +94,48 @@ async function refresh(){
  finally{button.disabled=false}
 }
 document.querySelectorAll("#owner-actions [data-view]").forEach(b=>b.addEventListener("click",()=>show(b.dataset.view)));
+get("oa-search").addEventListener("input",event=>{query=event.target.value;render()});
+get("oa-cf200").addEventListener("click",async()=>{
+ const button=get("oa-cf200"),status=get("oa-cf200-status");button.disabled=true;
+ status.textContent="Reading public work-order source…";
+ try{
+  const response=await fetch("https://raw.githubusercontent.com/whoiwts110217-creator/CF-0/main/automation_200/registry.json",{cache:"no-store",credentials:"omit"});
+  if(!response.ok)throw Error("HTTP "+response.status);
+  const raw=await response.text();if(raw.length>175000)throw Error("Registry too large");
+  const value=JSON.parse(raw);
+  if(value.schema!=="CF200.1"||value.target!==200||!Array.isArray(value.tasks)||value.tasks.length!==200||
+     !Number.isInteger(value.completed)||value.completed<0||value.completed>200||
+     value.tasks.some(task=>!/^CF-\d{3}$/.test(task.id)||!["planned","verified"].includes(task.status)))
+     throw Error("Registry schema or count mismatch");
+  registry=value;
+  status.textContent="CF-200 "+value.completed+"/200 source-verified · not HP/payment proof";
+  render();
+ }catch(_){
+  registry=null;status.textContent="CF-200 unavailable or invalid · status unknown";render();
+ }finally{button.disabled=false}
+});
+get("oa-import").addEventListener("change",async event=>{
+ const file=event.target.files&&event.target.files[0];if(!file)return;
+ try{
+  if(file.size>150000)throw Error("File too large (150 KB maximum)");
+  if(!window.CFSpiderCore)throw Error("Spider Core unavailable");
+  privateActions=window.CFSpiderCore.validateManifest(JSON.parse(await file.text()));
+  get("oa-status").textContent=privateActions.length+" private entries in memory only — never uploaded";
+  render();
+ }catch(err){get("oa-status").textContent="Import rejected: "+String(err.message||err).slice(0,100)}
+ event.target.value="";
+});
+async function loadGraph(){
+ try{
+  const response=await fetch("https://raw.githubusercontent.com/whoiwts110217-creator/CF-0/main/docs/PUBLIC_CONTEXT_GRAPH.json",{cache:"no-store",credentials:"omit"});
+  if(!response.ok)throw Error("graph unavailable");
+  const raw=await response.text();if(raw.length>150000)throw Error("graph too large");
+  const data=JSON.parse(raw);
+  if(data.schema!=="cf0.public_topic_graph.v1"||!Array.isArray(data.nodes))throw Error("graph schema");
+  graph=data;render();
+ }catch(_){graph=null;render()}
+}
+loadGraph();
 get("oa-refresh").addEventListener("click",refresh);
 get("oa-export").addEventListener("click",()=>{
  const payload={schema:"cf.link.vault.owner.checks.v1",savedAt:new Date().toISOString(),checkedLocally:checks};

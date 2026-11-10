@@ -44,6 +44,14 @@ class OwnerActionOverlayTests(unittest.TestCase):
         self.assertIn('id="owner-actions"', self.script)
         self.assertIn('id="oa-items"', self.script)
         self.assertIn("checkedLocally", self.script)
+        self.assertIn("cf-spider-view", self.script)
+        self.assertIn("core.connect", self.script)
+        self.assertIn('id="oa-cf200"', self.script)
+        self.assertIn("/main/automation_200/registry.json", self.script)
+        self.assertIn("not HP/payment proof", self.script)
+        self.assertNotIn('method:"POST"', self.script)
+        self.assertIn('src="./spider-core.js"', self.html)
+        self.assertIn('src="./spider-shell.js"', self.html)
         self.assertIn("ownerActionChecks", self.enhance)
         self.assertIn("cf-owner-checks-updated", self.enhance)
 
@@ -51,10 +59,10 @@ class OwnerActionOverlayTests(unittest.TestCase):
         self.assertEqual(len(self.links["links"]), len({x["id"] for x in self.links["links"]}))
         matched = [x for x in self.links["links"] if x["url"].endswith("/link-vault/#owner-actions")]
         self.assertEqual(len(matched), 1)
-        for name in ("owner-actions.js", "owner-actions.css", "owner-actions.json"):
+        for name in ("owner-actions.js", "spider-core.js", "spider-shell.js", "owner-actions.css", "owner-actions.json"):
             self.assertTrue((ROOT / name).is_file())
             self.assertIn("./" + name, self.sw)
-        self.assertIn("cf-link-vault-v3", self.sw)
+        self.assertIn("cf-link-vault-v4", self.sw)
 
     def test_public_data_excludes_private_tokens_and_raw_chat_links(self):
         for item in self.data["actions"]:

@@ -1,8 +1,8 @@
 {
   "schema": "cf.link.vault.owner_view.v1",
-  "revision": "2026-11-10.2",
+  "revision": "2026-11-10.4",
   "as_of": "2026-11-10",
-  "source_note": "Public-safe snapshot derived from CF-0 canonical sources and owner handoffs. This is a navigation overlay, not the authoritative task registry, live status monitor, or full private-chat export.",
+  "source_note": "Public-safe dated view, derived from CF-0 owner handoffs and existing public sources. project_id is an explicit link to the existing CF-MESH-001 topic graph; task_ids are empty unless an exact CF-200 identity is evidenced. not the authoritative task registry, live provider state, or full private chat export.",
   "actions": [
     {
       "id": "CF-ACT-001",
@@ -16,7 +16,10 @@
       "label": "Open your mail",
       "source": "https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/CONTINUITY.md",
       "proof": "Private ZIP successfully downloaded and verified locally",
-      "caution": "No secrets or signed export URLs in public notes; if link expired, use official export/support recovery."
+      "caution": "No secrets or signed export URLs in public notes; if link expired, use official export/support recovery.",
+      "project_id": "UCC-001",
+      "task_ids": [],
+      "evidence_level": "public_source_snapshot"
     },
     {
       "id": "CF-ACT-002",
@@ -30,7 +33,11 @@
       "label": "Grant record",
       "source": "https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/OWNER_JUNGLE_MAP.md",
       "proof": "Official confirmation/reference or funder reply",
-      "caution": "Application ≠ award or payment."
+      "caution": "Application ≠ award or payment.",
+      "project_id": "FIN-09",
+      "task_ids": [],
+      "evidence_level": "public_source_snapshot",
+      "due_date": "2026-11-13"
     },
     {
       "id": "CF-ACT-003",
@@ -44,7 +51,10 @@
       "label": "Current installation and test guide",
       "source": "https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/AUTO_CONTINUATION_CONTROL_2026-11-09.md",
       "proof": "Owner-observed one send, one complete reply, STOP blocks further sends",
-      "caution": "Do not restart the paused HP relay; do not open multiple working ChatGPT tabs."
+      "caution": "Do not restart the paused HP relay; do not open multiple working ChatGPT tabs.",
+      "project_id": "AUTO-08",
+      "task_ids": [],
+      "evidence_level": "public_source_snapshot"
     },
     {
       "id": "CF-ACT-004",
@@ -58,7 +68,10 @@
       "label": "Open Home Screen launcher",
       "source": "https://github.com/whoiwts110217-creator/CF-0/blob/main/link-vault/README.md",
       "proof": "Home Screen icon opens your same Link Vault",
-      "caution": "Personal checked-off actions save only in this browser unless exported."
+      "caution": "Personal checked-off actions save only in this browser unless exported.",
+      "project_id": "CF-CORE",
+      "task_ids": [],
+      "evidence_level": "public_source_snapshot"
     },
     {
       "id": "CF-ACT-005",
@@ -72,7 +85,10 @@
       "label": "Official campaign page",
       "source": "https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/FIRST_DROP_CAMPAIGN_2026-11-09.md",
       "proof": "Real external post URL or independent response",
-      "caution": "Voluntary donations only; no fabricated supporters or payments."
+      "caution": "Voluntary donations only; no fabricated supporters or payments.",
+      "project_id": "FIN-09",
+      "task_ids": [],
+      "evidence_level": "public_source_snapshot"
     },
     {
       "id": "CF-ACT-006",
@@ -86,7 +102,10 @@
       "label": "View $5 offer",
       "source": "https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/BUSINESS.md",
       "proof": "Buyer acceptance, deliverable completion, verified independent payment",
-      "caution": "A link, test/self-payment, inquiry or grant submission is not revenue."
+      "caution": "A link, test/self-payment, inquiry or grant submission is not revenue.",
+      "project_id": "FIN-09",
+      "task_ids": [],
+      "evidence_level": "public_source_snapshot"
     },
     {
       "id": "CF-ACT-007",
@@ -100,7 +119,10 @@
       "label": "Privacy and continuity rule",
       "source": "https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/CHATGPT_MEMORY_BOOTSTRAP.md",
       "proof": "Existing private file located, no duplicate registry",
-      "caution": "Never upload contact rows or private Drive links to public CF-0."
+      "caution": "Never upload contact rows or private Drive links to public CF-0.",
+      "project_id": "UCC-001",
+      "task_ids": [],
+      "evidence_level": "public_source_snapshot"
     },
     {
       "id": "CF-ACT-008",
@@ -114,7 +136,10 @@
       "label": "Continuity gap",
       "source": "https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/OWNER_JUNGLE_MAP.md",
       "proof": "Verbatim source and provenance reconciled, not only a summary",
-      "caution": "No raw chat exports in public repository."
+      "caution": "No raw chat exports in public repository.",
+      "project_id": "CF-MESH-001",
+      "task_ids": [],
+      "evidence_level": "public_source_snapshot"
     },
     {
       "id": "CF-ACT-009",
@@ -128,7 +153,10 @@
       "label": "Storage/continuity context",
       "source": "https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/OWNER_ACTION_HANDOFF_PROTOCOL.md",
       "proof": "Provider confirms account exists and storage can be retrieved",
-      "caution": "No credentials in chat or public files."
+      "caution": "No credentials in chat or public files.",
+      "project_id": "UCC-001",
+      "task_ids": [],
+      "evidence_level": "public_source_snapshot"
     },
     {
       "id": "CF-ACT-010",
@@ -142,7 +170,10 @@
       "label": "Google account security",
       "source": "https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/OWNER_ACTION_HANDOFF_PROTOCOL.md",
       "proof": "Owner confirmed recognized or secured account",
-      "caution": "Never paste password, recovery codes or signed URLs into chat."
+      "caution": "Never paste password, recovery codes or signed URLs into chat.",
+      "project_id": "UCC-001",
+      "task_ids": [],
+      "evidence_level": "public_source_snapshot"
     },
     {
       "id": "CF-ACT-011",
@@ -156,7 +187,10 @@
       "label": "Application support draft",
       "source": "https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/OWNER_JUNGLE_MAP.md",
       "proof": "Written request and truthful completed response",
-      "caution": "No invented endorsements, signatures or partner commitments."
+      "caution": "No invented endorsements, signatures or partner commitments.",
+      "project_id": "FIN-09",
+      "task_ids": [],
+      "evidence_level": "public_source_snapshot"
     },
     {
       "id": "CF-ACT-012",
@@ -170,7 +204,10 @@
       "label": "HP maintenance record",
       "source": "https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/TASKS_AND_ISSUES.md",
       "proof": "Future owner-approved local restore and attributed scheduled receipt",
-      "caution": "Do not turn on FastLane, Relay or Supervisor from this checklist."
+      "caution": "Do not turn on FastLane, Relay or Supervisor from this checklist.",
+      "project_id": "CF-HP",
+      "task_ids": [],
+      "evidence_level": "public_source_snapshot"
     },
     {
       "id": "CF-ACT-013",
@@ -184,7 +221,10 @@
       "label": "Program website",
       "source": "https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/OWNER_JUNGLE_MAP.md",
       "proof": "Official reply, award notice or payment, as applicable",
-      "caution": "Do not submit a duplicate grant."
+      "caution": "Do not submit a duplicate grant.",
+      "project_id": "FIN-09",
+      "task_ids": [],
+      "evidence_level": "public_source_snapshot"
     },
     {
       "id": "CF-ACT-014",
@@ -198,7 +238,10 @@
       "label": "Provenance record",
       "source": "https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/START_HERE.md",
       "proof": "Approved terms or reviewed agreement",
-      "caution": "Public-source labels alone do not create enforceable ownership transfers."
+      "caution": "Public-source labels alone do not create enforceable ownership transfers.",
+      "project_id": "CF-LEGAL-001",
+      "task_ids": [],
+      "evidence_level": "public_source_snapshot"
     },
     {
       "id": "CF-ACT-015",
@@ -212,7 +255,10 @@
       "label": "Free promotion guide",
       "source": "https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/TASKS_AND_ISSUES.md",
       "proof": "Accepted post URL if published",
-      "caution": "Don't make duplicate or misleading posts."
+      "caution": "Don't make duplicate or misleading posts.",
+      "project_id": "FIN-09",
+      "task_ids": [],
+      "evidence_level": "public_source_snapshot"
     },
     {
       "id": "CF-ACT-016",
@@ -226,7 +272,10 @@
       "label": "Mission board",
       "source": "https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/OWNER_ACTION_HANDOFF_PROTOCOL.md",
       "proof": "Source readback, appropriate CI result",
-      "caution": "Cloud CI ≠ real HP scheduler execution."
+      "caution": "Cloud CI ≠ real HP scheduler execution.",
+      "project_id": "CF-200",
+      "task_ids": [],
+      "evidence_level": "public_source_snapshot"
     },
     {
       "id": "CF-ACT-017",
@@ -240,7 +289,10 @@
       "label": "Mesh protocol",
       "source": "https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/CONTINUITY.md",
       "proof": "Linked evidence/handoff with missing items clearly marked",
-      "caution": "No private transcripts published."
+      "caution": "No private transcripts published.",
+      "project_id": "CF-MESH-001",
+      "task_ids": [],
+      "evidence_level": "public_source_snapshot"
     },
     {
       "id": "CF-ACT-018",
@@ -254,7 +306,10 @@
       "label": "Business workstream",
       "source": "https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/OWNER_JUNGLE_MAP.md",
       "proof": "Actual provider reply and separate settled payment proof",
-      "caution": "No invented income."
+      "caution": "No invented income.",
+      "project_id": "FIN-09",
+      "task_ids": [],
+      "evidence_level": "public_source_snapshot"
     },
     {
       "id": "CF-ACT-019",
@@ -268,7 +323,10 @@
       "label": "Campaign source",
       "source": "https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/FREE_BROWSER_PROMOTION_2026-11-09.md",
       "proof": "Accepted external listing URL or official status, not just a draft",
-      "caution": "Do not present a voluntary donation as a product sale or promise an award."
+      "caution": "Do not present a voluntary donation as a product sale or promise an award.",
+      "project_id": "FIN-09",
+      "task_ids": [],
+      "evidence_level": "public_source_snapshot"
     },
     {
       "id": "CF-ACT-020",
@@ -282,7 +340,10 @@
       "label": "Account setup status",
       "source": "https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/OWNER_ACTION_HANDOFF_PROTOCOL.md",
       "proof": "Official account shows signed in and can post, without fabricated signup",
-      "caution": "Only choose accounts you want associated with the public project."
+      "caution": "Only choose accounts you want associated with the public project.",
+      "project_id": "FIN-09",
+      "task_ids": [],
+      "evidence_level": "public_source_snapshot"
     },
     {
       "id": "CF-ACT-021",
@@ -296,7 +357,10 @@
       "label": "Skill Foundry app",
       "source": "https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/START_HERE.md",
       "proof": "Owner-observed Safari interaction and safe output file",
-      "caution": "A generated skill file is not proof it has been installed in this ChatGPT account."
+      "caution": "A generated skill file is not proof it has been installed in this ChatGPT account.",
+      "project_id": "CF-CORE",
+      "task_ids": [],
+      "evidence_level": "public_source_snapshot"
     },
     {
       "id": "CF-ACT-022",
@@ -310,7 +374,10 @@
       "label": "Priority engine",
       "source": "https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/OWNER_ACTION_HANDOFF_PROTOCOL.md",
       "proof": "Owner decision linked to one task and actual subsequent result",
-      "caution": "No need to micromanage routine source-safe work."
+      "caution": "No need to micromanage routine source-safe work.",
+      "project_id": "CF-P1",
+      "task_ids": [],
+      "evidence_level": "public_source_snapshot"
     }
   ]
 }
