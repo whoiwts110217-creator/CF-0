@@ -1,4 +1,4 @@
-import {SCHEMA, STORAGE_KEY, emptyState, parseState, normalizeRoutine, normalizeStep, dueInfo, safeLink, shortcutLink, freshId} from "./core.mjs";
+import {SCHEMA, STORAGE_KEY, emptyState, parseState, normalizeRoutine, normalizeStep, dueInfo, safeLink, shortcutLink, freshId, MAX_ROUTINES} from "./core.mjs";
 
 const $ = id => document.getElementById(id);
 const html = value => String(value ?? "").replaceAll("&","&amp;").replaceAll("<","&lt;").replaceAll(">","&gt;").replaceAll('"',"&quot;").replaceAll("'","&#39;");
@@ -121,6 +121,7 @@ function toggleStepTarget(){
 }
 function beginEdit(id){
   const r=routineById(id);if(!r)return;
+  if(state.active?.routineId===id){announce("End the active run before editing its steps, to preserve the completion record.","warn");return;}
   editingId=id;draftSteps=r.steps.map(s=>({...s}));
   $("routine-title").value=r.title;$("routine-description").value=r.description;
   $("routine-schedule").value=r.schedule.type;$("routine-time").value=r.schedule.time;
@@ -148,6 +149,7 @@ function startRoutine(id){
 }
 function addTemplate(key){
   const t=templates.find(x=>x.key===key);if(!t)return;
+  if(state.routines.length>=MAX_ROUTINES){announce("Routine limit reached. Export a backup and delete an old routine before adding more.","warn");return;}
   const r=normalizeRoutine({id:freshId("routine"),title:t.name,description:t.description,enabled:true,
     schedule:t.schedule,steps:t.steps.map(s=>({...s,id:freshId("step")})),createdAt:nowISO(),lastRunAt:null});
   state.routines.unshift(r);save();render();announce("Template added. No background action was started.","ok");
@@ -157,7 +159,9 @@ function handleAction(action,id){
   if(action==="start")return startRoutine(id);
   if(action==="edit")return beginEdit(id);
   if(action==="toggle"){r.enabled=!r.enabled;save();render();announce(r.enabled?"Routine resumed. Its schedule is visible only when the app is open.":"Routine paused.","ok");}
-  if(action==="copy"){const copy=normalizeRoutine({...r,id:freshId("routine"),title:r.title+" copy",lastRunAt:null,createdAt:nowISO(),steps:r.steps.map(s=>({...s,id:freshId("step")}))});state.routines.unshift(copy);save();render();announce("Routine copied.");}
+  if(action==="copy"){
+    if(state.routines.length>=MAX_ROUTINES){announce("Routine limit reached. Export a backup before removing any routine.","warn");return;}
+    const copy=normalizeRoutine({...r,id:freshId("routine"),title:r.title+" copy",lastRunAt:null,createdAt:nowISO(),steps:r.steps.map(s=>({...s,id:freshId("step")}))});state.routines.unshift(copy);save();render();announce("Routine copied.");}
   if(action==="delete" && confirm('Delete "'+r.title+'"? This cannot be undone without a backup.')){
     if(state.active?.routineId===id)finishActive("aborted");
     state.routines=state.routines.filter(x=>x.id!==id);save();render();announce("Routine deleted. Previous receipts remain in local history.");
@@ -167,6 +171,8 @@ function submitRoutine(event){
   event.preventDefault();
   try{
     const existing=editingId?routineById(editingId):null;
+    if(!existing && state.routines.length>=MAX_ROUTINES)throw Error("100-routine limit reached. Export a backup before deleting old routines.");
+    if(existing && state.active?.routineId===existing.id)throw Error("End the active run before editing this routine.");
     const type=$("routine-schedule").value;
     const days=[...document.querySelectorAll("[name=weekday]:checked")].map(x=>Number(x.value));
     const value=normalizeRoutine({id:existing?.id||freshId("routine"),title:$("routine-title").value,

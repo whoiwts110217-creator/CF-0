@@ -4,7 +4,7 @@ import {readFileSync} from "node:fs";
 import {spawnSync} from "node:child_process";
 import {fileURLToPath} from "node:url";
 import {dirname,join} from "node:path";
-import {SCHEMA,emptyState,normalizeStep,normalizeRoutine,parseState,dueInfo,safeLink,shortcutLink} from "../dist/habit-automator/core.mjs";
+import {SCHEMA,emptyState,normalizeStep,normalizeRoutine,parseState,dueInfo,safeLink,shortcutLink,MAX_ROUTINES} from "../dist/habit-automator/core.mjs";
 
 const here=dirname(fileURLToPath(import.meta.url));
 const app=join(here,"../dist/habit-automator");
@@ -84,4 +84,22 @@ test("untrusted backups cannot invent valid-looking missing IDs or active progre
     routineId:"routine-0",startedAt:new Date(2026,10,9).toISOString(),completedStepIds:["ghost-step","step-0"]
   }});
   assert.deepEqual(imported.active.completedStepIds,["step-0"]);
+});
+
+test("stored routine capacity is enforced by both backup parser and UI creation paths",()=>{
+  assert.equal(MAX_ROUTINES,100);
+  const one=routine({type:"manual"});
+  const unique=Array.from({length:MAX_ROUTINES},(_,i)=>({...one,id:"r"+i}));
+  assert.equal(parseState({schema:SCHEMA,routines:unique}).routines.length,MAX_ROUTINES);
+  assert.throws(()=>parseState({schema:SCHEMA,routines:[...unique,{...one,id:"overflow"}]}),/backup/);
+  const ui=readFileSync(join(app,"app.mjs"),"utf8");
+  assert.match(ui,/function addTemplate\(key\)[\s\S]*?state\.routines\.length>=MAX_ROUTINES/);
+  assert.match(ui,/if\(action==="copy"\)[\s\S]*?state\.routines\.length>=MAX_ROUTINES/);
+  assert.match(ui,/function submitRoutine\(event\)[\s\S]*?state\.routines\.length>=MAX_ROUTINES/);
+});
+
+test("the UI preserves active run step identities during edits",()=>{
+  const ui=readFileSync(join(app,"app.mjs"),"utf8");
+  assert.match(ui,/function beginEdit\(id\)[\s\S]*?state\.active\?\.routineId===id/);
+  assert.match(ui,/function submitRoutine\(event\)[\s\S]*?state\.active\?\.routineId===existing\.id/);
 });
