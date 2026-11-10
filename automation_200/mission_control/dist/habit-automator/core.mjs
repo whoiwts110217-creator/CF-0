@@ -1,6 +1,7 @@
 // CF-0 Habit Automator v0.1 — pure model, no network, no account authority.
 export const SCHEMA = "cf0.habit_automator.v1";
 export const STORAGE_KEY = "cf0.habit-automator.v1";
+export const MAX_ROUTINES = 100;
 export const STEP_TYPES = ["check", "link", "shortcut"];
 const TIME = /^([01]\d|2[0-3]):([0-5]\d)$/;
 const idPattern = /^[A-Za-z0-9_-]{1,80}$/;
@@ -57,7 +58,7 @@ export function emptyState() { return {schema:SCHEMA, routines:[], history:[], a
 
 export function parseState(raw) {
   const x = typeof raw === "string" ? JSON.parse(raw) : raw;
-  if (!x || x.schema !== SCHEMA || !Array.isArray(x.routines) || x.routines.length > 100) throw Error("Not a Habit Automator v1 backup");
+  if (!x || x.schema !== SCHEMA || !Array.isArray(x.routines) || x.routines.length > MAX_ROUTINES) throw Error("Not a Habit Automator v1 backup");
   const routines = x.routines.map(normalizeRoutine);
   if (new Set(routines.map(r => r.id)).size !== routines.length) throw Error("Duplicate routine identifiers");
   const history = Array.isArray(x.history) ? x.history.slice(0, 500).filter(h =>
