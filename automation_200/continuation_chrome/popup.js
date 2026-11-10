@@ -6,12 +6,14 @@ async function refresh(){
   if(!r?.ok){$('status').textContent='Status unavailable';return;}
   const {state,tabs,launching}=r;
   lastState=state;
-  $('status').textContent=`${launching&&tabs.reason==='STARTING_TAB_CHECK'?'Checking existing ChatGPT tab…':`ChatGPT tabs: ${tabs.count} | ${tabs.reason}`}\nRunner: ${launching?'starting':state.phase}${state.reason?' · '+state.reason:''}\nCompleted: ${state.completed?.length||0}\nSubmitted (reply unverified): ${state.submitted?.length||0}\nQueue: ${state.queue?.length||0}`;
+  $('status').textContent=`${launching&&tabs.reason==='STARTING_TAB_CHECK'?'Checking existing ChatGPT tab…':`ChatGPT tabs: ${tabs.count} | ${tabs.reason}`}\nRunner: ${launching?'starting':state.phase}${state.reason?' · '+state.reason:''}\nCompleted: ${state.completed?.length||0}\nSubmitted (reply unverified): ${state.submitted?.length||0}\nBootstrap sent: ${state.bootstrapSent?.length||0}\nBootstrap replies complete: ${state.bootstrapCompleted?.length||0}\nQueue: ${state.queue?.length||0}`;
   $('account').value=state.account||'';
   $('detail').textContent=state.lastResult||'Use Check tab, then Continue current chat once for the first live test.';
   const blocked=launching||state.phase==='running'||state.phase==='needs_review'||!!state.attempt||!state.account;
   $('start').disabled=!state.queue?.length || tabs.count!==1 || blocked;
   $('fast').disabled=blocked;
+  $('bootstrap').disabled=blocked;
+  $('bootstrapCurrent').disabled=tabs.count!==1||blocked;
   $('capture').disabled=tabs.count!==1 || blocked;
   $('current').disabled=tabs.count!==1||blocked;
   $('pause').disabled=!(launching||['running','paused','needs_review'].includes(state.phase));
@@ -34,7 +36,8 @@ $('queue').addEventListener('change',withFeedback(async()=>{
   return call({type:'IMPORT_QUEUE',raw:JSON.parse(await f.text())});
 }));
 $('current').addEventListener('click',withFeedback(()=>call({type:'CONTINUE_CURRENT'})));
-$('start').addEventListener('click',withFeedback(()=>call({type:'START',advanceAfterAck:$('fast').checked,maxChats:Math.min(100,Math.max(1,Number(prompt('Maximum conversations for this sweep (1–100):','1'))||1))})));
+$('bootstrapCurrent').addEventListener('click',withFeedback(()=>call({type:'BOOTSTRAP_CURRENT'})));
+$('start').addEventListener('click',withFeedback(()=>call({type:'START',bootstrap:$('bootstrap').checked,advanceAfterAck:$('fast').checked,maxChats:Math.min(100,Math.max(1,Number(prompt('Maximum conversations for this sweep (1–100):','1'))||1))})));
 $('pause').addEventListener('click',withFeedback(()=>call({type:'STOP'})));
 refresh();
 
