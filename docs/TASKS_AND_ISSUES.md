@@ -1,6 +1,6 @@
 # CF-0 — Tasks & Issues
 
-> **November 9, 2026 — latest source-verified CF-200 dashboard:** **91/200 verified; 109 planned** under the original [registry](../automation_200/registry.json), latest checkpoint [088](../automation_200/checkpoints/checkpoint_088.json), [four new individually evidenced acceptances](../automation_200/events.jsonl), and [passing Windows CI 42747755570](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42747755570). Source/documentation acceptance only; not HP, full private source recovery, research proof or revenue. **Six open GitHub issues** were independently read via connected GitHub during this update. Older dated snapshots below remain history, not live counts.
+> **Latest CF-200 registry reconciliation, November 9, 2026:** **91/200 verified; 109 planned**, checkpoint [088](../automation_200/checkpoints/checkpoint_088.json), [source acceptance CI](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42747755570), and six GitHub issues independently found in the connected account. Older dated snapshots remain historical, not current. No HP/earnings claim.
 
 > **November 9, 2026 — current evidence reconciliation:** The source-only watchdog → CF-200 consumer gate advanced: [watchdog 42731696560](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42731696560) emitted the canonical digest-matched packet, and the existing hourly executor's independently retrieved completed provider record contains exactly one matching `cf0.executor_packet_decision.v2` marker with `accepted_source_only` and `execution_authorized=false`. The native result was checked field-by-field; the repository's strict Python correlator was **not** run on the live inputs in that session. This does **not** verify HP scheduled execution, live AUTO-08 control or a new CF-200 work order. The owner reported the Bridge Builders application **submitted**, superseding older dashboard text saying it was not; no independent receipt, grant award, or payment is verified. [Detailed game plan](EXECUTION_GAME_PLAN_2026-11-09.md). Registry remains **87/200**. The [public memory bootstrap](CHATGPT_MEMORY_BOOTSTRAP.md) and three current master prompts now enforce full work sessions for “continue.”
 
@@ -37,7 +37,7 @@ This dated report summarizes work orders, blockers, and GitHub issues. [Mission 
 |---|---|
 | CF-200 work orders | **91 verified / 200 total**; 109 planned |
 | Current verified progress | 45.5% of defined work orders; **not** 45% of the finished product |
-| Open GitHub issues | **6** confirmed by the November 9 live GitHub issue search ([#1](https://github.com/whoiwts110217-creator/CF-0/issues/1), [#3](https://github.com/whoiwts110217-creator/CF-0/issues/3), [#16](https://github.com/whoiwts110217-creator/CF-0/issues/16), [#21](https://github.com/whoiwts110217-creator/CF-0/issues/21), [#48](https://github.com/whoiwts110217-creator/CF-0/issues/48), [#80](https://github.com/whoiwts110217-creator/CF-0/issues/80)) |
+| Open GitHub issues | **6** confirmed in connected GitHub (issues [#1](https://github.com/whoiwts110217-creator/CF-0/issues/1), [#3](https://github.com/whoiwts110217-creator/CF-0/issues/3), [#16](https://github.com/whoiwts110217-creator/CF-0/issues/16), [#21](https://github.com/whoiwts110217-creator/CF-0/issues/21), [#48](https://github.com/whoiwts110217-creator/CF-0/issues/48), [#80](https://github.com/whoiwts110217-creator/CF-0/issues/80)) |
 | Public task/issue refresh | Existing CF-200 executor ran on demand November 9; [mission-board record](../automation_200/MASTER_MISSION_BOARD.md) and this dated refresh. |
 | Public HP health | [Latest public health report](../relay/health/latest.json) publishes its own collection time and receipt counts. Direct Windows scheduler attribution is tracked separately. |
 | Windows scheduled relay | **Observed.** Windows logged a scheduled run from **1:06:53 to 1:08:58 p.m.** on November 8. The matched public pong was committed at **1:07:21 p.m.** Direct ping-to-run attribution is open. [HP evidence](CONTINUITY.md#november-8-hp-relay-evidence) |
@@ -55,7 +55,7 @@ Owner's order remains **P0 Automation → P1 Priority/continuity → P2 Finances
 | Category | Task | Plain-language purpose | Status |
 |---|---|---|---|
 | **P2 — Finances** | **CF-122** | Publish a verified financial checkpoint only if evidence exists | Planned; evidence-dependent |
-| **P3 — Research** | **CF-162** | Preserve the correct RH nontrivial-zero target without claiming proof | Planned; source-only candidate |
+| **P3 — Research** | **CF-162** | Preserve RH nontrivial-zero target without claiming proof | Planned; source-only candidate |
 
 **P0 evidence gate:** [draft PR #17](https://github.com/whoiwts110217-creator/CF-0/pull/17) remains subject to its [no-merge integration gate](https://github.com/whoiwts110217-creator/CF-0/blob/experiment/parallel-coordination-v1/experiments/parallel_coordination/INTEGRATION_GATE.md). The [HP continuity record](CONTINUITY.md#november-8-hp-relay-evidence) separately records the matched ping and overlapping scheduler window.
 
@@ -80,7 +80,7 @@ The list distinguishes **operational blockers** from actual GitHub Issues; one n
 - [**#3 — Engineering feedback:** critique the autonomous relay and intervention design](https://github.com/whoiwts110217-creator/CF-0/issues/3)
 - [**#16 — Agent collaboration:** prove one real automation improvement](https://github.com/whoiwts110217-creator/CF-0/issues/16)
 - [**#21 — Clarity exercise and public feedback**](https://github.com/whoiwts110217-creator/CF-0/issues/21)
-- [**#48 — Darwin skill evolution and survey**](https://github.com/whoiwts110217-creator/CF-0/issues/48)
+- [**#48 — Skill Evolution evidence and review**](https://github.com/whoiwts110217-creator/CF-0/issues/48)
 - [**#80 — GitHub Pages deployment failure**](https://github.com/whoiwts110217-creator/CF-0/issues/80)
 
 [See current GitHub Issues directly](https://github.com/whoiwts110217-creator/CF-0/issues). If the Issues service cannot be read, the board must say **unknown**, never zero.

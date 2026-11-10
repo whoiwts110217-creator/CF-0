@@ -3,12 +3,9 @@
 **Source-verified snapshot · November 9, 2026 (Eastern).** This is a dated source/document check, **not** a live HP heartbeat. For stable handoffs, use the [public continuity record](CONTINUITY.md) and [machine-readable status](PUBLIC_CONTINUITY_STATE.json).
 
 
-## November 9, 2026 — source-backed ledger reconciliation after passing tests
+## November 9, 2026 — CF-200 source-backed acceptance
 
-- **Checkpoint 088 preserved:** CF-141 grouped public project index accepted with a dedicated test. CF-142 historical 17/18/~37/62 archive gap, CF-143 source/provenance labels, and CF-161 guess → hypothesis → evidence → proof preservation independently passed their own tests, accepted in the append-only ledger. [PR #81](https://github.com/whoiwts110217-creator/CF-0/pull/81) source was merged and [Windows CI 42747755570](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42747755570) passed. **91/200 source-level tasks verified; 109 remain.** No original private material made public.
-- **Unresolved physical gates:** exact HP scheduler/receipt attribution, owner-verified AUTO-08 live account control, revenue and grant award remain unverified; cloud packet→provider-recorded result is a *source-only matching decision*, not HP authority.
-- **Continuity:** CF-200 / UCC-001 / CF-MESH-001; historical sections below retain their dated evidence. Next source-run must re-fetch all three canonical public prompts before selecting a new work order.
-
+The published [project index](PROJECTS.md) and source-grade archive/method tests passed in [Windows CI 42747755570](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42747755570). CF-141 checkpoint **088**, followed by CF-142, CF-143 and CF-161, advance the existing registry to **91/200**. The missing original approximately 37-project list is **still missing**; these are source/documentary acceptances only. HP/identity, AUTO-08 live control, revenue and grant awards require separate evidence. Prior sections below retain dated history.
 ## November 9, 2026 (late evening ET) — cloud acceptance and grant-status corrections
 
 **Source-only cloud handoff: provider-recorded correlation achieved; physical execution NOT established.** Re-read actual successful [GitHub scheduled watchdog run 42731696560](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42731696560), original audit job `129551040021` (attempt 1), and the exact job-log handoff. Independently recomputed SHA-256 `4b78c477a1a7f4ac0be169c425212ef01d0caf070c460653ecc8d3af3b1b4e22`. The existing hourly CF-200's **native provider-recorded completed output** contains exactly one matching `cf0.executor_packet_decision.v2` `accepted_source_only` marker with `execution_authorized=false`, matching all source IDs/digest and a completion timestamp after the producer packet. **Pass:** native-result structural/source-digest correlation. **Still open:** provider cryptographic attestation, running the exact repository Python validator over the private live record, physically authenticated unattended HP command/receipt origin, AUTO-08 signed-in control, and verified money. No registry promotion; remain **87/200**. Machine-readable evidence: [Public Continuity State](PUBLIC_CONTINUITY_STATE.json).
@@ -21,7 +18,7 @@
 
 **Scope:** Owner-requested public-safe summary of the currently accessible conversation/project evidence, public GitHub source, and enabled ChatGPT task configuration. **This is not a claim that every original conversation on either account was read.** Private chat texts, export links, device/account identifiers, grant contact details and payment information are deliberately omitted. Historical sections below retain their original evidence dates.
 
-**Authoritative source level:** [CF-200 registry](../automation_200/registry.json) (blob `77d548b366ff5dc2070c74e30423a3495c6a73cb`) = **91 verified / 200 total; 109 planned**, numbered checkpoint **088** (next **092**). Accepted source/documentary work orders only; no physical HP, original archive recovery, scientific proof or verified money implied. [Passing Windows CI](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42747755570).
+**Authoritative source level:** [CF-200 registry](../automation_200/registry.json) (blob `77d548b366ff5dc2070c74e30423a3495c6a73cb`) = **91 verified / 200 total; 109 planned**, numbered checkpoint **088** (next **092**). [Passing Windows acceptance](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42747755570) verifies archive/method source tests only, not HP, private archive completion, scientific proof or income.
 
 | Area | Publicly supportable state | Remaining acceptance / blocker |
 | --- | --- | --- |

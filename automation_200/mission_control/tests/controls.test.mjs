@@ -27,6 +27,16 @@ test("every known scheduled channel is represented without exposing private task
   assert.ok(all.filter(x=>x.source==="github").every(x=>x.url.startsWith("https://github.com/whoiwts110217-creator/CF-0/actions/workflows/")));
 });
 
+test("public free-browser monitor is an inventoried schedule, never a claimed active marketing action",()=>{
+  const source=SOURCES.github.find(x=>x.id==="cf0-free-browser-promotion");
+  assert.ok(source,"New workflow has a source inventory row");
+  assert.equal(source.trigger,"schedule");
+  assert.equal(source.research,false,"Business monitor must not be silently included in research shutdown");
+  assert.match(source.detail,/GET-only/i);
+  assert.match(source.detail,/no posting/i);
+  assert.match(inventoryStatus({...source,source:"github"}),/live state unknown/);
+});
+
 test("private imported names are in-memory display data only and never treated as live controls",()=>{
   const a=parsePrivateInventory({schema:"cf0.private_automation_inventory.v1",automations:[
     {id:"private_1",title:" Research Brief ",is_enabled:true,research:true,secret:"should not survive"},
