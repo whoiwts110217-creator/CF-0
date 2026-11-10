@@ -5,7 +5,7 @@ import assert from "node:assert/strict";
 import { MISSIONS } from "../dist/gameful.mjs";
 import { spawn } from "node:child_process";
 import { createServer } from "node:http";
-import { readFile } from "node:fs/promises";
+import { mkdtemp, readFile, rm } from "node:fs/promises";
 import { extname, join, normalize } from "node:path";
 import { fileURLToPath } from "node:url";
 import { tmpdir } from "node:os";
@@ -29,28 +29,48 @@ const server = createServer(async (request, response) => {
 });
 await new Promise(resolve => server.listen(0, "127.0.0.1", resolve));
 const origin = "http://127.0.0.1:" + server.address().port + "/";
-const browserPort = 9300 + (process.pid % 500);
+// Each isolated browser owns its OS-allocated CDP port. A derived PID port can
+// collide with another headless test or a stale process on shared CI workers.
+const chromeProfile = await mkdtemp(join(tmpdir(), "cf0-learning-chrome-"));
 const chrome = spawn(process.env.CF0_CHROME || "google-chrome", [
   "--headless=new", "--no-sandbox", "--disable-gpu", "--disable-dev-shm-usage",
-  "--no-first-run", "--remote-debugging-port=" + browserPort,
-  "--user-data-dir=" + join(tmpdir(), "cf0-learning-chrome-" + process.pid),
-  "about:blank"
+  "--no-first-run", "--remote-debugging-port=0",
+  "--user-data-dir=" + chromeProfile, "about:blank"
 ], { stdio: "ignore" });
+let chromeSpawnCode = "none";
+chrome.on("error", error => { chromeSpawnCode = String(error.code || "spawn_error").slice(0, 30); });
 let socket, pending = new Map(), id = 0;
 
 async function debugTarget() {
-  for (let i = 0; i < 100; i++) {
+  let portFileFound = false, httpReady = false;
+  for (let i = 0; i < 200; i++) {
+    if (chromeSpawnCode !== "none" || chrome.exitCode !== null || chrome.signalCode !== null) break;
     try {
-      const resp = await fetch("http://127.0.0.1:" + browserPort + "/json");
-      if (resp.ok) {
-        const targets = await resp.json();
-        const target = targets.find(x => x.type === "page");
-        if (target?.webSocketDebuggerUrl) return target.webSocketDebuggerUrl;
+      // Chromium writes its chosen ephemeral CDP port to this profile file.
+      // No fixed port and no raw Chrome stderr (which may contain local paths).
+      const raw = await readFile(join(chromeProfile, "DevToolsActivePort"), "utf8");
+      portFileFound = true;
+      const port = Number(raw.trim().split(/\r?\n/)[0]);
+      if (Number.isInteger(port) && port > 0 && port <= 65535) {
+        const resp = await fetch("http://127.0.0.1:" + port + "/json", {
+          signal: AbortSignal.timeout(1500),
+        });
+        if (resp.ok) {
+          httpReady = true;
+          const targets = await resp.json();
+          if (Array.isArray(targets)) {
+            const target = targets.find(x => x.type === "page");
+            if (target?.webSocketDebuggerUrl) return target.webSocketDebuggerUrl;
+          }
+        }
       }
     } catch {}
     await pause(100);
   }
-  throw Error("Chrome CDP endpoint unavailable");
+  throw Error("Chrome CDP endpoint unavailable: " + JSON.stringify({
+    spawnCode: chromeSpawnCode, exitCode: chrome.exitCode,
+    signal: chrome.signalCode, portFileFound, httpReady,
+  }));
 }
 function send(method, params = {}) {
   return new Promise((resolve, reject) => {
@@ -441,4 +461,5 @@ try {
   if (socket) socket.close();
   chrome.kill("SIGTERM");
   await new Promise(resolve => server.close(resolve));
+  await rm(chromeProfile, { recursive: true, force: true }).catch(() => {});
 }
