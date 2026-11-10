@@ -12,6 +12,12 @@ Three separate chats, even on different sessions/accounts with limited conversat
 
 The [public topic graph](PUBLIC_CONTEXT_GRAPH.json) gives twelve explicitly sourced public nodes and their parent, related, and prerequisite edges; it does **not** pretend to reconstruct the missing original project inventory. The read-only [topic router](../continuity/public_topic_router.py) keeps the user's active topic fixed and returns a bounded reading list, beginning with the unchanged three master prompts. A related node is context to consult, **not** a reason to switch workstreams. Unknown topics, missing links, invalid source paths, parent/dependency cycles and ambiguous aliases fail closed. Run from a repository checkout: `python -m continuity.public_topic_router --topic CF-MESH-001` or `python -m continuity.public_topic_router --check-all`. The existing prompt-efficiency GitHub workflow now includes source-level tests. No unattended cross-chat read, prompt execution, or private-account interconnection follows from this tool.
 
+## One-link cold-start and immutable source-level receipts
+
+For a new short-memory chat, use the [one-link public starter](mesh/START_HERE.md), not a pasted private transcript. The append-only [public handoff ledger](mesh/handoff_events.jsonl) and [fail-closed offline validator](../continuity/public_mesh_handoff.py) define a restricted JSONL chain of topic-anchored checkpoints and exact-digest readbacks. Events use known project IDs, existing public file paths, checked Git blob formats, three current master blob SHAs and SHA-256 predecessor links. No free-text private messages, owner account IDs, raw chats or credentials belong in this record.
+
+A `worker_label` of A/B/C is merely a declared label; the code **never establishes distinct ChatGPT sessions or provider origin**. The default empty ledger is not a success claim. `--rehearsal` executes a clearly **synthetic** A→B→C exercise; live acceptance still requires provider-observed independent sessions and actual committed source readback. No extra automation, remote shell, money rights or third-party publishing permission is supplied.
+
 ## Exact cold-start procedure for Chat A, B, or C
 
 1. **Fetch current public `main` in this mandatory order:** [Master Operator](../automation_200/MASTER_OPERATOR_PROMPT.md) → [Master Continuity](../automation_200/MASTER_CONTINUITY_PROMPT.md) → [Work Prompt](../automation_200/WORK_COPY_PASTE_AUTOMATION_PROMPT.md). Read full content (chunk when needed) and record exact blob SHAs. Do not infer latest from an earlier chat.

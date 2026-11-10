@@ -16,6 +16,16 @@ on:
       - 'docs/PROJECTS.md'
       - 'continuity/public_topic_router.py'
       - 'continuity/tests/test_public_topic_router.py'
+      - 'continuity/public_mesh_handoff.py'
+      - 'continuity/tests/test_public_mesh_handoff.py'
+      - 'docs/mesh/**'
+  pull_request:
+    paths:
+      - 'continuity/public_mesh_handoff.py'
+      - 'continuity/tests/test_public_mesh_handoff.py'
+      - 'docs/mesh/**'
+      - 'docs/PUBLIC_CONTEXT_GRAPH.json'
+      - '.github/workflows/prompt-efficiency-guard.yml'
   workflow_dispatch:
 permissions:
   contents: read
@@ -31,5 +41,8 @@ jobs:
         run: |
           python -m unittest discover -s continuity/tests -p 'test_public_topic_router.py' -v
           python -m continuity.public_topic_router --check-all
+          python -m unittest discover -s continuity/tests -p 'test_public_mesh_handoff.py' -v
+          python -m continuity.public_mesh_handoff --check
+          python -m continuity.public_mesh_handoff --rehearsal
       - name: Validate operating prompts against append-only change record
         run: python -m automation_200.prompt_change_guard
