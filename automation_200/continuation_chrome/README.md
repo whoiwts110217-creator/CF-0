@@ -2,6 +2,12 @@
 
 This is **source code**, not an installed extension or a tested signed-in Chrome deployment. It is an optional alternative to the older Playwright CLI. It attaches to **one already open Chrome ChatGPT tab** via Chrome's `debugger` permission and uses CDP keyboard commands without any mouse clicks, screenshots, new tabs or public ChatGPT APIs. It does not require a Chrome debugging port, restarting Chrome, a paid API, or a conversation export for the initial one-chat test.
 
+## Source release v0.1.7 — STOP/queued-START safety and identifiable ZIP
+
+[PR #97](https://github.com/whoiwts110217-creator/CF-0/pull/97) fixed an actual source race: when a newer STOP arrived while an earlier START or CONTINUE_CURRENT waited for extension storage, the older command could still proceed to tab inspection. That fix passed [source-only CI](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42842901344); the manifest had nevertheless remained `0.1.6`, making an older and newer ZIP indistinguishable by version. **v0.1.7** identifies the safety change, and the existing source-test workflow now rejects a mismatched manifest/artifact label.
+
+**Owner upgrade gate:** Only after owner review and preserving existing Chrome-local account labels, completed/submitted IDs and any `maybe_sent` checkpoints, update the same stable unpacked extension folder and press Chrome's **Reload** control. Do not uninstall, clear Chrome extension storage, open extra ChatGPT tabs, or treat this ZIP as an iPhone app. Unknown send outcomes remain review-blocked. The latest source-only package is not live signed-in AUTO-08 acceptance; initial testing still uses one deliberately selected low-stakes account/chat with readiness → one `continue` → completion → STOP/resume.
+
 ## Install on your Windows Chrome (one-time)
 
 1. Get this `continuation_chrome/` folder from the CF-0 repository or the ZIP. Keep it in a stable local folder.
