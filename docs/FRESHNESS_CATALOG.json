@@ -1,0 +1,241 @@
+{
+  "schema": "cf0.public_freshness_catalog.v1",
+  "policy": "docs/UNIVERSAL_FRESHNESS_CONTRACT.md",
+  "canonical_branch": "main",
+  "evidence_rule": "A public anchor is a navigation route, not a claim of current live state, completed work, verified revenue or access to private originals.",
+  "coverage": "All public repository files can be resolved through the generic read-only path resolver; these are known topic anchors and private-safe placeholders.",
+  "entries": [
+    {
+      "id": "CF-CORE",
+      "area": "P0",
+      "title": "Caveman Focus core framework and project index",
+      "public_anchor": "docs/PROJECTS.md",
+      "source_type": "public",
+      "status_origin": "read_on_demand"
+    },
+    {
+      "id": "UCC-001",
+      "area": "P1",
+      "title": "Universal continuity contract",
+      "public_anchor": "docs/UNIVERSAL_CONTINUITY_CONTRACT.md",
+      "source_type": "public",
+      "status_origin": "read_on_demand"
+    },
+    {
+      "id": "CF-MESH-001",
+      "area": "P1",
+      "title": "Public three-chat continuity spiderweb",
+      "public_anchor": "docs/PUBLIC_THREE_CHAT_CONTINUITY_MESH.md",
+      "source_type": "public",
+      "status_origin": "read_on_demand"
+    },
+    {
+      "id": "CF-200",
+      "area": "P0",
+      "title": "CF-200 automation registry and operating execution",
+      "public_anchor": "automation_200/registry.json",
+      "source_type": "public",
+      "status_origin": "read_on_demand"
+    },
+    {
+      "id": "AUTO-08",
+      "area": "P0",
+      "title": "Single-tab ChatGPT conversation continuation",
+      "public_anchor": "docs/AUTO_CONTINUATION_CONTROL_2026-11-09.md",
+      "source_type": "public",
+      "status_origin": "read_on_demand"
+    },
+    {
+      "id": "CF-HP",
+      "area": "P0",
+      "title": "Public HP relay and provenance gates",
+      "public_anchor": "docs/MASTER_CONTROLLER_P0_STATUS_RECONCILIATION_2026-11-09.md",
+      "source_type": "public",
+      "status_origin": "read_on_demand"
+    },
+    {
+      "id": "CF-P1",
+      "area": "P1",
+      "title": "Owner-directed prioritization and resumable focus",
+      "public_anchor": "automation_200/RESUMABLE_FOCUS.md",
+      "source_type": "public",
+      "status_origin": "read_on_demand"
+    },
+    {
+      "id": "CF-HA-001",
+      "area": "P0",
+      "title": "Habit Automator and local-first routines",
+      "public_anchor": "docs/PROJECTS.md",
+      "source_type": "public",
+      "status_origin": "read_on_demand"
+    },
+    {
+      "id": "FIN-09",
+      "area": "P2",
+      "title": "Reality-as-game and business learning branch",
+      "public_anchor": "docs/PROJECTS.md",
+      "source_type": "public",
+      "status_origin": "read_on_demand"
+    },
+    {
+      "id": "RES-04",
+      "area": "P3",
+      "title": "Epistemic boundaries and evidence-based research",
+      "public_anchor": "docs/BRAINROT_TO_BRAINPOWER_2026-11-09.md",
+      "source_type": "public",
+      "status_origin": "read_on_demand"
+    },
+    {
+      "id": "CF-EXP-GAME-LEARN-001",
+      "area": "P3",
+      "title": "Brainrot to Brainpower learning pilot",
+      "public_anchor": "docs/BRAINROT_TO_BRAINPOWER_2026-11-09.md",
+      "source_type": "public",
+      "status_origin": "read_on_demand"
+    },
+    {
+      "id": "CF-CONCEPT-DREAMKILLER-001",
+      "area": "P3",
+      "title": "Dreamkiller Game Boy concept",
+      "public_anchor": "concepts/dreamkiller/MASTER_CONCEPT_AND_CONTINUITY_PROMPT.md",
+      "source_type": "public",
+      "status_origin": "read_on_demand"
+    },
+    {
+      "id": "CF-OWNER-HANDOFF-001",
+      "area": "P0",
+      "title": "Owner/operator human action and verification contract",
+      "public_anchor": "docs/OWNER_ACTION_HANDOFF_PROTOCOL.md",
+      "source_type": "public",
+      "status_origin": "read_on_demand"
+    },
+    {
+      "id": "OWNER-MAP",
+      "area": "P1",
+      "title": "Owner's Jungle Map",
+      "public_anchor": "docs/OWNER_JUNGLE_MAP.md",
+      "source_type": "public",
+      "status_origin": "read_on_demand"
+    },
+    {
+      "id": "MISSION-CONTROL",
+      "area": "P0",
+      "title": "Mission Control owner dashboard",
+      "public_anchor": "automation_200/mission_control/dist/index.html",
+      "source_type": "public",
+      "status_origin": "read_on_demand"
+    },
+    {
+      "id": "DOMINO",
+      "area": "P0",
+      "title": "Domino Sidecar",
+      "public_anchor": "docs/PROJECTS.md",
+      "source_type": "public_index_only",
+      "status_origin": "read_on_demand"
+    },
+    {
+      "id": "AI-TRACKER",
+      "area": "P0",
+      "title": "AI Tracker and open agent review",
+      "public_anchor": "docs/PROJECTS.md",
+      "source_type": "public_index_only",
+      "status_origin": "read_on_demand"
+    },
+    {
+      "id": "SKILL-FOUNDRY",
+      "area": "P0",
+      "title": "Skill Foundry and iPhone app",
+      "public_anchor": "docs/PROJECTS.md",
+      "source_type": "public_index_only",
+      "status_origin": "read_on_demand"
+    },
+    {
+      "id": "FIN-FUNDING",
+      "area": "P2",
+      "title": "Clarity offers, donations, grants and income status",
+      "public_anchor": "docs/PROJECT_STATUS.md",
+      "source_type": "public_aggregate_only",
+      "status_origin": "read_on_demand"
+    },
+    {
+      "id": "FIN-GRANTS",
+      "area": "P2",
+      "title": "Grant reply and award status",
+      "public_anchor": "docs/PUBLIC_CONTINUITY_STATE.json",
+      "source_type": "public_aggregate_only",
+      "status_origin": "read_on_demand"
+    },
+    {
+      "id": "RES-RH",
+      "area": "P3",
+      "title": "Riemann Hypothesis experiments",
+      "public_anchor": "docs/RESEARCH.md",
+      "source_type": "public_index_only",
+      "status_origin": "read_on_demand"
+    },
+    {
+      "id": "RES-SINGLE-DOT",
+      "area": "P3",
+      "title": "Single-Dot Universe research",
+      "public_anchor": "docs/RESEARCH.md",
+      "source_type": "public_index_only",
+      "status_origin": "read_on_demand"
+    },
+    {
+      "id": "CREATIVE-SINGLE-DOT-BOOK",
+      "area": "P3",
+      "title": "Single-Dot Universe Book I",
+      "public_anchor": "docs/PROJECTS.md",
+      "source_type": "private_originals_not_published",
+      "status_origin": "read_on_demand"
+    },
+    {
+      "id": "CREATIVE-MUSHROOMHEAD",
+      "area": "P3",
+      "title": "Mushroomhead / Blue Water County / Poho",
+      "public_anchor": "docs/PROJECTS.md",
+      "source_type": "private_originals_not_published",
+      "status_origin": "read_on_demand"
+    },
+    {
+      "id": "CREATIVE-SYNAPSE",
+      "area": "P3",
+      "title": "SYNAPSE / Kyōji",
+      "public_anchor": "docs/PROJECTS.md",
+      "source_type": "private_originals_not_published",
+      "status_origin": "read_on_demand"
+    },
+    {
+      "id": "CREATIVE-BROKEN-LOGIC",
+      "area": "P3",
+      "title": "BROKEN LOGIC",
+      "public_anchor": "docs/PROJECTS.md",
+      "source_type": "private_originals_not_published",
+      "status_origin": "read_on_demand"
+    },
+    {
+      "id": "CREATIVE-SUNSET",
+      "area": "P3",
+      "title": "Grandfather sunset and Elias Vale",
+      "public_anchor": "docs/PROJECTS.md",
+      "source_type": "private_originals_not_published",
+      "status_origin": "read_on_demand"
+    },
+    {
+      "id": "CREATIVE-BOOK-MACHINE",
+      "area": "P3",
+      "title": "Book Machine / explorable books",
+      "public_anchor": "docs/PROJECTS.md",
+      "source_type": "public_index_only",
+      "status_origin": "read_on_demand"
+    },
+    {
+      "id": "ARCHIVE-PRIVATE",
+      "area": "P1",
+      "title": "Original archived conversations and project source",
+      "public_anchor": "docs/CONTINUITY.md",
+      "source_type": "private_originals_not_published",
+      "status_origin": "read_on_demand"
+    }
+  ]
+}
