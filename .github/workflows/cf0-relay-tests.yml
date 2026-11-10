@@ -90,6 +90,15 @@ jobs:
           }
           $dry = & powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File $path -Mode Run -PlanPath 'link-vault/spider-hp/notepad-inspect.json'
           if ($LASTEXITCODE -ne 0 -or ($dry -join ' ') -notmatch 'DRY_RUN=NO_UI_ACTIONS') { throw 'Spider dry-run must perform no Windows UI actions' }
+          $multi='link-vault/spider-hp/Spider-Multi.ps1'
+          $tokens=$null
+          $errors=$null
+          [System.Management.Automation.Language.Parser]::ParseFile((Resolve-Path $multi).Path,[ref]$tokens,[ref]$errors) | Out-Null
+          if ($errors.Count -gt 0) { $errors | Format-List; throw 'Spider multi-app parser failed' }
+          & powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File $multi -Mode Validate
+          if ($LASTEXITCODE -ne 0) { throw 'Spider multi-app queue failed validation' }
+          $multiDry = & powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File $multi -Mode Run
+          if ($LASTEXITCODE -ne 0 -or ($multiDry -join ' ') -notmatch 'DRY_RUN=NO_UI_ACTIONS') { throw 'Spider multi-app dry-run failed' }
           python -m unittest discover -s link-vault/spider-hp/tests -v
           if ($LASTEXITCODE -ne 0) { throw 'Spider source-only safety tests failed' }
       - name: DPAPI encrypted credential round-trip on Windows
