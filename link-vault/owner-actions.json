@@ -2,7 +2,7 @@
   "schema": "cf.link.vault.owner_view.v1",
   "revision": "2026-11-10.4",
   "as_of": "2026-11-10",
-  "source_note": "Public-safe dated view, derived from CF-0 owner handoffs and existing public sources. project_id is an explicit link to the existing CF-MESH-001 topic graph; task_ids are empty unless an exact CF-200 identity is evidenced. Not the authoritative task registry, live provider state, or full private chat export.",
+  "source_note": "Public-safe dated view, derived from CF-0 owner handoffs and existing public sources. project_id is an explicit link to the existing CF-MESH-001 topic graph; task_ids are empty unless an exact CF-200 identity is evidenced. not the authoritative task registry, live provider state, or full private chat export.",
   "actions": [
     {
       "id": "CF-ACT-001",
