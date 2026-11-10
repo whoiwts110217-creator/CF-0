@@ -81,6 +81,7 @@ get("oa-export").addEventListener("click",()=>{
  const uri=URL.createObjectURL(blob),link=make("a");link.href=uri;link.download="CF-Owner-Actions-Local-Checks.json";document.body.append(link);link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(uri),3000);
  get("oa-status").textContent="Backup requested. Check Safari Files / Downloads.";
 });
+window.addEventListener("cf-owner-checks-updated",()=>{try{const saved=JSON.parse(localStorage.getItem(CHECKS)||"{}");if(saved&&typeof saved==="object"&&!Array.isArray(saved)){checks=Object.fromEntries(Object.entries(saved).filter(([k,v])=>/^CF-ACT-\d{3}$/.test(k)&&typeof v==="string"&&v.length<50));render()}}catch(_){}});
 try{adopt(validData(JSON.parse(localStorage.getItem(CACHE)||"null")),false)}catch(_){}
 render();refresh();
 })();
