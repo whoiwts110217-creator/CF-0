@@ -94,3 +94,18 @@ test("master controller orientation retains every provider and fails closed on u
   assert.match(ui,/disabled=true/);
   assert.doesNotMatch(ui,/fetch\(|sendMessage\(|exec\(|localStorage\.|sessionStorage\./);
 });
+
+
+test("dated owner snapshot retains observation time without authenticating provider state",()=>{
+  const observed_at="2026-11-09T20:00:00-05:00";
+  const rows=parsePrivateInventory({schema:"cf0.private_automation_inventory.v1",observed_at,
+    automations:[{id:"private-task",title:"Example",is_enabled:true,token:"do-not-expose"}]});
+  assert.equal(rows[0].observedAt,observed_at);
+  assert.equal("id" in rows[0],false);
+  assert.equal("token" in rows[0],false);
+  const rendered=records(rows)[0];
+  assert.match(rendered.detail,/Owner-supplied snapshot observed/);
+  assert.match(rendered.detail,/not an authenticated live connection/);
+  assert.throws(()=>parsePrivateInventory({schema:"cf0.private_automation_inventory.v1",
+    observed_at:"yesterday",automations:[]}));
+});
