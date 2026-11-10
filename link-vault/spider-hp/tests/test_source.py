@@ -30,6 +30,22 @@ class FreeHpSpiderSourceTests(unittest.TestCase):
         self.assertNotIn("Invoke-Expression",source)
         self.assertNotIn("DownloadString",source)
         self.assertNotIn("Invoke-RestMethod",source)
+    def test_multi_app_chain_is_fixed_and_stop_safe(self):
+        queue=json.loads((ROOT/"spider-multi-demo.json").read_text(encoding="utf-8"))
+        self.assertEqual(queue["schema"],"cf0.spider.hp_queue.v1")
+        self.assertEqual(queue["plans"],["notepad-inspect.json","calculator-inspect.json"])
+        self.assertEqual(len(queue["plans"]),len(set(queue["plans"])))
+        source=(ROOT/"Spider-Multi.ps1").read_text(encoding="utf-8")
+        self.assertIn("PLAN_NOT_ALLOWLISTED",source)
+        self.assertIn("DUPLICATE_PLAN_REFUSED",source)
+        self.assertIn("PLAN_FAILED_STOP_CHAIN_",source)
+        self.assertIn("DRY_RUN=NO_UI_ACTIONS",source)
+        self.assertIn("MODEL_COST=ZERO",source)
+        self.assertIn("Stop",source)
+        self.assertNotIn("Invoke-Expression",source)
+        self.assertNotIn("Start-ScheduledTask",source)
+        self.assertNotIn("Register-ScheduledTask",source)
+
     def test_no_schedule_or_relay_permission_broadening(self):
         source=(ROOT/"Spider-HP.ps1").read_text(encoding="utf-8")
         for forbidden in ("Register-ScheduledTask","Start-ScheduledTask","New-ScheduledTask",
