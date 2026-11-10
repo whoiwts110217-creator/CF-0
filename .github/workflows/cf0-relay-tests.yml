@@ -3,6 +3,7 @@ on:
   push:
     paths:
       - 'relay/**'
+      - 'link-vault/spider-hp/**'
       - '*CF0*.bat'
       - 'RUN_HP_TAKEOVER_CHECK.bat'
       - 'CHECK_CF0_MAINTENANCE_READ_ONLY.bat'
@@ -73,6 +74,33 @@ jobs:
           if (($result -join ' ') -notmatch 'LOCAL_CHANGES=NONE') { throw 'Missing no-side-effects assertion' }
           if (($result -join ' ') -match 'NOTEPAD_ACTION=INSTALLED_AND_OPTED_IN') { throw 'False Notepad success report' }
           $global:LASTEXITCODE = 0 # Avoid propagating the expected child exit code to the workflow wrapper.
+      - name: Validate free owner-local Spider HP navigator (no desktop actions)
+        shell: pwsh
+        run: |
+          $path='link-vault/spider-hp/Spider-HP.ps1'
+          $tokens=$null
+          $errors=$null
+          [System.Management.Automation.Language.Parser]::ParseFile((Resolve-Path $path).Path,[ref]$tokens,[ref]$errors) | Out-Null
+          if ($errors.Count -gt 0) { $errors | Format-List; throw 'Spider HP script PowerShell parser rejected source' }
+          & powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File $path -Mode Preflight
+          if ($LASTEXITCODE -ne 0) { throw 'Spider no-action preflight failed' }
+          foreach($plan in @('notepad-inspect.json','notepad-type-safe.json','calculator-inspect.json')) {
+            & powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File $path -Mode Validate -PlanPath ("link-vault/spider-hp/"+$plan)
+            if ($LASTEXITCODE -ne 0) { throw ('Spider plan rejected: '+$plan) }
+          }
+          $dry = & powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File $path -Mode Run -PlanPath 'link-vault/spider-hp/notepad-inspect.json'
+          if ($LASTEXITCODE -ne 0 -or ($dry -join ' ') -notmatch 'DRY_RUN=NO_UI_ACTIONS') { throw 'Spider dry-run must perform no Windows UI actions' }
+          $multi='link-vault/spider-hp/Spider-Multi.ps1'
+          $tokens=$null
+          $errors=$null
+          [System.Management.Automation.Language.Parser]::ParseFile((Resolve-Path $multi).Path,[ref]$tokens,[ref]$errors) | Out-Null
+          if ($errors.Count -gt 0) { $errors | Format-List; throw 'Spider multi-app parser failed' }
+          & powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File $multi -Mode Validate
+          if ($LASTEXITCODE -ne 0) { throw 'Spider multi-app queue failed validation' }
+          $multiDry = & powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File $multi -Mode Run
+          if ($LASTEXITCODE -ne 0 -or ($multiDry -join ' ') -notmatch 'DRY_RUN=NO_UI_ACTIONS') { throw 'Spider multi-app dry-run failed' }
+          python -m unittest discover -s link-vault/spider-hp/tests -v
+          if ($LASTEXITCODE -ne 0) { throw 'Spider source-only safety tests failed' }
       - name: DPAPI encrypted credential round-trip on Windows
         shell: pwsh
         run: |

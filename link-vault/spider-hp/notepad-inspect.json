@@ -1,0 +1,8 @@
+{
+  "schema": "cf0.spider.hp_plan.v1",
+  "app": "notepad",
+  "steps": [
+    { "op": "launch" },
+    { "op": "inspect" }
+  ]
+}
