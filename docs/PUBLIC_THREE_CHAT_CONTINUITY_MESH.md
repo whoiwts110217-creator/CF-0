@@ -8,6 +8,10 @@ Three separate chats, even on different sessions/accounts with limited conversat
 
 **Not a synchronization claim:** GitHub gives durable public read/write records only to chats with available tools and permissions. A chat without authenticated write capability cannot update the repository; it must report this and prepare a public-safe proposed handoff. A prompt cannot run itself, message another chat, create a scheduler, bypass account permissions, or guarantee other sessions see changes instantly.
 
+## Implemented topic anchor and source-linked navigation (source-stage)
+
+The [public topic graph](PUBLIC_CONTEXT_GRAPH.json) gives twelve explicitly sourced public nodes and their parent, related, and prerequisite edges; it does **not** pretend to reconstruct the missing original project inventory. The read-only [topic router](../continuity/public_topic_router.py) keeps the user's active topic fixed and returns a bounded reading list, beginning with the unchanged three master prompts. A related node is context to consult, **not** a reason to switch workstreams. Unknown topics, missing links, invalid source paths, parent/dependency cycles and ambiguous aliases fail closed. Run from a repository checkout: `python -m continuity.public_topic_router --topic CF-MESH-001` or `python -m continuity.public_topic_router --check-all`. The existing prompt-efficiency GitHub workflow now includes source-level tests. No unattended cross-chat read, prompt execution, or private-account interconnection follows from this tool.
+
 ## Exact cold-start procedure for Chat A, B, or C
 
 1. **Fetch current public `main` in this mandatory order:** [Master Operator](../automation_200/MASTER_OPERATOR_PROMPT.md) → [Master Continuity](../automation_200/MASTER_CONTINUITY_PROMPT.md) → [Work Prompt](../automation_200/WORK_COPY_PASTE_AUTOMATION_PROMPT.md). Read full content (chunk when needed) and record exact blob SHAs. Do not infer latest from an earlier chat.
