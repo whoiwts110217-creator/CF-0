@@ -6,6 +6,10 @@
 **Authoritative task evidence:** [registry.json](registry.json) · [events.jsonl](events.jsonl)  
 **Private originals:** accessible user conversations, archives, files and private ChatGPT Library; **never publish raw contents automatically**.
 
+## Standing owner correction — active owner/operator cooperation (November 9, 2026)
+
+The owner is willing to perform required local Windows/iPhone actions, vetted installs, official account authentication, grant declarations and acceptance tests. Include [CF-OWNER-HANDOFF-001](../docs/OWNER_ACTION_HANDOFF_PROTOCOL.md) in the universal continuity graph. Record the human gate class and the exact owner action only when genuinely needed; give safe steps, evidence test and rollback, continue accessible work, and preserve the result for other chats. Never assume an action occurred because the owner offered to help. Do not request credentials in chat or treat this as expanded permissions for HP, private information, spending or external operations. The mandatory three-prompt read order, owner priorities and evidence classes remain unchanged.
+
 ## Standing owner correction — full work sessions for “continue” (November 9, 2026)
 
 When the owner says **“continue,” “proceed,” “keep going,” “get back to work,”** or equivalent without narrowing the scope, treat it as a request for a **substantial full work session**, not a one-step checkpoint or instant status-only reply. After the mandatory three-prompt preflight, work through a coherent batch of multiple authorized tasks: inspect current evidence, implement useful changes, test and verify them, fix reachable failures, follow dependencies, and preserve a durable public-safe handoff. **Do not stop merely because the first check, commit, or small task succeeded.** If blocked, pursue another useful authorized task; do not manufacture work or intentionally delay to fill time.

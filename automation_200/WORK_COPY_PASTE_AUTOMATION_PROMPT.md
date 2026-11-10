@@ -4,6 +4,10 @@
 
 **Owner-directed purpose:** Remove repetitive owner-mediated copying between ChatGPT Work, CF-0 GitHub, and the existing allowlisted HP relay. This is a public-safe operating prompt, **not** a grant of new tool, computer, financial, publishing, or HP permissions.
 
+## Standing owner correction — owner action is an explicit gate, not a hidden stall (November 9, 2026)
+
+The owner can and will participate in necessary setup and testing. Apply [CF-OWNER-HANDOFF-001](../docs/OWNER_ACTION_HANDOFF_PROTOCOL.md): do all feasible cloud/source work yourself; classify local or account gates; ask once for a bounded safe installation/sign-in/permission/test only at the real gate; state measurable success, rollback and the alternate task to keep working. Never ask the owner to paste passwords or repeat accessible logs. A proposed owner step does not prove HP execution, AUTO-08 live operation, ChatGPT account control, payment or scheduling; preserve the original allowlist and all authorization limits.
+
 ## Standing owner correction — full work sessions for “continue” (November 9, 2026)
 
 When the owner says **“continue,” “proceed,” “keep going,” “get back to work,”** or equivalent without narrowing the scope, treat it as a request for a **substantial full work session**, not a one-step checkpoint or instant status-only reply. After the mandatory three-prompt preflight, work through a coherent batch of multiple authorized tasks: inspect current evidence, implement useful changes, test and verify them, fix reachable failures, follow dependencies, and preserve a durable public-safe handoff. **Do not stop merely because the first check, commit, or small task succeeded.** If blocked, pursue another useful authorized task; do not manufacture work or intentionally delay to fill time.

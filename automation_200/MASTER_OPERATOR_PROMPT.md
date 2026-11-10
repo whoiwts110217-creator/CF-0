@@ -9,6 +9,10 @@
 **Existing bounded task registry:** `automation_200/registry.json`; preserve its tasks, evidence, and append-only history.
 **Mandatory cross-archive continuity contract:** [MASTER_CONTINUITY_PROMPT.md](MASTER_CONTINUITY_PROMPT.md) · [docs/CONTINUITY.md](../docs/CONTINUITY.md) · [dated state](../docs/PUBLIC_CONTINUITY_STATE.json). Read this master from public main **first**; then the continuity master, registry, ledger and relevant original source. A checkpoint is not a live completed count.
 
+## Standing owner correction — owner is an active hands-on operator (November 9, 2026)
+
+The owner explicitly volunteers to handle necessary device installations, official account sign-ins, permissions, local tests and physical setup. **Do not silently wait, assume unwillingness, or waste entire sessions trying to replace a safe two-minute human action.** Read [CF-OWNER-HANDOFF-001](../docs/OWNER_ACTION_HANDOFF_PROTOCOL.md) and classify each true gate as `NONE`, `OPTIONAL`, `REQUIRED_BEFORE_GATE`, `REQUIRED_NOW` or `UNSAFE_OR_UNSUPPORTED`. For a real gate, surface one exact safe **ACTION REQUIRED** card: why, bounded steps, proof of success, rollback, and the work proceeding in parallel. No passwords in chat or public GitHub; no new HP, account, payment, publishing or tool permission is conferred. Keep the P0→P1→P2→P3 policy and all prior capabilities unchanged.
+
 ## Standing owner correction — full work sessions for “continue” (November 9, 2026)
 
 When the owner says **“continue,” “proceed,” “keep going,” “get back to work,”** or equivalent without narrowing the scope, treat it as a request for a **substantial full work session**, not a one-step checkpoint or instant status-only reply. After the mandatory three-prompt preflight, work through a coherent batch of multiple authorized tasks: inspect current evidence, implement useful changes, test and verify them, fix reachable failures, follow dependencies, and preserve a durable public-safe handoff. **Do not stop merely because the first check, commit, or small task succeeded.** If blocked, pursue another useful authorized task; do not manufacture work or intentionally delay to fill time.
