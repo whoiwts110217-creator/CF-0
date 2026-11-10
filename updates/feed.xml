@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+<title>Caveman Focus Updates</title>
+<link>https://whoiwts110217-creator.github.io/CF-0/updates/</link>
+<description>Public, evidence-graded updates from the independent Caveman Focus project. A free feed, not proof of external social distribution or revenue.</description>
+<language>en-us</language>
+<atom:link href="https://whoiwts110217-creator.github.io/CF-0/updates/feed.xml" rel="self" type="application/rss+xml"/>
+<item>
+<title>First Drop is public — voluntary support</title>
+<link>https://whoiwts110217-creator.github.io/CF-0/updates/#first-drop</link>
+<guid isPermaLink="true">https://whoiwts110217-creator.github.io/CF-0/updates/#first-drop</guid>
+<description>Caveman Focus First Drop offers an optional contribution path. No purchase, investment, tax-deductible charitable gift, or verified donor count is claimed.</description>
+</item>
+<item>
+<title>Free Clarity Card: guess to proof</title>
+<link>https://whoiwts110217-creator.github.io/CF-0/updates/#clarity-card</link>
+<guid isPermaLink="true">https://whoiwts110217-creator.github.io/CF-0/updates/#clarity-card</guid>
+<description>Try the free browser-local Clarity Card worksheet. No signup or payment required.</description>
+</item>
+<item>
+<title>Scheduled website verification passed — not a donation</title>
+<link>https://whoiwts110217-creator.github.io/CF-0/updates/#public-evidence</link>
+<guid isPermaLink="true">https://whoiwts110217-creator.github.io/CF-0/updates/#public-evidence</guid>
+<description>A real scheduled public-site check passed on November 10. The job recorded zero social posts and no financial verification.</description>
+</item>
+</channel>
+</rss>
