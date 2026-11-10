@@ -9,12 +9,17 @@ from site_deploy.verify_live import SCHEMA, ROUTES, write_manifest, verify_once,
 BASE = "https://whoiwts110217-creator.github.io/CF-0/"
 SHA = "a" * 40
 RUN = "42767535240"
+CATALOG = json.dumps({"schema": "cf.link.vault.public.v2", "revision": "test-v2",
+                      "links": [{"id": str(i), "url": "https://example.org/" + str(i)}
+                                for i in range(78)]}, sort_keys=True).encode()
 
 
 def fixture_fetch(url):
     path = urlparse(url).path.removeprefix("/CF-0/")
     if path == "deployment-manifest.json":
         return json.dumps({"schema": SCHEMA, "source_commit": SHA, "workflow_run_id": RUN}).encode()
+    if path == "link-vault/links.json":
+        return CATALOG
     if path in ROUTES:
         return ("<!doctype html><html><body>" + ROUTES[path] + "</body></html>").encode()
     raise ValueError(f"Unexpected route: {path}")
@@ -36,6 +41,20 @@ class PagesVerifierTest(unittest.TestCase):
 
     def test_live_routes_and_matching_release(self):
         verify_once(BASE, SHA, RUN, fetch=fixture_fetch)
+
+    def test_live_link_vault_catalog_must_match_checkout(self):
+        verify_once(BASE, SHA, RUN, fetch=fixture_fetch, expected_catalog=CATALOG)
+        with self.assertRaisesRegex(ValueError, "stale or mismatched"):
+            verify_once(BASE, SHA, RUN, fetch=fixture_fetch, expected_catalog=b"{}")
+
+    def test_live_link_vault_catalog_invalid_schema_is_rejected(self):
+        def broken(url):
+            if url.endswith("link-vault/links.json"):
+                return b'{"schema":"wrong","links":[]}'
+            return fixture_fetch(url)
+        with self.assertRaisesRegex(ValueError, "schema or entries"):
+            verify_once(BASE, SHA, RUN, fetch=broken,
+                        expected_catalog=b'{"schema":"wrong","links":[]}')
 
     def test_mismatched_release_refused(self):
         with self.assertRaisesRegex(ValueError, "mismatched"):
