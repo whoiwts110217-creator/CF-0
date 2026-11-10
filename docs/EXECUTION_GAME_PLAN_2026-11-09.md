@@ -41,6 +41,14 @@
 
 **P2 fail/stop conditions:** unresolved eligibility, no grant permission, untested anonymous form, no real customer, no independently verified payment. Record `not submitted`, `inquiry only`, or `income not verified` accurately.
 
+## November 9 execution findings — Bridge Builders applicant verification
+
+- **Confirmed community gate:** The [Michigan Municipal League member list](https://mml.org/resources-research/league-member-communities-p/) lists **Port Huron as a full member**. This verifies the proposed project's *municipality* category, not the identity or standing of the actual applicant.
+- **Individual-applicant discrepancy remains:** The [official FAQ](https://mmlfoundation.org/2026-bb-faq/) explicitly permits **individuals**, but [section 2 of the official 2026 application preview](https://mmlfoundation.org/wp-content/uploads/2026/11/BBCommunityApplicationDistribution.pdf) provides only entity categories, including an *actual informal group*. An individual must **not** falsely claim to be a group. The funder has already received an eligibility-clarification request; no substantive reply was found in the November 9 bounded mailbox check.
+- **Venue letter timing clarified:** The [FAQ](https://mmlfoundation.org/2026-bb-faq/) says a property-owner support letter will be requested for **Community Microgrant semifinalists** who need one. The [preview PDF question 25](https://mmlfoundation.org/wp-content/uploads/2026/11/BBCommunityApplicationDistribution.pdf) nevertheless lists a letter upload; confirm the actual live form's behavior before concluding the field may be left blank. Continue seeking a suitable *proposed* venue, but never claim a booked room or confirmed property-owner permission.
+- **Absolute time constraint:** [Official grant page](https://mmlfoundation.org/bb-community-microgrants/) says applications close **November 13, 2026**; projects begin no earlier than January 1, 2027 and end by September 30, 2027. Screening also asks for truthful first-time-recipient status, capacity to receive/track funds, and applicant certification. The required projected budget and signed declaration remain real acceptance gates.
+- **Decision rule:** If the funder clarifies a truthful individual pathway and the authorized applicant can certify all required details, prepare the existing response packet for that exact pathway. If not, **do not submit an inaccurate application** just to meet the deadline. Do not make up a second applicant, sponsor, partnership, address, signature or grant award. This is an eligibility/process improvement, **not** a grant submission or financial outcome.
+
 ## Current sprint milestones and checkpoints
 
 - **November 9–10:** pin one real watchdog packet and inspect one native CF-200 result; preserve explicit missing-evidence verdict. Complete customer-form inventory and Bridge Builders eligibility follow-up from existing sources.
