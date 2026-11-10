@@ -29,7 +29,7 @@ def safe_public_file(path: str, root: Path = ROOT) -> Path:
     if not isinstance(path, str) or not path or "\\" in path or "://" in path:
         raise ValueError("INVALID_PUBLIC_PATH")
     pure = PurePosixPath(path)
-    if pure.is_absolute() or any(piece in (".", "..") for piece in path.split("/")):
+    if pure.is_absolute() or any(piece in (".", "..", ".git") for piece in path.split("/")):
         raise ValueError("INVALID_PUBLIC_PATH")
     resolved_root = root.resolve()
     resolved = (resolved_root / path).resolve()
@@ -37,6 +37,18 @@ def safe_public_file(path: str, root: Path = ROOT) -> Path:
         raise ValueError("UNAVAILABLE_OR_OUTSIDE_PUBLIC_SOURCE")
     if (resolved_root / path).is_symlink():
         raise ValueError("SYMLINK_PUBLIC_SOURCE_REQUIRES_REVIEW")
+    # An ordinary checked-out repo may contain untracked private files. Never
+    # manufacture a supposedly public Github link to one of those paths.
+    if (resolved_root / ".git").exists():
+        try:
+            checked = subprocess.run(
+                ["git", "ls-files", "--error-unmatch", "--", path],
+                cwd=resolved_root, capture_output=True, timeout=10,
+            )
+        except (OSError, subprocess.SubprocessError) as exc:
+            raise ValueError("PUBLIC_GIT_TRACKING_UNAVAILABLE") from exc
+        if checked.returncode:
+            raise ValueError("UNTRACKED_SOURCE_NOT_PUBLIC")
     return resolved
 
 
