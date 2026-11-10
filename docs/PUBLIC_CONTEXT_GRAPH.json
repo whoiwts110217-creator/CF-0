@@ -249,6 +249,44 @@
         "anti-lockout",
         "intellectual property"
       ]
+    },
+    {
+      "id": "CF-LINK-VAULT-001",
+      "title": "Existing updateable iPhone Link Vault and Action Sphere",
+      "source": "link-vault/README.md",
+      "parent": "CF-CORE",
+      "related": [
+        "CF-MESH-001",
+        "CF-200",
+        "CF-SPIDER-001"
+      ],
+      "depends_on": [],
+      "aliases": [
+        "link vault",
+        "jungle compass",
+        "action sphere"
+      ]
+    },
+    {
+      "id": "CF-SPIDER-001",
+      "title": "Spider/Sphere visible robot and internal source-linked owner action core",
+      "source": "docs/SPIDER_SPHERE_PROJECT_CHAT_PROMPT.md",
+      "parent": "CF-LINK-VAULT-001",
+      "related": [
+        "CF-MESH-001",
+        "CF-200",
+        "AUTO-08",
+        "CF-OWNER-HANDOFF-001"
+      ],
+      "depends_on": [
+        "UCC-001"
+      ],
+      "aliases": [
+        "spider",
+        "robot spider",
+        "spider core",
+        "spider sphere"
+      ]
     }
   ]
 }
