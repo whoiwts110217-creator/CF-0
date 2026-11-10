@@ -20,6 +20,7 @@ ROUTES = {
     "clarity-card/": "Clarity Card",
     "clarity-brief/": "Clarity Brief",
     "clarity-check/": "Clarity Check",
+    "link-vault/": "LINK VAULT",
 }
 
 
@@ -49,7 +50,7 @@ def fetch_public_bytes(url: str) -> bytes:
         return raw
 
 
-def verify_once(base_url: str, commit: str, run_id: str, fetch=fetch_public_bytes) -> None:
+def verify_once(base_url: str, commit: str, run_id: str, fetch=fetch_public_bytes, *, expected_catalog: bytes | None = None) -> None:
     base = base_url.rstrip("/") + "/"
     parts = urlparse(base)
     if parts.scheme != "https" or not parts.netloc:
@@ -63,15 +64,23 @@ def verify_once(base_url: str, commit: str, run_id: str, fetch=fetch_public_byte
         body = fetch(url).decode("utf-8")
         if "<html" not in body.lower() or marker not in body:
             raise ValueError(f"Live route {route or '/'} lacks expected page marker {marker!r}")
+    if expected_catalog is not None:
+        live_catalog = fetch(urljoin(base, "link-vault/links.json"))
+        if live_catalog != expected_catalog:
+            raise ValueError("Live Link Vault public catalog is stale or mismatched against the release checkout")
+        catalog = json.loads(live_catalog.decode("utf-8"))
+        if catalog.get("schema") != "cf.link.vault.public.v2" or len(catalog.get("links", [])) < 78:
+            raise ValueError("Live Link Vault public catalog schema or entries invalid")
 
 
 def verify_with_retry(base_url: str, commit: str, run_id: str, *, fetch=fetch_public_bytes,
-                      sleep=time.sleep, attempts: int = 6, delay: float = 12) -> None:
+                      sleep=time.sleep, attempts: int = 6, delay: float = 12,
+                      expected_catalog: bytes | None = None) -> None:
     if attempts < 1:
         raise ValueError("at least one attempt is required")
     for i in range(attempts):
         try:
-            verify_once(base_url, commit, run_id, fetch=fetch)
+            verify_once(base_url, commit, run_id, fetch=fetch, expected_catalog=expected_catalog)
         except (OSError, TimeoutError, UnicodeError, ValueError, json.JSONDecodeError) as exc:
             if i == attempts - 1:
                 raise RuntimeError(f"Live Pages readback not verified after {attempts} attempts; "
@@ -99,7 +108,11 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "write-manifest":
         print(write_manifest(args.site_dir, args.commit, args.run_id))
     else:
-        verify_with_retry(args.base_url, args.commit, args.run_id)
+        catalog_path = Path("link-vault/links.json")
+        if not catalog_path.is_file():
+            raise ValueError("Expected Link Vault catalog missing from this release checkout")
+        verify_with_retry(args.base_url, args.commit, args.run_id,
+                          expected_catalog=catalog_path.read_bytes())
     return 0
 
 
