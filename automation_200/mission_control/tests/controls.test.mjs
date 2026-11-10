@@ -4,7 +4,8 @@ import {readFileSync,readdirSync} from "node:fs";
 import {CHATGPT_PLACEHOLDER_COUNT,CHATGPT_COUNT_OBSERVED_DATE,SOURCES,records,parsePrivateInventory,inventoryStatus,shutdownPlan} from "../dist/controls.mjs";
 
 test("every known scheduled channel is represented without exposing private task names",()=>{
-  assert.equal(CHATGPT_PLACEHOLDER_COUNT,11);\n  assert.equal(CHATGPT_COUNT_OBSERVED_DATE,"2026-11-09");
+  assert.equal(CHATGPT_PLACEHOLDER_COUNT,11);
+  assert.equal(CHATGPT_COUNT_OBSERVED_DATE,"2026-11-09");
   const workflowDir=new URL("../../../.github/workflows/",import.meta.url);
   const existing=readdirSync(workflowDir).filter(x=>x.endsWith(".yml")||x.endsWith(".yaml"));
   assert.equal(SOURCES.github.length,existing.length,"Every real workflow file must have a source-only inventory row");
@@ -71,7 +72,8 @@ test("source HTML exposes all four categories with a disabled master switch and 
   assert.match(ui,/disabled=true/);
   assert.match(ui,/const workflowRecords=rows\.filter/);
   assert.match(ui,/control-github-count/);
-  assert.match(ui,/control-github-description/);\n  assert.match(ui,/CHATGPT_COUNT_OBSERVED_DATE/);
+  assert.match(ui,/control-github-description/);
+  assert.match(ui,/CHATGPT_COUNT_OBSERVED_DATE/);
   assert.doesNotMatch(html,/20 workflows: 5 scheduled, 15 event\/manual/);
   assert.doesNotMatch(ui,/fetch\(|sendMessage\(|exec\(|localStorage\.|sessionStorage\./);
 });
