@@ -13,6 +13,7 @@ from datetime import datetime, timezone
 import json
 import os
 from pathlib import Path
+from urllib.parse import unquote, urlsplit
 
 CLARITY_URL = "https://whoiwts110217-creator.github.io/CF-0/clarity-card/"
 FIRST_DROP_URL = "https://whoiwts110217-creator.github.io/CF-0/first-drop/"
@@ -21,12 +22,32 @@ HYPE_STAR_URL = "https://hypestar.org/project/caveman-focus"
 PROMOTE_INDEX_TICKET = "097"  # queue ticket, NOT a published project identifier
 
 # Only allowlisted, already-public HTTPS URLs are visited. No submission URLs.
+EXPECTED_PUBLIC_CASH_TAG = "$LAZYBLACKBEAN"  # published project destination; no payment request
+
 TARGETS = (
     ("clarity_card", CLARITY_URL),
     ("first_drop", FIRST_DROP_URL),
     ("support_campaign", SUPPORT_URL),
     ("hype_star_listing", HYPE_STAR_URL),
 )
+
+
+def enforce_get_only(route) -> None:
+    """Block page-initiated POST/PUT/PATCH/DELETE; no financial or account action."""
+    if route.request.method.upper() in {"GET", "HEAD"}:
+        route.continue_()
+    else:
+        route.abort()
+
+
+def has_expected_cash_app_anchor(links: list[str]) -> bool:
+    """Inspect public HTML links only; never navigate to the payment service."""
+    for link in links:
+        parsed = urlsplit(link)
+        if (parsed.scheme == "https" and parsed.hostname == "cash.app"
+                and unquote(parsed.path).strip("/") == EXPECTED_PUBLIC_CASH_TAG):
+            return True
+    return False
 
 
 def classify_owned_site(http_status: int | None, title: str, body: str, name: str) -> str:
@@ -81,6 +102,11 @@ def summarize(report: dict) -> str:
         rows.append(f"| {name.replace('_', ' ')} | {checks[name]['status']} |")
     rows += [
         "",
+        "Payment-link HTML presence (not a payment or recipient verification): "
+        + ", ".join(
+            f"{name}: {checks[name].get('expected_cash_app_anchor_present', 'unverified')}"
+            for name in ("first_drop", "support_campaign")
+        ),
         f"PromoteIndex ticket #{PROMOTE_INDEX_TICKET}: **queued in earlier run; "
         "publication remains unverified (not automatically queried or resubmitted).**",
         "",
@@ -110,6 +136,8 @@ def collect() -> dict:
         browser = p.chromium.launch(headless=True)
         try:
             context = browser.new_context(accept_downloads=False)
+            # Prevent third-party page scripts from sending non-read-only requests.
+            context.route("**/*", enforce_get_only)
             page = context.new_page()
             page.set_default_timeout(7000)
             for name, url in TARGETS:
@@ -124,7 +152,7 @@ def collect() -> dict:
                     status = response.status if response is not None else None
                     title = page.title()[:240]
                     body = page.locator("body").inner_text(timeout=7000)[:16000]
-                    if name == "hype_star_listing" and status == 200:
+                    if name in ("first_drop", "support_campaign", "hype_star_listing") and status == 200:
                         links = page.locator("a[href]").evaluate_all(
                             "(a) => a.slice(0, 200).map(e => e.href)"
                         )
@@ -137,6 +165,10 @@ def collect() -> dict:
                 entry = {"status": evidence}
                 if status is not None:
                     entry["http_status"] = status
+                if name in ("first_drop", "support_campaign"):
+                    entry["expected_cash_app_anchor_present"] = (
+                        has_expected_cash_app_anchor(links) if status == 200 else None
+                    )
                 if error_kind:
                     entry["error_kind"] = error_kind
                 report["checks"][name] = entry
