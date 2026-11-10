@@ -70,6 +70,14 @@
       "status_origin": "read_on_demand"
     },
     {
+      "id": "CF-LEGAL-001",
+      "area": "P1",
+      "title": "Publication rights and anti-lockout continuity (public summary only)",
+      "public_anchor": "docs/PROVENANCE.md",
+      "source_type": "public_index_only",
+      "status_origin": "read_on_demand"
+    },
+    {
       "id": "FIN-09",
       "area": "P2",
       "title": "Reality-as-game and business learning branch",
