@@ -1,6 +1,10 @@
 # Caveman Focus — CF-0
 
 
+> **LATEST VS. HISTORICAL:** [Current Source Gateway](docs/CURRENT_SOURCE_GATEWAY.md) · [Owner Jungle Map](docs/OWNER_JUNGLE_MAP.md) · [Universal freshness rule for EVERYTHING](docs/UNIVERSAL_FRESHNESS_CONTRACT.md). Dated pages, commits and project snapshots are evidence of their own period, not automatically today's account/device/money status.
+
+
+
 **START WITH A WORKING TOOL:** [Free Clarity Card](https://whoiwts110217-creator.github.io/CF-0/clarity-card/) — no signup or payment; turn a question into a hypothesis, evidence check and next step. You can save or print the result.
 
 **SMALL MANUAL SERVICES:** [$5 Clarity Check — one public project page](https://whoiwts110217-creator.github.io/CF-0/clarity-check/) · [$15 Clarity Brief — one broader public-safe question](https://whoiwts110217-creator.github.io/CF-0/clarity-brief/). Both are pilot **inquiries, not paid checkouts**. The current issue-based inquiry requires a GitHub account and is public; don't include private information. No customer, accepted order, paid delivery or sale is independently verified.
