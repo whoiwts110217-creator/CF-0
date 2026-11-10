@@ -1,7 +1,7 @@
 name: CF-0 Free Browser Promotion Check
 
 # Distinct from the existing five-minute HP/watchdog automation.
-# Public GitHub standard runner + pinned open-source Playwright: no paid API.
+# Public standard runner, pinned to supported Ubuntu 24.04 for Playwright 1.57: no paid API.
 on:
   push:
     branches: [main]
@@ -24,7 +24,7 @@ concurrency:
 
 jobs:
   public-browser-evidence:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 18
     steps:
       - uses: actions/checkout@v4
