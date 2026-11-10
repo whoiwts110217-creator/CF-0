@@ -1,14 +1,15 @@
-"""Real Chromium smoke tests for the existing iPhone Skill Foundry.
+"""Real Chromium + WebKit smoke tests for the existing iPhone Skill Foundry.
 
 This test uses an ephemeral loopback HTTP server and synthetic SKILL.md fixtures.
 It performs actual browser clicks/downloads; unlike a fake DOM harness, it runs
-in a real browser engine. It does NOT test physical iOS Safari or external agents.
-The test fails closed if Chrome or Playwright is unavailable in the runner.
+in real browser engines. WebKit is Safari-related but Linux WebKit is NOT iOS Safari.
+The test fails closed if the requested browser is unavailable in the runner.
 """
 from __future__ import annotations
 
 import hashlib
 import json
+import os
 import shutil
 import tempfile
 import threading
@@ -28,12 +29,15 @@ class QuietHandler(SimpleHTTPRequestHandler):
         pass
 
 
-class ChromiumSmoke(unittest.TestCase):
+class ActualBrowserSmoke(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
+        cls.engine = os.environ.get("CF0_BROWSER_ENGINE", "chromium").lower()
+        if cls.engine not in {"chromium", "webkit"}:
+            raise RuntimeError(f"Unknown browser engine {cls.engine!r}; use chromium or webkit")
         cls.chrome = shutil.which("google-chrome") or shutil.which("google-chrome-stable") or shutil.which("chromium")
-        if not cls.chrome:
-            raise RuntimeError("Chrome/Chromium not installed; cannot claim real-browser verification")
+        if cls.engine == "chromium" and not cls.chrome:
+            raise RuntimeError("Chrome/Chromium not installed; cannot claim browser verification")
         cls.server = ThreadingHTTPServer(("127.0.0.1", 0), partial(QuietHandler, directory=str(APP)))
         cls.thread = threading.Thread(target=cls.server.serve_forever, daemon=True)
         cls.thread.start()
@@ -45,13 +49,16 @@ class ChromiumSmoke(unittest.TestCase):
         cls.server.server_close()
 
     def setUp(self):
-        self.dir = tempfile.TemporaryDirectory(prefix="cf0-real-chrome-")
+        self.dir = tempfile.TemporaryDirectory(prefix="cf0-real-browser-")
         self.addCleanup(self.dir.cleanup)
         self.p = sync_playwright().start()
         self.addCleanup(self.p.stop)
-        self.browser = self.p.chromium.launch(
-            executable_path=self.chrome, headless=True, args=["--no-sandbox", "--disable-dev-shm-usage"]
-        )
+        if self.engine == "chromium":
+            self.browser = self.p.chromium.launch(
+                executable_path=self.chrome, headless=True, args=["--no-sandbox", "--disable-dev-shm-usage"]
+            )
+        else:
+            self.browser = self.p.webkit.launch(headless=True)
         self.addCleanup(self.browser.close)
         self.context = self.browser.new_context(
             viewport={"width": 390, "height": 844}, device_scale_factor=3,
