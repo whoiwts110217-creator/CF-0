@@ -24,6 +24,10 @@ on:
       - 'automation_200/registry.json'
       - 'docs/PUBLIC_CONTINUITY_STATE.json'
       - '.github/workflows/publish-website.yml'
+  # Recovery: dispatch a NEW workflow run after a Pages queue failure.
+  # Do not rerun only the failed deploy job: upload-pages-artifact can create
+  # another artifact named github-pages in the same run, and deploy-pages
+  # rejects multiple matching artifacts (observed in run 42739858197).
   workflow_dispatch:
 permissions:
   contents: read
