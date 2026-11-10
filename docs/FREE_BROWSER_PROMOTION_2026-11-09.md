@@ -52,3 +52,22 @@ Public owner capability contract and UCC-001/CF-MESH-001 were checked; original 
 **Status:** source, tests and workflow deployed. The first Actions run [42747989485](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42747989485) passed the offline test step but **failed before browser navigation** because the then-default Ubuntu 26.04 runner cannot install Chromium under the repository's pinned Playwright 1.57.0. Only this new workflow was changed to the supported standard `ubuntu-24.04` runner (commit [7024d49](https://github.com/whoiwts110217-creator/CF-0/commit/7024d4923f841734b7a13d53490e45bd956c293e)). Its corrected run is subject to separate verification; never count the failed run as live monitoring. The scheduled check is a real GitHub workflow configuration, not a guarantee the site is always reachable or that the run always executes on time.
 
 **Rollback:** revert only the new files named above and the links added to campaign documentation. No prior workflow was deleted or modified; no new ChatGPT automation consumed a scarce task slot. Before any future follow-up, re-read the current public three-prompt boot and this record, reconcile latest GitHub Actions run and original campaign records. **Next permitted action:** inspect real run output, repair any CI failure, and accurately update the public campaign status. Do not pay TinyFish.
+
+## First verified real-browser run — November 9, 2026 ET
+
+**PASS:** [GitHub Actions run #42748168761](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42748168761) at source commit `7024d4923f841734b7a13d53490e45bd956c293e`, after pinning Ubuntu 24.04. Steps **offline safety tests**, **Chromium installation**, and **live public navigation** all succeeded. A genuine headless Chromium checked all four allowlisted URLs with no account credentials, posting, payment or paid TinyFish use.
+
+The verified job log printed a structured `CF0_PROMO_BROWSER_JSON=` record dated **2026-11-10T03:15:20Z**:
+
+| Site | Real-browser result | Interpretation |
+|---|---|---|
+| Clarity Card | HTTP 200, `reachable` | Free tool page served expected heading |
+| First Drop | HTTP 200, `reachable` | Public invitation served expected heading |
+| Support campaign | HTTP 200, `reachable` | Public appeal displayed Caveman Focus |
+| Hype Star listing | HTTP 404, `not_public_as_checked` | Previously submitted listing not visible when checked |
+| PromoteIndex ticket #097 | `unverified` | Historical queued submission, not re-queried or resubmitted |
+
+**Status now:** source **implemented**, offline tests **passed**, first manual/push-triggered browser run **verified successful**. **Daily unattended scheduling is configured but has not yet had a recorded `schedule`-event run.** That distinction matters. It does not perform outreach, and no donor, payment, click or accepted directory listing follows from the CI result.
+
+The first pre-fix workflow [#42747989485](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42747989485) remains recorded as a **failed** compatibility attempt; it was not erased or mislabeled. Rollback remains a narrowly scoped Git revert.
+
