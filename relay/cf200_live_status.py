@@ -42,6 +42,29 @@ def probe_summary(fetch=None):
             if valid else "HP ping receipt: mismatched or invalid")
 
 
+def health_summary(report):
+    """Display sanitized public heartbeat; never claim scheduler or HP identity."""
+    fields = {"schema", "collected_utc", "db_exists", "error",
+              "last_receipt_status", "ping_receipt_count", "receipt_count"}
+    if not isinstance(report, dict) or set(report) != fields:
+        return "HP health: invalid public report (scheduler origin UNVERIFIED)"
+    if report["schema"] != "cf0.hp_health.v1":
+        return "HP health: unsupported public schema (scheduler origin UNVERIFIED)"
+    total, pings = report["receipt_count"], report["ping_receipt_count"]
+    if (type(total) is not int or type(pings) is not int
+            or total < 0 or pings < 0 or pings > total):
+        return "HP health: invalid public counts (scheduler origin UNVERIFIED)"
+    if (type(report["db_exists"]) is not bool
+            or report["last_receipt_status"] not in (None, "completed", "failed", "other")
+            or not isinstance(report["collected_utc"], str)
+            or report["error"] not in (None, "malformed_receipt", "state_unavailable")):
+        return "HP health: invalid public fields (scheduler origin UNVERIFIED)"
+    return ("HP public heartbeat: " + report["collected_utc"][:48]
+            + "; receipts=" + str(total) + "; pings=" + str(pings)
+            + "; last=" + str(report["last_receipt_status"])
+            + "; scheduler origin UNVERIFIED")
+
+
 def snapshot():
     registry = fetch_json(BASE + "automation_200/registry.json")
     commits = fetch_json(API + "/commits?per_page=1")
@@ -59,6 +82,10 @@ def snapshot():
               + " (" + str(run.get("html_url", "")) + ")")
     else:
         ci = "No recent workflow result available"
+    try:
+        hp = health_summary(fetch_json(BASE + "relay/health/latest.json"))
+    except Exception:
+        hp = "HP health: public report unavailable (scheduler origin UNVERIFIED)"
     return ("CAVEMAN FOCUS — LIVE STATUS\n"
             + "Updated locally: " + datetime.now().astimezone().isoformat(timespec="seconds") + "\n"
             + "Verified: " + str(registry["completed"]) + " / " + str(registry["target"]) + "\n"
@@ -67,7 +94,7 @@ def snapshot():
             + "Source: https://github.com/" + REPO + "\n"
             + "Latest GitHub Actions: " + ci + "\n"
             + "Next HP verification: correlate Windows scheduled run and wrapper outcome with ping receipt.\n\n"
-            + probe_summary() + "\n"
+            + hp + "\n"\n            + probe_summary() + "\n"
             + "HP unattended schedule: NOT VERIFIED without Windows scheduler evidence\n"
             + "This window runs on your Windows desktop only after local launch.\n"
             + "Public commit metadata does not prove CI passed or HP ran.\n")
