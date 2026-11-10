@@ -16,6 +16,7 @@ Use the existing reviewed CF-0 checkout on the HP. Open Windows PowerShell in th
 
 ~~~powershell
 powershell.exe -NoProfile -File .\link-vault\spider-hp\Spider-HP.ps1 -Mode Preflight
+powershell.exe -NoProfile -File .\link-vault\spider-hp\Spider-HP.ps1 -Mode NativeProbe
 powershell.exe -NoProfile -File .\link-vault\spider-hp\Spider-HP.ps1 -Mode Validate -PlanPath .\link-vault\spider-hp\notepad-inspect.json
 powershell.exe -NoProfile -File .\link-vault\spider-hp\Spider-HP.ps1 -Mode Run -PlanPath .\link-vault\spider-hp\notepad-inspect.json
 ~~~
