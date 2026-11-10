@@ -38,7 +38,7 @@ export const SOURCES = Object.freeze({
   ])
 });
 export const GITHUB_BASE = gh;
-export const CHATGPT_PLACEHOLDER_COUNT = 10; // Only count is public; titles remain private until local import.
+export const CHATGPT_PLACEHOLDER_COUNT = 11; // Only count is public; titles remain private until local import.
 export const inventoryStatus = item => item.source === "chatgpt"
   ? (item.reportedEnabled === true ? "Last reported enabled" : item.reportedEnabled === false ? "Last reported paused" : "State unknown")
   : item.source === "github" ? (item.trigger === "schedule" ? "Scheduled in source; live state unknown" : "Event/manual trigger in source; live state unknown") : "Local state unverified";
