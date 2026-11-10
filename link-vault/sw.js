@@ -1,6 +1,6 @@
 /* CF Link Vault: network-first for page + catalog, cached fallback when offline. */
-const CACHE="cf-link-vault-v2";
-const ASSETS=["./","./index.html","./enhance.js","./links.json","./manifest.webmanifest","./icon.svg"];
+const CACHE="cf-link-vault-v3";
+const ASSETS=["./","./index.html","./enhance.js","./links.json","./owner-actions.js","./owner-actions.css","./owner-actions.json","./manifest.webmanifest","./icon.svg"];
 self.addEventListener("install",event=>{
  event.waitUntil(caches.open(CACHE).then(async cache=>{
    for(const path of ASSETS){try{await cache.add(path)}catch(_){}}
@@ -17,9 +17,10 @@ self.addEventListener("fetch",event=>{
  if(req.method!=="GET" || u.origin!==self.location.origin || !u.pathname.includes("/link-vault/"))return;
  event.respondWith((async()=>{
    const cache=await caches.open(CACHE);
-   const hot=req.mode==="navigate" || /\/(index\.html|links\.json|enhance\.js)$/.test(u.pathname);
+   const hot=req.mode==="navigate" || /\/(index\.html|links\.json|enhance\.js|owner-actions\.js|owner-actions\.css|owner-actions\.json)$/.test(u.pathname);
    if(hot){
-     const key=u.pathname.endsWith("/links.json")?"./links.json":u.pathname.endsWith("/enhance.js")?"./enhance.js":"./index.html";
+     const matched=["links.json","enhance.js","owner-actions.js","owner-actions.css","owner-actions.json"].find(x=>u.pathname.endsWith("/"+x));
+   const key=matched?"./"+matched:"./index.html";
      try{const network=await fetch(req);if(network.ok)await cache.put(key,network.clone());return network}
      catch(_){
        const saved=await cache.match(key);
