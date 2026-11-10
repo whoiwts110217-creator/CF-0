@@ -31,6 +31,7 @@ function GetQueue {
  foreach($name in $p.plans){
    if($name -isnot [string] -or $name -cnotin $plans){Refuse 'PLAN_NOT_ALLOWLISTED'}
  }
+ if(@($p.plans|Select-Object -Unique).Count -ne $p.plans.Count){Refuse 'DUPLICATE_PLAN_REFUSED'}
  return $p
 }
 try{
