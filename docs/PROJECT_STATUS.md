@@ -4,6 +4,12 @@
 > **This page mixes current summaries with dated history.** For the freshest available source links, open [Current Source Gateway](CURRENT_SOURCE_GATEWAY.md), [live-registry Mission Control](https://whoiwts110217-creator.github.io/CF-0/mission-control/) or the [authoritative registry](../automation_200/registry.json). Do not read a passing public CI run as an HP or payment receipt. [Universal freshness rule](UNIVERSAL_FRESHNESS_CONTRACT.md).
 
 
+## November 10, 2026 — ChatGPT export retrieval gate (source-graded)
+
+The owner-reported failed official ChatGPT data-export download is a **private original-source recovery blocker**, not evidence that the account's messages were deleted. In an authorized connected email read, OpenAI Privacy Support acknowledged a **known larger-export issue with Safari/iPhone/iPad** and recommended downloading from **Chrome, Edge, or Firefox on a signed-in desktop**, keeping the tab open until the transfer completes. A case exists and a secure replacement link was requested if the desktop workaround fails; **the case identifier, email contents and signed download URL stay in the existing private owner archive**.
+
+**Evidence level:** provider email response observed; **actual ZIP download and original-message indexing remain unverified**. The earlier other-account browser capture (95 conversation records, 757 rendered messages) is a separate, incomplete source. Owner-only action is the authorized desktop download into storage with sufficient free capacity, before the original link's 24-hour window if still valid; do not restart paused HP maintenance tasks for this or upload private transcripts to public GitHub. The existing finite reply watch is enabled and now avoids duplicate notices for the acknowledged response. Parent: CF-CORE / TRUTH-001 / CF-FRESH-001; related: CF-MESH-001, private continuity archive, HP owner maintenance. [Latest source gateway](CURRENT_SOURCE_GATEWAY.md) · [truth protocol](SOURCE_TRUTH_RECONSTRUCTION_PROTOCOL.md).
+
 **Source-verified snapshot · November 9, 2026 (Eastern).** This is a dated source/document check, **not** a live HP heartbeat. For stable handoffs, use the [public continuity record](CONTINUITY.md) and [machine-readable status](PUBLIC_CONTINUITY_STATE.json).
 
 
