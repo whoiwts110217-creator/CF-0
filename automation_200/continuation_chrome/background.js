@@ -195,7 +195,7 @@ async function continueOne(id,{advanceAfterAck=false,bootstrap=false}={}){
     await save(s=>({attempt:null,currentChat:null,
       bootstrapSent:[...new Set([...(s.bootstrapSent||[]),id])],
       lastResult:'Bootstrap command already visible in chat; skipped duplicate.'}));
-    return;
+    return {status:'already_visible'};
   }
   await focusComposer();
   ensureActive();
@@ -219,7 +219,7 @@ async function continueOne(id,{advanceAfterAck=false,bootstrap=false}={}){
         {submitted:[...new Set([...(Array.isArray(s.submitted)?s.submitted:[]),id])]}),
       lastResult:bootstrap?'Acknowledged exact bootstrap submission; reply NOT verified (fast mode).':'Acknowledged literal continue submission; reply NOT verified (fast mode).'}));
     ensureActive();
-    return;
+    return {status:'sent'};
   }
   let stable=null;
   await waitUntil(s=>{
@@ -237,6 +237,7 @@ async function continueOne(id,{advanceAfterAck=false,bootstrap=false}={}){
     }:{completed:[...new Set([...s.completed,id])]}),
     lastResult:bootstrap?'Bootstrap instruction and stable assistant response verified.':'Completed one chat and verified stable response.'}));
   ensureActive();
+  return {status:'sent'};
 }
 async function execute({mode,maxChats=1,advanceAfterAck=false,bootstrap=false}){
   if(live)throw Error('ALREADY_RUNNING');
@@ -255,6 +256,7 @@ async function execute({mode,maxChats=1,advanceAfterAck=false,bootstrap=false}){
     ?!alreadyBootstrapped.includes(x.id)
     :!s.completed.includes(x.id)&&!alreadySubmitted.includes(x.id))).slice(0,maxChats);
   let outcome='completed';
+  let sentCount=0,alreadyVisibleCount=0;
   try{
     if(cancelRequested)throw Error('STOP_REQUESTED');
     // Attach can fail (permission revoked, tab closed, Chrome debugger conflict).
@@ -265,16 +267,18 @@ async function execute({mode,maxChats=1,advanceAfterAck=false,bootstrap=false}){
       const count=(await tabsSnapshot());
       if(count.count!==1||count.tabId!==live.tabId)throw Error('CHATGPT_TAB_COUNT_CHANGED');
       live.escapes=0;
-      await continueOne(c.id,{advanceAfterAck,bootstrap});
+      const result=await continueOne(c.id,{advanceAfterAck,bootstrap});
+      if(result?.status==='already_visible')alreadyVisibleCount++;
+      else if(result?.status==='sent')sentCount++;
     }
     ensureActive();
     await save({phase:'idle',reason:null,lastResult:bootstrap
       ? (advanceAfterAck
-        ? `Bootstrap submitted in ${toDo.length} eligible chat(s); replies NOT verified.`
-        : `Bootstrap responses verified in ${toDo.length} chat(s), same tab.`)
+        ? `Bootstrap exactly submitted in ${sentCount} new chat(s); ${alreadyVisibleCount} already contained the exact command; replies NOT verified.`
+        : `Bootstrap stable replies verified in ${sentCount} chat(s); ${alreadyVisibleCount} chats already contained the exact command (response not verified).`)
       : advanceAfterAck
-        ? `Acknowledged ${toDo.length} continue submission(s) in one tab. Replies NOT verified.`
-        : `Finished ${toDo.length} conversation(s) with the same Chrome tab.`});
+        ? `Acknowledged ${sentCount} continue submission(s) in one tab. Replies NOT verified.`
+        : `Finished ${sentCount} conversation(s) with the same Chrome tab.`});
     ensureActive();
   }catch(error){
     outcome='needs_review';
