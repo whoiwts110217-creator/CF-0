@@ -2,6 +2,12 @@ CAVEMAN FOCUS AUTO-08 — FIRST RUN (WINDOWS CHROME)
 ==================================================
 
 This is a Chrome EXTENSION, not an iPhone app or installed Windows program.
+Release v0.1.8 includes the v0.1.7 safety fix: STOP cancels a queued START/CONTINUE_CURRENT even while
+Chrome storage is pending, before tab inspection or any keyboard effects.
+The package also adds the owner-requested GitHub bootstrap sweep.
+Preserve existing account-label queues and maybe_sent checkpoints; do NOT
+uninstall/clear old extension storage to upgrade. Reload after a reviewed update.
+
 GitHub source checks do not prove it works in your signed-in account.
 
 1. Download the latest successful CF-0 AUTO-08 source-test Actions artifact.
@@ -43,7 +49,7 @@ GitHub source checks do not prove it works in your signed-in account.
    Fast-mode submitted IDs stay in a separate local checkpoint list to
    prevent duplicate submissions. Start with a tiny owner-approved batch.
 
-   New optional BOOTSTRAP + WORK mode (v0.1.7):
+   New optional BOOTSTRAP + WORK mode (v0.1.8):
    - Select "Bootstrap current chat once" for a live one-chat test that
      reads the canonical public GitHub memory-bootstrap pointer and asks
      the chat to resume its own substantive authorized work. Check the
@@ -58,6 +64,7 @@ GitHub source checks do not prove it works in your signed-in account.
      its identity yourself. Account labels alone do not authenticate.
    - User passwords, cookies, chat exports and personal chat content
      never go to public GitHub or a browser automation provider.
+
 
 NO ACCOUNT CREDENTIALS, CHAT EXPORTS OR RECEIPTS SHOULD BE UPLOADED TO
 PUBLIC GITHUB. NEVER POST PAYMENT OR PRIVATE IDENTITY DATA IN CI LOGS.
