@@ -3,6 +3,8 @@ on:
   push:
     paths:
       - 'automation_200/mission_control/**'
+      - 'link-vault/**'
+      - 'docs/PUBLIC_CONTEXT_GRAPH.json'
       - 'i18n/**'
       - 'clarity-brief/**'
       - '.github/ISSUE_TEMPLATE/clarity-brief-pilot.yml'
@@ -13,6 +15,8 @@ on:
   pull_request:
     paths:
       - 'automation_200/mission_control/**'
+      - 'link-vault/**'
+      - 'docs/PUBLIC_CONTEXT_GRAPH.json'
       - 'i18n/**'
       - 'clarity-brief/**'
       - '.github/ISSUE_TEMPLATE/clarity-brief-pilot.yml'
@@ -33,6 +37,15 @@ jobs:
           node-version: '22'
       - name: Test Mission Control read-only model and access labels
         run: node --test automation_200/mission_control/tests/*.test.mjs
+      - name: Test existing Link Vault and Spider Core without external actions
+        run: |
+          python -m unittest discover -s link-vault/tests -p 'test_*.py' -v
+          node --test link-vault/tests/*.test.mjs
+          node --check link-vault/spider-core.js
+          node --check link-vault/spider-shell.js
+          node --check link-vault/owner-actions.js
+          node --check link-vault/sw.js
+          python -m continuity.public_topic_router --check-all
       - name: Test standalone Clarity Card functionality and public integrity
         run: node --test clarity-card/tests/*.test.mjs
       - name: Test learning lab at phone-width Chromium viewport
