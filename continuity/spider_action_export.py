@@ -48,6 +48,9 @@ def candidate_text(body: str, role: str) -> list[str]:
     regex = ASSISTANT_ACTION if role == "assistant" else USER_ACTION
     matches = []
     for match in regex.finditer(body[:30000]):
+        context = body[max(0, match.start()-120):match.start()].split("\n")[-1]
+        if re.search(r"(?i)\b(?:example|sample|hypothetical)\s*:\s*$", context):
+            continue
         snippet = re.sub(r"\s+", " ", match.group(1)).strip(" .:;-\t")
         if len(snippet) < 6 or "http://" in snippet or "https://" in snippet:
             continue
