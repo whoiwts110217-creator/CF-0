@@ -45,5 +45,23 @@ class ConsumerAckTests(unittest.TestCase):
             verify_consumer_ack(self.producer, {**self.ack, "unexpected": "data"})
 
 
+    def test_untrusted_acknowledgement_shapes_fail_closed(self):
+        for invalid in (None, [], "not-an-ack", 0, False):
+            with self.subTest(invalid=invalid), self.assertRaises(ValueError):
+                verify_consumer_ack(self.producer, invalid)
+        for key in self.ack:
+            with self.subTest(missing=key), self.assertRaises(ValueError):
+                verify_consumer_ack(self.producer, {k: v for k, v in self.ack.items() if k != key})
+
+    def test_all_permitted_decisions_remain_non_authorizing(self):
+        for decision in ("accepted_source_only", "rejected", "deferred"):
+            with self.subTest(decision=decision):
+                result = verify_consumer_ack(self.producer, {**self.ack, "decision": decision})
+                self.assertEqual(result["decision"], decision)
+                self.assertFalse(result["acknowledgement_origin_verified"])
+                self.assertFalse(result["execution_authorized"])
+                self.assertFalse(result["hp_identity_attested"])
+
+
 if __name__ == "__main__":
     unittest.main()
