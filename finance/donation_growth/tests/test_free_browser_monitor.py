@@ -149,6 +149,7 @@ class FreePromotionMonitorTests(unittest.TestCase):
     def test_live_browser_registration_has_explicit_request_guard(self):
         source = MODULE.read_text(encoding="utf-8")
         self.assertIn('context.route("**/*", enforce_get_only)', source)
+        self.assertIn('service_workers="block"', source)
         self.assertIn('expected_cash_app_anchor_present', source)
         self.assertNotIn('page.goto("https://cash.app', source)
 
