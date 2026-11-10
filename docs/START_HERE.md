@@ -19,6 +19,7 @@ Caveman Focus is an experimental system for reducing repetitive work by coordina
 | Destination | Direct link |
 |---|---|
 | **Public website** | [Caveman Focus on GitHub Pages](https://whoiwts110217-creator.github.io/CF-0/) |
+| **Owner Action Sphere / side list** | [Open the integrated action rail inside the existing iPhone Link Vault](https://whoiwts110217-creator.github.io/CF-0/link-vault/#owner-actions) · [Dated public-safe action view](../link-vault/owner-actions.json) · [Usage and limitations](../link-vault/README.md) |
 | **iPhone Link Vault / Jungle Compass** | [Open updateable iPhone Home Screen launcher](https://whoiwts110217-creator.github.io/CF-0/link-vault/) · [Refreshable public link catalog](../link-vault/links.json) · [Personal fixes, privacy and installation](../link-vault/README.md) |
 | **Mission Control** | [GitHub Pages dashboard](https://whoiwts110217-creator.github.io/CF-0/mission-control/) · [Restricted tasks](https://whoiwts110217-creator.github.io/CF-0/mission-control/#work-orders) · [Tools and task power](https://whoiwts110217-creator.github.io/CF-0/mission-control/#tool-power) · [Dashboard guide](../automation_200/mission_control/README.md) |
 | **Habit Automator (iPhone installable web app)** | [Open Habit Automator](https://whoiwts110217-creator.github.io/CF-0/mission-control/habit-automator/) · [Source and safety limits](../automation_200/mission_control/dist/habit-automator/README.md) |
