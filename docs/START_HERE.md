@@ -15,6 +15,7 @@ Caveman Focus is an experimental system for reducing repetitive work by coordina
 | Destination | Direct link |
 |---|---|
 | **Public website** | [Caveman Focus on GitHub Pages](https://whoiwts110217-creator.github.io/CF-0/) |
+| **iPhone Link Vault** | [Open searchable Home Screen launcher](https://whoiwts110217-creator.github.io/CF-0/link-vault/) · [Source and privacy notes](../link-vault/README.md) |
 | **Mission Control** | [GitHub Pages dashboard](https://whoiwts110217-creator.github.io/CF-0/mission-control/) · [Restricted tasks](https://whoiwts110217-creator.github.io/CF-0/mission-control/#work-orders) · [Tools and task power](https://whoiwts110217-creator.github.io/CF-0/mission-control/#tool-power) · [Dashboard guide](../automation_200/mission_control/README.md) |
 | **Habit Automator (iPhone installable web app)** | [Open Habit Automator](https://whoiwts110217-creator.github.io/CF-0/mission-control/habit-automator/) · [Source and safety limits](../automation_200/mission_control/dist/habit-automator/README.md) |
 | **Three-chat public continuity** | [Single-link cold start](mesh/START_HERE.md) · [topic graph](PUBLIC_CONTEXT_GRAPH.json) · [public-safe handoff ledger](mesh/handoff_events.jsonl) · [source-level validator](../continuity/public_mesh_handoff.py) |
