@@ -74,7 +74,9 @@ jobs:
       # A prototype game's blank frame must not prevent the CF-0 public status,
       # Mission Control, and English-first homepage from deploying.
       - name: Validate Skill Foundry iPhone web app
-        run: python -m unittest discover -s iphone-skill-foundry/tests -p 'test_*.py' -v
+        run: |
+          python -m unittest discover -s iphone-skill-foundry/tests -p 'test_*.py' -v
+          node --test iphone-skill-foundry/tests/export_runtime.test.cjs iphone-skill-foundry/tests/cache_scope.test.cjs
       - name: Stage curated public website and Dreamkiller emulator
         shell: bash
         run: |

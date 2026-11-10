@@ -1,0 +1,41 @@
+name: Skill Foundry Real Browser Smoke
+
+on:
+  pull_request:
+    paths:
+      - 'iphone-skill-foundry/**'
+      - '.github/workflows/iphone-skill-foundry-browser-smoke.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  real-browser-smoke:
+    name: Real browser / ${{ matrix.engine }}
+    strategy:
+      fail-fast: false
+      matrix:
+        engine: [chromium, webkit]
+    runs-on: ubuntu-24.04
+    # WebKit's apt dependencies can consume ~12 minutes on a cold Ubuntu runner;
+    # keep a bounded allowance for actual tests before cancelling.
+    timeout-minutes: 20
+    env:
+      CF0_BROWSER_ENGINE: ${{ matrix.engine }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install pinned test-only browser driver
+        run: python -m pip install 'playwright==1.57.0'
+      - name: Check system Chrome binary
+        if: matrix.engine == 'chromium'
+        run: |
+          command -v google-chrome || command -v google-chrome-stable || command -v chromium
+      - name: Install test-only WebKit browser and its Linux dependencies
+        if: matrix.engine == 'webkit'
+        run: python -m playwright install --with-deps webkit
+      - name: Exercise actual browser DOM, local ZIP and unrun checklist
+        run: python -m unittest discover -s iphone-skill-foundry/tests -p 'browser_chromium_smoke.py' -v
