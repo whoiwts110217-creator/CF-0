@@ -1,0 +1,33 @@
+# Mission Control P0 — live evidence reconciliation (November 9, 2026)
+
+**Purpose/identity:** CF-0 automation / Master Controller (P0), linked to AUTO-08, CF-200, the public HP relay, UCC-001, and FIN-09. Owner instruction: return to Mission Control, verify actual automation status, repair the next highest-priority source failure, and keep funding work intact. This is a **public-safe aggregate**; full task identities, account run IDs, and private snapshots remain out of public GitHub.
+
+## Observed sources and their actual evidence levels
+
+| Surface | Verified observation | What this does NOT prove |
+|---|---|---|
+| ChatGPT automations | The authenticated account-native read-only list returned **11 total**: **5 enabled, 4 paused, 2 completed**, on November 9. | The public static dashboard cannot independently query this state or actually pause/resume tasks. The six non-enabled task rows cannot all be called 'paused.' |
+| CF-200 scheduled ChatGPT executor | Account-native readback: the **latest recorded run completed**, with a non-failure latest result; the automation remains enabled. | No general continuous execution claim or authenticated HP-origin receipt linkage. |
+| Grant follow-up | Existing Bridge Builders Reply Watch and Hacker Initiative Grant Watch were **enabled** on the authenticated account check. Neither had a recorded completed run in that response. | Being enabled does not itself prove delivery or an award. These schedules were **not** replaced or modified. |
+| GitHub Actions | Current public main has **25 unique workflow files** and source-only inventory rows, including **5 schedule-triggered** entries and the remaining event/manual workflows. [Source inventory](../automation_200/mission_control/dist/controls.mjs). | A workflow file is not proof that a particular GitHub run is currently active or that its effects reached the HP. |
+| Public HP relay | [Health report](../relay/health/latest.json) reported **32 stored receipts** and 10 ping receipts, collected at `2026-11-10T01:22:08+00:00`. | This is a public self-reported snapshot; the physical Windows scheduling origin, identity, unattended repeatability, and particular receipt attribution remain unverified. |
+| AUTO-08 | [Existing source/owner requirements](AUTO_CONTINUATION_CONTROL_2026-11-09.md) and browser tests exist. | No independently verified live 1-chat signed-in acceptance; neither a functional iPhone extension nor account-wide hands-free sweep is proven. |
+| CF-200 registry | [Authoritative registry](../automation_200/registry.json) remains **87/200 source-verified work orders** at this read. | Source fixes and funding emails cannot inflate the count. |
+
+## Concrete repairs and test gates
+
+1. **False paused status repaired:** [PR #76](https://github.com/whoiwts110217-creator/CF-0/pull/76), merged as [`d37132c`](https://github.com/whoiwts110217-creator/CF-0/commit/d37132c3cc77e193cc829941915b27f7070bd30e), changed imported `is_enabled=false` rows from the ungrounded label **'Last reported paused'** to **'Last reported not enabled (pause/completion not distinguished)'**. It also clarified that a user-loaded private file is **not a live authenticated query**.
+2. **Workflow inventory parity restored:** Two new test workflow files appeared while other work was changing. A concurrent merge briefly left duplicate rows, but fresh main readback verified **25 distinct inventory IDs for 25 actual workflow files**, with none missing. [Superseded repair PR #77](https://github.com/whoiwts110217-creator/CF-0/pull/77) was closed without merge to avoid reinstating duplicates.
+3. **Dedicated Mission Control regression passed:** [Actions run 42737247837](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42737247837) passed on PR #76's source after matching the two new workflows; [run 42737519012](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42737519012) passed on the duplicate cleanup branch. Source CI is not a live owner-device test. Earlier failed intermediate runs were retained in GitHub, not reclassified as passing.
+4. **Private import packet prepared:** An authenticated read-only task inventory was converted into a `cf0.private_automation_inventory.v1` JSON file with a dated `observed_at`, stable private task IDs, last observed enabled flags, and the aggregate paused/completed split. The file is offered privately to the owner for the existing Mission Control's **local-only** import. **It is not uploaded to public GitHub or a payment/execution adapter.** This eliminates manual copying of 11 task details; one owner import remains necessary if they want the page to show private names.
+
+## Remaining highest-priority blockers
+
+- **P0 real master switch:** Mission Control is static GitHub Pages. It cannot directly authenticate to ChatGPT's automation provider, Windows Task Scheduler, or the signed-in ChatGPT conversation UI. Its Start/Pause/Resume controls correctly remain **disabled**. Do not misrepresent a read-only account-native check as a wired adapter.
+- **P0 AUTO-08 owner-device acceptance:** Verify one selected signed-in account, one existing Chrome tab, keyboard-only `continue` submission, duplicate checkpoint, safe stop/pause, and a genuine receipt. Respect the [later optional fast-sweep correction](AUTO_CONTINUATION_CONTROL_2026-11-09.md) and do not claim that submit-only means model-completed. Owner-local opt-in remains needed to test on actual Chrome. No public HP relay privilege escalation.
+- **P0 watchdog-to-executor link:** Distinguish GitHub Action run, exact packet/digest and account-native executor run decision, without fabricating correlation.
+- **P1:** Keep owner-editable priority selection and dependencies intact. **P2:** Preserve existing grant reply watches and live free/$5/$15 public offers; no new paid sale, grant award, financial deposit, or current account balance was verified in this P0 audit.
+
+**Source/provenance:** Current public operating master blob `22ae58c3bc1a7513ef45e4c8267ea011a56bb357`, continuity master blob `206a5be2badc807c3829f3d6ff8783d52fb2c0a4`, Work prompt blob `720770a63f056e2f291a13094be22166606b2cfe`; [UCC-001](UNIVERSAL_CONTINUITY_CONTRACT.md), [Master Controller audit](MASTER_CONTROLLER_AUDIT_2026-11-09.md), and the [P0 owner capability contract](../automation_200/OWNER_CAPABILITY_CONTRACT.json). Any later run must fetch these from *latest main* again, not assume these blobs remain current.
+
+**Rollback:** PR #76 can be reverted without touching private account/HP status; this evidence file is a source-only record and can be reverted separately. No private file contents or automation IDs are embedded in this document.
