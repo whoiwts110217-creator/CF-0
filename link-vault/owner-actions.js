@@ -61,6 +61,7 @@ function render(){
   if(a.project_id)card.append(make("p","oa-thread","Thread: "+a.project_id+(a.project_checked?" · linked project":" · source mapping pending")+(a.conflict?" · CONFLICT":"")));
   if(a.origin==="owner_local")card.append(make("p","oa-thread","PRIVATE · imported into this browser's memory only"));
   if(a.conflict)card.append(make("p","oa-warning","Source disagreement — inspect originals before resolving"));
+  if(a.due_date)card.append(make("p",a.due_state==="overdue"?"oa-warning":"oa-thread","Documented deadline: "+a.due_date+" · "+a.due_state));
   const buttons=make("div","oa-item-buttons");const link=make("a","oa-small main",a.label+" ↗");link.href=a.link;link.target="_blank";link.rel="noopener noreferrer";buttons.append(link);
   const trace=make("button","oa-small oa-inspect","Trace thread");trace.type="button";buttons.append(trace);
   if(a.owner==="owner"&&a.zone!=="waiting"){
@@ -80,7 +81,7 @@ function render(){
   card.append(detail);list.append(card);
  }
 }
-function adopt(data,network){validData(data);catalog=data.actions;revision=data.revision;get("oa-status").textContent=(network?"Public view refreshed":"Saved view · not checked now")+" · "+revision+" · "+data.as_of;render()}
+function adopt(data,network){validData(data);catalog=data.actions;revision=data.revision;get("oa-status").textContent=(network?"Public snapshot fetched":"Saved snapshot, not checked now")+" · "+revision+" · "+data.as_of+" · "+(window.CFSpiderCore?window.CFSpiderCore.snapshotAge(data.as_of):"age unknown")+" (not provider verification)";render()}
 async function refresh(){
  const button=get("oa-refresh");button.disabled=true;get("oa-status").textContent="Checking public view…";
  try{
