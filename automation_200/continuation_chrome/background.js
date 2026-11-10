@@ -10,6 +10,9 @@ let stateWrites=Promise.resolve();
 let live=null;
 let launching=false;
 let cancelRequested=false;
+// STOP must invalidate launches that are already waiting on an async state read.
+// A later, separately requested START captures the new generation and remains allowed.
+let stopGeneration=0;
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 const stamp=()=>new Date().toISOString();
 const getState=()=>statePromise ||= chrome.storage.local.get(KEY).then(async data=>{
@@ -299,6 +302,14 @@ chrome.tabs.onCreated.addListener(async(tab)=>{
   live.dialogIssue='NEW_POPUP_TAB_NEEDS_OWNER_REVIEW';live.stop=true;
 });
 chrome.runtime.onMessage.addListener((message,sender,sendResponse)=>{
+  // Immediate cancellation intent: never wait on a slow Chrome storage read
+  // before telling an already-starting worker to stop.
+  if(message?.type==='STOP'){
+    stopGeneration++;
+    cancelRequested=true;
+    if(live){live.stop=true;live.stopReason='USER_STOP';}
+  }
+  const launchGeneration=stopGeneration;
   (async()=>{
     const s=await getState();
     switch(message?.type){
@@ -374,6 +385,7 @@ chrome.runtime.onMessage.addListener((message,sender,sendResponse)=>{
         return {ok:true,message:`Captured ${found.length} visible chats (${added.length} new; ${s.queue.length+added.length} queued). This is not a full account discovery. No message sent.`};
       }
       case 'CONTINUE_CURRENT': {
+        if(stopGeneration!==launchGeneration)throw Error('STOP_REQUESTED');
         if(live||launching)throw Error('ALREADY_RUNNING');
         if(!s.account)throw Error('SELECT_ACCOUNT_FIRST');
         launching=true;
@@ -392,6 +404,7 @@ chrome.runtime.onMessage.addListener((message,sender,sendResponse)=>{
         }
       }
       case 'START': {
+        if(stopGeneration!==launchGeneration)throw Error('STOP_REQUESTED');
         if(live||launching)throw Error('ALREADY_RUNNING');
         if(!s.account)throw Error('SELECT_ACCOUNT_FIRST');
         if(!s.queue.length)throw Error('IMPORT_QUEUE_FIRST');
