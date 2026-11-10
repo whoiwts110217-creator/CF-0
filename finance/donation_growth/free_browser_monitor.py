@@ -135,7 +135,7 @@ def collect() -> dict:
     with sync_playwright() as p:
         browser = p.chromium.launch(headless=True)
         try:
-            context = browser.new_context(accept_downloads=False)
+            context = browser.new_context(accept_downloads=False, service_workers="block")
             # Prevent third-party page scripts from sending non-read-only requests.
             context.route("**/*", enforce_get_only)
             page = context.new_page()
