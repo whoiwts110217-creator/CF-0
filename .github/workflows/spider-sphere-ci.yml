@@ -1,0 +1,54 @@
+name: CF-0 Spider Sphere Source Acceptance
+on:
+  pull_request:
+    paths:
+      - 'link-vault/**'
+      - 'docs/PUBLIC_CONTEXT_GRAPH.json'
+      - 'docs/SPIDER_SPHERE_*.md'
+      - 'automation_200/mission_control/dist/index.html'
+      - '.github/workflows/spider-sphere-ci.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'link-vault/**'
+      - 'docs/PUBLIC_CONTEXT_GRAPH.json'
+      - '.github/workflows/spider-sphere-ci.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  source-acceptance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v4
+      - name: Existing Link Vault regressions
+        run: python -m unittest discover -s link-vault/tests -p "test_*.py" -v
+      - name: Spider Core deterministic cases
+        run: node --test link-vault/tests/*.test.mjs
+      - name: JavaScript parse and project graph validation
+        run: |
+          node --check link-vault/spider-core.js
+          node --check link-vault/spider-shell.js
+          node --check link-vault/owner-actions.js
+          node --check link-vault/sw.js
+          python -m continuity.public_topic_router --check-all
+      - name: Verify existing app, cached assets and real source connections
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json
+          page=Path("link-vault/index.html").read_text(encoding="utf-8")
+          sw=Path("link-vault/sw.js").read_text(encoding="utf-8")
+          js=Path("link-vault/owner-actions.js").read_text(encoding="utf-8")
+          graph=json.loads(Path("docs/PUBLIC_CONTEXT_GRAPH.json").read_text(encoding="utf-8"))
+          actions=json.loads(Path("link-vault/owner-actions.json").read_text(encoding="utf-8"))
+          assert page.index("spider-core.js") < page.index("owner-actions.js") < page.index("spider-shell.js")
+          assert all(name in sw for name in ("spider-core.js","spider-shell.js"))
+          ids={node["id"] for node in graph["nodes"]}
+          assert "CF-SPIDER-001" in ids and "CF-LINK-VAULT-001" in ids
+          assert len(actions["actions"])==22
+          assert all(item["project_id"] in ids for item in actions["actions"])
+          assert "validateManifest" in js and "core.connect" in js and "oa-import" in js
+          assert "chatgpt.com/c/" not in json.dumps(actions)
+          PY
