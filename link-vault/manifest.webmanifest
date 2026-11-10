@@ -1,0 +1,19 @@
+{
+  "name": "Caveman Focus Link Vault",
+  "short_name": "CF Link Vault",
+  "id": "./",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#060d15",
+  "theme_color": "#07121d",
+  "description": "iPhone launchpad for public Caveman Focus projects and resources",
+  "icons": [
+    {
+      "src": "./icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
