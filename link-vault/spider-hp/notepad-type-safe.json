@@ -1,0 +1,10 @@
+{
+  "schema": "cf0.spider.hp_plan.v1",
+  "app": "notepad",
+  "steps": [
+    { "op": "launch" },
+    { "op": "wait", "selector": { "control_type": "Document" }, "timeout_ms": 5000 },
+    { "op": "type_safe", "selector": { "control_type": "Document" }, "text": "CF0 Spider local test" },
+    { "op": "assert_contains", "selector": { "control_type": "Document" }, "text": "CF0 Spider local test" }
+  ]
+}
