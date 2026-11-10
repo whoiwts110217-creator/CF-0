@@ -3,6 +3,12 @@
 **Parent:** CF-CORE / UCC-001 · **Related:** CF-FRESH-001, CF-MESH-001, Mission Control, CF-200, FIN-09, owner Jungle Map, Skill Foundry. 
 **Owner update:** November 10, 2026 — Links are operational navigation, not decoration. The launcher must help the owner find the right workstream, update routes without replacing the whole app, and recover after a stale bookmark.
 
+## Action Sphere and unified side rail (November 10)
+
+The **same Link Vault Home Screen app** now includes [My Action Sphere](https://whoiwts110217-creator.github.io/CF-0/link-vault/#owner-actions) beneath the Jungle Compass. It has interactive orbit filters (`My turn`, `Later`, `Waiting`, `AI work`, `All`, `Checked locally`) connected to a scrollable side rail. Items point to existing authoritative project sources. This is **not** a duplicate master task registry, a live scan of private ChatGPT conversations, or a remote executor. The dated public-safe view is [`owner-actions.json`](owner-actions.json); `CF-ACT-###` view IDs are not CF-200 task-completion evidence.
+
+Checkmarks are local reminders, not official verification or a notification to other chats. Existing **Export my backup / Import backup** now carries checkmarks along with personal links, favorites and corrections; keep backups containing private personal shortcuts in private Files storage. **Backup my checks** exports only this view's reminders. Refresh fetches the source view, not external provider truth. PWA v3 caches these assets, subject to live Pages and physical iPhone verification.
+
 ## Open and install
 
 **Launch URL:** https://whoiwts110217-creator.github.io/CF-0/link-vault/
