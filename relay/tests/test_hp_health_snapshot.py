@@ -71,6 +71,24 @@ class HPHealthSnapshotTests(unittest.TestCase):
                     self.assertTrue(state["reported_problem"])
                     self.assertEqual(state["scheduled_origin"], "not_verified_by_public_report")
 
+
+    def test_ping_count_is_bounded_to_latest_200_receipts(self):
+        with tempfile.TemporaryDirectory() as home:
+            folder = pathlib.Path(home) / ".caveman_focus_relay"
+            folder.mkdir()
+            with contextlib.closing(sqlite3.connect(folder / "relay.sqlite3")) as db:
+                db.execute("CREATE TABLE receipts (receipt TEXT)")
+                ping = json.dumps({"status": "completed", "result": {"pong": True, "protocol": 1}})
+                other = json.dumps({"status": "completed", "result": {"note": "not-a-ping"}})
+                db.execute("INSERT INTO receipts VALUES (?)", (ping,))
+                db.executemany("INSERT INTO receipts VALUES (?)", [(other,)] * 200)
+                db.commit()
+            report = snapshot(home)
+            self.assertEqual(report["receipt_count"], 201)
+            self.assertEqual(report["ping_receipt_count"], 0)
+            self.assertEqual(report["last_receipt_status"], "completed")
+            self.assertIsNone(report["error"])
+
     def test_snapshot_releases_database_handle(self):
         # A leaked read-only handle prevents rename/cleanup on Windows.
         with tempfile.TemporaryDirectory() as home:
