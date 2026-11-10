@@ -38,9 +38,10 @@ function draw() {
       const description=element("div","control-description");
       const title=element("strong","control-title",x.title);
       const note=element("small","control-detail",x.detail);
+      const evidence=element("small","control-detail",x.source==="chatgpt" ? (privateAutomations===null ? "Evidence: historic placeholder; no account readback." : "Evidence: owner-selected private file; dated live state not authenticated.") : x.source==="github" ? "Evidence: public workflow source only; current enabled/running state not queried." : x.source==="windows" ? "Evidence: documented owner-local task; physical status not queried." : "Evidence: Chrome runner source only; installed/live control not verified.");
       const status=element("span","badge",inventoryStatus(x));
       status.dataset.tone="muted";
-      description.append(title,note,status);
+      description.append(title,note,evidence,status);
       const actions=element("div","control-row-actions");
       if(x.url) {
         const link=element("a","tiny-link","View source");
