@@ -847,7 +847,7 @@
     if(raw.byteLength>262144)throw Error('Skill file exceeds the 256 KB limit.');
     const body=new TextDecoder('utf-8',{fatal:true}).decode(raw);
     if(!body.trim()||body.includes('\u0000'))throw Error('Choose a nonempty UTF-8 text skill.');
-    if(!crypto?.subtle?.digest)throw Error('Secure local SHA-256 hashing is not available in this browser.');
+    if(typeof crypto==='undefined'||!crypto.subtle||typeof crypto.subtle.digest!=='function')throw Error('Secure local SHA-256 hashing is not available in this browser.');
     const hash=Array.from(new Uint8Array(await crypto.subtle.digest('SHA-256',raw))).map(b=>b.toString(16).padStart(2,'0')).join('');
     return {hash,bytes:raw.byteLength,lines:body.split('\n').length,text:body};
   }
