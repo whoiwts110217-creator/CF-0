@@ -27,8 +27,8 @@ function announce(message, type="neutral") {
   const el = $("toast"); el.textContent = message; el.dataset.tone = type;
 }
 function save() {
-  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); storageReady=true; }
-  catch { storageReady=false; announce("Private storage is unavailable. Export a backup before leaving.", "warn"); }
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); storageReady=true; return true; }
+  catch { storageReady=false; announce("Private storage is unavailable. Export a backup before leaving.", "warn"); return false; }
 }
 function load() {
   try {
@@ -196,7 +196,8 @@ async function importBackup(file){
     if(file.size>256*1024)throw Error("Backup exceeds 256 KB");
     const imported=parseState(await file.text());
     if(!confirm("Replace all locally saved routines and history with this backup?"))return;
-    state=imported;save();clearForm();render();announce("Private backup restored on this device.","ok");
+    state=imported;const persisted=save();clearForm();render();
+    announce(persisted ? "Private backup restored on this device." : "Backup loaded for this session only. Storage is unavailable; export a private backup before leaving.",persisted?"ok":"warn");
   }catch(e){announce("Import rejected: "+e.message,"warn");}
 }
 function installEvents(){
