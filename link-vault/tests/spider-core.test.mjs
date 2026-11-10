@@ -86,3 +86,17 @@ test("no private chat URLs, contact rows or tokens are shipped in public view",(
  assert.ok(!raw.includes("@gmail.com"));
  assert.ok(!raw.includes("access_token="));
 });
+test("snapshot age flags stale and future-dated public evidence",()=>{
+ assert.equal(core.snapshotAge("2026-10-01","2026-11-10"),"stale");
+ assert.equal(core.snapshotAge("2026-11-11","2026-11-10"),"future_conflict");
+ assert.equal(core.snapshotAge("2026-11-10","2026-11-10"),"dated_snapshot");
+ assert.equal(core.snapshotAge("unknown","2026-11-10"),"unknown");
+});
+test("overdue documented deadline is not a verified task outcome",()=>{
+ assert.equal(core.dueState("2026-11-13","2026-11-12"),"upcoming");
+ assert.equal(core.dueState("2026-11-13","2026-11-13"),"due_today");
+ assert.equal(core.dueState("2026-11-13","2026-11-14"),"overdue");
+ const a=core.normalizeAction({...item,due_date:"2026-11-13"},"public_snapshot");
+ assert.equal(a.due_state,"upcoming" === core.dueState("2026-11-13") ? "upcoming" : core.dueState("2026-11-13"));
+ assert.equal(a.evidence_level,"public_source_snapshot");
+});
