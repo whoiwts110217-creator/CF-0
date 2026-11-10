@@ -13,7 +13,7 @@
 
 **[CURRENT PUBLIC STATUS — November 9 cross-project audit](docs/PROJECT_STATUS.md)** — 87/200 source-verified CF-200 work orders; five enabled account automations at the dated check; HP/one-tab AUTO-08 autonomy still unproven; grant, service, archive, iPhone and skill-install status clearly separated from completed outcomes. Only sanitized public-safe evidence is shown.
 
-**[START HERE — site, Mission Control, master prompts, HP commands, AI Tracker](docs/START_HERE.md)**
+**[FREE BROWSER PROMOTION MONITOR](docs/FREE_BROWSER_PROMOTION_2026-11-09.md)** — real daily Playwright/Chromium checks on free public GitHub Actions runners; first successful [browser run](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42748168761) confirmed public pages reachable and Hype Star listing not yet public. Not an autonomous social poster or income receipt.\n\n**[START HERE — site, Mission Control, master prompts, HP commands, AI Tracker](docs/START_HERE.md)**
 
 **[PUBLIC TASKS & ISSUES](docs/TASKS_AND_ISSUES.md) — what we're doing, what's blocked, and what needs your decision**
 
