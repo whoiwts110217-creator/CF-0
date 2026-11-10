@@ -1,5 +1,5 @@
 /* CF-LINK-VAULT-001 — owner action overlay. Public-safe view; not an execution control. */
-.oa-shell{margin:22px 0 28px;padding:20px;border:1px solid #3c8296;border-radius:24px;background:radial-gradient(ellipse at 23% 35%,#0d3746 0,transparent 48%),linear-gradient(130deg,#0b1e2d,#071322);box-shadow:0 16px 55px #0006;position:relative;overflow:hidden}
+.oa-shell{scroll-margin-top:16px;margin:22px 0 28px;padding:20px;border:1px solid #3c8296;border-radius:24px;background:radial-gradient(ellipse at 23% 35%,#0d3746 0,transparent 48%),linear-gradient(130deg,#0b1e2d,#071322);box-shadow:0 16px 55px #0006;position:relative;overflow:hidden}
 .oa-shell:before{content:"";position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,transparent 0 29px,#78e5f509 30px)}
 .oa-head,.oa-layout,.oa-tools{position:relative}.oa-kicker{font-size:10px;letter-spacing:.18em;font-weight:850;color:#8cedf6}.oa-head{display:flex;align-items:center;justify-content:space-between;gap:12px}.oa-head h2{margin:5px 0 7px;font-size:clamp(23px,5vw,34px);letter-spacing:-.035em}.oa-head p{color:#b7d0df;margin:0 0 12px;max-width:720px;font-size:13px}
 .oa-live{color:#b7d9de;border:1px solid #447182;border-radius:30px;padding:5px 9px;white-space:nowrap;font-size:10px}
