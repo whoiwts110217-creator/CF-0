@@ -53,7 +53,7 @@ function harness(options = {}) {
     async share() {
       if (options.shareError) throw Object.assign(new Error("Share rejected"), {name: options.shareError});
     },
-    clipboard: {async writeText(value) {clipboardWrites.push(value);}},
+    clipboard: {async writeText(value) {if(options.clipboardThrows)throw Error('Clipboard denied');clipboardWrites.push(value);}},
   };
   const url = {
     createObjectURL() {
@@ -282,4 +282,78 @@ test("changing a comparison file invalidates previously prepared review", async 
   await h.fire("reviewCandidate", "change");
   assert.equal(h.context.document.getElementById("reviewDownload").disabled, true);
   assert.match(h.context.document.getElementById("reviewResults").textContent, /unrun evaluation/i);
+});
+
+
+function deferredHashes(h) {
+  const pending = [];
+  h.context.crypto = {
+    subtle: {
+      digest(algorithm, bytes) {
+        return new Promise((resolve, reject) => {
+          pending.push(async () => {
+            try { resolve(await webcrypto.subtle.digest(algorithm, bytes)); }
+            catch (err) { reject(err); }
+          });
+        });
+      },
+    },
+  };
+  return pending;
+}
+
+test("file selection during slow hashing never resurrects a stale checklist", async () => {
+  const h = harness();
+  const hashes = deferredHashes(h);
+  const get = h.context.document.getElementById;
+  get("reviewBaseline").files = [new Blob(["Old version A"])];
+  get("reviewCandidate").files = [new Blob(["New version A"])];
+  const first = h.fire("reviewCompareFiles");
+  await new Promise(resolve => setImmediate(resolve));
+  assert.equal(hashes.length, 2);
+  get("reviewCandidate").files = [new Blob(["Changed candidate B"])];
+  await h.fire("reviewCandidate", "change");
+  await Promise.all(hashes.map(fn => fn()));
+  await first;
+  assert.equal(get("reviewDownload").disabled, true);
+  assert.equal(get("reviewCopy").disabled, true);
+  assert.match(get("reviewResults").textContent, /unrun evaluation/i);
+});
+
+test("older hash result cannot overwrite newer comparison completed first", async () => {
+  const h = harness();
+  const hashes = deferredHashes(h);
+  const get = h.context.document.getElementById;
+  get("reviewBaseline").files = [new Blob(["Baseline one"])];
+  get("reviewCandidate").files = [new Blob(["Candidate one"])];
+  const first = h.fire("reviewCompareFiles");
+  await new Promise(resolve => setImmediate(resolve));
+  assert.equal(hashes.length, 2);
+
+  get("reviewBaseline").files = [new Blob(["Baseline two"])];
+  get("reviewCandidate").files = [new Blob(["Candidate two"])];
+  const second = h.fire("reviewCompareFiles");
+  await new Promise(resolve => setImmediate(resolve));
+  assert.equal(hashes.length, 4);
+  await Promise.all(hashes.slice(2).map(fn => fn()));
+  await second;
+  assert.equal(get("reviewDownload").disabled, false);
+  assert.ok(get("reviewResults").textContent.includes(createHash("sha256").update("Baseline two").digest("hex")));
+  await Promise.all(hashes.slice(0, 2).map(fn => fn()));
+  await first;
+  assert.equal(get("reviewDownload").disabled, false);
+  assert.ok(get("reviewResults").textContent.includes(createHash("sha256").update("Baseline two").digest("hex")));
+  assert.ok(!get("reviewResults").textContent.includes(createHash("sha256").update("Baseline one").digest("hex")));
+});
+
+test("clipboard-denied synthesis selection invalidates previously prepared comparison", async () => {
+  const h = harness({clipboardThrows: true});
+  const get = h.context.document.getElementById;
+  get("reviewBaseline").files = [new Blob(["Prior method"])];
+  await h.fire("reviewCompareGenerated");
+  assert.equal(get("reviewDownload").disabled, false);
+  await h.fire("copySynthesis");
+  assert.equal(get("reviewDownload").disabled, true);
+  assert.equal(get("reviewCopy").disabled, true);
+  assert.match(get("reviewResults").textContent, /unrun evaluation/i);
 });
