@@ -98,18 +98,53 @@ def audit(root: Path = ROOT) -> list[str]:
             errors.append(f"Missing authority at line {n}")
         if event.get("status") != "applied":
             errors.append(f"Unexpected applied log status at line {n}")
-        commit = event.get("commit")
-        if not isinstance(commit, str) or not SHA.fullmatch(commit):
-            errors.append(f"Invalid commit SHA at line {n}")
-        prior = event.get("before_blob_sha")
-        if prior is not None and (not isinstance(prior, str) or not SHA.fullmatch(prior)):
-            errors.append(f"Invalid previous blob SHA at line {n}")
-        changed = event.get("after_blob_sha")
-        if changed is not None and (not isinstance(changed, str) or not SHA.fullmatch(changed)):
-            errors.append(f"Invalid result blob SHA at line {n}")
-        path = event.get("path")
-        if isinstance(path, str) and path in PROMPTS and isinstance(changed, str):
-            latest[path] = changed
+        if "paths" in event:
+            # A single owner decision may update multiple canonical prompts in
+            # separately committed steps. Preserve the original append-only
+            # event; validate each path/commit/hash instead of demanding one
+            # invented top-level commit or rewriting project history.
+            changes = event["paths"]
+            if (not isinstance(changes, list) or not changes
+                    or len(changes) > len(PROMPTS)
+                    or any(key in event for key in ("path", "commit", "after_blob_sha"))):
+                errors.append(f"Invalid multi-path change record at line {n}")
+                changes = []
+            paths_seen = set()
+            for i, change in enumerate(changes, 1):
+                if not isinstance(change, dict):
+                    errors.append(f"Invalid nested prompt change at line {n} item {i}")
+                    continue
+                path = change.get("path")
+                if path not in PROMPTS or path in paths_seen:
+                    errors.append(f"Unknown or duplicated prompt path at line {n} item {i}")
+                    continue
+                paths_seen.add(path)
+                commit = change.get("commit")
+                before = change.get("before_blob_sha")
+                after = change.get("after_blob_sha")
+                if not isinstance(commit, str) or not SHA.fullmatch(commit):
+                    errors.append(f"Invalid nested commit SHA at line {n} item {i}")
+                if not isinstance(before, str) or not SHA.fullmatch(before):
+                    errors.append(f"Invalid nested previous blob SHA at line {n} item {i}")
+                if not isinstance(after, str) or not SHA.fullmatch(after):
+                    errors.append(f"Invalid nested result blob SHA at line {n} item {i}")
+                if (isinstance(commit, str) and SHA.fullmatch(commit)
+                        and isinstance(before, str) and SHA.fullmatch(before)
+                        and isinstance(after, str) and SHA.fullmatch(after)):
+                    latest[path] = after
+        else:
+            commit = event.get("commit")
+            if not isinstance(commit, str) or not SHA.fullmatch(commit):
+                errors.append(f"Invalid commit SHA at line {n}")
+            prior = event.get("before_blob_sha")
+            if prior is not None and (not isinstance(prior, str) or not SHA.fullmatch(prior)):
+                errors.append(f"Invalid previous blob SHA at line {n}")
+            changed = event.get("after_blob_sha")
+            if changed is not None and (not isinstance(changed, str) or not SHA.fullmatch(changed)):
+                errors.append(f"Invalid result blob SHA at line {n}")
+            path = event.get("path")
+            if isinstance(path, str) and path in PROMPTS and isinstance(changed, str):
+                latest[path] = changed
         if isinstance(event_id, str) and event_id not in bin_content:
             errors.append(f"Change event {event_id} missing from approval bin")
     for path in PROMPTS:
