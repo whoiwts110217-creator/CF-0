@@ -65,7 +65,7 @@ footer{border-top:1px solid var(--line);padding:25px 0 50px;color:var(--muted);f
 <section class="panel" aria-labelledby="preview-title">
 <h2 id="preview-title">Your Clarity Card</h2><p class="tiny">Preview — editable only through the worksheet on the left/above.</p>
 <div id="card-preview" role="region" aria-label="Clarity Card preview" tabindex="0"></div>
-<div class="actions no-print"><button class="btn" id="download" type="button">Save as .txt</button><button class="btn alt" id="copy" type="button">Copy card</button><button class="btn alt" id="print" type="button">Print / Save PDF</button></div>
+<div class="actions no-print"><button class="btn" id="download" type="button">Save as .txt</button><button class="btn alt" id="copy" type="button">Copy card</button><button class="btn alt" id="share-link" type="button" aria-label="Share the free tool link, not your worksheet">Share free tool link</button><button class="btn alt" id="print" type="button">Print / Save PDF</button></div>
 <p class="status no-print" id="status" role="status" aria-live="polite"></p>
 <details class="no-print"><summary>What the example demonstrates</summary><p>The sample explores whether strangers can understand a public project page. It includes a proposed test, not fabricated visitor findings. Use it as a model for a specific, falsifiable next step.</p></details>
 </section>
@@ -126,6 +126,35 @@ footer{border-top:1px solid var(--line);padding:25px 0 50px;color:var(--muted);f
     try{if(!navigator.clipboard?.writeText)throw Error("Clipboard unavailable");
       await navigator.clipboard.writeText(renderText());status.textContent="Clarity Card copied.";
     }catch{status.textContent="Clipboard access isn't available here. Use Save as .txt or Print / Save PDF instead."}
+  });
+  // Privacy gate: sharing sends ONLY this public URL, never the card fields or preview.
+  const publicToolUrl="https://whoiwts110217-creator.github.io/CF-0/clarity-card/";
+  document.getElementById("share-link").addEventListener("click",async()=>{
+    if(typeof navigator.share==="function"){
+      try{
+        await navigator.share({
+          title:"Caveman Focus — free Clarity Card",
+          text:"A free worksheet for turning questions into testable steps.",
+          url:publicToolUrl
+        });
+        status.textContent="Sharing dialog closed. This page did not post anything or share your worksheet.";
+        return;
+      }catch(error){
+        if(error && error.name==="AbortError"){
+          status.textContent="Sharing canceled. Nothing was posted or copied.";
+          return;
+        }
+      }
+    }
+    if(window.isSecureContext && navigator.clipboard?.writeText){
+      try{
+        await navigator.clipboard.writeText(publicToolUrl);
+        status.textContent="Public tool link copied. Your worksheet was not shared.";
+        return;
+      }catch(_){ /* Show manual-copy fallback. */ }
+    }
+    window.prompt("Copy this public link to share yourself:",publicToolUrl);
+    status.textContent="Copy the public link from the dialog. Your worksheet stays in this browser.";
   });
   document.getElementById("print").addEventListener("click",()=>window.print());
   update();
