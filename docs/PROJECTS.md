@@ -1,6 +1,8 @@
 # Caveman Focus public project index
 
-**Updated November 9, 2026 (Eastern).** This grouped index tracks publicly documented projects and workstreams. The original list of approximately **37 projects** remains unrecovered. The separately held **62-entry reconstruction** includes subprojects and workstreams.
+**Updated November 9, 2026 (Eastern).**
+
+**Cold-start spiderweb for three chats:** [CF-MESH-001 public continuity contract](PUBLIC_THREE_CHAT_CONTINUITY_MESH.md) · [machine-readable public topic graph](PUBLIC_CONTEXT_GRAPH.json) · [read-only topic resolver](../continuity/public_topic_router.py). The current topic stays the anchor: these links recover directly connected workstreams without switching the user's subject or implying access to private conversations. This is a bounded public index, not the entire original archive. This grouped index tracks publicly documented projects and workstreams. The original list of approximately **37 projects** remains unrecovered. The separately held **62-entry reconstruction** includes subprojects and workstreams.
 
 [Operating structure](START_HERE.md#how-the-work-fits-together) · [Current tasks and issues](TASKS_AND_ISSUES.md) · [Public continuity evidence](CONTINUITY.md) · [Mission Control](https://whoiwts110217-creator.github.io/CF-0/mission-control/)
 
