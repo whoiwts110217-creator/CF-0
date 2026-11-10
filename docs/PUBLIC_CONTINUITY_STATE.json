@@ -200,7 +200,24 @@
       "canonical_packet_hash_recomputed_in_python": true,
       "full_unmodified_native_provider_record_executed_in_python": false,
       "private_test_script_publicly_published": false,
-      "test_note": "Original SHA-confirmed Python modules executed locally using exact source-observed packet/ack fields and reconstructed native provider completion metadata. One provider-native completed response inspected independently; raw complete private response was not transferred as Python fixture. No cryptographic attestation, HP origin or work order acceptance claimed."
+      "test_note": "Original SHA-confirmed Python modules executed locally using exact source-observed packet/ack fields and reconstructed native provider completion metadata. One provider-native completed response inspected independently; raw complete private response was not transferred as Python fixture. No cryptographic attestation, HP origin or work order acceptance claimed.",
+      "provider_recorded_source_only_matches_count": 2,
+      "additional_source_only_matches": [
+        {
+          "watchdog_run_id": 42746746870,
+          "watchdog_attempt": 1,
+          "watchdog_job_id": 129600554226,
+          "watchdog_event": "push",
+          "source_commit": "dbbf0cc677da56326494b10507564da8185487bd",
+          "packet_sha256": "4558726c30a5500398a9d93bffb38b0e8fd291f4cd941fab683b52b29f4324c9",
+          "native_executor_completed_at_utc": "2026-11-10T03:16:26.760501Z",
+          "provider_record_decision": "accepted_source_only",
+          "full_private_provider_run_id_public": false,
+          "python_correlator_projected_source_observed_fields": "passed",
+          "negative_mutation_cases_rejected": 6
+        }
+      ],
+      "boundary": "Two separate native completed CF-200 results matched two distinct public watchdog packets; the second was push-triggered (first schedule-triggered). Neither result proves cloud-provider cryptographic attestation, hardware HP scheduler origin, a live AUTO-08 interaction, or an executed CF-200 task. Python exact-source correlator was run on projected fields not raw full private payloads."
     },
     "bridge_builders_followup": "Do not assume not-submitted; owner reported done/sent, but connected Gmail had no application confirmation or funder acknowledgement when checked. Existing watch continues through Nov 13; avoid duplicate submission or changing applicant declaration without the owner's confirmation of a failure."
   },
