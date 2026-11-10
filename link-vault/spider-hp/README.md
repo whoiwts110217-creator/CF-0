@@ -40,6 +40,25 @@ powershell.exe -NoProfile -File .\link-vault\spider-hp\Spider-HP.ps1 -Mode Reset
 
 A second example plan, [calculator-inspect.json](calculator-inspect.json), launches Calculator and inspects its UI. An optional [notepad-type-safe.json](notepad-type-safe.json) attempts to type a fixed safe test phrase and verify it, **only** when a unique empty Document control exposes readable text and the window is foreground. Newer Notepad builds may refuse; that is a safe outcome, not permission to guess coordinates. We have not run the commands on the owner's HP. Keep sensitive documents closed for the first test. To stop a single long Windows UI Automation call that has stalled, terminate the local PowerShell process: STOP is checked only between operations.
 
+## Multi-app chain: the Spider handles a sequence by itself
+
+The separate [Spider-Multi.ps1](Spider-Multi.ps1) is **not a second operating system**. It composes the same reviewed [Spider-HP.ps1](Spider-HP.ps1) driver with a tiny bounded [default queue](spider-multi-demo.json): launch/inspect Notepad, then launch/inspect Calculator. It validates **all** bundled steps before any live actions, and stops the sequence after an error or STOP. The demo requires no additional software and performs no file writes beyond the owner's explicit STOP flag. Repeated plan names, arbitrary paths, unknown plans and unreviewed app commands are rejected.
+
+First inspect without changing the desktop:
+
+~~~powershell
+powershell.exe -NoProfile -File .\link-vault\spider-hp\Spider-Multi.ps1 -Mode Validate
+powershell.exe -NoProfile -File .\link-vault\spider-hp\Spider-Multi.ps1 -Mode Run
+~~~
+
+Then, only after reviewing the queue and being physically at the unlocked HP, run the two-app sequence:
+
+~~~powershell
+powershell.exe -NoProfile -File .\link-vault\spider-hp\Spider-Multi.ps1 -Mode Run -Execute -OwnerOptIn
+~~~
+
+To stop, run the same [Spider-HP.ps1](Spider-HP.ps1) STOP command; the master checks the same local file before and between operations. It never starts a Windows service or background task. This is **actual deterministic multi-app navigation code**, but owner-device acceptance and richer adaptive capabilities remain unverified.
+
 ## How to grow it into a real multitool Spider
 
 The machine-readable plan schema is cf0.spider.hp_plan.v1 with one explicit allowlisted app and 1–12 steps: launch, inspect, wait, read, invoke, type_safe, assert_contains. Controls are selected using exact UIA AutomationId / Name and optionally ControlType; actions fail on multiple matches. The runner uses no shell-command field, network endpoint or provider keys. This enables deterministic HP tasks without paying for a reasoning model. Expanding to the owner's other applications requires reviewed selector recipes and separate owner-approved allowlisting, not a silent public relay change.
