@@ -174,5 +174,17 @@
       "hp_scheduler_to_receipt": "not_yet_verified",
       "readback_note": "Normalized GitHub jobs connector omitted some metadata; raw read-only Actions run-jobs endpoint exposed attempt, SHA and step timing. No provider-native executor acknowledgement confirmed."
     }
+  },
+  "website_deployment": {
+    "evidence_as_of_utc": "2026-11-10T02:58:47Z",
+    "state": "github_pages_deploy_success_live_browser_functionality_not_independently_verified",
+    "successful_run_id": 42746175130,
+    "source_commit": "ed26a626e9d2af354cf166aafb30c9abc98715c4",
+    "workflow_step_evidence": "snapshot_tests_skill_foundry_validation_staging_navigation_upload_deploy_all_success",
+    "previous_failure_run_id": 42739858197,
+    "previous_failure": "first attempt queued deployment failed; rerun failed due to two github-pages artifacts in same run",
+    "live_page_interaction": "unverified",
+    "physical_hp_unattended": "unverified",
+    "source": "https://github.com/whoiwts110217-creator/CF-0/actions/runs/42746175130"
   }
 }
