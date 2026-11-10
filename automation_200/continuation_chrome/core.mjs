@@ -91,6 +91,7 @@ export function readinessVerdict(snapshot, expectedId) {
   if (!hasLoadedConversation(snapshot)) return 'CONVERSATION_HISTORY_NOT_LOADED';
   if (!snapshot.composerVisible) return 'COMPOSER_NOT_READY';
   if (snapshot.stopVisible||snapshot.busy) return 'ALREADY_RESPONDING';
+  if (snapshot.lastTurnIsUser===true) return 'UNANSWERED_USER_TURN';
   if (snapshot.draft) return 'OWNER_DRAFT_PRESENT';
   return 'READY_ACCOUNT_UNVERIFIED';
 }

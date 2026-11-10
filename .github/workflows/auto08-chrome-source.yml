@@ -39,7 +39,7 @@ jobs:
       - name: Upload owner-installable Chrome extension ZIP
         uses: actions/upload-artifact@v4
         with:
-          name: CF0-AUTO08-Chrome-v0.1.8
+          name: CF0-AUTO08-Chrome-v0.1.9
           path: ${{ runner.temp }}/cf0-auto08-chrome/
           if-no-files-found: error
           retention-days: 30

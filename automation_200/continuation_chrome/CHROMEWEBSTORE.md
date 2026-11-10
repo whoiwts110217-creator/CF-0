@@ -14,7 +14,7 @@ npx modern-web-guidance@latest install --choose
 
 Select `chrome-extensions` and `modern-web-guidance` for the developer's actual coding agent. The installation is **not performed by this GitHub commit**. Do not add paid APIs, install an unrelated agent, or replace the existing AUTO-08 runner. The Chrome DevTools MCP server is optional for isolated developer debugging; the documented default starts a **separate Chrome profile**, so it does **not** establish acceptance in the owner's already signed-in one-tab Chrome profile. Never use a remote debugger to bypass account verification or access private chat content.
 
-## Current manifest permission review (v0.1.8 at inspection)
+## Current manifest permission review (v0.1.9 on this proposal; same permissions as v0.1.8)
 
 - `tabs`: enumerate and validate the uniquely selected already-open ChatGPT tab; stop if multiple ChatGPT tabs or unexpected navigation appear.
 - `debugger`: attach Chrome DevTools Protocol to the selected local ChatGPT tab to send keyboard commands; powerful permission requiring explicit owner review and a visible Chrome debugging indicator.

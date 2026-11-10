@@ -67,6 +67,8 @@ test('readiness verdict inspects visible current chat, never grants account iden
   assert.equal(readinessVerdict({...base,userCount:0,assistantCount:0},id),'CONVERSATION_HISTORY_NOT_LOADED');
   assert.equal(readinessVerdict({...base,draft:'unsent draft'},id),'OWNER_DRAFT_PRESENT');
   assert.equal(readinessVerdict({...base,stopVisible:true},id),'ALREADY_RESPONDING');
+  assert.equal(readinessVerdict({...base,lastTurnIsUser:true},id),'UNANSWERED_USER_TURN');
+  assert.equal(readinessVerdict({...base,lastTurnIsUser:false},id),'READY_ACCOUNT_UNVERIFIED');
   assert.equal(readinessVerdict({...base,dialogVisible:true,dialogText:'Approve purchase'},id),'NEEDS_OWNER_REVIEW');
   assert.equal(readinessVerdict({...base,url:'https://chatgpt.com/'},id),'PAGE_CONTENT_MISMATCH');
   assert.equal(readinessVerdict(base,'invalid'),'OPEN_A_CONVERSATION_FIRST');
