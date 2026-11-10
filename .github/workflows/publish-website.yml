@@ -18,6 +18,7 @@ on:
       - 'concepts/dreamkiller/iphone-emu/tests/**'
       - 'automation_200/mission_control/dist/**'
       - 'iphone-skill-foundry/**'
+      - 'link-vault/**'
       - 'automation_200/mission_control/tests/**'
       - 'automation_200/mission_control/build_snapshot.py'
       - 'automation_200/mission_control/test_build_snapshot.py'
@@ -103,6 +104,8 @@ jobs:
           cp -R automation_200/mission_control/dist/. _site/mission-control/
           mkdir -p _site/skill-foundry
           cp iphone-skill-foundry/index.html iphone-skill-foundry/manifest.webmanifest iphone-skill-foundry/icon.svg iphone-skill-foundry/apple-touch-icon.png iphone-skill-foundry/sw.js _site/skill-foundry/
+          mkdir -p _site/link-vault
+          cp link-vault/index.html link-vault/manifest.webmanifest link-vault/icon.svg link-vault/sw.js _site/link-vault/
           mkdir -p _site/dreamkiller
           cp -R concepts/dreamkiller/iphone-emu/site/. _site/dreamkiller/
           cp concepts/dreamkiller/rom_v0_2/dreamkiller_road_v0_2.gb _site/dreamkiller/road-v02.gb
@@ -136,6 +139,9 @@ jobs:
           assert Path("_site/dreamkiller/index.html").is_file()
           assert Path("_site/skill-foundry/index.html").is_file(), "Skill Foundry missing from staged site"
           assert Path("_site/skill-foundry/sw.js").is_file(), "Skill Foundry offline worker missing"
+          assert Path("_site/link-vault/index.html").is_file(), "iPhone Link Vault missing"
+          assert Path("_site/link-vault/manifest.webmanifest").is_file(), "Link Vault PWA manifest missing"
+          assert Path("_site/link-vault/sw.js").is_file(), "Link Vault offline worker missing"
           assert Path("_site/dreamkiller/GameBoy.min.js").stat().st_size > 500000
           assert Path("_site/dreamkiller/road-test.gb").stat().st_size == 32768
           assert Path("_site/dreamkiller/road-v01.gb").stat().st_size == 32768
