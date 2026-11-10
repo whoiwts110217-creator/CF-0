@@ -420,6 +420,8 @@ chrome.runtime.onMessage.addListener((message,sender,sendResponse)=>{
         try{
           const tab=await selectedTab();
           if(!chatId(tab.url))throw Error('OPEN_A_CONVERSATION_FIRST');
+          if(message.type==='BOOTSTRAP_CURRENT' && (s.bootstrapSent||[]).includes(chatId(tab.url)))
+            throw Error('BOOTSTRAP_ALREADY_SENT');
           if(cancelRequested)throw Error('STOP_REQUESTED');
           void execute({mode:'current',maxChats:1,bootstrap:message.type==='BOOTSTRAP_CURRENT'}).catch(async e=>{
             await save({phase:'needs_review',reason:e.message,lastResult:'Start failed: '+e.message});
