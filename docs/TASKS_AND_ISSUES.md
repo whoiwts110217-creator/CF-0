@@ -35,7 +35,7 @@ This dated report summarizes work orders, blockers, and GitHub issues. [Mission 
 |---|---|
 | CF-200 work orders | **87 verified / 200 total**; 113 planned |
 | Current verified progress | 43.5% of defined work orders; **not** 43% of the finished product |
-| Open GitHub issues | **4** confirmed in the November 9 issue search ([#1](https://github.com/whoiwts110217-creator/CF-0/issues/1), [#3](https://github.com/whoiwts110217-creator/CF-0/issues/3), [#16](https://github.com/whoiwts110217-creator/CF-0/issues/16), [#21](https://github.com/whoiwts110217-creator/CF-0/issues/21)) |
+| Open GitHub issues | **5** confirmed in the November 9 issue search ([#1](https://github.com/whoiwts110217-creator/CF-0/issues/1), [#3](https://github.com/whoiwts110217-creator/CF-0/issues/3), [#16](https://github.com/whoiwts110217-creator/CF-0/issues/16), [#21](https://github.com/whoiwts110217-creator/CF-0/issues/21), [#48](https://github.com/whoiwts110217-creator/CF-0/issues/48)) |
 | Public task/issue refresh | Existing CF-200 executor ran on demand November 9; [mission-board record](../automation_200/MASTER_MISSION_BOARD.md) and this dated refresh. |
 | Public HP health | [Latest public health report](../relay/health/latest.json) publishes its own collection time and receipt counts. Direct Windows scheduler attribution is tracked separately. |
 | Windows scheduled relay | **Observed.** Windows logged a scheduled run from **1:06:53 to 1:08:58 p.m.** on November 8. The matched public pong was committed at **1:07:21 p.m.** Direct ping-to-run attribution is open. [HP evidence](CONTINUITY.md#november-8-hp-relay-evidence) |
@@ -79,6 +79,7 @@ The list distinguishes **operational blockers** from actual GitHub Issues; one n
 - [**#3 — Engineering feedback:** critique the autonomous relay and intervention design](https://github.com/whoiwts110217-creator/CF-0/issues/3)
 - [**#16 — Agent collaboration:** prove one real automation improvement](https://github.com/whoiwts110217-creator/CF-0/issues/16)
 - [**#21 — Clarity exercise and public feedback**](https://github.com/whoiwts110217-creator/CF-0/issues/21)
+- [**#48 — Skill Evolution evidence and review**](https://github.com/whoiwts110217-creator/CF-0/issues/48)
 
 [See current GitHub Issues directly](https://github.com/whoiwts110217-creator/CF-0/issues). If the Issues service cannot be read, the board must say **unknown**, never zero.
 
