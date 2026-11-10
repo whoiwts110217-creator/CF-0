@@ -71,6 +71,20 @@ class RecordedExecutorTests(unittest.TestCase):
             with self.subTest(change=change), self.assertRaises(ValueError):
                 correlate_recorded_executor_result(self.readback, task)
 
+    def test_moving_last_run_pointer_fails_closed(self):
+        """A newer running executor must not bind to an older completed reply."""
+        readback, _, record = self._v2_fixture()
+        task = {"run_details": {
+            **record["run_details"],
+            "last_run": {
+                "id": "exec-5",
+                "recorded_status": "running",
+                "completed_at": None,
+            },
+        }}
+        with self.assertRaisesRegex(ValueError, "unusable or mismatched"):
+            correlate_recorded_executor_result(readback, task)
+
     def test_source_packet_and_recorded_run_mismatch_rejected(self):
         for patch in (
             {"packet_sha256": "b" * 64},
