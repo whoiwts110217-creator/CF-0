@@ -94,7 +94,17 @@ def correlate_recorded_executor_result(readback: dict, automation: dict) -> dict
     details = automation.get("run_details")
     if not isinstance(details, dict):
         raise ValueError("missing recorded automation run")
-    last, latest = details.get("last_run"), details.get("latest_result")
+    last = details.get("last_run")
+    # Native Automations lookup returns latest_result beside run_details.
+    # Earlier test fixtures placed it inside run_details; keep them readable
+    # without allowing conflicting copies to select an attacker-chosen result.
+    native_present = "latest_result" in automation
+    nested_present = "latest_result" in details
+    if (native_present and nested_present
+            and automation["latest_result"] != details["latest_result"]):
+        raise ValueError("conflicting recorded automation results")
+    latest = (automation["latest_result"] if native_present
+              else details.get("latest_result"))
     if not isinstance(last, dict) or not isinstance(latest, dict):
         raise ValueError("missing last run or result")
     run_id = last.get("id")
