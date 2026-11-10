@@ -17,7 +17,7 @@ jobs:
       fail-fast: false
       matrix:
         engine: [chromium, webkit]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 12
     env:
       CF0_BROWSER_ENGINE: ${{ matrix.engine }}
