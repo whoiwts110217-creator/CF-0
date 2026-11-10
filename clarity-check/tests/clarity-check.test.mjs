@@ -8,6 +8,14 @@ test("offer is public, limited, not prepaid, and links free alternative",()=>{
   for(const p of [/\$5/,/one public URL/i,/no payment yet/i,/written acceptance/i,/manual pilot/i,/refund/i,/not a complete code audit/i,/\/CF-0\/issues\/new\?template=clarity-check\.yml/,/href="\.\.\/clarity-card\/"/])assert.match(page,p);
   assert.doesNotMatch(page,/(?:password field|<form[^>]+action=|localStorage|document\.cookie|fetch\()/i);
 });
+test("paid service checkout is separate from voluntary support",()=>{
+  assert.match(page,/voluntary Cash App support link/i);
+  assert.match(page,/not<\/strong> a service checkout or order confirmation/i);
+  assert.match(page,/private payment method/i);
+  assert.match(page,/cancellation\/refund terms/i);
+  assert.match(page,/Never put payment details in the public issue/i);
+  assert.doesNotMatch(page,/pay the stated \$5 through the project's existing Cash App route/i);
+});
 test("issue template has no forced payment and collects public URL only",()=>{
   for(const term of [/name:/,/public-url/,/required: true/,/do not pay/i,/secrets/i,/consent/i])assert.match(form,term);
   assert.doesNotMatch(form,/password|payment receipt upload|private repository access/i);
