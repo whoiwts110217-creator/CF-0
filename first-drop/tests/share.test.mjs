@@ -12,6 +12,7 @@ function setup({ nativeShare, clipboard, secure = true, prompt } = {}) {
   const feedback = { textContent: "" };
   const buttons = {
     "share-clarity-card": { addEventListener: (event, fn) => { assert.equal(event, "click"); handlers.set("tool", fn); } },
+    "share-first-drop": { addEventListener: (event, fn) => { assert.equal(event, "click"); handlers.set("firstDrop", fn); } },
     "copy-first-drop": { addEventListener: (event, fn) => { assert.equal(event, "click"); handlers.set("invite", fn); } },
     "share-feedback": feedback
   };
@@ -75,5 +76,36 @@ test("canceling the native share sheet never triggers copy or claims to post", a
   });
   await page.click("tool");
   assert.equal(copied, false);
+  assert.match(page.feedback.textContent, /nothing was posted/i);
+});
+
+test("First Drop native share carries the invitation and accurate no-return disclaimer", async () => {
+  const calls = [];
+  const page = setup({ nativeShare: async value => { calls.push(value); } });
+  await page.click("firstDrop");
+  assert.equal(calls.length, 1);
+  assert.equal(calls[0].url, "https://whoiwts110217-creator.github.io/CF-0/first-drop/");
+  assert.match(calls[0].text, /optional|optionally/i);
+  assert.match(calls[0].text, /no investment or financial return/i);
+  assert.match(page.feedback.textContent, /dialog closed/i);
+  assert.doesNotMatch(page.feedback.textContent, /posted successfully/i);
+});
+
+test("First Drop share falls back to user-owned copying when native sharing is unavailable", async () => {
+  const copied = [];
+  const page = setup({ clipboard: async value => { copied.push(value); } });
+  await page.click("firstDrop");
+  assert.deepEqual(copied, ["https://whoiwts110217-creator.github.io/CF-0/first-drop/"]);
+  assert.match(page.feedback.textContent, /link copied/i);
+});
+
+test("canceling First Drop share sheet never copies or falsely claims publication", async () => {
+  let clipboardCalls = 0;
+  const page = setup({
+    nativeShare: async () => { throw { name: "AbortError" }; },
+    clipboard: async () => { clipboardCalls += 1; }
+  });
+  await page.click("firstDrop");
+  assert.equal(clipboardCalls, 0);
   assert.match(page.feedback.textContent, /nothing was posted/i);
 });
