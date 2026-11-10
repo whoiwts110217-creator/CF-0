@@ -168,7 +168,9 @@ async function navigate(id){
   ensureActive();
   const tab=await chrome.tabs.get(live.tabId);
   if(chatId(tab.url)!==id)await cd('Page.navigate',{url:chatURL(id)});
-  await waitUntil(s=>s.composerVisible,40000,id,{allowNavigation:true});
+  // A busy conversation may hide the editor. Detect it before waiting for a
+  // composer that cannot appear until generation stops.
+  await waitUntil(s=>s.composerVisible||s.stopVisible||s.busy,40000,id,{allowNavigation:true});
 }
 async function continueOne(id,{advanceAfterAck=false}={}){
   await save({currentChat:id,attempt:{chatId:id,status:'pre_send',startedAt:stamp()},lastResult:'Navigating in selected tab; no keyboard send yet…'});
@@ -182,11 +184,11 @@ async function continueOne(id,{advanceAfterAck=false}={}){
     before=await scan();
     if(await handleOverlay(before))throw Error('PERSISTENT_POPUP');
   }
-  if(!before.composerVisible)throw Error('COMPOSER_NOT_READY');
   // Other-account/missing-history pages may still display a usable composer.
   // Do not turn the failed navigation into a fresh ChatGPT conversation.
   if(!hasLoadedConversation(before))throw Error('CONVERSATION_HISTORY_NOT_LOADED');
   if(before.stopVisible||before.busy)throw Error('ALREADY_RESPONDING');
+  if(!before.composerVisible)throw Error('COMPOSER_NOT_READY');
   if(before.draft)throw Error('OWNER_DRAFT_PRESENT');
   await focusComposer();
   ensureActive();
