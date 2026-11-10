@@ -1,6 +1,6 @@
 {
   "schema": "cf.link.vault.public.v2",
-  "revision": "2026-11-10.2",
+  "revision": "2026-11-10.3",
   "updated_date": "2026-11-10",
   "source": "https://github.com/whoiwts110217-creator/CF-0/blob/main/link-vault/links.json",
   "links": [
@@ -659,6 +659,14 @@
       "category": "Start",
       "status": "source",
       "note": "Updateable catalog, documentation and code"
+    },
+    {
+      "id": "83",
+      "title": "My Action Sphere — Owner Handoffs",
+      "url": "https://whoiwts110217-creator.github.io/CF-0/link-vault/#owner-actions",
+      "category": "Start",
+      "status": "unverified",
+      "note": "Integrated owner actions and side list; checkmarks are local reminders only"
     }
   ]
 }
