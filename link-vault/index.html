@@ -85,4 +85,4 @@ $("import").onchange=async e=>{const f=e.target.files?.[0];if(!f)return;try{if(f
 $("install").onclick=()=>{toast("In Safari: tap Share (square with ↑) → Add to Home Screen → Add.");const isIOS=/iP(hone|ad|od)/.test(navigator.userAgent);if(!isIOS)toast("On iPhone Safari: Share → Add to Home Screen → Add.")};
 if("serviceWorker" in navigator&&location.protocol==="https:"){navigator.serviceWorker.register("./sw.js").catch(()=>{})}
 render();
-</script><script src="./enhance.js" defer></script><script src="./owner-actions.js" defer></script></body></html>
+</script><script src="./enhance.js" defer></script><script src="./spider-core.js" defer></script><script src="./owner-actions.js" defer></script><script src="./spider-shell.js" defer></script></body></html>
