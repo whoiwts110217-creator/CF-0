@@ -173,8 +173,9 @@ get("add-form").onsubmit=e=>{
  store();get("add-dialog").close();resetEditor();render();
 };
 get("export").onclick=()=>{
+ let ownerActionChecks={};try{ownerActionChecks=JSON.parse(localStorage.getItem("cf_link_vault_owner_action_checks_v1")||"{}")}catch(_){}
  const backup={schema:"cf.link.vault.backup.v1",savedAt:new Date().toISOString(),
- favorites:state.favorites,custom:state.custom,overrides:state.overrides,lastOpened:state.lastOpened};
+ favorites:state.favorites,custom:state.custom,overrides:state.overrides,lastOpened:state.lastOpened,ownerActionChecks};
  const blob=new Blob([JSON.stringify(backup,null,2)],{type:"application/json"});
  const url=URL.createObjectURL(blob),a=document.createElement("a");
  a.href=url;a.download="CF-Link-Vault-Personal-Backup.json";document.body.append(a);a.click();a.remove();
@@ -200,7 +201,11 @@ get("import").onchange=async e=>{
        state.overrides[id]={title:val.title,url:validHTTPS(val.url),note:typeof val.note==="string"?val.note.slice(0,260):""};
      }
    }
-   applyLocal();store();render();toast("Personal links and corrections imported.");
+   if(obj.ownerActionChecks&&typeof obj.ownerActionChecks==="object"&&!Array.isArray(obj.ownerActionChecks)){
+    const safe=Object.fromEntries(Object.entries(obj.ownerActionChecks).filter(([id,v])=>/^CF-ACT-\d{3}$/.test(id)&&typeof v==="string"&&v.length<50));
+    try{localStorage.setItem("cf_link_vault_owner_action_checks_v1",JSON.stringify(safe));window.dispatchEvent(new Event("cf-owner-checks-updated"))}catch(_){}
+   }
+   applyLocal();store();render();toast("Personal links, corrections and any action checks imported.");
  }catch(err){toast("Import failed: "+err.message)}
  e.target.value="";
 };
