@@ -8,7 +8,7 @@ const html=readFileSync(new URL("../index.html",import.meta.url),"utf8");
 test("Clarity Card is a complete, no-paywall local worksheet with public-safe support",()=>{
   const ids=["problem","guess","hypothesis","evidence","alternative","action","criterion"];
   for(const id of ids)assert.match(html,new RegExp('id="'+id+'"'));
-  for(const id of ["clarity-form","card-preview","example","download","copy","print","status"])assert.match(html,new RegExp('id="'+id+'"'));
+  for(const id of ["clarity-form","card-preview","example","download","copy","share-link","print","status"])assert.match(html,new RegExp('id="'+id+'"'));
   assert.match(html,/name="viewport"/);
   assert.match(html,/href="\.\.\/first-drop\/"/);
   assert.match(html,/href="https:\/\/cash\.app\/\$LAZYBLACKBEAN"/);
@@ -36,7 +36,7 @@ test("Clarity Card actual inline code parses and safely renders, copies, and exp
     focus(){this.focusCount++}
   }
   const fields=["problem","guess","hypothesis","evidence","alternative","action","criterion"];
-  const elements=new Map([...fields,"clarity-form","card-preview","status","example","download","copy","print"].map(id=>[id,new FakeElement(id)]));
+  const elements=new Map([...fields,"clarity-form","card-preview","status","example","download","copy","share-link","print"].map(id=>[id,new FakeElement(id)]));
   let copied="",printed=0,downloads=0,revoked=0;
   const doc={
     getElementById:id=>elements.get(id),
