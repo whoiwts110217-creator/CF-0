@@ -20,3 +20,5 @@ jobs:
         run: python3 -m unittest discover -s iphone-skill-foundry/tests -p 'test_*.py' -v
       - name: Validate service worker syntax
         run: node --check iphone-skill-foundry/sw.js
+      - name: Verify generated ChatGPT install request
+        run: node iphone-skill-foundry/tests/test_chatgpt_install.cjs
