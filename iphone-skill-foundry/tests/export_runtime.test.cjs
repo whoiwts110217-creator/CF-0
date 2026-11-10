@@ -263,6 +263,16 @@ test("fails visibly when secure SHA-256 is unavailable", async () => {
   assert.equal(h.context.document.getElementById("reviewDownload").disabled, true);
 });
 
+test("handles browsers where the crypto global does not exist", async () => {
+  const h = harness();
+  delete h.context.crypto;
+  h.context.document.getElementById("reviewBaseline").files = [new Blob(["Older instruction"])];
+  h.context.document.getElementById("reviewCandidate").files = [new Blob(["Newer instruction"])];
+  await h.fire("reviewCompareFiles");
+  assert.match(h.context.document.getElementById("reviewResults").textContent, /SHA-256 hashing is not available/);
+  assert.equal(h.context.document.getElementById("reviewDownload").disabled, true);
+});
+
 test("changing a comparison file invalidates previously prepared review", async () => {
   const h = harness();
   h.context.document.getElementById("reviewBaseline").files = [new Blob(["Old skill"])];
