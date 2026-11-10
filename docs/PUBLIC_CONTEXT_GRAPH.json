@@ -231,6 +231,24 @@
         "hands on",
         "owner handoff"
       ]
+    },
+    {
+      "id": "CF-LEGAL-001",
+      "title": "Research publication rights, chain of title and lawful lockout continuity",
+      "source": "docs/PROVENANCE.md",
+      "parent": "CF-CORE",
+      "related": [
+        "UCC-001",
+        "CF-MESH-001",
+        "CF-200"
+      ],
+      "depends_on": [],
+      "aliases": [
+        "research rights",
+        "legal continuity",
+        "anti-lockout",
+        "intellectual property"
+      ]
     }
   ]
 }
