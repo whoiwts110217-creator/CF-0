@@ -2,7 +2,7 @@
 import unittest
 import hashlib
 import json
-from relay.cf200_live_status import PROBE_ID, PROBE_DIGEST, probe_summary
+from relay.cf200_live_status import PROBE_ID, PROBE_DIGEST, probe_summary, health_summary
 from relay.cf_public_relay import sha
 
 
@@ -36,6 +36,28 @@ class ReceiptSummaryTests(unittest.TestCase):
         self.assertIn("matching completed ping", probe_summary(lambda _: receipt))
         receipt["response_sha256"] = "0" * 64
         self.assertIn("mismatched", probe_summary(lambda _: receipt))
+
+    def test_sanitized_hp_heartbeat_is_not_scheduler_attestation(self):
+        report = {
+            "schema": "cf0.hp_health.v1",
+            "collected_utc": "2026-11-10T17:47:07+00:00",
+            "db_exists": True, "error": None,
+            "last_receipt_status": "completed",
+            "ping_receipt_count": 10, "receipt_count": 32,
+        }
+        text = health_summary(report)
+        self.assertIn("receipts=32", text)
+        self.assertIn("scheduler origin UNVERIFIED", text)
+        for changes in (
+            {"receipt_count": 2},
+            {"receipt_count": True},
+            {"collected_utc": "not-a-date\\nFAKE SCHEDULE PROOF"},
+            {"collected_utc": "2026-11-10T17:47:07+01:00"},
+            {"last_receipt_status": None},
+            {"unexpected_private_field": "secret"},
+        ):
+            with self.subTest(changes=changes):
+                self.assertIn("invalid", health_summary({**report, **changes}))
 
     def test_network_error_is_not_a_negative_receipt(self):
         def fail(_):
