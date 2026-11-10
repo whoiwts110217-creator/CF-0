@@ -58,7 +58,7 @@ def classify_listing(http_status: int | None, title: str, body: str, links: list
     text = (title + " " + body).lower()
     if any(marker in text for marker in ("page not found", "404 not found", "not yet published")):
         return "not_public_as_checked"
-    if "caveman focus" not in text:
+    if "caveman focus" not in title.lower() or "caveman focus" not in text:
         return "unverified"
     if not any(link.rstrip("/") == CLARITY_URL.rstrip("/") for link in links):
         return "unverified"
