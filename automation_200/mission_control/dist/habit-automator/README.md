@@ -39,3 +39,13 @@
 - **Next action:** verify actual GitHub Pages route and iPhone install; consider an owner-reviewed authenticated adapter later, one narrow scope at a time.
 
 **Mandatory continuation:** re-fetch automation_200/MASTER_OPERATOR_PROMPT.md, MASTER_CONTINUITY_PROMPT.md, WORK_COPY_PASTE_AUTOMATION_PROMPT.md in that order from current public main; then UCC-001 and current Mission Control/capability sources before modifications.
+
+## November 10, 2026 — source integrity follow-up (v0.1.1)
+
+- **Recovered bootstrap:** current public `docs/CHATGPT_MEMORY_BOOTSTRAP.md` → Master Operator → Master Continuity → Work; UCC-001 and CF-MESH-001 apply. Active topic stays **CF-HA-001**, not a new independent project.
+- **Problem:** an editor or template could create more than 100 routines even though `parseState` rejects backups with more than 100. On reload, valid locally entered routines could disappear from the UI. Editing the steps of a currently running routine could also leave stale completed-step IDs.
+- **Fix:** use the single `MAX_ROUTINES=100` bound in both the parser and the template, duplicate, and new-routine paths; refuse editing any active routine until its run is ended. Existing data and the legacy backup format remain unchanged.
+- **Evidence classification:** source-level fix and regression tests; CI outcome and published-device test must be checked against exact merge SHA. No new scheduled iPhone task, real Shortcut run, login, HP relay command or CF-200 verification.
+- **Remaining test:** in Safari on the owner's iPhone, confirm a template can be saved, run, completed, exported, and re-opened after page reload; verify a named Shortcut launch only if that Shortcut already exists and the owner elects to test it.
+- **Owner action class:** OPTIONAL until a real device launch acceptance test is requested; the source integrity fix needs no user intervention.
+- **Rollback:** revert the patch commit with Git review; do not delete locally saved routines, and export a private backup before any manual migration.
