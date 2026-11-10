@@ -49,7 +49,8 @@
       "related": [
         "CF-200",
         "AUTO-08",
-        "CF-P1"
+        "CF-P1",
+        "CF-OWNER-HANDOFF-001"
       ],
       "depends_on": [],
       "aliases": [
@@ -87,7 +88,8 @@
       "related": [
         "CF-MESH-001",
         "CF-HA-001",
-        "CF-HP"
+        "CF-HP",
+        "CF-OWNER-HANDOFF-001"
       ],
       "depends_on": [
         "UCC-001"
@@ -104,7 +106,8 @@
       "source": "docs/MASTER_CONTROLLER_P0_STATUS_RECONCILIATION_2026-11-09.md",
       "parent": "CF-200",
       "related": [
-        "AUTO-08"
+        "AUTO-08",
+        "CF-OWNER-HANDOFF-001"
       ],
       "depends_on": [
         "UCC-001"
@@ -207,6 +210,26 @@
       "aliases": [
         "dreamkiller",
         "breach dungeon"
+      ]
+    },
+    {
+      "id": "CF-OWNER-HANDOFF-001",
+      "title": "Owner/operator human action and verification contract",
+      "source": "docs/OWNER_ACTION_HANDOFF_PROTOCOL.md",
+      "parent": "CF-MESH-001",
+      "related": [
+        "CF-200",
+        "AUTO-08",
+        "CF-HP"
+      ],
+      "depends_on": [
+        "UCC-001"
+      ],
+      "aliases": [
+        "owner action",
+        "human in the loop",
+        "hands on",
+        "owner handoff"
       ]
     }
   ]
