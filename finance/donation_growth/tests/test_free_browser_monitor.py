@@ -74,8 +74,8 @@ class FreePromotionMonitorTests(unittest.TestCase):
             monitor.classify_listing(
                 200, "Other project", "Caveman Focus mentioned", [monitor.CLARITY_URL]
             ),
-            "public_listing_observed",
-        )  # only matching name+link, not independent endorsement
+            "unverified",
+        )  # an unrelated page mentioning the project is not a listing
         self.assertEqual(
             monitor.classify_listing(404, "Not Found", "", []),
             "not_public_as_checked",
