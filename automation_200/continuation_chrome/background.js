@@ -257,7 +257,7 @@ async function execute({mode,maxChats=1,advanceAfterAck=false}){
         // chat *only* when no keyboard command has begun. Never swallow
         // unknown sends, owner drafts, sign-in, tab changes or STOP.
         const attempt=(await getState()).attempt;
-        if(error?.message==='ALREADY_RESPONDING' &&
+        if(mode==='queue' && error?.message==='ALREADY_RESPONDING' &&
            attempt?.chatId===c.id && attempt.status==='pre_send' &&
            !cancelRequested && !live?.stop){
           skippedBusy.push(c.id);
