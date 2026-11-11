@@ -5,13 +5,15 @@
   "classification": "public-safe planned architecture",
   "owner_order": "2026-11-10 user requests a standalone evolving, multilingual, multiagent HP operator",
   "source_baseline": {
-    "artifact": "CF0-Spider-Desktop-v0.4.zip",
-    "sha256": "5bd4f2287b5eec178c23519ef01e9d15b348dd2b9b319bf00da5945a06a983f8",
-    "evidence": "conversation ZIP: fresh extraction passed 49 Python tests including 13 simulated Windows Hands cases; 3 mock Node browser tests; 28 internal file hashes; Xvfb GUI smoke. Real physical Windows mouse, Google and ChatGPT tasks remain unverified",
+    "artifact": "CF0-Spider-Desktop-v0.5.zip",
+    "sha256": "178af3e0ac70b776cb5f61566c0fdea7ee7d808ffb201cc25d20bc16023bf298",
+    "evidence": "local build from prior v0.4 source: 62 Python, 3 Chrome Node mocks, 700x500 GUI launch + synthetic PNG preview, 32 extracted file hashes; physical Windows HP and signed-in ChatGPT not tested",
     "physical_hp_tested": false,
     "real_chatgpt_tested": false,
     "cloud_model_bundled": false,
-    "package_distribution": "ChatGPT conversation artifact, not GitHub-hosted; complete source is inside 55,692-byte ZIP"
+    "package_distribution": "ChatGPT conversation artifact, not GitHub-hosted; complete source is inside 55,692-byte ZIP",
+    "conversation_artifact_only": true,
+    "release_bytes": 68093
   },
   "constraints": {
     "owner_device_observed": "Windows HP; earlier owner-reported 4 GB RAM and 4.88 GB free disk (may change)",
@@ -74,7 +76,7 @@
         "SPDR-02",
         "SPDR-03"
       ],
-      "purpose": "v0.4 supports owner-approved foreground Notepad identity/geometry/window-title verification, and retains prior fixed UIA Notepad probe; general UI Automation navigation still planned",
+      "purpose": "v0.5 builds on owner-approved Notepad window identity and mouse source; a fixed PowerShell UI Automation probe reads button/menu/tab/toolbar names and IDs only (no document values); broader app navigation remains planned; no HP native test",
       "acceptance": "Navigate two allowlisted apps and verify focus and control state on physical HP"
     },
     {
@@ -84,7 +86,7 @@
       "depends_on": [
         "SPDR-05"
       ],
-      "purpose": "v0.4 adds stdlib Win32 foreground-window-relative center move/click with 4-second owner-initiated countdown, STOP, identity/geometry recheck and no arbitrary coordinates; screen perception, other apps and real HP testing remain planned",
+      "purpose": "v0.5 adds a fixed owner-approved foreground untitled Notepad screenshot via Windows GDI, in-memory PNG and before/after pixel diff with focus/STOP gates; only synthetic UI tests passed; no OCR, AI image interpretation, auto upload or general app navigation",
       "acceptance": "Window movement and DPI tests do not send keys to the wrong app; STOP interrupts"
     },
     {
