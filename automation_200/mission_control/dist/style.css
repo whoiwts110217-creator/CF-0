@@ -499,3 +499,6 @@ footer { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 6p
    An authored inline-flex selector previously overrode [hidden] on the source link,
    showing an evidence link before the learner answered. Scope to this lab only. */
 .gameful-lab [hidden] { display: none !important; }
+
+/* Signed-in Scheduled link is the real task-control entrypoint; fit iPhone widths. */
+#open-live-chatgpt-tasks { max-width:100%; white-space:normal; overflow-wrap:anywhere; text-align:center; }
