@@ -5,11 +5,11 @@
   "classification": "public-safe planned architecture",
   "owner_order": "2026-11-10 user requests a standalone evolving, multilingual, multiagent HP operator",
   "source_baseline": {
-    "artifact": "CF0-Spider-Desktop-v0.8.zip",
-    "sha256": "04812ee3fab66538d219afa3d658138cd48b816d738577be2fa758ca1ced3972",
-    "release_bytes": 115626,
-    "source_file_hashes_checked": 58,
-    "source_tests": "112 Python unit/integration, 7 Chrome Node (synthetic), clean extracted ZIP, Tk under Xvfb, all source SHA-256 verified; physical HP and live Google still untested",
+    "artifact": "CF0-Spider-Desktop-v0.9.zip",
+    "sha256": "5f0b3a39abf53d4ada842ddaaece9f04f1bf1301df7b20fc504e5eb8a602b56d",
+    "release_bytes": 133678,
+    "source_file_hashes_checked": 64,
+    "source_tests": "129 Python tests and 11 synthetic Chrome Node tests passed on fresh ZIP extraction; source compile, JS syntax and Xvfb GUI smoke passed. Real HP, signed-in Google and provider ChatGPT remain untested.",
     "pre_hp_readiness": {
       "source_gates_tested": 17,
       "total": 20,
@@ -20,7 +20,7 @@
     "real_chatgpt_tested": false,
     "cloud_model_bundled": false,
     "google_app_control_tested": false,
-    "package_distribution": "v0.8 ZIP and full source JSON verified uploaded to the existing private ChatGPT Library /Caveman Focus/Spider Desktop folder, plus conversation downloads. Neither is installed on HP or offered via public GitHub as a runnable ZIP",
+    "package_distribution": "v0.9 ZIP and full source JSON are conversation artifacts; private Library backup pending verification. Public GitHub records sanitized release evidence only. Owner HP installation unverified.",
     "python_project_tests": {
       "status": "source_tested_only",
       "owner_approval_required": true,
@@ -38,6 +38,42 @@
       "physical_hp_tested": false,
       "google_account_tested": false,
       "full_google_browser_worker": false
+    },
+    "fixed_recipes": {
+      "status": "source_tested_only",
+      "named": [
+        "project_diagnostics",
+        "notepad_move_then_click"
+      ],
+      "physical_windows_mouse_tested": false,
+      "owner_approval_required": true,
+      "stop_between_effects": true
+    },
+    "supervised_brain": {
+      "status": "source_tested_only",
+      "tools": [
+        "inspect_project",
+        "syntax_audit",
+        "python_tests",
+        "ask_owner",
+        "finish"
+      ],
+      "max_local_actions_per_session": 6,
+      "model_proposes_but_does_not_authorize": true,
+      "chatgpt_auto_replies_or_auto_send": false,
+      "actual_chatgpt_tested": false
+    },
+    "google_to_chatgpt_browser_walk": {
+      "status": "source_tested_only",
+      "restricted_origin": "https://www.google.com/",
+      "searched_term": "ChatGPT",
+      "clicked_destination": "https://chatgpt.com/",
+      "exact_host_permission_added": "https://www.google.com/*",
+      "owner_clicked_popup": true,
+      "desktop_STOP_gate": true,
+      "live_chrome_tested": false,
+      "chatgpt_auto_send": false,
+      "browser_worker_general": false
     }
   },
   "constraints": {
@@ -117,14 +153,15 @@
     {
       "id": "SPDR-07",
       "name": "Chrome general browser worker",
-      "status": "planned",
+      "status": "partial_source_only",
       "depends_on": [
         "SPDR-02",
         "SPDR-03",
         "SPDR-04"
       ],
       "purpose": "Per-tab browser tasks, DOM and keyboard automation, downloads with provenance",
-      "acceptance": "Use a harmless test site/form; handle UI change and login gate"
+      "acceptance": "Use a harmless test site/form; handle UI change and login gate",
+      "v09_evidence": "Owner-triggered exact Google homepage search -> canonical ChatGPT homepage using DOM/keyboard mocks; NOT general browsing or live Chrome validation."
     },
     {
       "id": "SPDR-08",
@@ -357,6 +394,7 @@
     "prior_spider": "link-vault/spider-hp",
     "existing_auto08": "automation_200/continuation_chrome",
     "v07_release_evidence": "https://github.com/whoiwts110217-creator/CF-0/blob/main/spider-desktop/releases/v0.7.md",
-    "v08_release_evidence": "https://github.com/whoiwts110217-creator/CF-0/blob/main/spider-desktop/releases/v0.8.md"
+    "v08_release_evidence": "https://github.com/whoiwts110217-creator/CF-0/blob/main/spider-desktop/releases/v0.8.md",
+    "v09_release_evidence": "https://github.com/whoiwts110217-creator/CF-0/blob/main/spider-desktop/releases/v0.9.md"
   }
 }
