@@ -5,23 +5,31 @@
   "classification": "public-safe planned architecture",
   "owner_order": "2026-11-10 user requests a standalone evolving, multilingual, multiagent HP operator",
   "source_baseline": {
-    "artifact": "CF0-Spider-Desktop-v0.12.zip",
-    "sha256": "863c249938b2a66fb578026eb9abeca50a16958e96c3fcf41b1c45920e7febd5",
-    "release_bytes": 166247,
-    "source_file_hashes_checked": 77,
-    "source_tests": "155 Python, 15 synthetic Node/Chrome, 2 Xvfb Tk GUI, 77/77 fresh-extracted source hashes: all passed; v0.11 Chromium DOM fixture remains historical; no owner HP or real signed-in ChatGPT/Google test.",
+    "artifact": "CF0-Spider-Desktop-v0.13.zip",
+    "sha256": "d6cac1dac87092d86788ecdd59abc69a15c5e6a4bdebcd313279490cdcbd66cb",
+    "release_bytes": 172449,
+    "source_file_hashes_checked": 79,
+    "source_tests": "163 Python source tests, 15 synthetic Chrome/Node tests, 2 simulated Xvfb Tk GUI checks passed; 79/79 fresh ZIP source hashes. First-run GUI callback verified real local server health and untrusted origin refused; extension loading in real Chromium and owner HP still unverified.",
     "pre_hp_readiness": {
       "source_gates_tested": 17,
       "total": 20,
       "percentage": 85,
       "scope": "Defined 20 source-only foundation gates, NOT overall autonomy or physical readiness"
     },
-    "skill_compatibility_snapshot": {"status": "source_tested_metadata_only", "skill_descriptions": 166, "groups": 30, "external_skills_run": 0, "third_party_memory_allowed": false, "paid_actions": 0, "source": "spider-desktop/releases/v0.12.md"},
+    "skill_compatibility_snapshot": {
+      "status": "source_tested_metadata_only",
+      "skill_descriptions": 166,
+      "groups": 30,
+      "external_skills_run": 0,
+      "third_party_memory_allowed": false,
+      "paid_actions": 0,
+      "source": "spider-desktop/releases/v0.12.md"
+    },
     "physical_hp_tested": false,
     "real_chatgpt_tested": false,
     "cloud_model_bundled": false,
     "google_app_control_tested": false,
-    "package_distribution": "v0.12 ZIP and source JSON verified saved to existing private ChatGPT Library /Caveman Focus/Spider Desktop (v0.11 retained as rollback), plus conversation download; no public runnable GitHub installer, real HP installation or provider-account test.",
+    "package_distribution": "v0.13 ZIP and source JSON verified saved in existing private ChatGPT Library /Caveman Focus/Spider Desktop; v0.12 preserved as rollback. Public GitHub release note is evidence only, not a runnable binary. No installed HP or authenticated ChatGPT/browser execution verified.",
     "python_project_tests": {
       "status": "source_tested_only",
       "owner_approval_required": true,
@@ -122,6 +130,19 @@
       "full_browser_worker": false,
       "model_driven_action_selection": false,
       "owner_hp_tested": false
+    },
+    "first_run_self_test": {
+      "status": "source_tested_only",
+      "checks": 4,
+      "package_file_hashes": 79,
+      "local_http_health": true,
+      "untrusted_origin_rejection": true,
+      "external_network_requests": 0,
+      "paid_actions": 0,
+      "third_party_memory_used": false,
+      "real_chrome_extension_tested": false,
+      "owner_hp_tested": false,
+      "source": "spider-desktop/releases/v0.13.md"
     }
   },
   "constraints": {
