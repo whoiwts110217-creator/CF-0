@@ -16,6 +16,9 @@
 
 **Recovery evidence.** The November 8 audit records 27 preserved source artifacts and zero indexed full conversation exports. [Recovery summary](CONTINUITY.md#private-recovery-summary-v7)
 
+
+**Skill routing and dependency audit (November 11, 2026):** [Skill Cartographer first-pass report](SKILL_CARTOGRAPHER_2026-11-11.md) — 165 installed skill metadata entries / 30 groups, existing private Skill Foundry release 0.3.1, verified package presence but no full behavioral claim.
+
 **Shared objective:** reliable automation → owner-directed priorities → legitimate income → parallel creative and research projects, supporting sustainable generational wealth. The creative and business workstreams remain distinct while sharing the overall execution and evidence system.
 
 ## CF-200 archive and method acceptance map (public source grades)
