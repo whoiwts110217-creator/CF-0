@@ -120,3 +120,11 @@ test("dated owner snapshot retains observation time without authenticating provi
   assert.throws(()=>parsePrivateInventory({schema:"cf0.private_automation_inventory.v1",
     observed_at:"yesterday",automations:[]}));
 });
+
+test("Mission Control opens real ChatGPT Scheduled without publishing private task state",()=>{
+  const html=readFileSync(new URL("../dist/index.html",import.meta.url),"utf8");
+  assert.match(html, /id="open-live-chatgpt-tasks" href="https:\/\/chatgpt\.com\/scheduled"/);
+  assert.match(html, /Authoritative account controls live in ChatGPT Scheduled/);
+  assert.match(html, /rel="noopener noreferrer"/);
+  assert.doesNotMatch(html, /Caveman Focus cash pilot|Bridge Builders Reply Watch/);
+});
