@@ -1,0 +1,24 @@
+name: CF-SPIDER-001 Desktop architecture graph tests
+on:
+  pull_request:
+    paths:
+      - 'spider-desktop/**'
+      - '.github/workflows/spider-desktop-architecture.yml'
+  push:
+    paths:
+      - 'spider-desktop/**'
+      - '.github/workflows/spider-desktop-architecture.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  validate-spider:
+    runs-on: ubuntu-latest
+    timeout-minutes: 3
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Validate standalone Spider DAG, milestones and authority
+        run: python -m unittest discover -s spider-desktop/tests -p 'test_*.py' -v
