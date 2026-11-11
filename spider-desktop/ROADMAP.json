@@ -5,12 +5,13 @@
   "classification": "public-safe planned architecture",
   "owner_order": "2026-11-10 user requests a standalone evolving, multilingual, multiagent HP operator",
   "source_baseline": {
-    "artifact": "CF0-Spider-Desktop-v0.2.zip",
-    "sha256": "219655cbc2bdfb2f2ce2853782d324bca6679f40c9d27dd476ebcd47f9a7b4c3",
-    "evidence": "isolated source tests only: 19 Python, 3 browser mocks, graphical Xvfb smoke",
+    "artifact": "CF0-Spider-Desktop-v0.3.zip",
+    "sha256": "dd92a349fe051a7c238e8f6cadeefb091d2acbcb9d00b66edbe10613353fed0e",
+    "evidence": "conversation ZIP: freshly extracted source passed 36 Python, 3 mocked Node browser tests, 23 internal file SHA-256 checks and simulated Tkinter GUI smoke; no physical HP or signed-in ChatGPT operation verified",
     "physical_hp_tested": false,
     "real_chatgpt_tested": false,
-    "cloud_model_bundled": false
+    "cloud_model_bundled": false,
+    "package_distribution": "ChatGPT conversation artifact, NOT hosted in public GitHub; source is included in ZIP, 47,372 bytes"
   },
   "constraints": {
     "owner_device_observed": "Windows HP; earlier owner-reported 4 GB RAM and 4.88 GB free disk (may change)",
@@ -112,23 +113,23 @@
     {
       "id": "SPDR-09",
       "name": "Multilanguage code lab",
-      "status": "planned",
+      "status": "partial_source_only",
       "depends_on": [
         "SPDR-02",
         "SPDR-03"
       ],
-      "purpose": "Python, PowerShell, JavaScript and optional additional language drivers with independent interpreters",
+      "purpose": "v0.3 owner-selected file language/sha/line counts and Python/JSON syntax parsing; PATH runtime inventory only. Actual multilingual code execution still planned",
       "acceptance": "Compile/lint/run safe workspace tests in each installed toolchain; refuse missing runtime"
     },
     {
       "id": "SPDR-10",
       "name": "Skill registry and switches",
-      "status": "planned",
+      "status": "partial_source_only",
       "depends_on": [
         "SPDR-02",
         "SPDR-09"
       ],
-      "purpose": "Manifest loader, enable/disable, dependencies, version pinning and rollback",
+      "purpose": "v0.3 local persisted ON/OFF for five fixed reviewed skills, dependency/version checks and inactive draft quarantine. Dynamic plugin code execution still planned",
       "acceptance": "Turn approved read-only skill on and off and deny dependency/permission violation"
     },
     {
@@ -139,7 +140,7 @@
         "SPDR-09",
         "SPDR-10"
       ],
-      "purpose": "Agent drafts and codes new skill, sandbox tests, blind comparison, activation review",
+      "purpose": "v0.3 stages INERT user-specified Python/PowerShell/JS skill ideas as private validated draft manifests; actual self-authored code, sandbox tests and skill activation still planned",
       "acceptance": "Given missing feature, generate draft + tests; fail skill stays off; approved passes only"
     },
     {
@@ -178,13 +179,13 @@
     {
       "id": "SPDR-15",
       "name": "Recovery, simulation and safety monitor",
-      "status": "planned",
+      "status": "partial_source_only",
       "depends_on": [
         "SPDR-02",
         "SPDR-03",
         "SPDR-14"
       ],
-      "purpose": "Crash recovery, rehearsal mode, undo, watchdog and smoke tests for stale/unknown state",
+      "purpose": "v0.3 unknown-send and restart receipt holds with owner-review clearing. Live crash/STOP acceptance and OS process interruption still planned",
       "acceptance": "Crash, account switch, duplicate send and STOP tests fail safely"
     },
     {
