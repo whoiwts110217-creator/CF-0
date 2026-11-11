@@ -5,15 +5,22 @@
   "classification": "public-safe planned architecture",
   "owner_order": "2026-11-10 user requests a standalone evolving, multilingual, multiagent HP operator",
   "source_baseline": {
-    "artifact": "CF0-Spider-Desktop-v0.5.zip",
-    "sha256": "178af3e0ac70b776cb5f61566c0fdea7ee7d808ffb201cc25d20bc16023bf298",
-    "evidence": "local build from prior v0.4 source: 62 Python, 3 Chrome Node mocks, 700x500 GUI launch + synthetic PNG preview, 32 extracted file hashes; physical Windows HP and signed-in ChatGPT not tested",
+    "artifact": "CF0-Spider-Desktop-v0.6.zip",
+    "sha256": "fad3ff97b15f11bccb6f40a51c4845543cc51b66f11113b8b2cf8040b10a1fc5",
+    "release_bytes": 101706,
+    "source_file_hashes_checked": 51,
+    "source_tests": "94 Python unit/integration; 3 synthetic Chrome Node; Xvfb native Tk preview; all passed on fresh ZIP extraction",
+    "pre_hp_readiness": {
+      "source_gates_tested": 17,
+      "total": 20,
+      "percentage": 85,
+      "scope": "Defined 20 source-only foundation gates, NOT overall autonomy or physical readiness"
+    },
     "physical_hp_tested": false,
     "real_chatgpt_tested": false,
     "cloud_model_bundled": false,
-    "package_distribution": "ChatGPT conversation artifact, not GitHub-hosted; complete source in 68,093-byte v0.5 ZIP",
-    "conversation_artifact_only": true,
-    "release_bytes": 68093
+    "google_app_control_tested": false,
+    "package_distribution": "Conversation ZIP plus versioned private ChatGPT Library ZIP/source JSON, not a public GitHub installer"
   },
   "constraints": {
     "owner_device_observed": "Windows HP; earlier owner-reported 4 GB RAM and 4.88 GB free disk (may change)",
@@ -54,7 +61,7 @@
         "SPDR-01",
         "SPDR-02"
       ],
-      "purpose": "Typed mission DAG, dependency, leases, outcome distinctions and source links",
+      "purpose": "v0.6 adds a private seven-step, dependency-ordered, crash-persisted repair-mission DAG and bounded safe-source runner with explicit owner gates; generic autonomous planning and unattended progression not built",
       "acceptance": "After interruption, unknown send state cannot be silently retried"
     },
     {
@@ -120,7 +127,7 @@
         "SPDR-02",
         "SPDR-03"
       ],
-      "purpose": "v0.3 owner-selected file language/sha/line counts and Python/JSON syntax parsing; PATH runtime inventory only. Actual multilingual code execution still planned",
+      "purpose": "v0.6 bounded selected-project inventory and syntax-only Python/JSON, optional Node JS and Windows PowerShell AST checks, with fixed time/file budgets; exact staged source patch may be owner-reviewed/applied/rolled back, but no arbitrary project execution or semantic repair proof",
       "acceptance": "Compile/lint/run safe workspace tests in each installed toolchain; refuse missing runtime"
     },
     {
@@ -131,18 +138,18 @@
         "SPDR-02",
         "SPDR-09"
       ],
-      "purpose": "v0.3 local persisted ON/OFF for five fixed reviewed skills, dependency/version checks and inactive draft quarantine. Dynamic plugin code execution still planned",
+      "purpose": "v0.6 preserves built-in source-reviewed skill enable/disable switches, dependency checks, local atomic state and review gates; dynamic activation of generated new code remains forbidden",
       "acceptance": "Turn approved read-only skill on and off and deny dependency/permission violation"
     },
     {
       "id": "SPDR-11",
       "name": "Skill forge and evaluation",
-      "status": "planned",
+      "status": "partial_source_only",
       "depends_on": [
         "SPDR-09",
         "SPDR-10"
       ],
-      "purpose": "v0.3 stages INERT user-specified Python/PowerShell/JS skill ideas as private validated draft manifests; actual self-authored code, sandbox tests and skill activation still planned",
+      "purpose": "v0.6 accepts owner-reviewed or ChatGPT-proposed Python/PowerShell/JS source into hash-checked DISABLED .source.txt quarantine; Python AST is nonexecuting; no isolated runtime test or activation of generated skills yet",
       "acceptance": "Given missing feature, generate draft + tests; fail skill stays off; approved passes only"
     },
     {
@@ -175,7 +182,7 @@
       "depends_on": [
         "SPDR-03"
       ],
-      "purpose": "Local metadata journal, source-linked knowledge and owner-private context store",
+      "purpose": "v0.6 preserves private metadata-only ChatGPT receipts and adds local mission DAG persistence and hash-verified last-patch receipt/backup for owner-controlled rollback; no public raw chat/source archive",
       "acceptance": "Restart recovers pending status without publishing private logs"
     },
     {
@@ -187,7 +194,7 @@
         "SPDR-03",
         "SPDR-14"
       ],
-      "purpose": "v0.3 unknown-send and restart receipt holds with owner-review clearing. Live crash/STOP acceptance and OS process interruption still planned",
+      "purpose": "v0.6 adds STOP between read-only mission steps, bounded project analysis, uncertain-send review, exact-hash patch apply/rollback and blocked mission review; full crash/replay simulator and unattended multi-agent recovery still pending",
       "acceptance": "Crash, account switch, duplicate send and STOP tests fail safely"
     },
     {
