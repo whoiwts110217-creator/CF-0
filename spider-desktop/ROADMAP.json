@@ -5,11 +5,11 @@
   "classification": "public-safe planned architecture",
   "owner_order": "2026-11-10 user requests a standalone evolving, multilingual, multiagent HP operator",
   "source_baseline": {
-    "artifact": "CF0-Spider-Desktop-v0.6.zip",
-    "sha256": "fad3ff97b15f11bccb6f40a51c4845543cc51b66f11113b8b2cf8040b10a1fc5",
-    "release_bytes": 101706,
-    "source_file_hashes_checked": 51,
-    "source_tests": "94 Python unit/integration; 3 synthetic Chrome Node; Xvfb native Tk preview; all passed on fresh ZIP extraction",
+    "artifact": "CF0-Spider-Desktop-v0.7.zip",
+    "sha256": "93c8555d1dba8496730ebdbd4fe66c8a147276fad97dc7b4a3f904585904a1c2",
+    "release_bytes": 107245,
+    "source_file_hashes_checked": 54,
+    "source_tests": "103 Python unit/integration incl. opt-in trusted unittest runner; 3 synthetic Chrome Node; Xvfb native Tk preview; Python/Node compile checks passed; physical HP unverified",
     "pre_hp_readiness": {
       "source_gates_tested": 17,
       "total": 20,
@@ -20,7 +20,14 @@
     "real_chatgpt_tested": false,
     "cloud_model_bundled": false,
     "google_app_control_tested": false,
-    "package_distribution": "Conversation ZIP plus versioned private ChatGPT Library ZIP/source JSON, not a public GitHub installer"
+    "package_distribution": "v0.7 downloadable as a conversation ZIP and source JSON; public GitHub contains sanitized evidence only, not runnable ZIP; private Library upload of v0.7 not verified",
+    "python_project_tests": {
+      "status": "source_tested_only",
+      "owner_approval_required": true,
+      "sandboxed": false,
+      "live_hp_tested": false,
+      "command": "python -B -m unittest discover -s tests -p test_*.py -v"
+    }
   },
   "constraints": {
     "owner_device_observed": "Windows HP; earlier owner-reported 4 GB RAM and 4.88 GB free disk (may change)",
@@ -337,6 +344,7 @@
     "roadmap": "spider-desktop/ROADMAP.json",
     "handoff": "docs/SPIDER_SPHERE_WORK_HANDOFF_2026-11-10.md",
     "prior_spider": "link-vault/spider-hp",
-    "existing_auto08": "automation_200/continuation_chrome"
+    "existing_auto08": "automation_200/continuation_chrome",
+    "v07_release_evidence": "https://github.com/whoiwts110217-creator/CF-0/blob/main/spider-desktop/releases/v0.7.md"
   }
 }
