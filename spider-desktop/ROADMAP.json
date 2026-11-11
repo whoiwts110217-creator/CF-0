@@ -5,11 +5,11 @@
   "classification": "public-safe planned architecture",
   "owner_order": "2026-11-10 user requests a standalone evolving, multilingual, multiagent HP operator",
   "source_baseline": {
-    "artifact": "CF0-Spider-Desktop-v0.7.zip",
-    "sha256": "93c8555d1dba8496730ebdbd4fe66c8a147276fad97dc7b4a3f904585904a1c2",
-    "release_bytes": 107245,
-    "source_file_hashes_checked": 54,
-    "source_tests": "103 Python unit/integration incl. opt-in trusted unittest runner; 3 synthetic Chrome Node; Xvfb native Tk preview; Python/Node compile checks passed; physical HP unverified",
+    "artifact": "CF0-Spider-Desktop-v0.8.zip",
+    "sha256": "04812ee3fab66538d219afa3d658138cd48b816d738577be2fa758ca1ced3972",
+    "release_bytes": 115626,
+    "source_file_hashes_checked": 58,
+    "source_tests": "112 Python unit/integration, 7 Chrome Node (synthetic), clean extracted ZIP, Tk under Xvfb, all source SHA-256 verified; physical HP and live Google still untested",
     "pre_hp_readiness": {
       "source_gates_tested": 17,
       "total": 20,
@@ -20,13 +20,24 @@
     "real_chatgpt_tested": false,
     "cloud_model_bundled": false,
     "google_app_control_tested": false,
-    "package_distribution": "v0.7 ZIP and source JSON exist both as conversation downloads and verified copies in the existing private ChatGPT Library Spider Desktop folder; no public GitHub installer and no HP installation",
+    "package_distribution": "Conversation ZIP plus complete source JSON; private Library backup pending verification; no public GitHub executable or owner-HP installation",
     "python_project_tests": {
       "status": "source_tested_only",
       "owner_approval_required": true,
       "sandboxed": false,
       "live_hp_tested": false,
       "command": "python -B -m unittest discover -s tests -p test_*.py -v"
+    },
+    "google_drive_visible_list": {
+      "status": "source_tested_only",
+      "operation": "manual owner-click selected HTTPS Drive tab, <=20 visible accessible labels to local RAM, no automatic ChatGPT upload",
+      "chrome_permissions_added": [
+        "activeTab",
+        "scripting"
+      ],
+      "physical_hp_tested": false,
+      "google_account_tested": false,
+      "full_google_browser_worker": false
     }
   },
   "constraints": {
@@ -345,6 +356,7 @@
     "handoff": "docs/SPIDER_SPHERE_WORK_HANDOFF_2026-11-10.md",
     "prior_spider": "link-vault/spider-hp",
     "existing_auto08": "automation_200/continuation_chrome",
-    "v07_release_evidence": "https://github.com/whoiwts110217-creator/CF-0/blob/main/spider-desktop/releases/v0.7.md"
+    "v07_release_evidence": "https://github.com/whoiwts110217-creator/CF-0/blob/main/spider-desktop/releases/v0.7.md",
+    "v08_release_evidence": "https://github.com/whoiwts110217-creator/CF-0/blob/main/spider-desktop/releases/v0.8.md"
   }
 }
