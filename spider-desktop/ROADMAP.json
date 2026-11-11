@@ -11,7 +11,7 @@
     "physical_hp_tested": false,
     "real_chatgpt_tested": false,
     "cloud_model_bundled": false,
-    "package_distribution": "ChatGPT conversation artifact, not GitHub-hosted; complete source is inside 55,692-byte ZIP",
+    "package_distribution": "ChatGPT conversation artifact, not GitHub-hosted; complete source in 68,093-byte v0.5 ZIP",
     "conversation_artifact_only": true,
     "release_bytes": 68093
   },
