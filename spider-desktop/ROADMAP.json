@@ -5,11 +5,11 @@
   "classification": "public-safe planned architecture",
   "owner_order": "2026-11-10 user requests a standalone evolving, multilingual, multiagent HP operator",
   "source_baseline": {
-    "artifact": "CF0-Spider-Desktop-v0.13.zip",
-    "sha256": "d6cac1dac87092d86788ecdd59abc69a15c5e6a4bdebcd313279490cdcbd66cb",
-    "release_bytes": 172449,
-    "source_file_hashes_checked": 79,
-    "source_tests": "163 Python source tests, 15 synthetic Chrome/Node tests, 2 simulated Xvfb Tk GUI checks passed; 79/79 fresh ZIP source hashes. First-run GUI callback verified real local server health and untrusted origin refused; extension loading in real Chromium and owner HP still unverified.",
+    "artifact": "CF0-Spider-Desktop-v0.14.zip",
+    "sha256": "d9e90091ff2ff93243576b0a6a8cc3203eb2b651a51709131e5db24a71ced410",
+    "release_bytes": 178341,
+    "source_file_hashes_checked": 82,
+    "source_tests": "167 Python tests, 15 synthetic browser/Node tests, 2 Tk/Xvfb GUI tests; clean ZIP 82/82 source hashes. Two actual Python localhost server ↔ synthetically hosted Chrome background.js integration tests passed. Real Chrome service worker and owner HP NOT tested.",
     "pre_hp_readiness": {
       "source_gates_tested": 17,
       "total": 20,
@@ -29,7 +29,7 @@
     "real_chatgpt_tested": false,
     "cloud_model_bundled": false,
     "google_app_control_tested": false,
-    "package_distribution": "v0.13 ZIP and source JSON verified saved in existing private ChatGPT Library /Caveman Focus/Spider Desktop; v0.12 preserved as rollback. Public GitHub release note is evidence only, not a runnable binary. No installed HP or authenticated ChatGPT/browser execution verified.",
+    "package_distribution": "v0.14 ZIP and full source JSON preserved in existing private ChatGPT Library /Caveman Focus/Spider Desktop; v0.13 retained rollback. No public executable installer and no physical Windows HP or signed-in ChatGPT verification.",
     "python_project_tests": {
       "status": "source_tested_only",
       "owner_approval_required": true,
@@ -143,6 +143,18 @@
       "real_chrome_extension_tested": false,
       "owner_hp_tested": false,
       "source": "spider-desktop/releases/v0.13.md"
+    },
+    "live_browser_heartbeat": {
+      "status": "source_tested_only",
+      "owner_action": "VERIFY LIVE desktop connection button in extension popup",
+      "path": "authenticated local POST /heartbeat",
+      "origin_and_token_required": true,
+      "source_tested": true,
+      "live_connected_browser_tested": false,
+      "owner_hp_tested": false,
+      "source": "spider-desktop/releases/v0.14.md",
+      "no_chatgpt_send": true,
+      "local_ram_only": true
     }
   },
   "constraints": {
