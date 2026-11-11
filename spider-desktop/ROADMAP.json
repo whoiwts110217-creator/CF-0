@@ -318,7 +318,7 @@
       "disabled_or_rolled_back"
     ],
     "skill_auto_activation": "Only for already-trusted, preapproved scopes; never for new filesystem writes, identity, payments, credentials or broad shell access",
-    "agent_spawn": "Child gets strictly narrowed subset of parent permissions, finite budgets and STOP channel",
+    "agent_spawn": "Child gets a strictly narrowed subset of approved parent permissions, finite budgets, an expiry and an immediate STOP channel",
     "no_false_results": "send_submitted != reply_completed != action_verified != hp_attested",
     "one_browser_writer": "Do not run Spider ChatGPT writer concurrently with AUTO-08/Master Continuation Switch"
   },
