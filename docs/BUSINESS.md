@@ -1,5 +1,10 @@
 # Funding and Commercial Experiments
 
+## November 11 — direct paid pilot outreach (no order yet)
+
+The existing $5 Clarity Check public-page offer remains a **manual request-first pilot**, not automatic checkout. On November 11, three new, individually researched, nonduplicated business proposals were **sent through the connected Gmail account** to local prospective buyers; each had a public-page-specific observation and invited a direct email reply, removing the GitHub-login step for those recipients. Exact private recipient, email/thread, and correspondence data remain **outside public GitHub**. Sent messages are not buyer interest, agreed orders, delivery or cleared payments. **Verified CF-0 revenue from these contacts: none evidenced at this check.** Do not send duplicate follow-ups without a genuine response or later explicit owner direction. A targeted scheduled reply watcher could not be added because the account is at its five-active-task plan limit; no existing task was paused or replaced. Next action: review any genuine reply, agree scope/delivery/payment privately, perform the review and validate the receipt; avoid further documentation as a surrogate for selling.
+
+
 Current operational track **3** after automation and priority intelligence. Long-run goal is sustainable operations, legitimate sales/donations and preserving founder attribution.
 
 Historical branches: Donation Growth campaign v1.4; Cash App/storefront and $5 product pilot; CSV cleanup; $49 catering-estimate draft for Chef Shell's; grant pipeline; fulfillment prototypes; public distribution.
