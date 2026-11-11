@@ -5,11 +5,11 @@
   "classification": "public-safe planned architecture",
   "owner_order": "2026-11-10 user requests a standalone evolving, multilingual, multiagent HP operator",
   "source_baseline": {
-    "artifact": "CF0-Spider-Desktop-v0.9.zip",
-    "sha256": "5f0b3a39abf53d4ada842ddaaece9f04f1bf1301df7b20fc504e5eb8a602b56d",
-    "release_bytes": 133678,
-    "source_file_hashes_checked": 64,
-    "source_tests": "129 Python tests and 11 synthetic Chrome Node tests passed on fresh ZIP extraction; source compile, JS syntax and Xvfb GUI smoke passed. Real HP, signed-in Google and provider ChatGPT remain untested.",
+    "artifact": "CF0-Spider-Desktop-v0.10.zip",
+    "sha256": "2743572e8bec358760b7c288259d0c09e4c76042189a60be74e34316a877f43c",
+    "release_bytes": 145231,
+    "source_file_hashes_checked": 68,
+    "source_tests": "142 Python tests; 11 synthetic Node/Chrome tests; 2 Xvfb GUI smokes including a 3-reply/2-static-check mock-loop; fresh extracted ZIP and all 68 source hashes passed. Actual HP/provider Chrome-GPT remains untested.",
     "pre_hp_readiness": {
       "source_gates_tested": 17,
       "total": 20,
@@ -20,7 +20,7 @@
     "real_chatgpt_tested": false,
     "cloud_model_bundled": false,
     "google_app_control_tested": false,
-    "package_distribution": "v0.9 ZIP + complete source JSON verified uploaded to existing private ChatGPT Library /Caveman Focus/Spider Desktop; both are also conversation downloads. No public GitHub executable or owner HP installation.",
+    "package_distribution": "v0.10 ZIP and full source JSON verified uploaded to the existing private ChatGPT Library /Caveman Focus/Spider Desktop (v0.9 kept for rollback); conversation ZIP also available, no public GitHub installer or physical HP deployment.",
     "python_project_tests": {
       "status": "source_tested_only",
       "owner_approval_required": true,
@@ -74,6 +74,29 @@
       "live_chrome_tested": false,
       "chatgpt_auto_send": false,
       "browser_worker_general": false
+    },
+    "bounded_autopilot": {
+      "status": "source_tested_only",
+      "source_modules": [
+        "spider_autopilot.py",
+        "spider_brain.py",
+        "spider_desktop.py"
+      ],
+      "one_time_explicit_owner_approval": true,
+      "max_chatgpt_turns": 3,
+      "max_static_python_actions": 2,
+      "allowed_actions": [
+        "inspect_project",
+        "syntax_audit"
+      ],
+      "final_report_after_budget": true,
+      "paired_controller_exact_completed_reply_required": true,
+      "unknown_or_duplicate_no_retry": true,
+      "stop_checked_between_steps": true,
+      "python_tests_auto_executable": false,
+      "source_edits_auto_executable": false,
+      "actual_hp_tested": false,
+      "actual_chatgpt_tested": false
     }
   },
   "constraints": {
@@ -116,7 +139,8 @@
         "SPDR-02"
       ],
       "purpose": "v0.6 adds a private seven-step, dependency-ordered, crash-persisted repair-mission DAG and bounded safe-source runner with explicit owner gates; generic autonomous planning and unattended progression not built",
-      "acceptance": "After interruption, unknown send state cannot be silently retried"
+      "acceptance": "After interruption, unknown send state cannot be silently retried",
+      "v010_evidence": "Source-tested three-turn/two-read-only-tool goal feedback loop; not general autonomous task execution; owner must approve one bounded session."
     },
     {
       "id": "SPDR-04",
@@ -395,6 +419,7 @@
     "existing_auto08": "automation_200/continuation_chrome",
     "v07_release_evidence": "https://github.com/whoiwts110217-creator/CF-0/blob/main/spider-desktop/releases/v0.7.md",
     "v08_release_evidence": "https://github.com/whoiwts110217-creator/CF-0/blob/main/spider-desktop/releases/v0.8.md",
-    "v09_release_evidence": "https://github.com/whoiwts110217-creator/CF-0/blob/main/spider-desktop/releases/v0.9.md"
+    "v09_release_evidence": "https://github.com/whoiwts110217-creator/CF-0/blob/main/spider-desktop/releases/v0.9.md",
+    "v010_release_evidence": "https://github.com/whoiwts110217-creator/CF-0/blob/main/spider-desktop/releases/v0.10.md"
   }
 }
