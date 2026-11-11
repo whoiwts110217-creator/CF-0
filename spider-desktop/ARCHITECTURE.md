@@ -207,3 +207,11 @@ Every decision must include an owner-readable tradeoff, test, evidence, reversib
 **Source of truth:** existing CF-0 public GitHub repository and canonical CF-200 registry; this SPDR graph is a child **architecture map**, not a duplicate task/contacts registry. Creator/developer David Smith; designated owner/intended beneficiary Kiara Lynn Rose Smith per current public master; legal transfer is not independently established.
 
 Read [Operator](../automation_200/MASTER_OPERATOR_PROMPT.md) → [Continuity](../automation_200/MASTER_CONTINUITY_PROMPT.md) → [Work](../automation_200/WORK_COPY_PASTE_AUTOMATION_PROMPT.md) at current public main before future decisions. The existing Spider/Sphere and AUTO-08 sources remain preserved; no new HP scheduler, public relay command or permission is created by the architecture. **Reversibility:** revert this documentation/graph only; v0.2 and any owner-local artifacts remain untouched. A future runtime upgrade must be versioned, testable and independently rollbackable.
+
+## Implementation checkpoint — November 11, 2026, Vision v0.5
+
+For `SPDR-05` and `SPDR-06`, the **conversation-packaged** `CF0-Spider-Desktop-v0.5.zip` contains executable source for a bounded local Notepad screenshot and limited UI Automation control metadata, rather than just the prior design. Its Python/Node synthetic tests and GUI PNG preview passed. The new `spider.vision.notepad` skill starts disabled and requires a separate enable approval and per-capture consent. Image pixels live only in RAM; no file, cloud or ChatGPT export is performed, and STOP discards the preview.
+
+This does **not** satisfy `SPDR-06`'s full-screen understanding criterion or the physical Windows mouse/screen acceptance gates. The screenshot uses Win32 GDI; UIA uses a bundled read-only PowerShell script to inspect button/menu/tab/toolbar identifiers, not document text. Screen-reading compatibility must be verified on the owner's actual HP. A pixel difference is an observation, not task-success verification. See [current release note](README.md#november-11-2026--v05-spider-vision-source-tested-checkpoint) and [source/proof graph](ROADMAP.json).
+
+A possible owner cloud allocation (~5 GB) is a **future optional storage adapter**, not a model, RAM extension or current connected service. No screenshot syncing is allowed by default. 
