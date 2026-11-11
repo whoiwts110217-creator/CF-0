@@ -6,8 +6,8 @@
   "owner_order": "2026-11-10 user requests a standalone evolving, multilingual, multiagent HP operator",
   "source_baseline": {
     "artifact": "CF0-Spider-Desktop-v0.12.zip",
-    "sha256": "ce5b160e83e3df0fbaf457a7b67ce6e7c6215697dfc71915dd0e3f335dce5d59",
-    "release_bytes": 166120,
+    "sha256": "863c249938b2a66fb578026eb9abeca50a16958e96c3fcf41b1c45920e7febd5",
+    "release_bytes": 166247,
     "source_file_hashes_checked": 77,
     "source_tests": "155 Python, 15 synthetic Node/Chrome, 2 Xvfb Tk GUI, 77/77 fresh-extracted source hashes: all passed; v0.11 Chromium DOM fixture remains historical; no owner HP or real signed-in ChatGPT/Google test.",
     "pre_hp_readiness": {
