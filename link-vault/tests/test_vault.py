@@ -34,6 +34,22 @@ class LinkVaultSourceTest(unittest.TestCase):
                 self.assertLessEqual(len(link["note"]),260)
                 self.assertNotRegex(link["url"],r"(?:chatgpt\.com/c/|/conversation/|token=|api_key=)")
 
+    def test_catalog_never_contains_private_chat_or_credential_shortcuts(self):
+        # Release gate for source-controlled public catalog (not a full repository or history audit).
+        sensitive_url = re.compile(
+            r"(?:chatgpt\\.com/(?:c/|share/)|/conversation/|"
+            r"[?&](?:access_token|refresh_token|api_key|session|password|auth_token|key)=)",
+            re.IGNORECASE
+        )
+        email = re.compile(r"[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}", re.IGNORECASE)
+        for item in self.catalog["links"]:
+            with self.subTest(id=item["id"]):
+                for field in ("url", "title", "note"):
+                    self.assertNotRegex(item[field], sensitive_url)
+                    self.assertNotRegex(item[field], email)
+                self.assertFalse(urlparse(item["url"]).username)
+                self.assertFalse(urlparse(item["url"]).password)
+
     def test_moving_current_routes_exist(self):
         urls=[x["url"] for x in self.catalog["links"]]
         for tail in ("CURRENT_SOURCE_GATEWAY.md","OWNER_JUNGLE_MAP.md","UNIVERSAL_FRESHNESS_CONTRACT.md","CHATGPT_MEMORY_BOOTSTRAP.md"):
