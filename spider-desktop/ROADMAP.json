@@ -1,0 +1,332 @@
+{
+  "schema": "cf0.spider.architecture_graph.v1",
+  "project_id": "CF-SPIDER-001",
+  "program": "SPIDER Desktop",
+  "classification": "public-safe planned architecture",
+  "owner_order": "2026-11-10 user requests a standalone evolving, multilingual, multiagent HP operator",
+  "source_baseline": {
+    "artifact": "CF0-Spider-Desktop-v0.2.zip",
+    "sha256": "219655cbc2bdfb2f2ce2853782d324bca6679f40c9d27dd476ebcd47f9a7b4c3",
+    "evidence": "isolated source tests only: 19 Python, 3 browser mocks, graphical Xvfb smoke",
+    "physical_hp_tested": false,
+    "real_chatgpt_tested": false,
+    "cloud_model_bundled": false
+  },
+  "constraints": {
+    "owner_device_observed": "Windows HP; earlier owner-reported 4 GB RAM and 4.88 GB free disk (may change)",
+    "budget": "Prefer no-cost stdlib, existing installed runtimes and cloud ChatGPT access if eligible; no local model install by default",
+    "execution": "owner-approved local app only; no unattended cloud-to-HP control inferred",
+    "privacy": "private chat, credentials and files remain owner-local; public CF-0 stores only sanitized references"
+  },
+  "capability_statuses": [
+    "source_tested_only",
+    "partial_source_only",
+    "planned",
+    "future"
+  ],
+  "nodes": [
+    {
+      "id": "SPDR-01",
+      "name": "Desktop cockpit",
+      "status": "source_tested_only",
+      "depends_on": [],
+      "purpose": "Native Windows app with mission console, STOP, owner review, logs",
+      "acceptance": "Launch a 700x500 GUI and run a harmless local action with local owner opt-in"
+    },
+    {
+      "id": "SPDR-02",
+      "name": "Policy and permission broker",
+      "status": "partial_source_only",
+      "depends_on": [
+        "SPDR-01"
+      ],
+      "purpose": "Per-skill capabilities, exact scoped approvals, kill switch and undo ledger",
+      "acceptance": "Unapproved write/network/GUI/send requests are rejected even when an agent asks"
+    },
+    {
+      "id": "SPDR-03",
+      "name": "Task engine and source provenance",
+      "status": "partial_source_only",
+      "depends_on": [
+        "SPDR-01",
+        "SPDR-02"
+      ],
+      "purpose": "Typed mission DAG, dependency, leases, outcome distinctions and source links",
+      "acceptance": "After interruption, unknown send state cannot be silently retried"
+    },
+    {
+      "id": "SPDR-04",
+      "name": "ChatGPT single-tab companion",
+      "status": "source_tested_only",
+      "depends_on": [
+        "SPDR-02",
+        "SPDR-03"
+      ],
+      "purpose": "Selected Chrome ChatGPT thread, browser handoff and reply receipt",
+      "acceptance": "Owner-selected one-thread round trip shows exact message and complete reply without duplicate"
+    },
+    {
+      "id": "SPDR-05",
+      "name": "Windows hands: UI Automation",
+      "status": "planned",
+      "depends_on": [
+        "SPDR-02",
+        "SPDR-03"
+      ],
+      "purpose": "Accessible control-tree navigation, focus, keyboard, clipboard and window lifecycle",
+      "acceptance": "Navigate two allowlisted apps and verify focus and control state on physical HP"
+    },
+    {
+      "id": "SPDR-06",
+      "name": "Visual mouse and perception",
+      "status": "planned",
+      "depends_on": [
+        "SPDR-05"
+      ],
+      "purpose": "Screen capture with private local handling, anchor-relative click fallback, OCR optional",
+      "acceptance": "Window movement and DPI tests do not send keys to the wrong app; STOP interrupts"
+    },
+    {
+      "id": "SPDR-07",
+      "name": "Chrome general browser worker",
+      "status": "planned",
+      "depends_on": [
+        "SPDR-02",
+        "SPDR-03",
+        "SPDR-04"
+      ],
+      "purpose": "Per-tab browser tasks, DOM and keyboard automation, downloads with provenance",
+      "acceptance": "Use a harmless test site/form; handle UI change and login gate"
+    },
+    {
+      "id": "SPDR-08",
+      "name": "Google workspace connector",
+      "status": "planned",
+      "depends_on": [
+        "SPDR-07",
+        "SPDR-02"
+      ],
+      "purpose": "Authorized Drive, Docs, Sheets, Calendar and Gmail tasks through approved providers or UI",
+      "acceptance": "Read one opted-in Google source, produce provenance receipt, never leak token"
+    },
+    {
+      "id": "SPDR-09",
+      "name": "Multilanguage code lab",
+      "status": "planned",
+      "depends_on": [
+        "SPDR-02",
+        "SPDR-03"
+      ],
+      "purpose": "Python, PowerShell, JavaScript and optional additional language drivers with independent interpreters",
+      "acceptance": "Compile/lint/run safe workspace tests in each installed toolchain; refuse missing runtime"
+    },
+    {
+      "id": "SPDR-10",
+      "name": "Skill registry and switches",
+      "status": "planned",
+      "depends_on": [
+        "SPDR-02",
+        "SPDR-09"
+      ],
+      "purpose": "Manifest loader, enable/disable, dependencies, version pinning and rollback",
+      "acceptance": "Turn approved read-only skill on and off and deny dependency/permission violation"
+    },
+    {
+      "id": "SPDR-11",
+      "name": "Skill forge and evaluation",
+      "status": "planned",
+      "depends_on": [
+        "SPDR-09",
+        "SPDR-10"
+      ],
+      "purpose": "Agent drafts and codes new skill, sandbox tests, blind comparison, activation review",
+      "acceptance": "Given missing feature, generate draft + tests; fail skill stays off; approved passes only"
+    },
+    {
+      "id": "SPDR-12",
+      "name": "Agent nest / worker activation",
+      "status": "planned",
+      "depends_on": [
+        "SPDR-03",
+        "SPDR-10",
+        "SPDR-11"
+      ],
+      "purpose": "Planner, coder, operator, researcher, verifier roles; spawn/stop scoped workers",
+      "acceptance": "Spawn bounded worker, delegate task, collect receipt; child cannot exceed parent rights"
+    },
+    {
+      "id": "SPDR-13",
+      "name": "Self-discovery / invention radar",
+      "status": "planned",
+      "depends_on": [
+        "SPDR-11",
+        "SPDR-12"
+      ],
+      "purpose": "Identify friction, suggest unrequested abilities, prototype and benchmark alternatives",
+      "acceptance": "Recurrent failure yields testable capability proposal with evidence, not self-install"
+    },
+    {
+      "id": "SPDR-14",
+      "name": "Memory, receipts and private indexing",
+      "status": "partial_source_only",
+      "depends_on": [
+        "SPDR-03"
+      ],
+      "purpose": "Local metadata journal, source-linked knowledge and owner-private context store",
+      "acceptance": "Restart recovers pending status without publishing private logs"
+    },
+    {
+      "id": "SPDR-15",
+      "name": "Recovery, simulation and safety monitor",
+      "status": "planned",
+      "depends_on": [
+        "SPDR-02",
+        "SPDR-03",
+        "SPDR-14"
+      ],
+      "purpose": "Crash recovery, rehearsal mode, undo, watchdog and smoke tests for stale/unknown state",
+      "acceptance": "Crash, account switch, duplicate send and STOP tests fail safely"
+    },
+    {
+      "id": "SPDR-16",
+      "name": "External skill ingestion",
+      "status": "planned",
+      "depends_on": [
+        "SPDR-10",
+        "SPDR-11",
+        "SPDR-15"
+      ],
+      "purpose": "Download-free-first review, signature/hash/license provenance, quarantine and tests",
+      "acceptance": "Untrusted plugin cannot gain network/shell/credential permissions automatically"
+    },
+    {
+      "id": "SPDR-17",
+      "name": "Operator learning/teach mode",
+      "status": "planned",
+      "depends_on": [
+        "SPDR-05",
+        "SPDR-06",
+        "SPDR-11"
+      ],
+      "purpose": "Owner records a bounded workflow; Spider converts to selectors and tests",
+      "acceptance": "Replays workflow after window position change, without hard-coded coordinates"
+    },
+    {
+      "id": "SPDR-18",
+      "name": "Phone companion and remote status",
+      "status": "future",
+      "depends_on": [
+        "SPDR-02",
+        "SPDR-14",
+        "SPDR-15"
+      ],
+      "purpose": "Private read-only status and explicit owner approvals on iPhone",
+      "acceptance": "No public HP listener or private chat export; remote commands only after authenticated design"
+    }
+  ],
+  "phases": [
+    {
+      "id": "P0",
+      "title": "Source baseline and safety invariants",
+      "capability_ids": [
+        "SPDR-01",
+        "SPDR-02",
+        "SPDR-03",
+        "SPDR-04",
+        "SPDR-14"
+      ],
+      "acceptance": "v0.2 ZIP source tests exist; HP and signed-in browser not yet accepted"
+    },
+    {
+      "id": "P1",
+      "title": "Live HP + Chrome truth test",
+      "capability_ids": [
+        "SPDR-01",
+        "SPDR-04",
+        "SPDR-05",
+        "SPDR-15"
+      ],
+      "acceptance": "One selected thread round trip, one safe HP action, STOP, no duplicate/replay"
+    },
+    {
+      "id": "P2",
+      "title": "Computer controls and code lab",
+      "capability_ids": [
+        "SPDR-05",
+        "SPDR-06",
+        "SPDR-07",
+        "SPDR-09"
+      ],
+      "acceptance": "A real owner-approved Windows/Chrome task and Python+PowerShell+JS tests"
+    },
+    {
+      "id": "P3",
+      "title": "On/off skill system",
+      "capability_ids": [
+        "SPDR-10",
+        "SPDR-14",
+        "SPDR-15"
+      ],
+      "acceptance": "Versioned read-only skill enabled/disabled; dependencies, rollback, audit"
+    },
+    {
+      "id": "P4",
+      "title": "Skill Forge and teach mode",
+      "capability_ids": [
+        "SPDR-11",
+        "SPDR-16",
+        "SPDR-17"
+      ],
+      "acceptance": "New generated skill passes sandbox + owner review or remains quarantined"
+    },
+    {
+      "id": "P5",
+      "title": "Multi-agent swarm control",
+      "capability_ids": [
+        "SPDR-12",
+        "SPDR-13"
+      ],
+      "acceptance": "Spawn narrow worker, coordinate result, detect new capability needs"
+    },
+    {
+      "id": "P6",
+      "title": "Google and higher-level workflows",
+      "capability_ids": [
+        "SPDR-08",
+        "SPDR-15"
+      ],
+      "acceptance": "Authorized Google app task with trace and no cross-account leak"
+    },
+    {
+      "id": "P7",
+      "title": "Optional phone control + packaged release",
+      "capability_ids": [
+        "SPDR-18"
+      ],
+      "acceptance": "Low-resource Windows build with separate opt-in remote status"
+    }
+  ],
+  "rules": {
+    "skill_lifecycle": [
+      "idea",
+      "draft",
+      "sandboxed",
+      "tested",
+      "owner_review",
+      "enabled",
+      "monitored",
+      "disabled_or_rolled_back"
+    ],
+    "skill_auto_activation": "Only for already-trusted, preapproved scopes; never for new filesystem writes, identity, payments, credentials or broad shell access",
+    "agent_spawn": "Child gets strictly narrowed subset of parent permissions, finite budgets and STOP channel",
+    "no_false_results": "send_submitted != reply_completed != action_verified != hp_attested",
+    "one_browser_writer": "Do not run Spider ChatGPT writer concurrently with AUTO-08/Master Continuation Switch"
+  },
+  "repo_links": {
+    "architecture": "spider-desktop/ARCHITECTURE.md",
+    "roadmap": "spider-desktop/ROADMAP.json",
+    "handoff": "docs/SPIDER_SPHERE_WORK_HANDOFF_2026-11-10.md",
+    "prior_spider": "link-vault/spider-hp",
+    "existing_auto08": "automation_200/continuation_chrome"
+  }
+}
