@@ -5,13 +5,13 @@
   "classification": "public-safe planned architecture",
   "owner_order": "2026-11-10 user requests a standalone evolving, multilingual, multiagent HP operator",
   "source_baseline": {
-    "artifact": "CF0-Spider-Desktop-v0.3.zip",
-    "sha256": "dd92a349fe051a7c238e8f6cadeefb091d2acbcb9d00b66edbe10613353fed0e",
-    "evidence": "conversation ZIP: freshly extracted source passed 36 Python, 3 mocked Node browser tests, 23 internal file SHA-256 checks and simulated Tkinter GUI smoke; no physical HP or signed-in ChatGPT operation verified",
+    "artifact": "CF0-Spider-Desktop-v0.4.zip",
+    "sha256": "5bd4f2287b5eec178c23519ef01e9d15b348dd2b9b319bf00da5945a06a983f8",
+    "evidence": "conversation ZIP: fresh extraction passed 49 Python tests including 13 simulated Windows Hands cases; 3 mock Node browser tests; 28 internal file hashes; Xvfb GUI smoke. Real physical Windows mouse, Google and ChatGPT tasks remain unverified",
     "physical_hp_tested": false,
     "real_chatgpt_tested": false,
     "cloud_model_bundled": false,
-    "package_distribution": "ChatGPT conversation artifact, NOT hosted in public GitHub; source is included in ZIP, 47,372 bytes"
+    "package_distribution": "ChatGPT conversation artifact, not GitHub-hosted; complete source is inside 55,692-byte ZIP"
   },
   "constraints": {
     "owner_device_observed": "Windows HP; earlier owner-reported 4 GB RAM and 4.88 GB free disk (may change)",
@@ -69,22 +69,22 @@
     {
       "id": "SPDR-05",
       "name": "Windows hands: UI Automation",
-      "status": "planned",
+      "status": "partial_source_only",
       "depends_on": [
         "SPDR-02",
         "SPDR-03"
       ],
-      "purpose": "Accessible control-tree navigation, focus, keyboard, clipboard and window lifecycle",
+      "purpose": "v0.4 supports owner-approved foreground Notepad identity/geometry/window-title verification, and retains prior fixed UIA Notepad probe; general UI Automation navigation still planned",
       "acceptance": "Navigate two allowlisted apps and verify focus and control state on physical HP"
     },
     {
       "id": "SPDR-06",
       "name": "Visual mouse and perception",
-      "status": "planned",
+      "status": "partial_source_only",
       "depends_on": [
         "SPDR-05"
       ],
-      "purpose": "Screen capture with private local handling, anchor-relative click fallback, OCR optional",
+      "purpose": "v0.4 adds stdlib Win32 foreground-window-relative center move/click with 4-second owner-initiated countdown, STOP, identity/geometry recheck and no arbitrary coordinates; screen perception, other apps and real HP testing remain planned",
       "acceptance": "Window movement and DPI tests do not send keys to the wrong app; STOP interrupts"
     },
     {
