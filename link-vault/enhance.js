@@ -185,6 +185,11 @@ get("export").onclick=()=>{
 get("import").onchange=async e=>{
  const file=e.target.files&&e.target.files[0];
  if(!file)return;
+ // The user chooses whether to save imported personal URLs in shared-origin, unencrypted storage.
+ if(!window.confirm("Import personal links into this browser? URLs and titles are NOT encrypted. Other pages on this website origin may read saved browser data. Do not import passwords, tokens, or sensitive account links. Choose Cancel to keep your data unchanged.")){
+   e.target.value="";
+   return;
+ }
  try{
    if(file.size>300000)throw Error("File is too large");
    const obj=JSON.parse(await file.text());
