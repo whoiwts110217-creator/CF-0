@@ -20,7 +20,7 @@
     "real_chatgpt_tested": false,
     "cloud_model_bundled": false,
     "google_app_control_tested": false,
-    "package_distribution": "v0.7 downloadable as a conversation ZIP and source JSON; public GitHub contains sanitized evidence only, not runnable ZIP; private Library upload of v0.7 not verified",
+    "package_distribution": "v0.7 ZIP and source JSON exist both as conversation downloads and verified copies in the existing private ChatGPT Library Spider Desktop folder; no public GitHub installer and no HP installation",
     "python_project_tests": {
       "status": "source_tested_only",
       "owner_approval_required": true,
