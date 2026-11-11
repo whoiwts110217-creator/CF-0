@@ -20,7 +20,7 @@
     "real_chatgpt_tested": false,
     "cloud_model_bundled": false,
     "google_app_control_tested": false,
-    "package_distribution": "v0.9 ZIP and full source JSON are conversation artifacts; private Library backup pending verification. Public GitHub records sanitized release evidence only. Owner HP installation unverified.",
+    "package_distribution": "v0.9 ZIP + complete source JSON verified uploaded to existing private ChatGPT Library /Caveman Focus/Spider Desktop; both are also conversation downloads. No public GitHub executable or owner HP installation.",
     "python_project_tests": {
       "status": "source_tested_only",
       "owner_approval_required": true,
