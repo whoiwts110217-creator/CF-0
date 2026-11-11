@@ -22,3 +22,7 @@
 ## Continuity and rollback
 
 For consequential future runs re-read the live public main [Master Operator](../automation_200/MASTER_OPERATOR_PROMPT.md), [Master Continuity](../automation_200/MASTER_CONTINUITY_PROMPT.md), then [Work Prompt](../automation_200/WORK_COPY_PASTE_AUTOMATION_PROMPT.md), plus applicable registry and originals. Preserve private records; do not duplicate task ledgers. Rollback by restoring the prior private skill plugin release **0.3.0** using its legitimate edit/release mechanism. Next test: one real narrow Spider workflow with exact before/after receipts.
+
+## Activation follow-up (same-session observation)
+
+Immediately after the private plugin 0.3.1 source readback, a new `skills__list` call in the **same ChatGPT conversation** still returned **165 entries**, and the new `skill-cartographer` URI was not discoverable there. A direct skill read by that URI returned `Resource not found`. Therefore the plugin update is **saved and source-verified**, but **skill-host activation in this conversation remains UNVERIFIED**. A later fresh conversation/plugin refresh should re-enumerate before claiming availability. No unsupported forced refresh or manual installation was performed.
