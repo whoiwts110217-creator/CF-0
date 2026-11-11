@@ -33,6 +33,18 @@ Checkmarks are local reminders, not official verification or a notification to o
 
 On iPhone **Safari**: open the URL → tap **Share** → **Add to Home Screen** → **Add**. It becomes a home-screen web app, not a native App Store app. The public page does not control ChatGPT, GitHub, your HP, payment accounts or external sessions.
 
+## Privacy controls and current safety boundary — November 10, 2026
+
+**New limited privacy control (source-stage until published and tested on iPhone):** The Link Vault has a **Privacy & clear data** button that explains the storage risk and requires typing **CLEAR** before deleting only this app's local personal-key state (`cf_link_vault_v1` and `cf_link_vault_owner_action_checks_v1`). This erases personal shortcuts, local corrections, favorites, recent-link trail and action checkmarks. It leaves unrelated browser app storage and the public cached catalogs untouched. Imported owner-private Spider manifests live only in page memory and are released when the app reloads. The companion regression test proves scoped removal, no blanket `localStorage.clear()`, and no network transmission in the erasure script. Clearing cannot erase backups already saved to Files, nor copies other scripts previously accessed.
+
+**Privacy limitation:** GitHub Pages hosts several CF-0 apps on the **same origin**. Browser localStorage is origin-scoped, not path-scoped, so browser code from other pages on `whoiwts110217-creator.github.io` can access the Link Vault's *unencrypted* stored URLs and titles. The plain JSON backup is also **unencrypted**. The application does not itself upload those URLs or credentials, but it is **not a secure secret vault**; use Safari bookmarks or a separately secured private store for sensitive destinations, and never enter passwords, tokens, bank information or private contact records. Encrypted storage or a separate origin would be an independent design/owner approval, not implied by these controls.
+
+**Import acknowledgment:** Importing personal backup files now requires confirming this risk before the local write. Public catalog updates continue without involving personal data and remain on the same existing source feed.
+
+**Repository exposure snapshot (targeted inspection only, 2026-11-10):** The `CF-0` repository and its site are public. Link Vault's public catalog is intended for unrestricted viewing. The repository includes public-safe command queue requests and receipts; these are visible historical records, *not* private HP commands or proof of live HP control. A targeted filename/corpus check and focused source review are not a comprehensive secrets scan of current files, Git history, all dependencies, or connected devices. The new release gate rejects private ChatGPT conversation/share URLs and credential-bearing query parameters from the published Link Vault catalog. It cannot guarantee every external destination remains safe, current or publicly shareable.
+
+**Rollback:** Revert the privacy-control source and associated website-stage/test changes; any local data that the owner already deliberately cleared will not be restored by code rollback. The existing Spider, Mission Control, work orders and public queue permissions are unchanged.
+
 ## How public links update
 
 1. Public source of truth is [`link-vault/links.json`](links.json), **not another contacts list or task registry**. Keep each link's **stable `id`** when correcting a URL; do not recycle retired IDs. Add new IDs for new public entries. Increment the `revision` field after editing. Do not add credentials, personal contacts, conversation URLs, private manuscripts or account-specific details.
