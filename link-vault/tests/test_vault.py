@@ -37,11 +37,11 @@ class LinkVaultSourceTest(unittest.TestCase):
     def test_catalog_never_contains_private_chat_or_credential_shortcuts(self):
         # Release gate for source-controlled public catalog (not a full repository or history audit).
         sensitive_url = re.compile(
-            r"(?:chatgpt\\.com/(?:c/|share/)|/conversation/|"
+            r"(?:chatgpt\.com/(?:c/|share/)|/conversation/|"
             r"[?&](?:access_token|refresh_token|api_key|session|password|auth_token|key)=)",
             re.IGNORECASE
         )
-        email = re.compile(r"[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,}", re.IGNORECASE)
+        email = re.compile(r"[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}", re.IGNORECASE)
         for item in self.catalog["links"]:
             with self.subTest(id=item["id"]):
                 for field in ("url", "title", "note"):
