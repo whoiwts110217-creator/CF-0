@@ -5,11 +5,11 @@
   "classification": "public-safe planned architecture",
   "owner_order": "2026-11-10 user requests a standalone evolving, multilingual, multiagent HP operator",
   "source_baseline": {
-    "artifact": "CF0-Spider-Desktop-v0.14.zip",
-    "sha256": "d9e90091ff2ff93243576b0a6a8cc3203eb2b651a51709131e5db24a71ced410",
-    "release_bytes": 178341,
-    "source_file_hashes_checked": 82,
-    "source_tests": "167 Python tests, 15 synthetic browser/Node tests, 2 Tk/Xvfb GUI tests; clean ZIP 82/82 source hashes. Two actual Python localhost server ↔ synthetically hosted Chrome background.js integration tests passed. Real Chrome service worker and owner HP NOT tested.",
+    "artifact": "CF0-Spider-Desktop-v0.15.zip",
+    "sha256": "3031e6f6cf63fe01aba2e573cd16fbf5a6eaa6e78ee167134432f3dac9a69066",
+    "release_bytes": 182142,
+    "source_file_hashes_checked": 83,
+    "source_tests": "168 Python tests (including real Python STOP vs synthetic Chrome JS mid-insert), 17 synthetic Chrome/Node tests (two v0.14 failing→v0.15 passing STOP/Enter regressions), 2 simulated Tk GUI smokes, clean ZIP 83/83 SHA-256 manifest matches. No real Chrome extension or owner HP tests.",
     "pre_hp_readiness": {
       "source_gates_tested": 17,
       "total": 20,
@@ -29,7 +29,7 @@
     "real_chatgpt_tested": false,
     "cloud_model_bundled": false,
     "google_app_control_tested": false,
-    "package_distribution": "v0.14 ZIP and full source JSON preserved in existing private ChatGPT Library /Caveman Focus/Spider Desktop; v0.13 retained rollback. No public executable installer and no physical Windows HP or signed-in ChatGPT verification.",
+    "package_distribution": "v0.15 ZIP and matching full source JSON saved in existing private ChatGPT Library /Caveman Focus/Spider Desktop. v0.14 preserved for rollback. Public GitHub has public-safe release note only, not runnable source package. HP and signed-in provider still unverified.",
     "python_project_tests": {
       "status": "source_tested_only",
       "owner_approval_required": true,
@@ -155,6 +155,24 @@
       "source": "spider-desktop/releases/v0.14.md",
       "no_chatgpt_send": true,
       "local_ram_only": true
+    },
+    "stop_after_insert_gate": {
+      "status": "source_tested_only",
+      "original_failure": "v0.14 could dispatch Chrome Enter after local STOP or desktop gate revocation during async CDP text insertion",
+      "regression_tests_browser": 2,
+      "before_v014": "2 tests FAILED",
+      "after_v015": "2 tests PASS",
+      "integration": "Actual local Python controller.stop revokes leased job while JS worker script waits on insert, no Enter and unknown checkpoint preserved",
+      "checks": [
+        "local_extension_stop_after_insert",
+        "exact_selected_chat_tab_after_insert",
+        "authenticated_desktop_gate_after_insert",
+        "final_extension_stop_before_enter"
+      ],
+      "unresolved": "Cannot retract an Enter already dispatched; an unsent draft may remain after STOP",
+      "live_chrome_tested": false,
+      "owner_hp_tested": false,
+      "source": "spider-desktop/releases/v0.15.md"
     }
   },
   "constraints": {
