@@ -1,0 +1,28 @@
+# CF-SPIDER-001 — Spider Unified v1.1.1 paste-only source checkpoint
+
+**Checkpoint date:** November 11, 2026 (America/Detroit). **Status:** source-implemented and source-tested; **HP installation and real signed-in browser acceptance remain unverified**. Parent: CF-CORE / CF-SPIDER-001; related: CF-200 continuity, Spider Desktop, browser companion, owner STOP/PAUSE/RESUME, local evidence ledger.
+
+## What changed
+
+The existing owner-supplied **CF0_Gemini_Spider_Unified_v1.1_AUTO_SETUP** Python source was extended, **not replaced with a separate demo**. The new operator command `paste to chatgpt: <draft>`, `paste to gemini: <draft>`, or `ctrl+v: <draft>` stages draft text in the selected, owner-signed-in browser's visible AI composer. `ctrl+v:` is a typed command alias, **not** a global Windows keyboard/clipboard operation. Text after the colon is literal, including commas and "then".
+
+The local CDP implementation requires the exact ChatGPT/Gemini host, an empty visible composer, an owner approval, and STOP not being active. It inserts using `Input.insertText`, checks on-page readback, and never calls Enter or the Send control. If insertion is uncertain, it refuses automatic retry. It does **not** enable Messenger, arbitrary website messaging, account login, new HP relay commands, or unattended message sending. No new background scheduler, subscriptions, or financial actions were introduced.
+
+## Evidence and provenance
+
+- **Isolated source tests:** 44/44 passed under Linux Python 3.13, including authorization denial, exact-host enforcement, unsent-draft behavior, STOP, nonempty-composer refusal, literal comma/then preservation, ledger redaction and no compound paste execution. Evidence class: `synthetic-test` / `verified-container`; **not** live HP or real ChatGPT/Gemini UI acceptance.
+- **Offline Python patcher:** the single-file `CF0_Spider_PasteOnly_1_1_1_OneFile_Patch.py` was exercised in a synthetic installed v1.1 tree: first apply, duplicate apply, rollback, and refusal of modified installed code. It checks exact source SHA-256s and preserves code backups under the app's private directory. The bundled multi-file patcher was also tested through the same lifecycle.
+- **Packaged local release artifact:** `CF0_Gemini_Spider_Unified_v1.1.1_Paste_Only_HP_Update.zip`; SHA-256 `cf346250f253072cabc0b1d92ad32345ebda757809070fb09fb0be26b14dd246`. The ZIP and standalone updater were produced in the active owner conversation; **they are not hosted or deployed by this repository entry**. No unverified public download URL is asserted.
+- **Not verified:** actual Windows HP update applied, real browser DOM compatibility, signed-in session, account message delivery, Messenger send, or external payment. Local Chromium smoke against a test fixture was attempted but not verified, so it is not counted as a passing browser integration test.
+
+## Reversible HP owner action — only when ready
+
+With Spider closed, obtain the reviewed single-file patcher from the owner conversation and run `py -3 CF0_Spider_PasteOnly_1_1_1_OneFile_Patch.py --apply` on the HP. The patcher refuses source drift rather than overwriting other Spider builds. To undo, run the same file with `--rollback`. After relaunch, sign into the dedicated Chrome as needed and try `paste to chatgpt: Test draft, do not send`; the expected result is a **visible unsent draft** and a valid local ledger entry without prompt text. The user must decide whether to send it; Spider's paste command does not.
+
+**P0 next three:** (1) owner-supervised Windows installation + ChatGPT/Gemini unsent-draft acceptance with STOP/Pause; (2) assess compatibility with existing Spider Desktop GUI/browser pairing before changing production hooks; (3) reconcile this checked source with the integrated HP Spider source and its existing append-only ledger. Preserve the original v1.1 archive and any other working installations.
+
+**Public-safe boundaries:** no private conversations, credentials, local HP identifiers, account messages or contact lists are included. Code source artifact exists only in the owner conversation at this checkpoint; GitHub entry is a sanitized handoff, **not** proof of installing, operating or publishing a functional agent.
+
+**Canonical preflight read:** [Operator](../automation_200/MASTER_OPERATOR_PROMPT.md) blob `5dad8c17b04a4eb744e5a1474b2ecfb9ddd0abe0`; [Continuity](../automation_200/MASTER_CONTINUITY_PROMPT.md) blob `77900acb1c3eb75f8dfd3cef245503d052971479`; [Work self-reference](../automation_200/WORK_COPY_PASTE_AUTOMATION_PROMPT.md) blob `d090f82eaf89d9cd339e7eef248750ebef965e88`. Next run must re-fetch all three from current public `main`, not trust this dated state. No CF-200 registry/event/checkpoint promotion follows from these isolated Spider tests.
+
+**Creator/developer:** David Smith. **Designated intended owner/beneficiary:** Kiara Lynn Rose Smith. This note is not a legal transfer.
