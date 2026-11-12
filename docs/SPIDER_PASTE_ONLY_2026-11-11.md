@@ -2,6 +2,8 @@
 
 **Checkpoint date:** November 11, 2026 (America/Detroit). **Status:** source-implemented and source-tested; **HP installation and real signed-in browser acceptance remain unverified**. Parent: CF-CORE / CF-SPIDER-001; related: CF-200 continuity, Spider Desktop, browser companion, owner STOP/PAUSE/RESUME, local evidence ledger.
 
+> **Subsequent owner direction:** [Windows Spider public-safe owner handoff](SPIDER_WINDOWS_HANDOFF_2026-11-11.md) is the current priority/next-step reference. iPhone experiments are paused; heartbeat, repair, and AUTO-08 integration are proposed and not deployed by this v1.1.1 paste-only release.
+
 ## What changed
 
 The existing owner-supplied **CF0_Gemini_Spider_Unified_v1.1_AUTO_SETUP** Python source was extended, **not replaced with a separate demo**. The new operator command `paste to chatgpt: <draft>`, `paste to gemini: <draft>`, or `ctrl+v: <draft>` stages draft text in the selected, owner-signed-in browser's visible AI composer. `ctrl+v:` is a typed command alias, **not** a global Windows keyboard/clipboard operation. Text after the colon is literal, including commas and "then".
