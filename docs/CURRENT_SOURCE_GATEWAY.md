@@ -2,6 +2,8 @@
 
 **Bookmark this, not an old snapshot:** https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/CURRENT_SOURCE_GATEWAY.md
 
+**Spider cross-version code recovery (November 12, 2026):** [3.3.x vs WholePC 1.3.4, Integrated 1.3.1, Desktop 0.15 — archive counts, independently rerun tests, component reuse and reproduced safety issues](SPIDER_SOURCE_VERSION_RECOVERY_AUDIT_2026-11-12.md). This is a public-safe code audit and candidate merge order, not an installed HP release; original private archives remain private.
+
 **Three-assistant relay factual activity audit (November 12, 2026):** [Public-safe 44-entry ChatGPT/Gemini/Macro activity chart and evidence limits](THREE_AI_RELAY_FACTUAL_AUDIT_2026-11-12.md). At the reviewed snapshot, 26 ChatGPT-posted entries, 17 Gemini-direct entries, and 1 Macro introduction; no completed Macro technical task was found. Source tests and document messages are not live HP or automatic three-provider acceptance. Preserve the private relay and account data.
 
 This gateway's **`main` URL moves with the repository**. It is an up-to-date *route* to evidence, **not** proof every statement or external provider was just rechecked. For version/age decisions use [CF-FRESH-001](UNIVERSAL_FRESHNESS_CONTRACT.md), its [29-topic public-safe catalog](FRESHNESS_CATALOG.json) and the [read-only universal source resolver](../continuity/public_freshness.py). **Last reviewed for initial routing: November 10, 2026.** Always consult actual source timestamps, provider evidence and Git commits.
