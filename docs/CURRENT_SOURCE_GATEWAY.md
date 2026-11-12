@@ -27,7 +27,7 @@ This gateway's **`main` URL moves with the repository**. It is an up-to-date *ro
 - **P2 · Funding and real value:** [current project status](PROJECT_STATUS.md) · [aggregate revenue/award status](PUBLIC_CONTINUITY_STATE.json) · [free tool](https://whoiwts110217-creator.github.io/CF-0/clarity-card/) · [inquiry pilot offers](https://whoiwts110217-creator.github.io/CF-0/clarity-brief/). External confirmation must come from its actual provider or an owner-shared receipt.
 - **P3 · Research, games and creative work:** [all distinct project identities](PROJECTS.md) · [research overview](RESEARCH.md) · [original method rulebook](../CAVEMAN_FOCUS_RULEBOOK_v0.1.md) · [Dreamkiller](../concepts/dreamkiller/MASTER_CONCEPT_AND_CONTINUITY_PROMPT.md). Published summaries don't make private manuscripts public.
 
-## Universal rule when you click on any source
+**Spider Unified owner-HP update (November 11):** [paste-only v1.1.1 source checkpoint](SPIDER_PASTE_ONLY_2026-11-11.md) — 44 isolated tests passed; one-file offline patcher and rollback tested; HP install and signed-in browser acceptance still unverified. This is separate from the public CF-200 relay allowlist.\n\n## Universal rule when you click on any source
 
 1. **Was this file/version checked?** If no source hash/provider evidence: **UNKNOWN**, not “current.”
 2. **Does its recorded blob match the latest checked-out source?** Compare with the [read-only checker](../continuity/public_freshness.py); mismatches are **STALE**. A match says same Git bytes, not live running.
