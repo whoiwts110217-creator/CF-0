@@ -1,4 +1,6 @@
 # CF-SPIDER-001 — Spider/Sphere source-linked ChatGPT Work handoff
+
+> **Newer owner direction (November 11):** Windows HP Spider is the current focus; iPhone app exploration is parked. For current heartbeat, repair, overlay, AUTO-08 adapter and command-origin evidence gates, read the [public-safe Windows Spider handoff](SPIDER_WINDOWS_HANDOFF_2026-11-11.md). This older Sphere development log is historical and must not override current source or owner direction.
 **Dated:** 2026-11-10. **Parent:** CF-LINK-VAULT-001 → CF-CORE / P1; related CF-MESH-001, CF-200, AUTO-08, UCC-001, FIN-09, CF-OWNER-HANDOFF-001.
 **Stage:** [PR #113](https://github.com/whoiwts110217-creator/CF-0/pull/113) **merged** to main at [323b1e1](https://github.com/whoiwts110217-creator/CF-0/commit/323b1e109e1f01c7d52b345365694041c90ca7b5). The GitHub Pages pipeline later **passed** exact main commit `ba537a8e9c3b4965ead1e56f67bdaccc30730e48` in [run 42883457686](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42883457686) including staging, deployment and built-in live release-identity/essential-route verification. This is release evidence, not observed iPhone interaction; independent web-reader could not open Pages URLs. Owner direction: animated robot plus true deduplicating internal Spider Core inside existing Sphere, with no replacement registry or dashboard.
 
