@@ -1,0 +1,48 @@
+# CF-SPIDER-001 — Windows HP Spider: owner decisions and public-safe engineering handoff
+
+**Owner-directed checkpoint:** November 11, 2026, evening Eastern. **Status:** public-safe decision and source audit; **NOT** proof of live HP deployment, repaired UI, or a merged AUTO-08/Spider runtime.
+
+**Identity and relationships:** CF-SPIDER-001, parent CF-CORE / P0-P1; related AUTO-08 (existing one-tab continuation), CF-200 (separate source-verified task registry), Spider Desktop, Spider Sphere / Link Vault, existing HP relay and append-only evidence ledger. Creator/developer: David Smith; designated intended owner/beneficiary: Kiara Lynn Rose Smith (not proof of legal transfer).
+
+## Current owner priority, effective now
+
+**Focus on the existing Windows HP Spider. Pause further iPhone app development/experiments until the owner explicitly resumes them.** A previously discussed unofficial/sideloaded iPhone path is exploratory and **not built, installed, running, or approved for paid distribution**. Do not divert the Windows workstream into a separate iPhone program.
+
+The final desired Windows agent remains a **single integrated, local-first Spider** (GUI, screen/UI hands, browser companion, Python diagnostics and bounded repair, Sphere and continuity, ledger and STOP/PAUSE/RESUME). Preserve already working components and source history instead of discarding them for separate demos. Run on modest HP resources without mandatory paid APIs or new subscriptions. ChatGPT/Gemini may be consulted through specifically authorized browser workflows, never assumed to be continuously controllable.
+
+## Owner-observed behavior vs verified source
+
+- The owner reports Spider is **running on the HP and partly doing what they want**, including an overlay arrangement where Spider remains visible above a recurrent Windows command/power window. This is **owner report**, not independent inspection; do not claim the latest packaged source version has been installed.
+- The recurring window may be launched by an existing automation, **but its process origin is unknown**. Owner explicitly prefers not to disturb it. Do **not** disable, hide, kill, reschedule or modify the task merely from suspicion. If a non-invasive diagnosis is later authorized, correlate actual process/task evidence first.
+- The [public HP health snapshot](../relay/health/latest.json) reports the relay/receipt store, **not** a live Spider GUI heartbeat. At this checkpoint its collected UTC time is `2026-11-12T01:47:17+00:00`, with `receipt_count=32`, `ping_receipt_count=10`, `last_receipt_status=completed`; these historical totals do **not** prove the Windows Spider is alive or unattended.
+- [Spider Desktop v0.14 source release](../spider-desktop/releases/v0.14.md) already includes a **source-tested, owner-clicked Chrome-to-desktop `/heartbeat`** and LIVE/STALE/NOT RECEIVED display. It is **not** a recurring full-process liveness monitor. No contradiction: extend that existing signal rather than replace it.
+- [Gemini Spider Unified v1.1.1 paste-only](SPIDER_PASTE_ONLY_2026-11-11.md) has **44 isolated Python tests passing** and a reversible HP patcher, but real HP application and signed-in browser input/readback are still **unverified**. The ZIP and patcher remain owner-conversation artifacts, **not public GitHub download binaries**.
+- Source-only [AUTO-08 Chrome continuation](../automation_200/continuation_chrome/README.md) still has a strict one-tab, one-owner-controller, no-duplicate-send, STOP/unknown-result checkpoint policy. There is no verified live Spider/AUTO-08 merge.
+
+## New requested behavior — not yet implemented/verified
+
+### 1. Spider web/overlay heartbeat and health display
+Within the **existing** Windows Spider UI/web component, show a small continually refreshing status area: `ALIVE / IDLE / WORKING / PAUSED / STOPPED / STALE / FAULT`, last heartbeat, paired browser state, last **verified** action, current blocker, and local error/repair status. Refresh cheaply (a candidate interval is 30 seconds), show `STALE` when events stop, and preserve STOP state through restarts. Use only actually observed local signals; never infer HEALTHY from an open window or a static green label. Do not publish prompts, messages, credentials or private machine details to the public status feed.
+
+### 2. Repair integrated into the web/Spider interface
+The owner wants **repair-on-the-fly**. Reuse existing reviewed Python source/diagnostic adapters. Proposed safe loop: detect fault → capture bounded private diagnostic evidence → classify known failure → request owner permission where the action can change code/config/state → back up original → apply an allowlisted repair recipe → run a specific test → record `REPAIRED_VERIFIED` only if that test passes, else rollback or STOP and request review. A clicked “Repair” button must **not merely change its label to green** without an actual repair/test. No general self-rewriting code or arbitrary remote command authority is granted here. Existing web repair behavior is **not independently verified by this handoff**.
+
+### 3. Spider + AUTO-08 integrated operating path
+Owner raised combining these systems. **Integration is an engineering direction to investigate, not proof of an approved immediate cutover.** Keep Spider as the visible native Windows controller; adapt the existing AUTO-08 one-tab continuation worker behind a single explicit capability broker, shared STOP/PAUSE, idempotent action IDs and append-only ledger. First compare running Chrome control paths and prevent two controllers from typing into the same tab. Preserve AUTO-08 checkpoint storage, `maybe_sent` uncertainty, STOP/unknown-send blocking and tested behavior. Do not uninstall or retire the existing extension or alter the CF-0 public relay allowlist (`ping`, `hp_status`, and configured read-only `sidecar_verify`) without a separate owner-gated, rollback-tested decision.
+
+### 4. Unexplained speech-to-command concern
+An unexplained assistant utterance was reported in this voice session. **No evidence establishes that Spider, a scheduled executor, or another application acted on it**; previous evidence checks saw scheduled work but not command execution attributed to the utterance. Treat this as an **unresolved command-origin/provenance diagnostic**, not a confirmed intrusion or proof nothing happened. Separate conversational/audio text from executable owner-approved commands; retain bounded local logs and require concrete action/result correlation before claiming a command was executed. No private transcript or personal details are reproduced here.
+
+## Acceptance and next executable work
+
+1. **P0 source inspection**: identify the actual owner-installed Spider build, and compare its desktop overlay, heartbeat, web Repair control and browser companion with the preserved current private packages. No blind patching of an unknown installed version.
+2. **P0 bounded implementation/test**: connect a local periodic process/GUI heartbeat to a live status textbox; test WORKING→STALE on simulated timeout, STOP remains stopped, recovery after restart, and no false “repaired” result. Keep the existing v0.14 one-shot Chrome handshake separate from periodic process health.
+3. **P0 adapter review**: inspect AUTO-08 and Spider's Chrome controllers for simultaneous-send and state-conflict risks; design a single-controller handoff with owner approval and rollback, then test with synthetic fixtures before any signed-in live send.
+
+**Owner action class:** `REQUIRED_BEFORE_GATE` only for eventual real HP acceptance, not required for this public documentation update. When testing: use **one** owner-supervised launch/update, confirm overlay remains visible, health changes on deliberate STOP and browser disconnect, Repair shows evidence only when a repair truly passes, and no AI messages are sent without explicit permission. Preserve the previously working install and a rollback ZIP; do not request passwords, tokens or private chats.
+
+**Evidence this handoff actually proves:** canonical source was read and new owner decisions were documented; **no** new working code, Windows installation, extension cutover, exact process identification, repair, app-store release or new financial receipt has been verified here. [Authoritative CF-200 registry](../automation_200/registry.json) remains **91/200 source-verified** (blob `77d548b366ff5dc2070c74e30423a3495c6a73cb`) at this check. No task promotions or append-only ledger mutations resulted from this documentation-only checkpoint.
+
+**Preflight source SHAs** (re-fetch on next run; these are dated evidence, not a permanent latest claim): [Operator](../automation_200/MASTER_OPERATOR_PROMPT.md) `5dad8c17b04a4eb744e5a1474b2ecfb9ddd0abe0`; [Continuity](../automation_200/MASTER_CONTINUITY_PROMPT.md) `77900acb1c3eb75f8dfd3cef245503d052971479`; [Work](../automation_200/WORK_COPY_PASTE_AUTOMATION_PROMPT.md) `d090f82eaf89d9cd339e7eef248750ebef965e88`; [Spider v0.14](../spider-desktop/releases/v0.14.md) `cf61a50105320358370202b5a53e54294c072f50`; [AUTO-08](../automation_200/continuation_chrome/README.md) `af1bc609e27e6558c9a3f2db193f2f67c875dcb2`; [Spider roadmap](../spider-desktop/ROADMAP.json) `f1c666603616ee4a41e9b691b2a12aee1482d63d`.
+
+**Rollback:** This is an additive public-safe handoff. Revert its linking commit(s) if the owner corrects the decision; do not rewrite prior accepted events, private packages or source records. The target remains the existing Windows Spider program.
