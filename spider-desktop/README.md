@@ -2,7 +2,7 @@
 
 **This directory is the architecture and machine-readable map for a separate Windows application**, not the existing public Link Vault spider graphic. The app must be capable of work in Python, PowerShell, JavaScript, Chrome/ChatGPT and authorized Google apps, plus owner-controlled mouse/keyboard, self-authored skills, skill switches, multiple workers and proactive invention.
 
-- [Complete architecture and flow diagram](ARCHITECTURE.md)
+**Parallel integrated Windows release (November 12, 2026):** [Unified Spider 1.3.0 source-tested owner-private package and safety/HP handoff](releases/unified-integrated-v1.3.0-2026-11-12.md). This branch preserves the existing Unified Fresh 1.2.1 visual app and integrates canonical read-only CF-200 tasks, loopback control hardening, revenue integrity and local process telemetry; 125 clean-extraction Python tests passed. It is **not an HP-verified replacement** for the separate v0.15 Desktop branch; no CF-200 registry promotion or verified income.\n\n- [Complete architecture and flow diagram](ARCHITECTURE.md)
 - [18-capability dependency graph and eight phases](ROADMAP.json)
 - [Architecture validation tests](tests/test_roadmap.py)
 - [Canonical CF-SPIDER-001 continuity handoff](../docs/SPIDER_SPHERE_WORK_HANDOFF_2026-11-10.md)
