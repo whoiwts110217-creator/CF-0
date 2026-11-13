@@ -108,6 +108,19 @@ const CF0_originalWireSvg=wireSvg;
 wireSvg=function(){
  CF0_originalWireSvg();
  const paths=[...$('wires').querySelectorAll(':scope > path')].filter(p=>p.hasAttribute('d'));
+ // Each evidence type needs an arrow matching the line, not the old teal-only marker.
+ const defs=$('wires').querySelector('defs');
+ const markerColors={source:'#64d7cb',hypothesis:'#f0be68',boundary:'#ee90b7',manual:'#8d99b0'};
+ for(const [category,color] of Object.entries(markerColors)){
+  const marker=document.createElementNS('http://www.w3.org/2000/svg','marker');
+  marker.setAttribute('id','cf0-arrow-'+category);
+  marker.setAttribute('markerWidth','7');marker.setAttribute('markerHeight','7');
+  marker.setAttribute('refX','6');marker.setAttribute('refY','3');marker.setAttribute('orient','auto');
+  const arrow=document.createElementNS('http://www.w3.org/2000/svg','path');
+  arrow.setAttribute('d','M0,0 L6,3 L0,6');arrow.setAttribute('fill','none');
+  arrow.setAttribute('stroke',color);arrow.setAttribute('stroke-width','1.4');
+  marker.appendChild(arrow);defs.appendChild(marker);
+ }
  const present=new Set(state.nodes.map(n=>n.id));let idx=0;
  for(const l of state.links){
   if(!present.has(l.from)||!present.has(l.to))continue;
@@ -116,13 +129,16 @@ wireSvg=function(){
   const hypo=edges.some(e=>e.evidence_level==='HYPOTHESIS');
   const hazard=edges.some(e=>e.windows_hwnd_sendinput_boundary);
   const provenance=edges.length?(hypo?'hypothesis':hazard?'boundary':'source'):'manual';
-  path.setAttribute('stroke',provenance==='hypothesis'?'#f0be68':provenance==='boundary'?'#ee90b7':provenance==='manual'?'#8d99b0':'#64d7cb');
+  path.setAttribute('stroke',markerColors[provenance]);
+  path.setAttribute('marker-end','url(#cf0-arrow-'+provenance+')');
   if(provenance==='manual'||provenance==='hypothesis')path.setAttribute('stroke-dasharray','7 5');
   path.setAttribute('stroke-width',provenance==='boundary'?'3':'2');
   const wanted=$('wireView').value;
   path.style.display=(wanted==='selected'&&(!state.active||(l.from!==state.active&&l.to!==state.active)))||wanted==='none'||(wanted==='hypothesis'&&!hypo)||(wanted==='boundary'&&!hazard)||(wanted==='source'&&(!edges.length||hypo))?'none':'';
   const caption=document.createElementNS('http://www.w3.org/2000/svg','title');caption.textContent=provenance+' · '+(edges[0]?.witness||'manual proposal');path.appendChild(caption);
  }
+ const visible=paths.filter(path=>path.style.display!=='none').length;
+ $('wireStats').textContent=visible+' of '+paths.length+' connections visible';
 };
 $('wireView').addEventListener('change',wireSvg);
 $('depMap').addEventListener('click',()=>{
