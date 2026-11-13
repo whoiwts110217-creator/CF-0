@@ -57,5 +57,23 @@ class HTTP403RateHeaderTests(unittest.TestCase):
                 self.assertEqual(request.call_count, 1)
 
 
+    def test_rate_budget_exhaustion_never_starts_or_completes_a_job(self):
+        """An inbox listing failure is not an empty successful poll."""
+        import tempfile
+        with tempfile.TemporaryDirectory() as folder:
+            state = relay.State(pathlib.Path(folder) / "relay.sqlite3")
+            failure = urllib.error.HTTPError(
+                "https://api.github.com/redacted", 403, "synthetic",
+                {"X-RateLimit-Remaining": "0"}, None)
+            with patch.object(relay.urllib.request, "urlopen", side_effect=failure):
+                with patch.object(relay, "execute") as execute:
+                    with self.assertRaisesRegex(
+                            relay.RelayError, "^github_http_403_rate_budget_zero$"):
+                        relay.tick(relay.HttpRepo(), state)
+                    execute.assert_not_called()
+            self.assertEqual(state.count(), 0)
+            self.assertEqual(state.unknown_count(), 0)
+            self.assertEqual(state.cursor(), "")
+
 if __name__ == "__main__":
     unittest.main()
