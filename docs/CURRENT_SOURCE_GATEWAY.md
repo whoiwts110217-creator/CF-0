@@ -2,6 +2,8 @@
 
 **Bookmark this, not an old snapshot:** https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/CURRENT_SOURCE_GATEWAY.md
 
+**Spider 3.3.3-R1 Windows Python 3.15 preflight repair (Nov 13):** [WinError 10053 slowloris-test abort + 92-versus-93 source-manifest issue, private source fix, 277/277 isolated tests and required HP retest](SPIDER_333R1_WINDOWS_PREFLIGHT_HOTFIX_2026-11-13.md). This hotfix is not verified on the owner's Windows HP; original installed Spider preserved.
+
 **Spider 3.3.3-R1 recovered-code integration (November 12, 2026):** [one-app candidate combining the 3.3.3 architecture, WholePC 1.3.4 editor safety fixes and Integrated 1.3.1 animated window walk](SPIDER_333R1_RECONCILED_SOURCE_HANDOFF_2026-11-12.md). 275/275 isolated tests, 92 hashes, 72 compilations, Xvfb GUI smoke; HP Windows not verified; owner-private ZIP in conversation, not public executable. Previous Spider installations preserved.
 
 **Spider cross-version code recovery (November 12, 2026):** [3.3.x vs WholePC 1.3.4, Integrated 1.3.1, Desktop 0.15 — archive counts, independently rerun tests, component reuse and reproduced safety issues](SPIDER_SOURCE_VERSION_RECOVERY_AUDIT_2026-11-12.md). This is a public-safe code audit and candidate merge order, not an installed HP release; original private archives remain private.
