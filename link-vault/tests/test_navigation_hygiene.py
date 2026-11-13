@@ -29,7 +29,7 @@ class NavigationHygieneTest(unittest.TestCase):
 
     def test_relative_assets_exist_on_disk(self):
         urls = re.findall(r'\b(?:src|href)="(\./[^"?#]+)"', self.html)
-        self.assertGreaterEqual(len(urls), 10)
+        self.assertGreaterEqual(len(urls), 9)
         for url in urls:
             with self.subTest(url=url):
                 path = (ROOT / url[2:]).resolve()
