@@ -2,6 +2,8 @@
 import pathlib
 import sys
 import unittest
+from unittest.mock import patch
+import io
 
 sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1]))
 import relay_snapshot_integrity as check
@@ -103,6 +105,24 @@ class SnapshotAuditTests(unittest.TestCase):
         self.assertEqual(r["post_rollout_tags"], 2)
         self.assertEqual(r["post_rollout_ack_tags"], 1)
         self.assertEqual(r["post_rollout_missing_ack_tags"], ["worker-a"])
+
+    def test_strict_legacy_duplicate_id_exit(self):
+        sample = make() + make(uid="uid-2")
+        with patch.object(sys, "stdin", io.StringIO(sample)), patch.object(sys, "stdout", io.StringIO()):
+            self.assertEqual(check.main(["-", "--strict"]), 2)
+        with patch.object(sys, "stdin", io.StringIO(sample)), patch.object(sys, "stdout", io.StringIO()):
+            self.assertEqual(check.main(["-"]), 0)
+
+    def test_strict_missing_uid_exit(self):
+        sample = make().replace("MESSAGE_UID: uid-1\\n", "")
+        with patch.object(sys, "stdin", io.StringIO(sample)), patch.object(sys, "stdout", io.StringIO()):
+            self.assertEqual(check.main(["-", "--strict"]), 2)
+        with patch.object(sys, "stdin", io.StringIO(sample)), patch.object(sys, "stdout", io.StringIO()):
+            self.assertEqual(check.main(["-"]), 0)
+
+    def test_strict_valid_exit(self):
+        with patch.object(sys, "stdin", io.StringIO(make())), patch.object(sys, "stdout", io.StringIO()):
+            self.assertEqual(check.main(["-", "--strict"]), 0)
 
     def test_no_private_data_in_fixture(self):
         self.assertNotIn("https://docs.google.com", make())
