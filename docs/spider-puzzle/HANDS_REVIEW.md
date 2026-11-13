@@ -32,3 +32,9 @@ Both programs use only the Python standard library. The second probe never impor
 4. **Acceptance:** run failure-injection tests with a mock Win32 sender, then narrow physical HP tests with explicit owner consent, STOP and safe target windows. Test multi-monitor coordinates and loss of focus separately.
 
 Do not connect these tiles to automatic Windows actuation solely because they exist in the code-skill graph. The public puzzle now marks the file and these three affected methods as `ISOLATED-RED`. Continue source-level repair on a *separate candidate* first.
+
+## Separate repair candidate — isolated GREEN, not integrated
+
+The optional [patch proposal](HANDS_REPAIR_CANDIDATE.diff) and its [reproducible builder/test script](hands_repair_candidate.py) are now available for code review. Run `python docs/spider-puzzle/hands_repair_candidate.py` to regenerate the diff and run **8/8 mock-only candidate tests**, covering STOP cleanup, intermediate failure cleanup, normal drag/click, invalid button refusal, failed-target abort before clipboard changes or Ctrl+V, no-target paste, and Linux dry-run behavior.
+
+**Do not apply this patch to the production HP package yet.** The original v3.3.14 source still has the four documented RED paths. The candidate patches three methods in-memory using exact AST function boundaries and anchored source replacements, never alters Spider's files or launches its app. The candidate's `finally` attempts mouse-up, but a failing Win32 SendInput can still prevent a real release; foreground identity is not reverified after a successful focus call. Receipt compatibility, concurrency/STOP semantics, Windows real-hardware behavior and application integration remain untested. No `LIVE-HP-VERIFIED` or production-fix claim.
