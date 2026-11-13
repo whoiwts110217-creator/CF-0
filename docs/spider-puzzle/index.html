@@ -84,6 +84,14 @@ for(const e of DATA.dep_edges){
   CF0_edgesById.get(id).push(e);
  }
 }
+// Reproducible RED probes use isolated AST methods and fake Win32 senders only.
+// These markers mean a defect path was reproduced, never live-HP verified.
+const CF0_redContracts=new Map([
+ ['spider/hands.py:1:FILE:spider/hands.py','ISOLATED-RED: Four source-level failure paths reproduced in mocked Windows probes. Inspect each affected method before connecting this module to live actuation.'],
+ ['spider/hands.py:499:FUNCTION:SpiderHands.drag','ISOLATED-RED: STOP during drag or a failed intermediate move can skip left-button release. Physical Windows behavior unverified.'],
+ ['spider/hands.py:360:FUNCTION:SpiderHands.paste_via_clipboard','ISOLATED-RED: Requested target focus may fail while Ctrl+V still executes and operation reports completed.'],
+ ['spider/hands.py:443:FUNCTION:SpiderHands.move_and_click','ISOLATED-RED: Invalid mouse button silently falls back to a left click; receipt still contains invalid requested button.']
+]);
 const CF0_originalSelect=select;
 select=function(id){
  CF0_originalSelect(id);
@@ -92,6 +100,8 @@ select=function(id){
  const edges=CF0_edgesById.get(id)||[];
  const summary=document.createElement('p');summary.textContent=edges.length+' source-mapped relationships · '+((p.windows_sensitive||edges.some(e=>e.windows_hwnd_sendinput_boundary))?'Windows-control boundary: review before executing':'No marked Windows-control boundary on this piece')+'.';target.appendChild(summary);
  const note=document.createElement('p');note.textContent=(p.purpose_evidence.startsWith('STATIC-')?'Structural summary from source signatures/calls, NOT behavioral proof.':'Source documentation, NOT runtime verification.')+' Extracted code stays unchanged.';target.appendChild(note);
+ const red=CF0_redContracts.get(id);
+ if(red){const warning=document.createElement('p');warning.className='notice';warning.textContent=red+' Evidence: four isolated synthetic/AST RED reproductions; no physical mouse/keyboard commands were issued. See docs/spider-puzzle/HANDS_REVIEW.md and probe_hands_contracts.py in the public repo.';target.appendChild(warning)}
  for(const e of edges.slice(0,30)){
   const other=e.from===id?e.to:e.from;
   const line=document.createElement('div');line.className='dep-row';
