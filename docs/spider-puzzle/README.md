@@ -27,3 +27,9 @@ Original reference board: `SPIDER_PUZZLE_BOARD.html` in the private Caveman Focu
 ## Next work
 
 Focus the UI on one selected piece and its dependency family, add independent module-level tests before treating linked pieces as integrated skills, and conduct Windows HP acceptance only with explicit owner approval.
+
+## Reproducible public checks
+
+Run `python docs/spider-puzzle/verify_board.py` from the repository root. This is a **10-test Python standard-library structural suite** checking the source fingerprint, 1,289 unique pieces, 632 dependency endpoints, 94-node/210-link preview, provenance counts, safe storage separation, visible-wire count logic and colored arrowhead definitions. It does **not** replace Chromium browser interaction tests or physical Windows HP verification.
+
+**V2.1 visual refinement:** filtered connection statistics now report visible/total, and arrowheads inherit the evidence color of their wires. The original V2 Drive candidate is unchanged; this public source is from the V2.1 follow-up candidate. Browser checks verified boundary/hypothesis/all/selected/none counts and matching colored markers.
