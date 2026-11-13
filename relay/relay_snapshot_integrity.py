@@ -17,7 +17,7 @@ import sys
 
 BEGIN = re.compile(r"^BEGIN\s+(CF0-RELAY-[A-Za-z0-9_-]+)\s*$")
 END = re.compile(r"(?:^|\s)END\s+(CF0-RELAY-[A-Za-z0-9_-]+)\s*$")
-KEY = re.compile(r"^([A-Z_]+):\s*(.*?)\s*$")
+KEY = re.compile(r"^([A-Z][A-Z0-9_]*):\s*(.*?)\s*$")
 METADATA = {"MESSAGE_ID", "MESSAGE_UID", "DOCK_TAG", "ACK_BOOTSTRAP", "REPLY_TO"}
 
 
