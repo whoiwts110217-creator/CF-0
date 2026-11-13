@@ -72,6 +72,13 @@ class PuzzleIntegrity(unittest.TestCase):
         self.assertIn("'url(#cf0-arrow-'+provenance+')'",self.html)
         self.assertIn("marker.setAttribute('id','cf0-arrow-'+category)",self.html)
 
+    def test_isolated_red_contract_warning_coverage(self):
+        for symbol in ['SpiderHands.drag', 'SpiderHands.paste_via_clipboard', 'SpiderHands.move_and_click']:
+            self.assertIn('FUNCTION:'+symbol, self.html)
+        self.assertIn('CF0_redContracts=new Map', self.html)
+        self.assertIn('ISOLATED-RED:', self.html)
+        self.assertIn('no physical mouse/keyboard commands were issued', self.html)
+
     def test_legacy_layout_storage_isolated(self):
         self.assertIn('cf0_spider_puzzle_ast_v2_',self.html)
         self.assertNotIn("'cf0_spider_puzzle_'+DATA.source_sha256",self.html)
