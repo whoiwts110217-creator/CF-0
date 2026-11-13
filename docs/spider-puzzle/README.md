@@ -30,6 +30,12 @@ Focus the UI on one selected piece and its dependency family, add independent mo
 
 ## Reproducible public checks
 
-Run `python docs/spider-puzzle/verify_board.py` from the repository root. This is a **10-test Python standard-library structural suite** checking the source fingerprint, 1,289 unique pieces, 632 dependency endpoints, 94-node/210-link preview, provenance counts, safe storage separation, visible-wire count logic and colored arrowhead definitions. It does **not** replace Chromium browser interaction tests or physical Windows HP verification.
+Run `python docs/spider-puzzle/verify_board.py` from the repository root. This is a **11-test Python standard-library structural suite** checking the source fingerprint, 1,289 unique pieces, 632 dependency endpoints, 94-node/210-link preview, provenance counts, safe storage separation, visible-wire count logic and colored arrowhead definitions. It does **not** replace Chromium browser interaction tests or physical Windows HP verification.
 
 **V2.1 visual refinement:** filtered connection statistics now report visible/total, and arrowheads inherit the evidence color of their wires. The original V2 Drive candidate is unchanged; this public source is from the V2.1 follow-up candidate. Browser checks verified boundary/hypothesis/all/selected/none counts and matching colored markers.
+
+## First source-contract safety review — Spider Hands
+
+The separate [Hands review](HANDS_REVIEW.md) and [isolated RED probe](probe_hands_contracts.py) demonstrate **four** reproducible source-level failure paths affecting drag cleanup, paste-to-target focus, and invalid mouse-button validation. The puzzle inspector marks the corresponding source tiles `ISOLATED-RED`; this is **not** a physical Windows failure claim and **not** a deployed production fix.
+
+Run `python docs/spider-puzzle/probe_hands_contracts.py` to reproduce those cases using mocks only. **Important:** its four passing test results mean four problematic paths were reproduced, not that the actuator passed acceptance. Do not connect those skills to live automatic control until the failures are fixed and independently retested.
