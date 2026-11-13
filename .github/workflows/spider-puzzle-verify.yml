@@ -1,0 +1,27 @@
+name: Spider Puzzle source integrity
+
+on:
+  pull_request:
+    paths:
+      - "docs/spider-puzzle/**"
+      - ".github/workflows/spider-puzzle-verify.yml"
+  push:
+    paths:
+      - "docs/spider-puzzle/**"
+      - ".github/workflows/spider-puzzle-verify.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  static-integrity:
+    name: Verify isolated source pieces (no execution)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Verify AST board layout and evidence labels
+        run: python3 docs/spider-puzzle/verify_board.py
+      - name: Verify all code-piece bytes and source hashes
+        run: python3 docs/spider-puzzle/verify_piece_hashes.py
