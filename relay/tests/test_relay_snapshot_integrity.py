@@ -114,7 +114,7 @@ class SnapshotAuditTests(unittest.TestCase):
             self.assertEqual(check.main(["-"]), 0)
 
     def test_strict_missing_uid_exit(self):
-        sample = make().replace("MESSAGE_UID: uid-1\\n", "")
+        sample = make().replace("MESSAGE_UID: uid-1\n", "")
         with patch.object(sys, "stdin", io.StringIO(sample)), patch.object(sys, "stdout", io.StringIO()):
             self.assertEqual(check.main(["-", "--strict"]), 2)
         with patch.object(sys, "stdin", io.StringIO(sample)), patch.object(sys, "stdout", io.StringIO()):
