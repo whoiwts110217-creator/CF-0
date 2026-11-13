@@ -13,6 +13,9 @@
 
 5. **Public relay integrity checker — PUBLIC-MERGED and TESTED.** [Sanitized stdlib source](../relay/relay_snapshot_integrity.py) and [21 synthetic tests](../relay/tests/test_relay_snapshot_integrity.py) were committed without the private document IDs or raw messages. Exact Git blob hashes matched a clean local copy and **21/21 tests passed** locally. This is **not** evidence of any automated Google Docs polling.
 
+
+6. **Public relay audit strict-mode option — PUBLIC-MERGED; TEST EXECUTION PENDING.** [Read-only relay snapshot checker](../relay/relay_snapshot_integrity.py) now accepts an opt-in `--strict` switch to fail on legacy duplicate message IDs or missing UIDs while preserving the previous default exit behavior ([source commit](https://github.com/whoiwts110217-creator/CF-0/commit/991844e0646e906cf358fd94c2b1b3aefdad43b1)). [Three synthetic CLI regression tests](../relay/tests/test_relay_snapshot_integrity.py) were added ([test commit](https://github.com/whoiwts110217-creator/CF-0/commit/4fb28bd04ee0eb262ad61bf5b7874cfe38703b49)); both committed blobs were read back on public `main`. **The new tests have not been executed or independently confirmed passing in this run**; a local test attempt was blocked by unavailable network name resolution. This changes neither private relay access nor background scheduling, HP control, or CF-200 completion count.
+
 ## Today's workstream review — completed checks versus awaiting implementation
 
 | Workstream | Work described in today's coordination and source review | Evidence / publish gate |
