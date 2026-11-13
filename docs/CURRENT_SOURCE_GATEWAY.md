@@ -1,5 +1,7 @@
 # Caveman Focus — Current Source Gateway
 
+**November 13, 2026 — public-safe work ledger:** [November 13 public work log](PUBLIC_WORK_LOG_2026-11-13.md) consolidates shipped source, isolated tests, pending integrations and privacy/evidence gates from today's accessible CF-0 workstreams. The private relay, contact records and unreviewed archives are not published as raw source.
+
 **Bookmark this, not an old snapshot:** https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/CURRENT_SOURCE_GATEWAY.md
 
 **Spider 3.3.3-R1 Windows Python 3.15 preflight repair (Nov 13):** [WinError 10053 slowloris-test abort + 92-versus-93 source-manifest issue, private source fix, 277/277 isolated tests and required HP retest](SPIDER_333R1_WINDOWS_PREFLIGHT_HOTFIX_2026-11-13.md). This hotfix is not verified on the owner's Windows HP; original installed Spider preserved.
