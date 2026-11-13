@@ -7,7 +7,7 @@ const CHECKS="cf_link_vault_owner_action_checks_v1",CACHE="cf_link_vault_owner_a
 const zones={now:"Do now",soon:"Deadline",ready:"Ready to test",conditional:"Only if needed",optional:"Optional",waiting:"Watching / hold",assistant:"Assistant work"};
 const views={mine:["now","soon","ready"],later:["conditional","optional"],waiting:["waiting"],assistant:["assistant"],all:Object.keys(zones),done:[]};
 const urlOK=value=>{try{const u=new URL(value);return u.protocol==="https:"&&!u.username&&!u.password}catch(_){return false}};
-let catalog=[],revision="not loaded",view="mine",checks={},graph=null,registry=null,privateActions=[],query="";
+let catalog=[],revision="not loaded",view="mine",checks={},graph=null,registry=null,privateActions=[],query="",catalogDate="unknown";
 try{const saved=JSON.parse(localStorage.getItem(CHECKS)||"{}");if(saved&&typeof saved==="object"&&!Array.isArray(saved))checks=Object.fromEntries(Object.entries(saved).filter(([k,v])=>/^CF-ACT-\d{3}$/.test(k)&&typeof v==="string"&&v.length<50))}catch(_){}
 const html=[
 '<section class="oa-shell" id="owner-actions" aria-labelledby="oa-title">',
@@ -20,10 +20,10 @@ const html=[
 '<button type="button" class="oa-node" data-view="assistant" aria-pressed="false">⚙ AI work<small>Not your chore</small></button>',
 '<button type="button" class="oa-node" data-view="all" aria-pressed="false">⌖ All paths<small>Whole picture</small></button>',
 '</div><p class="oa-legend">Interactive navigation, not a remote-control switch. Neither HP execution nor account access is implied.</p></div>',
-'<aside class="oa-rail" aria-label="Consolidated action side list"><div class="oa-rail-top"><h3>Side list · action rail</h3><span id="oa-count" class="oa-count">Loading…</span></div><div class="oa-tabs">',
-'<button type="button" class="oa-tab" data-view="mine" aria-pressed="true">My turn</button><button type="button" class="oa-tab" data-view="later" aria-pressed="false">Later</button><button type="button" class="oa-tab" data-view="waiting" aria-pressed="false">Waiting</button><button type="button" class="oa-tab" data-view="assistant" aria-pressed="false">AI work</button><button type="button" class="oa-tab" data-view="all" aria-pressed="false">All</button><button type="button" class="oa-tab" data-view="done" aria-pressed="false">Checked locally</button>',
-'</div><label class="oa-search-label" for="oa-search">Find an action or project</label><input id="oa-search" type="search" class="oa-search" placeholder="Search action, source, project ID" autocomplete="off"><div id="oa-items" class="oa-items" aria-live="polite"><p class="oa-empty">Loading public action view…</p></div></aside></div>',
-'<div class="oa-tools"><button type="button" id="oa-refresh" class="btn primary">↻ Refresh action view</button><button type="button" id="oa-cf200" class="btn">↻ Check CF-200 source</button><span id="oa-cf200-status" class="oa-status" role="status">CF-200 not checked</span><button type="button" id="oa-export" class="btn">↓ Backup my checks</button><label class="oa-small oa-import">Import private action manifest <input id="oa-import" type="file" accept="application/json,.json" aria-label="Import a local private action manifest JSON"></label><button type="button" id="oa-clear-private" class="btn" disabled>Clear private import</button><a class="oa-small" target="_blank" rel="noopener noreferrer" href="https://github.com/whoiwts110217-creator/CF-0/blob/main/link-vault/spider-hp/README.md">HP Walker · $0 local tool ↗</a><a class="oa-small" target="_blank" rel="noopener noreferrer" href="https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/OWNER_JUNGLE_MAP.md">Full project map ↗</a><span id="oa-status" class="oa-status" role="status">Not checked yet</span></div>',
+'<aside class="oa-rail" aria-label="Consolidated action side list"><div class="oa-rail-top"><h3>Side list · action rail</h3><span id="oa-count" class="oa-count">Loading…</span></div><div class="oa-tabs" role="tablist" aria-label="Action lanes">',
+'<button type="button" id="oa-tab-mine" class="oa-tab" role="tab" aria-selected="true" aria-controls="oa-items" tabindex="0" data-view="mine">My turn</button><button type="button" id="oa-tab-later" class="oa-tab" role="tab" aria-selected="false" aria-controls="oa-items" tabindex="-1" data-view="later">Later</button><button type="button" id="oa-tab-waiting" class="oa-tab" role="tab" aria-selected="false" aria-controls="oa-items" tabindex="-1" data-view="waiting">Waiting</button><button type="button" id="oa-tab-assistant" class="oa-tab" role="tab" aria-selected="false" aria-controls="oa-items" tabindex="-1" data-view="assistant">AI work</button><button type="button" id="oa-tab-all" class="oa-tab" role="tab" aria-selected="false" aria-controls="oa-items" tabindex="-1" data-view="all">All</button><button type="button" id="oa-tab-done" class="oa-tab" role="tab" aria-selected="false" aria-controls="oa-items" tabindex="-1" data-view="done">Checked locally</button>',
+'</div><label class="oa-search-label" for="oa-search">Find an action or project</label><input id="oa-search" type="search" class="oa-search" placeholder="Search action, source, project ID" autocomplete="off"><div id="oa-items" class="oa-items" role="tabpanel" tabindex="0" aria-labelledby="oa-tab-mine" aria-live="polite"><p class="oa-empty">Loading public action view…</p></div></aside></div>',
+'<div class="oa-tools"><button type="button" id="oa-refresh" class="btn primary">↻ Refresh action view</button><button type="button" id="oa-cf200" class="btn">↻ Check CF-200 source</button><span id="oa-cf200-status" class="oa-status" role="status">CF-200 not checked</span><button type="button" id="oa-export" class="btn">↓ Backup my checks</button><label class="oa-small oa-import">Import private action manifest <input id="oa-import" type="file" accept="application/json,.json" aria-label="Import a local private action manifest JSON"></label><button type="button" id="oa-clear-private" class="btn" disabled>Clear private import</button><a class="oa-small" target="_blank" rel="noopener noreferrer" href="https://github.com/whoiwts110217-creator/CF-0/blob/main/link-vault/spider-hp/README.md">HP Walker · $0 local tool ↗</a><a class="oa-small" target="_blank" rel="noopener noreferrer" href="https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/OWNER_JUNGLE_MAP.md">Full project map ↗</a><a class="oa-small" target="_blank" rel="noopener noreferrer" href="https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/CURRENT_SOURCE_GATEWAY.md">Check current source ↗</a><span id="oa-status" class="oa-status" role="status">Not checked yet</span></div>',
 '<p class="oa-note">Dated public-safe overlay, not a second task registry, automatic scan of private chats, or verified completion log. A reviewed import is a local candidate, not a fresh provider verification. Checkmarks stay in this browser unless exported. Never put personal contacts, passwords or raw exports on public GitHub.</p></section>'
 ].join("");
 const compass=document.querySelector(".compass");if(!compass)return;
@@ -39,7 +39,22 @@ function validData(data){
 }
 const make=(tag,cls,txt)=>{const e=document.createElement(tag);if(cls)e.className=cls;if(txt!==undefined)e.textContent=txt;return e};
 function save(){try{localStorage.setItem(CHECKS,JSON.stringify(checks))}catch(_){get("oa-status").textContent="Local storage unavailable — export checks"}}
-function show(next){view=next;for(const b of document.querySelectorAll("#owner-actions [data-view]"))b.setAttribute("aria-pressed",String(b.dataset.view===view));render();window.dispatchEvent(new CustomEvent("cf-spider-view",{detail:{view}}))}
+const viewTitles={mine:"My turn",later:"Later",waiting:"Waiting",assistant:"AI work",all:"All actions",done:"Checked locally"};
+function show(next){
+ if(!Object.prototype.hasOwnProperty.call(views,next))return;
+ view=next;
+ for(const b of document.querySelectorAll("#owner-actions [data-view]")){
+  const selected=b.dataset.view===view;
+  if(b.classList.contains("oa-tab")){
+   b.setAttribute("aria-selected",String(selected));b.tabIndex=selected?0:-1;
+  } else b.setAttribute("aria-pressed",String(selected));
+ }
+ const panel=get("oa-items"),tab=get("oa-tab-"+view);
+ if(panel&&tab)panel.setAttribute("aria-labelledby",tab.id);
+ const breadcrumb=get("cf-breadcrumb-zone");
+ if(breadcrumb)breadcrumb.textContent=viewTitles[view]||"Action Sphere";
+ render();window.dispatchEvent(new CustomEvent("cf-spider-view",{detail:{view}}));
+}
 function render(){
  const list=get("oa-items");list.replaceChildren();
  let all=catalog;
@@ -120,7 +135,17 @@ function render(){
   card.append(detail);list.append(card);
  }
 }
-function adopt(data,network){validData(data);catalog=data.actions;revision=data.revision;get("oa-status").textContent=(network?"Public snapshot fetched":"Saved snapshot, not checked now")+" · "+revision+" · "+data.as_of+" · "+(window.CFSpiderCore?window.CFSpiderCore.snapshotAge(data.as_of):"age unknown")+" (not provider verification)";render()}
+function ageStamp(date){
+ const start=Date.parse(String(date||"")+"T00:00:00Z");
+ if(!Number.isFinite(start))return "age unknown";
+ const days=Math.max(0,Math.floor((Date.now()-start)/86400000));
+ return days>2?"STALE ("+days+" days old) — check current source":days+" days old";
+}
+function adopt(data,network){
+ validData(data);catalog=data.actions;revision=data.revision;catalogDate=data.as_of;
+ get("oa-status").textContent=(network?"Public snapshot fetched":"Saved snapshot, not checked now")+" · "+revision+" · "+catalogDate+" · "+ageStamp(catalogDate)+" · not provider verification";
+ render();
+}
 async function refresh(){
  const button=get("oa-refresh");button.disabled=true;get("oa-status").textContent="Checking public view…";
  try{
@@ -129,10 +154,23 @@ async function refresh(){
   const raw=await response.text();if(raw.length>100000)throw Error("Unexpected size");
   const data=validData(JSON.parse(raw));adopt(data,true);
   try{localStorage.setItem(CACHE,JSON.stringify(data))}catch(_){}
- }catch(_){get("oa-status").textContent="Offline / not checked now · "+revision+" · saved view only";if(!catalog.length)render()}
+ }catch(_){get("oa-status").textContent="Offline / not checked now · "+revision+" · "+ageStamp(catalogDate)+" · saved view only";if(!catalog.length)render()}
  finally{button.disabled=false}
 }
 document.querySelectorAll("#owner-actions [data-view]").forEach(b=>b.addEventListener("click",()=>show(b.dataset.view)));
+const actionTabs=document.querySelector("#owner-actions .oa-tabs");
+if(actionTabs)actionTabs.addEventListener("keydown",event=>{
+ if(!["ArrowLeft","ArrowRight","Home","End"].includes(event.key))return;
+ const current=event.target.closest('[role="tab"]');
+ const tabs=[...actionTabs.querySelectorAll('[role="tab"][data-view]')];
+ if(!current||!tabs.includes(current))return;
+ const i=tabs.indexOf(current);
+ const next=event.key==="ArrowLeft"?(i-1+tabs.length)%tabs.length:
+            event.key==="ArrowRight"?(i+1)%tabs.length:
+            event.key==="Home"?0:tabs.length-1;
+ event.preventDefault();show(tabs[next].dataset.view);tabs[next].focus();
+});
+
 get("oa-search").addEventListener("input",event=>{query=event.target.value;render()});
 get("oa-cf200").addEventListener("click",async()=>{
  const button=get("oa-cf200"),status=get("oa-cf200-status");button.disabled=true;
