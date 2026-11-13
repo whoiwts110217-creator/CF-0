@@ -90,6 +90,8 @@ def main(argv=None):
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("path", help="local text snapshot, or '-' for stdin")
     parser.add_argument("--json", action="store_true")
+    parser.add_argument("--strict", action="store_true",
+                        help="also fail on legacy duplicate message IDs or missing UIDs")
     parser.add_argument("--bootstrap-uid", default=None,
                         help="message UID whose later worker acknowledgements to assess")
     args = parser.parse_args(argv)
@@ -105,7 +107,9 @@ def main(argv=None):
         print("entries={entries} duplicate_uid={duplicate_uid} "
               "unclosed={unclosed} post_rollout_ack_tags={post_rollout_ack_tags}"
               .format(**report))
-    return 2 if report["duplicate_uid"] or report["wrong_end"] or report["unclosed"] else 0
+    structural = (report["duplicate_uid"] or report["wrong_end"] or report["unclosed"])
+    hygiene = (report["duplicate_message_id"] or report["missing_uid"])
+    return 2 if structural or (args.strict and hygiene) else 0
 
 
 if __name__ == "__main__":
