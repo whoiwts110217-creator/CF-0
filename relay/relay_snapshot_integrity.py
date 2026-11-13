@@ -53,8 +53,9 @@ def audit(text, bootstrap_uid=None):
     records = parse(text)
     by_uid = Counter(row["fields"].get("MESSAGE_UID") for row in records
                      if row["fields"].get("MESSAGE_UID"))
-    by_id = Counter(row["fields"].get("MESSAGE_ID") for row in records
-                    if row["fields"].get("MESSAGE_ID"))
+    by_id = Counter((row["fields"].get("MESSAGE_ID") or "").split()[0]
+                    if row["fields"].get("MESSAGE_ID") else row["begin"]
+                    for row in records)
     by_begin = Counter(row["begin"] for row in records)
     index = next((i for i, row in enumerate(records)
                   if row["fields"].get("MESSAGE_UID") == bootstrap_uid),
