@@ -9,7 +9,7 @@ BANNED = (
     re.compile(r"https?://chatgpt\.com/c/", re.I),
     re.compile(r"https?://(?:docs|drive)\.google\.com/(?:document|spreadsheets|file|drive/folders)/", re.I),
     re.compile(r"\b(?:ghp_[0-9A-Za-z]{20,}|sk-[A-Za-z0-9]{20,}|AIza[0-9A-Za-z_-]{20,})\b"),
-    re.compile(r"(?i)\\b(?:access_token|recovery_code)\\s*[:=]\\s*['\\\"]?[A-Za-z0-9_\\-]{20,}"),
+    re.compile(r"(?i)\b(?:access_token|recovery_code)\s*[:=]\s*[A-Za-z0-9_-]{20,}"),
 )
 
 
