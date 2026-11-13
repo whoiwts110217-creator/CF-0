@@ -90,6 +90,14 @@ class SnapshotAuditTests(unittest.TestCase):
         x = make(closed=False) + "REPLY_TO: END CF0-RELAY-0001\n"
         self.assertEqual(check.audit(x)["unclosed"], ["CF0-RELAY-0001"])
 
+    def test_reply_to_numbered_metadata_end_is_not_close(self):
+        x = make(closed=False) + "REPLY_TO_2: END CF0-RELAY-0001\\n"
+        self.assertEqual(check.audit(x)["unclosed"], ["CF0-RELAY-0001"])
+
+    def test_message_uid_numbered_metadata_end_is_not_close(self):
+        x = make(closed=False) + "MESSAGE_UID_2: END CF0-RELAY-0001\\n"
+        self.assertEqual(check.audit(x)["unclosed"], ["CF0-RELAY-0001"])
+
     def test_subject_end_is_not_close(self):
         x = make(closed=False) + "SUBJECT: END CF0-RELAY-0001\n"
         self.assertEqual(check.audit(x)["unclosed"], ["CF0-RELAY-0001"])
