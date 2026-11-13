@@ -52,6 +52,17 @@ class SnapshotAuditTests(unittest.TestCase):
         self.assertEqual(check.audit(x)["duplicate_message_id"],
                          ["CF0-RELAY-0001"])
 
+    def test_duplicate_id_with_missing_explicit_id(self):
+        first = make().replace("MESSAGE_ID: CF0-RELAY-0001\n", "")
+        report = check.audit(first + make(uid="uid-2"))
+        self.assertEqual(report["duplicate_message_id"], ["CF0-RELAY-0001"])
+
+    def test_duplicate_id_with_parenthetical_annotation(self):
+        first = make().replace("MESSAGE_ID: CF0-RELAY-0001\n",
+                               "MESSAGE_ID: CF0-RELAY-0001 (Per-Worker ID: X)\n")
+        report = check.audit(first + make(uid="uid-2"))
+        self.assertEqual(report["duplicate_message_id"], ["CF0-RELAY-0001"])
+
     def test_duplicate_begin(self):
         x = make() + make(uid="uid-2")
         self.assertEqual(check.audit(x)["duplicate_begin"],
