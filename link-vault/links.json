@@ -1,7 +1,7 @@
 {
   "schema": "cf.link.vault.public.v2",
-  "revision": "2026-11-10.3",
-  "updated_date": "2026-11-10",
+  "revision": "2026-11-13.2",
+  "updated_date": "2026-11-13",
   "source": "https://github.com/whoiwts110217-creator/CF-0/blob/main/link-vault/links.json",
   "links": [
     {
@@ -74,7 +74,7 @@
       "url": "https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/PROJECTS.md",
       "category": "Start",
       "status": "source",
-      "note": "All indexed public workstreams"
+      "note": "Publicly indexed projects and children, not the missing original 37-project inventory or complete private 62-entry reconstructed atlas."
     },
     {
       "id": "10",
@@ -90,7 +90,7 @@
       "url": "https://github.com/whoiwts110217-creator/CF-0/blob/main/automation_200/MASTER_MISSION_BOARD.md",
       "category": "Automation",
       "status": "source",
-      "note": "Priorities and handoffs"
+      "note": "CF-200, AUTO-08, Domino Sidecar, Fast Lane, Guardian, Live Operator and source-based priority handoffs; dated evidence."
     },
     {
       "id": "12",
@@ -258,7 +258,7 @@
       "url": "https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/CONTINUITY.md",
       "category": "Continuity",
       "status": "source",
-      "note": "Reconstruction and known gaps"
+      "note": "History, missing original projects, ChatGPT export recovery, private backups, source-truth and continuity mesh. Originals remain private."
     },
     {
       "id": "33",
@@ -274,7 +274,7 @@
       "url": "https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/RESEARCH.md",
       "category": "Research",
       "status": "source",
-      "note": "Research index, no proof claim"
+      "note": "Research: Riemann Hypothesis, Single-Dot Universe, Mixed Paint, Shifted Arithmetic, FORM 8.2, spline matrices and recursive engine; no proven theorem."
     },
     {
       "id": "35",
@@ -338,7 +338,7 @@
       "url": "https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/CREATIVE.md",
       "category": "Creative",
       "status": "source",
-      "note": "Original projects; private drafts excluded"
+      "note": "Stories and worlds: Book Machine, Mushroomhead, SYNAPSE, BROKEN LOGIC, Single-Dot Book I, Dreamkiller and BreachDungeon; original drafts private."
     },
     {
       "id": "43",
@@ -482,7 +482,7 @@
       "url": "https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/BUSINESS.md",
       "category": "Funding",
       "status": "source",
-      "note": "Sales/offer evidence and limits"
+      "note": "First-sale services, Chef Shell's estimates, grants, Cash App and funding operations; public records are not verified revenue."
     },
     {
       "id": "61",
@@ -667,6 +667,70 @@
       "category": "Start",
       "status": "unverified",
       "note": "Integrated owner actions and side list; checkmarks are local reminders only"
+    },
+    {
+      "id": "84",
+      "title": "Spider — 3.3.3-R1 recovered desktop features",
+      "url": "https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/SPIDER_333R1_RECONCILED_SOURCE_HANDOFF_2026-11-12.md",
+      "category": "Automation",
+      "status": "source",
+      "note": "Public reconstruction source and owner Windows acceptance gaps. No installed-HP claim."
+    },
+    {
+      "id": "85",
+      "title": "Spider — version comparison and recovery audit",
+      "url": "https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/SPIDER_SOURCE_VERSION_RECOVERY_AUDIT_2026-11-12.md",
+      "category": "Automation",
+      "status": "source",
+      "note": "Source provenance, version differences and desktop controls to preserve."
+    },
+    {
+      "id": "86",
+      "title": "Spider Desktop — public code and test records",
+      "url": "https://github.com/whoiwts110217-creator/CF-0/tree/main/spider-desktop",
+      "category": "Automation",
+      "status": "source",
+      "note": "Dated public source and tests, not the private Windows installation."
+    },
+    {
+      "id": "87",
+      "title": "EYE/SEE — public issue",
+      "url": "https://github.com/whoiwts110217-creator/CF-0/issues/93",
+      "category": "Skills",
+      "status": "source",
+      "note": "Public issue for this separate concept. Original conversations remain private."
+    },
+    {
+      "id": "88",
+      "title": "Skill Screen Learn — requirements issue",
+      "url": "https://github.com/whoiwts110217-creator/CF-0/issues/126",
+      "category": "Skills",
+      "status": "source",
+      "note": "Requirements only. Live screen-learning or automation is unverified."
+    },
+    {
+      "id": "89",
+      "title": "Book Machine, Mushroomhead and SYNAPSE — public index",
+      "url": "https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/PROJECTS.md#stories-worlds-and-games",
+      "category": "Creative",
+      "status": "source",
+      "note": "Public project references; unpublished original manuscripts and designs remain private."
+    },
+    {
+      "id": "90",
+      "title": "Spider — Windows owner handoff",
+      "url": "https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/SPIDER_WINDOWS_HANDOFF_2026-11-11.md",
+      "category": "Automation",
+      "status": "source",
+      "note": "Owner decision and acceptance notes. Not proof of live device control."
+    },
+    {
+      "id": "91",
+      "title": "AI collaboration — public factual relay audit",
+      "url": "https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/THREE_AI_RELAY_FACTUAL_AUDIT_2026-11-12.md",
+      "category": "Continuity",
+      "status": "source",
+      "note": "Dated public-safe activity audit. Private AI messages are not published."
     }
   ]
 }
