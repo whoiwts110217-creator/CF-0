@@ -150,6 +150,21 @@ class SnapshotAuditTests(unittest.TestCase):
         with patch.object(sys, "stdin", io.StringIO(make())), patch.object(sys, "stdout", io.StringIO()):
             self.assertEqual(check.main(["-", "--strict"]), 0)
 
+    def test_legacy_message_id_header_with_whitespace(self):
+        sample = ("MESSAGE_ID:   CF0-RELAY-0012  \nMESSAGE_UID: legacy-12\n"
+                  "END CF0-RELAY-0012\n")
+        report = check.audit(sample)
+        self.assertEqual(report["entries"], 1)
+        self.assertEqual(report["unclosed"], [])
+        self.assertEqual(report["missing_uid"], [])
+
+    def test_bare_header_with_trailing_spaces(self):
+        sample = ("CF0-RELAY-WORKER-003  \nMESSAGE_UID: legacy-3\n"
+                  "END CF0-RELAY-WORKER-003\n")
+        report = check.audit(sample)
+        self.assertEqual(report["entries"], 1)
+        self.assertEqual(report["unclosed"], [])
+
     def test_legacy_message_id_only_header(self):
         sample = ("MESSAGE_ID: CF0-RELAY-0012\nMESSAGE_UID: legacy-12\n"
                   "END CF0-RELAY-0012\n")
