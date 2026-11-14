@@ -16,6 +16,8 @@ import re
 import sys
 
 BEGIN = re.compile(r"^BEGIN\s+(CF0-RELAY-[A-Za-z0-9_-]+)\s*$")
+BARE_HEADER = re.compile(r"^(CF0-RELAY-[A-Za-z0-9_-]+)\\s*$")
+MESSAGE_HEADER = re.compile(r"^MESSAGE_ID:\\s*(CF0-RELAY-[A-Za-z0-9_-]+)(?:\\s|$)")
 END = re.compile(r"(?:^|\s)END\s+(CF0-RELAY-[A-Za-z0-9_-]+)\s*$")
 KEY = re.compile(r"^([A-Z][A-Z0-9_]*):\s*(.*?)\s*$")
 METADATA = {"MESSAGE_ID", "MESSAGE_UID", "DOCK_TAG", "ACK_BOOTSTRAP", "REPLY_TO"}
@@ -34,6 +36,15 @@ def parse(text):
             records.append(current)
             continue
         if current is None:
+            bare = BARE_HEADER.fullmatch(line)
+            header = MESSAGE_HEADER.match(line)
+            if bare or header:
+                ident = (bare or header).group(1)
+                current = {"begin": ident, "line": lineno,
+                           "end": None, "fields": {}}
+                records.append(current)
+                if header:
+                    current["fields"]["MESSAGE_ID"] = ident
             continue
         field = KEY.fullmatch(line)
         if field and field.group(1) in METADATA:
