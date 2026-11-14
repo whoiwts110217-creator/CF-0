@@ -56,7 +56,8 @@ def parse(text):
 
         # Some legacy messages end with an inline END marker in BODY text.
         # A REPLY_TO or SUBJECT field ending in "END ..." is NOT a closer.
-        match = END.search(line) if (not field or field.group(1) == "BODY") else None
+        match = (END.fullmatch(line) or
+                 (END.search(line) if field and field.group(1) == "BODY" else None))
         if match:
             current["end"] = match.group(1)
             current = None
