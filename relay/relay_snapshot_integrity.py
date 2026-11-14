@@ -28,7 +28,8 @@ def parse(text):
     records = []
     current = None
     orphan_end = []
-    for lineno, source_line in enumerate(text.splitlines(), 1):
+    lines = text.splitlines()
+    for lineno, source_line in enumerate(lines, 1):
         line = source_line.strip()
         begin = BEGIN.fullmatch(line)
         if begin:
@@ -58,6 +59,16 @@ def parse(text):
         # Prose-style terminal END markers are also used by legacy workers.\n        # Do not treat colon-prefixed template/example prose as a closer.\n        # A REPLY_TO or SUBJECT field ending in "END ..." is NOT a closer.
         match = (END.fullmatch(line) or
                  (END.search(line) if ((not field and ":" not in line) or (field and field.group(1) == "BODY")) else None))
+        if match and not END.fullmatch(line):
+            # Prose END is ambiguous; prefer a later explicit matching closer.
+            for following in lines[lineno:]:
+                candidate = following.strip()
+                if BEGIN.fullmatch(candidate):
+                    break
+                explicit = END.fullmatch(candidate)
+                if explicit and explicit.group(1) == current["begin"]:
+                    match = None
+                    break
         if match:
             current["end"] = match.group(1)
             current = None
