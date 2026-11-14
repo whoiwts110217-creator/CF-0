@@ -138,6 +138,7 @@ jobs:
           cp link-vault/index.html link-vault/enhance.js link-vault/privacy-controls.js link-vault/links.json link-vault/owner-actions.js link-vault/spider-core.js link-vault/spider-shell.js link-vault/owner-actions.css link-vault/owner-actions.json link-vault/manifest.webmanifest link-vault/icon.svg link-vault/sw.js _site/link-vault/
           mkdir -p _site/spider-puzzle
           cp spider-puzzle/index.html _site/spider-puzzle/index.html
+          cp spider-puzzle/workbench.html _site/spider-puzzle/workbench.html
           cp docs/spider-puzzle/index.html _site/spider-puzzle/atlas.html
           cp docs/spider/SPIDER_MILLENNIUM_PUZZLE_OWNER_INTENT_ALIASES_V1.json _site/spider-puzzle/owner-aliases.json
           mkdir -p _site/dreamkiller
@@ -182,6 +183,7 @@ jobs:
           assert Path("_site/skill-foundry/index.html").is_file(), "Skill Foundry missing from staged site"
           assert Path("_site/skill-foundry/sw.js").is_file(), "Skill Foundry offline worker missing"
           assert Path("_site/link-vault/index.html").is_file(), "iPhone Link Vault missing"
+          assert Path("_site/spider-puzzle/workbench.html").is_file(), "Manual puzzle board missing from staged site"
           mobile = Path("_site/spider-puzzle/index.html").read_text(encoding="utf-8")
           assert 'viewport-fit=cover' in mobile and 'id="cards"' in mobile, "Mobile puzzle board incomplete"
           assert Path("_site/spider-puzzle/atlas.html").stat().st_size > 1000000, "Source atlas missing"
