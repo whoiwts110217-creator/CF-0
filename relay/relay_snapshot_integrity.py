@@ -55,9 +55,9 @@ def parse(text):
             current["fields"].setdefault(field.group(1), field.group(2))
 
         # Some legacy messages end with an inline END marker in BODY text.
-        # Prose-style terminal END markers are also used by legacy workers.\n        # A REPLY_TO or SUBJECT field ending in "END ..." is NOT a closer.
+        # Prose-style terminal END markers are also used by legacy workers.\n        # Do not treat colon-prefixed template/example prose as a closer.\n        # A REPLY_TO or SUBJECT field ending in "END ..." is NOT a closer.
         match = (END.fullmatch(line) or
-                 (END.search(line) if (not field or field.group(1) == "BODY") else None))
+                 (END.search(line) if ((not field and ":" not in line) or (field and field.group(1) == "BODY")) else None))
         if match:
             current["end"] = match.group(1)
             current = None
