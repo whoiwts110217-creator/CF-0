@@ -1,0 +1,133 @@
+{
+  "schema": "cf0.spider.puzzle.intent-aliases.v1",
+  "updated": "2026-11-14",
+  "source_version": "v3.3.14",
+  "source_inventory": {
+    "file": 94,
+    "function": 1007,
+    "class": 181,
+    "js_declaration": 7,
+    "total": 1289,
+    "dep_edges": 632,
+    "static_edges": 626,
+    "hypothetical_edges": 6
+  },
+  "evidence_scope": "STATIC SOURCE INSPECTION ONLY; no live HP acceptance",
+  "policy": "Each owner intent ID is an alias referencing existing AST pieces, never a duplicated source node. RED means missing, unclear, failed or unsafe; YELLOW means source found without independently passing behavior evidence; GREEN only with isolated test receipt; GRAY intended without located source. Colors belong to behavior acceptance, not just syntax.",
+  "aliases": [
+    {
+      "id": "SP-MOUSE-001",
+      "intent": "Read the real cursor position without changing input",
+      "status": "RED",
+      "reason": "No cursor-position reader located in the v3.3.14 mapped source; no GetCursorPos/winfo_pointerx/y/follow_mouse references found",
+      "source_refs": [],
+      "acceptance": "Read cursor position repeatedly during motion, including multi-monitor negative coordinates; do not move mouse",
+      "next": "Find an actual implementation in the correct version, or create isolated reader"
+    },
+    {
+      "id": "SP-MOUSE-002",
+      "intent": "Animated spider follows real cursor at chosen distance and rotates correctly without stealing clicks",
+      "status": "RED",
+      "reason": "PetOverlay.tick drifts one pixel horizontally during working state, not toward cursor; drawing is separate from following",
+      "source_refs": [
+        "spider/gui_live.py:141:FUNCTION:SpiderDrawing.draw",
+        "spider/gui_live.py:200:FUNCTION:PetOverlay.move_to",
+        "spider/gui_live.py:203:FUNCTION:PetOverlay.tick",
+        "spider/gui_live.py:743:FUNCTION:SpiderUI.animate"
+      ],
+      "acceptance": "Drag mouse repeatedly; overlay follows with configurable offset, rotates toward travel, retains click-through and normal desktop operation",
+      "next": "Test an isolated reader/follower/renderer against physical Windows HP; keep Forge v0.4 distinct"
+    },
+    {
+      "id": "SP-CHROME-001",
+      "intent": "Find and open Chrome without corrupting an existing profile",
+      "status": "RED",
+      "reason": "Dedicated-profile launch exists, but owner's ordinary Chrome requirement is not proven",
+      "source_refs": [
+        "spider/live_browser.py:34:FUNCTION:find_chrome",
+        "spider/live_browser.py:275:FUNCTION:LocalChrome.start",
+        "spider/operator.py:253:FUNCTION:SpiderOperator.browser_start"
+      ],
+      "acceptance": "Open permitted Chrome or report why unavailable; preserve signed-in regular profile and never delete lock/cookies",
+      "next": "Separate dedicated-profile and ordinary-Chrome adapters"
+    },
+    {
+      "id": "SP-CHROME-002",
+      "intent": "Detect existing Chrome, active window, browser/profile state",
+      "status": "RED",
+      "reason": "DevTools-profile attachment and desktop-window discovery are different partial mechanisms",
+      "source_refs": [
+        "spider/live_browser.py:239:FUNCTION:LocalChrome._attach_port",
+        "spider/eyes.py:140:FUNCTION:SpiderEyes.list_windows"
+      ],
+      "acceptance": "Identify browser HWND and explicit target identity; avoid attaching to an unrelated profile",
+      "next": "Isolate regular Chrome foreground identity and recheck"
+    },
+    {
+      "id": "SP-CHROME-003",
+      "intent": "Inspect a selected Chrome tab without changing its contents",
+      "status": "RED",
+      "reason": "CDP DOM summary does not verify existing ordinary Chrome UIA/visible inspection",
+      "source_refs": [
+        "spider/browser_cdp.py:273:FUNCTION:ChromeCDPBridge.list_tabs",
+        "spider/browser_cdp.py:351:FUNCTION:ChromeCDPBridge.read_tab_dom_summary",
+        "spider/operator.py:283:FUNCTION:SpiderOperator.interact_regular_chrome_ui"
+      ],
+      "acceptance": "Return actual visible selected tab title and controlled read-only summary for regular Chrome; refuse unrelated target",
+      "next": "Test CDP and UIA routes separately and annotate limitations"
+    },
+    {
+      "id": "SP-CHROME-004",
+      "intent": "Propose and execute an owner-approved Chrome action with target/response verification",
+      "status": "RED",
+      "reason": "CDP prompt send and regular Chrome UNSENT draft staging differ; no proven end-to-end ordinary Chrome send",
+      "source_refs": [
+        "spider/browser_cdp.py:325:FUNCTION:ChromeCDPBridge.evaluate_js",
+        "spider/browser_cdp.py:426:FUNCTION:ChromeCDPBridge.send_prompt_and_wait",
+        "spider/operator.py:283:FUNCTION:SpiderOperator.interact_regular_chrome_ui"
+      ],
+      "acceptance": "Require owner approval, reject changed target/challenges, execute only authorized action and verify result; no duplicate sends",
+      "next": "Isolate each action path; do not infer send from draft staging"
+    },
+    {
+      "id": "SP-SAFE-001",
+      "intent": "STOP promptly halts queued and in-flight actions and prevents stale responses from restarting them",
+      "status": "RED",
+      "reason": "Source stop latch exists but full in-flight/stale action contract remains unverified on physical HP",
+      "source_refs": [
+        "spider/safety.py:184:FUNCTION:AuthorityController.stop",
+        "spider/safety.py:267:FUNCTION:AuthorityController.check_interrupt",
+        "spider/operator.py:140:FUNCTION:SpiderOperator.stop"
+      ],
+      "acceptance": "STOP during waiting/running/after-send race; no stale generation resumes until explicit owner action",
+      "next": "Run isolated thread/race tests and a physical Windows acceptance test"
+    },
+    {
+      "id": "SP-SAFE-002",
+      "intent": "Verify exact foreground HWND/control identity before any mouse/keyboard actuation",
+      "status": "RED",
+      "reason": "Window lookup/focus and mouse click exist but same-target-after-focus race is not proven",
+      "source_refs": [
+        "spider/hands.py:562:FUNCTION:SpiderHands._find_window_hwnd",
+        "spider/hands.py:591:FUNCTION:SpiderHands.focus_window",
+        "spider/hands.py:443:FUNCTION:SpiderHands.move_and_click"
+      ],
+      "acceptance": "Switch target windows between inspect and click; abort without clicking wrong target",
+      "next": "Bind identity to approval and actuation; test stale/focus changes"
+    },
+    {
+      "id": "SP-LEDGER-001",
+      "intent": "Append a tamper-evident evidence receipt and verify chain integrity",
+      "status": "YELLOW",
+      "reason": "Source found with hash, save and verify, but independent corruption and atomicity acceptance remains unverified",
+      "source_refs": [
+        "spider/ledger.py:60:FUNCTION:ExecutionLedger.compute_hash",
+        "spider/ledger.py:65:FUNCTION:ExecutionLedger.append",
+        "spider/ledger.py:101:FUNCTION:ExecutionLedger._save",
+        "spider/ledger.py:122:FUNCTION:ExecutionLedger.verify_chain"
+      ],
+      "acceptance": "Append, reload, verify; corrupt prior receipt and ensure append refuses; interrupt write and preserve existing data",
+      "next": "Check variant-specific tamper behavior before GREEN"
+    }
+  ]
+}
