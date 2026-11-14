@@ -21,5 +21,7 @@ jobs:
           node-version: '22'
       - name: Check mobile board JavaScript and import boundaries
         run: node --test spider-puzzle/test_workbench.mjs
+      - name: Check full 1,289-piece source atlas and source hashes
+        run: node --test spider-puzzle/test_full.mjs
       - name: Check canonical AST board structural invariants
         run: python docs/spider-puzzle/verify_board.py
