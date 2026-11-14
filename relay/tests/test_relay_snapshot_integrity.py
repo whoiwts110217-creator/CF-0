@@ -31,6 +31,20 @@ class SnapshotAuditTests(unittest.TestCase):
     def test_inline_legacy_end(self):
         self.assertEqual(check.audit(make(inline=True))["unclosed"], [])
 
+    def test_prose_terminal_end(self):
+        ident = "CF0-RELAY-0001"
+        for prefix in ("Completed work", "HTTP 200", "GUI PASS"):
+            with self.subTest(prefix=prefix):
+                snapshot = make(closed=False) + f"{prefix} END {ident}\n"
+                self.assertEqual(check.audit(snapshot)["unclosed"], [])
+
+    def test_metadata_end_is_not_closer(self):
+        ident = "CF0-RELAY-0001"
+        for key in ("REPLY_TO", "SUBJECT"):
+            with self.subTest(key=key):
+                snapshot = make(closed=False) + f"{key}: previous END {ident}\n"
+                self.assertEqual(check.audit(snapshot)["unclosed"], [ident])
+
     def test_missing_end(self):
         self.assertEqual(check.audit(make(closed=False))["unclosed"],
                          ["CF0-RELAY-0001"])
