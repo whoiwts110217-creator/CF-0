@@ -143,6 +143,28 @@ class SnapshotAuditTests(unittest.TestCase):
         with patch.object(sys, "stdin", io.StringIO(make())), patch.object(sys, "stdout", io.StringIO()):
             self.assertEqual(check.main(["-", "--strict"]), 0)
 
+    def test_legacy_message_id_only_header(self):
+        sample = ("MESSAGE_ID: CF0-RELAY-0012\nMESSAGE_UID: legacy-12\n"
+                  "END CF0-RELAY-0012\n")
+        report = check.audit(sample)
+        self.assertEqual(report["entries"], 1)
+        self.assertEqual(report["unclosed"], [])
+
+    def test_legacy_bare_header(self):
+        sample = ("CF0-RELAY-WORKER-003\nMESSAGE_UID: legacy-3\n"
+                  "END CF0-RELAY-WORKER-003\n")
+        report = check.audit(sample)
+        self.assertEqual(report["entries"], 1)
+        self.assertEqual(report["unclosed"], [])
+
+    def test_legacy_headers_detect_duplicate_ids(self):
+        sample = ("MESSAGE_ID: CF0-RELAY-0012\nMESSAGE_UID: one\n"
+                  "END CF0-RELAY-0012\n"
+                  "BEGIN CF0-RELAY-0012\nMESSAGE_UID: two\n"
+                  "END CF0-RELAY-0012\n")
+        self.assertEqual(check.audit(sample)["duplicate_message_id"],
+                         ["CF0-RELAY-0012"])
+
     def test_no_private_data_in_fixture(self):
         self.assertNotIn("https://docs.google.com", make())
         self.assertNotIn("password", make())
