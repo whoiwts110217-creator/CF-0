@@ -1,0 +1,25 @@
+name: Spider Puzzle Isolated Checks
+on:
+  pull_request:
+    paths:
+      - 'spider-puzzle/**'
+      - 'docs/spider-puzzle/**'
+      - 'docs/spider/SPIDER_MILLENNIUM_PUZZLE_OWNER_INTENT_ALIASES_V1.json'
+      - '.github/workflows/publish-website.yml'
+      - '.github/workflows/spider-puzzle-checks.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  isolated-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Node runtime
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check mobile board JavaScript and import boundaries
+        run: node --test spider-puzzle/test_workbench.mjs
+      - name: Check canonical AST board structural invariants
+        run: python docs/spider-puzzle/verify_board.py

@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0c1223">
+<title>Millennium Puzzle · Manual Workbench</title>
+<style>
+:root{color-scheme:dark;--bg:#0c1223;--surface:#16223b;--stroke:#486180;--ink:#f4f7ff;--muted:#b4c3db;--red:#ff94a4;--yellow:#ffdd92;--green:#9be7bc;--gray:#bbc5d4}
+*{box-sizing:border-box}html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.48 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+header,main,footer{padding:16px max(14px,env(safe-area-inset-left))}
+header{background:#1d3151;border-bottom:1px solid var(--stroke)}
+h1{font-size:1.6rem;margin:.1em 0}h2{font-size:1.15rem;margin:8px 0}
+p{margin:7px 0 12px}a{color:#a6e2ff}
+nav{display:flex;flex-wrap:wrap;gap:12px;margin-top:12px}
+button,.button{min-height:44px;min-width:44px;padding:10px 12px;background:#234267;color:white;border:1px solid #6c8daa;border-radius:10px;font:inherit;cursor:pointer}
+button[disabled]{opacity:.4;cursor:not-allowed}button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid #ffdb86;outline-offset:3px}
+.notice{border:1px solid #96784b;padding:12px;background:#2c271f;border-radius:10px}
+.toolbar,.steps{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:12px 0}
+#status{min-height:30px;color:#c9dfec;font-weight:600}
+.viewport{border:2px solid #547394;border-radius:14px;overflow:auto;max-height:67vh;background:#101a2f;overscroll-behavior:contain;-webkit-overflow-scrolling:touch}
+#canvas{width:1020px;height:820px;position:relative;background-color:#111e34;background-image:linear-gradient(#263b54 1px,transparent 1px),linear-gradient(90deg,#263b54 1px,transparent 1px);background-size:32px 32px}
+#wires{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible}
+.tile{position:absolute;width:248px;min-height:125px;border:2px solid var(--red);border-radius:12px;background:#1b2942;box-shadow:0 4px 12px #0006;overflow:hidden}
+.tile[data-status=YELLOW]{border-color:var(--yellow)}
+.tile[data-status=GREEN]{border-color:var(--green)}.tile[data-status=GRAY]{border-color:var(--gray)}
+.tile[aria-selected=true]{outline:3px solid #a9e2fc;outline-offset:3px}
+.grip{display:block;width:100%;text-align:left;border:0;border-radius:0;background:#344565;color:white;font-size:.83rem;font-weight:750;min-height:42px;touch-action:none;cursor:grab;user-select:none}
+.grip:active{cursor:grabbing}
+.tile-body{padding:10px}
+.tile strong{display:block;line-height:1.2;font-size:.92rem}.tile small{color:#c6d4e8}
+.pick{width:100%;text-align:left;background:#203450;margin-top:9px}
+.status-label{font-weight:800;letter-spacing:.08em;color:var(--red)}
+.tile[data-status=YELLOW] .status-label{color:var(--yellow)}
+#selected{background:var(--surface);border:1px solid var(--stroke);border-radius:12px;padding:14px}
+#selected pre{white-space:pre-wrap;overflow-wrap:anywhere;font:inherit;font-size:.88rem;color:var(--muted)}
+#wiresList{padding-left:22px}#wiresList li{margin:6px 0}
+#wiresList button{min-height:38px;margin-left:8px}
+#jsonBox{display:none;width:100%;height:160px;background:#0c172b;color:white;border:1px solid #7890a5;border-radius:7px;padding:10px;font:12px/1.5 monospace}
+footer{color:var(--muted);font-size:.85rem;border-top:1px solid var(--stroke)}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+</style></head>
+<body><header><div>CF-0 / Spider / Owner Assembly</div>
+<h1>◆ Millennium Puzzle · Workbench</h1>
+<p>Move the nine behavior blocks. Draw <strong>hypothetical</strong> connections yourself. Nothing here executes code or controls your PC.</p>
+<nav aria-label="Puzzle navigation"><a href="./index.html">Evidence inspector</a><a href="./atlas.html">1,289-piece source atlas</a><a href="./owner-aliases.json">Behavior contract data</a></nav>
+</header>
+<main>
+<div class="notice"><strong>Manual sandbox only.</strong> Source-level colors show unresolved acceptance, not runtime success. No connections imply a verified integration. All work remains on this device unless you export it.</div>
+<h2>Assembly table</h2>
+<p>On iPhone, scroll sideways to explore. Drag blocks using their top handles. Tap <em>Select</em>, then <em>Wire from selected</em>, then tap the destination. Desktop keyboard arrow controls are also available below.</p>
+<div class="toolbar">
+<button id="connect" type="button" disabled>Wire from selected</button>
+<button id="cancel" type="button">Cancel wire</button>
+<button id="reset" type="button">Reset layout</button>
+</div>
+<p id="status" role="status" aria-live="polite">Select a block to begin.</p>
+<div class="viewport" role="region" tabindex="0" aria-label="Scrollable assembly table">
+<div id="canvas"><svg id="wires" aria-hidden="true" viewBox="0 0 1020 820"></svg><div id="tiles"></div></div>
+</div>
+<section id="selected" aria-label="Selected block details">
+<h2>Selected block</h2>
+<div id="details">Nothing selected.</div>
+<div class="steps" role="group" aria-label="Move selected block">
+<button type="button" data-move="-20,0" disabled aria-label="Move left">←</button>
+<button type="button" data-move="0,-20" disabled aria-label="Move up">↑</button>
+<button type="button" data-move="0,20" disabled aria-label="Move down">↓</button>
+<button type="button" data-move="20,0" disabled aria-label="Move right">→</button>
+</div>
+</section>
+<section><h2>Manual hypotheses (<span id="wireCount">0</span>)</h2>
+<p>These are suggestions only. Neither source-dependency evidence nor actual Spider behavior is established by drawing a line.</p>
+<ol id="wiresList"><li>None yet.</li></ol></section>
+<section><h2>Keep your work</h2><div class="toolbar">
+<button id="save" type="button">Download layout JSON</button>
+<button id="copy" type="button">Copy layout JSON</button>
+<button id="loadButton" type="button">Import layout JSON</button>
+<input type="file" id="load" accept=".json,application/json" hidden>
+</div><textarea id="jsonBox" aria-label="Manual layout JSON backup" readonly></textarea>
+<p>Imports are limited to known block IDs, finite positions, and up to 36 manual hypothesis wires. Importing cannot change evidence colors or run code.</p></section>
+</main><footer>Developer: David Smith. Intended owner/beneficiary: Kiara Lynn Rose Smith. Nine aliases from Spider v3.3.14; the full atlas has 1,289 source symbols. No real HP acceptance is claimed. All layout state stays in this browser.</footer>
+<script>
+"use strict";
+const DATA=[
+["SP-MOUSE-001","Read real cursor position","RED","No actual cursor reader mapped for v3.3.14"],
+["SP-MOUSE-002","Follow pointer with animated spider","RED","PetOverlay drifts instead of following real cursor"],
+["SP-CHROME-001","Find and open regular Chrome","RED","Dedicated profile is not verified regular Chrome"],
+["SP-CHROME-002","Recognize existing Chrome and profile","RED","Dedicated and ordinary-window paths not reconciled"],
+["SP-CHROME-003","Read selected tab without edits","RED","Regular Chrome read-only inspection not accepted"],
+["SP-CHROME-004","Owner-approved Chrome action","RED","No verified ordinary Chrome send/response cycle"],
+["SP-SAFE-001","STOP and stale-response safety","RED","In-flight and restart races unverified on HP"],
+["SP-SAFE-002","Same-window actuation safety","RED","Foreground identity race unverified"],
+["SP-LEDGER-001","Hash-chained evidence receipts","YELLOW","Hash source found; corruption/atomicity tests pending"]
+].map(v=>({id:v[0],title:v[1],status:v[2],reason:v[3]}));
+const IDS=new Set(DATA.map(x=>x.id));
+const KEY="cf0.spider.manual-workbench.v1";
+const LIMIT=36;
+const DEFAULT=Object.fromEntries(DATA.map((p,i)=>[p.id,{x:38+(i%3)*330,y:30+Math.floor(i/3)*250}]));
+let state={positions:structuredCloneSafe(DEFAULT),edges:[]},selected=null,pending=null;
+const el=id=>document.getElementById(id);
+const tiles=el("tiles"),svg=el("wires"),wiresList=el("wiresList");
+function structuredCloneSafe(obj){return JSON.parse(JSON.stringify(obj));}
+function clamp(n,min,max){return Math.max(min,Math.min(max,n));}
+function announce(s){el("status").textContent=s;}
+function valid(input){
+ if(!input||input.schema!=="cf0.spider.puzzle.manual-layout.v1"||input.source_version!=="v3.3.14"||!input.positions||typeof input.positions!=="object"||Array.isArray(input.positions)||Object.keys(input.positions).length!==IDS.size||Object.keys(input.positions).some(id=>!IDS.has(id))||!Array.isArray(input.edges)||input.edges.length>LIMIT)return null;
+ const positions={};
+ for(const id of IDS){
+  const p=input.positions[id];
+  if(!p||!Number.isFinite(p.x)||!Number.isFinite(p.y)||p.x<0||p.x>772||p.y<0||p.y>680)return null;
+  positions[id]={x:p.x,y:p.y};
+ }
+ const edges=[],seen=new Set();
+ for(const e of input.edges){
+  if(!e||!IDS.has(e.from)||!IDS.has(e.to)||e.from===e.to)return null;
+  const key=e.from+"|"+e.to;
+  if(seen.has(key))return null;
+  seen.add(key);edges.push({from:e.from,to:e.to});
+ }
+ return {positions,edges};
+}
+function snapshot(){return {schema:"cf0.spider.puzzle.manual-layout.v1",source_version:"v3.3.14",status:"MANUAL_HYPOTHESES_ONLY",positions:state.positions,edges:state.edges};}
+function persist(){try{localStorage.setItem(KEY,JSON.stringify(snapshot()));}catch(e){}}
+function drawWires(){
+ svg.replaceChildren();
+ for(const w of state.edges){
+  const a=state.positions[w.from],b=state.positions[w.to];
+  const line=document.createElementNS("http://www.w3.org/2000/svg","line");
+  line.setAttribute("x1",a.x+124);line.setAttribute("y1",a.y+100);
+  line.setAttribute("x2",b.x+124);line.setAttribute("y2",b.y+18);
+  line.setAttribute("stroke","#9bc0db");line.setAttribute("stroke-width","3");
+  line.setAttribute("stroke-dasharray","8 6");svg.appendChild(line);
+ }
+}
+function move(id,x,y){
+ state.positions[id]={x:clamp(Math.round(x),0,772),y:clamp(Math.round(y),0,680)};
+ const tile=tiles.querySelector('[data-id="'+id+'"]');
+ if(tile){tile.style.left=state.positions[id].x+"px";tile.style.top=state.positions[id].y+"px";}
+ drawWires();persist();
+}
+function choose(id){
+ if(pending){
+  if(id===pending){pending=null;announce("Wire canceled: same block.");}
+  else if(state.edges.some(w=>w.from===pending&&w.to===id)){pending=null;announce("This hypothesis already exists.");}
+  else if(state.edges.length===LIMIT){pending=null;announce("Wire limit reached.");}
+  else{state.edges.push({from:pending,to:id});announce("HYPOTHESIS added, not verified.");pending=null;persist();}
+ }
+ selected=id;
+ el("connect").disabled=false;
+ document.querySelectorAll("[data-move]").forEach(b=>b.disabled=false);
+ const p=DATA.find(x=>x.id===id);
+ el("details").replaceChildren();
+ const name=document.createElement("strong");name.textContent=p.id+" — "+p.title;
+ const reason=document.createElement("p");reason.textContent=p.status+": "+p.reason;
+ el("details").append(name,reason);
+ for(const tile of tiles.children)tile.setAttribute("aria-selected",String(tile.dataset.id===id));
+ renderEdges();drawWires();
+}
+function makeGrip(tile,id){
+ const grip=document.createElement("button");grip.type="button";grip.className="grip";grip.textContent="⠿ Drag "+id;
+ let start=null;
+ grip.addEventListener("pointerdown",ev=>{if(ev.button!==0&&ev.pointerType==="mouse")return;start={xPointer:ev.clientX,yPointer:ev.clientY,x:state.positions[id].x,y:state.positions[id].y};grip.setPointerCapture(ev.pointerId);});
+ grip.addEventListener("pointermove",ev=>{if(start)move(id,start.x+ev.clientX-start.xPointer,start.y+ev.clientY-start.yPointer);});
+ grip.addEventListener("pointerup",()=>{if(start){start=null;announce("Moved "+id+".");}});
+ grip.addEventListener("pointercancel",()=>{start=null;});
+ grip.addEventListener("keydown",ev=>{const dirs={ArrowLeft:[-20,0],ArrowRight:[20,0],ArrowUp:[0,-20],ArrowDown:[0,20]};if(dirs[ev.key]){ev.preventDefault();choose(id);move(id,state.positions[id].x+dirs[ev.key][0],state.positions[id].y+dirs[ev.key][1]);}});
+ return grip;
+}
+function renderTiles(){
+ tiles.replaceChildren();
+ for(const p of DATA){
+  const card=document.createElement("div");card.className="tile";card.dataset.status=p.status;card.dataset.id=p.id;card.setAttribute("aria-selected",String(selected===p.id));
+  card.style.left=state.positions[p.id].x+"px";card.style.top=state.positions[p.id].y+"px";
+  const grip=makeGrip(card,p.id);card.appendChild(grip);
+  const body=document.createElement("div");body.className="tile-body";
+  const code=document.createElement("span");code.className="status-label";code.textContent=p.status;
+  const title=document.createElement("strong");title.textContent=p.title;
+  const pick=document.createElement("button");pick.className="pick";pick.type="button";pick.textContent="Select / connect";pick.setAttribute("aria-label","Select "+p.id);pick.addEventListener("click",()=>choose(p.id));
+  body.append(code,title,pick);card.appendChild(body);tiles.appendChild(card);
+ }
+ drawWires();
+}
+function renderEdges(){
+ wiresList.replaceChildren();el("wireCount").textContent=state.edges.length;
+ if(!state.edges.length){const li=document.createElement("li");li.textContent="None yet.";wiresList.appendChild(li);return;}
+ state.edges.forEach((w,i)=>{const li=document.createElement("li");li.append(document.createTextNode(w.from+" → "+w.to+" (HYPOTHESIS)"));
+ const b=document.createElement("button");b.type="button";b.textContent="Remove";b.setAttribute("aria-label","Remove hypothesis "+(i+1));b.addEventListener("click",()=>{state.edges.splice(i,1);persist();drawWires();renderEdges();announce("Removed hypothesis.");});li.appendChild(b);wiresList.appendChild(li);});
+}
+function restore(){
+ try{const text=localStorage.getItem(KEY);if(text){const restored=valid(JSON.parse(text));if(restored)state=restored;}}catch(e){}
+}
+el("connect").addEventListener("click",()=>{if(selected){pending=selected;announce("Tap a destination block's Select button to draw a hypothesis from "+selected+".");}});
+el("cancel").addEventListener("click",()=>{pending=null;announce("Wire mode canceled.");});
+el("reset").addEventListener("click",()=>{if(!confirm("Clear all manual wires and restore block positions?"))return;state={positions:structuredCloneSafe(DEFAULT),edges:[]};pending=null;selected=null;el("connect").disabled=true;document.querySelectorAll("[data-move]").forEach(b=>b.disabled=true);el("details").textContent="Nothing selected.";renderTiles();renderEdges();persist();announce("Layout reset.");});
+document.querySelectorAll("[data-move]").forEach(b=>b.addEventListener("click",()=>{if(!selected)return;const delta=b.dataset.move.split(",").map(Number);move(selected,state.positions[selected].x+delta[0],state.positions[selected].y+delta[1]);announce("Moved "+selected+".");}));
+function backup(){return JSON.stringify(snapshot(),null,2);}
+el("copy").addEventListener("click",async()=>{const text=backup();try{if(!navigator.clipboard)throw Error("clipboard unavailable");await navigator.clipboard.writeText(text);announce("Layout JSON copied.");}catch(e){el("jsonBox").style.display="block";el("jsonBox").value=text;el("jsonBox").focus();el("jsonBox").select();announce("Clipboard unavailable. Copy from the selected text box.");}});
+el("save").addEventListener("click",()=>{const blob=new Blob([backup()],{type:"application/json"});const url=URL.createObjectURL(blob);const a=document.createElement("a");a.href=url;a.download="spider-manual-layout.json";a.click();setTimeout(()=>URL.revokeObjectURL(url),2000);announce("Requested layout JSON download.");});
+el("loadButton").addEventListener("click",()=>el("load").click());
+el("load").addEventListener("change",async ev=>{const file=ev.target.files[0];ev.target.value="";if(!file)return;if(file.size>64000){announce("Import rejected: exceeds 64 KB.");return;}try{const parsed=valid(JSON.parse(await file.text()));if(!parsed){announce("Import rejected: invalid or unknown blocks.");return;}state=parsed;selected=null;pending=null;el("connect").disabled=true;document.querySelectorAll("[data-move]").forEach(b=>b.disabled=true);el("details").textContent="Nothing selected.";renderTiles();renderEdges();persist();announce("Imported manual layout. All wires remain hypothetical.");}catch(e){announce("Import failed: invalid JSON.");}});
+restore();renderTiles();renderEdges();
+</script></body></html>

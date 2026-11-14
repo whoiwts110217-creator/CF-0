@@ -33,6 +33,9 @@ on:
       - 'continuity/tests/test_public_freshness.py'
       - '.github/workflows/publish-website.yml'
       - 'site_deploy/**'
+      - 'spider-puzzle/**'
+      - 'docs/spider-puzzle/index.html'
+      - 'docs/spider/SPIDER_MILLENNIUM_PUZZLE_OWNER_INTENT_ALIASES_V1.json'
   # Recovery: dispatch a NEW workflow run after a Pages queue failure.
   # Do not rerun only the failed deploy job: upload-pages-artifact can create
   # another artifact named github-pages in the same run, and deploy-pages
@@ -107,6 +110,8 @@ jobs:
         run: |
           python -m unittest discover -s iphone-skill-foundry/tests -p 'test_*.py' -v
           node --test iphone-skill-foundry/tests/export_runtime.test.cjs iphone-skill-foundry/tests/cache_scope.test.cjs
+      - name: Test Spider Millennium Puzzle manual mobile workbench
+        run: node --test spider-puzzle/test_workbench.mjs
       - name: Stage curated public website and Dreamkiller emulator
         shell: bash
         run: |
@@ -133,6 +138,11 @@ jobs:
           cp iphone-skill-foundry/index.html iphone-skill-foundry/manifest.webmanifest iphone-skill-foundry/icon.svg iphone-skill-foundry/apple-touch-icon.png iphone-skill-foundry/sw.js _site/skill-foundry/
           mkdir -p _site/link-vault
           cp link-vault/index.html link-vault/enhance.js link-vault/privacy-controls.js link-vault/links.json link-vault/owner-actions.js link-vault/spider-core.js link-vault/spider-shell.js link-vault/owner-actions.css link-vault/owner-actions.json link-vault/manifest.webmanifest link-vault/icon.svg link-vault/sw.js _site/link-vault/
+          mkdir -p _site/spider-puzzle
+          cp spider-puzzle/index.html _site/spider-puzzle/index.html
+          cp spider-puzzle/workbench.html _site/spider-puzzle/workbench.html
+          cp docs/spider-puzzle/index.html _site/spider-puzzle/atlas.html
+          cp docs/spider/SPIDER_MILLENNIUM_PUZZLE_OWNER_INTENT_ALIASES_V1.json _site/spider-puzzle/owner-aliases.json
           mkdir -p _site/dreamkiller
           cp -R concepts/dreamkiller/iphone-emu/site/. _site/dreamkiller/
           cp concepts/dreamkiller/rom_v0_2/dreamkiller_road_v0_2.gb _site/dreamkiller/road-v02.gb
@@ -175,6 +185,14 @@ jobs:
           assert Path("_site/skill-foundry/index.html").is_file(), "Skill Foundry missing from staged site"
           assert Path("_site/skill-foundry/sw.js").is_file(), "Skill Foundry offline worker missing"
           assert Path("_site/link-vault/index.html").is_file(), "iPhone Link Vault missing"
+          assert Path("_site/spider-puzzle/workbench.html").is_file(), "Manual puzzle board missing from staged site"
+          mobile = Path("_site/spider-puzzle/index.html").read_text(encoding="utf-8")
+          assert 'viewport-fit=cover' in mobile and 'id="cards"' in mobile, "Mobile puzzle board incomplete"
+          assert Path("_site/spider-puzzle/atlas.html").stat().st_size > 1000000, "Source atlas missing"
+          import json as spider_json
+          owner_blocks = spider_json.loads(Path("_site/spider-puzzle/owner-aliases.json").read_text(encoding="utf-8"))["aliases"]
+          assert len(owner_blocks) == 9 and all(block["status"] in ("RED","YELLOW","GREEN","GRAY") for block in owner_blocks), "Owner puzzle contracts invalid"
+
           assert Path("_site/link-vault/manifest.webmanifest").is_file(), "Link Vault PWA manifest missing"
           assert Path("_site/link-vault/sw.js").is_file(), "Link Vault offline worker missing"
           assert Path("_site/link-vault/privacy-controls.js").is_file(), "Link Vault privacy erasure UI missing"

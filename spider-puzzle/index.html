@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0d1322">
+<meta name="description" content="Spider Millennium Puzzle: mobile-first evidence-based inspection board. No Spider assembly or execution.">
+<title>Spider Millennium Puzzle · iPhone Board</title>
+<style>
+:root{color-scheme:dark;--bg:#0d1322;--panel:#172139;--panel2:#1d2b48;--ink:#f0f5ff;--sub:#a6bad8;--line:#344564;--focus:#78c7ff;--red:#ff9ca8;--yellow:#ffe09e;--green:#a7efc4;--gray:#c6ccda}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;min-width:280px;background:var(--bg);color:var(--ink);font:16px/1.48 -apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+button,input,a{font:inherit}button{touch-action:manipulation}
+a{color:#9ad9ff}
+:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
+header{padding:22px max(16px,env(safe-area-inset-left)) 16px;background:linear-gradient(160deg,#1e2d51 0%,#0f1629 80%);border-bottom:1px solid var(--line)}
+header .eyebrow{font-size:.77rem;font-weight:750;letter-spacing:.12em;color:#a3f2e8;text-transform:uppercase}
+h1{font-size:clamp(1.6rem,6vw,2.5rem);line-height:1.12;margin:8px 0}
+header p{max-width:760px;color:var(--sub);margin:8px 0 14px}
+.nav{display:flex;gap:8px;flex-wrap:wrap}
+.nav a{display:inline-flex;align-items:center;min-height:44px;padding:10px 14px;border:1px solid #5781a8;border-radius:12px;background:#162d48;color:#eff9ff;text-decoration:none;font-weight:700}
+main{max-width:1040px;margin:0 auto;padding:16px max(16px,env(safe-area-inset-left)) calc(36px + env(safe-area-inset-bottom))}
+.notice{border:1px solid #8b703b;border-radius:14px;background:#2a261d;padding:13px 14px;margin-bottom:15px;font-size:.9rem}
+.notice strong{color:var(--yellow)}
+.metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-bottom:16px}
+.metric{padding:13px 10px;border:1px solid var(--line);background:var(--panel);border-radius:13px}
+.metric strong{display:block;font-size:1.55rem;line-height:1.2}
+.metric span{display:block;font-size:.78rem;color:var(--sub)}
+.metric.red strong{color:var(--red)}.metric.yellow strong{color:var(--yellow)}
+h2{font-size:1.18rem;margin:18px 0 10px}
+.controls{display:grid;gap:12px;padding:13px;background:var(--panel);border:1px solid var(--line);border-radius:14px;margin-bottom:13px}
+label{font-size:.83rem;font-weight:700;color:var(--sub)}
+input[type=search]{appearance:none;display:block;margin-top:5px;width:100%;min-height:48px;border-radius:11px;border:1px solid #617391;padding:12px;background:#0d172a;color:var(--ink);font-size:1rem}
+.filters{display:flex;gap:7px;flex-wrap:wrap}
+.filters button{min-height:43px;padding:8px 11px;color:var(--ink);border:1px solid #526782;background:#15253e;border-radius:9px}
+.filters button[aria-pressed=true]{background:#b1e9ff;color:#12243b;border-color:#b1e9ff;font-weight:800}
+#resultCount{font-size:.85rem;color:var(--sub);margin:12px 2px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:12px;align-items:start}
+.card{background:var(--panel);border:1px solid var(--line);border-left:5px solid var(--red);border-radius:13px;overflow:hidden}
+.card[data-status=YELLOW]{border-left-color:var(--yellow)}.card[data-status=GREEN]{border-left-color:var(--green)}.card[data-status=GRAY]{border-left-color:var(--gray)}
+.card summary{cursor:pointer;list-style:none;padding:16px;min-height:92px}
+.card summary::-webkit-details-marker{display:none}
+.card summary:after{content:"Tap for evidence + acceptance ↓";display:block;color:#a6bad8;font-size:.77rem;margin-top:8px}
+.card[open] summary:after{content:"Hide details ↑"}
+.meta{display:flex;flex-wrap:wrap;align-items:center;gap:6px;margin:0 0 8px;font-size:.76rem}
+.tag{border-radius:6px;border:1px solid currentColor;padding:2px 7px;letter-spacing:.04em;font-weight:750;color:var(--red)}
+.card[data-status=YELLOW] .tag{color:var(--yellow)}.card[data-status=GREEN] .tag{color:var(--green)}.card[data-status=GRAY] .tag{color:var(--gray)}
+.id{color:var(--sub);overflow-wrap:anywhere}
+.intent{display:block;font-size:1.02rem;line-height:1.4;font-weight:700}
+.detail{padding:0 16px 17px;border-top:1px solid var(--line)}
+.detail h3{font-size:.85rem;color:#a5deef;text-transform:uppercase;letter-spacing:.05em;margin:15px 0 4px}
+.detail p{margin:0;overflow-wrap:anywhere}
+.detail code{display:block;padding:8px 10px;margin:5px 0;white-space:pre-wrap;overflow-wrap:anywhere;background:#0c1526;border:1px solid #344563;border-radius:7px;font-size:.76rem}
+.empty{padding:22px;background:var(--panel);border-radius:12px;border:1px solid var(--line);color:var(--sub)}
+footer{border-top:1px solid var(--line);padding:18px 0;color:var(--sub);font-size:.83rem}
+@media (min-width:720px){header{padding-left:max(calc((100vw - 1010px)/2),24px)}}
+@media (prefers-reduced-motion:reduce){*{scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<header>
+<div class="eyebrow">Caveman Focus · Source-grounded review</div>
+<h1>◆ Spider Millennium Puzzle</h1>
+<p>Inspect one behavior at a time on your iPhone. No automatic assembly, no simulated success presented as real Windows proof.</p>
+<nav class="nav" aria-label="Puzzle navigation">
+<a href="#pieces">Inspect blocks</a>
+<a href="./workbench.html">Assemble manually (touch workbench)</a>
+<a href="./atlas.html">Open full source atlas</a>
+<a href="./owner-aliases.json" download="spider-owner-blocks.json">Download block data</a>
+</nav>
+</header>
+<main>
+<div class="notice" role="note"><strong>READ-ONLY — not connected to your HP.</strong> RED means unresolved/unsafe or missing behavior; YELLOW means source located without independent full acceptance. No block here is proven working on your Windows machine. Opening or connecting blocks does not execute source code.</div>
+<section class="metrics" aria-label="Current owner-level status">
+<div class="metric"><strong id="total">9</strong><span>owner behavior blocks</span></div>
+<div class="metric red"><strong id="redCount">8</strong><span>need repair or proof</span></div>
+<div class="metric yellow"><strong id="yellowCount">1</strong><span>awaiting acceptance</span></div>
+</section>
+<section id="pieces">
+<h2>Owner-level puzzle pieces</h2>
+<div class="controls">
+<label for="search">Find a skill, failure, or source file<input id="search" type="search" placeholder="e.g., Chrome, STOP, cursor" autocomplete="off"></label>
+<div class="filters" role="group" aria-label="Filter by evidence status">
+<button type="button" data-filter="ALL" aria-pressed="true">All</button>
+<button type="button" data-filter="RED" aria-pressed="false">Red</button>
+<button type="button" data-filter="YELLOW" aria-pressed="false">Yellow</button>
+<button type="button" data-filter="GREEN" aria-pressed="false">Green</button>
+<button type="button" data-filter="GRAY" aria-pressed="false">Gray</button>
+</div>
+</div>
+<p id="resultCount" role="status" aria-live="polite"></p>
+<div id="cards" class="cards"></div>
+</section>
+<h2>How this relates to the whole puzzle</h2>
+<p>The full <a href="./atlas.html">source atlas</a> maps 1,289 source-code nodes and 632 candidate links. These are source symbols, <strong>not</strong> 1,289 finished skills. This mobile page starts with the nine owner-level behavior contracts documented on November 14, 2026; the independent Parts Kit review counts 36 tasks from a different source variant. Do not blend those inventories or treat their pass counts as real PC acceptance.</p>
+<footer>Developer: David Smith · Intended owner/beneficiary: Kiara Lynn Rose Smith. Browser inspection requires no account, API subscription, or Spider runtime. Board data: November 14, 2026. This page saves no inputs or private documents to a server.</footer>
+</main>
+<script id="puzzle-data" type="application/json">{"updated":"2026-11-14","source_version":"v3.3.14","evidence_scope":"STATIC SOURCE INSPECTION ONLY; no live HP acceptance","aliases":[{"id":"SP-MOUSE-001","intent":"Read the real cursor position without changing input","status":"RED","reason":"No cursor-position reader located in the v3.3.14 mapped source; no GetCursorPos/winfo_pointerx/y/follow_mouse references found","source_refs":[],"acceptance":"Read cursor position repeatedly during motion, including multi-monitor negative coordinates; do not move mouse","next":"Find an actual implementation in the correct version, or create isolated reader"},{"id":"SP-MOUSE-002","intent":"Animated spider follows real cursor at chosen distance and rotates correctly without stealing clicks","status":"RED","reason":"PetOverlay.tick drifts one pixel horizontally during working state, not toward cursor; drawing is separate from following","source_refs":["spider/gui_live.py:141:FUNCTION:SpiderDrawing.draw","spider/gui_live.py:200:FUNCTION:PetOverlay.move_to","spider/gui_live.py:203:FUNCTION:PetOverlay.tick","spider/gui_live.py:743:FUNCTION:SpiderUI.animate"],"acceptance":"Drag mouse repeatedly; overlay follows with configurable offset, rotates toward travel, retains click-through and normal desktop operation","next":"Test an isolated reader/follower/renderer against physical Windows HP; keep Forge v0.4 distinct"},{"id":"SP-CHROME-001","intent":"Find and open Chrome without corrupting an existing profile","status":"RED","reason":"Dedicated-profile launch exists, but owner's ordinary Chrome requirement is not proven","source_refs":["spider/live_browser.py:34:FUNCTION:find_chrome","spider/live_browser.py:275:FUNCTION:LocalChrome.start","spider/operator.py:253:FUNCTION:SpiderOperator.browser_start"],"acceptance":"Open permitted Chrome or report why unavailable; preserve signed-in regular profile and never delete lock/cookies","next":"Separate dedicated-profile and ordinary-Chrome adapters"},{"id":"SP-CHROME-002","intent":"Detect existing Chrome, active window, browser/profile state","status":"RED","reason":"DevTools-profile attachment and desktop-window discovery are different partial mechanisms","source_refs":["spider/live_browser.py:239:FUNCTION:LocalChrome._attach_port","spider/eyes.py:140:FUNCTION:SpiderEyes.list_windows"],"acceptance":"Identify browser HWND and explicit target identity; avoid attaching to an unrelated profile","next":"Isolate regular Chrome foreground identity and recheck"},{"id":"SP-CHROME-003","intent":"Inspect a selected Chrome tab without changing its contents","status":"RED","reason":"CDP DOM summary does not verify existing ordinary Chrome UIA/visible inspection","source_refs":["spider/browser_cdp.py:273:FUNCTION:ChromeCDPBridge.list_tabs","spider/browser_cdp.py:351:FUNCTION:ChromeCDPBridge.read_tab_dom_summary","spider/operator.py:283:FUNCTION:SpiderOperator.interact_regular_chrome_ui"],"acceptance":"Return actual visible selected tab title and controlled read-only summary for regular Chrome; refuse unrelated target","next":"Test CDP and UIA routes separately and annotate limitations"},{"id":"SP-CHROME-004","intent":"Propose and execute an owner-approved Chrome action with target/response verification","status":"RED","reason":"CDP prompt send and regular Chrome UNSENT draft staging differ; no proven end-to-end ordinary Chrome send","source_refs":["spider/browser_cdp.py:325:FUNCTION:ChromeCDPBridge.evaluate_js","spider/browser_cdp.py:426:FUNCTION:ChromeCDPBridge.send_prompt_and_wait","spider/operator.py:283:FUNCTION:SpiderOperator.interact_regular_chrome_ui"],"acceptance":"Require owner approval, reject changed target/challenges, execute only authorized action and verify result; no duplicate sends","next":"Isolate each action path; do not infer send from draft staging"},{"id":"SP-SAFE-001","intent":"STOP promptly halts queued and in-flight actions and prevents stale responses from restarting them","status":"RED","reason":"Source stop latch exists but full in-flight/stale action contract remains unverified on physical HP","source_refs":["spider/safety.py:184:FUNCTION:AuthorityController.stop","spider/safety.py:267:FUNCTION:AuthorityController.check_interrupt","spider/operator.py:140:FUNCTION:SpiderOperator.stop"],"acceptance":"STOP during waiting/running/after-send race; no stale generation resumes until explicit owner action","next":"Run isolated thread/race tests and a physical Windows acceptance test"},{"id":"SP-SAFE-002","intent":"Verify exact foreground HWND/control identity before any mouse/keyboard actuation","status":"RED","reason":"Window lookup/focus and mouse click exist but same-target-after-focus race is not proven","source_refs":["spider/hands.py:562:FUNCTION:SpiderHands._find_window_hwnd","spider/hands.py:591:FUNCTION:SpiderHands.focus_window","spider/hands.py:443:FUNCTION:SpiderHands.move_and_click"],"acceptance":"Switch target windows between inspect and click; abort without clicking wrong target","next":"Bind identity to approval and actuation; test stale/focus changes"},{"id":"SP-LEDGER-001","intent":"Append a tamper-evident evidence receipt and verify chain integrity","status":"YELLOW","reason":"Source found with hash, save and verify, but independent corruption and atomicity acceptance remains unverified","source_refs":["spider/ledger.py:60:FUNCTION:ExecutionLedger.compute_hash","spider/ledger.py:65:FUNCTION:ExecutionLedger.append","spider/ledger.py:101:FUNCTION:ExecutionLedger._save","spider/ledger.py:122:FUNCTION:ExecutionLedger.verify_chain"],"acceptance":"Append, reload, verify; corrupt prior receipt and ensure append refuses; interrupt write and preserve existing data","next":"Check variant-specific tamper behavior before GREEN"}]}</script>
+<script>
+"use strict";
+const board=JSON.parse(document.getElementById("puzzle-data").textContent);
+const pieces=board.aliases;
+const cards=document.getElementById("cards");
+const search=document.getElementById("search");
+const count=document.getElementById("resultCount");
+let filter="ALL";
+function elem(tag,cls,value){
+ const n=document.createElement(tag);
+ if(cls)n.className=cls;
+ if(value!==undefined)n.textContent=value;
+ return n;
+}
+function field(parent,label,value){
+ parent.appendChild(elem("h3",null,label));
+ parent.appendChild(elem("p",null,value||"Not documented"));
+}
+function render(){
+ const term=search.value.trim().toLowerCase();
+ const found=pieces.filter(p=>(filter==="ALL"||p.status===filter)&&(!term||[p.id,p.intent,p.reason,p.acceptance,p.next,...p.source_refs].join(" ").toLowerCase().includes(term)));
+ cards.replaceChildren();
+ for(const p of found){
+   const box=elem("details","card");
+   box.dataset.status=p.status;
+   const summary=elem("summary");
+   const meta=elem("div","meta");
+   meta.appendChild(elem("span","tag",p.status));
+   meta.appendChild(elem("span","id",p.id));
+   summary.appendChild(meta);
+   summary.appendChild(elem("span","intent",p.intent));
+   box.appendChild(summary);
+   const content=elem("div","detail");
+   field(content,"Why this status?",p.reason);
+   field(content,"How to prove it",p.acceptance);
+   field(content,"Next isolated step",p.next);
+   content.appendChild(elem("h3",null,"Mapped source IDs ("+p.source_refs.length+")"));
+   if(!p.source_refs.length)content.appendChild(elem("p",null,"No matching source symbol identified in this version."));
+   for(const ref of p.source_refs)content.appendChild(elem("code",null,ref));
+   box.appendChild(content);cards.appendChild(box);
+ }
+ count.textContent=found.length+" of "+pieces.length+" owner blocks";
+ if(!found.length)cards.appendChild(elem("p","empty","No matches. Clear your search or select All."));
+}
+document.getElementById("total").textContent=pieces.length;
+document.getElementById("redCount").textContent=pieces.filter(p=>p.status==="RED").length;
+document.getElementById("yellowCount").textContent=pieces.filter(p=>p.status==="YELLOW").length;
+document.querySelectorAll("[data-filter]").forEach(b=>b.addEventListener("click",()=>{
+ filter=b.dataset.filter;
+ document.querySelectorAll("[data-filter]").forEach(other=>other.setAttribute("aria-pressed",String(other===b)));
+ render();
+}));
+search.addEventListener("input",render);
+render();
+</script>
+</body>
+</html>
