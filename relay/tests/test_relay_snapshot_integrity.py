@@ -187,6 +187,17 @@ class SnapshotAuditTests(unittest.TestCase):
         self.assertEqual(check.audit(sample)["duplicate_message_id"],
                          ["CF0-RELAY-0012"])
 
+    def test_body_prose_end_is_not_closer(self):
+        sample = (make(closed=False)
+                  + "Use template: END CF0-RELAY-0001\n")
+        self.assertEqual(check.audit(sample)["unclosed"], ["CF0-RELAY-0001"])
+
+    def test_body_prose_then_real_end(self):
+        sample = (make(closed=False)
+                  + "Use template: END CF0-RELAY-0001\n"
+                  + "END CF0-RELAY-0001\n")
+        self.assertEqual(check.audit(sample)["unclosed"], [])
+
     def test_no_private_data_in_fixture(self):
         self.assertNotIn("https://docs.google.com", make())
         self.assertNotIn("password", make())
