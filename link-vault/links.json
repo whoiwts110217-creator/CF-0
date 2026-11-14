@@ -1,7 +1,7 @@
 {
   "schema": "cf.link.vault.public.v2",
-  "revision": "2026-11-13.2",
-  "updated_date": "2026-11-13",
+  "revision": "2026-11-14.1",
+  "updated_date": "2026-11-14",
   "source": "https://github.com/whoiwts110217-creator/CF-0/blob/main/link-vault/links.json",
   "links": [
     {
@@ -731,6 +731,14 @@
       "category": "Continuity",
       "status": "source",
       "note": "Dated public-safe activity audit. Private AI messages are not published."
+    },
+    {
+      "id": "92",
+      "title": "Spider Millennium Puzzle — iPhone Workbench",
+      "url": "https://whoiwts110217-creator.github.io/CF-0/spider-puzzle/workbench.html",
+      "category": "Automation",
+      "status": "live",
+      "note": "Manual visual block assembly. Wires are hypotheses; no Spider execution or Windows acceptance."
     }
   ]
 }
