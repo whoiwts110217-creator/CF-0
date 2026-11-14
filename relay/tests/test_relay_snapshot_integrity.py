@@ -230,6 +230,36 @@ class SnapshotAuditTests(unittest.TestCase):
                   + f"END {ident}\n")
         self.assertEqual(check.audit(sample)["wrong_end"], [])
 
+    def test_nested_begin_keeps_first_unclosed_and_second_valid(self):
+        first = "CF0-RELAY-ALPHA-001"
+        second = "CF0-RELAY-BETA-002"
+        sample = (make(first, "alpha", closed=False)
+                  + make(second, "beta"))
+        report = check.audit(sample)
+        self.assertEqual(report["entries"], 2)
+        self.assertEqual(report["unclosed"], [first])
+        self.assertEqual(report["wrong_end"], [])
+        self.assertEqual(report["duplicate_uid"], [])
+
+    def test_malformed_metadata_does_not_invent_uid(self):
+        ident = "CF0-RELAY-0001"
+        sample = (f"BEGIN {ident}\n"
+                  "MESSAGE_UID uid-without-colon\n"
+                  "MESSAGE_UID_2: secondary-uid\n"
+                  f"END {ident}\n")
+        report = check.audit(sample)
+        self.assertEqual(report["entries"], 1)
+        self.assertEqual(report["missing_uid"], [ident])
+        self.assertEqual(report["unclosed"], [])
+
+    def test_foreign_end_then_matching_end_reports_wrong_end(self):
+        ident = "CF0-RELAY-0001"
+        sample = (make(closed=False)
+                  + "END CF0-RELAY-OTHER-002\n"
+                  + f"END {ident}\n")
+        report = check.audit(sample)
+        self.assertEqual(report["wrong_end"], [ident, ident])
+
     def test_no_private_data_in_fixture(self):
         self.assertNotIn("https://docs.google.com", make())
         self.assertNotIn("password", make())
