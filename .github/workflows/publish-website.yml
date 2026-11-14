@@ -110,6 +110,8 @@ jobs:
         run: |
           python -m unittest discover -s iphone-skill-foundry/tests -p 'test_*.py' -v
           node --test iphone-skill-foundry/tests/export_runtime.test.cjs iphone-skill-foundry/tests/cache_scope.test.cjs
+      - name: Test Spider Millennium Puzzle manual mobile workbench
+        run: node --test spider-puzzle/test_workbench.mjs
       - name: Stage curated public website and Dreamkiller emulator
         shell: bash
         run: |
