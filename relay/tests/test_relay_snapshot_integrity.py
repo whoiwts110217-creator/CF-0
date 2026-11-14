@@ -212,6 +212,24 @@ class SnapshotAuditTests(unittest.TestCase):
                   + "END CF0-RELAY-0001\n")
         self.assertEqual(check.audit(sample)["unclosed"], [])
 
+    def test_midblock_prose_own_end_does_not_close_early(self):
+        ident = "CF0-RELAY-0001"
+        sample = (make(closed=False)
+                  + f"Instructions finish with END {ident}\n"
+                  + "BODY: still working\n"
+                  + f"END {ident}\n")
+        records, orphans = check.parse(sample)
+        self.assertEqual(records[0]["end"], ident)
+        self.assertEqual(orphans, [])
+        self.assertEqual(check.audit(sample)["wrong_end"], [])
+
+    def test_midblock_foreign_prose_end_is_not_wrong_end(self):
+        ident = "CF0-RELAY-0001"
+        sample = (make(closed=False)
+                  + "Prior block closed at END CF0-RELAY-9999\n"
+                  + f"END {ident}\n")
+        self.assertEqual(check.audit(sample)["wrong_end"], [])
+
     def test_no_private_data_in_fixture(self):
         self.assertNotIn("https://docs.google.com", make())
         self.assertNotIn("password", make())
