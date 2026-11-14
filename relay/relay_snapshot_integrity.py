@@ -27,6 +27,7 @@ def parse(text):
     """Return message metadata without retaining message-body content."""
     records = []
     current = None
+    orphan_end = []
     for lineno, source_line in enumerate(text.splitlines(), 1):
         line = source_line.strip()
         begin = BEGIN.fullmatch(line)
@@ -36,6 +37,9 @@ def parse(text):
             records.append(current)
             continue
         if current is None:
+            if END.fullmatch(line):
+                orphan_end.append(END.fullmatch(line).group(1))
+                continue
             bare = BARE_HEADER.fullmatch(line)
             header = MESSAGE_HEADER.match(line)
             if bare or header:
@@ -56,12 +60,12 @@ def parse(text):
         if match:
             current["end"] = match.group(1)
             current = None
-    return records
+    return records, orphan_end
 
 
 def audit(text, bootstrap_uid=None):
     """Produce a snapshot-only report. Numbers are not proof of live activity."""
-    records = parse(text)
+    records, orphan_end = parse(text)
     by_uid = Counter(row["fields"].get("MESSAGE_UID") for row in records
                      if row["fields"].get("MESSAGE_UID"))
     by_id = Counter((row["fields"].get("MESSAGE_ID") or "").split()[0]
@@ -85,8 +89,8 @@ def audit(text, bootstrap_uid=None):
         "missing_uid": [row["begin"] for row in records
                         if not row["fields"].get("MESSAGE_UID")],
         "unclosed": [row["begin"] for row in records if not row["end"]],
-        "wrong_end": [row["begin"] for row in records
-                      if row["end"] and row["end"] != row["begin"]],
+        "wrong_end": ([row["begin"] for row in records
+                       if row["end"] and row["end"] != row["begin"]] + orphan_end),
         "bootstrap_seen": index is not None,
         "post_rollout_tags": len(tags),
         "post_rollout_ack_tags": len(ack_tags),
