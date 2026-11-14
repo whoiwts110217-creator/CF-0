@@ -102,7 +102,7 @@ function structuredCloneSafe(obj){return JSON.parse(JSON.stringify(obj));}
 function clamp(n,min,max){return Math.max(min,Math.min(max,n));}
 function announce(s){el("status").textContent=s;}
 function valid(input){
- if(!input||input.schema!=="cf0.spider.puzzle.manual-layout.v1"||!input.positions||!Array.isArray(input.edges)||input.edges.length>LIMIT)return null;
+ if(!input||input.schema!=="cf0.spider.puzzle.manual-layout.v1"||input.source_version!=="v3.3.14"||!input.positions||typeof input.positions!=="object"||Array.isArray(input.positions)||Object.keys(input.positions).length!==IDS.size||Object.keys(input.positions).some(id=>!IDS.has(id))||!Array.isArray(input.edges)||input.edges.length>LIMIT)return null;
  const positions={};
  for(const id of IDS){
   const p=input.positions[id];
