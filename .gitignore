@@ -9,3 +9,8 @@ private/
 bridge/results/
 bridge/queue/
 Domino_Data/
+
+# Optional Supabase CLI / npm tooling
+node_modules/
+supabase/.temp/
+supabase/.branches/

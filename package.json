@@ -1,0 +1,15 @@
+{
+  "name": "caveman-focus-cf0",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Optional project-scoped tooling for Caveman Focus CF-0",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "supabase": "supabase"
+  },
+  "devDependencies": {
+    "supabase": "3.1.0"
+  }
+}
