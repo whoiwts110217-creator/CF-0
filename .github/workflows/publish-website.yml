@@ -111,7 +111,7 @@ jobs:
           python -m unittest discover -s iphone-skill-foundry/tests -p 'test_*.py' -v
           node --test iphone-skill-foundry/tests/export_runtime.test.cjs iphone-skill-foundry/tests/cache_scope.test.cjs
       - name: Test Spider Millennium Puzzle manual mobile workbench
-        run: node --test spider-puzzle/test_workbench.mjs
+        run: node --test spider-puzzle/test_workbench.mjs spider-puzzle/test_full.mjs
       - name: Stage curated public website and Dreamkiller emulator
         shell: bash
         run: |
@@ -141,6 +141,7 @@ jobs:
           mkdir -p _site/spider-puzzle
           cp spider-puzzle/index.html _site/spider-puzzle/index.html
           cp spider-puzzle/workbench.html _site/spider-puzzle/workbench.html
+          cp spider-puzzle/full.html _site/spider-puzzle/full.html
           cp docs/spider-puzzle/index.html _site/spider-puzzle/atlas.html
           cp docs/spider/SPIDER_MILLENNIUM_PUZZLE_OWNER_INTENT_ALIASES_V1.json _site/spider-puzzle/owner-aliases.json
           mkdir -p _site/dreamkiller
@@ -186,6 +187,7 @@ jobs:
           assert Path("_site/skill-foundry/sw.js").is_file(), "Skill Foundry offline worker missing"
           assert Path("_site/link-vault/index.html").is_file(), "iPhone Link Vault missing"
           assert Path("_site/spider-puzzle/workbench.html").is_file(), "Manual puzzle board missing from staged site"
+          assert Path("_site/spider-puzzle/full.html").stat().st_size > 30000, "Full 1289-piece puzzle viewer missing from staged site"
           mobile = Path("_site/spider-puzzle/index.html").read_text(encoding="utf-8")
           assert 'viewport-fit=cover' in mobile and 'id="cards"' in mobile, "Mobile puzzle board incomplete"
           assert Path("_site/spider-puzzle/atlas.html").stat().st_size > 1000000, "Source atlas missing"
