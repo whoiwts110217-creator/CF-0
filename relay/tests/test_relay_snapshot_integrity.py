@@ -81,6 +81,13 @@ class SnapshotAuditTests(unittest.TestCase):
 
     def test_orphan_end(self):
         self.assertEqual(check.audit("END CF0-RELAY-0001\n")["entries"], 0)
+        self.assertEqual(check.audit("END CF0-RELAY-0001\n")["wrong_end"],
+                         ["CF0-RELAY-0001"])
+
+    def test_orphan_end_after_valid_block(self):
+        report = check.audit(make() + "END CF0-RELAY-0099\n")
+        self.assertEqual(report["entries"], 1)
+        self.assertEqual(report["wrong_end"], ["CF0-RELAY-0099"])
 
     def test_no_embedded_begin(self):
         x = "BODY: BEGIN CF0-RELAY-OLD\n" + make()
