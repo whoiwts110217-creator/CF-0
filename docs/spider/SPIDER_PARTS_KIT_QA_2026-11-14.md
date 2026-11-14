@@ -42,3 +42,23 @@ See the [public owner intent aliases](SPIDER_MILLENNIUM_PUZZLE_OWNER_INTENT_ALIA
 - Source reference/provenance for intended integration: v3.3.14 `spider/hands.py:562` (`_find_window_hwnd`), `:591` (`focus_window`), `:443` (`move_and_click`). These are *review targets*, **not proof** the reference helper is already integrated. Next task: independently audit the real actuation call path and propose a target-bound adapter; preserve STOP/PAUSE/RESUME and keep all blocks disassembled.
 
 **Evidence:** 2026-11-14, `SP-SAFE-002-GATE-V1`, ZIP SHA-256 `4b29c42db04721effb17bc077e359e90bd5bbada3098db5f349eb1bf041bf708`. Creator/developer: David Smith; intended owner/beneficiary: Kiara Lynn Rose Smith. This is an engineering record, not a statement of completed ownership transfer.
+
+## SP-SAFE-002B read-only source audit, simulated input adapter, and manual visual lab
+
+**Date:** 2026-11-14. **Parent owner behavior:** SP-SAFE-002 remains **RED**. This is a new **nondeployed, independent** child-block review; it is NOT a Spider patch or automatic assembly.
+
+**Source evidence:** Retrieved private user-owned canonical `CF0_Spider_Unified_System_v3.3.14_Canonical.zip` (94 entries; ZIP CRC PASS; archive SHA-256 `438c442a781b028b1ef8fc336585e540e14dfb5e3828a8d2e8ab35857e2dec24`). A SHA-pinned read-only AST audit found these method-local facts:
+
+- `spider/hands.py:591-612` (`focus_window`) invokes `SetForegroundWindow` without checking the actual foreground HWND/control again inside that method.
+- `spider/hands.py:443-475` (`move_and_click`) emits multiple mouse input events, without foreground-control identity verification between those calls.
+- `spider/hands.py:532-557` (`keyboard_type`) checks STOP in the character loop, but does not read focused-window/control identity in that method.
+- `spider/hands.py:360-392` (`paste_via_clipboard`) calls paste even if the optional `focus_window` operation reports failure; its optional Enter step follows paste without target-identity verification.
+- `spider/hands.py:499-530` (`drag`) calls `check_interrupt` during dragging but has no foreground-identity readback inside that method. **Method-local call absence does not prove an external controller never checks.**
+
+**Isolated deliverable:** `SP-SAFE-002B` references the previously tested `SP-SAFE-002A` approval/foreground gate and adds a bounded (1–5 event) step sequencer with injected authority, exact-target probe, and fake/supplied input driver. No native driver is shipped; it does not call `SendInput`, change focus, or install. Owner approval is still externally supplied; native integration must not skip it. Receipts distinguish **BLOCKED_BEFORE_DISPATCH**, **BLOCKED_BEFORE_INPUT**, **ATTEMPTED_UNVERIFIED**, **PARTIAL_DISPATCH_UNVERIFIED**, and **DISPATCHED_UNVERIFIED**, never claiming OS-recipient verification from an input count.
+
+**Reproducible isolated tests:** 35/35 Python unit tests passed (earlier V1 tests + new V2 and one static-audit fixture), Python compilation PASS, canonical source audit 8/8 assertions true, candidate ZIP CRC PASS. A separate offline HTML manual puzzle sidecar showed nine movable inspection cards; Chromium `page.set_content` smoke at desktop 1280px and narrow 390px viewport tested click-to-inspect, manually adding a dashed design link, a fixed focus-switch replay, and no JavaScript errors. The sandbox blocked direct `file://` navigation, so **real local-file, iPhone Safari, and Windows HP acceptance remain unverified**. The code, test results and HTML are private Working Documents; this public note intentionally includes only source-file names/line ranges, architecture, and test evidence.
+
+**Remaining RED flaw:** There is no universal atomic `check target then SendInput`. A foreground change or STOP after the final preflight can still cause a misdirected/partial input, including a held-down key or mouse button. **SP-SAFE-002C** is now defined as a separate RED *design contract* for recipient evidence, held-key/button recovery, secure-desktop handling, and seven adversarial acceptance cases; it is not implemented or tested on Windows.
+
+**Attribution:** Creator/developer David Smith; intended owner/beneficiary Kiara Lynn Rose Smith. No ownership-transfer claim.
