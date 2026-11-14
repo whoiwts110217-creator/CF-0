@@ -29,6 +29,8 @@ export const SOURCES = Object.freeze({
     {"id":"prompt-efficiency-guard","title":"Prompt efficiency guard","trigger":"event","detail":"On source push or manual dispatch","research":false},
     {"id":"publish-website","title":"Publish Caveman Focus website","trigger":"event","detail":"On source push or manual dispatch","research":false},
     {"id":"retry-agent-message-directory","title":"Retry agent message directory","trigger":"event","detail":"On matching source push or manual dispatch","research":true},
+    {"id":"spider-puzzle-checks","title":"Spider Millennium Puzzle iPhone isolated checks","trigger":"event","detail":"On matching pull request or manual dispatch; Node/Python source and import guards, not physical iPhone or Windows acceptance","research":false},
+    {"id":"spider-puzzle-verify","title":"Spider puzzle static source verification","trigger":"event","detail":"On matching source changes or manual dispatch; static puzzle source verification only, not live Spider behavior","research":false},
     {"id":"spider-desktop-architecture","title":"Spider Desktop source architecture tests","trigger":"event","detail":"On Spider source push, pull request, or manual dispatch; tests architecture only, not installed Windows operation","research":false},
     {"id":"verify-public-agent-invites","title":"Verify public agent invitations","trigger":"event","detail":"On matching source push or manual dispatch","research":true}
   ]),
