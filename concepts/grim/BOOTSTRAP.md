@@ -4,13 +4,13 @@
 **Public archive:** CF-0 → [Creative index](../../docs/CREATIVE.md) → [Grim project](README.md).
 **Snapshot:** November 14, 2026 (US Eastern).
 **Status:** Parent-authorized public creative draft; **originality and rights review pending**. The ending and several details remain intentionally undecided. Public-safe story material, **not** a private conversation transcript.
-**Creator credit:** **The owner's daughter designed Grim, developed his personality and supplied his foundational backstory.** Her name is withheld from the public archive. Do not insert or infer a real name. The assistant wrote the novella prose and created the separate supporting character **Moth**, the provisional Moth backstory and connective scenes.
+**Creator credit:** **Kiara Lynn-Rose Smith designed Grim, developed his personality and supplied his foundational backstory.** Her parent explicitly requested public credit under this exact name. The assistant wrote the novella prose and created the separate supporting character **Moth**, the provisional Moth backstory and connective scenes.
 **Originality caution:** The manuscript and generated illustrations have **not** been comprehensively checked for copying, intellectual-property concerns or resemblance to existing horror fiction. The user explicitly cited **Jeff the Killer** as a *visual reference* for Grim's red-line mouth scars. Treat this as a disclosed influence, not independent clearance or a finding of plagiarism.
 
 ## START HERE — bootstrap instructions for a new creative session
 
 1. Read **this file**, [the project index](README.md), and the [complete Book One manuscript](BOOK_ONE.md) in that order. Use current repository `main`, not cached memories.
-2. **Preserve daughter-established Grim canon** listed below. Treat proposed ideas and AI-written manuscript embellishments as editable until the young creator accepts them.
+2. **Preserve Kiara Lynn-Rose Smith's Grim canon** listed below. Treat proposed ideas and AI-written manuscript embellishments as editable until the creator accepts them.
 3. Ask at most one relevant question when a detail truly requires a creative decision. Do not replace Grim's appearance or decide the captive's outcome without the creator's input.
 4. If asked to continue writing, keep the playful-but-threatening psychological horror tone. Do not turn the original character into an existing copyrighted creepypasta figure.
 5. Write revised drafts in this existing project and update the [Creative index](../../docs/CREATIVE.md) if a substantive release changes. Do not make a duplicate archive.
@@ -44,7 +44,7 @@
 
 **Creator-approved core appearance** is the white-haired, eyes-veiled, white-shirt-and-black-baggy-pants design with red smile-scar lines and `:)` note. The prior visual sheet `hollow_smile_character_sheet.png` is a closer design reference. Later generated **black-haired** and **striped-sweater** sheets do **not** override creator canon. Even the later silver-haired striped-sweater sheet is an **alternate, noncanonical outfit**.
 
-Conversation-session illustrations and cover files were generated separately. **Their binary originals, together with the PDF and DOCX editions, are not made public simply by linking this text file.** See [README asset manifest](README.md) for their file names and publication state.
+The print-ready creator-credited PDF adds an interior title page bearing **Kiara Lynn-Rose Smith**, leaving the original cover image and every preexisting story page unmodified. Conversation-session illustrations and cover files were generated separately. **Their binary originals, together with the PDF and DOCX editions, are not made public simply by linking this text file.** See [README asset manifest](README.md) for their file names and publication state.
 
 ## Next creator decisions (unresolved, not instructions to invent answers)
 
@@ -53,4 +53,4 @@ Conversation-session illustrations and cover files were generated separately. **
 - Should Moth's draft role/backstory become official canon?
 - How should Grim's exact age, original identity and wider setting be handled? **Unknown**, not confirmed.
 
-**Continuity principle:** Daughter's creator-supplied facts > explicitly accepted draft > assistant-proposed text. Keep both design and story recoverable without falsely treating guesswork as proof.
+**Continuity principle:** Kiara Lynn-Rose Smith's creator-supplied facts > explicitly accepted draft > assistant-proposed text. Keep both design and story recoverable without falsely treating guesswork as proof.
