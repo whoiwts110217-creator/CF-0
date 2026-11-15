@@ -1,0 +1,1131 @@
+{
+  "edition": "Yu-Gi-Oh! TCG 40-card casual, no Forbidden/Limited List, modern turn sequence, 5 main monster and 5 spell/trap zones; no Extra Deck used",
+  "duel_version": "hell-mode-r10-turn6-main1-after-legendary-fiend-direct-damage-declined",
+  "origin": "Decks not specified before this turn. Fixed now by the exact user message hash-sort without mulligans, Marik first and starting player hand preserved.",
+  "shuffle_rule": "Sort card-instance IDs by SHA256(UTF-8 latest_user_request + \"|\" + seat + \"|\" + card_instance_id + \"|\" + card_name) ascending",
+  "shuffle_seed_input": "Marik goes first. Play his first turn legally, track each move, and show me the updated field.",
+  "turn": 6,
+  "phase": "Main Phase 1 — awaiting your next play",
+  "turn_player": "You",
+  "life_points": {
+    "Marik": 9000,
+    "You": 2200
+  },
+  "players": {
+    "Marik": {
+      "hand": [],
+      "deck_top_first": [
+        {
+          "id": "Marik-01",
+          "name": "Gil Garth"
+        },
+        {
+          "id": "Marik-16",
+          "name": "Lava Golem"
+        },
+        {
+          "id": "Marik-05",
+          "name": "Newdoria"
+        },
+        {
+          "id": "Marik-15",
+          "name": "Lava Golem"
+        },
+        {
+          "id": "Marik-28",
+          "name": "Jam Breeding Machine"
+        },
+        {
+          "id": "Marik-33",
+          "name": "Coffin Seller"
+        },
+        {
+          "id": "Marik-09",
+          "name": "Drillago"
+        },
+        {
+          "id": "Marik-11",
+          "name": "Dark Jeroid"
+        },
+        {
+          "id": "Marik-37",
+          "name": "Metal Reflect Slime"
+        },
+        {
+          "id": "Marik-08",
+          "name": "Bowganian"
+        },
+        {
+          "id": "Marik-39",
+          "name": "Magic Cylinder"
+        },
+        {
+          "id": "Marik-38",
+          "name": "Mirror Force"
+        },
+        {
+          "id": "Marik-34",
+          "name": "Coffin Seller"
+        },
+        {
+          "id": "Marik-02",
+          "name": "Gil Garth"
+        },
+        {
+          "id": "Marik-26",
+          "name": "Card Destruction"
+        },
+        {
+          "id": "Marik-22",
+          "name": "Monster Reborn"
+        },
+        {
+          "id": "Marik-31",
+          "name": "Nightmare Wheel"
+        },
+        {
+          "id": "Marik-25",
+          "name": "Raigeki"
+        },
+        {
+          "id": "Marik-36",
+          "name": "Trap Hole"
+        },
+        {
+          "id": "Marik-18",
+          "name": "Helpoemer"
+        },
+        {
+          "id": "Marik-13",
+          "name": "Granadora"
+        },
+        {
+          "id": "Marik-29",
+          "name": "Mask of the Accursed"
+        },
+        {
+          "id": "Marik-24",
+          "name": "Pot of Greed"
+        },
+        {
+          "id": "Marik-21",
+          "name": "Sangan"
+        },
+        {
+          "id": "Marik-23",
+          "name": "Dark Hole"
+        },
+        {
+          "id": "Marik-06",
+          "name": "Newdoria"
+        },
+        {
+          "id": "Marik-35",
+          "name": "Trap Hole"
+        },
+        {
+          "id": "Marik-03",
+          "name": "Gil Garth"
+        },
+        {
+          "id": "Marik-10",
+          "name": "Drillago"
+        },
+        {
+          "id": "Marik-12",
+          "name": "Dark Jeroid"
+        },
+        {
+          "id": "Marik-19",
+          "name": "The Winged Dragon of Ra"
+        },
+        {
+          "id": "Marik-20",
+          "name": "Revival Jam"
+        },
+        {
+          "id": "Marik-32",
+          "name": "Nightmare Wheel"
+        }
+      ],
+      "monster_zones": [
+        null,
+        {
+          "card": {
+            "id": "Marik-04",
+            "name": "Newdoria"
+          },
+          "position": "face-up attack",
+          "atk": 1200,
+          "def": 800
+        },
+        {
+          "card": {
+            "id": "Marik-14",
+            "name": "Granadora"
+          },
+          "position": "face-up attack",
+          "atk": 1900,
+          "def": 700
+        },
+        {
+          "card": {
+            "id": "Marik-07",
+            "name": "Bowganian"
+          },
+          "position": "face-down defense",
+          "atk": 1300,
+          "def": 1000
+        },
+        {
+          "card": {
+            "id": "Marik-17",
+            "name": "Legendary Fiend"
+          },
+          "position": "face-up attack",
+          "atk": 1500,
+          "def": 1800,
+          "revived_by": "Marik-40"
+        }
+      ],
+      "spell_trap_zones": [
+        null,
+        {
+          "card": {
+            "id": "Marik-40",
+            "name": "Call of the Haunted"
+          },
+          "position": "face-up continuous trap",
+          "target_id": "Marik-17"
+        },
+        null,
+        null,
+        null
+      ],
+      "graveyard": [
+        {
+          "id": "Marik-30",
+          "name": "Book of Moon"
+        },
+        {
+          "id": "Marik-27",
+          "name": "Tribute to the Doomed"
+        }
+      ],
+      "banished": []
+    },
+    "You": {
+      "hand": [
+        {
+          "id": "You-02",
+          "name": "Skilled Dark Magician"
+        },
+        {
+          "id": "You-25",
+          "name": "Breaker the Magical Warrior"
+        },
+        {
+          "id": "You-23",
+          "name": "Big Shield Gardna"
+        },
+        {
+          "id": "You-39",
+          "name": "Magic Cylinder"
+        },
+        {
+          "id": "You-16",
+          "name": "Kuriboh"
+        },
+        {
+          "id": "You-40",
+          "name": "Call of the Haunted"
+        },
+        {
+          "id": "You-28",
+          "name": "Dark Hole"
+        }
+      ],
+      "deck_top_first": [
+        {
+          "id": "You-11",
+          "name": "Summoned Skull"
+        },
+        {
+          "id": "You-26",
+          "name": "Jinzo"
+        },
+        {
+          "id": "You-09",
+          "name": "Dark Magician Girl"
+        },
+        {
+          "id": "You-33",
+          "name": "Mystical Space Typhoon"
+        },
+        {
+          "id": "You-17",
+          "name": "Gemini Elf"
+        },
+        {
+          "id": "You-37",
+          "name": "Book of Moon"
+        },
+        {
+          "id": "You-35",
+          "name": "Change of Heart"
+        },
+        {
+          "id": "You-27",
+          "name": "Monster Reborn"
+        },
+        {
+          "id": "You-38",
+          "name": "Mirror Force"
+        },
+        {
+          "id": "You-31",
+          "name": "Graceful Charity"
+        },
+        {
+          "id": "You-21",
+          "name": "Celtic Guardian"
+        },
+        {
+          "id": "You-32",
+          "name": "Swords of Revealing Light"
+        },
+        {
+          "id": "You-14",
+          "name": "Skilled Dark Magician"
+        },
+        {
+          "id": "You-29",
+          "name": "Raigeki"
+        },
+        {
+          "id": "You-30",
+          "name": "Heavy Storm"
+        },
+        {
+          "id": "You-19",
+          "name": "Mystical Elf"
+        },
+        {
+          "id": "You-24",
+          "name": "Magician of Faith"
+        },
+        {
+          "id": "You-06",
+          "name": "Dark Magician"
+        },
+        {
+          "id": "You-13",
+          "name": "Skilled Dark Magician"
+        },
+        {
+          "id": "You-15",
+          "name": "Kuriboh"
+        },
+        {
+          "id": "You-12",
+          "name": "Summoned Skull"
+        },
+        {
+          "id": "You-18",
+          "name": "Gemini Elf"
+        },
+        {
+          "id": "You-20",
+          "name": "Mystical Elf"
+        },
+        {
+          "id": "You-34",
+          "name": "Polymerization"
+        },
+        {
+          "id": "You-10",
+          "name": "Dark Magician Girl"
+        },
+        {
+          "id": "You-36",
+          "name": "Brain Control"
+        },
+        {
+          "id": "You-08",
+          "name": "Dark Magician"
+        },
+        {
+          "id": "You-07",
+          "name": "Dark Magician"
+        },
+        {
+          "id": "You-22",
+          "name": "Buster Blader"
+        }
+      ],
+      "monster_zones": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "spell_trap_zones": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "graveyard": [
+        {
+          "id": "You-03",
+          "name": "Pot of Greed"
+        },
+        {
+          "id": "You-05",
+          "name": "Sangan"
+        },
+        {
+          "id": "You-01",
+          "name": "Trap Hole"
+        },
+        {
+          "id": "You-04",
+          "name": "Beaver Warrior"
+        }
+      ],
+      "banished": []
+    }
+  },
+  "log": [
+    {
+      "turn": 1,
+      "player": "Marik",
+      "phase": "Draw",
+      "action": "First player skips opening Draw Phase",
+      "deck_delta": 0
+    },
+    {
+      "turn": 1,
+      "player": "Marik",
+      "phase": "Standby",
+      "action": "No effects"
+    },
+    {
+      "turn": 1,
+      "player": "Marik",
+      "phase": "Main Phase 1",
+      "action": "Normal Summon Granadora (face-up ATK) to Monster Zone 3",
+      "card_id": "Marik-14"
+    },
+    {
+      "turn": 1,
+      "player": "Marik",
+      "phase": "Main Phase 1",
+      "action": "Granadora summon-trigger effect resolves: Marik gains 1,000 LP",
+      "life_points": {
+        "Marik": 9000,
+        "You": 8000
+      }
+    },
+    {
+      "turn": 1,
+      "player": "Marik",
+      "phase": "Main Phase 1",
+      "action": "Set 1 Spell/Trap face-down in S/T zone 2",
+      "hidden_card_id": "Marik-40"
+    },
+    {
+      "turn": 1,
+      "player": "Marik",
+      "phase": "Main Phase 1",
+      "action": "Set 1 Spell/Trap face-down in S/T zone 3",
+      "hidden_card_id": "Marik-30"
+    },
+    {
+      "turn": 1,
+      "player": "Marik",
+      "phase": "End",
+      "action": "End Turn, no Battle Phase on duel first turn"
+    },
+    {
+      "turn": 2,
+      "player": "You",
+      "phase": "Draw",
+      "action": "Draw 1: Breaker the Magical Warrior",
+      "card_id": "You-25"
+    },
+    {
+      "turn": 2,
+      "player": "You",
+      "phase": "Standby",
+      "action": "No mandatory effects"
+    },
+    {
+      "turn": 2,
+      "player": "You",
+      "phase": "Main Phase 1",
+      "action": "Activate Pot of Greed (Normal Spell), Chain Link 1",
+      "card_id": "You-03",
+      "chain_link": 1
+    },
+    {
+      "turn": 2,
+      "player": "Marik",
+      "phase": "Main Phase 1",
+      "action": "Marik declines to chain a response; Chain resolves unchanged"
+    },
+    {
+      "turn": 2,
+      "player": "You",
+      "phase": "Main Phase 1",
+      "action": "Resolve Pot of Greed: draw exactly 2 cards from fixed top of Deck",
+      "drawn_card_ids": [
+        "You-23",
+        "You-39"
+      ],
+      "drawn_card_names": [
+        "Big Shield Gardna",
+        "Magic Cylinder"
+      ],
+      "deck_after": 32
+    },
+    {
+      "turn": 2,
+      "player": "You",
+      "phase": "Main Phase 1",
+      "action": "Pot of Greed goes to your Graveyard after resolving",
+      "card_id": "You-03"
+    },
+    {
+      "turn": 2,
+      "player": "You",
+      "phase": "Main Phase 1",
+      "action": "Awaiting the next player action; no Normal Summon or Set performed yet"
+    },
+    {
+      "turn": 2,
+      "player": "You",
+      "phase": "Main Phase 1",
+      "action": "Normal Set Sangan face-down in Defense Position in Main Monster Zone 3",
+      "card_id": "You-05",
+      "summon_set_used": true
+    },
+    {
+      "turn": 2,
+      "player": "You",
+      "phase": "End",
+      "action": "End turn; no attacks and no other cards set"
+    },
+    {
+      "turn": 3,
+      "player": "Marik",
+      "phase": "Draw",
+      "action": "Draw 1 card from fixed deck order",
+      "card_id": "Marik-04",
+      "card_name_hidden_at_draw": true
+    },
+    {
+      "turn": 3,
+      "player": "Marik",
+      "phase": "Standby",
+      "action": "No effects"
+    },
+    {
+      "turn": 3,
+      "player": "Marik",
+      "phase": "Main Phase 1",
+      "action": "Normal Summon Newdoria in face-up Attack Position in Main Monster Zone 2",
+      "card_id": "Marik-04"
+    },
+    {
+      "turn": 3,
+      "player": "Marik",
+      "phase": "Battle",
+      "action": "Granadora (1900 ATK) attacks your face-down Defense Position monster in zone 3; it is revealed as Sangan (600 DEF). No battle damage."
+    },
+    {
+      "turn": 3,
+      "player": "You",
+      "phase": "End of Damage Step",
+      "action": "Sangan destroyed by battle and sent from field to GY; its mandatory add-one-monster with <=1500 ATK effect activates, chain link 1. Awaiting player selection; no opponent response declared."
+    },
+    {
+      "turn": 3,
+      "player": "You",
+      "phase": "End of Damage Step",
+      "action": "Sangan resolves: reveal and add Kuriboh from Deck to hand; Kuriboh name activation restricted until end of turn 3",
+      "source_card_id": "You-05",
+      "chosen_card_id": "You-16",
+      "chosen_card_name": "Kuriboh"
+    },
+    {
+      "turn": 3,
+      "player": "You",
+      "phase": "End of Damage Step",
+      "action": "Shuffle remaining 31 cards after search; deterministic sealed hash sort",
+      "seed_commit": "5fc4283c1bc6216e423269a38fe6f4f49791c6359f9b21703eef19ec04b4fe6b",
+      "count": 31
+    },
+    {
+      "turn": 3,
+      "player": "Marik",
+      "phase": "Battle Phase",
+      "action": "Newdoria (1200 ATK) declares direct attack. You cannot activate Kuriboh this turn due to Sangan activation restriction; no other legal response. Inflicts 1200 battle damage."
+    },
+    {
+      "turn": 3,
+      "player": "Marik",
+      "phase": "Main Phase 2",
+      "action": "No actions"
+    },
+    {
+      "turn": 3,
+      "player": "Marik",
+      "phase": "End Phase",
+      "action": "End turn. Sangan restriction on Kuriboh name expires."
+    },
+    {
+      "turn": 4,
+      "player": "You",
+      "phase": "Draw Phase",
+      "action": "Draw 1 from freshly shuffled fixed Deck",
+      "drawn_card_id": "You-40",
+      "drawn_card_name": "Call of the Haunted"
+    },
+    {
+      "turn": 4,
+      "player": "You",
+      "phase": "Standby Phase",
+      "action": "No mandatory effects; Sangan name restriction no longer active"
+    },
+    {
+      "turn": 4,
+      "player": "You",
+      "phase": "Main Phase 1",
+      "action": "Awaiting player move. Normal Summon/Set available. Battle Phase permitted."
+    },
+    {
+      "turn": 4,
+      "player": "You",
+      "phase": "Main Phase 1",
+      "action": "Normal Set Beaver Warrior in face-down Defense Position in Monster Zone 3; normal summon/set used",
+      "card_id": "You-04"
+    },
+    {
+      "turn": 4,
+      "player": "You",
+      "phase": "Main Phase 1",
+      "action": "Set Trap Hole face-down in Spell/Trap Zone 3; not activatable until next turn",
+      "card_id": "You-01"
+    },
+    {
+      "turn": 4,
+      "player": "You",
+      "phase": "End Phase",
+      "action": "End your turn; hand 6, your Monster Zone 3 face-down, Spell/Trap Zone 3 face-down"
+    },
+    {
+      "turn": 5,
+      "player": "Marik",
+      "phase": "Draw Phase",
+      "action": "Draw the next card from sealed fixed deck order; card remains hidden to opponent",
+      "drawn_card_id": "Marik-07"
+    },
+    {
+      "turn": 5,
+      "player": "Marik",
+      "phase": "Standby Phase",
+      "action": "No effects activate; Bowganian is not yet on the field"
+    },
+    {
+      "turn": 5,
+      "player": "Marik",
+      "phase": "Main Phase 1",
+      "action": "Normal Summon Bowganian (1300 ATK / 1000 DEF) in face-up Attack Position in Monster Zone 4",
+      "card_id": "Marik-07"
+    },
+    {
+      "turn": 5,
+      "player": "You",
+      "phase": "Main Phase 1 — Trigger Response",
+      "action": "Activate Set Trap Hole from Spell/Trap Zone 3, CL1, target newly Normal Summoned Bowganian (1300 ATK)",
+      "card_id": "You-01",
+      "target_id": "Marik-07"
+    },
+    {
+      "turn": 5,
+      "player": "Marik",
+      "phase": "Main Phase 1 — Chain",
+      "action": "Chain previously Set Book of Moon, CL2, target own face-up Bowganian",
+      "card_id": "Marik-30",
+      "target_id": "Marik-07"
+    },
+    {
+      "turn": 5,
+      "player": "Marik",
+      "phase": "Chain resolution CL2",
+      "action": "Book of Moon flips Bowganian to face-down Defense Position; Book of Moon sent to Marik Graveyard",
+      "card_id": "Marik-30"
+    },
+    {
+      "turn": 5,
+      "player": "You",
+      "phase": "Chain resolution CL1",
+      "action": "Trap Hole cannot destroy face-down Bowganian at resolution; Trap Hole sent to your Graveyard",
+      "card_id": "You-01"
+    },
+    {
+      "turn": 5,
+      "player": "Marik",
+      "phase": "Main Phase 1 — After Chain",
+      "action": "No battle, turn-end or damage resolved. Marik may take next legal Main Phase action. Bowganian remains set Defense Position."
+    },
+    {
+      "turn": 5,
+      "player": "Marik",
+      "phase": "Main Phase 1 — CL1 activation",
+      "action": "Activate Tribute to the Doomed from hand, discard Legendary Fiend as cost, target your single face-down monster in Monster Zone 3",
+      "card_id": "Marik-27",
+      "cost_card_id": "Marik-17",
+      "target_id": "You-04"
+    },
+    {
+      "turn": 5,
+      "player": "Marik",
+      "phase": "Main Phase 1 — CL1 resolves",
+      "action": "Tribute to the Doomed destroys set Beaver Warrior; it is sent to your Graveyard and revealed. Tribute to the Doomed enters Marik Graveyard.",
+      "card_id": "Marik-27",
+      "destroyed_id": "You-04"
+    },
+    {
+      "turn": 5,
+      "player": "Marik",
+      "phase": "Main Phase 1 — CL1 activation",
+      "action": "Activate previously Set Call of the Haunted targeting Legendary Fiend (which was discarded to the Graveyard)",
+      "card_id": "Marik-40",
+      "target_id": "Marik-17"
+    },
+    {
+      "turn": 5,
+      "player": "Marik",
+      "phase": "Main Phase 1 — CL1 resolves",
+      "action": "Call of the Haunted Special Summons Legendary Fiend face-up Attack Position in Monster Zone 5 (1500 ATK). It has gained no Standby Phase ATK this turn.",
+      "card_id": "Marik-40",
+      "target_id": "Marik-17"
+    },
+    {
+      "turn": 5,
+      "player": "Marik",
+      "phase": "Battle Phase — Start Step",
+      "action": "Enters Battle Phase with Granadora 1900 ATK, Legendary Fiend 1500 ATK, Newdoria 1200 ATK, Bowganian face-down Defense Position (cannot attack)."
+    },
+    {
+      "turn": 5,
+      "player": "Marik",
+      "phase": "Battle Phase — Battle Step",
+      "action": "Granadora declares direct attack against you. You control no monsters, and have no Set Spells/Traps. No battle damage yet.",
+      "attacker_id": "Marik-14",
+      "target": "direct"
+    },
+    {
+      "turn": 5,
+      "player": "Marik",
+      "phase": "Damage Step — damage calculation",
+      "action": "Reached optional Quick Effect window for your in-hand Kuriboh; no damage calculated and no Kuriboh discarded yet.",
+      "attacker_id": "Marik-14",
+      "pending_response": "You choose Kuriboh (discard, prevent damage this battle) or decline (take 1900)."
+    },
+    {
+      "turn": 5,
+      "player": "You",
+      "phase": "Damage Step — damage calculation",
+      "action": "Decline to activate the in-hand Kuriboh during Granadora's direct attack; Kuriboh remains in hand.",
+      "card_id": "You-16",
+      "responding_to": "Marik-14"
+    },
+    {
+      "turn": 5,
+      "player": "Marik",
+      "phase": "Damage Step — battle damage",
+      "action": "Granadora 1900 ATK direct attack resolves. You take 1900 battle damage; LP 6800 -> 4900. Granadora has used its attack for Turn 5.",
+      "attacker_id": "Marik-14",
+      "battle_damage": 1900,
+      "life_points": {
+        "Marik": 9000,
+        "You": 4900
+      }
+    },
+    {
+      "turn": 5,
+      "player": "Marik",
+      "phase": "Battle Phase — Battle Step",
+      "action": "Newdoria (1200 ATK) declares a direct attack. Player controls no monster and has no Set Spells/Traps. Legendary Fiend remains available to attack afterward.",
+      "attacker_id": "Marik-04",
+      "target": "direct"
+    },
+    {
+      "turn": 5,
+      "player": "Marik",
+      "phase": "Damage Step — damage calculation",
+      "action": "No battle damage from Newdoria has been applied. Pause for optional in-hand Kuriboh Quick Effect.",
+      "attacker_id": "Marik-04",
+      "pending_response": "Discard Kuriboh to take zero from this battle, or decline and take 1200."
+    },
+    {
+      "turn": 5,
+      "player": "You",
+      "phase": "Damage Step — damage calculation",
+      "action": "Declines to activate Kuriboh during Newdoria direct attack. Kuriboh remains in hand.",
+      "card_id": "You-16",
+      "responding_to": "Marik-04"
+    },
+    {
+      "turn": 5,
+      "player": "Marik",
+      "phase": "Damage Step — battle damage",
+      "action": "Newdoria deals 1200 direct battle damage; You LP 4900 -> 3700. Newdoria has used its attack for Turn 5.",
+      "attacker_id": "Marik-04",
+      "battle_damage": 1200,
+      "life_points": {
+        "Marik": 9000,
+        "You": 3700
+      }
+    },
+    {
+      "turn": 5,
+      "player": "Marik",
+      "phase": "Battle Phase — Battle Step",
+      "action": "Legendary Fiend (1500 ATK) declares a direct attack. You control no monsters or set back row. Granadora and Newdoria have each attacked already.",
+      "attacker_id": "Marik-17",
+      "target": "direct"
+    },
+    {
+      "turn": 5,
+      "player": "Marik",
+      "phase": "Damage Step — damage calculation",
+      "action": "Reach Kuriboh response decision for Legendary Fiend direct attack. No damage applied and Kuriboh remains in hand.",
+      "attacker_id": "Marik-17",
+      "pending_response": "Discard Kuriboh to take zero battle damage, or decline and take 1500."
+    },
+    {
+      "turn": 5,
+      "player": "You",
+      "phase": "Damage Step — damage calculation",
+      "action": "Declines to activate Kuriboh during Legendary Fiend direct attack; Kuriboh remains in hand.",
+      "card_id": "You-16",
+      "responding_to": "Marik-17"
+    },
+    {
+      "turn": 5,
+      "player": "Marik",
+      "phase": "Damage Step — battle damage",
+      "action": "Legendary Fiend (1500 ATK) deals 1500 direct damage; You LP 3700 -> 2200. Legendary Fiend used its attack this turn.",
+      "attacker_id": "Marik-17",
+      "battle_damage": 1500,
+      "life_points": {
+        "Marik": 9000,
+        "You": 2200
+      }
+    },
+    {
+      "turn": 5,
+      "player": "Marik",
+      "phase": "Battle Phase — End Step",
+      "action": "All three face-up Attack Position monsters have attacked. Bowganian is face-down Defense Position and cannot attack. No further attacks."
+    },
+    {
+      "turn": 5,
+      "player": "Marik",
+      "phase": "Main Phase 2",
+      "action": "Marik has 0 cards in hand and takes no further action. Face-up Call of the Haunted remains attached to Legendary Fiend."
+    },
+    {
+      "turn": 5,
+      "player": "Marik",
+      "phase": "End Phase",
+      "action": "No applicable End Phase trigger in recorded field or hand; Marik ends Turn 5. Legendary Fiend gains no ATK at End Phase."
+    },
+    {
+      "turn": 6,
+      "player": "You",
+      "phase": "Draw Phase",
+      "action": "Normal draw 1 from fixed top of shuffled Deck."
+    },
+    {
+      "turn": 6,
+      "player": "You",
+      "phase": "Draw Phase — draw resolution",
+      "action": "Draw Dark Hole (You-28), face revealed only to controlling player. Your hand rises from 6 to 7; Deck falls from 30 to 29.",
+      "card_id": "You-28"
+    },
+    {
+      "turn": 6,
+      "player": "You",
+      "phase": "Standby Phase",
+      "action": "No mandatory Standby effects for the active player. Legendary Fiend and Bowganian trigger only during Marik’s Standby Phase if their effect conditions are met, not now."
+    },
+    {
+      "turn": 6,
+      "player": "You",
+      "phase": "Main Phase 1",
+      "action": "Your normal summon/set and legal Spell/Trap actions are available. No automatic player actions were taken."
+    }
+  ],
+  "verification": {
+    "initial_hand_counts": {
+      "Marik": 5,
+      "You": 5
+    },
+    "decks_after_mariks_turn": {
+      "Marik": 35,
+      "You": 35
+    },
+    "after_player_draw": {
+      "Marik": 35,
+      "You": 34
+    },
+    "Marik_left_hand": 2,
+    "player_hand_now": 6,
+    "Marik_backrow_set": 2,
+    "graveyard_count": 0,
+    "after_pot": {
+      "your_hand": 7,
+      "your_deck": 32,
+      "your_graveyard": 1,
+      "Marik_hand": 2,
+      "Marik_deck": 35,
+      "Marik_graveyard": 0,
+      "drawn_card_ids": [
+        "You-23",
+        "You-39"
+      ],
+      "pot_in_graveyard": "You-03"
+    },
+    "integrity_check": "Each player has exactly 40 unique card instance IDs across deck/hand/field/graveyard/banished; previous record unchanged.",
+    "after_turn3_sangan_pending": {
+      "marik_hand": 2,
+      "marik_deck": 34,
+      "marik_lp": 9000,
+      "you_hand": 6,
+      "you_deck": 32,
+      "you_gy": 2,
+      "you_lp": 8000,
+      "your_search_options": [
+        "Magician of Faith",
+        "Kuriboh",
+        "Celtic Guardian",
+        "Mystical Elf",
+        "Mystical Elf",
+        "Kuriboh"
+      ],
+      "cards_per_player": 40,
+      "unique_instances": true
+    },
+    "after_sangan_kuriboh_newdoria_and_draw": {
+      "Marik": {
+        "deck": 34,
+        "hand": 2,
+        "graveyard": 0,
+        "on_field": 4,
+        "banished": 0,
+        "unique_instances": 40
+      },
+      "You": {
+        "deck": 30,
+        "hand": 8,
+        "graveyard": 2,
+        "on_field": 0,
+        "banished": 0,
+        "unique_instances": 40
+      },
+      "YouLP": 6800,
+      "MarikLP": 9000,
+      "drawn_card_id": "You-40",
+      "search_card_id": "You-16",
+      "restrict_expires_turn": 3,
+      "prior_state_sha256": "81637c187cf771fb635c233b2af4dd5996c52b93045b9efb3ceb8b36d0eb4605"
+    },
+    "turn5_set_and_normal_summon_pending": {
+      "integrity": "40 distinct card instances each",
+      "your_hand": 6,
+      "your_deck": 30,
+      "marik_hand": 2,
+      "marik_deck": 33,
+      "your_lp": 6800,
+      "marik_lp": 9000,
+      "trap_activation": "offered, not assumed",
+      "response_window": "open"
+    },
+    "after_turn5_chain": {
+      "Marik": {
+        "deck": 33,
+        "hand": 2,
+        "graveyard": 1,
+        "banished": 0,
+        "on_field": 4,
+        "total_unique": 40
+      },
+      "You": {
+        "deck": 30,
+        "hand": 6,
+        "graveyard": 3,
+        "banished": 0,
+        "on_field": 1,
+        "total_unique": 40
+      },
+      "MarikLP": 9000,
+      "YouLP": 6800,
+      "Bowganian_on_field_face_down": true,
+      "TrapHole_destroyed_Bowganian": false,
+      "priority": "Marik Main Phase 1",
+      "cards_have_unchanged_ids": true
+    },
+    "after_turn5_spell_revive_granadora_attack_pending": {
+      "Marik": {
+        "deck": 33,
+        "hand": 0,
+        "graveyard": 2,
+        "field": 5,
+        "banished": 0,
+        "total_unique": 40
+      },
+      "You": {
+        "deck": 30,
+        "hand": 6,
+        "graveyard": 4,
+        "field": 0,
+        "banished": 0,
+        "total_unique": 40
+      },
+      "life_points": {
+        "Marik": 9000,
+        "You": 6800
+      },
+      "attack": "Granadora direct 1900 pending damage calculation; Kuriboh optional",
+      "remaining_attacks": [
+        "Legendary Fiend 1500",
+        "Newdoria 1200"
+      ],
+      "Kuriboh_unchanged_in_hand": true
+    },
+    "after_turn5_granadora_damage_next_newdoria_pending": {
+      "Marik": {
+        "deck": 33,
+        "hand": 0,
+        "graveyard": 2,
+        "field": 5,
+        "banished": 0,
+        "unique_cards": 40
+      },
+      "You": {
+        "deck": 30,
+        "hand": 6,
+        "graveyard": 4,
+        "field": 0,
+        "banished": 0,
+        "unique_cards": 40
+      },
+      "LP": {
+        "Marik": 9000,
+        "You": 4900
+      },
+      "Granadora_direct_attack": "1900 damage RESOLVED, attacked",
+      "Newdoria_direct_attack": "1200 damage pending Kuriboh",
+      "Legendary_Fiend_attack": "1500 available; not declared",
+      "Kuriboh_in_hand": true
+    },
+    "after_turn5_newdoria_declined_legendary_fiend_pending": {
+      "Marik": {
+        "deck": 33,
+        "hand": 0,
+        "graveyard": 2,
+        "field": 5,
+        "banished": 0,
+        "unique_cards": 40
+      },
+      "You": {
+        "deck": 30,
+        "hand": 6,
+        "graveyard": 4,
+        "field": 0,
+        "banished": 0,
+        "unique_cards": 40
+      },
+      "LP": {
+        "Marik": 9000,
+        "You": 3700
+      },
+      "Granadora_direct": "1900 damage resolved",
+      "Newdoria_direct": "1200 damage resolved",
+      "Legendary_Fiend_direct": "1500 damage pending optional Kuriboh",
+      "Kuriboh_in_hand": true
+    },
+    "after_turn5_legendary_declined_and_turn6_draw": {
+      "Marik": {
+        "deck": 33,
+        "hand": 0,
+        "graveyard": 2,
+        "field": 5,
+        "banished": 0,
+        "unique_cards": 40
+      },
+      "You": {
+        "deck": 29,
+        "hand": 7,
+        "graveyard": 4,
+        "field": 0,
+        "banished": 0,
+        "unique_cards": 40
+      },
+      "life_points": {
+        "Marik": 9000,
+        "You": 2200
+      },
+      "Legendary_Fiend_direct": "1500 direct damage resolved",
+      "Kuriboh_in_hand": true,
+      "newly_drawn_card": {
+        "id": "You-28",
+        "name": "Dark Hole"
+      },
+      "phase": "Main Phase 1 — awaiting your next play",
+      "turn": 6
+    }
+  },
+  "shuffle_history": [
+    {
+      "turn": 3,
+      "why": "Sangan searched Kuriboh, You-16",
+      "algorithm": "Sort remaining Deck by sha256(seed|card instance id|card name)",
+      "seed": "27c48414acf2570e511b77c64b6c611aa7facbdc7808587321d081656565cd49",
+      "prior_state_sha256": "81637c187cf771fb635c233b2af4dd5996c52b93045b9efb3ceb8b36d0eb4605",
+      "prior_id_count": 32,
+      "remaining_after_search": 31
+    }
+  ],
+  "chain_resolution": [
+    {
+      "chain_link": 1,
+      "controller": "You",
+      "card_id": "You-01",
+      "card_name": "Trap Hole",
+      "target_id": "Marik-07",
+      "target_name_public": "Bowganian",
+      "activation": "Activated from set S/T zone 3 in response to Normal Summon; legally targets 1300 ATK Bowganian",
+      "resolution": "Target is now face-down Defense Position from chain link 2, so Trap Hole cannot determine requisite 1000+ ATK and does not destroy Bowganian. Goes to your GY."
+    },
+    {
+      "chain_link": 2,
+      "controller": "Marik",
+      "card_id": "Marik-30",
+      "card_name": "Book of Moon",
+      "target_id": "Marik-07",
+      "target_name_public": "Bowganian",
+      "activation": "Chained previously Set Quick-Play Spell from S/T zone 3 to protect Bowganian",
+      "resolution": "Resolve first: Bowganian changes from face-up Attack Position to face-down Defense Position, stays in Monster Zone 4; Book of Moon to Marik GY."
+    }
+  ],
+  "pending_response": null,
+  "previous_sealed_state_sha256": "b0c549b696c9c9f1b2b00d784c184df057a49f2124da9f3cda23ed9dc386d9e4"
+}

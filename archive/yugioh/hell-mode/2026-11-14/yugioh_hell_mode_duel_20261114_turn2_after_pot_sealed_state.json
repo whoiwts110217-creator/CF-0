@@ -1,0 +1,528 @@
+{
+  "edition": "Yu-Gi-Oh! TCG 40-card casual, no Forbidden/Limited List, modern turn sequence, 5 main monster and 5 spell/trap zones; no Extra Deck used",
+  "duel_version": "hell-mode-duel-r2-turn2-player-main1-after-pot-of-greed",
+  "origin": "Decks not specified before this turn. Fixed now by the exact user message hash-sort without mulligans, Marik first and starting player hand preserved.",
+  "shuffle_rule": "Sort card-instance IDs by SHA256(UTF-8 latest_user_request + \"|\" + seat + \"|\" + card_instance_id + \"|\" + card_name) ascending",
+  "shuffle_seed_input": "Marik goes first. Play his first turn legally, track each move, and show me the updated field.",
+  "turn": 2,
+  "phase": "Main Phase 1",
+  "turn_player": "You",
+  "life_points": {
+    "Marik": 9000,
+    "You": 8000
+  },
+  "players": {
+    "Marik": {
+      "hand": [
+        {
+          "id": "Marik-17",
+          "name": "Legendary Fiend"
+        },
+        {
+          "id": "Marik-27",
+          "name": "Tribute to the Doomed"
+        }
+      ],
+      "deck_top_first": [
+        {
+          "id": "Marik-04",
+          "name": "Newdoria"
+        },
+        {
+          "id": "Marik-07",
+          "name": "Bowganian"
+        },
+        {
+          "id": "Marik-01",
+          "name": "Gil Garth"
+        },
+        {
+          "id": "Marik-16",
+          "name": "Lava Golem"
+        },
+        {
+          "id": "Marik-05",
+          "name": "Newdoria"
+        },
+        {
+          "id": "Marik-15",
+          "name": "Lava Golem"
+        },
+        {
+          "id": "Marik-28",
+          "name": "Jam Breeding Machine"
+        },
+        {
+          "id": "Marik-33",
+          "name": "Coffin Seller"
+        },
+        {
+          "id": "Marik-09",
+          "name": "Drillago"
+        },
+        {
+          "id": "Marik-11",
+          "name": "Dark Jeroid"
+        },
+        {
+          "id": "Marik-37",
+          "name": "Metal Reflect Slime"
+        },
+        {
+          "id": "Marik-08",
+          "name": "Bowganian"
+        },
+        {
+          "id": "Marik-39",
+          "name": "Magic Cylinder"
+        },
+        {
+          "id": "Marik-38",
+          "name": "Mirror Force"
+        },
+        {
+          "id": "Marik-34",
+          "name": "Coffin Seller"
+        },
+        {
+          "id": "Marik-02",
+          "name": "Gil Garth"
+        },
+        {
+          "id": "Marik-26",
+          "name": "Card Destruction"
+        },
+        {
+          "id": "Marik-22",
+          "name": "Monster Reborn"
+        },
+        {
+          "id": "Marik-31",
+          "name": "Nightmare Wheel"
+        },
+        {
+          "id": "Marik-25",
+          "name": "Raigeki"
+        },
+        {
+          "id": "Marik-36",
+          "name": "Trap Hole"
+        },
+        {
+          "id": "Marik-18",
+          "name": "Helpoemer"
+        },
+        {
+          "id": "Marik-13",
+          "name": "Granadora"
+        },
+        {
+          "id": "Marik-29",
+          "name": "Mask of the Accursed"
+        },
+        {
+          "id": "Marik-24",
+          "name": "Pot of Greed"
+        },
+        {
+          "id": "Marik-21",
+          "name": "Sangan"
+        },
+        {
+          "id": "Marik-23",
+          "name": "Dark Hole"
+        },
+        {
+          "id": "Marik-06",
+          "name": "Newdoria"
+        },
+        {
+          "id": "Marik-35",
+          "name": "Trap Hole"
+        },
+        {
+          "id": "Marik-03",
+          "name": "Gil Garth"
+        },
+        {
+          "id": "Marik-10",
+          "name": "Drillago"
+        },
+        {
+          "id": "Marik-12",
+          "name": "Dark Jeroid"
+        },
+        {
+          "id": "Marik-19",
+          "name": "The Winged Dragon of Ra"
+        },
+        {
+          "id": "Marik-20",
+          "name": "Revival Jam"
+        },
+        {
+          "id": "Marik-32",
+          "name": "Nightmare Wheel"
+        }
+      ],
+      "monster_zones": [
+        null,
+        null,
+        {
+          "card": {
+            "id": "Marik-14",
+            "name": "Granadora"
+          },
+          "position": "face-up attack",
+          "atk": 1900,
+          "def": 700
+        },
+        null,
+        null
+      ],
+      "spell_trap_zones": [
+        null,
+        {
+          "card": {
+            "id": "Marik-40",
+            "name": "Call of the Haunted"
+          },
+          "position": "set"
+        },
+        {
+          "card": {
+            "id": "Marik-30",
+            "name": "Book of Moon"
+          },
+          "position": "set"
+        },
+        null,
+        null
+      ],
+      "graveyard": [],
+      "banished": []
+    },
+    "You": {
+      "hand": [
+        {
+          "id": "You-01",
+          "name": "Trap Hole"
+        },
+        {
+          "id": "You-02",
+          "name": "Skilled Dark Magician"
+        },
+        {
+          "id": "You-04",
+          "name": "Beaver Warrior"
+        },
+        {
+          "id": "You-05",
+          "name": "Sangan"
+        },
+        {
+          "id": "You-25",
+          "name": "Breaker the Magical Warrior"
+        },
+        {
+          "id": "You-23",
+          "name": "Big Shield Gardna"
+        },
+        {
+          "id": "You-39",
+          "name": "Magic Cylinder"
+        }
+      ],
+      "deck_top_first": [
+        {
+          "id": "You-24",
+          "name": "Magician of Faith"
+        },
+        {
+          "id": "You-27",
+          "name": "Monster Reborn"
+        },
+        {
+          "id": "You-37",
+          "name": "Book of Moon"
+        },
+        {
+          "id": "You-16",
+          "name": "Kuriboh"
+        },
+        {
+          "id": "You-35",
+          "name": "Change of Heart"
+        },
+        {
+          "id": "You-18",
+          "name": "Gemini Elf"
+        },
+        {
+          "id": "You-22",
+          "name": "Buster Blader"
+        },
+        {
+          "id": "You-21",
+          "name": "Celtic Guardian"
+        },
+        {
+          "id": "You-12",
+          "name": "Summoned Skull"
+        },
+        {
+          "id": "You-09",
+          "name": "Dark Magician Girl"
+        },
+        {
+          "id": "You-40",
+          "name": "Call of the Haunted"
+        },
+        {
+          "id": "You-10",
+          "name": "Dark Magician Girl"
+        },
+        {
+          "id": "You-32",
+          "name": "Swords of Revealing Light"
+        },
+        {
+          "id": "You-28",
+          "name": "Dark Hole"
+        },
+        {
+          "id": "You-31",
+          "name": "Graceful Charity"
+        },
+        {
+          "id": "You-20",
+          "name": "Mystical Elf"
+        },
+        {
+          "id": "You-08",
+          "name": "Dark Magician"
+        },
+        {
+          "id": "You-14",
+          "name": "Skilled Dark Magician"
+        },
+        {
+          "id": "You-07",
+          "name": "Dark Magician"
+        },
+        {
+          "id": "You-26",
+          "name": "Jinzo"
+        },
+        {
+          "id": "You-19",
+          "name": "Mystical Elf"
+        },
+        {
+          "id": "You-17",
+          "name": "Gemini Elf"
+        },
+        {
+          "id": "You-38",
+          "name": "Mirror Force"
+        },
+        {
+          "id": "You-33",
+          "name": "Mystical Space Typhoon"
+        },
+        {
+          "id": "You-30",
+          "name": "Heavy Storm"
+        },
+        {
+          "id": "You-15",
+          "name": "Kuriboh"
+        },
+        {
+          "id": "You-36",
+          "name": "Brain Control"
+        },
+        {
+          "id": "You-34",
+          "name": "Polymerization"
+        },
+        {
+          "id": "You-06",
+          "name": "Dark Magician"
+        },
+        {
+          "id": "You-11",
+          "name": "Summoned Skull"
+        },
+        {
+          "id": "You-29",
+          "name": "Raigeki"
+        },
+        {
+          "id": "You-13",
+          "name": "Skilled Dark Magician"
+        }
+      ],
+      "monster_zones": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "spell_trap_zones": [
+        null,
+        null,
+        null,
+        null,
+        null
+      ],
+      "graveyard": [
+        {
+          "id": "You-03",
+          "name": "Pot of Greed"
+        }
+      ],
+      "banished": []
+    }
+  },
+  "log": [
+    {
+      "turn": 1,
+      "player": "Marik",
+      "phase": "Draw",
+      "action": "First player skips opening Draw Phase",
+      "deck_delta": 0
+    },
+    {
+      "turn": 1,
+      "player": "Marik",
+      "phase": "Standby",
+      "action": "No effects"
+    },
+    {
+      "turn": 1,
+      "player": "Marik",
+      "phase": "Main Phase 1",
+      "action": "Normal Summon Granadora (face-up ATK) to Monster Zone 3",
+      "card_id": "Marik-14"
+    },
+    {
+      "turn": 1,
+      "player": "Marik",
+      "phase": "Main Phase 1",
+      "action": "Granadora summon-trigger effect resolves: Marik gains 1,000 LP",
+      "life_points": {
+        "Marik": 9000,
+        "You": 8000
+      }
+    },
+    {
+      "turn": 1,
+      "player": "Marik",
+      "phase": "Main Phase 1",
+      "action": "Set 1 Spell/Trap face-down in S/T zone 2",
+      "hidden_card_id": "Marik-40"
+    },
+    {
+      "turn": 1,
+      "player": "Marik",
+      "phase": "Main Phase 1",
+      "action": "Set 1 Spell/Trap face-down in S/T zone 3",
+      "hidden_card_id": "Marik-30"
+    },
+    {
+      "turn": 1,
+      "player": "Marik",
+      "phase": "End",
+      "action": "End Turn, no Battle Phase on duel first turn"
+    },
+    {
+      "turn": 2,
+      "player": "You",
+      "phase": "Draw",
+      "action": "Draw 1: Breaker the Magical Warrior",
+      "card_id": "You-25"
+    },
+    {
+      "turn": 2,
+      "player": "You",
+      "phase": "Standby",
+      "action": "No mandatory effects"
+    },
+    {
+      "turn": 2,
+      "player": "You",
+      "phase": "Main Phase 1",
+      "action": "Activate Pot of Greed (Normal Spell), Chain Link 1",
+      "card_id": "You-03",
+      "chain_link": 1
+    },
+    {
+      "turn": 2,
+      "player": "Marik",
+      "phase": "Main Phase 1",
+      "action": "Marik declines to chain a response; Chain resolves unchanged"
+    },
+    {
+      "turn": 2,
+      "player": "You",
+      "phase": "Main Phase 1",
+      "action": "Resolve Pot of Greed: draw exactly 2 cards from fixed top of Deck",
+      "drawn_card_ids": [
+        "You-23",
+        "You-39"
+      ],
+      "drawn_card_names": [
+        "Big Shield Gardna",
+        "Magic Cylinder"
+      ],
+      "deck_after": 32
+    },
+    {
+      "turn": 2,
+      "player": "You",
+      "phase": "Main Phase 1",
+      "action": "Pot of Greed goes to your Graveyard after resolving",
+      "card_id": "You-03"
+    },
+    {
+      "turn": 2,
+      "player": "You",
+      "phase": "Main Phase 1",
+      "action": "Awaiting the next player action; no Normal Summon or Set performed yet"
+    }
+  ],
+  "verification": {
+    "initial_hand_counts": {
+      "Marik": 5,
+      "You": 5
+    },
+    "decks_after_mariks_turn": {
+      "Marik": 35,
+      "You": 35
+    },
+    "after_player_draw": {
+      "Marik": 35,
+      "You": 34
+    },
+    "Marik_left_hand": 2,
+    "player_hand_now": 6,
+    "Marik_backrow_set": 2,
+    "graveyard_count": 0,
+    "after_pot": {
+      "your_hand": 7,
+      "your_deck": 32,
+      "your_graveyard": 1,
+      "Marik_hand": 2,
+      "Marik_deck": 35,
+      "Marik_graveyard": 0,
+      "drawn_card_ids": [
+        "You-23",
+        "You-39"
+      ],
+      "pot_in_graveyard": "You-03"
+    },
+    "integrity_check": "Each player has exactly 40 unique card instance IDs across deck/hand/field/graveyard/banished; previous record unchanged."
+  }
+}
