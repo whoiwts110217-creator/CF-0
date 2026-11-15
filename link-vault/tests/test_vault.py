@@ -50,6 +50,31 @@ class LinkVaultSourceTest(unittest.TestCase):
                 self.assertFalse(urlparse(item["url"]).username)
                 self.assertFalse(urlparse(item["url"]).password)
 
+    def test_full_spider_puzzle_is_in_live_and_offline_navigation(self):
+        full_url="https://whoiwts110217-creator.github.io/CF-0/spider-puzzle/full.html"
+        workbench_url="https://whoiwts110217-creator.github.io/CF-0/spider-puzzle/workbench.html"
+        items=self.catalog["links"]
+        full=[x for x in items if x["url"]==full_url]
+        self.assertEqual(len(full),1)
+        self.assertEqual(full[0]["id"],"93")
+        self.assertEqual(full[0]["category"],"Automation")
+        self.assertTrue(any(x["id"]=="92" and x["url"]==workbench_url for x in items))
+        self.assertIn(full_url,self.html)
+        self.assertIn("Full Spider Puzzle & Test Lab",self.html)
+        match=re.search(r"^let DIRECTORY=(\[[^\n]+\]);$",self.html,re.MULTILINE)
+        self.assertIsNotNone(match,"offline bundled links missing")
+        bundled=json.loads(match.group(1))
+        self.assertEqual(
+            [(x["id"],x["url"],x["title"],x["note"]) for x in bundled],
+            [(x["id"],x["url"],x["title"],x["note"]) for x in items],
+            "offline fallback must match the live canonical catalog"
+        )
+        start=(ROOT.parent/"docs"/"START_HERE.md").read_text(encoding="utf-8")
+        self.assertIn("ONE OWNER NAVIGATION HOME",start)
+        self.assertIn("link-vault/",start)
+        self.assertIn(full_url,start)
+        self.assertIn("not a second task registry",start)
+
     def test_moving_current_routes_exist(self):
         urls=[x["url"] for x in self.catalog["links"]]
         for tail in ("CURRENT_SOURCE_GATEWAY.md","OWNER_JUNGLE_MAP.md","UNIVERSAL_FRESHNESS_CONTRACT.md","CHATGPT_MEMORY_BOOTSTRAP.md"):

@@ -1,12 +1,14 @@
 # Start Here — Caveman Focus
 
 
+> **ONE OWNER NAVIGATION HOME:** [Open the iPhone Link Vault / Jungle Compass](https://whoiwts110217-creator.github.io/CF-0/link-vault/). Its **Action Sphere + side rail** is the existing place to choose owner tasks, current project routes, and useful tools. This document is the public navigation guide, **not a second task registry**. Personal checkmarks and layout preferences remain local to your browser.
+
+**Go straight to a working tool:** [Full Spider Millennium Puzzle + per-piece Test Lab](https://whoiwts110217-creator.github.io/CF-0/spider-puzzle/full.html) (1,289 source pieces; 500 displayed initially) · [Mission Control](https://whoiwts110217-creator.github.io/CF-0/mission-control/) · [Free Clarity Card](https://whoiwts110217-creator.github.io/CF-0/clarity-card/). The visual puzzle is not a working Windows actuator; source and simulated tests do not prove the HP ran a task.
+
+**To reconcile old work first:** [Current Source Gateway](CURRENT_SOURCE_GATEWAY.md) explains what supersedes historical entries; [Public Tasks & Issues](TASKS_AND_ISSUES.md) is the existing queue for oldest-first issue review. Original issue bodies, dated snapshots and private archives remain preserved; nothing here silently promotes a CF-200 task.
+
 > **Old document? Start with the [Current Source Gateway](CURRENT_SOURCE_GATEWAY.md).** It leads to the newest public project and task sources, marks snapshots as historical, and explains what still needs real provider/owner evidence. [CF-FRESH-001](UNIVERSAL_FRESHNESS_CONTRACT.md) applies to **everything**, not only the Jungle Map.
 
-
-**[FIRST DROP — Caveman Focus Hall of Fame](https://caveman-focus-support.whoiwts110217.chatgpt.site/hall-of-fame)** · [Share the public donation appeal](FIRST_DROP_CAMPAIGN_2026-11-09.md). Contributions of any amount are voluntary; public recognition is consent-based and requires verified payment.
-
-**[FREE BROWSER PROMOTION CHECK — no TinyFish charges](FREE_BROWSER_PROMOTION_2026-11-09.md)** · [View real GitHub Actions browser-run evidence](https://github.com/whoiwts110217-creator/CF-0/actions/workflows/cf0-free-browser-promotion.yml). Checks public campaign pages and directory review status; no accounts, posts, donations or HP access.\n\n**[Public tasks and issues](TASKS_AND_ISSUES.md) — clear priorities, current blockers, open GitHub issues, and approvals needed**
 
 **Creator/developer:** David Smith  
 **Designated owner / intended generational beneficiary:** Kiara Lynn Rose Smith (designation; legal transfer not independently attested)  
@@ -14,13 +16,15 @@
 
 Caveman Focus is an experimental system for reducing repetitive work by coordinating AI-assisted tasks, explicit priorities, and verifiable execution. The initial operating target is a low-resource Windows HP computer. It is **public developer-preview source**, not a finished product.
 
-## Quick access — bookmark this page
+## Quick access — bookmark the Link Vault
 
 | Destination | Direct link |
 |---|---|
-| **Public website** | [Caveman Focus on GitHub Pages](https://whoiwts110217-creator.github.io/CF-0/) |
-| **Owner Action Sphere / side list** | [Open the integrated action rail inside the existing iPhone Link Vault](https://whoiwts110217-creator.github.io/CF-0/link-vault/#owner-actions) · [Dated public-safe action view](../link-vault/owner-actions.json) · [Usage and limitations](../link-vault/README.md) |
 | **iPhone Link Vault / Jungle Compass** | [Open updateable iPhone Home Screen launcher](https://whoiwts110217-creator.github.io/CF-0/link-vault/) · [Refreshable public link catalog](../link-vault/links.json) · [Personal fixes, privacy and installation](../link-vault/README.md) |
+| **Owner Action Sphere / side list** | [Open the integrated action rail inside the existing iPhone Link Vault](https://whoiwts110217-creator.github.io/CF-0/link-vault/#owner-actions) · [Dated public-safe action view](../link-vault/owner-actions.json) · [Usage and limitations](../link-vault/README.md) |
+| **Spider Millennium Puzzle — full assembly & Test Lab** | [Open 1,289 source pieces, 500 initially shown](https://whoiwts110217-creator.github.io/CF-0/spider-puzzle/full.html) · [Older nine-block goals workbench](https://whoiwts110217-creator.github.io/CF-0/spider-puzzle/workbench.html) · Visual assembly and safe diagnostics only; no actual HP execution |
+| **Oldest-first issues & current blockers** | [Existing public task/issue queue](TASKS_AND_ISSUES.md) · [Live GitHub issues sorted oldest first](https://github.com/whoiwts110217-creator/CF-0/issues?q=is%3Aissue+is%3Aopen+sort%3Acreated-asc) |
+| **Public website** | [Caveman Focus on GitHub Pages](https://whoiwts110217-creator.github.io/CF-0/) |
 | **Mission Control** | [GitHub Pages dashboard](https://whoiwts110217-creator.github.io/CF-0/mission-control/) · [Restricted tasks](https://whoiwts110217-creator.github.io/CF-0/mission-control/#work-orders) · [Tools and task power](https://whoiwts110217-creator.github.io/CF-0/mission-control/#tool-power) · [Dashboard guide](../automation_200/mission_control/README.md) |
 | **Habit Automator (iPhone installable web app)** | [Open Habit Automator](https://whoiwts110217-creator.github.io/CF-0/mission-control/habit-automator/) · [Source and safety limits](../automation_200/mission_control/dist/habit-automator/README.md) |
 | **Three-chat public continuity** | [Single-link cold start](mesh/START_HERE.md) · [topic graph](PUBLIC_CONTEXT_GRAPH.json) · [public-safe handoff ledger](mesh/handoff_events.jsonl) · [source-level validator](../continuity/public_mesh_handoff.py) |
@@ -37,6 +41,14 @@ Caveman Focus is an experimental system for reducing repetitive work by coordina
 | **Public archive reconciliation** | [November 7 attribution and project continuity report](CONTINUITY_RECONCILIATION_2026-11-07_DREAMKILLER.md) |
 | **AI Tracker** | [Mission Control status](https://whoiwts110217-creator.github.io/CF-0/mission-control/#ai-tracker) · [Issue monitor](../ai_tracker/monitor_public_issue.py) · [Development branch](https://github.com/whoiwts110217-creator/CF-0/tree/feature/ai-agent-tracker/ai_tracker) |
 | **Open agent response thread** | [GitHub issue #16](https://github.com/whoiwts110217-creator/CF-0/issues/16) |
+
+### Optional public opportunities (not navigation prerequisites)
+
+**[FIRST DROP — Caveman Focus Hall of Fame](https://caveman-focus-support.whoiwts110217.chatgpt.site/hall-of-fame)** · [Share the public donation appeal](FIRST_DROP_CAMPAIGN_2026-11-09.md). Contributions of any amount are voluntary; public recognition is consent-based and requires verified payment.
+
+**[FREE BROWSER PROMOTION CHECK — no TinyFish charges](FREE_BROWSER_PROMOTION_2026-11-09.md)** · [View real GitHub Actions browser-run evidence](https://github.com/whoiwts110217-creator/CF-0/actions/workflows/cf0-free-browser-promotion.yml). Checks public campaign pages and directory review status; no accounts, posts, donations or HP access.
+
+**[Public tasks and issues](TASKS_AND_ISSUES.md) — clear priorities, current blockers, open GitHub issues, and approvals needed**
 
 Mission Control shows the most recently published public scan of Issue #16. Non-owner comments count replies from known accounts other than the repository owner. Contributions have a separate verification count.
 
