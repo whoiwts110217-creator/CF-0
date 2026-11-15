@@ -1,7 +1,11 @@
 # GRIM
 ## The Rules of the Game
 
-*A short horror novel based on your character and backstory*
+*A short horror story based on a character and backstory created by the owner's daughter (name withheld).* 
+
+**Credits:** Grim concept, character design, personality and foundational backstory: **the owner's daughter (name withheld)**. Book One prose, added scenes and Moth supporting character: **AI-assisted / assistant-generated**.
+
+**Publication status:** **Draft — originality and rights review pending.** This version has not been checked comprehensively for resemblance to or copying from existing horror works; no plagiarism determination is implied. The smile-scar design drew on a user-mentioned Jeff the Killer visual reference. Do not treat this text or its illustrations as cleared for commercial republication without review.
 
 ---
 
@@ -514,7 +518,9 @@ And Grim, smiling as though the world had just told him its funniest joke, opene
 
 ---
 
-## CREATOR'S NOTES
+## STORY ORIGIN AND CREATOR'S NOTES
+
+**Creator credit and separation:** Grim was conceived and described by the owner's daughter, whose name is intentionally not published. The following facts are hers; the dramatized novel scenes, dialogue and Moth were written or proposed by the assistant and are not independently verified as wholly original.
 
 **Grim's established character details:** Wild white frizzy hair that covers his red eyes; oversized white shirt; baggy black pants; thin red slit-like marks extending from his smile; a pocket note reading `:)`; a genuinely playful, smug personality; a voice that becomes squeaky and upset when someone doesn't react with fear. As a child, he killed bugs out of fascination, was beaten by his mother for it, and never cried. One bug escaped, and he remembers it without attaching special meaning to it. As an adult, he becomes a serial killer, kidnaps a passerby, and treats his victims' fear and attempts to run as a game. He has never spoken to someone he did not intend to kill. He reveals the name Grim only when someone says something that interests him. One captive surprises him by showing no emotion and revealing that they had wanted to die. What he ultimately does depends on what they say.
 
