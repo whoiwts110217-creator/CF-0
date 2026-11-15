@@ -30,6 +30,8 @@ Extract it into a **new folder**. On Windows, open
 desktop with automatic Chrome startup off. It does not install, make shortcuts,
 resume scheduled workers or replace a previous Spider. See the package's own
 instructions for the portable check command and desktop launch.
+The 94 original files live in `runtime/`; the new launcher stays outside that
+folder so the original strict preflight and upgrade manifests remain valid.
 
 ## Evidence and limits
 
@@ -40,6 +42,9 @@ instructions for the portable check command and desktop launch.
 - Independently checked: **1,289/1,289** excerpt hashes, **93/93** original
   full-file manifest hashes and **80** Python files compiling. All **298** bundled
   tests passed in Linux with local test servers; these are source/synthetic tests.
+- The first clean-package CI run caught ten failures because new launcher files
+  shared the original source directory. The corrected `runtime/` boundary keeps
+  the original strict inventory unchanged; no original test or manifest was relaxed.
 - The added launcher exercises the real source ledger and STOP/resume components.
   It rejects a missing real Tk display instead of allowing the old GUI's silent
   stub fallback to count as a launch.

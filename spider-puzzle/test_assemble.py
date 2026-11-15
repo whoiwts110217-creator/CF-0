@@ -79,7 +79,7 @@ class AssemblyTests(unittest.TestCase):
                 self.assertIsNone(archive.testzip())
                 self.assertEqual(len(archive.namelist()), 98)
                 for name, text in self.data["sources"].items():
-                    self.assertEqual(archive.read(name), text.encode("utf-8"), name)
+                    self.assertEqual(archive.read("runtime/" + name), text.encode("utf-8"), name)
                 manifest = json.loads(archive.read(assembly.MANIFEST))
                 self.assertEqual(len(manifest["requested_table_piece_ids"]), 500)
                 self.assertEqual(len(set(manifest["requested_table_piece_ids"])), 500)
@@ -120,7 +120,7 @@ class AssemblyTests(unittest.TestCase):
     def test_runtime_source_tamper_blocks_before_import(self):
         with tempfile.TemporaryDirectory() as tmp:
             folder = self.extracted(tmp)
-            (folder / "spider/brain.py").write_text("raise RuntimeError('SHOULD_NOT_IMPORT')\n")
+            (folder / "runtime/spider/brain.py").write_text("raise RuntimeError('SHOULD_NOT_IMPORT')\n")
             result = self.run_check(folder)
             self.assertNotEqual(result.returncode, 0)
             self.assertIn("Assembly hash mismatch", result.stderr)
@@ -129,10 +129,28 @@ class AssemblyTests(unittest.TestCase):
     def test_added_executable_source_blocks_launch(self):
         with tempfile.TemporaryDirectory() as tmp:
             folder = self.extracted(tmp)
-            (folder / "spider/extra.py").write_text("raise RuntimeError('SHOULD_NOT_IMPORT')\n")
+            (folder / "runtime/spider/extra.py").write_text("raise RuntimeError('SHOULD_NOT_IMPORT')\n")
             result = self.run_check(folder)
             self.assertNotEqual(result.returncode, 0)
             self.assertIn("Unmanifested executable source", result.stderr)
+
+    def test_original_preflight_and_upgrader_accept_after_launcher_smoke(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            folder = self.extracted(tmp)
+            result = self.run_check(folder)
+            self.assertEqual(result.returncode, 0, result.stderr)
+            script = """from pathlib import Path
+import FRESH_PREFLIGHT as preflight
+import APPLY_AND_START_SPIDER as upgrader
+print(preflight._verify_source())
+upgrader.verify_manifest(Path.cwd())
+assert len(upgrader.list_tracked_files(Path.cwd())) == 93
+print('ORIGINAL_PREFLIGHT_AND_UPGRADER_PASS')
+"""
+            result = subprocess.run([sys.executable, "-B", "-c", script], cwd=folder / "runtime",
+                                    capture_output=True, text=True, timeout=30)
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            self.assertIn("ORIGINAL_PREFLIGHT_AND_UPGRADER_PASS", result.stdout)
 
     def test_no_display_does_not_fall_back_to_fake_gui(self):
         with tempfile.TemporaryDirectory() as tmp:

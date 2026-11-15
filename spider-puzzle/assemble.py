@@ -149,6 +149,7 @@ import sys
 import tempfile
 
 ROOT = Path(__file__).resolve().parent
+RUNTIME = ROOT / "runtime"
 MANIFEST = "ASSEMBLY_MANIFEST.json"
 
 
@@ -248,6 +249,7 @@ def main():
     if sys.version_info < (3, 10):
         raise RuntimeError("Python 3.10+ is required")
     verify()
+    sys.path.insert(0, str(RUNTIME))  # Only import the package after its files were checked.
     checks = smoke()
     print(json.dumps({"status": "LOCAL_SMOKE_PASSED", "checks": checks,
                       "original_files": 94, "source_pieces": 1289,
@@ -299,6 +301,8 @@ new service, account pairing, scheduler, paid model or package download runs.
 The source's existing controls remain available only when explicitly selected.
 
 This reconstructs the public atlas snapshot, not the missing original ZIP bytes.
+All 94 original files are under runtime/ with no added files in that directory;
+this preserves their existing preflight, upgrader and full-suite manifest rules.
 Original source version strings disagree (3.3.4/3.3.13/3.3.14); they are retained.
 The original manifest verifies 93 files; ASSEMBLY_MANIFEST.json also covers that
 manifest and the three new entry/guide files. Hashes establish consistency, not a
@@ -316,7 +320,7 @@ original installation and private data. Do not run two browser writers together.
 
 
 def package_files(data):
-    files = verify_catalog(data)
+    files = {"runtime/" + name: content for name, content in verify_catalog(data).items()}
     files.update({"assembled_spider.py": LAUNCHER.encode(), "START_ASSEMBLED_SPIDER.cmd": START.encode(),
                   "ASSEMBLY_README.md": README.encode()})
     validate_paths(files)

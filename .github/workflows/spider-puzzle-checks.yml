@@ -27,6 +27,7 @@ jobs:
         run: python docs/spider-puzzle/verify_board.py
   assembled-program:
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
@@ -44,7 +45,7 @@ jobs:
         run: python -m zipfile -e CF0-Spider-Assembled-v1.zip assembled-runtime
       - name: Run the original source tests from the clean package
         if: runner.os == 'Linux'
-        working-directory: assembled-runtime
+        working-directory: assembled-runtime/runtime
         run: python -B -m unittest discover -s tests -v
       - uses: actions/upload-artifact@v4
         with:
