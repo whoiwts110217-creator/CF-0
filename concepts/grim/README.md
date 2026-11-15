@@ -3,7 +3,7 @@
 
 **Status:** Public **AI-assisted draft, originality review pending**. PDF, Word and original illustration binaries remain in the originating conversation and are **not yet in this GitHub repository**.
 
-**Creator credit:** **Grim's character concept, appearance, personality and foundational backstory were created by the owner's daughter (name withheld for privacy).** The full narrative prose was developed with AI assistance. **Moth**, the supporting character, and their draft backstory were created by the assistant. Publication is parent-authorized; no real name or other identifying details are listed.
+**Creator credit:** **Grim's character concept, appearance, personality and foundational backstory were created by Kiara Lynn-Rose Smith.** Her parent explicitly requested this public byline. The full narrative prose was developed with AI assistance. **Moth**, the supporting character, and their draft backstory were created by the assistant.
 
 **Originality notice:** This material has **not** undergone a comprehensive originality or rights review. Horror-story and visual influences—including the creator's Jeff the Killer comparison for the smile—should be reviewed before claims of independent originality, commercial licensing or wider distribution. No plagiarism finding has been made.
 
@@ -22,7 +22,7 @@ This archive records a fictional horror creation with themes of kidnapping, viol
 - **[BOOTSTRAP.md](BOOTSTRAP.md)** — Character facts from the creator, separate Moth draft material, visual corrections, unresolved questions and continuity rules. **Read first for all future revisions.**
 - **[BOOK_ONE.md](BOOK_ONE.md)** — Full original prose of *Grim: The Rules of the Game*, Book One (prologue, six chapters, closing creator's notes). This is the publicly published **readable text edition**.
 
-The owner's daughter established Grim's name, appearance, childhood, voice, behavior and unusual captive. The assistant drafted the prose, connective scenes, abandoned-theater setting, Moth's investigative backstory and the manuscript's cliffhanger. **Do not conflate manuscript embellishment with creator-confirmed canon.**
+Kiara Lynn-Rose Smith established Grim's name, appearance, childhood, voice, behavior and unusual captive. The assistant drafted the prose, connective scenes, abandoned-theater setting, Moth's investigative backstory and the manuscript's cliffhanger. **Do not conflate manuscript embellishment with creator-confirmed canon.**
 
 ## Original session artifact inventory
 
@@ -31,6 +31,7 @@ The following artifacts were generated in the original conversation, but **GitHu
 | File name | Kind | Use / status |
 | --- | --- | --- |
 | `Grim_The_Rules_of_the_Game_Book_One.pdf` | Illustrated PDF book | Conversation copy; not publicly uploaded |
+| `Grim_The_Rules_of_the_Game_Book_One_PRINT_READY_Kiara_Lynn-Rose_Smith.pdf` | Print-ready PDF with creator title page | Original cover and all 16 original pages pixel-identical; new creator title page inserted after cover; conversation copy, not publicly uploaded |
 | `Grim_The_Rules_of_the_Game_Book_One.docx` | Editable Word book | Conversation copy; not publicly uploaded |
 | `grim_book.md` | Markdown manuscript | **Full text published above as [BOOK_ONE.md](BOOK_ONE.md)** |
 | `grim_book_cover.png` | Illustrated front cover | Conversation copy; not publicly uploaded |
