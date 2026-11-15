@@ -61,7 +61,7 @@ class LinkVaultSourceTest(unittest.TestCase):
         self.assertTrue(any(x["id"]=="92" and x["url"]==workbench_url for x in items))
         self.assertIn(full_url,self.html)
         self.assertIn("Full Spider Puzzle & Test Lab",self.html)
-        match=re.search(r"^let DIRECTORY=(\\[[^\\n]+\\]);$",self.html,re.MULTILINE)
+        match=re.search(r"^let DIRECTORY=(\[[^\n]+\]);$",self.html,re.MULTILINE)
         self.assertIsNotNone(match,"offline bundled links missing")
         bundled=json.loads(match.group(1))
         self.assertEqual(
