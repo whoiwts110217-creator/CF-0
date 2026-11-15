@@ -1,6 +1,6 @@
 {
   "schema": "cf.link.vault.public.v2",
-  "revision": "2026-11-14.1",
+  "revision": "2026-11-14.2",
   "updated_date": "2026-11-14",
   "source": "https://github.com/whoiwts110217-creator/CF-0/blob/main/link-vault/links.json",
   "links": [
@@ -734,11 +734,19 @@
     },
     {
       "id": "92",
-      "title": "Spider Millennium Puzzle — iPhone Workbench",
+      "title": "Spider Millennium Puzzle — Nine-Block Workbench",
       "url": "https://whoiwts110217-creator.github.io/CF-0/spider-puzzle/workbench.html",
       "category": "Automation",
       "status": "live",
-      "note": "Manual visual block assembly. Wires are hypotheses; no Spider execution or Windows acceptance."
+      "note": "Older nine-goal behavior workbench; manual visual hypotheses. For the complete 1,289 source-piece puzzle and Test Lab use the separate Full Puzzle entry. No native HP execution."
+    },
+    {
+      "id": "93",
+      "title": "Spider Millennium Puzzle — Full 1,289-Piece Test Lab",
+      "url": "https://whoiwts110217-creator.github.io/CF-0/spider-puzzle/full.html",
+      "category": "Automation",
+      "status": "live",
+      "note": "Full visual source-piece assembly; 500 displayed initially, 1,289 available. Inspect, test source integrity and record proposed behavior; no actual Spider/Windows control."
     }
   ]
 }
