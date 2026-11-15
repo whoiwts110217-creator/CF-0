@@ -99,8 +99,14 @@ def record_readback(run: dict, job: dict, log: bytes) -> dict:
         raise ValueError("packet crosses the watchdog evidence boundary")
     assembled = utc_time(packet.get("assembled_utc"))
     # GitHub's step timestamps are whole seconds, while log lines have fractions.
-    logged = utc_time(log_stamp.decode("ascii")).replace(microsecond=0)
-    if not utc_time(step.get("started_at")) <= assembled <= logged <= utc_time(step.get("completed_at")):
+    logged = utc_time(log_stamp.decode("ascii"))
+    # GitHub's step metadata has only whole-second precision. Compare all four
+    # values at that precision, not just the log timestamp: otherwise a valid
+    # fractional assembled_utc within the same second is falsely rejected.
+    # This is a timestamp consistency check, not proof of HP execution.
+    second = lambda stamp: stamp.replace(microsecond=0)
+    if not (second(utc_time(step.get("started_at"))) <= second(assembled)
+            <= second(logged) <= second(utc_time(step.get("completed_at")))):
         raise ValueError("packet falls outside the watchdog handoff step")
     return {
         "schema": "cf0.work_handoff_readback.v1",
