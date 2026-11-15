@@ -15,7 +15,7 @@ def validate(record):
         return False
     if 'bootstrap_revision' in record and (not isinstance(record['bootstrap_revision'], str) or not record['bootstrap_revision'].strip()):
         return False
-    if 'task_state' in record and record['task_state'] not in VALID_STATES:
+    if 'task_state' in record and (not isinstance(record['task_state'], str) or record['task_state'] not in VALID_STATES):
         return False
     if 'claim' in record:
         if record['claim'] != 'complete':
@@ -45,6 +45,8 @@ CASES = [
     ('bootstrap_empty', {'bootstrap_revision': '  '}, False),
     ('task_state_valid', {'task_state': 'blocked'}, True),
     ('task_state_invalid', {'task_state': 'working_forever'}, False),
+    ('task_state_list', {'task_state': ['done']}, False),
+    ('task_state_dict', {'task_state': {'state': 'done'}}, False),
     ('evidence_present', {'claim': 'complete', 'evidence': 'commit:abc'}, True),
     ('evidence_missing', {'claim': 'complete'}, False),
     ('evidence_whitespace', {'claim': 'complete', 'evidence': '  '}, False),
