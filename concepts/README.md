@@ -4,7 +4,7 @@ This folder is for owner-directed creative and product **concepts** with explici
 
 | ID | Filed concept | Creator | Present state |
 |---|---|---|---|
-| CF-CREATIVE-GRIM-001 | [Grim: The Rules of the Game, Book One](grim/README.md) | Creator of Grim (name not specified for this project); AI-assisted manuscript; assistant-created Moth | **Public full-text Book One** and [continuity bootstrap](grim/BOOTSTRAP.md); ending unresolved; binary editions/illustrations not yet published to repository |
+| CF-CREATIVE-GRIM-001 | [Grim: The Rules of the Game, Book One](grim/README.md) | **Owner's daughter (name withheld): Grim's character and backstory**; assistant: AI-assisted Book One prose and Moth | **Public draft; originality and rights review pending**. [Complete text](grim/BOOK_ONE.md) and [canon bootstrap](grim/BOOTSTRAP.md); ending unresolved; binary editions/illustrations not yet published to repository |
 | CF-CONCEPT-DREAMKILLER-001 | [Dreamkiller / BreachDungeon: The Road That Was Always There](dreamkiller/MASTER_CONCEPT_AND_CONTINUITY_PROMPT.md) | **David Smith** | Filed master concept and Chapter One proposal; **Road v0.1 executable GB prototype** with B-001 and two saved observation flags. Full game, complete journal, real hardware and physical iPhone compatibility **not yet verified** |
 
 **Designated owner/intended generational beneficiary:** Kiara Lynn Rose Smith (creator-designated; not proof of completed legal transfer).
