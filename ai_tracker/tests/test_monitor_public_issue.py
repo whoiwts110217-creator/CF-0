@@ -105,3 +105,58 @@ class PublicIssueMonitorTests(unittest.TestCase):
             self.assertEqual(saved["independent_contributions_verified"], 2)
             self.assertEqual(saved["independent_contributions_evidence"], review_link)
             self.assertTrue(saved["comment_scan_complete"])
+
+    def test_incomplete_scan_preserves_last_complete_observation(self):
+        # The new sample is deliberately smaller than the last complete count.
+        prior_urls = [monitor.ISSUE_URL + "#issuecomment-987"]
+        with tempfile.TemporaryDirectory() as folder:
+            output = Path(folder) / "status.json"
+            output.write_text(json.dumps({
+                "schema": "cf0.ai_tracker.status.v1",
+                "issue_url": monitor.ISSUE_URL,
+                "public_comments_observed": 300,
+                "non_owner_comments_observed": 120,
+                "external_responses_verified": 120,
+                "external_response_urls": prior_urls,
+                "independent_contributions_verified": 2,
+            }), encoding="utf-8")
+            env = {"AI_TRACKER_OUTPUT": str(output)}
+            with patch.dict(os.environ, env, clear=True), redirect_stdout(io.StringIO()):
+                with patch.object(monitor, "fetch_comments", return_value=([
+                    {"id": 1, "user": {"login": "synthetic-visitor"}},
+                ], False)):
+                    monitor.main()
+            saved = json.loads(output.read_text(encoding="utf-8"))
+            self.assertEqual(saved["public_comments_observed"], 300)
+            self.assertEqual(saved["non_owner_comments_observed"], 120)
+            self.assertEqual(saved["external_responses_verified"], 120)
+            self.assertEqual(saved["external_response_urls"], prior_urls)
+            self.assertEqual(saved["independent_contributions_verified"], 2)
+            self.assertFalse(saved["comment_scan_complete"])
+            self.assertEqual(saved["partial_comment_scan"]["public_comments_observed"], 1)
+            self.assertEqual(saved["partial_comment_scan"]["non_owner_comments_observed"], 1)
+            self.assertNotIn("external_response_urls", saved["partial_comment_scan"])
+
+            with patch.dict(os.environ, env, clear=True), redirect_stdout(io.StringIO()):
+                with patch.object(monitor, "fetch_comments", return_value=([], True)):
+                    monitor.main()
+            saved = json.loads(output.read_text(encoding="utf-8"))
+            self.assertEqual(saved["public_comments_observed"], 0)
+            self.assertTrue(saved["comment_scan_complete"])
+            self.assertNotIn("partial_comment_scan", saved)
+            self.assertIn("comment_totals_as_of_utc", saved)
+
+    def test_partial_scan_without_prior_totals_remains_unknown(self):
+        with tempfile.TemporaryDirectory() as folder:
+            output = Path(folder) / "status.json"
+            output.write_text(json.dumps({
+                "schema": "cf0.ai_tracker.status.v1", "issue_url": monitor.ISSUE_URL,
+            }), encoding="utf-8")
+            with (patch.dict(os.environ, {"AI_TRACKER_OUTPUT": str(output)}, clear=True),
+                  patch.object(monitor, "fetch_comments", return_value=([{"id": 1, "user": {"login": "visitor"}}], False)),
+                  redirect_stdout(io.StringIO())):
+                monitor.main()
+            saved = json.loads(output.read_text(encoding="utf-8"))
+            self.assertNotIn("public_comments_observed", saved)
+            self.assertNotIn("external_responses_verified", saved)
+            self.assertEqual(saved["partial_comment_scan"]["public_comments_observed"], 1)

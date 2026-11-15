@@ -68,8 +68,21 @@ def main():
         raise ValueError("Unexpected AI Tracker status source")
     comments, complete = fetch_comments()
     result = summarize(comments)
-    previous.update(result)
-    previous["updated_utc"] = dt.datetime.now(dt.timezone.utc).isoformat()
+    observed_at = dt.datetime.now(dt.timezone.utc).isoformat()
+    if complete:
+        # Only full coverage can replace published totals and comment links.
+        previous.update(result)
+        previous["comment_totals_as_of_utc"] = observed_at
+        previous.pop("partial_comment_scan", None)
+    else:
+        # Partial data is diagnostic only. Do not replace last complete totals.
+        # Keep partial comment URLs out of the published status.
+        previous["partial_comment_scan"] = {
+            "observed_utc": observed_at,
+            "public_comments_observed": result["public_comments_observed"],
+            "non_owner_comments_observed": result["non_owner_comments_observed"],
+        }
+    previous["updated_utc"] = observed_at
     previous["phase"] = "scheduled_public_issue_monitor"
     previous["comment_scan_complete"] = complete
     previous["report_basis"] = REPORT_BASIS
