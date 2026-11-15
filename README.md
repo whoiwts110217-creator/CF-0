@@ -1,6 +1,8 @@
 # Caveman Focus — CF-0
 
 
+> **START HERE — owner navigation:** [Caveman Focus navigation guide](docs/START_HERE.md) → [one iPhone Link Vault / Jungle Compass + Action Sphere](https://whoiwts110217-creator.github.io/CF-0/link-vault/). The full [Spider Millennium Puzzle + Test Lab](https://whoiwts110217-creator.github.io/CF-0/spider-puzzle/full.html) is an inspectable visual source assembly, not verified Windows control. Use the existing [Current Source Gateway](docs/CURRENT_SOURCE_GATEWAY.md) to distinguish today's source from historical records.
+
 > **LATEST VS. HISTORICAL:** [Current Source Gateway](docs/CURRENT_SOURCE_GATEWAY.md) · [Owner Jungle Map](docs/OWNER_JUNGLE_MAP.md) · [Universal freshness rule for EVERYTHING](docs/UNIVERSAL_FRESHNESS_CONTRACT.md). Dated pages, commits and project snapshots are evidence of their own period, not automatically today's account/device/money status.
 
 
