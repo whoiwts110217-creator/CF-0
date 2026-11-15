@@ -7,7 +7,7 @@
 
 ## Story
 
-An unidentified young serial killer known to very few as **Grim** treats his victims' fear like a game. His frizzy **white** hair curtains his red eyes; a pale, loose white shirt, baggy black trousers, thin red lines around his unsettling smile and a pocket note bearing `:) ` define his look. His latest captive does not react with fear; they had wanted to die. Grim becomes interested in them for reasons he doesn't fully understand. Their words, and not any predetermined outcome, will decide whether he spares them.
+An unidentified young serial killer known to very few as **Grim** treats his victims' fear like a game. His frizzy **white** hair curtains his red eyes; a pale, loose white shirt, baggy black trousers, thin red lines around his unsettling smile and a pocket note bearing `:)` define his look. His latest captive does not react with fear; they had wanted to die. Grim becomes interested in them for reasons he doesn't fully understand. Their words, and not any predetermined outcome, will decide whether he spares them.
 
 In the AI-assisted Book One draft, **Moth**, a lantern-bearing investigator with short silver hair, follows a trail of disappearances to an abandoned children's theater. The ending is intentionally unresolved.
 
