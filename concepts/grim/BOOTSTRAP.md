@@ -17,7 +17,7 @@
 ## Creator-established canon — Grim (do not silently change)
 
 - **Name:** Grim. Nobody knows his identity in the outside world. He tells a captive his name **only when they say something that genuinely interests him**.
-- **Appearance:** Wild, **white**, frizzy hair drapes **over his eyes**; his eyes are **red** but mostly hidden. He wears an oversized **white shirt** and **black baggy pants**. A folded note peeks from a pocket and reads exactly `:) ` (a simple smiley; no added words). His mouth has subtle **thin red slit-like lines extending from its corners**, inspired by the creepy smile aesthetic the creator requested.
+- **Appearance:** Wild, **white**, frizzy hair drapes **over his eyes**; his eyes are **red** but mostly hidden. He wears an oversized **white shirt** and **black baggy pants**. A folded note peeks from a pocket and reads exactly `:)` (a simple smiley; no added words). His mouth has subtle **thin red slit-like lines extending from its corners**, inspired by the creepy smile aesthetic the creator requested.
 - **Temperament:** Genuinely playful, smug, and unnerving; he is **not acting**. He treats frightening encounters as a game. When someone refuses to show fear, he starts talking; his voice becomes playful, slightly squeaky, and upset. He may kill if they say something that he considers wrong.
 - **Childhood:** Fascinated by killing bugs. His mother beat him for his behavior, calling it weird; he **never cried**. One bug once escaped him. He **remembers** it, but it has **no special importance** to him.
 - **Later behavior:** He becomes a serial killer, targets innocent victims, and kidnaps a person who was simply walking around. He enjoys the sounds of victims screaming and watching them try to run; to him this really is a game. He has never spoken to a person he wasn't intending to kill.
@@ -41,7 +41,7 @@
 
 ## Visual source provenance and correction
 
-**Creator-approved core appearance** is the white-haired, eyes-veiled, white-shirt-and-black-baggy-pants design with red smile-scar lines and `:) ` note. The prior visual sheet `hollow_smile_character_sheet.png` is a closer design reference. Later generated **black-haired** and **striped-sweater** sheets do **not** override creator canon. Even the later silver-haired striped-sweater sheet is an **alternate, noncanonical outfit**.
+**Creator-approved core appearance** is the white-haired, eyes-veiled, white-shirt-and-black-baggy-pants design with red smile-scar lines and `:)` note. The prior visual sheet `hollow_smile_character_sheet.png` is a closer design reference. Later generated **black-haired** and **striped-sweater** sheets do **not** override creator canon. Even the later silver-haired striped-sweater sheet is an **alternate, noncanonical outfit**.
 
 Conversation-session illustrations and cover files were generated separately. **Their binary originals, together with the PDF and DOCX editions, are not made public simply by linking this text file.** See [README asset manifest](README.md) for their file names and publication state.
 
