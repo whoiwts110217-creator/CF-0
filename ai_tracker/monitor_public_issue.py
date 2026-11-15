@@ -16,7 +16,8 @@ API = f"https://api.github.com/repos/{OWNER}/{REPO}/issues/{ISSUE}/comments?per_
 MAX_PAGES = 5
 REPORT_BASIS = (
     "Public Issue #16 comment observations. external_responses_verified is a compatibility alias "
-    "for non_owner_comments_observed."
+    "for non_owner_comments_observed. An incomplete scan does not replace the last "
+    "complete observation totals."
 )
 
 
@@ -68,8 +69,26 @@ def main():
         raise ValueError("Unexpected AI Tracker status source")
     comments, complete = fetch_comments()
     result = summarize(comments)
-    previous.update(result)
-    previous["updated_utc"] = dt.datetime.now(dt.timezone.utc).isoformat()
+    now = dt.datetime.now(dt.timezone.utc).isoformat()
+    if complete:
+        # Only an exhaustive scan may replace the published observation totals.
+        previous.update(result)
+        previous["last_complete_scan_utc"] = now
+        previous.pop("partial_comment_scan", None)
+    else:
+        # Preserve the previously published complete snapshot and its URLs.
+        # A bounded scan is only a diagnostic sample, never an authoritative total.
+        if (previous.get("comment_scan_complete") is True
+                and not previous.get("last_complete_scan_utc")
+                and previous.get("updated_utc")):
+            previous["last_complete_scan_utc"] = previous["updated_utc"]
+        previous["partial_comment_scan"] = {
+            "observed_utc": now,
+            "public_comments_observed": result["public_comments_observed"],
+            "non_owner_comments_observed": result["non_owner_comments_observed"],
+            "page_cap_reached": True,
+        }
+    previous["updated_utc"] = now
     previous["phase"] = "scheduled_public_issue_monitor"
     previous["comment_scan_complete"] = complete
     previous["report_basis"] = REPORT_BASIS
@@ -90,11 +109,15 @@ def main():
             previous["monitor_scheduled_run_verified"] = True
 
     output.write_text(json.dumps(previous, indent=2) + "\n", encoding="utf-8")
-    print(json.dumps({
-        "public_comments_observed": result["public_comments_observed"],
-        "non_owner_comments_observed": result["non_owner_comments_observed"],
+    run_summary = {
+        "public_comments_observed": previous.get("public_comments_observed"),
+        "non_owner_comments_observed": previous.get("non_owner_comments_observed"),
         "scan_complete": complete,
-    }, sort_keys=True))
+    }
+    if not complete:
+        run_summary["partial_public_comments_observed"] = result["public_comments_observed"]
+        run_summary["partial_non_owner_comments_observed"] = result["non_owner_comments_observed"]
+    print(json.dumps(run_summary, sort_keys=True))
 
 if __name__ == "__main__":
     main()
