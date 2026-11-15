@@ -3,13 +3,14 @@
 **Project:** *Grim: The Rules of the Game* — Book One, original horror fiction.
 **Public archive:** CF-0 → [Creative index](../../docs/CREATIVE.md) → [Grim project](README.md).
 **Snapshot:** November 14, 2026 (US Eastern).
-**Status:** Owner-directed creative concept and AI-assisted manuscript. The ending and several details remain intentionally undecided. Public-safe story material, **not** a private conversation transcript.
-**Authorship:** The speaker who developed Grim's concept is the original character creator. The person’s credited name was not established in this conversation; do not assign a personal byline by assumption. Moth and the novella's connective scenes were suggested/written by the assistant and are distinguishable from the creator's choices.
+**Status:** Parent-authorized public creative draft; **originality and rights review pending**. The ending and several details remain intentionally undecided. Public-safe story material, **not** a private conversation transcript.
+**Creator credit:** **The owner's daughter designed Grim, developed his personality and supplied his foundational backstory.** Her name is withheld from the public archive. Do not insert or infer a real name. The assistant wrote the novella prose and created the separate supporting character **Moth**, the provisional Moth backstory and connective scenes.
+**Originality caution:** The manuscript and generated illustrations have **not** been comprehensively checked for copying, intellectual-property concerns or resemblance to existing horror fiction. The user explicitly cited **Jeff the Killer** as a *visual reference* for Grim's red-line mouth scars. Treat this as a disclosed influence, not independent clearance or a finding of plagiarism.
 
 ## START HERE — bootstrap instructions for a new creative session
 
 1. Read **this file**, [the project index](README.md), and the [complete Book One manuscript](BOOK_ONE.md) in that order. Use current repository `main`, not cached memories.
-2. **Preserve user-established canon** listed below. Treat proposed ideas and AI-written manuscript embellishments as editable until the creator accepts them.
+2. **Preserve daughter-established Grim canon** listed below. Treat proposed ideas and AI-written manuscript embellishments as editable until the young creator accepts them.
 3. Ask at most one relevant question when a detail truly requires a creative decision. Do not replace Grim's appearance or decide the captive's outcome without the creator's input.
 4. If asked to continue writing, keep the playful-but-threatening psychological horror tone. Do not turn the original character into an existing copyrighted creepypasta figure.
 5. Write revised drafts in this existing project and update the [Creative index](../../docs/CREATIVE.md) if a substantive release changes. Do not make a duplicate archive.
@@ -37,7 +38,7 @@
 - **Structure:** Prologue (“The One That Got Away”); six chapters: “A Note in His Pocket,” “The Rules Nobody Knows,” “The Person With the Lantern,” “Something Interesting,” “Moth at the Door,” “The Question at the End.”
 - **Draft setting:** A deserted street and old children's theater. These locations, dialogue, Moth's investigation and the captive beginning to reconsider their wish to die are **assistant-authored narrative choices**, not additional creator-confirmed canon.
 - **Ending:** Cliffhanger. Grim opens his mouth to answer a question. **No final fate has been established.**
-- **Themes / content:** Horror, coercion, childhood abuse, murder, kidnapping, fear, and a character's desire to die. Fictional depictions are not endorsements. Avoid sensationalizing suicidal thinking.
+- **Themes / content:** Horror, coercion, childhood abuse, murder, kidnapping, fear, and a character's desire to die. Fictional depictions are not endorsements. Avoid sensationalizing suicidal thinking. **Publication status: an AI-assisted draft, not an originality-cleared final release.**
 
 ## Visual source provenance and correction
 
@@ -52,4 +53,4 @@ Conversation-session illustrations and cover files were generated separately. **
 - Should Moth's draft role/backstory become official canon?
 - How should Grim's exact age, original identity and wider setting be handled? **Unknown**, not confirmed.
 
-**Continuity principle:** Creator facts > explicitly accepted draft > assistant-proposed text. Keep both design and story recoverable without falsely treating guesswork as proof.
+**Continuity principle:** Daughter's creator-supplied facts > explicitly accepted draft > assistant-proposed text. Keep both design and story recoverable without falsely treating guesswork as proof.
