@@ -1,7 +1,8 @@
 name: CF-0 Channel Evidence Watchdog
 on:
-  schedule:
-    - cron: '*/5 * * * *'
+  # BOBA-20261115-1545EST-COORD-004: owner-authorized pause of cron trigger; uncomment the lines below to restore.
+  # schedule:
+  # - cron: '*/5 * * * *'
   workflow_dispatch:
   push:
     paths:
