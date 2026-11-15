@@ -106,7 +106,7 @@ class PublicIssueMonitorTests(unittest.TestCase):
             self.assertEqual(saved["independent_contributions_evidence"], review_link)
             self.assertTrue(saved["comment_scan_complete"])
 
-def test_incomplete_scan_preserves_last_complete_observation(self):
+    def test_incomplete_scan_preserves_last_complete_observation(self):
         # The new sample is deliberately smaller than the last complete count.
         prior_urls = [monitor.ISSUE_URL + "#issuecomment-987"]
         with tempfile.TemporaryDirectory() as folder:
