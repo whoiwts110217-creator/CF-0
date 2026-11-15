@@ -10,4 +10,6 @@
 
 Do not republish full unpublished scripts or personal passages without identifying and reviewing the specific source.
 
+- **[Grim: The Rules of the Game — Book One](../concepts/grim/README.md)** (**CF-CREATIVE-GRIM-001**): original psychological-horror character and complete publicly readable first-book manuscript. [Creator-canon bootstrap](../concepts/grim/BOOTSTRAP.md) separates the owner's character decisions from AI-authored Moth and draft scenes. The ending is deliberately unresolved; PDF/DOCX/illustration binaries remain conversation artifacts rather than published GitHub assets.
+
 - **[Dreamkiller / BreachDungeon](../concepts/dreamkiller/MASTER_CONCEPT_AND_CONTINUITY_PROMPT.md)** (**CF-CONCEPT-DREAMKILLER-001**): original Game Boy Color–oriented RPG concept by **David Smith**, designed with AI assistance and Caveman Focus continuity. Distinct from the old Breach Dungeon APK; filed concept, not a verified ROM or a grant of third-party asset rights.
