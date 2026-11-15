@@ -105,3 +105,68 @@ class PublicIssueMonitorTests(unittest.TestCase):
             self.assertEqual(saved["independent_contributions_verified"], 2)
             self.assertEqual(saved["independent_contributions_evidence"], review_link)
             self.assertTrue(saved["comment_scan_complete"])
+
+    def test_partial_scan_keeps_last_complete_snapshot(self):
+        visitor = {"id": 12, "user": {"login": "synthetic-visitor"}, "body": "not persisted"}
+        saved_url = monitor.ISSUE_URL + "#issuecomment-11"
+        prior_time = "2026-11-01T00:00:00+00:00"
+        with tempfile.TemporaryDirectory() as folder:
+            output = Path(folder) / "status.json"
+            output.write_text(json.dumps({
+                "schema": "cf0.ai_tracker.status.v1",
+                "issue_url": monitor.ISSUE_URL,
+                "updated_utc": prior_time,
+                "comment_scan_complete": True,
+                "public_comments_observed": 9,
+                "non_owner_comments_observed": 4,
+                "external_responses_verified": 4,
+                "external_response_urls": [saved_url],
+                "independent_contributions_verified": 2,
+            }), encoding="utf-8")
+            with patch.dict(os.environ, {"AI_TRACKER_OUTPUT": str(output)}, clear=True):
+                with patch.object(monitor, "fetch_comments", return_value=([visitor], False)):
+                    with redirect_stdout(io.StringIO()):
+                        monitor.main()
+            partial = json.loads(output.read_text(encoding="utf-8"))
+            self.assertFalse(partial["comment_scan_complete"])
+            self.assertEqual(partial["last_complete_scan_utc"], prior_time)
+            self.assertEqual(partial["public_comments_observed"], 9)
+            self.assertEqual(partial["non_owner_comments_observed"], 4)
+            self.assertEqual(partial["external_responses_verified"], 4)
+            self.assertEqual(partial["external_response_urls"], [saved_url])
+            self.assertEqual(partial["independent_contributions_verified"], 2)
+            self.assertEqual(partial["partial_comment_scan"]["public_comments_observed"], 1)
+            self.assertEqual(partial["partial_comment_scan"]["non_owner_comments_observed"], 1)
+            self.assertTrue(partial["partial_comment_scan"]["page_cap_reached"])
+            self.assertNotIn("not persisted", output.read_text(encoding="utf-8"))
+
+            with patch.dict(os.environ, {"AI_TRACKER_OUTPUT": str(output)}, clear=True):
+                with patch.object(monitor, "fetch_comments", return_value=([visitor], True)):
+                    with redirect_stdout(io.StringIO()):
+                        monitor.main()
+            complete = json.loads(output.read_text(encoding="utf-8"))
+            self.assertTrue(complete["comment_scan_complete"])
+            self.assertEqual(complete["public_comments_observed"], 1)
+            self.assertEqual(complete["non_owner_comments_observed"], 1)
+            self.assertEqual(complete["external_response_urls"], [monitor.ISSUE_URL + "#issuecomment-12"])
+            self.assertEqual(complete["independent_contributions_verified"], 2)
+            self.assertNotEqual(complete["last_complete_scan_utc"], prior_time)
+            self.assertNotIn("partial_comment_scan", complete)
+
+    def test_partial_scan_without_complete_baseline_stays_unverified(self):
+        with tempfile.TemporaryDirectory() as folder:
+            output = Path(folder) / "status.json"
+            output.write_text(json.dumps({
+                "schema": "cf0.ai_tracker.status.v1",
+                "issue_url": monitor.ISSUE_URL,
+                "comment_scan_complete": False,
+            }), encoding="utf-8")
+            with patch.dict(os.environ, {"AI_TRACKER_OUTPUT": str(output)}, clear=True):
+                with patch.object(monitor, "fetch_comments", return_value=([], False)):
+                    with redirect_stdout(io.StringIO()):
+                        monitor.main()
+            partial = json.loads(output.read_text(encoding="utf-8"))
+            self.assertFalse(partial["comment_scan_complete"])
+            self.assertNotIn("public_comments_observed", partial)
+            self.assertNotIn("last_complete_scan_utc", partial)
+            self.assertEqual(partial["partial_comment_scan"]["public_comments_observed"], 0)
