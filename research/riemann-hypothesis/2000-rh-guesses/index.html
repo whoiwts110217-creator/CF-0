@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>2000 RH Guesses</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Source+Serif+4:opsz,wght@8..60,600&display=swap" rel="stylesheet">
+<style>
+:root {
+  /* Layout: one sticky filter bar over a single column of guess rows, like a lab notebook index. */
+  --paper: #f3f6f5;
+  --card: #ffffff;
+  --ink: #15211d;
+  --muted: #5a6a63;
+  --rule: #d9e1dd;
+  --accent: #2b57d0;
+  --accent-soft: #e4ebfb;
+  --star: #b7791f;
+  --display: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --body: "IBM Plex Sans", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --paper: #0f1513;
+    --card: #161e1b;
+    --ink: #e5ebe8;
+    --muted: #9aa9a2;
+    --rule: #27322e;
+    --accent: #86a6ff;
+    --accent-soft: #1d2a4a;
+    --star: #e0a84a;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #0f1513;
+  --card: #161e1b;
+  --ink: #e5ebe8;
+  --muted: #9aa9a2;
+  --rule: #27322e;
+  --accent: #86a6ff;
+  --accent-soft: #1d2a4a;
+  --star: #e0a84a;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { margin: 0; }
+body {
+  background: var(--paper);
+  color: var(--ink);
+  font: 15px/1.5 var(--body);
+}
+header {
+  padding: 20px 16px 8px;
+  max-width: 820px;
+  margin: 0 auto;
+}
+h1 {
+  font: 600 1.7rem/1.2 var(--display);
+  margin: 0 0 6px;
+  text-wrap: balance;
+}
+.lead { margin: 0; color: var(--muted); max-width: 65ch; }
+.stats {
+  display: flex; flex-wrap: wrap; gap: 6px 16px;
+  margin: 12px 0 0; padding: 0; list-style: none;
+  font: 500 0.8rem/1.4 var(--mono); color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+.stats b { color: var(--ink); font-weight: 500; }
+.bar {
+  position: sticky; top: 0; z-index: 5;
+  background: var(--paper);
+  border-bottom: 1px solid var(--rule);
+}
+.bar-inner {
+  max-width: 820px; margin: 0 auto; padding: 10px 16px;
+  display: grid; gap: 8px;
+}
+.row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+input[type="search"], select {
+  font: inherit; color: var(--ink); background: var(--card);
+  border: 1px solid var(--rule); border-radius: 8px; padding: 8px 10px;
+  min-height: 40px;
+}
+input[type="search"] { flex: 1 1 220px; }
+select { flex: 1 1 200px; max-width: 100%; }
+button {
+  font: inherit; cursor: pointer; color: var(--ink);
+  background: var(--card); border: 1px solid var(--rule); border-radius: 8px;
+  padding: 8px 12px; min-height: 40px;
+}
+button[aria-pressed="true"] { background: var(--accent-soft); border-color: var(--accent); color: var(--accent); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.chips {
+  display: flex; gap: 6px; overflow-x: auto; padding-bottom: 2px;
+  scrollbar-width: thin;
+}
+.chip {
+  flex: 0 0 auto; border-radius: 999px; padding: 4px 10px; min-height: 32px;
+  font-size: 0.82rem; white-space: nowrap;
+}
+.chip .n { font-family: var(--mono); color: var(--muted); margin-left: 4px; }
+.chip[aria-pressed="true"] .n { color: var(--accent); }
+.count { font: 500 0.82rem var(--mono); color: var(--muted); font-variant-numeric: tabular-nums; }
+.status { font-size: 0.82rem; color: var(--muted); min-height: 1.2em; }
+main { max-width: 820px; margin: 0 auto; padding: 12px 16px 48px; }
+ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+li.g {
+  background: var(--card); border: 1px solid var(--rule); border-radius: 10px;
+  padding: 10px 12px; display: grid; grid-template-columns: 1fr auto; gap: 4px 10px;
+  content-visibility: auto; contain-intrinsic-size: auto 120px;
+}
+.meta { font: 0.76rem/1.4 var(--mono); color: var(--muted); grid-column: 1; }
+.meta .kind { color: var(--accent); }
+.text { grid-column: 1; margin: 0; font-size: 0.98rem; }
+.detail { grid-column: 1; margin: 0; font-size: 0.8rem; color: var(--muted); }
+.detail b { font-weight: 600; color: var(--ink); }
+.star {
+  grid-column: 2; grid-row: 1 / span 3; align-self: start;
+  border: none; background: transparent; padding: 4px 6px; min-height: 36px;
+  font-size: 1.2rem; line-height: 1; color: var(--rule);
+}
+.star[aria-pressed="true"] { color: var(--star); background: transparent; }
+.empty { color: var(--muted); padding: 24px 0; }
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto !important; transition: none !important; } }
+</style>
+</head>
+<body>
+<header>
+  <h1>2000 RH Guesses — Unverified Research</h1>
+  <p class="lead">2,000 speculative research guesses developed under the assumption that the Riemann Hypothesis is true. None of these entries has been independently verified or established as a new mathematical result. Each names a proposed RH-dependent lever and a first check; neither is proof.</p>
+  <ul class="stats" id="stats"><li>Loading the list…</li></ul>
+</header>
+<div class="bar">
+  <div class="bar-inner">
+    <div class="row">
+      <label for="q" class="count" style="position:absolute;left:-9999px">Search guesses</label>
+      <input id="q" type="search" placeholder="Search: Mills, Robin, Lean, music…" autocomplete="off">
+      <button id="starred" type="button" aria-pressed="false">★ Starred</button>
+      <button id="copy" type="button">Copy shown</button>
+    </div>
+    <div class="chips" id="kinds" role="group" aria-label="Kind"></div>
+    <div class="row">
+      <label for="fam" style="position:absolute;left:-9999px">Family</label>
+      <select id="fam"><option value="">All 92 families</option></select>
+      <span class="count" id="count"></span>
+    </div>
+    <div class="status" id="status" aria-live="polite"></div>
+  </div>
+</div>
+<main>
+  <ol id="list"></ol>
+  <p class="empty" id="empty" hidden>No guesses match. Clear the search or pick another kind.</p>
+</main>
+<script>
+(function () {
+  var all = [], stars = new Set(), state = { q: "", kind: "", fam: "", starred: false };
+  var $ = function (id) { return document.getElementById(id); };
+  try { JSON.parse(localStorage.getItem("rhGuessStars") || "[]").forEach(function (i) { stars.add(i); }); } catch (e) {}
+  function saveStars() { try { localStorage.setItem("rhGuessStars", JSON.stringify(Array.from(stars))); } catch (e) {} }
+
+  function esc(s) { return s.replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); }
+
+  function shown() {
+    var q = state.q.toLowerCase();
+    return all.filter(function (r) {
+      if (state.kind && r.kind !== state.kind) return false;
+      if (state.fam && r.family !== state.fam) return false;
+      if (state.starred && !stars.has(r.id)) return false;
+      if (q && r._t.indexOf(q) === -1) return false;
+      return true;
+    });
+  }
+
+  function render() {
+    var rows = shown(), list = $("list"), frag = document.createDocumentFragment();
+    list.textContent = "";
+    rows.forEach(function (r) {
+      var li = document.createElement("li");
+      li.className = "g";
+      li.innerHTML =
+        '<div class="meta">#' + r.id + ' · <span class="kind">' + esc(r.kind) + '</span> · ' + esc(r.family) + '</div>' +
+        '<p class="text">' + esc(r.guess) + '</p>' +
+        '<p class="detail"><b>RH lever:</b> ' + esc(r.lever) + '</p>' +
+        '<p class="detail"><b>First check:</b> ' + esc(r.check) + '</p>' +
+        '<button class="star" type="button" data-id="' + r.id + '" aria-pressed="' + stars.has(r.id) +
+        '" aria-label="Star guess ' + r.id + '">★</button>';
+      frag.appendChild(li);
+    });
+    list.appendChild(frag);
+    $("count").textContent = rows.length + " shown";
+    $("empty").hidden = rows.length !== 0;
+  }
+
+  function buildControls() {
+    var kinds = {}, fams = [];
+    all.forEach(function (r) {
+      kinds[r.kind] = (kinds[r.kind] || 0) + 1;
+      if (fams.indexOf(r.family) === -1) fams.push(r.family);
+    });
+    var box = $("kinds");
+    var order = [["", "All", all.length]].concat(Object.keys(kinds).sort(function (a, b) { return kinds[b] - kinds[a]; })
+      .map(function (k) { return [k, k, kinds[k]]; }));
+    order.forEach(function (k) {
+      var b = document.createElement("button");
+      b.type = "button"; b.className = "chip"; b.dataset.kind = k[0];
+      b.setAttribute("aria-pressed", k[0] === state.kind ? "true" : "false");
+      b.innerHTML = esc(k[1]) + '<span class="n">' + k[2] + "</span>";
+      box.appendChild(b);
+    });
+    var sel = $("fam");
+    fams.forEach(function (f) { var o = document.createElement("option"); o.value = f; o.textContent = f; sel.appendChild(o); });
+    $("stats").innerHTML =
+      "<li><b>" + all.length.toLocaleString("en-US") + "</b> guesses</li>" +
+      "<li><b>" + fams.length + "</b> families</li>" +
+      "<li><b>" + Object.keys(kinds).length + "</b> kinds</li>" +
+      "<li>status <b>unchecked</b></li>";
+  }
+
+  var timer;
+  $("q").addEventListener("input", function (e) {
+    clearTimeout(timer);
+    timer = setTimeout(function () { state.q = e.target.value.trim(); render(); }, 120);
+  });
+  $("fam").addEventListener("change", function (e) { state.fam = e.target.value; render(); });
+  $("kinds").addEventListener("click", function (e) {
+    var b = e.target.closest(".chip"); if (!b) return;
+    state.kind = b.dataset.kind;
+    Array.prototype.forEach.call($("kinds").children, function (c) { c.setAttribute("aria-pressed", c === b ? "true" : "false"); });
+    render();
+  });
+  $("starred").addEventListener("click", function (e) {
+    state.starred = !state.starred;
+    e.currentTarget.setAttribute("aria-pressed", String(state.starred));
+    render();
+  });
+  $("list").addEventListener("click", function (e) {
+    var b = e.target.closest(".star"); if (!b) return;
+    var id = Number(b.dataset.id);
+    if (stars.has(id)) stars.delete(id); else stars.add(id);
+    b.setAttribute("aria-pressed", String(stars.has(id)));
+    saveStars();
+    if (state.starred) render();
+  });
+  $("copy").addEventListener("click", function () {
+    var rows = shown();
+    var text = rows.map(function (r) { return r.id + ". " + r.guess; }).join("\n");
+    try {
+      navigator.clipboard.writeText(text).then(function () {
+        $("status").textContent = "Copied " + rows.length + " guesses.";
+      }, function () { $("status").textContent = "Copy was blocked here. Select the text on the page instead."; });
+    } catch (e) { $("status").textContent = "Copy was blocked here. Select the text on the page instead."; }
+  });
+
+  fetch("guesses.json").then(function (r) { return r.json(); }).then(function (rows) {
+    all = rows.map(function (r) { r._t = (r.guess + " " + r.family + " " + r.lever + " " + r.kind).toLowerCase(); return r; });
+    buildControls();
+    render();
+  }).catch(function () {
+    $("stats").innerHTML = "<li>The guess list did not load. Reload the page to try again.</li>";
+  });
+})();
+</script>
+</body>
+</html>
