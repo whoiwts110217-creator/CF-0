@@ -27,13 +27,26 @@ test("every known scheduled channel is represented without exposing private task
   assert.ok(all.filter(x=>x.source==="github").every(x=>x.url.startsWith("https://github.com/whoiwts110217-creator/CF-0/actions/workflows/")));
 });
 
-test("public free-browser monitor is an inventoried schedule, never a claimed active marketing action",()=>{
+test("public free-browser monitor reflects its commented cron, never a claimed active marketing action",()=>{
   const source=SOURCES.github.find(x=>x.id==="cf0-free-browser-promotion");
   assert.ok(source,"New workflow has a source inventory row");
-  assert.equal(source.trigger,"schedule");
+  assert.equal(source.trigger,"event");
   assert.equal(source.research,false,"Business monitor must not be silently included in research shutdown");
   assert.match(source.detail,/GET-only/i);
   assert.match(source.detail,/no posting/i);
+  assert.match(source.detail,/cron commented out in source/i);
+  const workflow=readFileSync(new URL("../../../.github/workflows/cf0-free-browser-promotion.yml",import.meta.url),"utf8");
+  assert.doesNotMatch(workflow,/(^|\n)  schedule:/);
+  assert.match(inventoryStatus({...source,source:"github"}),/live state unknown/);
+});
+
+test("AI Tracker PR-only regression workflow is source inventory, not a running monitor",()=>{
+  const source=SOURCES.github.find(x=>x.id==="ai-tracker-pr-tests");
+  assert.ok(source);
+  assert.equal(source.trigger,"event");
+  assert.equal(source.research,false);
+  assert.match(source.detail,/Pull requests/);
+  assert.match(source.detail,/offline unit tests only, not live monitoring/);
   assert.match(inventoryStatus({...source,source:"github"}),/live state unknown/);
 });
 

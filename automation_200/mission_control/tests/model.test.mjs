@@ -154,3 +154,55 @@ test("reads explicit non-owner counts separately from reviewed contributions", (
   assert.equal(trackerModel({ ...explicit, external_responses_verified: 0 }), null);
   assert.equal(trackerModel({ ...tracker, non_owner_comments_observed: null }), null);
 });
+
+test("dates an existing public report without treating it as current HP state", async () => {
+  const collected = "2026-11-16T09:32:28+00:00";
+  const model = await dashboardModel({
+    commit, registry: fixture, state, health: "available", healthCollectedUtc: collected,
+  }, Date.parse("2026-11-24T09:32:28Z"));
+  assert.equal(model.health, "available");
+  assert.deepEqual(model.healthFreshness, {
+    state: "stale", collectedUtc: collected, ageSeconds: 8 * 86400,
+  });
+});
+
+test("keeps old bundles with no report timestamp explicitly unknown", async () => {
+  const model = await dashboardModel({ commit, registry: fixture, health: "available" });
+  assert.deepEqual(model.healthFreshness, { state: "unknown", collectedUtc: null, ageSeconds: null });
+});
+
+test("uses the public health monitor's freshness boundaries and future tolerance", async () => {
+  const collected = "2026-11-24T09:00:00Z";
+  for (const [age, expected] of [[2700, "fresh_public_report"], [2701, "late"],
+    [7200, "late"], [7201, "stale"], [-300, "fresh_public_report"], [-301, "future_timestamp"]]) {
+    const model = await dashboardModel({
+      commit, registry: fixture, health: "available", healthCollectedUtc: collected,
+    }, Date.parse(collected) + age * 1000);
+    assert.equal(model.healthFreshness.state, expected, "report age " + age);
+    assert.equal(model.healthFreshness.collectedUtc, collected);
+  }
+});
+
+test("rejects malformed, non-UTC and impossible report timestamps", async () => {
+  for (const collected of ["not a date", "2026-11-24", "2026-11-24T09:00:00-05:00",
+    "2026-02-30T09:00:00Z", 12345, "x".repeat(49)]) {
+    const model = await dashboardModel({
+      commit, registry: fixture, health: "available", healthCollectedUtc: collected,
+    });
+    assert.deepEqual(model.healthFreshness, { state: "invalid", collectedUtc: null, ageSeconds: null });
+  }
+});
+
+test("live source loading retains the report collection time for freshness", async () => {
+  const collected = "2026-11-16T09:32:28+00:00";
+  const reply = body => new Response(JSON.stringify(body));
+  const model = await loadLive(async url => {
+    if (url.endsWith("/git/ref/heads/main")) return reply({ ref: "refs/heads/main", object: { sha: commit, type: "commit" } });
+    if (url.endsWith(REGISTRY)) return reply(fixture);
+    if (url.endsWith(HEALTH)) return reply({ schema: "cf0.hp_health.v1", collected_utc: collected });
+    return reply(null);
+  });
+  assert.equal(model.health, "available");
+  assert.equal(model.healthFreshness.collectedUtc, collected);
+  assert.equal(model.healthFreshness.state, "stale");
+});

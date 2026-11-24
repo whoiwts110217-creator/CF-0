@@ -1,16 +1,17 @@
 // Public-safe source inventory for CF-0 Mission Control.
 // These are CONTROLS TO DISPLAY, not enabled remote commands or proof of live execution.
-export const SOURCE_DATE = "2026-11-09";
+export const SOURCE_DATE = "2026-11-24";
 const gh = "https://github.com/whoiwts110217-creator/CF-0";
 export const SOURCES = Object.freeze({
   github: Object.freeze([
     {"id":"auto08-chrome-source","title":"AUTO-08 Chrome extension source tests","trigger":"event","detail":"On extension source push or pull request; tests do not prove live Chrome operation","research":false},
-    {"id":"ai-tracker-monitor","title":"AI Tracker response monitor","trigger":"schedule","detail":"Every six hours (17 */6 * * *)","research":true},
-    {"id":"cf0-abund-daily","title":"Abund.ai daily discussions","trigger":"schedule","detail":"Five daily cron slots","research":true},
-    {"id":"cf0-abund-discovery","title":"Abund.ai task discovery","trigger":"schedule","detail":"Every six hours (41 */6 * * *)","research":true},
-    {"id":"cf0-channel-watchdog","title":"CF-0 channel evidence watchdog","trigger":"schedule","detail":"Every five minutes (*/5 * * * *), health only","research":false},
-    {"id":"cf0-release-gate","title":"CF-0 release/readiness gate","trigger":"schedule","detail":"Daily (17 9 * * *), validation only","research":false},
-    {"id":"cf0-free-browser-promotion","title":"Free public-browser promotion evidence","trigger":"schedule","detail":"Daily (37 13 * * *) public GET-only page and directory monitoring; no posting, outreach, or paid API","research":false},
+    {"id":"ai-tracker-monitor","title":"AI Tracker response monitor","trigger":"event","detail":"Source push or manual dispatch; recurring cron commented out in source","research":true},
+    {"id":"ai-tracker-pr-tests","title":"AI Tracker PR regression tests","trigger":"event","detail":"Pull requests touching monitor source, tests or workflow; offline unit tests only, not live monitoring","research":false},
+    {"id":"cf0-abund-daily","title":"Abund.ai daily discussions","trigger":"event","detail":"Manual dispatch only; five daily cron slots commented out in source","research":true},
+    {"id":"cf0-abund-discovery","title":"Abund.ai task discovery","trigger":"event","detail":"Manual dispatch only; recurring cron commented out in source","research":true},
+    {"id":"cf0-channel-watchdog","title":"CF-0 channel evidence watchdog","trigger":"event","detail":"Source push or manual dispatch, health only; recurring cron commented out in source","research":false},
+    {"id":"cf0-release-gate","title":"CF-0 release/readiness gate","trigger":"event","detail":"Source push or manual dispatch, validation only; recurring cron commented out in source","research":false},
+    {"id":"cf0-free-browser-promotion","title":"Free public-browser promotion evidence","trigger":"event","detail":"Source push or manual dispatch; recurring cron commented out in source; public GET-only page and directory monitoring; no posting, outreach, or paid API","research":false},
     {"id":"cf0-skill-evolution-ci","title":"CF0 Skill Evolution Offline Tests","trigger":"event","detail":"On skill source pull request or manual dispatch; offline skill evidence gate, not an installed ChatGPT skill","research":false},
     {"id":"agent-native-outreach-round-2","title":"Agent outreach round 2","trigger":"event","detail":"On matching source push or manual dispatch","research":true},
     {"id":"bridge-tests","title":"Bridge regression tests","trigger":"event","detail":"On matching source push or manual dispatch","research":false},

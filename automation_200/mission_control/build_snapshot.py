@@ -7,30 +7,55 @@ import json
 import pathlib
 import re
 import subprocess
+from datetime import datetime, timezone
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
 OUTPUT = ROOT / "automation_200/mission_control/dist/snapshot.json"
 MAX_HEALTH_REPORT_BYTES = 1024
 UUID = re.compile(r"^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$")
+UTC_STAMP = re.compile(r"^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(?:\.\d{1,6})?(?:Z|[+-]00:00)$")
 
 
-def health_availability(path: pathlib.Path) -> str:
+def public_collection_time(value) -> str | None:
+    if value is None:
+        return None
+    if isinstance(value, str) and len(value) <= 48 and UTC_STAMP.fullmatch(value):
+        try:
+            stamp = datetime.fromisoformat(value)
+            if stamp.utcoffset() == timezone.utc.utcoffset(stamp):
+                return value
+        except ValueError:
+            pass
+    # Invalid sentinel: never preserve malformed strings or unexpected objects.
+    return ""
+
+
+def health_snapshot(path: pathlib.Path) -> dict:
     try:
         with path.open("rb") as source:
             raw = source.read(MAX_HEALTH_REPORT_BYTES + 1)
     except FileNotFoundError:
-        return "not_published"
+        return {"health": "not_published"}
     except OSError:
-        return "unavailable"
+        return {"health": "unavailable"}
     if len(raw) > MAX_HEALTH_REPORT_BYTES:
-        return "invalid"
+        return {"health": "invalid"}
     try:
         report = json.loads(raw.decode("utf-8"))
     except ValueError:
-        return "invalid"
+        return {"health": "invalid"}
     if isinstance(report, dict) and report.get("schema") == "cf0.hp_health.v1":
-        return "available"
-    return "invalid"
+        result = {"health": "available"}
+        if "collected_utc" in report:
+            # Keep only bounded collection time, never arbitrary report fields.
+            # The browser reclassifies age at read time, not at bundle creation.
+            result["healthCollectedUtc"] = public_collection_time(report["collected_utc"])
+        return result
+    return {"health": "invalid"}
+
+
+def health_availability(path: pathlib.Path) -> str:
+    return health_snapshot(path)["health"]
 
 
 def public_tool_inventory(path: pathlib.Path) -> dict | None:
@@ -72,7 +97,7 @@ def build(root: pathlib.Path, commit: str) -> dict:
         "commit": commit,
         "registry": registry,
         "state": state,
-        "health": health_availability(root / "relay/health/latest.json"),
+        **health_snapshot(root / "relay/health/latest.json"),
     }
     contract = public_tool_inventory(root / "automation_200/OWNER_CAPABILITY_CONTRACT.json")
     if contract is not None:
