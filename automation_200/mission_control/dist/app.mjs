@@ -172,6 +172,14 @@ const healthBadges = {
   invalid: ["Unreadable report", "amber"],
   unavailable: ["Unavailable", "muted"],
 };
+const healthFreshnessBadges = {
+  fresh_public_report: ["Fresh public report", "muted"],
+  late: ["Late public report", "amber"],
+  stale: ["Stale public report", "amber"],
+  future_timestamp: ["Public report has a future timestamp", "amber"],
+  invalid: ["Public report present · invalid collection time", "amber"],
+  unknown: ["Public report present · freshness unknown", "amber"],
+};
 
 function render(model, mode) {
   if (current && current.commit !== model.commit) {
@@ -183,7 +191,7 @@ function render(model, mode) {
   }
   current = model;
   source = mode;
-  const { commit, target, verified, checkpoint, ping, receiptPath, health } = model;
+  const { commit, target, verified, checkpoint, ping, receiptPath, health, healthFreshness } = model;
   const pinned = GITHUB + "/blob/" + commit + "/";
   const commitLink = byId("source-commit");
   commitLink.textContent = commit.slice(0, 8);
@@ -205,7 +213,11 @@ function render(model, mode) {
   pingLink.setAttribute("aria-label", receiptPath ? "Matched public ping receipt" : "Public status source");
   if (ping === "matched") badge("ping-badge", "Receipt matched", "mint");
   else badge("ping-badge", ping === "unconfirmed" ? "Unconfirmed" : "Unavailable", "muted");
-  badge("health-badge", ...healthBadges[health]);
+  if (health === "available") {
+    const [label, tone] = healthFreshnessBadges[healthFreshness.state];
+    badge("health-badge", label + (healthFreshness.collectedUtc ? " · collected " + healthFreshness.collectedUtc : ""), tone);
+  } else badge("health-badge", ...healthBadges[health]);
+  byId("health-badge").title = "Public self-reported evidence only. Physical HP state and Windows scheduled origin remain unverified.";
   const healthLink = byId("health-link");
   healthLink.hidden = health !== "available";
   if (health === "available") healthLink.href = pinned + HEALTH;

@@ -77,6 +77,26 @@ class SnapshotTests(unittest.TestCase):
         path.write_text(json.dumps(state))
         self.assertNotIn("ping", snapshot.build(self.root, "b" * 40))
 
+    def test_bundles_only_collection_time_so_old_reports_can_be_reaged(self):
+        health = self.root / "relay/health/latest.json"
+        health.parent.mkdir(parents=True)
+        health.write_text(json.dumps({
+            "schema": "cf0.hp_health.v1", "collected_utc": "2026-11-16T09:32:28+00:00",
+            "receipt_count": 32, "unexpected_detail": "not needed by the dashboard",
+        }))
+        data = snapshot.build(self.root, "b" * 40)
+        self.assertEqual(data["health"], "available")
+        self.assertEqual(data["healthCollectedUtc"], "2026-11-16T09:32:28+00:00")
+        self.assertNotIn("unexpected_detail", json.dumps(data))
+        health.write_text(json.dumps({"schema": "cf0.hp_health.v1"}))
+        self.assertNotIn("healthCollectedUtc", snapshot.build(self.root, "b" * 40))
+        for invalid in ({"private": "do not copy"}, "do not copy private note", "x" * 49,
+                        "2026-02-30T09:00:00Z", "2026-11-24T09:00:00-05:00"):
+            health.write_text(json.dumps({"schema": "cf0.hp_health.v1", "collected_utc": invalid}))
+            data = snapshot.build(self.root, "b" * 40)
+            self.assertEqual(data["healthCollectedUtc"], "")
+            self.assertNotIn("do not copy", json.dumps(data))
+
 
 if __name__ == "__main__":
     unittest.main()

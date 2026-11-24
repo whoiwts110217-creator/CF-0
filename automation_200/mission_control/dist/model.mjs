@@ -103,7 +103,26 @@ export function trackerModel(status) {
   };
 }
 
-export async function dashboardModel(data) {
+function reportFreshness(collectedUtc, now) {
+  const unknown = { state: "unknown", collectedUtc: null, ageSeconds: null };
+  if (collectedUtc === undefined || collectedUtc === null) return unknown;
+  const invalid = { ...unknown, state: "invalid" };
+  if (typeof collectedUtc !== "string" || collectedUtc.length > 48
+      || !/^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(?:\.\d{1,6})?(?:Z|[+-]00:00)$/.test(collectedUtc)) return invalid;
+  const stamp = Date.parse(collectedUtc);
+  // Date.parse normalizes impossible calendar dates instead of rejecting them.
+  if (!Number.isFinite(stamp) || !Number.isFinite(now) || collectedUtc.startsWith("0000-")
+      || new Date(stamp).toISOString().slice(0, 19) !== collectedUtc.slice(0, 19)) return invalid;
+  const age = Math.trunc((now - stamp) / 1000);
+  // Match relay/health_watch.py: 45-minute fresh window, two-hour stale
+  // threshold and five-minute future-clock tolerance. This dates a public
+  // report only; it never establishes the physical HP's current state.
+  const state = age < -300 ? "future_timestamp" : age > 7200 ? "stale"
+    : age > 2700 ? "late" : "fresh_public_report";
+  return { state, collectedUtc, ageSeconds: Math.max(0, age) };
+}
+
+export async function dashboardModel(data, now = Date.now()) {
   if (typeof data?.commit !== "string" || !commitPattern.test(data.commit)) throw new Error("Invalid source commit");
   const model = registryModel(data.registry);
   const state = data.state?.schema === "cf0.public_continuity.v1" ? data.state : null;
@@ -122,6 +141,7 @@ export async function dashboardModel(data) {
     ping: matched ? "matched" : data.ping ? "unconfirmed" : "unavailable",
     receiptPath: matched ? paths.receipt : null,
     health: ["not_published", "available", "invalid"].includes(data.health) ? data.health : "unavailable",
+    healthFreshness: reportFreshness(data.health === "available" ? data.healthCollectedUtc : null, now),
   };
 }
 
@@ -135,16 +155,19 @@ async function getJson(fetcher, url, signal) {
   return response.json();
 }
 
-async function healthAvailability(fetcher, url, signal) {
+async function loadHealthEvidence(fetcher, url, signal) {
   try {
     const response = await get(fetcher, url, signal);
-    if (response.status === 404) return "not_published";
-    if (!response.ok) return "unavailable";
+    if (response.status === 404) return { health: "not_published" };
+    if (!response.ok) return { health: "unavailable" };
     const content = await response.text();
-    if (content.length > 1024) return "invalid";
-    return JSON.parse(content)?.schema === "cf0.hp_health.v1" ? "available" : "invalid";
+    if (content.length > 1024) return { health: "invalid" };
+    const report = JSON.parse(content);
+    return report?.schema === "cf0.hp_health.v1"
+      ? { health: "available", healthCollectedUtc: report.collected_utc }
+      : { health: "invalid" };
   } catch (error) {
-    return error instanceof SyntaxError ? "invalid" : "unavailable";
+    return { health: error instanceof SyntaxError ? "invalid" : "unavailable" };
   }
 }
 
@@ -155,10 +178,10 @@ export async function loadLive(fetcher = fetch, signal = AbortSignal.timeout(850
       || typeof commit !== "string" || !commitPattern.test(commit)) throw new Error("Invalid GitHub ref");
 
   const raw = "https://raw.githubusercontent.com/" + REPO + "/" + commit + "/";
-  const [registry, state, health, contract] = await Promise.all([
+  const [registry, state, healthEvidence, contract] = await Promise.all([
     getJson(fetcher, raw + REGISTRY, signal),
     getJson(fetcher, raw + STATE, signal).catch(() => null),
-    healthAvailability(fetcher, raw + HEALTH, signal),
+    loadHealthEvidence(fetcher, raw + HEALTH, signal),
     getJson(fetcher, raw + CAPABILITY_CONTRACT, signal).catch(() => null),
   ]);
   const paths = pingPaths(state);
@@ -166,5 +189,5 @@ export async function loadLive(fetcher = fetch, signal = AbortSignal.timeout(850
     getJson(fetcher, raw + paths.inbox, signal),
     getJson(fetcher, raw + paths.receipt, signal),
   ]).then(([request, receipt]) => ({ request, receipt })).catch(() => null);
-  return dashboardModel({ commit, registry, state, ping, health, contract });
+  return dashboardModel({ commit, registry, state, ping, ...healthEvidence, contract });
 }

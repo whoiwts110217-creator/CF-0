@@ -3,12 +3,13 @@
 """Caveman Focus public queue relay: read-only GitHub fetch; local allowlisted work.
 
 Owner's iPhone ChatGPT -> a GitHub commit in CF-0 -> this poller on HP.
-No token needed to *receive*. This does NOT implement arbitrary remote shell.
+No token needed to *receive*; an optional read token supplies an authenticated
+GET budget without enabling receipt writes. This does NOT implement arbitrary remote shell.
 Results stay local unless user configures explicitly scoped GitHub write token.
 """
 from __future__ import annotations
 import argparse, base64, binascii, contextlib, hashlib, json, os, pathlib, re, sqlite3, sys, time, urllib.error, urllib.parse, urllib.request, uuid
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from typing import Any
 
 REPO = 'whoiwts110217-creator/CF-0'
@@ -125,10 +126,13 @@ def make_job(action: str, now: int | None = None) -> dict:
 class HttpRepo:
     repo: str=REPO
     api: str=API
-    token: str | None=None
+    token: str | None=field(default=None, repr=False)
     # Explicit dependency injection for the offline integration test harness.
     # The real CLI never sets this; test endpoints must remain loopback only.
     test_loopback: bool=False
+    # GET-only credential. Keep it separate from the opt-in write token and
+    # after existing fields so positional test/client construction stays valid.
+    read_token: str | None=field(default=None, repr=False)
 
     def _assert_fixed_target(self, method: str, path: str) -> None:
         if self.repo != REPO:
@@ -186,7 +190,10 @@ class HttpRepo:
         data=dump(payload) if payload is not None else None
         headers={'Accept':'application/vnd.github+json','User-Agent':AGENT,'X-GitHub-Api-Version':'2022-11-28'}
         if data is not None: headers['Content-Type']='application/json'
-        if self.token: headers['Authorization']='Bearer '+self.token
+        # Existing write-token installations retain authenticated reads. A
+        # separate read token takes precedence for GET and is never used by PUT.
+        credential = (self.read_token or self.token) if method == 'GET' else self.token
+        if credential: headers['Authorization']='Bearer '+credential
         req=urllib.request.Request(url,data=data,headers=headers,method=method)
         try:
             with urllib.request.urlopen(req,timeout=NETWORK_TIMEOUT_SECONDS) as res:
@@ -389,7 +396,8 @@ def main(argv=None):
         job=make_job('ping');print(json.dumps({'validated':validate(job,job['id']+'.json')['action'],'result':execute(job)}));return 0
     state=State(pathlib.Path(args.state_dir)/'relay.sqlite3')
     if args.command=='status':print(json.dumps({'processed':state.count(),'uncertain':state.unknown_count(),'queue':REPO,'tokenless_read':True}));return 0
-    repo=HttpRepo(token=os.environ.get('CF_RELAY_GITHUB_TOKEN'))
+    repo=HttpRepo(token=os.environ.get('CF_RELAY_GITHUB_TOKEN'),
+                  read_token=os.environ.get('CF_RELAY_GITHUB_READ_TOKEN'))
     if args.command=='once':print(json.dumps(tick(repo,state,pathlib.Path(args.sidecar) if args.sidecar else None)));return 0
     if args.interval<30:p.error('minimum interval 30s')
     while True:
