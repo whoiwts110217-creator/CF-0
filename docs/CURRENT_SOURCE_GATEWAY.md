@@ -1,5 +1,14 @@
 # Caveman Focus — Current Source Gateway
 
+## November 24, 2026 — verified source repairs and deployment boundary
+
+[PR #152](https://github.com/whoiwts110217-creator/CF-0/pull/152) merged the GET-only relay credential, HP-report freshness labels, and 30-file workflow inventory reconciliation. [Windows CI](https://github.com/whoiwts110217-creator/CF-0/actions/runs/45320186190) passed its external read-only poll, and [Mission Control CI](https://github.com/whoiwts110217-creator/CF-0/actions/runs/45320186197) passed. Local validation passed 225 relay, 75 Mission Control, and five snapshot tests. No recurring trigger, relay action, or permission was enabled by these source changes.
+
+**Source is not deployment:** The first merged-source [Pages run](https://github.com/whoiwts110217-creator/CF-0/actions/runs/45320502798) built and uploaded its artifact, then failed artifact discovery at deployment. Do not infer that the live site contains a change from its merged commit or successful source tests. Inspect the [current Pages workflow](https://github.com/whoiwts110217-creator/CF-0/actions/workflows/publish-website.yml) and its exact-source live readback before claiming deployment. This dated failure remains historical if a later run succeeds.
+
+These results do not establish physical HP operation, a closed private browser bridge, unattended business delivery, or revenue. Existing [continuity](CONTINUITY.md), [capability contract](../automation_200/OWNER_CAPABILITY_CONTRACT.json), and private-source boundaries remain in force. Rollback is the PR #152 parent; no CF-200 registry promotion was made.
+
+
 **November 13, 2026 — public-safe work ledger:** [November 13 public work log](PUBLIC_WORK_LOG_2026-11-13.md) consolidates shipped source, isolated tests, pending integrations and privacy/evidence gates from today's accessible CF-0 workstreams. The private relay, contact records and unreviewed archives are not published as raw source.
 
 **Bookmark this, not an old snapshot:** https://github.com/whoiwts110217-creator/CF-0/blob/main/docs/CURRENT_SOURCE_GATEWAY.md
