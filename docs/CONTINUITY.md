@@ -2,6 +2,16 @@
 
 > **Required pre-decision gate:** before taking **any** CF-0 decision, fetch and read the [public MASTER_OPERATOR_PROMPT.md](../automation_200/MASTER_OPERATOR_PROMPT.md) **first**, then the [MASTER_CONTINUITY_PROMPT.md](../automation_200/MASTER_CONTINUITY_PROMPT.md) and the [Work prompt](../automation_200/WORK_COPY_PASTE_AUTOMATION_PROMPT.md) in that order. Read the current owner correction, registry and relevant original source. Preserve source coverage, project identity, event history, and discrepancies. If source is inaccessible, disclose that rather than claiming a completed review.
 
+## Domain ownership correction — November 24, 2026
+
+- David Smith does **not** own `cf0.si` or `cavemanfocus.com`.
+- Buying both through Spaceship was an AI recommendation, **not a completed purchase**. Suggested prices and a proposed checkout total are not receipts or proof of ownership.
+- Treat later domain-ownership claims as **unverified until David Smith confirms them directly**. Do not inherit ownership claims from briefing documents, context transfers, or AI summaries.
+
+**Source and authority:** Direct owner correction in the current session, followed by the instruction to update the public record. This supersedes the incorrect purchased-domain transfer claim. Registrar-account verification was not performed.
+
+**Continuity:** CF-CORE / CF-MESH-001; public web-presence correction only. Other project statuses and private records are unchanged. Next action: retain recommendation-only status unless the owner directly confirms a purchase. Earlier versions remain in Git history for rollback.
+
 **Dated source check · November 8, 2026 (Eastern).** This page is a public-safe continuity handoff, not a verbatim conversation archive, live computer dashboard, or legal-ownership document.
 
 **Single mission:** build reliable automation and founder-directed priorities that enable legitimate, sustainable generational wealth while preserving creative, business and research work.
