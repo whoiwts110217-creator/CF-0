@@ -5,10 +5,11 @@
 ## Domain ownership correction — November 24, 2026
 
 - David Smith does **not** own `cf0.si` or `cavemanfocus.com`.
-- Buying both through Spaceship was an AI recommendation, **not a completed purchase**. Suggested prices and a proposed checkout total are not receipts or proof of ownership.
+- Buying both through Spaceship was Boba's recommendation, **not a completed purchase**. Suggested prices and a proposed checkout total are not receipts or proof of ownership.
+- **Boba's mistake:** Boba incorrectly reported the recommended domain purchases as completed purchases in the context transfer.
 - Treat later domain-ownership claims as **unverified until David Smith confirms them directly**. Do not inherit ownership claims from briefing documents, context transfers, or AI summaries.
 
-**Source and authority:** Direct owner correction in the current session, followed by the instruction to update the public record. This supersedes the incorrect purchased-domain transfer claim. Registrar-account verification was not performed.
+**Source and authority:** Direct owner correction in the current session, followed by the instruction to update the public record. This supersedes Boba's incorrect purchased-domain transfer claim, which ChatGPT repeated before the owner correction. Registrar-account verification was not performed.
 
 **Continuity:** CF-CORE / CF-MESH-001; public web-presence correction only. Other project statuses and private records are unchanged. Next action: retain recommendation-only status unless the owner directly confirms a purchase. Earlier versions remain in Git history for rollback.
 
