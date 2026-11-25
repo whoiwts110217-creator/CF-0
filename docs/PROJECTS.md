@@ -34,7 +34,7 @@
 | **HP relay receipt** | `public_receipt_matched__origin_unverified` | [Request and receipt continuity](CONTINUITY.md#november-8-hp-relay-evidence) links a ping by UUID and digest with owner-observed Windows timing | Exact scheduled invocation → uploaded receipt origin remains unverified |
 | **Single-Dot Universe Book I** | `private_primary_source_not_published` | Listed here as a distinct literary project from the [research branch](RESEARCH.md) | Unreleased originals require their own authorized private-source review |
 | **Riemann Hypothesis experiments** | `hypothesis_or_experiment` | [Public research overview](RESEARCH.md) lists study directions, not a proof or disproof | Finite observations and formal ideas still need rigorous global argument |
-| **Dreamkiller / BreachDungeon** | `public_source_and_limited_tests` | [Original design brief](../concepts/dreamkiller/MASTER_CONCEPT_AND_CONTINUITY_PROMPT.md) and [v0.2 prototype](../concepts/dreamkiller/rom_v0_2/README.md) | Hardware or actual iPhone/emulator play is not established by code tests |
+| **Dreamkiller / BreachDungeon** | `public_source_and_limited_tests` | [Original design brief](../archive/concepts/dreamkiller/MASTER_CONCEPT_AND_CONTINUITY_PROMPT.md) and [v0.2 prototype](../archive/concepts/dreamkiller/rom_v0_2/README.md) | Hardware or actual iPhone/emulator play is not established by code tests |
 | **CF-0 funding and grants** | `public_offer_or_private_submission_unpaid` | Public [clarity pilots](https://whoiwts110217-creator.github.io/CF-0/clarity-brief/) and [dated status](PROJECT_STATUS.md) describe offers/applications | A page, application or draft is not a verified payment, grant award or delivery |
 
 **Reading rule:** `public_source_present` means the linked source exists, not that its claims have been independently reproduced. `secondary_reconstruction` is never silently promoted into `private_primary_source`. `hypothesis_or_experiment` remains unproven unless the required argument is supplied and reviewed. Owner-HP observations are distinct from cryptographic device attestation and verified scheduling attribution. **No private transcripts, credentials or unpublished original manuscripts are part of this public map.**
@@ -84,7 +84,7 @@
 | Grandfather sunset / Elias Vale | Two literary treatments |
 | The Book Machine | Concept for fully explorable, tactile worlds from books. |
 | Breach Dungeon Android prototype | Historical CR-10 artifact, alongside the separately filed Dreamkiller Game Boy concept. |
-| Dreamkiller / BreachDungeon | [Original Game Boy concept](../concepts/dreamkiller/MASTER_CONCEPT_AND_CONTINUITY_PROMPT.md) and [v0.2 prototype](../concepts/dreamkiller/rom_v0_2/README.md). Emulator and hardware compatibility are separate test gates. |
+| Dreamkiller / BreachDungeon | [Original Game Boy concept](../archive/concepts/dreamkiller/MASTER_CONCEPT_AND_CONTINUITY_PROMPT.md) and [v0.2 prototype](../archive/concepts/dreamkiller/rom_v0_2/README.md). Emulator and hardware compatibility are separate test gates. |
 
 ### Business, delivery and funding
 
@@ -119,9 +119,9 @@ These links are a categorized index, not a new CF-200 verification or a producti
 
 | Concept ID | Relationship and status |
 |---|---|
-| **CF-CONCEPT-DREAMKILLER-001** | [Dreamkiller / BreachDungeon](../concepts/dreamkiller/MASTER_CONCEPT_AND_CONTINUITY_PROMPT.md): new owner-directed Game Boy Color RPG concept by **David Smith**, designated owner **Kiara Lynn Rose Smith**. Related to but not a replacement for historical Breach Dungeon APK (**CR-10**); extends inspiration to SimpleMMO, integrates Caveman Focus from the first frame, engineered glitches, DK-000 and thirty C-laws. **Concept only:** no actual ROM, working MMO, hardware-tested glitch or owned franchise assets claimed. |
+| **CF-CONCEPT-DREAMKILLER-001** | [Dreamkiller / BreachDungeon](../archive/concepts/dreamkiller/MASTER_CONCEPT_AND_CONTINUITY_PROMPT.md): new owner-directed Game Boy Color RPG concept by **David Smith**, designated owner **Kiara Lynn Rose Smith**. Related to but not a replacement for historical Breach Dungeon APK (**CR-10**); extends inspiration to SimpleMMO, integrates Caveman Focus from the first frame, engineered glitches, DK-000 and thirty C-laws. **Concept only:** no actual ROM, working MMO, hardware-tested glitch or owned franchise assets claimed. |
 
-[Concepts category](../concepts/README.md) · [Public source reconciliation](CONTINUITY_RECONCILIATION_2026-11-07_DREAMKILLER.md). Does not alter historical 17/18/~37/62 archive evidence or verify a CF-200 task.
+[Concepts category](../archive/concepts/README.md) · [Public source reconciliation](CONTINUITY_RECONCILIATION_2026-11-07_DREAMKILLER.md). Does not alter historical 17/18/~37/62 archive evidence or verify a CF-200 task.
 
 
 ## November 9 — continuity and gameful learning branch

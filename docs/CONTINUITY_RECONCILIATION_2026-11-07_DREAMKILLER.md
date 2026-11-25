@@ -25,7 +25,7 @@ Historic erroneous text must remain recoverable in version history while current
 | **CF-CORE** | Caveman Focus: simplify complexity without losing essentials, guess → hypothesis → evidence → proof; overarching method and continuity system | Framework; bespoke mathematics not established merely by using the method |
 | **CF-0 / CF-200** | Automation, owner-governed priority selection, legitimate finance and concurrent creative/research projects | Public source/tests and [task-specific registry](../automation_200/registry.json); not fully unattended HP or completed commercial engine |
 | **CR-10 historical** | Existing Breach Dungeon Android APK / Pixel Dungeon × Pokémon Mystery Dungeon idea and dissatisfaction with playability | Historical creative project preserved in private reconstructed atlas; full finished quality unverified |
-| **CF-CONCEPT-DREAMKILLER-001** | [Dreamkiller / BreachDungeon](../concepts/dreamkiller/MASTER_CONCEPT_AND_CONTINUITY_PROMPT.md), new Game Boy Color–oriented creative concept that also draws from SimpleMMO | **Concept filed in public**; no GBC ROM, tested exploit, proprietary third-party assets or live MMO claimed |
+| **CF-CONCEPT-DREAMKILLER-001** | [Dreamkiller / BreachDungeon](../archive/concepts/dreamkiller/MASTER_CONCEPT_AND_CONTINUITY_PROMPT.md), new Game Boy Color–oriented creative concept that also draws from SimpleMMO | **Concept filed in public**; no GBC ROM, tested exploit, proprietary third-party assets or live MMO claimed |
 | **CR-01 Book Machine** | Full books into explorable and potentially tactile worlds, not a summary machine | Concept/workstream, not collapsed into Dreamkiller |
 | **CR-02/03 Mushroomhead** | Blue Water County / Poho animated anthology, character/background continuity | Separate animated series; unpublished creative originals remain private |
 | **CR-04 SYNAPSE** | Kyōji, Shōichi, Spiegel/Sterben narrative | Separate speculative/adaptation-related story |
@@ -40,7 +40,7 @@ The new Dreamkiller record is **not evidence that the historical APK was rebuilt
 
 ## Dreamkiller: continuity and truth corrections
 
-The new [Game Boy RPG master concept](../concepts/dreamkiller/MASTER_CONCEPT_AND_CONTINUITY_PROMPT.md) records:
+The new [Game Boy RPG master concept](../archive/concepts/dreamkiller/MASTER_CONCEPT_AND_CONTINUITY_PROMPT.md) records:
 
 - David Smith creator/developer, Kiara Lynn Rose Smith designated owner;
 - Caveman Focus active from the first frame, the Road predating the Continuum, signs visible from the beginning;

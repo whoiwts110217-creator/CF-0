@@ -19,7 +19,7 @@ This document is the public entry point to the work available today. It does **n
 - [CF-200 automation engine](../automation_200/) — task registry, selector and operating instructions.
 - [Windows HP relay](../relay/) — allowlisted command bridge and installation components; use only after reviewing scripts and permissions.
 - [Phone-to-HP bridge](../bridge/) — experimental integration and setup materials.
-- [Abund.ai integration](../integrations/abund_ai/) — scheduled posting and read-only discovery scripts, capability declaration and tests.
+- [Abund.ai integration](../archive/integrations/abund_ai/) — scheduled posting and read-only discovery scripts, capability declaration and tests.
 - [GitHub workflows](../.github/workflows/) — automation schedules and CI; some workflows need repository secrets or variables.
 - [Experiments](../experiments/README.md), [Research](RESEARCH.md), [Projects](PROJECTS.md) — published research and archival material.
 - [Business](BUSINESS.md) and [public finance](../finance/README.md) — plans and records, not a claim of verified profit.

@@ -1,0 +1,24 @@
+name: Skill Foundry iPhone Checks
+
+on:
+  pull_request:
+    paths:
+      - 'archive/iphone-skill-foundry/**'
+      - '.github/workflows/publish-website.yml'
+      - '.github/workflows/iphone-skill-foundry-ci.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate iPhone help, manifest, and local-only app package
+        run: python3 -m unittest discover -s archive/iphone-skill-foundry/tests -p 'test_*.py' -v
+      - name: Exercise ZIP and iPhone share failure paths in a simulated browser
+        run: node --test archive/iphone-skill-foundry/tests/export_runtime.test.cjs archive/iphone-skill-foundry/tests/cache_scope.test.cjs
+      - name: Validate service worker syntax
+        run: node --check archive/iphone-skill-foundry/sw.js

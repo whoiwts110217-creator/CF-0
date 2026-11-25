@@ -33,7 +33,7 @@
 ## Creator correction and new concept continuity
 
 - **Creator/developer:** David Smith. **Designated owner / intended generational beneficiary:** Kiara Lynn Rose Smith; no legal transfer established by a repository file. Older Kiara-as-creator references were mistaken and are superseded by the November 3 correction, not erased from history.
-- **Filed concept:** [Dreamkiller / BreachDungeon](../concepts/dreamkiller/MASTER_CONCEPT_AND_CONTINUITY_PROMPT.md) (**CF-CONCEPT-DREAMKILLER-001**) is a newly documented Game Boy Color-oriented design, **not** the older CR-10 APK and not yet a built ROM.
+- **Filed concept:** [Dreamkiller / BreachDungeon](../archive/concepts/dreamkiller/MASTER_CONCEPT_AND_CONTINUITY_PROMPT.md) (**CF-CONCEPT-DREAMKILLER-001**) is a newly documented Game Boy Color-oriented design, **not** the older CR-10 APK and not yet a built ROM.
 - **Source and gap review:** [November 7 reconciliation](CONTINUITY_RECONCILIATION_2026-11-07_DREAMKILLER.md); the 17/18/~37/62 project-inventory discrepancies remain open, as do inaccessible original chat exports and live device/income proof.
 
 ## Current observed snapshot
@@ -241,7 +241,7 @@ This **later passing evidence supersedes the earlier provisional 'CI not yet ind
 
 **Boot sources reread from public main:** operator `22ae58c3bc1a7513ef45e4c8267ea011a56bb357`; continuity `6d0cf4ac809172d0525de288d87a340d1f01537c`; Work `150c6629ba1496c2b05d9f4afb31929ad142357e`. Also reviewed UCC-001, owner capability contract, approval bin, current source inventory/tests, project index, mission board, pilot docs and CF-200 registry. The registry's source-verified count was **87/200**; it was not edited. Missing private conversations were not claimed recovered.
 
-**Problem preserved:** an independent iPhone Skill Foundry project added [`.github/workflows/iphone-skill-foundry-ci.yml`](https://github.com/whoiwts110217-creator/CF-0/blob/main/.github/workflows/iphone-skill-foundry-ci.yml), bringing real GitHub workflow files from 21 to **22**. Mission Control still cataloged 21 and its source test asserted that stale number; [earlier failing Actions example 42674105502](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42674105502) showed `22 !== 21`. The Skill Foundry workflow is pull-request/manual-triggered source checking, not an installed iPhone app or an operational remote control.
+**Problem preserved:** an independent iPhone Skill Foundry project added [`.github/workflows/iphone-skill-foundry-ci.yml`](https://github.com/whoiwts110217-creator/CF-0/blob/main/archive/workflows/iphone-skill-foundry-ci.yml), bringing real GitHub workflow files from 21 to **22**. Mission Control still cataloged 21 and its source test asserted that stale number; [earlier failing Actions example 42674105502](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42674105502) showed `22 !== 21`. The Skill Foundry workflow is pull-request/manual-triggered source checking, not an installed iPhone app or an operational remote control.
 
 **Reversible changes:**
 - [Mission Control controls source](../automation_200/mission_control/dist/controls.mjs), [commit `1fd4279`](https://github.com/whoiwts110217-creator/CF-0/commit/1fd42791938f119995c2bf23f2da3f489ddbf4fd), added a public-safe source-only `iphone-skill-foundry-ci` record with trigger `event`; retained the original disconnected master control and 5 scheduled workflow classifications. Source blob after edit: `11cf7031ed272c1c692d1021b716832a7544ab10`.

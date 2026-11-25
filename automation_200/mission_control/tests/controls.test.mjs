@@ -1,20 +1,48 @@
 import test from "node:test";
 import assert from "node:assert/strict";
-import {readFileSync,readdirSync} from "node:fs";
+import {existsSync,readFileSync,readdirSync} from "node:fs";
+import {fileURLToPath} from "node:url";
+import path from "node:path";
 import {CHATGPT_PLACEHOLDER_COUNT,SOURCES,records,parsePrivateInventory,inventoryStatus,shutdownPlan} from "../dist/controls.mjs";
+
+const repoRoot=path.resolve(path.dirname(fileURLToPath(import.meta.url)),"../../..");
+const workflowDirs=[
+  path.join(repoRoot,".github/workflows"),
+  path.join(repoRoot,"archive/workflows"),
+];
+
+function workflowFiles(){
+  const names=[];
+  for(const dir of workflowDirs){
+    if(!existsSync(dir)) continue;
+    for(const name of readdirSync(dir)){
+      if(name.endsWith(".yml")||name.endsWith(".yaml")) names.push(name);
+    }
+  }
+  return names;
+}
+
+function readWorkflow(id){
+  for(const dir of workflowDirs){
+    for(const ext of [".yml",".yaml"]){
+      const file=path.join(dir,id+ext);
+      if(existsSync(file)) return readFileSync(file,"utf8");
+    }
+  }
+  throw new Error("missing workflow "+id);
+}
 
 test("every known scheduled channel is represented without exposing private task names",()=>{
   assert.equal(CHATGPT_PLACEHOLDER_COUNT,11);
-  const workflowDir=new URL("../../../.github/workflows/",import.meta.url);
-  const existing=readdirSync(workflowDir).filter(x=>x.endsWith(".yml")||x.endsWith(".yaml"));
-  assert.equal(SOURCES.github.length,existing.length,"Every real workflow file must have a source-only inventory row");
+  const existing=workflowFiles();
+  assert.equal(SOURCES.github.length,existing.length,"Every real workflow file must have a source-only inventory row, including archived workflows");
   const scheduledCount=SOURCES.github.filter(x=>x.trigger==="schedule").length;
   const manualCount=SOURCES.github.filter(x=>x.trigger==="event").length;
   assert.equal(scheduledCount+manualCount,existing.length,"Every workflow must be classified");
   assert.deepEqual(SOURCES.github.map(x=>x.id).sort(),existing.map(x=>x.replace(/\.ya?ml$/,"")).sort(),
-    "Dashboard inventory must match every workflow file in repo");
+    "Dashboard inventory must match every workflow file in repo, including archive/workflows");
   for(const row of SOURCES.github){
-    const f=readFileSync(new URL(row.id+".yml",workflowDir),"utf8");
+    const f=readWorkflow(row.id);
     const scheduled=/(^|\n)  schedule:/.test(f);
     assert.equal(row.trigger==="schedule",scheduled,"Trigger mismatch for "+row.id);
   }
@@ -35,7 +63,7 @@ test("public free-browser monitor reflects its commented cron, never a claimed a
   assert.match(source.detail,/GET-only/i);
   assert.match(source.detail,/no posting/i);
   assert.match(source.detail,/cron commented out in source/i);
-  const workflow=readFileSync(new URL("../../../.github/workflows/cf0-free-browser-promotion.yml",import.meta.url),"utf8");
+  const workflow=readWorkflow("cf0-free-browser-promotion");
   assert.doesNotMatch(workflow,/(^|\n)  schedule:/);
   assert.match(inventoryStatus({...source,source:"github"}),/live state unknown/);
 });
