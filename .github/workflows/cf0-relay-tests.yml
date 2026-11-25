@@ -4,6 +4,10 @@ on:
     paths:
       - 'relay/**'
       - 'archive/link-vault/spider-hp/**'
+      - 'SETUP_CF0.bat'
+      - 'scripts/**'
+      - 'archive/launchers/**'
+      - 'docs/SETUP.md'
       - '*CF0*.bat'
       - 'RUN_HP_TAKEOVER_CHECK.bat'
       - 'CHECK_CF0_MAINTENANCE_READ_ONLY.bat'
@@ -57,7 +61,7 @@ jobs:
       - name: Parse Windows PowerShell scripts
         shell: pwsh
         run: |
-          $paths=@('relay/install_task.ps1','relay/cf_public_relay_rw.ps1','relay/hp_takeover_check.ps1','relay/configure_health_reporting.ps1','relay/INSTALL_NOTEPAD_CONTROL.ps1')
+          $paths=@('relay/install_task.ps1','relay/cf_public_relay_rw.ps1','relay/hp_takeover_check.ps1','relay/configure_health_reporting.ps1','relay/INSTALL_NOTEPAD_CONTROL.ps1','scripts/setup_cf0.ps1')
           foreach($path in $paths) {
             $tokens = $null
             $errors = $null

@@ -130,9 +130,9 @@ if ($RunPoll) {
     Write-Host 'POLL=COMPLETED (verify matching GitHub receipt separately)'
 }
 if ($null -eq $scheduled) {
-    Write-Host 'NEXT=Double-click INSTALL_CF0_RELAY.bat to enable five-minute polling while signed in.'
+    Write-Host 'NEXT=Double-click SETUP_CF0.bat in the repository root to install or refresh five-minute polling while signed in.'
 } elseif (-not $hasWriteback) {
-    Write-Host 'NEXT=Double-click ENABLE_CF0_READ_WRITE.bat to activate return receipts with a locally entered GitHub fine-grained token.'
+    Write-Host 'NEXT=Double-click SETUP_CF0.bat and enter a GitHub fine-grained token for whoiwts110217-creator/CF-0 only. Receipts stay on this PC until that token is saved.'
 } else {
     Write-Host 'NEXT=Look for a fresh matching receipt in CF-0/command_queue/receipts/.'
 }

@@ -14,15 +14,13 @@ ChatGPT writes one job file into `command_queue/inbox`. On the Windows HP, `rela
 
 ## Install and run the relay (Windows)
 
-Python 3 is required. No extra packages.
+Double-click [SETUP_CF0.bat](SETUP_CF0.bat). It checks Python and Git, puts this repository in `C:\Users\<you>\CavemanFocus\CF-0`, creates the local relay database, and registers the existing five-minute signed-in task. Plain steps, the GitHub token, and how to queue a ping or `open_notepad` job are in [docs/SETUP.md](docs/SETUP.md).
 
-1. Clone this repository and keep the folder.
-2. One poll: double-click `RUN_CF0_RELAY.bat`, or run `py -3 relay\cf_public_relay.py once`.
-3. Poll every five minutes while signed in: double-click `INSTALL_CF0_RELAY.bat` (this runs `relay\install_task.ps1`).
-4. Stop that schedule: `STOP_CF0_RELAY.bat`.
-5. Offline check, no network: `py -3 relay\cf_public_relay.py ping-demo`.
+`SETUP_CF0.bat -Uninstall` removes that scheduled task only. It does not delete the database, the token, or the repository folder.
 
-Do not put secrets in jobs or receipts. Anyone who can commit to `main` can request only the four commands above.
+Python 3.10 or newer is required. No extra packages. Offline check, no network: `py -3 relay\cf_public_relay.py ping-demo`.
+
+Do not put secrets in jobs or receipts. Anyone who can commit to `main` can request only the four commands above. A real run on the HP PC is unverified.
 
 Before changing operating rules, read [automation_200/MASTER_OPERATOR_PROMPT.md](automation_200/MASTER_OPERATOR_PROMPT.md), then [automation_200/MASTER_CONTINUITY_PROMPT.md](automation_200/MASTER_CONTINUITY_PROMPT.md).
 
@@ -32,7 +30,7 @@ Nothing in this cleanup was deleted. Side projects and paused workflows are unde
 
 Archived here: Dreamkiller and the other concept folders, Spider desktop and Spider puzzle, iPhone Skill Foundry, Link Vault, AI Tracker, Clarity Card, Clarity Brief, Clarity Check, First Drop, the Abund.ai integration, and the AI-agent invitation files.
 
-Still in place: `relay/`, `command_queue/`, `automation_200/`, `continuity/`, `tests/`, `bridge/`, `skills/`, `finance/`, `docs/`, `research/`, `experiments/`, `agent-tasks.json`, and the root `.bat` launchers.
+Still in place: `relay/`, `command_queue/`, `automation_200/`, `continuity/`, `tests/`, `bridge/`, `skills/`, `finance/`, `docs/`, `research/`, `experiments/`, `agent-tasks.json`, and `SETUP_CF0.bat`. The older root launchers are in `archive/launchers/`.
 
 Paused GitHub Actions workflows are in `archive/workflows/`. They do not run from there. To re-enable one, move that file back to `.github/workflows/`.
 

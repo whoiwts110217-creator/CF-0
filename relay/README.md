@@ -23,9 +23,9 @@ The relay reads the canonical public branch and validates the request schema and
 allowlist. Historical commit author and committer fields are descriptive metadata.
 Enforcement of independent owner review is tracked separately. [Owner change controls](../docs/OWNER_CHANGE_CONTROL.md)
 
-## Run on actual HP (Python 3 available)
+## Run on actual HP (Python 3.10+ available)
 
-Download the full GitHub repo ZIP, extract it to a permanent folder; double-click `RUN_CF0_RELAY.bat`. No additional libraries. The console polls once. Run `INSTALL_CF0_RELAY.bat` to schedule polling every 5 minutes while signed in; `STOP_CF0_RELAY.bat` to stop the schedule. The local SQLite file is in `%USERPROFILE%\.caveman_focus_relay\relay.sqlite3` by default. This prototype does not auto-enable a job on the user's real HP.
+Double-click `SETUP_CF0.bat` at the repository root. Full steps are in [docs/SETUP.md](../docs/SETUP.md). It installs or updates a checkout at `%USERPROFILE%\CavemanFocus\CF-0`, creates the local database, and schedules polling every 5 minutes while signed in. `SETUP_CF0.bat -Uninstall` removes that schedule only. The local SQLite file is in `%USERPROFILE%\.caveman_focus_relay\relay.sqlite3` by default. No additional libraries. Older one-click files are in `archive/launchers/` and were not deleted. This setup does not by itself prove a job ran on the user's real HP.
 
 ## Important constraints
 

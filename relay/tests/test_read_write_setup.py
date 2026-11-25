@@ -10,7 +10,7 @@ ROOT=Path(__file__).resolve().parents[2]
 class ReadWriteSetupTests(unittest.TestCase):
     def test_one_click_scripts_exist(self):
         for name in ("ENABLE_CF0_READ_WRITE.bat","READ_WRITE_STATUS_CF0.bat","DISABLE_CF0_WRITEBACK.bat"):
-            p=ROOT/name
+            p=ROOT/"archive"/"launchers"/name
             self.assertTrue(p.is_file(),name)
             self.assertIn("relay\\cf_public_relay_rw.ps1",p.read_text())
 

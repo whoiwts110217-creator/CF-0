@@ -66,4 +66,4 @@ New-Item -ItemType Directory -Path $StateDir -Force | Out-Null
 Set-Content -LiteralPath $HealthFlag -Value 'owner-opt-in' -Encoding ASCII
 Write-Host 'HEALTH_REPORT=OPTED_IN for the existing five-minute scheduled relay.'
 Write-Host 'No HP report is claimed until relay/health/latest.json is observed in GitHub.'
-Write-Host 'Rollback: double-click DISABLE_CF0_HEALTH_REPORT.bat. No schedule or token was changed.'
+Write-Host 'Rollback: double-click archive\launchers\DISABLE_CF0_HEALTH_REPORT.bat. No schedule or token was changed.'

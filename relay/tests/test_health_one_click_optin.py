@@ -17,7 +17,7 @@ class HealthOptInTests(unittest.TestCase):
     def test_launchers_use_single_local_script(self):
         for mode in ("enable", "disable", "status"):
             name = mode.upper() + "_CF0_HEALTH_REPORT.bat"
-            text = (ROOT / name).read_text(encoding="utf-8")
+            text = (ROOT / "archive" / "launchers" / name).read_text(encoding="utf-8")
             self.assertIn("relay\\configure_health_reporting.ps1", text)
             self.assertIn("-Mode " + mode, text)
             self.assertNotIn("CF_RELAY_GITHUB_TOKEN", text)

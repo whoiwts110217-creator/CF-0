@@ -7,7 +7,7 @@ ROOT = Path(__file__).resolve().parents[2]
 
 class HPTakeoverChecks(unittest.TestCase):
     def test_owner_launcher_calls_diagnostic(self):
-        launcher = (ROOT / 'RUN_HP_TAKEOVER_CHECK.bat').read_text(encoding='utf-8')
+        launcher = (ROOT / 'archive' / 'launchers' / 'RUN_HP_TAKEOVER_CHECK.bat').read_text(encoding='utf-8')
         self.assertIn('hp_takeover_check.ps1', launcher)
         self.assertIn('-RunPoll', launcher)
         self.assertIn('pause', launcher.lower())
@@ -18,8 +18,7 @@ class HPTakeoverChecks(unittest.TestCase):
         self.assertIn('ping-demo', script)
         self.assertIn('Get-ScheduledTask', script)
         self.assertIn('WRITEBACK_CONFIGURED=', script)
-        self.assertIn('ENABLE_CF0_READ_WRITE.bat', script)
-        self.assertIn('INSTALL_CF0_RELAY.bat', script)
+        self.assertIn('SETUP_CF0.bat', script)
         self.assertIn('cf_public_relay_rw.ps1', script)
         self.assertIn('$hasWriteback', script)
         self.assertNotIn('Invoke-Expression', script)
