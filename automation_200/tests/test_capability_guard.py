@@ -23,10 +23,11 @@ def altered(which, **kwargs):
 
 
 class CapabilityGuardTests(unittest.TestCase):
-    def test_real_source_reports_open_regression_without_claiming_restoration(self):
+    def test_real_source_has_notepad_handler_without_claiming_hp_verification(self):
         state = check(BASE, RELAY)
-        self.assertEqual(state["open_regressions"], ["notepad_owner_launch"])
+        self.assertEqual(state["open_regressions"], [])
         self.assertEqual(set(state["active_commands"]), {"ping", "hp_status", "sidecar_verify"})
+        self.assertIn("open_notepad", RELAY)
         self.assertFalse(state["owner_approval_proven"])
         self.assertEqual(state["device_state"], "unverified")
 
@@ -58,18 +59,18 @@ class CapabilityGuardTests(unittest.TestCase):
             check(altered("notepad_owner_launch", status="retired"), RELAY)
 
     def test_manifest_cannot_call_notepad_restored_without_source(self):
+        relay = RELAY.replace(", 'open_notepad'", "", 1)
         with self.assertRaisesRegex(ValueError, "notepad_claimed_active_without_source"):
-            check(altered("notepad_owner_launch", status="active_source"), RELAY)
+            check(BASE, relay)
 
     def test_notepad_source_presence_without_contract_update_is_rejected(self):
-        changed=RELAY.replace("'ping', 'hp_status', 'sidecar_verify'",
-                              "'ping', 'hp_status', 'sidecar_verify', 'open_notepad'", 1)
         with self.assertRaisesRegex(ValueError, "notepad_source_enabled_but_contract_not_updated"):
-            check(BASE, changed)
+            check(altered("notepad_owner_launch", status="regression_open"), RELAY)
 
     def test_unexpected_command_allowlist_source_shape_rejected(self):
-        changed=RELAY.replace("ALLOWED = frozenset(('ping', 'hp_status', 'sidecar_verify'))",
-                              "ALLOWED = {'ping', 'hp_status', 'sidecar_verify'}", 1)
+        changed=RELAY.replace(
+            "ALLOWED = frozenset(('ping', 'hp_status', 'sidecar_verify', 'open_notepad'))",
+            "ALLOWED = {'ping', 'hp_status', 'sidecar_verify', 'open_notepad'}", 1)
         with self.assertRaisesRegex(ValueError, "relay_allowlist_is_not_static"):
             check(BASE, changed)
 

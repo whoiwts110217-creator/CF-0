@@ -57,12 +57,12 @@ class PolicyDiffTests(unittest.TestCase):
         path, data = self.contract()
         for cap in data["capabilities"]:
             if cap["id"] == "notepad_owner_launch":
-                cap["status"] = "active_source"
+                cap["status"] = "regression_open"
         path.write_text(json.dumps(data), encoding="utf-8")
         output = compare(snapshot(self.root))
         self.assertEqual(output["changes"], [{
             "field": "capability_status", "id": "notepad_owner_launch",
-            "before": "regression_open", "after": "active_source",
+            "before": "active_source", "after": "regression_open",
             "risk": "owner_review",
         }])
         self.assertFalse(output["owner_approval_proven"])

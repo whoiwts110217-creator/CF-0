@@ -2,7 +2,7 @@
 
 **Status:** DESIGN ONLY — not implemented, funded, installed, scheduled, or authorized for use.  
 **Founder-governed project:** Caveman Focus, creator/developer David Smith; designated owner/intended beneficiary Kiara Lynn Rose Smith, as recorded in [the capability contract](../automation_200/OWNER_CAPABILITY_CONTRACT.json). This is not independent verification of legal title.  
-**Existing runtime:** [private HP Bridge v0.3](README_V03.md) and [source](cf_hp_bridge.py). The actual private bridge currently allows only `ping` and optionally read-only `sidecar_verify`. The **public** CF-0 relay separately allows only `ping`, `hp_status` and configured read-only `sidecar_verify`.
+**Existing runtime:** [private HP Bridge v0.3](README_V03.md) and [source](cf_hp_bridge.py). The actual private bridge currently allows only `ping` and optionally read-only `sidecar_verify`. The **public** CF-0 relay separately allows `ping`, `hp_status`, configured read-only `sidecar_verify`, and `open_notepad` (`notepad.exe` with no job arguments on Windows; an unsupported receipt elsewhere). A real run on the HP PC is unverified.
 
 ## Goal and non-goal
 

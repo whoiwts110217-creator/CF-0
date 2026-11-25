@@ -5,7 +5,7 @@
 ## Working communication path
 
 1. In the **same ChatGPT account**, tell the assistant `HP: ping`. A GitHub-connected assistant with write rights to `CF-0` commits one valid request to `command_queue/inbox/<uuid>.json` on `main`.
-2. Your HP has a stdlib Python poller that reads the **PUBLIC** GitHub queue over HTTPS (no GitHub login or personal access token required to **receive**). Only `ping`, `hp_status` and configured read-only `sidecar_verify` are accepted.
+2. Your HP has a stdlib Python poller that reads the **PUBLIC** GitHub queue over HTTPS (no GitHub login or personal access token required to **receive**). Only `ping`, `hp_status`, configured read-only `sidecar_verify`, and `open_notepad` are accepted. `open_notepad` starts `notepad.exe` with no job arguments on Windows and returns an unsupported receipt elsewhere. A real run on the HP PC is unverified.
 3. Local SQLite ledger prevents duplicate execution. By default the result is saved **only on the HP**; this is one-way control unless you optionally authorize a restricted GitHub write token for safe public receipts.
 4. If owner sets `CF_RELAY_GITHUB_TOKEN` on HP using a token restricted to **CF-0 Contents write**, the HP can post the **public-safe** receipt under `command_queue/receipts/<uuid>.json` for this ChatGPT account to read later. Do not place this token in the repo/chat/logs. Do not use this public relay for confidential status or arbitrary shell commands.
 
@@ -30,8 +30,8 @@ Download the full GitHub repo ZIP, extract it to a permanent folder; double-clic
 ## Important constraints
 
 - Public by default for project artifacts; **do not put sensitive data into public commands or receipts**.
-- Anyone who can commit to `main` can request *only the three allowlisted actions*. Do not enable arbitrary commands based on public input.
-- `ping` and `hp_status` return canned public-safe results; `sidecar_verify` requires explicitly configuring `CF_SIDECAR_DIR` and returns only a small verification summary.
+- Anyone who can commit to `main` can request *only the four allowlisted actions*. Do not enable arbitrary commands based on public input.
+- `ping` and `hp_status` return canned public-safe results; `sidecar_verify` requires explicitly configuring `CF_SIDECAR_DIR` and returns only a small verification summary. `open_notepad` does not accept a path or arguments.
 - The native ChatGPT product cannot guarantee a silent/no-reply dispatch when you send a message; responses can be kept terse. Nor does an automation automatically read every conversation message. Dispatch occurs only in a chat turn where the assistant uses its connected GitHub tool.
 - A GitHub CI pass is not proof of deployment on the owner HP. Live HP proof requires a fresh command ID and the actual HP ledger/receipt.
 - GitHub's Contents API max 1,000 entries means the queue requires archive/rotation before heavy sustained usage. This is a proof-of-control channel, **not yet general AI remote access**.

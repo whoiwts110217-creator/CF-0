@@ -50,7 +50,7 @@ class PrivateOperatorDesignTests(unittest.TestCase):
 
     def test_original_public_allowlist_untouched(self):
         body = PUBLIC_WORKER.read_text(encoding="utf-8")
-        self.assertIn("ALLOWED = frozenset(('ping', 'hp_status', 'sidecar_verify'))", body)
+        self.assertIn("ALLOWED = frozenset(('ping', 'hp_status', 'sidecar_verify', 'open_notepad'))", body)
         self.assertIn("existing allowlisted public", self.text)
 
     def test_reviewer_can_find_existing_operator_and_evidence_contracts(self):

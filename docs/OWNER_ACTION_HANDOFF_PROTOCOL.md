@@ -46,7 +46,7 @@ Consolidate related gates into **one** clear owner request. Never use an action 
 
 ## Concrete current examples (evidence not execution)
 
-- **HP Notepad restoration:** historical owner-observed launches exist, but current public relay source does not expose `open_notepad`. Review a narrow local opt-in only if explicitly requested; require owner-local approval and independent owner-observed receipt before marking restored. Do not reintroduce arbitrary remote commands.
+- **HP Notepad:** public relay source again exposes `open_notepad` as a fixed `notepad.exe` launch with no caller arguments. A real run on the HP PC is unverified. Do not mark the physical launch restored until an owner-observed receipt exists, and do not reintroduce arbitrary remote commands.
 - **AUTO-08 one-tab continuation:** existing code and GUI tests are not a verified signed-in live sweep. Prepare a keyboard-only, one-tab test plan with stop/pause/resume; at the actual sign-in/local test gate, ask the owner to authenticate in the official account and observe results. Never request their password in chat.
 - **Grant eligibility or financial step:** only the owner can truthfully attest or select an applicant category, approve spending or provide sensitive financial details. Prepare supporting records and factual choices, state exact deadline, then request the single necessary decision; do not submit a false application or report money before it arrives.
 

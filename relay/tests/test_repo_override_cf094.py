@@ -21,7 +21,7 @@ class FixedRepositoryTests(unittest.TestCase):
         repo = relay.HttpRepo()
         self.assertEqual(repo.repo, relay.REPO)
         self.assertEqual(repo.api, "https://api.github.com")
-        self.assertEqual(relay.ALLOWED, frozenset(("ping", "hp_status", "sidecar_verify")))
+        self.assertEqual(relay.ALLOWED, frozenset(("ping", "hp_status", "sidecar_verify", "open_notepad")))
         expected = [
             ("GET", ROOT + "command_queue/inbox?ref=main"),
             ("GET", ROOT + "command_queue/inbox/" + PING_ID + ".json?ref=main"),

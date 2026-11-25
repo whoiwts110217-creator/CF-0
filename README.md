@@ -2,13 +2,13 @@
 
 Caveman Focus (CF-0) is a public command relay.
 
-ChatGPT writes one job file into `command_queue/inbox`. On the Windows HP, `relay/cf_public_relay.py` polls that queue and runs only the allowed commands `ping`, `hp_status`, and `sidecar_verify`. When writeback is configured, the relay writes a receipt to `command_queue/receipts`.
+ChatGPT writes one job file into `command_queue/inbox`. On the Windows HP, `relay/cf_public_relay.py` polls that queue and runs only the allowed commands `ping`, `hp_status`, `sidecar_verify`, and `open_notepad`. When writeback is configured, the relay writes a receipt to `command_queue/receipts`.
 
-Notepad is currently not supported by this relay.
+`open_notepad` starts `notepad.exe` with no arguments taken from the job. On a non-Windows computer the relay returns an unsupported receipt and does not start a process.
 
 ## What works in this checkout
 
-- The checked-in relay allowlist is only those three commands. Offline tests cover the queue, duplicate handling, and receipt checks.
+- The checked-in relay allowlist is `ping`, `hp_status`, `sidecar_verify`, and `open_notepad`. Offline tests cover the queue, duplicate handling, receipt checks, and a mocked Notepad launch. A real run on the HP PC is unverified.
 - A public `ping` job and a matching receipt are in `command_queue/`. That match is a file check. It does not prove the physical HP ran unattended. Record: [docs/CONTINUITY.md](docs/CONTINUITY.md).
 - Separate current source from older notes: [docs/CURRENT_SOURCE_GATEWAY.md](docs/CURRENT_SOURCE_GATEWAY.md).
 
@@ -22,7 +22,7 @@ Python 3 is required. No extra packages.
 4. Stop that schedule: `STOP_CF0_RELAY.bat`.
 5. Offline check, no network: `py -3 relay\cf_public_relay.py ping-demo`.
 
-Do not put secrets in jobs or receipts. Anyone who can commit to `main` can request only the three commands above.
+Do not put secrets in jobs or receipts. Anyone who can commit to `main` can request only the four commands above.
 
 Before changing operating rules, read [automation_200/MASTER_OPERATOR_PROMPT.md](automation_200/MASTER_OPERATOR_PROMPT.md), then [automation_200/MASTER_CONTINUITY_PROMPT.md](automation_200/MASTER_CONTINUITY_PROMPT.md).
 

@@ -51,7 +51,7 @@ class CommandTTLTests(unittest.TestCase):
                 self.check(job, 1000, False)
 
     def test_all_allowed_actions_share_ttl_rules(self):
-        for action in ("ping", "hp_status", "sidecar_verify"):
+        for action in sorted(relay.ALLOWED):
             with self.subTest(action=action):
                 job = relay.make_job(action, now=1000)
                 self.check(job, 1000, True)

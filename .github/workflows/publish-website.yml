@@ -36,10 +36,14 @@ on:
       - 'archive/spider-puzzle/**'
       - 'docs/spider-puzzle/index.html'
       - 'docs/spider/SPIDER_MILLENNIUM_PUZZLE_OWNER_INTENT_ALIASES_V1.json'
-  # Recovery: dispatch a NEW workflow run after a Pages queue failure.
-  # Do not rerun only the failed deploy job: upload-pages-artifact can create
-  # another artifact named github-pages in the same run, and deploy-pages
-  # rejects multiple matching artifacts (observed in run 42739858197).
+  # Upload and deploy are separate jobs. deploy-pages lists artifacts as soon
+  # as it starts; in the same job as the upload, that list is often still empty
+  # (run 45320899481 found 0 artifacts about 300ms after a successful upload;
+  # actions/deploy-pages#451). A later job sees the artifact after the upload
+  # job has finished. Re-running only the failed deploy step of a combined job
+  # also uploads a second github-pages artifact and then fails as a duplicate
+  # (issue #80, run 42739858197). Dispatch a new run when a Pages queue failure
+  # needs a fresh attempt.
   workflow_dispatch:
 permissions:
   contents: read
@@ -51,10 +55,8 @@ concurrency:
   group: cf0-public-website
   cancel-in-progress: false
 jobs:
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  # Tests, staging, and the Pages artifact. This job does not deploy.
+  build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -236,6 +238,17 @@ jobs:
         uses: actions/upload-pages-artifact@v3
         with:
           path: _site
+  # deploy-pages lists artifacts immediately. Running it in this later job
+  # waits until the upload job has finished, so the github-pages artifact is
+  # visible. Re-running only this job does not upload a second artifact.
+  deploy:
+    needs: build
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4

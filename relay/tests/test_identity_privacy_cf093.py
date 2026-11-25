@@ -57,12 +57,14 @@ class PublicIdentityPrivacyTests(unittest.TestCase):
             "HOSTNAME": HOST,
             "USERPROFILE": HOME,
         }
-        with patch.dict(os.environ, variables):
+        with patch.dict(os.environ, variables), patch("subprocess.Popen") as popen:
             for action in sorted(relay.ALLOWED):
                 with self.subTest(action=action):
                     result = relay.execute(relay.make_job(action))
                     relay.validate_public_result(result, action)
                     no_private_identity(self, result)
+            if popen.called:
+                self.assertEqual(popen.call_args.args[0], ["notepad.exe"])
 
     def test_successful_public_receipt_and_console_status_exclude_identity(self):
         with tempfile.TemporaryDirectory(prefix=USER) as folder:
