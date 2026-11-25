@@ -6,8 +6,8 @@
 
 1. In GitHub, create a **new PRIVATE** repository such as `YOURUSERNAME/CF-private-mailbox`. Do not change CF-0 itself to carry secret chat files.
 2. In GitHub, create a fine-grained personal access token restricted to *only that private mailbox* with **Contents: Read and write**. Do **not** paste the token into ChatGPT, GitHub issues, public repos or screenshots.
-3. Download the latest CF-0 ZIP, extract it, double-click `RUN_HP_BRIDGE_DEMO.bat` (the existing offline checks), then `SETUP_HP_BRIDGE_WINDOWS.bat`. The setup will securely prompt for `owner/repo` and your token and **verify GitHub reports the mailbox private** before installing the scheduled task.
-4. You can run `HP_BRIDGE_STATUS.bat` to inspect schedule metadata. Run `STOP_HP_BRIDGE_WINDOWS.bat` to stop the schedule. Local logs and encrypted token remain for deliberate recovery.
+3. Download the latest CF-0 ZIP, extract it, double-click `archive/launchers/RUN_HP_BRIDGE_DEMO.bat` (the existing offline checks), then `archive/launchers/SETUP_HP_BRIDGE_WINDOWS.bat`. The setup will securely prompt for `owner/repo` and your token and **verify GitHub reports the mailbox private** before installing the scheduled task.
+4. You can run `archive/launchers/HP_BRIDGE_STATUS.bat` to inspect schedule metadata. Run `archive/launchers/STOP_HP_BRIDGE_WINDOWS.bat` to stop the schedule. Local logs and encrypted token remain for deliberate recovery.
 
 The setup uses Windows-user DPAPI-encrypted credential storage under `%LOCALAPPDATA%\CavemanFocus\HPBridge`, not a plaintext token file. Only that Windows user can decrypt it. The schedule runs while that same user is **logged in**, including when the console window is closed; it does not run while the PC is off. Windows installer/schedule has not been tested on the owner's HP.
 

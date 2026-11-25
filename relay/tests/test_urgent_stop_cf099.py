@@ -14,13 +14,14 @@ class EmergencyStopDocumentationTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.doc = (ROOT / "relay/URGENT_STOP_AND_RESUME.md").read_text(encoding="utf-8")
-        cls.stop = (ROOT / "STOP_CF0_RELAY.bat").read_text(encoding="utf-8")
+        launchers = ROOT / "archive" / "launchers"
+        cls.stop = (launchers / "STOP_CF0_RELAY.bat").read_text(encoding="utf-8")
         cls.installer = (ROOT / "relay/install_task.ps1").read_text(encoding="utf-8")
-        cls.health_disable = (ROOT / "DISABLE_CF0_HEALTH_REPORT.bat").read_text(encoding="utf-8")
+        cls.health_disable = (launchers / "DISABLE_CF0_HEALTH_REPORT.bat").read_text(encoding="utf-8")
         cls.health = (ROOT / "relay/configure_health_reporting.ps1").read_text(encoding="utf-8")
-        cls.write_disable = (ROOT / "DISABLE_CF0_WRITEBACK.bat").read_text(encoding="utf-8")
+        cls.write_disable = (launchers / "DISABLE_CF0_WRITEBACK.bat").read_text(encoding="utf-8")
         cls.writeback = (ROOT / "relay/cf_public_relay_rw.ps1").read_text(encoding="utf-8")
-        cls.bridge_stop = (ROOT / "STOP_HP_BRIDGE_WINDOWS.bat").read_text(encoding="utf-8")
+        cls.bridge_stop = (launchers / "STOP_HP_BRIDGE_WINDOWS.bat").read_text(encoding="utf-8")
 
     def test_document_tells_owner_disable_and_end_running_task_locally(self):
         for phrase in ("CavemanFocusCF0Relay", "**Disable**", "**End**",

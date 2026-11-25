@@ -49,7 +49,7 @@
       "previous_low_disk_approximation": "approximately 0.96 GB reported; not independently retested",
       "current_physical_state_attested": false,
       "auto_restart_authorized": false,
-      "source_only_maintenance_checker": "CHECK_CF0_MAINTENANCE_READ_ONLY.bat",
+      "source_only_maintenance_checker": "archive/launchers/CHECK_CF0_MAINTENANCE_READ_ONLY.bat",
       "source_ci_run": "https://github.com/whoiwts110217-creator/CF-0/actions/runs/42853305529",
       "owner_local_checker_executed": false
     }

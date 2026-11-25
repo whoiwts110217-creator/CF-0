@@ -7,8 +7,9 @@
 - Code: `cf_hp_bridge.py`
 - Tests: `python -m unittest discover -s bridge/tests -v`
 - Offline demonstration: `py -3 bridge\cf_hp_bridge.py demo`
-- Windows onboarding: `SETUP_HP_BRIDGE_WINDOWS.bat` (repository root)
-- Windows one-shot check: `RUN_HP_BRIDGE_ONCE.bat` (repository root)
+- Windows onboarding: `archive/launchers/SETUP_HP_BRIDGE_WINDOWS.bat`
+- Windows one-shot check: `archive/launchers/RUN_HP_BRIDGE_ONCE.bat`
+- Public CF-0 relay setup is separate: `SETUP_CF0.bat`
 
 **CF-0 is public**; never use it as the private message queue. A separate private repository and narrowly scoped owner credential are required. No direct HP control or automatic communication into this particular ChatGPT thread has been verified.
 

@@ -14,7 +14,7 @@ $TaskName = 'CavemanFocusHPBridge'
 
 function Read-Config {
     if (-not (Test-Path -LiteralPath $ConfigPath) -or -not (Test-Path -LiteralPath $SecretPath)) {
-        throw 'HP bridge is not configured. Run SETUP_HP_BRIDGE_WINDOWS.bat first.'
+        throw 'HP bridge is not configured. Run archive\launchers\SETUP_HP_BRIDGE_WINDOWS.bat first.'
     }
     $config = Get-Content -LiteralPath $ConfigPath -Raw -Encoding UTF8 | ConvertFrom-Json
     if ($config.repo -notmatch '^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$') {

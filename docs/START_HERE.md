@@ -69,14 +69,16 @@ The separately hosted [Mission Control copy](https://cf0-mission-control.whoiwts
 
 These links identify scripts in your existing local CF-0 folder; viewing them on GitHub does **not** launch Windows command windows:
 
-- [READ_WRITE_STATUS_CF0.bat](../READ_WRITE_STATUS_CF0.bat) — check scheduled status without a manual poll.
-- [HP_BRIDGE_STATUS.bat](../HP_BRIDGE_STATUS.bat) — bridge status.
-- [STATUS_CF0_RELAY.bat](../STATUS_CF0_RELAY.bat) — relay status.
+- [SETUP_CF0.bat](../SETUP_CF0.bat) — the one relay setup. Steps: [SETUP.md](SETUP.md).
+- [archive/launchers/STATUS_CF0_RELAY.bat](../archive/launchers/STATUS_CF0_RELAY.bat) — relay status.
+- [archive/launchers/READ_WRITE_STATUS_CF0.bat](../archive/launchers/READ_WRITE_STATUS_CF0.bat) — scheduled writeback status, no extra poll.
+- [archive/launchers/HP_BRIDGE_STATUS.bat](../archive/launchers/HP_BRIDGE_STATUS.bat) — separate HP Bridge status.
 
 ## Choose a path
 
 - **What has actually worked?** Read the [current evidence-based status](PROJECT_STATUS.md) and [HP demonstration](CF0_FAST_LANE_MILESTONE_2026-11-05.md).
-- **Want to inspect or test the software?** Begin with [relay source](../relay/), [tests](../tests/), and [CF-200 task engine](../automation_200/). Review code and use offline/read-only tests before configuring any live relay. There is not yet a verified one-click fresh-user setup.
+- **Want to install the relay on the HP?** Double-click [SETUP_CF0.bat](../SETUP_CF0.bat) and follow [the setup steps](SETUP.md). Source checks cover the installer. A real run on the HP PC is unverified until you run it there.
+- **Want to inspect or test the software?** Begin with [relay source](../relay/), [tests](../tests/), and [CF-200 task engine](../automation_200/). Review code and use offline/read-only tests before configuring any live relay.
 - **Want the larger vision?** Read the [master plan](CAVEMAN_FOCUS_MASTER_PLAN.md), [rulebook](../CAVEMAN_FOCUS_RULEBOOK_v0.1.md), and [full public archive index](PUBLIC_DEVELOPMENT_SNAPSHOT_2026-11-06.md).
 
 ## Owner-defined operating priorities

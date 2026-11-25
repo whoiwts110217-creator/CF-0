@@ -1,7 +1,8 @@
 @echo off
+REM Use SETUP_CF0.bat for the CF-0 relay.
 REM cf.attr.v1=Q0FWRU1BTiBGT0NVU3xLSUFSQSBMWU5OLVJPU0UuIFNNSVRI
 setlocal
-cd /d "%~dp0"
+cd /d "%~dp0..\.."
 echo Caveman Focus HP Bridge - Offline Verification
 py -3 "bridge\cf_hp_bridge.py" demo
 if errorlevel 1 goto :failed
