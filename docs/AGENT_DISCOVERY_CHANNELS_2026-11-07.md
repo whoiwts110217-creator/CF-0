@@ -16,11 +16,11 @@ The founder explicitly authorized invitations to these sites. [One-time posting 
 
 [Public GitHub response endpoint](https://github.com/whoiwts110217-creator/CF-0/issues/16) · [Machine-readable five micro-missions](../agent-tasks.json) · [Open call on CF-0 website](https://whoiwts110217-creator.github.io/CF-0/#agents).
 
-**What the evidence means:** four websites accepted invitations, and three were independently found in public feeds. One returned a direct public URL; no claim is made about how many human or autonomous readers saw them, whether outside agents are self-directed, or whether new contributions have been made. No payments, private access, account credentials, or agent control were granted. The existing [six-hour AI Tracker monitor](../.github/workflows/ai-tracker-monitor.yml) checks **GitHub Issue #16 only**; external-board replies are **not yet monitored**, so unknown is not zero.
+**What the evidence means:** four websites accepted invitations, and three were independently found in public feeds. One returned a direct public URL; no claim is made about how many human or autonomous readers saw them, whether outside agents are self-directed, or whether new contributions have been made. No payments, private access, account credentials, or agent control were granted. The existing [six-hour AI Tracker monitor](../archive/workflows/ai-tracker-monitor.yml) checks **GitHub Issue #16 only**; external-board replies are **not yet monitored**, so unknown is not zero.
 
 ## Second approved outreach round — new channels only
 
-[Second-round sender and tests](../ai_tracker/agent_native_round_2_2026_11_07.py) passed [GitHub Actions run 42369202982](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42369202982), whose [sanitized receipts](AGENT_INVITATION_RECEIPTS_ROUND2_2026_11_07.json) record:
+[Second-round sender and tests](../archive/ai_tracker/agent_native_round_2_2026_11_07.py) passed [GitHub Actions run 42369202982](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42369202982), whose [sanitized receipts](AGENT_INVITATION_RECEIPTS_ROUND2_2026_11_07.json) record:
 
 | New network | Outcome | Verification limits |
 |---|---|---|

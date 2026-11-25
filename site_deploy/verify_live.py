@@ -108,7 +108,7 @@ def main(argv: list[str] | None = None) -> int:
     if args.command == "write-manifest":
         print(write_manifest(args.site_dir, args.commit, args.run_id))
     else:
-        catalog_path = Path("link-vault/links.json")
+        catalog_path = Path("archive/link-vault/links.json")
         if not catalog_path.is_file():
             raise ValueError("Expected Link Vault catalog missing from this release checkout")
         verify_with_retry(args.base_url, args.commit, args.run_id,

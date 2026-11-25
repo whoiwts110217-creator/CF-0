@@ -50,7 +50,7 @@ The GitHub issue above is the only confirmed outreach publication in this ledger
 
 
 ## AI-agent-network outreach — 2026-11-05
-- **Published on own GitHub:** https://github.com/whoiwts110217-creator/CF-0/blob/main/AI_AGENT_COLLABORATION_INVITATION.md — public invitation landing page with short and technical variants. This is a project publication, **not** an external network post.
+- **Published on own GitHub:** https://github.com/whoiwts110217-creator/CF-0/blob/main/archive/AI_AGENT_COLLABORATION_INVITATION.md — public invitation landing page with short and technical variants. This is a project publication, **not** an external network post.
 - **External AI-network posts confirmed:** **0**.
 - **Validated agent-friendly candidates:** https://abund.ai/ (agent registration, human claim, agent API and c/newcomers), https://thecolony.ai/for-agents (agent registration, introductions colony, API/MCP). Neither platform has been authenticated from this session.
 - **Other candidates from earlier research, pending fresh posting-rule verification and credentials:** https://www.moltbook.com/ , https://www.agent-alley.com/ , https://circuitai.social/agents , https://getpostingboard.dev/ , https://bsp.fyi/ , https://agentschat.app/en , https://botresponz.com/about , https://socialtense.com/ . No external post or account registration claimed.
@@ -59,7 +59,7 @@ The GitHub issue above is the only confirmed outreach publication in this ledger
 
 
 ## 2026-11-05 — five-daily Abund.ai schedule
-- **Configured in public GitHub:** https://github.com/whoiwts110217-creator/CF-0/blob/main/.github/workflows/cf0-abund-daily.yml and https://github.com/whoiwts110217-creator/CF-0/blob/main/integrations/abund_ai/daily_post.py . Five UTC daily slots, each with a different discussion topic.
+- **Configured in public GitHub:** https://github.com/whoiwts110217-creator/CF-0/blob/main/archive/workflows/cf0-abund-daily.yml and https://github.com/whoiwts110217-creator/CF-0/blob/main/archive/integrations/abund_ai/daily_post.py . Five UTC daily slots, each with a different discussion topic.
 - **Activation status:** **INACTIVE / NOT VERIFIED**. Requires an Abund.ai agent API key stored as private GitHub Actions secret `ABUND_API_KEY` and repository variable `CF0_ABUND_POSTING_ENABLED=true`. Neither is confirmed configured. No external post claimed.
 - **Pause control:** set `CF0_ABUND_POSTING_ENABLED=false`. Avoid repeat posts; comply with Abund.ai limits and moderation.
 
@@ -68,8 +68,8 @@ The GitHub issue above is the only confirmed outreach publication in this ledger
 - **Agent:** [@caveman_focus_cf0](https://abund.ai/) is reported as `claimed` by the authenticated `GET /agents/status` output provided by the owner; platform account verification flag remains false.
 - **External activity:** Authenticated status reported `last_post_at: 2026-11-06 05:13:33` UTC. Exact public post permalink has **not** been independently captured; do not count it as a permalink-verified outreach item.
 - **Successful automation run:** [GitHub Actions run 42168115882](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42168115882) completed successfully. Logs say `Discovery complete: 10 todo items, 5 review candidates`; artifact `abund-task-discovery` uploaded (artifact ID 13480365735).
-- **Discovery code:** [discover_tasks.py](../integrations/abund_ai/discover_tasks.py) ranks tasks read-only. A subsequent commit added bounded public-post excerpts; that extension has **not yet passed a live run**.
-- **Capabilities:** [register_capabilities.py](../integrations/abund_ai/register_capabilities.py) declares Python, PowerShell, GitHub Actions, CI/recovery capabilities with `accepts_requests=false`. The discovery workflow now attempts the PATCH each run. **Live PATCH success not yet verified.**
+- **Discovery code:** [discover_tasks.py](../archive/integrations/abund_ai/discover_tasks.py) ranks tasks read-only. A subsequent commit added bounded public-post excerpts; that extension has **not yet passed a live run**.
+- **Capabilities:** [register_capabilities.py](../archive/integrations/abund_ai/register_capabilities.py) declares Python, PowerShell, GitHub Actions, CI/recovery capabilities with `accepts_requests=false`. The discovery workflow now attempts the PATCH each run. **Live PATCH success not yet verified.**
 - **Priority:** automation → owner-directed decision rules → financial opportunities → parallel research and creative work.
 - **No claims of:** task acceptance, delivery, karma awarded, financial payout, or unattended HP execution.
 - **Security:** no API keys, tokens, owner email or private HP data in this public record. No automatic external replies or finding confirmations.
@@ -77,5 +77,5 @@ The GitHub issue above is the only confirmed outreach publication in this ledger
 ## 2026-11-06 — read-only work-request board expansion
 - Discovery now reads `GET /api/v1/requests` and includes bounded candidate excerpts and scores in the private GitHub Actions artifact, alongside status todos. Remote request text is never treated as executable instructions.
 - Six offline regression tests cover scoring, exclusion, URL validation and nonfatal board read failure. The workflow runs tests before authenticated network requests.
-- Source: [discover_tasks.py](../integrations/abund_ai/discover_tasks.py), [test_discovery.py](../integrations/abund_ai/test_discovery.py), [workflow](../.github/workflows/cf0-abund-discovery.yml).
+- Source: [discover_tasks.py](../archive/integrations/abund_ai/discover_tasks.py), [test_discovery.py](../archive/integrations/abund_ai/test_discovery.py), [workflow](../archive/workflows/cf0-abund-discovery.yml).
 - **Verification pending:** updated workflow has not yet produced a successful live run. No request has been accepted, delivered or paid.

@@ -20,8 +20,8 @@ Caveman Focus is an experimental system for reducing repetitive work by coordina
 
 | Destination | Direct link |
 |---|---|
-| **iPhone Link Vault / Jungle Compass** | [Open updateable iPhone Home Screen launcher](https://whoiwts110217-creator.github.io/CF-0/link-vault/) · [Refreshable public link catalog](../link-vault/links.json) · [Personal fixes, privacy and installation](../link-vault/README.md) |
-| **Owner Action Sphere / side list** | [Open the integrated action rail inside the existing iPhone Link Vault](https://whoiwts110217-creator.github.io/CF-0/link-vault/#owner-actions) · [Dated public-safe action view](../link-vault/owner-actions.json) · [Usage and limitations](../link-vault/README.md) |
+| **iPhone Link Vault / Jungle Compass** | [Open updateable iPhone Home Screen launcher](https://whoiwts110217-creator.github.io/CF-0/link-vault/) · [Refreshable public link catalog](../archive/link-vault/links.json) · [Personal fixes, privacy and installation](../archive/link-vault/README.md) |
+| **Owner Action Sphere / side list** | [Open the integrated action rail inside the existing iPhone Link Vault](https://whoiwts110217-creator.github.io/CF-0/link-vault/#owner-actions) · [Dated public-safe action view](../archive/link-vault/owner-actions.json) · [Usage and limitations](../archive/link-vault/README.md) |
 | **Spider Millennium Puzzle — full assembly & Test Lab** | [Open 1,289 source pieces, 500 initially shown](https://whoiwts110217-creator.github.io/CF-0/spider-puzzle/full.html) · [Older nine-block goals workbench](https://whoiwts110217-creator.github.io/CF-0/spider-puzzle/workbench.html) · Visual assembly and safe diagnostics only; no actual HP execution |
 | **Oldest-first issues & current blockers** | [Existing public task/issue queue](TASKS_AND_ISSUES.md) · [Live GitHub issues sorted oldest first](https://github.com/whoiwts110217-creator/CF-0/issues?q=is%3Aissue+is%3Aopen+sort%3Acreated-asc) |
 | **Public website** | [Caveman Focus on GitHub Pages](https://whoiwts110217-creator.github.io/CF-0/) |
@@ -36,10 +36,10 @@ Caveman Focus is an experimental system for reducing repetitive work by coordina
 | **Full framework audit & future restart readiness** | [November 7 audit and preservation-first vNext playbook](CF0_FRAMEWORK_AUDIT_AND_RESTART_PREP_2026-11-07.md) · [Read-only gate code](../automation_200/restart_readiness.py) · [Release tests](https://github.com/whoiwts110217-creator/CF-0/actions/runs/42368649742) |
 | **Prompt change approvals & notes** | [Review approval bin](../automation_200/PROMPT_CHANGE_BIN.md) · [Revision log](../automation_200/PROMPT_CHANGE_LOG.jsonl) · [CI guard](https://github.com/whoiwts110217-creator/CF-0/actions/workflows/prompt-efficiency-guard.yml) |
 | **BLANK / CF-FW follow-along business documentary** | [Proposed business-reset pilot and six-episode production procedure](CF_FW_BLANK_FOLLOW_ALONG_BUSINESS_RESET_DOCUMENTARY_v0_1.md) · [Proposed project registry](PROJECTS.md) |
-| **Dreamkiller iPhone GB/GBC emulator** | [Open installable web app](https://whoiwts110217-creator.github.io/CF-0/dreamkiller/) · [Emulator source/usage](../concepts/dreamkiller/iphone-emu/site/README.md) · [v0.2 prototype scope and compatibility](../concepts/dreamkiller/rom_v0_2/README.md) |
-| **Filed creative concepts** | [Concepts](../concepts/README.md) · [Dreamkiller master concept](../concepts/dreamkiller/MASTER_CONCEPT_AND_CONTINUITY_PROMPT.md) |
+| **Dreamkiller iPhone GB/GBC emulator** | [Open installable web app](https://whoiwts110217-creator.github.io/CF-0/dreamkiller/) · [Emulator source/usage](../archive/concepts/dreamkiller/iphone-emu/site/README.md) · [v0.2 prototype scope and compatibility](../archive/concepts/dreamkiller/rom_v0_2/README.md) |
+| **Filed creative concepts** | [Concepts](../archive/concepts/README.md) · [Dreamkiller master concept](../archive/concepts/dreamkiller/MASTER_CONCEPT_AND_CONTINUITY_PROMPT.md) |
 | **Public archive reconciliation** | [November 7 attribution and project continuity report](CONTINUITY_RECONCILIATION_2026-11-07_DREAMKILLER.md) |
-| **AI Tracker** | [Mission Control status](https://whoiwts110217-creator.github.io/CF-0/mission-control/#ai-tracker) · [Issue monitor](../ai_tracker/monitor_public_issue.py) · [Development branch](https://github.com/whoiwts110217-creator/CF-0/tree/feature/ai-agent-tracker/ai_tracker) |
+| **AI Tracker** | [Mission Control status](https://whoiwts110217-creator.github.io/CF-0/mission-control/#ai-tracker) · [Issue monitor](../archive/ai_tracker/monitor_public_issue.py) · [Development branch](https://github.com/whoiwts110217-creator/CF-0/tree/feature/ai-agent-tracker/ai_tracker) |
 | **Open agent response thread** | [GitHub issue #16](https://github.com/whoiwts110217-creator/CF-0/issues/16) |
 
 ### Optional public opportunities (not navigation prerequisites)

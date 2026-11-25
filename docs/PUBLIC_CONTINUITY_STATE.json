@@ -122,15 +122,15 @@
   },
   "change_rule": "Refresh this record and public summary as a single verified change whenever the authoritative count or materially observed state changes. Preserve previous dated evidence in Git history.",
   "creative_concepts": {
-    "index": "concepts/README.md",
+    "index": "archive/concepts/README.md",
     "newest": {
       "id": "CF-CONCEPT-DREAMKILLER-001",
-      "path": "concepts/dreamkiller/MASTER_CONCEPT_AND_CONTINUITY_PROMPT.md",
+      "path": "archive/concepts/dreamkiller/MASTER_CONCEPT_AND_CONTINUITY_PROMPT.md",
       "creator": "David Smith",
       "designated_owner": "Kiara Lynn Rose Smith",
       "status": "v0_2_rom_source_and_limited_tests_passed_device_play_unverified",
       "historical_related_project": "CR-10 distinct historical APK",
-      "rom_source": "concepts/dreamkiller/rom_v0_2/README.md"
+      "rom_source": "archive/concepts/dreamkiller/rom_v0_2/README.md"
     }
   },
   "latest_public_reconciliation": "docs/CONTINUITY_RECONCILIATION_2026-11-07_DREAMKILLER.md",

@@ -5,7 +5,7 @@
   "branch": "feature/ai-agent-tracker",
   "code_url": "https://github.com/whoiwts110217-creator/CF-0/tree/feature/ai-agent-tracker/ai_tracker",
   "issue_url": "https://github.com/whoiwts110217-creator/CF-0/issues/16",
-  "mission_url": "https://github.com/whoiwts110217-creator/CF-0/blob/main/agent-mission.json",
+  "mission_url": "https://github.com/whoiwts110217-creator/CF-0/blob/main/archive/agent-mission.json",
   "engine_committed": true,
   "tests_committed": true,
   "tests_executed_verified": true,

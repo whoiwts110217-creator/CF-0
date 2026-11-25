@@ -3,25 +3,25 @@ on:
   push:
     paths:
       - 'automation_200/mission_control/**'
-      - 'link-vault/**'
+      - 'archive/link-vault/**'
       - 'docs/PUBLIC_CONTEXT_GRAPH.json'
       - 'i18n/**'
-      - 'clarity-brief/**'
+      - 'archive/clarity-brief/**'
       - '.github/ISSUE_TEMPLATE/clarity-brief-pilot.yml'
-      - 'clarity-card/**'
-      - 'first-drop/**'
+      - 'archive/clarity-card/**'
+      - 'archive/first-drop/**'
       - 'index.html'
       - '.github/workflows/mission-control-access-tests.yml'
   pull_request:
     paths:
       - 'automation_200/mission_control/**'
-      - 'link-vault/**'
+      - 'archive/link-vault/**'
       - 'docs/PUBLIC_CONTEXT_GRAPH.json'
       - 'i18n/**'
-      - 'clarity-brief/**'
+      - 'archive/clarity-brief/**'
       - '.github/ISSUE_TEMPLATE/clarity-brief-pilot.yml'
-      - 'clarity-card/**'
-      - 'first-drop/**'
+      - 'archive/clarity-card/**'
+      - 'archive/first-drop/**'
       - 'index.html'
       - '.github/workflows/mission-control-access-tests.yml'
 permissions:
@@ -39,18 +39,18 @@ jobs:
         run: node --test automation_200/mission_control/tests/*.test.mjs
       - name: Test existing Link Vault and Spider Core without external actions
         run: |
-          python -m unittest discover -s link-vault/tests -p 'test_*.py' -v
-          node --test link-vault/tests/*.test.mjs
-          node --check link-vault/spider-core.js
-          node --check link-vault/spider-shell.js
-          node --check link-vault/owner-actions.js
-          node --check link-vault/sw.js
+          python -m unittest discover -s archive/link-vault/tests -p 'test_*.py' -v
+          node --test archive/link-vault/tests/*.test.mjs
+          node --check archive/link-vault/spider-core.js
+          node --check archive/link-vault/spider-shell.js
+          node --check archive/link-vault/owner-actions.js
+          node --check archive/link-vault/sw.js
           python -m continuity.public_topic_router --check-all
       - name: Test standalone Clarity Card functionality and public integrity
-        run: node --test clarity-card/tests/*.test.mjs
+        run: node --test archive/clarity-card/tests/*.test.mjs
       - name: Test learning lab at phone-width Chromium viewport
         run: node automation_200/mission_control/tests/browser_smoke.mjs
       - name: Test $15 Clarity Brief public-safe service inquiry and existing links
-        run: node --test clarity-brief/tests/*.test.mjs
+        run: node --test archive/clarity-brief/tests/*.test.mjs
       - name: Test first-visit homepage at 390px and Spanish switch
         run: node i18n/home.mobile_smoke.mjs

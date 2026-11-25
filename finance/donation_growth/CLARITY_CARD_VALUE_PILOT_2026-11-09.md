@@ -6,18 +6,18 @@
 
 ## The problem addressed
 
-Earlier public support appeals asked people to fund experimental potential. To be more credible, give visitors something **actually usable** before asking for any contribution. The new [Clarity Card](../../clarity-card/index.html) is a self-contained, client-side worksheet with an original example, editable reasoning steps, a plain-text export, copy and print/PDF controls. The user can keep the result without paying, logging in, submitting data, or running a cloud agent. This is not an income or business automation service.
+Earlier public support appeals asked people to fund experimental potential. To be more credible, give visitors something **actually usable** before asking for any contribution. The new [Clarity Card](../../archive/clarity-card/index.html) is a self-contained, client-side worksheet with an original example, editable reasoning steps, a plain-text export, copy and print/PDF controls. The user can keep the result without paying, logging in, submitting data, or running a cloud agent. This is not an income or business automation service.
 
 **Value proposition:** "Turn one complicated question into a testable claim, an evidence checklist, and one next step."
 
-**Price:** no required price; suggested **$5 voluntary support** only after use via the [existing First Drop Cash App campaign](../../first-drop/index.html). It is **not** a locked paid product, an investment, or a guarantee of future access. A website click or downloaded worksheet is not a payment.
+**Price:** no required price; suggested **$5 voluntary support** only after use via the [existing First Drop Cash App campaign](../../archive/first-drop/index.html). It is **not** a locked paid product, an investment, or a guarantee of future access. A website click or downloaded worksheet is not a payment.
 
 **What would count as a genuine market result:** a separately verified settlement attributable to the project's campaign, recorded with consent, appropriate aggregate reporting, any refund or fees and a dated source. No financial number or customer count is claimed from this publication.
 
 ## Reproducible acceptance
 
-- [Source](../../clarity-card/index.html) includes seven fields matching guess → hypothesis → evidence → test → decision, makes one sample *explicitly uncollected*, and uses no network writes, analytics, localStorage, cookies or customer intake.
-- [Node tests](../../clarity-card/tests/clarity-card.test.mjs) check actual inline JS syntax, example → preview → copy → download → clear, source safety, mobile viewport and site links. The [Pages release workflow](../../.github/workflows/publish-website.yml) runs the tests and explicitly stages the tool to `/clarity-card/`.
+- [Source](../../archive/clarity-card/index.html) includes seven fields matching guess → hypothesis → evidence → test → decision, makes one sample *explicitly uncollected*, and uses no network writes, analytics, localStorage, cookies or customer intake.
+- [Node tests](../../archive/clarity-card/tests/clarity-card.test.mjs) check actual inline JS syntax, example → preview → copy → download → clear, source safety, mobile viewport and site links. The [Pages release workflow](../../.github/workflows/publish-website.yml) runs the tests and explicitly stages the tool to `/clarity-card/`.
 - After successful Pages deployment, independently inspect a public mobile browser: text input, example, export, navigation, support disclosure. A static test does not establish actual iPhone Safari or real market conversion.
 - Keep the underlying method free. A future paid service requires a verified buyer-intake method, private handling, deliverable, fulfillment capacity, refund/terms and an authorized payment flow; none has been silently created.
 

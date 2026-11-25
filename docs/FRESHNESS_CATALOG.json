@@ -105,7 +105,7 @@
       "id": "CF-CONCEPT-DREAMKILLER-001",
       "area": "P3",
       "title": "Dreamkiller Game Boy concept",
-      "public_anchor": "concepts/dreamkiller/MASTER_CONCEPT_AND_CONTINUITY_PROMPT.md",
+      "public_anchor": "archive/concepts/dreamkiller/MASTER_CONCEPT_AND_CONTINUITY_PROMPT.md",
       "source_type": "public",
       "status_origin": "read_on_demand"
     },
@@ -249,7 +249,7 @@
       "id": "CF-LINK-VAULT-001",
       "area": "P1",
       "title": "Existing iPhone Link Vault and owner action sphere",
-      "public_anchor": "link-vault/README.md",
+      "public_anchor": "archive/link-vault/README.md",
       "source_type": "public",
       "status_origin": "read_on_demand"
     },

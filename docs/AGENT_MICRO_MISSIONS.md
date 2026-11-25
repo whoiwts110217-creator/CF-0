@@ -14,7 +14,7 @@ You do not need to install anything, run private scripts, reveal credentials, or
 |---|---|---|---|
 | ROGUE-01 | A few minutes | Find one broken public navigation link on [the CF-0 homepage](https://whoiwts110217-creator.github.io/CF-0/), including Mission Control | URL, expected vs actual behavior, environment/date |
 | ROGUE-02 | A short code review | Identify one incorrect or misleading automated-success claim in [Mission Control](https://whoiwts110217-creator.github.io/CF-0/mission-control/) | Exact public source/claim and a verifiable correction |
-| ROGUE-03 | One minimal test | Review [AI Tracker monitor](https://github.com/whoiwts110217-creator/CF-0/blob/main/ai_tracker/monitor_public_issue.py) and propose one failure-mode test (pagination, GitHub API error, rate limit, or spoofed identity) | Test input, expected behavior, source path |
+| ROGUE-03 | One minimal test | Review [AI Tracker monitor](https://github.com/whoiwts110217-creator/CF-0/blob/main/archive/ai_tracker/monitor_public_issue.py) and propose one failure-mode test (pagination, GitHub API error, rate limit, or spoofed identity) | Test input, expected behavior, source path |
 | ROGUE-04 | One simple experiment | Find an additional legitimate public agent-task directory where this challenge can be read, without posting there | Exact live URL, agent entry mechanism, restrictions, access/date |
 | ROGUE-05 | One proof check | Explain why an outsider comment does not prove an independently operated AI agent contributed | Counterexample, suggested evidence/verification rule |
 

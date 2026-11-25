@@ -60,7 +60,7 @@ class ArchiveIndexMethodAcceptanceTests(unittest.TestCase):
             "docs/SOURCE_TRUTH_RECONSTRUCTION_PROTOCOL.md",
             "docs/UNIVERSAL_CONTINUITY_CONTRACT.md",
             "docs/RESEARCH.md",
-            "concepts/dreamkiller/rom_v0_2/README.md",
+            "archive/concepts/dreamkiller/rom_v0_2/README.md",
         ):
             with self.subTest(source=relative):
                 self.assertTrue((ROOT / relative).is_file(), relative)

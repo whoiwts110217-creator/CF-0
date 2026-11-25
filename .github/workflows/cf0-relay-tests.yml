@@ -3,7 +3,7 @@ on:
   push:
     paths:
       - 'relay/**'
-      - 'link-vault/spider-hp/**'
+      - 'archive/link-vault/spider-hp/**'
       - '*CF0*.bat'
       - 'RUN_HP_TAKEOVER_CHECK.bat'
       - 'CHECK_CF0_MAINTENANCE_READ_ONLY.bat'
@@ -78,7 +78,7 @@ jobs:
       - name: Validate free owner-local Spider HP navigator (no desktop actions)
         shell: pwsh
         run: |
-          $path='link-vault/spider-hp/Spider-HP.ps1'
+          $path='archive/link-vault/spider-hp/Spider-HP.ps1'
           $tokens=$null
           $errors=$null
           [System.Management.Automation.Language.Parser]::ParseFile((Resolve-Path $path).Path,[ref]$tokens,[ref]$errors) | Out-Null
@@ -88,12 +88,12 @@ jobs:
           $native = & powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File $path -Mode NativeProbe
           if ($LASTEXITCODE -ne 0 -or ($native -join ' ') -notmatch 'NATIVE_UIA_ASSEMBLIES=LOADED') { throw 'Built-in Windows UIAutomation assembly probe failed' }
           foreach($plan in @('notepad-inspect.json','notepad-type-safe.json','calculator-inspect.json')) {
-            & powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File $path -Mode Validate -PlanPath ("link-vault/spider-hp/"+$plan)
+            & powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File $path -Mode Validate -PlanPath ("archive/link-vault/spider-hp/"+$plan)
             if ($LASTEXITCODE -ne 0) { throw ('Spider plan rejected: '+$plan) }
           }
-          $dry = & powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File $path -Mode Run -PlanPath 'link-vault/spider-hp/notepad-inspect.json'
+          $dry = & powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File $path -Mode Run -PlanPath 'archive/link-vault/spider-hp/notepad-inspect.json'
           if ($LASTEXITCODE -ne 0 -or ($dry -join ' ') -notmatch 'DRY_RUN=NO_UI_ACTIONS') { throw 'Spider dry-run must perform no Windows UI actions' }
-          $multi='link-vault/spider-hp/Spider-Multi.ps1'
+          $multi='archive/link-vault/spider-hp/Spider-Multi.ps1'
           $tokens=$null
           $errors=$null
           [System.Management.Automation.Language.Parser]::ParseFile((Resolve-Path $multi).Path,[ref]$tokens,[ref]$errors) | Out-Null
@@ -102,7 +102,7 @@ jobs:
           if ($LASTEXITCODE -ne 0) { throw 'Spider multi-app queue failed validation' }
           $multiDry = & powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -File $multi -Mode Run
           if ($LASTEXITCODE -ne 0 -or ($multiDry -join ' ') -notmatch 'DRY_RUN=NO_UI_ACTIONS') { throw 'Spider multi-app dry-run failed' }
-          python -m unittest discover -s link-vault/spider-hp/tests -v
+          python -m unittest discover -s archive/link-vault/spider-hp/tests -v
           if ($LASTEXITCODE -ne 0) { throw 'Spider source-only safety tests failed' }
       - name: DPAPI encrypted credential round-trip on Windows
         shell: pwsh

@@ -1,0 +1,43 @@
+name: AI Tracker public response monitor
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'archive/ai_tracker/monitor_public_issue.py'
+      - 'archive/ai_tracker/tests/test_monitor_public_issue.py'
+      - '.github/workflows/ai-tracker-monitor.yml'
+  # BOBA-20261115-1545EST-COORD-004: owner-authorized pause of cron trigger; uncomment the lines below to restore.
+  # schedule:
+  # - cron: '17 */6 * * *'
+  workflow_dispatch:
+permissions:
+  contents: write
+  issues: read
+concurrency:
+  group: ai-tracker-public-monitor
+  cancel-in-progress: false
+jobs:
+  monitor:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+          fetch-depth: 0
+      - name: Test AI Tracker monitor
+        run: python -m unittest discover -s archive/ai_tracker/tests -p 'test_monitor_public_issue.py' -v
+      - name: Check public agent responses
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+        run: python archive/ai_tracker/monitor_public_issue.py
+      - name: Commit changed public status only
+        run: |
+          if ! git diff --quiet -- docs/AI_TRACKER_STATUS.json; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add docs/AI_TRACKER_STATUS.json
+            git commit -m "Update public AI Tracker issue response status" -- docs/AI_TRACKER_STATUS.json
+            git pull --rebase origin main
+            git push origin HEAD:main
+          fi

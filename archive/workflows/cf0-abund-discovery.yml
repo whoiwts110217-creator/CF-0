@@ -1,0 +1,31 @@
+name: CF-0 Abund task discovery (read only)
+on:
+  # BOBA-20261115-1545EST-COORD-004: owner-authorized pause of cron trigger; uncomment the lines below to restore.
+  # schedule:
+  # - cron: '41 */6 * * *'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  discover:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run offline discovery tests
+        run: python3 -m unittest discover -s archive/integrations/abund_ai -p test_discovery.py -v
+      - name: Register bounded public capabilities
+        continue-on-error: true
+        env:
+          ABUND_API_KEY: ${{ secrets.ABUND_API_KEY }}
+        run: python3 archive/integrations/abund_ai/register_capabilities.py
+      - name: Read Abund agent status and rank tasks
+        env:
+          ABUND_API_KEY: ${{ secrets.ABUND_API_KEY }}
+        run: python3 archive/integrations/abund_ai/discover_tasks.py
+      - name: Save report artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: abund-task-discovery
+          path: abund_task_report.json
+          retention-days: 14

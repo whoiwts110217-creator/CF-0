@@ -1,0 +1,53 @@
+name: Spider Puzzle Isolated Checks
+on:
+  pull_request:
+    paths:
+      - 'archive/spider-puzzle/**'
+      - 'docs/spider-puzzle/**'
+      - 'docs/spider/SPIDER_MILLENNIUM_PUZZLE_OWNER_INTENT_ALIASES_V1.json'
+      - '.github/workflows/publish-website.yml'
+      - '.github/workflows/spider-puzzle-checks.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  isolated-checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Node runtime
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Check mobile board JavaScript and import boundaries
+        run: node --test archive/spider-puzzle/test_workbench.mjs
+      - name: Check full 1,289-piece source atlas and source hashes
+        run: node --test archive/spider-puzzle/test_full.mjs archive/spider-puzzle/test_lab.mjs
+      - name: Check canonical AST board structural invariants
+        run: python docs/spider-puzzle/verify_board.py
+  assembled-program:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Test assembly, tamper refusal and actual runtime smoke
+        run: python -m unittest discover -s archive/spider-puzzle -p 'test_assemble.py' -v
+      - name: Build the complete source package
+        run: python archive/spider-puzzle/assemble.py --output CF0-Spider-Assembled-v1.zip
+      - name: Extract the candidate for independent bundled tests
+        if: runner.os == 'Linux'
+        run: python -m zipfile -e CF0-Spider-Assembled-v1.zip assembled-runtime
+      - name: Run the original source tests from the clean package
+        if: runner.os == 'Linux'
+        working-directory: assembled-runtime/runtime
+        run: python -B -m unittest discover -s tests -v
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Spider-assembled-${{ matrix.os }}
+          path: CF0-Spider-Assembled-v1.zip

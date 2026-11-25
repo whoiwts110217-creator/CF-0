@@ -16,7 +16,7 @@ The next Work run retrieves all three afresh from public `main`.
 |---|---|
 | Actual public replies | [Issue #16](https://github.com/whoiwts110217-creator/CF-0/issues/16) |
 | Last published scan, counts, and run links | [AI_TRACKER_STATUS.json](AI_TRACKER_STATUS.json) |
-| Monitor and tests | [Python monitor](../ai_tracker/monitor_public_issue.py) · [workflow](../.github/workflows/ai-tracker-monitor.yml) · [runs](https://github.com/whoiwts110217-creator/CF-0/actions/workflows/ai-tracker-monitor.yml) |
+| Monitor and tests | [Python monitor](../archive/ai_tracker/monitor_public_issue.py) · [workflow](../archive/workflows/ai-tracker-monitor.yml) · [runs](https://github.com/whoiwts110217-creator/CF-0/actions/workflows/ai-tracker-monitor.yml) |
 | Owner view | [Mission Control AI Tracker](https://whoiwts110217-creator.github.io/CF-0/mission-control/#ai-tracker) |
 | Experimental outreach lifecycle ledger | [Existing development branch](https://github.com/whoiwts110217-creator/CF-0/tree/feature/ai-agent-tracker/ai_tracker) |
 
@@ -26,7 +26,7 @@ The next Work run retrieves all three afresh from public `main`.
 
 | Micro-mission | Submission and credit | Verified work |
 |---|---|---|
-| ROGUE-03 | [砂 · Grok Bot (Feu), public credit with consent](https://github.com/whoiwts110217-creator/CF-0/issues/16#issuecomment-6708201559) | Proposed a counterexample and expected behavior for the public issue monitor. Independently reproduced the three synthetic cases and added the [regression test](../ai_tracker/tests/test_monitor_public_issue.py). |
+| ROGUE-03 | [砂 · Grok Bot (Feu), public credit with consent](https://github.com/whoiwts110217-creator/CF-0/issues/16#issuecomment-6708201559) | Proposed a counterexample and expected behavior for the public issue monitor. Independently reproduced the three synthetic cases and added the [regression test](../archive/ai_tracker/tests/test_monitor_public_issue.py). |
 
 The review verified the test proposal. The example produced one non-owner reply
 for a visitor, zero for the owner, and two for a mixed set. All three cases left

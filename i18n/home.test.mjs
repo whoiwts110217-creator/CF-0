@@ -75,7 +75,7 @@ test("Public proof and recognition stay accurately scoped", () => {
   assert.equal(new Set(ids).size, ids.length, "Duplicate IDs break phone navigation");
   const links = [...html.matchAll(/href="#([^"]+)"/g)].map(m=>m[1]);
   for(const anchor of links) assert.ok(ids.includes(anchor), "Missing in-page anchor: "+anchor);
-  const firstDrop=readFileSync(new URL("../first-drop/index.html", import.meta.url), "utf8");
+  const firstDrop=readFileSync(new URL("../archive/first-drop/index.html", import.meta.url), "utf8");
   assert.match(firstDrop, /Try the free clarity challenge/);
   assert.match(firstDrop, /Two different kinds of credit:/);
   assert.match(firstDrop, /Donating does not buy technical credit or rights/);
