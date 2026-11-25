@@ -9,7 +9,7 @@
 
 - [Source: read-only Playwright monitor](../finance/donation_growth/free_browser_monitor.py)
 - [Offline regression tests](../finance/donation_growth/tests/test_free_browser_monitor.py)
-- [GitHub Actions workflow](../archive/workflows/cf0-free-browser-promotion.yml) · [browse scheduled/manual workflow runs](https://github.com/whoiwts110217-creator/CF-0/actions/workflows/cf0-free-browser-promotion.yml)
+- [GitHub Actions workflow](../.github/workflows/cf0-free-browser-promotion.yml) · [browse scheduled/manual workflow runs](https://github.com/whoiwts110217-creator/CF-0/actions/workflows/cf0-free-browser-promotion.yml)
 
 Uses **pinned Playwright for Python v1.57.0**, headless Chromium and standard `ubuntu-24.04` GitHub-hosted runners (pinned to support Playwright 1.57.0) for a **public** repository. GitHub's official documentation states that standard GitHub-hosted runners for public repositories are free; paid larger runners and private-repository usage can be different. The repository has not been moved private. No TinyFish, external metered automation API, credentials, GitHub token write permissions, paid subscription, or founder laptop resources are used.
 
