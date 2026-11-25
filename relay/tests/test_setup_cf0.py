@@ -110,7 +110,7 @@ class SetupCf0Tests(unittest.TestCase):
         for name in ARCHIVED:
             self.assertFalse((ROOT / name).exists(), name)
             text = (archive / name).read_text(encoding="utf-8")
-            self.assertIn("SETUP_CF0.bat", text)
+            self.assertIn("..\\..", text)
 
     def test_powershell_parser_accepts_setup_script(self):
         pwsh = shutil.which("pwsh") or shutil.which("powershell")
