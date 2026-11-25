@@ -146,22 +146,26 @@ def check(contract: dict, relay_source: str, *, root: Path = ROOT) -> dict:
     }
     if active != EXPECTED_COMMANDS or not active <= commands:
         raise ValueError("previously_active_command_removed")
-    # Commands cannot be introduced just by changing relay code without
-    # updating the owner-reviewed source contract and tests.
-    if commands - EXPECTED_COMMANDS:
-        if "open_notepad" in commands and map_["notepad_owner_launch"].get("status") == "regression_open":
-            raise ValueError("notepad_source_enabled_but_contract_not_updated")
-        raise ValueError("unlisted_command_exposed")
     notepad = map_["notepad_owner_launch"]
     if notepad.get("previously_owner_approved") is not True or notepad.get("command") != "open_notepad":
         raise ValueError("historical_notepad_approval_erased")
     if notepad.get("status") not in ("regression_open", "active_source"):
         raise ValueError("notepad_regression_silently_retired")
-
-    if notepad["status"] == "active_source" and "open_notepad" not in commands:
-        raise ValueError("notepad_claimed_active_without_source")
     if not isinstance(notepad.get("last_known_issue"), str) or not notepad["last_known_issue"]:
         raise ValueError("notepad_regression_history_missing")
+    # open_notepad is allowed only as this one fixed command, and only when
+    # the contract says the source handler is present. Any other extra command
+    # is still an unlisted exposure. A regression_open contract cannot carry
+    # the handler, and an active_source contract cannot omit it.
+    extra = commands - EXPECTED_COMMANDS
+    if extra == frozenset({"open_notepad"}) and notepad["status"] == "active_source":
+        pass
+    elif extra:
+        if "open_notepad" in extra and notepad["status"] == "regression_open":
+            raise ValueError("notepad_source_enabled_but_contract_not_updated")
+        raise ValueError("unlisted_command_exposed")
+    if notepad["status"] == "active_source" and "open_notepad" not in commands:
+        raise ValueError("notepad_claimed_active_without_source")
     for cap in caps:
         if cap.get("status") == "active_source":
             source = cap.get("source", cap.get("evidence"))

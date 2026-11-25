@@ -2,6 +2,7 @@
 
 Synthetic-only tests. No GitHub write, no physical HP, no real private paths.
 """
+import os
 import pathlib
 import sys
 import tempfile
@@ -31,10 +32,13 @@ class InMemoryRepo:
 
 class SafeReceiptTests(unittest.TestCase):
     def test_all_existing_action_outputs_remain_supported(self):
-        for action in sorted(relay.ALLOWED):
-            with self.subTest(action=action):
-                result = relay.execute(relay.make_job(action))
-                self.assertIsNone(relay.validate_public_result(result, action))
+        # Mock the process launch so a Windows runner does not start Notepad.
+        with patch("subprocess.Popen") as popen:
+            for action in sorted(relay.ALLOWED):
+                with self.subTest(action=action):
+                    result = relay.execute(relay.make_job(action))
+                    self.assertIsNone(relay.validate_public_result(result, action))
+            self.assertEqual(popen.call_count, 1 if os.name == "nt" else 0)
 
     def test_rejects_private_path_and_identity_fields_even_if_result_has_valid_keys(self):
         private = r'C:\Users\Someone\Documents\secret-project\file.txt'

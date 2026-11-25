@@ -19,10 +19,10 @@ Then check `automation_200/OWNER_CAPABILITY_CONTRACT.json`, latest mission board
 
 | Surface | Current real boundary | Canonical source |
 |---|---|---|
-| Public queue → HP | `ping`, `hp_status`, configured read-only `sidecar_verify` only | `relay/cf_public_relay.py` |
+| Public queue → HP | `ping`, `hp_status`, configured read-only `sidecar_verify`, and `open_notepad` (`notepad.exe` only, no job arguments). A real run on the HP PC is unverified | `relay/cf_public_relay.py` |
 | Health reports | Sanitized self-report; cannot independently prove device identity or scheduled job provenance | `relay/HEALTH_ONE_CLICK.md` |
 | Owner-local Windows controls | Signed-in owner must run verified local code; no chat-side execution | `relay/URGENT_STOP_AND_RESUME.md` |
-| Local Notepad | Previously owner-observed, public action currently regressed; restoration is a separate owner-local opt-in | `relay/INSTALL_NOTEPAD_CONTROL.ps1` |
+| Local Notepad | Source command `open_notepad` launches `notepad.exe` with no caller arguments on Windows. The legacy installer still changes nothing and does not claim it works. A real run on the HP PC is unverified | `relay/cf_public_relay.py` |
 | Private mailbox | Existing private bridge only supports ping and optional read-only verification | `bridge/README_V03.md` |
 | Proposed richer private operator | Design only; pinned manifest, exact action schema, explicit owner review + separate local opt-in required | `bridge/PRIVATE_OPERATOR_GATE_CF100.md` |
 | AUTO-08 browser continuation | One account, one same Chrome tab, keyboard-only literal `continue`, serial completion and persistent checkpoints. Source exists; live deployment unproven | `automation_200/continuation_keyboard/README.md` |

@@ -101,7 +101,7 @@ class Tests(unittest.TestCase):
             self.assert_http_transport_receipt('hp_status', {
                 'worker': 'online',
                 'policy': 'public-safe',
-                'commands': ['hp_status', 'ping', 'sidecar_verify'],
+                'commands': ['hp_status', 'open_notepad', 'ping', 'sidecar_verify'],
             })
 
     def assert_http_transport_receipt(self, action, expected_result):

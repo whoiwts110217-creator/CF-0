@@ -20,6 +20,6 @@ class LauncherChecks(unittest.TestCase):
         self.assertIn('MultipleInstances IgnoreNew',s)
     def test_relay_command_file_is_owner_reviewable(self):
         s=(ROOT/'relay/cf_public_relay.py').read_text()
-        self.assertIn("ALLOWED = frozenset(('ping', 'hp_status', 'sidecar_verify'))",s)
+        self.assertIn("ALLOWED = frozenset(('ping', 'hp_status', 'sidecar_verify', 'open_notepad'))",s)
         self.assertNotIn('shell=True',s)
 if __name__=='__main__': unittest.main()

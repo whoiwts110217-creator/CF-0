@@ -78,21 +78,29 @@ def check(root: Path = ROOT) -> dict:
     require(len(board_headers) == 1 and f"**{verified}/200 verified**" in board_headers[0],
             "public_mission_board_header_stale")
 
-    # Current source status, never confuse the prior observed Notepad launches
-    # with remote capability installed in the checked-in public Python relay.
+    # Source can start notepad.exe. That is not a verified launch on the HP.
     from automation_200.capability_guard import _relay_commands
     commands = _relay_commands(relay)
-    require("open_notepad" not in commands, "public_notepad_claim_drift")
+    require(commands == frozenset({"ping", "hp_status", "sidecar_verify", "open_notepad"}),
+            "public_relay_allowlist_drift")
     notepad = next(c for c in owner["capabilities"] if c["id"] == "notepad_owner_launch")
+    require(notepad["status"] == "active_source", "notepad_contract_not_active_source")
     require(notepad["status"] == state["notepad"]["source_contract_state"],
             "notepad_contract_state_drift")
-    require(state["notepad"]["current_relay"] == "not_supported", "notepad_false_support_claim")
+    require(state["notepad"]["current_relay"] == "source_present_hp_unverified",
+            "notepad_false_support_claim")
+    require(state["notepad"].get("real_hp_restore") == "unverified", "notepad_hp_overclaim")
+    require(state["notepad"].get("historical_owner_observed_launches") is True,
+            "notepad_history_erased")
     require("NOTEPAD_ACTION=BLOCKED_NOT_SUPPORTED" in installer
-            and "LOCAL_CHANGES=NONE" in installer and "exit 2" in installer,
+            and "LOCAL_CHANGES=NONE" in installer and "exit 2" in installer
+            and "HP_VERIFIED=NO" in installer,
             "installer_claim_drift")
-    require("Notepad" in project_status and ("not supported" in project_status.lower() or "does not support" in project_status.lower()),
+    require("A real run on the HP PC is unverified." in project_status
+            and "open_notepad" in project_status,
             "notepad_status_not_visible")
-    require("Notepad" in readme and "currently" in readme.lower(), "readme_notepad_status_missing")
+    require("open_notepad" in readme and "A real run on the HP PC is unverified." in readme,
+            "readme_notepad_status_missing")
 
     # Existing public receipt/request match. This verifies *public files* only.
     jid = state["hp"]["public_ping_request_id"]

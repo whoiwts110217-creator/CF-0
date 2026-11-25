@@ -87,7 +87,7 @@ def compare(current: dict, baseline: dict | None = None) -> dict:
             "tiers": EXPECTED_STREAM_TIERS,
             "capabilities": {
                 **{key: "active_source" for key in guard.REQUIRED_ACTIVE_SOURCE},
-                "notepad_owner_launch": "regression_open",
+                "notepad_owner_launch": "active_source",
             },
         }
     changes = []

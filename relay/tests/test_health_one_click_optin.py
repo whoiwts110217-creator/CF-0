@@ -50,10 +50,13 @@ class HealthOptInTests(unittest.TestCase):
     def test_public_relay_has_no_gui_opt_in_path(self):
         worker = (ROOT / "relay" / "cf_public_relay.py").read_text(encoding="utf-8")
         wrapper = (ROOT / "relay" / "cf_public_relay_rw.ps1").read_text(encoding="utf-8")
-        self.assertIn("ALLOWED = frozenset(('ping', 'hp_status', 'sidecar_verify'))", worker)
-        for forbidden in ("open_notepad", "CF_ALLOW_NOTEPAD", "allow_notepad.flag"):
+        self.assertIn("ALLOWED = frozenset(('ping', 'hp_status', 'sidecar_verify', 'open_notepad'))", worker)
+        self.assertIn("['notepad.exe']", worker)
+        self.assertNotIn("shell=True", worker)
+        for forbidden in ("CF_ALLOW_NOTEPAD", "allow_notepad.flag"):
             self.assertNotIn(forbidden, worker)
             self.assertNotIn(forbidden, wrapper)
+        self.assertNotIn("open_notepad", wrapper)
 
 
 if __name__ == "__main__":

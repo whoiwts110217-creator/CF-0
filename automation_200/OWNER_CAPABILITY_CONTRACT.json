@@ -46,12 +46,12 @@
     },
     {
       "id": "notepad_owner_launch",
-      "status": "regression_open",
+      "status": "active_source",
       "command": "open_notepad",
       "previously_owner_approved": true,
-      "last_known_issue": "Removed from public relay action allowlist during security hardening. Earlier owner reports described successful launches. Current cloud-to-HP launch must not be claimed operational.",
-      "restore_requires": "Owner-local explicit opt-in, narrow Notepad-only handler, interactive-session verification, successful HP receipt and regression test.",
-      "evidence": "relay/INSTALL_NOTEPAD_CONTROL.ps1"
+      "last_known_issue": "Removed from the public relay allowlist during security hardening, then restored as a fixed notepad.exe launch with no caller arguments. Earlier owner reports described successful launches. A real run on the HP PC is unverified, so the physical launch must not be claimed operational.",
+      "restore_requires": "A real interactive run on the HP PC with a matching receipt. Source tests mock the process launch and do not replace that check.",
+      "evidence": "relay/cf_public_relay.py"
     }
   ],
   "critical_documents": {

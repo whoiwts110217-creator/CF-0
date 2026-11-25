@@ -56,8 +56,8 @@
   },
   "notepad": {
     "historical_owner_observed_launches": true,
-    "current_relay": "not_supported",
-    "source_contract_state": "regression_open",
+    "current_relay": "source_present_hp_unverified",
+    "source_contract_state": "active_source",
     "current_installer": "read_only_refusal_exit_2",
     "real_hp_restore": "unverified"
   },
